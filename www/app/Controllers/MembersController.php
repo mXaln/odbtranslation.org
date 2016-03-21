@@ -3,7 +3,6 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\View;
-use Helpers\Constants\EventMembers;
 use Helpers\Csrf;
 use Helpers\Data;
 use Helpers\Gump;
@@ -12,8 +11,6 @@ use Helpers\PhpMailer\Mail;
 use Helpers\ReCaptcha\ReCaptcha;
 use Helpers\Session;
 use Helpers\Url;
-use Models\EventsModel;
-use Models\MembersModel;
 
 class MembersController extends Controller
 {
@@ -26,7 +23,7 @@ class MembersController extends Controller
         parent::__construct();
         $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
         $this->language->load('Members', $this->_lang);
-        $this->_model = new MembersModel();
+        $this->_model = new \Models\MembersModel();
     }
 
     public function index()
@@ -36,12 +33,6 @@ class MembersController extends Controller
         if (Session::get('loggedin') == true)
         {
             $data['title'] = $this->language->get('welcome_title');
-
-            $eventModel = new EventsModel();
-
-            $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
-            $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
-            $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
             View::renderTemplate('header', $data);
             View::render('members/index', $data);

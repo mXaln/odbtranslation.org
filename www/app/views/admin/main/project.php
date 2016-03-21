@@ -20,15 +20,8 @@ if(!empty($data["project"])):
             <div class="add-event-btn col-sm-6"></div>
         </div>
 
-        <?php foreach($data["events"] as $event): ?>
-            <?php if($event->abbrID == 1): ?>
-            <div class="row" id="old_test">
-                <div class="col-sm-12">
-            <?php elseif($event->abbrID == 41): ?>
-                <div class="row" id="new_test">
-                    <div class="col-sm-12">
-            <?php endif; ?>
-                <?php if($event->abbrID == 1 || $event->abbrID == 41): ?>
+        <div class="row" id="old_test">
+            <div class="col-sm-12">
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
@@ -43,7 +36,8 @@ if(!empty($data["project"])):
                     </tr>
                     </thead>
                     <tbody>
-                <?php endif; ?>
+                    <?php foreach($data["events"] as $event): ?>
+                        <?php if($event->id <= 39): ?>
                         <tr>
                             <td><?php echo $event->name ?></td>
                             <td><?php echo ($event->translators>0 ? '<a href="#translators" data="'.$event->eventID.'">' : '') . $event->translators . "/" . (integer)$event->translatorsNum . ($event->translators>0 ? '</a>' : '') ?></td>
@@ -67,19 +61,60 @@ if(!empty($data["project"])):
                                 ?>
                             </td>
                         </tr>
+                        <?php else: break; endif; ?>
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <?php if($event->abbrID == 39): ?>
+        <div class="row" id="new_test">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-hover" role="grid">
+                    <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Translators</th>
+                        <th>Level 2 Checkers</th>
+                        <th>Level 3 Checkers</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>State</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($data["events"] as $event): ?>
+                        <?php if($event->id > 39): ?>
+                        <tr>
+                            <td><?php echo $event->name ?></td>
+                            <td><?php echo ($event->translators>0 ? '<a href="#translators" data="'.$event->eventID.'">' : '') . $event->translators . "/" . (integer)$event->translatorsNum . ($event->translators>0 ? '</a>' : '') ?></td>
+                            <td><?php echo ($event->checkers_l2>0 ? '<a href="#checkers_l2" data="'.$event->eventID.'">' : '') . $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum . ($event->checkers_l2>0 ? '</a>' : '') ?></td>
+                            <td><?php echo ($event->checkers_l3>0 ? '<a href="#checkers_l3" data="'.$event->eventID.'">' : '') . $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum . ($event->checkers_l3>0 ? '</a>' : '') ?></td>
+                            <td><?php echo $event->dateFrom ?></td>
+                            <td><?php echo $event->dateTo ?></td>
+                            <td><?php echo $event->state ?></td>
+                            <td>
+                                <?php
+                                switch($event->state)
+                                {
+                                    case null:
+                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" class="btn btn-primary startEvnt">Start</button>';
+                                        break;
+
+                                    case EventStates::STARTED:
+
+                                        break;
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+                    <?php endforeach ?>
                     </tbody>
                 </table>
-                </div>
             </div>
-            <?php elseif($event->abbrID == 67): ?>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-            <?php endif; ?>
-        <?php endforeach ?>
+        </div>
     </div>
 </div>
 

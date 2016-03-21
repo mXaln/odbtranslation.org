@@ -22,10 +22,10 @@ if(!empty($data["project"])):
         </div>
 
         <?php foreach($data["events"] as $event): ?>
-            <?php if($event->abbrID == 1): ?>
+            <?php if($event->id == 1): ?>
             <div class="row" id="old_test">
                 <div class="col-sm-12">
-            <?php elseif($event->abbrID == 41): ?>
+            <?php elseif($event->id == 40): ?>
             <div class="row" id="new_test">
                 <div class="col-sm-12">
             <?php endif; ?>
@@ -78,10 +78,10 @@ if(!empty($data["project"])):
                     </div>
                 </div>
 
-            <?php if($event->abbrID == 39): ?>
+            <?php if($event->id == 39): ?>
                 </div>
             </div>
-            <?php elseif($event->abbrID == 67): ?>
+            <?php elseif($event->id == 66): ?>
                 </div>
             </div>
             <?php endif; ?>

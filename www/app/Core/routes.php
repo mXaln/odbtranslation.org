@@ -32,9 +32,6 @@ Router::any('translations/(:any)/(:any)/(:num)/edit', 'Controllers\TranslationsC
 Router::any('events', 'Controllers\EventsController@index');
 Router::any('events/project/(:num)', 'Controllers\EventsController@project');
 Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
-Router::any('events/translator/(:num)', 'Controllers\EventsController@translator');
-Router::any('events/checker_l2/(:num)', 'Controllers\EventsController@checker_l2');
-Router::any('events/checker_l3/(:num)', 'Controllers\EventsController@checker_l3');
 
 Router::any('members', 'Controllers\MembersController@index');
 Router::any('members/login', 'Controllers\MembersController@login');
