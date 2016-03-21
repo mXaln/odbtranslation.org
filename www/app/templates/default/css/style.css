@@ -1,0 +1,417 @@
+.header {
+    margin: 20px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.chat {
+    position: absolute;
+    bottom: 20px; right: 210px;
+    border: 1px solid grey;
+    width: 400px;
+    height: 500px;
+    border-radius: 6px;
+}
+
+.chat ul {
+    background-color: #F2F4F7;
+}
+
+.chat form {
+    width: 400px;
+    margin: 3px 5px 0 5px;
+}
+
+#m {
+    height: 60px;
+    width: 388px;
+}
+
+#messages {
+    height: 430px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.message {
+    padding: 5px 10px;
+}
+
+.msg_my {
+    float: right;
+}
+
+.msg_other {
+    float: left;
+}
+
+.msg_name {
+    font-weight: bold;
+}
+
+.msg_my .msg_name {
+    width: 300px;
+    text-align: right;
+}
+
+.msg_my .msg_text {
+    background-color: #e0edff;
+}
+
+.msg_other .msg_text {
+    background-color: #ffffff;
+}
+
+.msg_text {
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+    width: 300px;
+}
+
+.members_online {
+    width: 200px;
+    height: 500px;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 0px; right: 3px;
+    border: 1px solid grey;
+}
+
+#online {
+    overflow-y: auto;
+    word-wrap: break-word;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#online li {
+    padding: 5px 10px;
+}
+
+.verses_segment {
+    width: 700px;
+    background-color: #eeeeee;
+    border: 1px solid grey;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.verses_segment a, .verses_segment a:hover {
+    text-decoration: none;
+}
+
+.sof_block {
+     display: none;
+     width: 100%;
+     height: 100%;
+     position: fixed;
+     top: 0; bottom: 0;
+     left:0; right:0;
+     background: rgba(0,0,0,0.7);
+     z-index: 99999;
+     overflow-y: auto;
+     overflow-x: hidden;
+ }
+
+.sof_block > .sof_content {
+    padding: 20px;
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+    width: 900px;
+}
+
+.tou_block {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.tou_block > .tou_content {
+    padding: 20px;
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+    width: 900px;
+}
+
+.add-event-btn {
+    text-align: right;
+    float: right;
+    margin: 0 10px 10px 10px;
+}
+
+.main-content {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.main-content > .create-main-content {
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+    width: 900px;
+}
+
+.page-content {
+    padding: 40px;
+}
+
+.admins-area {
+    padding: 0;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.admins-div {
+    margin: 5px 2px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0px;
+    position: relative;
+}
+
+.admins-span {
+    display: block;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 2px 15px 2px 4px;
+    width: 100px;
+    height: 26px;
+    max-height: 26px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admins-delete {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+#admins {
+    border: none;
+    resize: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 5px;
+    margin: 0;
+    text-align: left;
+    overflow: hidden;
+    width: 488px; /* 488px */
+}
+
+.admins-block {
+    position: relative;
+}
+
+.admins-list {
+    position: absolute;
+    top: 130%;
+    left: 0;
+    width: 300px;
+    max-height: 250px;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    overflow-y: auto;
+}
+
+.admins-list ul {
+    list-style: none;
+    padding: 10px 0;
+}
+
+.admins-list ul li {
+    height: 30px;
+    padding: 5px;
+    cursor: pointer;
+
+}
+
+.admins-list ul li:hover {
+    background-color: #e4e4e4;
+}
+
+.panel-close {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.adminsEvLoader {
+    position: absolute;
+    right: -30px;
+    top: 3px;
+    display: none;
+}
+
+.gwProjectLoader {
+    display: none;
+}
+
+.projectLoader {
+    display: none;
+}
+
+.sub-content {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sub-content > .create-sub-content {
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+    width: 900px;
+}
+
+.subGwLoader {
+    position: absolute;
+    right: -30px;
+    top: 28px;
+    display: none;
+}
+
+.action-btn {
+    cursor: pointer;
+}
+
+.book-parts {
+    margin: 10px;
+}
+
+#new_test {
+    display: none;
+}
+
+.event-content {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.event-content > .create-event-content {
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+    width: 900px;
+}
+
+.bookName {
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0 0 20px 0;
+}
+
+.ui-datepicker-month {
+    color: #333 !important;
+    font: normal !important;
+}
+
+.startEventLoader {
+    display: none;
+}
+
+.event-block {
+    border: 1px solid #cccccc;
+    margin: 5px;
+    padding: 5px;
+}
+
+.event-box {
+    background-color: #e7f1f8;
+}
+
+.event-header {
+    background-color: #02b202;
+}
+
+.event-header {
+    color: #ffffff;
+    padding: 5px;
+    text-align: center;
+}
+
+.applyEventLoader {
+    display: none;
+}
+
+.checker_info {
+    display: none;
+}
+
+.help_info {
+    padding: 10px;
+    background-color: #e0f5f0;
+    border-radius: 5px;
+}
+
+.help_title {
+    font-weight: bold;
+    font-size: large;
+    color: #42c446;
+}
+
+.help_name {
+    font-weight: bold;
+    margin-top: 5px;
+}

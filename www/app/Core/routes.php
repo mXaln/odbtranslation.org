@@ -1,0 +1,64 @@
+<?php
+/**
+ * Routes - all standard routes are defined here.
+ *
+ * @author David Carr - dave@daveismyname.com
+ * @version 2.2
+ * @date updated Sept 19, 2015
+ */
+
+/** Create alias for Router. */
+use Core\Router;
+use Helpers\Hooks;
+
+/** Define routes. */
+Router::any('', 'Controllers\MainController@index');
+Router::any('about', 'Controllers\MainController@about');
+Router::any('contact', 'Controllers\MainController@contactUs');
+Router::any('lang/(:any)', 'Controllers\MainController@lang');
+
+Router::any('books', 'Controllers\BooksController@index');
+Router::any('books/(:any)', 'Controllers\BooksController@index');
+Router::any('books/(:any)/(:any)', 'Controllers\BooksController@index');
+Router::any('books/(:any)/(:any)/(:any)', 'Controllers\BooksController@index');
+
+Router::any('translations', 'Controllers\TranslationsController@index');
+Router::any('translations/(:any)', 'Controllers\TranslationsController@index');
+Router::any('translations/(:any)/(:any)', 'Controllers\TranslationsController@index');
+Router::any('translations/(:any)/(:any)/(:num)', 'Controllers\TranslationsController@index');
+Router::any('translations/(:any)/(:any)/(:num)/view', 'Controllers\TranslationsController@view');
+Router::any('translations/(:any)/(:any)/(:num)/edit', 'Controllers\TranslationsController@edit');
+
+Router::any('events', 'Controllers\EventsController@index');
+Router::any('events/project/(:num)', 'Controllers\EventsController@project');
+Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
+
+Router::any('members', 'Controllers\MembersController@index');
+Router::any('members/login', 'Controllers\MembersController@login');
+Router::any('members/logout', 'Controllers\MembersController@logout');
+Router::any('members/passwordreset', 'Controllers\MembersController@passwordReset');
+Router::any('members/resetpassword/(:num)/(:any)', 'Controllers\MembersController@resetPassword');
+Router::any('members/activate/(:num)/(:any)', 'Controllers\MembersController@activate');
+Router::any('members/success', 'Controllers\MembersController@success');
+Router::any('members/rpc/auth/(:num)/(:num)/(:any)', 'Controllers\MembersController@rpcAuth');
+
+Router::any('admin', 'Controllers\admin\AdminController@index');
+Router::any('admin/project/(:num)', 'Controllers\admin\AdminController@project');
+Router::any('admin/rpc/create_gw_project', 'Controllers\admin\AdminController@createGwProject');
+Router::any('admin/rpc/create_project', 'Controllers\admin\AdminController@createProject');
+Router::any('admin/rpc/get_members', 'Controllers\admin\AdminController@getMembers');
+Router::any('admin/rpc/get_target_languages', 'Controllers\admin\AdminController@getTargetLanguagesByGwLanguage');
+Router::any('admin/rpc/create_event', 'Controllers\admin\AdminController@createEvent');
+
+/** Module routes. */
+$hooks = Hooks::get();
+$hooks->run('routes');
+
+/** If no route found. */
+Router::error('Core\Error@index');
+
+/** Turn on old style routing. */
+Router::$fallback = false;
+
+/** Execute matched routes. */
+Router::dispatch();

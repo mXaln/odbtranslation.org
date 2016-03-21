@@ -1,0 +1,2 @@
+[Thu Jan 28 20:07:54.028362 2016] [core:error] [pid 4280:tid 1744] (20024)The given path is misformatted or contained invalid characters: [client 127.0.0.1:50637] AH00127: Cannot map GET /http://v-mast.mvc/ HTTP/1.1 to file, referer: http://v-mast.mvc/members
+[Fri Jan 29 17:37:17.776553 2016] [core:error] [pid 4280:tid 1720] (20024)The given path is misformatted or contained invalid characters: [client 127.0.0.1:63431] AH00127: Cannot map GET /members:3000 HTTP/1.1 to file

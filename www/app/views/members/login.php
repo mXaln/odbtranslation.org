@@ -1,0 +1,34 @@
+<?php
+use Core\Language;
+?>
+
+<h1><?php echo Language::show('login_title', 'Members'); ?></h1>
+
+<?php
+echo \Core\Error::display($error);
+?>
+
+<form action='' method='post' style="width: 500px">
+	<div class="form-group">
+		<label for="email">Email / <?php echo Language::show('userName', 'Members'); ?></label>
+		<input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
+	</div>
+
+	<div class="form-group">
+		<label for="password"><?php echo Language::show('password', 'Members'); ?></label>
+		<input type="password" class="form-control" id="password" name="password" placeholder="<?php echo Language::show('password', 'Members'); ?>" value="">
+	</div>
+
+    <input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>" />
+
+	<?php if(\Helpers\Session::get('loginTry')>=3):?>
+		<div class="form-group">
+			<div class="g-recaptcha" data-sitekey="6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr"></div>
+		</div>
+	<?php endif;?>
+
+    <button type="submit" name="submit" class="btn btn-primary"><?php echo Language::show('login', 'Members'); ?></button>
+    <a href="<?php echo DIR?>members/passwordreset" class="btn btn-link"><?php echo Language::show('forgot_password', 'Members'); ?></a>
+</form>
+
+<script src="https://www.google.com/recaptcha/api.js?hl=<?php echo $data['lang']?>" async defer></script>
