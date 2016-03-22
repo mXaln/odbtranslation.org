@@ -1,3 +1,7 @@
+.clear {
+    clear: both;
+}
+
 .header {
     margin: 20px auto;
     padding-left: 15px;
@@ -415,3 +419,114 @@
     font-weight: bold;
     margin-top: 5px;
 }
+
+#translator_steps {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    z-index: 9999;
+}
+
+#tr_steps_hide {
+    position: absolute;
+    right: -30px;
+    top: 50px;
+    width: 50px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 6px 0 0 25px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.steps_list {
+    margin-top: 50px;
+    padding: 0 0 0 20px;
+}
+
+.steps_list li {
+    margin: 30px 0 0 0;
+    list-style: none;
+    font-size: 18px;
+    color: #fff;
+
+}
+
+.steps_list li span {
+    opacity: 0.3;
+}
+
+.steps_list li.active span {
+    opacity: 1 !important;
+}
+
+.help_info_steps {
+    padding: 10px;
+    background-color: #d6e8f3;
+    border-radius: 5px;
+    margin-top: 70px;
+}
+
+.help_title_steps {
+    font-weight: bold;
+    font-size: large;
+    color: #ff8002;
+    float: right;
+    margin-right: 20px;
+}
+
+.help_name_steps {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.help_name_steps span {
+    color: #249b45;
+}
+
+.help_descr_steps {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.main_content_title {
+    color: #4596cc;
+    font-size: 30px;
+    border-bottom: 3px solid #4596cc;
+}
+
+.main_content {
+    margin-top: 20px;
+}
+
+#translator_contents {
+    position: relative;
+}
+
+.main_content_footer {
+    height: 100px;
+    margin-top: 20px;
+}
+
+.main_content_confirm_desc {
+    color: #249b45;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#confirm_step {
+    margin: 20px 0 0 20px;
+}
+
+.pray {background-color: #4596cc;}
+.consume {background-color: #4596cc;}
+.discuss {background-color: #886cb3;}
+.chunking {background-color: #4596cc;}
+.blind-draft {background-color: #4596cc;}
+.self-check {background-color: #4596cc;}
+.peer-review {background-color: #4596cc;}
+.keyword_check {background-color: #4596cc;}
+.content-review {background-color: #4596cc;}

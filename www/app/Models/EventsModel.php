@@ -169,7 +169,8 @@ class EventsModel extends Model
     public function getMemberEvents($memberID, $memberType, $eventID = null)
     {
         $events = array();
-        $sql = "SELECT vm_events.eventID, vm_projects.bookProject, vm_languages.langName, vm_abbr.name FROM ";
+        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.step, ".PREFIX."translators.trID, " : "")
+            .PREFIX."events.eventID, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."languages.langName, ".PREFIX."abbr.name FROM ";
         $mainTable = "";
 
         switch($memberType)
@@ -330,39 +331,6 @@ class EventsModel extends Model
         return $trID;
     }
 
-    public function addDraftChecker($data, $checkerData, $shouldUpdateChecker)
-    {
-        $updateSuccess = true;
-        if($shouldUpdateChecker)
-        {
-            if($this->db->update(PREFIX."members", $checkerData, array("memberID" => Session::get("memberID"))))
-            {
-                foreach ($checkerData as $key => $value)
-                    Session::set($key, $value);
-            }
-            else
-            {
-                $updateSuccess = false;
-            }
-        }
-
-        if($updateSuccess)
-        {
-            try
-            {
-                $this->db->insert(PREFIX."checkers_draft",$data);
-            } catch(\PDOException $e)
-            {
-                return $e->getMessage();
-            }
-            return $this->db->lastInsertId('drfchID');
-        }
-        else
-        {
-            return "[Member update error]";
-        }
-    }
-
     public function addL2Checker($data, $checkerData, $shouldUpdateChecker)
     {
         $updateSuccess = true;
@@ -438,5 +406,10 @@ class EventsModel extends Model
     public  function updateEvent($data, $where)
     {
         return $this->db->update(PREFIX."events", $data, $where);
+    }
+
+    public function updateTranslator($data, $where)
+    {
+        return $this->db->update(PREFIX."translators", $data, $where);
     }
 }

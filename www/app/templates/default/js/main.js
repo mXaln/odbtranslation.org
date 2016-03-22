@@ -95,6 +95,42 @@ $(function () {
         $(this).parents(".form-panel").hide();
     });
 
+
+    // ------------------- Translation Flow ---------------------- //
+    // Show/Hide Steps Panel
+    $("#tr_steps_hide").click(function () {
+        if($("#translator_steps").hasClass("open"))
+        {
+            $("#translator_steps").removeClass("open")
+                .addClass("closed");
+            $("#translator_steps").animate({left: "-250px"}, 500, function() {
+                $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
+                    .addClass("glyphicon-chevron-right");
+            });
+        }
+        else
+        {
+            $("#translator_steps").removeClass("closed")
+                .addClass("open");
+            $("#translator_steps").animate({left: 0}, 500, function() {
+            $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
+                .addClass("glyphicon-chevron-left");
+        });
+        }
+    });
+
+    // Confirm to go to the next step
+    $("#confirm_step").change(function() {
+        if($(this).is(":checked"))
+        {
+            $("#next_step").prop("disabled", false);
+        }
+        else
+        {
+            $("#next_step").prop("disabled", true);
+        }
+    });
+
     // Submit apply event form
     $("#applyEvent").submit(function(e) {
 

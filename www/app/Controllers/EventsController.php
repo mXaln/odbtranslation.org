@@ -3,9 +3,11 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Error;
+use Core\Language;
 use Core\View;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
+use Helpers\Constants\EventSteps;
 use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
@@ -23,6 +25,12 @@ class EventsController extends Controller
         $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
         $this->language->load('Events', $this->_lang);
         $this->_model = new \Models\EventsModel();
+
+        $config = array(
+            "storage"   =>  "files",
+            "path"      =>  ROOT . "cache"
+        );
+        CacheManager::setup($config);
     }
 
     public function index()
@@ -33,13 +41,6 @@ class EventsController extends Controller
         }
 
         $data['menu'] = 4;
-
-        /*$config = array(
-            "storage"   =>  "files",
-            "path"      =>  ROOT . "cache"
-        );
-        CacheManager::setup($config);
-        */
 
         $data["projects"] = $this->_model->getProjects(Session::get("userName"), true);
 
@@ -87,17 +88,106 @@ class EventsController extends Controller
         {
             $data['title'] = $data["event"][0]->name ." - ". $data["event"][0]->langName ." - ". $this->language->get($data["event"][0]->bookProject);
 
+            switch($data["event"][0]->step)
+            {
+                case EventSteps::PRAY:
 
+                    if(isset($_POST) && !empty($_POST))
+                    {
+                        if($_POST["confirm_step"])
+                        {
+                            $this->_model->updateTranslator(array("step" => EventSteps::CONSUME), array("trID" => $data["event"][0]->trID));
+                            Url::redirect('events/translator/'.$data["event"][0]->eventID);
+                            exit;
+                        }
+                    }
+
+                    View::renderTemplate('header', $data);
+                    View::render('events/translator', $data, $error);
+                    View::render('events/pray', $data, $error);
+                    break;
+
+                case EventSteps::CONSUME:
+
+                    if(isset($_POST) && !empty($_POST))
+                    {
+                        if($_POST["confirm_step"])
+                        {
+                            $this->_model->updateTranslator(array("step" => EventSteps::DISCUSS), array("trID" => $data["event"][0]->trID));
+                            Url::redirect('events/translator/'.$data["event"][0]->eventID);
+                            exit;
+                        }
+                    }
+
+                    $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
+                    $source = CacheManager::get($cache_keyword);
+
+                    if(is_null($source))
+                    {
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/".$data["event"][0]->bookCode."/".$data["event"][0]->sourceLangID."/".$data["event"][0]->bookProject."/source.json");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                        $source = curl_exec($ch);
+                        $json = json_decode($source);
+                        curl_close($ch);
+
+                        if(!empty($json))
+                            CacheManager::set($cache_keyword, $source, 60*60*24*7);
+                    }
+                    else
+                    {
+                        $json = json_decode($source);
+                    }
+
+                    if(!empty($json))
+                    {
+                        /*echo "Chapters size: #" . sizeof($json->chapters) . "<br><br>";
+                        foreach ($json->chapters as $chapter) {
+                            echo "Chapter: #" . $chapter->number . "<br>";
+                            echo "Frames size: #" . sizeof($chapter->frames) . "<br>";
+                            foreach ($chapter->frames as $frame) {
+                                echo "Frame id: " . $frame->id . "<br>";
+                            }
+                            echo "<br>";
+                        }*/
+                    }
+                    else
+                    {
+                        $error[] = $this->language->get("no_source_error");
+                    }
+
+                    View::renderTemplate('header', $data);
+                    View::render('events/translator', $data, $error);
+                    View::render('events/consume', $data, $error);
+                    break;
+
+                case EventSteps::DISCUSS:
+
+                    if(isset($_POST) && !empty($_POST))
+                    {
+                        if($_POST["confirm_step"])
+                        {
+                            $this->_model->updateTranslator(array("step" => EventSteps::DISCUSS), array("trID" => $data["event"][0]->trID));
+                            Url::redirect('events/translator/'.$data["event"][0]->eventID);
+                            exit;
+                        }
+                    }
+
+                    View::renderTemplate('header', $data);
+                    View::render('events/translator', $data, $error);
+                    View::render('events/discuss', $data, $error);
+                    break;
+            }
         }
         else
         {
             $error[] = $this->language->get("not_in_event_error");
+
+            View::renderTemplate('header', $data);
+            View::render('events/translator', $data, $error);
         }
 
-
-
-        View::renderTemplate('header', $data);
-        View::render('events/translator', $data, $error);
         View::renderTemplate('footer', $data);
     }
 
