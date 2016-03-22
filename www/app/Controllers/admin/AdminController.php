@@ -319,6 +319,10 @@ class AdminController extends Controller {
         {
             $error[] = $this->language->get('enter_translators');
         }
+        else if($translators%2 > 0)
+        {
+            $error[] = $this->language->get('not_even_translators');
+        }
 
         if($checkers_l2 == null || $checkers_l2 <= 0)
         {

@@ -10,6 +10,7 @@ use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
+use phpFastCache\CacheManager;
 
 class EventsController extends Controller
 {
@@ -32,6 +33,13 @@ class EventsController extends Controller
         }
 
         $data['menu'] = 4;
+
+        /*$config = array(
+            "storage"   =>  "files",
+            "path"      =>  ROOT . "cache"
+        );
+        CacheManager::setup($config);
+        */
 
         $data["projects"] = $this->_model->getProjects(Session::get("userName"), true);
 
@@ -62,6 +70,47 @@ class EventsController extends Controller
         View::render('events/project', $data);
         View::renderTemplate('footer', $data);
     }
+
+    public function translator($eventID)
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        $data['menu'] = 4;
+
+        $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
+
+        if(!empty($data["event"]))
+        {
+            $data['title'] = $data["event"][0]->name ." - ". $data["event"][0]->langName ." - ". $this->language->get($data["event"][0]->bookProject);
+
+
+        }
+        else
+        {
+            $error[] = $this->language->get("not_in_event_error");
+        }
+
+
+
+        View::renderTemplate('header', $data);
+        View::render('events/translator', $data, $error);
+        View::renderTemplate('footer', $data);
+    }
+
+    public function checker_l2($eventID)
+    {
+        echo $eventID;
+    }
+
+    public function checker_l3($eventID)
+    {
+        echo $eventID;
+    }
+
 
     public function applyEvent()
     {
@@ -177,7 +226,7 @@ class EventsController extends Controller
                                 "memberID" => Session::get("memberID"),
                                 "eventID" => $event[0]->eventID
                             );
-                            $trID = $this->_model->addTranslator($trData);
+                            $trID = $this->_model->addTranslator($trData, ($event[0]->translators%2) > 0, $event[0]->lastTrID);
 
                             if(is_numeric($trID))
                             {
@@ -219,7 +268,7 @@ class EventsController extends Controller
                             {
                                 if($this->checkStateFinished($event[0], EventMembers::L2_CHECKER))
                                 {
-                                    $this->_model->updateEvent(array("state" => EventStates::L2_CHECK), array("eventID" => $event[0]->eventID));
+                                    //$this->_model->updateEvent(array("state" => EventStates::L2_CHECK), array("eventID" => $event[0]->eventID));
                                 }
                                 echo json_encode(array("success" => $this->language->get("successfully_applied")));
                             }
@@ -255,7 +304,7 @@ class EventsController extends Controller
                             {
                                 if($this->checkStateFinished($event[0], EventMembers::L3_CHECKER))
                                 {
-                                    $this->_model->updateEvent(array("state" => EventStates::L3_CHECK), array("eventID" => $event[0]->eventID));
+                                    //$this->_model->updateEvent(array("state" => EventStates::L3_CHECK), array("eventID" => $event[0]->eventID));
                                 }
                                 echo json_encode(array("success" => $this->language->get("successfully_applied")));
                             }

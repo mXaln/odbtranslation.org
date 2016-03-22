@@ -9,8 +9,11 @@
 namespace Models;
 
 use Core\Model;
+use Helpers\Constants\BookSources;
+use Helpers\Constants\EventMembers;
 use Helpers\Data;
 use Helpers\Session;
+use PDO;
 
 class EventsModel extends Model
 {
@@ -141,7 +144,7 @@ class EventsModel extends Model
             "LEFT JOIN vm_translators ON vm_translators.eventID=vm_events.eventID ".
             "LEFT JOIN vm_checkers_l2 ON vm_checkers_l2.eventID=vm_events.eventID ".
             "LEFT JOIN vm_checkers_l3 ON vm_checkers_l3.eventID=vm_events.eventID ".
-            "GROUP BY vm_abbr.id ORDER BY vm_abbr.id";
+            "GROUP BY vm_abbr.abbrID ORDER BY vm_abbr.abbrID";
 
         $prepare = array(":projectID" => $projectID);
 
@@ -159,6 +162,43 @@ class EventsModel extends Model
             "WHERE vm_events.eventID = :eventID";
 
         $prepare = array(":eventID" => $eventID, ":memberID" => $memberID);
+
+        return $this->db->select($sql, $prepare);
+    }
+
+    public function getMemberEvents($memberID, $memberType, $eventID = null)
+    {
+        $events = array();
+        $sql = "SELECT vm_events.eventID, vm_projects.bookProject, vm_languages.langName, vm_abbr.name FROM ";
+        $mainTable = "";
+
+        switch($memberType)
+        {
+            case EventMembers::TRANSLATOR:
+                $mainTable = PREFIX."translators";
+                break;
+
+            case EventMembers::L2_CHECKER:
+                $mainTable = PREFIX."checkers_l2";
+                break;
+
+            case EventMembers::L3_CHECKER:
+                $mainTable = PREFIX."checkers_l3";
+                break;
+        }
+
+        $sql .= $mainTable." LEFT JOIN ".PREFIX."events ON ".$mainTable.".eventID = ".PREFIX."events.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."events.projectID = ".PREFIX."projects.projectID ".
+            "LEFT JOIN ".PREFIX."languages ON ".PREFIX."projects.targetLang = ".PREFIX."languages.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
+            "WHERE ".$mainTable.".memberID = :memberID ".
+            (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID" : "");
+
+        $prepare = array();
+        $prepare[":memberID"] = $memberID;
+
+        if(!is_null($eventID))
+            $prepare[":eventID"] = $eventID;
 
         return $this->db->select($sql, $prepare);
     }
@@ -201,10 +241,27 @@ class EventsModel extends Model
 
     public function getSourceTranslations()
     {
-        return $this->db->select("SELECT ".PREFIX."books.bookProject, ".PREFIX."languages.langName, ".PREFIX."languages.langID ".
+        $in = "('" . join("', '", array_keys(BookSources::catalog)) . "')";
+        $langNames = $this->db->select("SELECT langID, langName FROM ".PREFIX."languages WHERE langID IN $in", array(), PDO::FETCH_KEY_PAIR);
+
+        $sls = array();
+        foreach (BookSources::catalog as $lang => $books) {
+            foreach ($books as $book) {
+                $elm = new \stdClass();
+                $elm->langID = $lang;
+                $elm->langName = $langNames[$lang];
+                $elm->bookProject = $book;
+
+                $sls[] = $elm;
+            }
+        }
+
+        return $sls;
+
+        /*return $this->db->select("SELECT ".PREFIX."books.bookProject, ".PREFIX."languages.langName, ".PREFIX."languages.langID ".
             "FROM ".PREFIX."books
             LEFT JOIN ".PREFIX."languages ON ".PREFIX."books.gwLang=".PREFIX."languages.langID
-            GROUP BY ".PREFIX."books.gwLang, ".PREFIX."books.bookProject ORDER BY ".PREFIX."languages.langName");
+            GROUP BY ".PREFIX."books.gwLang, ".PREFIX."books.bookProject ORDER BY ".PREFIX."languages.langName");*/
     }
 
     public function getBooks($gwLang, $bookProject)
@@ -248,7 +305,7 @@ class EventsModel extends Model
         return $this->db->lastInsertId('eventID');
     }
 
-    public function addTranslator($data)
+    public function addTranslator($data, $addPair = false, $lastTrID = 0)
     {
         try
         {
@@ -257,7 +314,20 @@ class EventsModel extends Model
         {
             return $e->getMessage();
         }
-        return $this->db->lastInsertId('trID');
+
+        $trID = $this->db->lastInsertId('trID');
+
+        if($addPair)
+        {
+            $this->db->update(PREFIX."translators", array("pairID" => $trID), array("trID" => $lastTrID));
+            $this->db->update(PREFIX."translators", array("pairID" => $lastTrID), array("trID" => $trID));
+        }
+        else
+        {
+            $this->db->update(PREFIX."events", array("lastTrID" => $trID), array("eventID" => $data["eventID"]));
+        }
+
+        return $trID;
     }
 
     public function addDraftChecker($data, $checkerData, $shouldUpdateChecker)

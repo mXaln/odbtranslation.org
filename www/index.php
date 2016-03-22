@@ -22,6 +22,7 @@ unset($smvc);
 /** load composer autoloader */
 if (file_exists(SMVC.'vendor/autoload.php')) {
     require SMVC.'vendor/autoload.php';
+    require("phpFastCache/phpFastCache.php");
 } else {
     echo "<h1>Please install via composer.json</h1>";
     echo "<p>Install Composer instructions: <a href='https://getcomposer.org/doc/00-intro.md#globally'>https://getcomposer.org/doc/00-intro.md#globally</a></p>";
