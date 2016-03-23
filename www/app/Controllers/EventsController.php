@@ -124,13 +124,8 @@ class EventsController extends Controller
 
                     if(is_null($source))
                     {
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/".$data["event"][0]->bookCode."/".$data["event"][0]->sourceLangID."/".$data["event"][0]->bookProject."/source.json");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                        $source = curl_exec($ch);
+                        $source = $this->_model->getSourceBookFromApi($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->bookProject);
                         $json = json_decode($source);
-                        curl_close($ch);
 
                         if(!empty($json))
                             CacheManager::set($cache_keyword, $source, 60*60*24*7);
@@ -320,10 +315,21 @@ class EventsController extends Controller
 
                             if(is_numeric($trID))
                             {
+                                $eventData = array();
+
+                                // Change state of event when all translators applyed
                                 if($this->checkStateFinished($event[0], EventMembers::TRANSLATOR))
-                                {
-                                    $this->_model->updateEvent(array("state" => EventStates::TRANSLATING), array("eventID" => $event[0]->eventID));
-                                }
+                                    $eventData["state"] = EventStates::TRANSLATING;
+
+                                // If translators applyed is even add last trID
+                                if(($event[0]->translators%2) <= 0)
+                                    $eventData["lastTrID"] = $trID;
+
+                                // Assign chapters and chunks to added translator
+                                $eventData["chapters"] = $this->assignChaptersChunks($event, $trID);
+
+                                $this->_model->updateEvent($eventData, array("eventID" => $event[0]->eventID));
+
                                 echo json_encode(array("success" => $this->language->get("successfully_applied")));
                             }
                             else
@@ -356,10 +362,10 @@ class EventsController extends Controller
 
                             if(is_numeric($l2ID))
                             {
-                                if($this->checkStateFinished($event[0], EventMembers::L2_CHECKER))
+                                /*if($this->checkStateFinished($event[0], EventMembers::L2_CHECKER))
                                 {
-                                    //$this->_model->updateEvent(array("state" => EventStates::L2_CHECK), array("eventID" => $event[0]->eventID));
-                                }
+                                    $this->_model->updateEvent(array("state" => EventStates::L2_CHECK), array("eventID" => $event[0]->eventID));
+                                }*/
                                 echo json_encode(array("success" => $this->language->get("successfully_applied")));
                             }
                             else
@@ -392,10 +398,10 @@ class EventsController extends Controller
 
                             if(is_numeric($l3ID))
                             {
-                                if($this->checkStateFinished($event[0], EventMembers::L3_CHECKER))
+                                /*if($this->checkStateFinished($event[0], EventMembers::L3_CHECKER))
                                 {
-                                    //$this->_model->updateEvent(array("state" => EventStates::L3_CHECK), array("eventID" => $event[0]->eventID));
-                                }
+                                    $this->_model->updateEvent(array("state" => EventStates::L3_CHECK), array("eventID" => $event[0]->eventID));
+                                }*/
                                 echo json_encode(array("success" => $this->language->get("successfully_applied")));
                             }
                             else
@@ -453,5 +459,17 @@ class EventsController extends Controller
         }
 
         return false;
+    }
+
+    private function assignChaptersChunks($event, $trID)
+    {
+        $chapters = json_decode($event[0]->chapters, true);
+        $totalNum = $event[0]->translatorsNum;
+        $currentNum = $event[0]->translators;
+
+        $chaptersForPair = sizeof($chapters) / ($totalNum / 2);
+        echo $chaptersForPair;
+
+        exit;
     }
 }

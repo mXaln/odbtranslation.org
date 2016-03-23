@@ -166,6 +166,13 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get all events of a member
+     * @param $memberID
+     * @param $memberType
+     * @param null $eventID
+     * @return array
+     */
     public function getMemberEvents($memberID, $memberType, $eventID = null)
     {
         $events = array();
@@ -204,11 +211,20 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get list of all gateway languages
+     * @return array
+     */
     public function getAllGwLanguages()
     {
         return $this->db->select("SELECT langID, langName FROM ".PREFIX."languages WHERE isGW = 1 ORDER BY `langID` ASC");
     }
 
+    /**
+     * Get Gateway languages assigned to admin
+     * @param string $userName
+     * @return array
+     */
     public function getMemberGwLanguages($userName)
     {
         $sql = "SELECT * FROM ".PREFIX."gateway_projects LEFT JOIN ".PREFIX."languages ".
@@ -221,6 +237,12 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get list of other languages
+     * @param string $userName
+     * @param string $gwLang
+     * @return array
+     */
     public function getTargetLanguages($userName, $gwLang)
     {
         $adminPart = "WHERE ".PREFIX."languages.gwLang IN ".
@@ -240,6 +262,10 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get source translations
+     * @return array
+     */
     public function getSourceTranslations()
     {
         $in = "('" . join("', '", array_keys(BookSources::catalog)) . "')";
@@ -275,6 +301,11 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get admins by name
+     * @param string $search
+     * @return array
+     */
     public function getAdmins($search)
     {
         $sql = "SELECT userName FROM ".PREFIX."members ".
@@ -288,24 +319,64 @@ class EventsModel extends Model
 
     }
 
+    /**
+     * Get book source from unfolding word api
+     * @param string $bookCode
+     * @param string $sourceLang
+     * @param string $bookProject
+     * @return mixed
+     */
+    public function getSourceBookFromApi($bookCode, $sourceLang, $bookProject)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/".$bookCode."/".$sourceLang."/".$bookProject."/source.json");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $source = curl_exec($ch);
+        curl_close($ch);
+        return $source;
+    }
+
+    /**
+     * Create gateway project
+     * @param array $data
+     * @return string
+     */
     public function createGatewayProject($data)
     {
         $this->db->insert(PREFIX."gateway_projects",$data);
         return $this->db->lastInsertId('gwProjectID');
     }
 
+    /**
+     * Create project
+     * @param array $data
+     * @return string
+     */
     public function createProject($data)
     {
         $this->db->insert(PREFIX."projects",$data);
         return $this->db->lastInsertId('projectID');
     }
 
+    /**
+     * Create event
+     * @param array $data
+     * @return string
+     */
     public function createEvent($data)
     {
         $this->db->insert(PREFIX."events",$data);
         return $this->db->lastInsertId('eventID');
     }
 
+    /**
+     * Add member as new translator for event
+     * @param array $data
+     * @param bool $addPair
+     * @param int $lastTrID
+     * @return string
+     */
     public function addTranslator($data, $addPair = false, $lastTrID = 0)
     {
         try
@@ -323,14 +394,16 @@ class EventsModel extends Model
             $this->db->update(PREFIX."translators", array("pairID" => $trID), array("trID" => $lastTrID));
             $this->db->update(PREFIX."translators", array("pairID" => $lastTrID), array("trID" => $trID));
         }
-        else
-        {
-            $this->db->update(PREFIX."events", array("lastTrID" => $trID), array("eventID" => $data["eventID"]));
-        }
-
         return $trID;
     }
 
+    /**
+     * Add member as new Level 2 checker for event
+     * @param array $data
+     * @param array $checkerData
+     * @param bool $shouldUpdateChecker
+     * @return string
+     */
     public function addL2Checker($data, $checkerData, $shouldUpdateChecker)
     {
         $updateSuccess = true;
@@ -367,6 +440,13 @@ class EventsModel extends Model
         }
     }
 
+    /**
+     * Add member as new Level 3 checker for event
+     * @param array $data
+     * @param array $checkerData
+     * @param bool $shouldUpdateChecker
+     * @return string
+     */
     public function addL3Checker($data, $checkerData, $shouldUpdateChecker)
     {
         $updateSuccess = true;
@@ -403,11 +483,23 @@ class EventsModel extends Model
         }
     }
 
+    /**
+     * Update event
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
     public  function updateEvent($data, $where)
     {
         return $this->db->update(PREFIX."events", $data, $where);
     }
 
+    /**
+     * Update translator
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
     public function updateTranslator($data, $where)
     {
         return $this->db->update(PREFIX."translators", $data, $where);

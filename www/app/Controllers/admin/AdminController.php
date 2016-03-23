@@ -9,6 +9,7 @@ use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
 use Models\EventsModel;
+use phpFastCache\CacheManager;
 
 class AdminController extends Controller {
 
@@ -21,6 +22,12 @@ class AdminController extends Controller {
         $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
         $this->language->load('Events', $this->_lang);
         $this->_model = new EventsModel();
+
+        $config = array(
+            "storage"   =>  "files",
+            "path"      =>  ROOT . "cache"
+        );
+        CacheManager::setup($config);
     }
 
     public  function index() {
@@ -364,10 +371,52 @@ class AdminController extends Controller {
                         "dateTo" => $dateTo,
                     );
 
-                    $eventID = $this->_model->createEvent($postdata);
+                    $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->bookProject;
+                    $source = CacheManager::get($cache_keyword);
 
-                    if($eventID)
-                        echo json_encode(array("success" => $this->language->get("successfully_created")));
+                    if(is_null($source))
+                    {
+                        $source = $this->_model->getSourceBookFromApi($bookCode, $project[0]->sourceLangID, $project[0]->bookProject);
+                        $json = json_decode($source);
+
+                        if(!empty($json))
+                            CacheManager::set($cache_keyword, $source, 60*60*24*7);
+                    }
+                    else
+                    {
+                        $json = json_decode($source);
+                    }
+
+                    if(!empty($json))
+                    {
+                        $chapters = array();
+
+                        foreach ($json->chapters as $chapter) {
+                            foreach ($chapter->frames as $frame) {
+                                $chapters[$chapter->number][$frame->id] = "";
+                            }
+                        }
+
+                        if(sizeof($chapters) >= ($translators/2))
+                        {
+                            $postdata["chapters"] = json_encode($chapters);
+
+                            $eventID = $this->_model->createEvent($postdata);
+
+                            if($eventID)
+                                echo json_encode(array("success" => $this->language->get("successfully_created")));
+                        }
+                        else
+                        {
+                            $error[] = $this->language->get("too_many translators_error", array("chap_number" => sizeof($chapters)));
+                            echo json_encode(array("error" => Error::display($error)));
+                        }
+                    }
+                    else
+                    {
+                        $error[] = $this->language->get("no_source_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                    }
                 }
                 else
                 {
