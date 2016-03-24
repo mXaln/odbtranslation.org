@@ -176,8 +176,10 @@ class EventsModel extends Model
     public function getMemberEvents($memberID, $memberType, $eventID = null)
     {
         $events = array();
-        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.step, ".PREFIX."translators.trID, " : "")
-            .PREFIX."events.eventID, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."languages.langName, ".PREFIX."abbr.name FROM ";
+        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.step, ".PREFIX."translators.trID, ".PREFIX."translators.currentChunk, " : "")
+            .PREFIX."events.eventID, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
+            .PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
+            .PREFIX."languages.langName, ".PREFIX."abbr.name FROM ";
         $mainTable = "";
 
         switch($memberType)

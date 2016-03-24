@@ -6,8 +6,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-
-
+                <?php echo $data["text"] ?>
             </div>
 
             <?php if(empty($error)):?>

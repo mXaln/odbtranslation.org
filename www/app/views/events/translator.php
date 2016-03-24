@@ -39,7 +39,8 @@ foreach ($arr as $chap => $chunks) {
 }
 */
 
-echo (integer)preg_replace("/\d+-/", "", "11-03");
+//echo (integer)preg_replace("/\d+-/", "", "11-03")."<br>";
+
 
 if(!empty($data["event"])):
 ?>

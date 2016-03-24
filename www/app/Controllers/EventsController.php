@@ -125,27 +125,54 @@ class EventsController extends Controller
                     if(is_null($source))
                     {
                         $source = $this->_model->getSourceBookFromApi($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->bookProject);
-                        $json = json_decode($source);
+                        $json = json_decode($source, true);
 
                         if(!empty($json))
                             CacheManager::set($cache_keyword, $source, 60*60*24*7);
                     }
                     else
                     {
-                        $json = json_decode($source);
+                        $json = json_decode($source, true);
                     }
 
                     if(!empty($json))
                     {
-                        /*echo "Chapters size: #" . sizeof($json->chapters) . "<br><br>";
-                        foreach ($json->chapters as $chapter) {
-                            echo "Chapter: #" . $chapter->number . "<br>";
-                            echo "Frames size: #" . sizeof($chapter->frames) . "<br>";
-                            foreach ($chapter->frames as $frame) {
-                                echo "Frame id: " . $frame->id . "<br>";
+                        $currentChapter = 0;
+                        $currentChunk = "";
+                        $currentChapterText = "";
+                        //$currentChunkText = "";
+
+                        if($data["event"][0]->currentChunk == "")
+                        {
+                            foreach (json_decode($data["event"][0]->chapters, true) as $item) {
+                                if($currentChunk = array_search($data["event"][0]->trID, $item))
+                                    break;
                             }
-                            echo "<br>";
+                        }
+                        else
+                        {
+                            $currentChunk = $data["event"][0]->currentChunk;
+                        }
+
+                        $split = explode("-", $currentChunk);
+                        $currentChapter = (integer)$split[0];
+
+                        foreach ($json["chapters"][$currentChapter - 1]["frames"] as $frame) {
+                            $currentChapterText .= $frame["text"];
+                        }
+
+                        /*foreach ($json["chapters"][$currentChapter - 1]["frames"] as $frame) {
+                            if($frame["id"] == $currentChunk)
+                            {
+                                $currentChunkText = $frame["text"];
+                                break;
+                            }
                         }*/
+
+                        $currentChapterText = preg_replace("/<\/?para.*>/", "", $currentChapterText);
+                        $currentChapterText = preg_replace("/<verse\D+(\d+)\D+>/", '<strong><sup>${1}</sup></strong> ', $currentChapterText);
+
+                        $data["text"] = $currentChapterText;
                     }
                     else
                     {
@@ -326,7 +353,7 @@ class EventsController extends Controller
                                     $eventData["lastTrID"] = $trID;
 
                                 // Assign chapters and chunks to added translator
-                                $eventData["chapters"] = $this->assignChaptersChunks($event, $trID);
+                                $eventData["chapters"] = json_encode($this->assignChaptersChunks($event, $trID));
 
                                 $this->_model->updateEvent($eventData, array("eventID" => $event[0]->eventID));
 
@@ -465,11 +492,86 @@ class EventsController extends Controller
     {
         $chapters = json_decode($event[0]->chapters, true);
         $totalNum = $event[0]->translatorsNum;
-        $currentNum = $event[0]->translators;
+        $currentNum = $event[0]->translators + 1;
+        $isCurrentEven = $currentNum % 2 == 0;
 
-        $chaptersForPair = sizeof($chapters) / ($totalNum / 2);
-        echo $chaptersForPair;
+        $pairs = $totalNum/2;
+        $chaptersNum = sizeof($chapters);
+        $val = round($chaptersNum/$pairs);
+        for($i=0;$i<$pairs;$i++) {
 
-        exit;
+            $arr[$i] = $val;
+        }
+        $arr[sizeof($arr)-1] += $chaptersNum - array_sum($arr);
+
+        $arr = $this->reassignChapters($arr);
+        Data::pr($arr);
+
+        $currentPairNum = round($currentNum/2);
+        $chaptersCountForPair = $arr[$currentPairNum-1];
+
+        Data::pr($chapters);
+
+        foreach ($chapters as $chapIndex => $chapter) {
+            if($chaptersCountForPair > 0)
+            {
+                $chapKeys = array_values($chapter);
+                $checkIndex = $isCurrentEven ? 1 : 0;
+
+                if($chapKeys[$checkIndex] == 0)
+                {
+                    $i=0;
+                    foreach ($chapter as $chunk => $translator) {
+                        if($i % 2 == $checkIndex)
+                        {
+                            $chunkIndex = sprintf("%02d-%02d", $chapIndex, (integer)preg_replace("/\d+-/", "", $chunk));
+                            $chapters[$chapIndex][$chunkIndex] = $trID;
+                        }
+
+                        $i++;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
+                $chaptersCountForPair--;
+            }
+        }
+
+        Data::pr($chapters);
+
+        return $chapters;
+    }
+
+    private function reassignChapters($arr, $index = 2)
+    {
+        $max = max($arr);
+        $min = min($arr);
+        $average = round(($max+$min)/2);
+
+        //echo "Max: ".$max . ", Min: ".$min.", Avg.: ".$average."<br>";
+
+        if($average < $max)
+        {
+            if($arr[sizeof($arr)-1] < $arr[sizeof($arr)-$index])
+            {
+                $arr[sizeof($arr)-$index]--;
+                $arr[sizeof($arr)-1]++;
+            }
+            else
+            {
+                $arr[sizeof($arr)-$index]++;
+                $arr[sizeof($arr)-1]--;
+            }
+
+            $index++;
+            return $this->reassignChapters($arr, $index);
+        }
+        else
+        {
+            return $arr;
+        }
     }
 }

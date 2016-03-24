@@ -393,7 +393,7 @@ class AdminController extends Controller {
 
                         foreach ($json->chapters as $chapter) {
                             foreach ($chapter->frames as $frame) {
-                                $chapters[$chapter->number][$frame->id] = "";
+                                $chapters[(integer)$chapter->number][$frame->id] = 0;
                             }
                         }
 
