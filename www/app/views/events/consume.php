@@ -1,15 +1,24 @@
+<?php
+use \Core\Language;
+?>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title">Reading of text</div>
+        <div class="main_content_title"><?php echo Language::show("reading_text", "Events")?></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
+                <h4><?php echo $data["event"][0]->sLang." - "
+                        .Language::show($data["event"][0]->bookProject, "Events")." - "
+                    .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
+                    .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+
                 <?php echo $data["text"] ?>
             </div>
 
-            <?php if(empty($error)):?>
+            <?php //if(empty($error)):?>
             <div class="main_content_footer row">
                 <form action="" method="post">
                     <div class="form-group">
@@ -20,7 +29,7 @@
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
                 </form>
             </div>
-            <?php endif; ?>
+            <?php //endif; ?>
         </div>
 
         <div class="content_help col-sm-3">

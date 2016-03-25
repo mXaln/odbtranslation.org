@@ -176,30 +176,35 @@ class EventsModel extends Model
     public function getMemberEvents($memberID, $memberType, $eventID = null)
     {
         $events = array();
-        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.step, ".PREFIX."translators.trID, ".PREFIX."translators.currentChunk, " : "")
+        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, ".PREFIX."translators.step, "
+                .PREFIX."translators.currentChunk, cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
-            .PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
-            .PREFIX."languages.langName, ".PREFIX."abbr.name FROM ";
+            .PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
+            ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
         $mainTable = "";
 
         switch($memberType)
         {
             case EventMembers::TRANSLATOR:
-                $mainTable = PREFIX."translators";
+                $mainTable = PREFIX."translators ";
                 break;
 
             case EventMembers::L2_CHECKER:
-                $mainTable = PREFIX."checkers_l2";
+                $mainTable = PREFIX."checkers_l2 ";
                 break;
 
             case EventMembers::L3_CHECKER:
-                $mainTable = PREFIX."checkers_l3";
+                $mainTable = PREFIX."checkers_l3 ";
                 break;
         }
 
-        $sql .= $mainTable." LEFT JOIN ".PREFIX."events ON ".$mainTable.".eventID = ".PREFIX."events.eventID ".
+        $sql .= $mainTable.
+            ($memberType == EventMembers::TRANSLATOR ?
+                "LEFT JOIN ".PREFIX."translators AS cotranslator ON ".PREFIX."translators.pairID = cotranslator.trID " : "").
+            "LEFT JOIN ".PREFIX."events ON ".$mainTable.".eventID = ".PREFIX."events.eventID ".
             "LEFT JOIN ".PREFIX."projects ON ".PREFIX."events.projectID = ".PREFIX."projects.projectID ".
-            "LEFT JOIN ".PREFIX."languages ON ".PREFIX."projects.targetLang = ".PREFIX."languages.langID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID" : "");

@@ -22,7 +22,7 @@ use \Core\Language;
                     <?php foreach($data["myTranslatorEvents"] as $event): ?>
                         <tr>
                             <td><a href="/events/translator/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
-                            <td><?php echo $event->langName ?></td>
+                            <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
                         </tr>
                     <?php endforeach ?>
@@ -53,7 +53,7 @@ use \Core\Language;
                     <?php foreach($data["myCheckerL2Events"] as $event): ?>
                         <tr>
                             <td><a href="/events/checker_l2/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
-                            <td><?php echo $event->langName ?></td>
+                            <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
                         </tr>
                     <?php endforeach ?>
@@ -84,7 +84,7 @@ use \Core\Language;
                     <?php foreach($data["myCheckerL3Events"] as $event): ?>
                         <tr>
                             <td><a href="/events/checker_l3/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
-                            <td><?php echo $event->langName ?></td>
+                            <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
                         </tr>
                     <?php endforeach ?>

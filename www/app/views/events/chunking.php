@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("text_discussuion", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("chunking_text", "Events")?></div>
     </div>
 
     <div class="row">
@@ -36,8 +36,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 1:</span> Discussion</div>
-                <div class="help_descr_steps">Description about Discussion</div>
+                <div class="help_name_steps"><span>Step 1:</span> Chunking</div>
+                <div class="help_descr_steps">Description about Chunking</div>
             </div>
         </div>
     </div>

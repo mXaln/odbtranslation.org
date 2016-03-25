@@ -9,5 +9,7 @@ return array(
     'book_project' => 'Source Translation',
     'udb' => 'Unlocked Dynamic Bible',
     'ulb' => 'Unlocked Literal Bible',
-    'error_ocured' => "Возникла ошибка. {0}"
+    'error_ocured' => "Возникла ошибка. {0}",
+    'old_test' => "Old Testament",
+    'new_test' => "New Testament"
 );

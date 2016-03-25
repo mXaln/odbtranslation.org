@@ -1305,4 +1305,154 @@
            <hr />
 <p>Error on Mar 22, 2016 12:54PM - file_get_contents(https://api.unfoldingword.org/ts/txt/3/jas/en/udb/source.json): failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
  in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 122</p><p>Error on Mar 22, 2016 12:56PM - file_get_contents(https://api.unfoldingword.org/ts/txt/3/jas/en/udb/source.json): failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
- in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 123</p><p>Error on Mar 23, 2016 12:32PM - array_search() expects parameter 2 to be array, null given in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 34</p><p>Error on Mar 23, 2016 12:32PM - array_search() expects parameter 2 to be array, null given in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 34</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:03PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:05PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:45PM - array_search() expects parameter 2 to be array, object given in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 143</p><p>Error on Mar 24, 2016 14:45PM - array_search() expects parameter 2 to be array, object given in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 143</p><p>Error on Mar 24, 2016 14:45PM - array_search() expects parameter 2 to be array, object given in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 143</p>
+ in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 123</p><p>Error on Mar 23, 2016 12:32PM - array_search() expects parameter 2 to be array, null given in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 34</p><p>Error on Mar 23, 2016 12:32PM - array_search() expects parameter 2 to be array, null given in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 34</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:02PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:03PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:05PM - sprintf(): Too few arguments in F:\xampp\htdocs\v-mast.mvc\www\app\views\events\translator.php on line 44</p><p>Error on Mar 24, 2016 14:45PM - array_search() expects parameter 2 to be array, object given in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 143</p><p>Error on Mar 24, 2016 14:45PM - array_search() expects parameter 2 to be array, object given in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 143</p><p>Error on Mar 24, 2016 14:45PM - array_search() expects parameter 2 to be array, object given in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 143</p><h3>Exception information:</h3>
+
+           <p><strong>Date:</strong> Mar 25, 2016 10:02AM</p>
+
+           <p><strong>Message:</strong> SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vm_abbr.id' in 'field list'</p>
+
+           <p><strong>Code:</strong> 42S22</p>
+
+           <p><strong>File:</strong> F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php</p>
+
+           <p><strong>Line:</strong> 104</p>
+
+           <h3>Stack trace:</h3>
+
+           <pre>#0 F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php(104): PDOStatement->execute()
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Models\EventsModel.php(214): Helpers\Database->select('SELECT vm_trans...', Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(85): Models\EventsModel->getMemberEvents('8', 'translator', '17')
+#3 [internal function]: Controllers\EventsController->translator('17')
+#4 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(126): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(254): Core\Router::invokeObject('Controllers\\Eve...', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\app\Core\routes.php(67): Core\Router::dispatch()
+#7 F:\xampp\htdocs\v-mast.mvc\www\index.php(82): require('F:\\xampp\\htdocs...')
+#8 {main}</pre>
+
+           <hr />
+<h3>Exception information:</h3>
+
+           <p><strong>Date:</strong> Mar 25, 2016 12:01PM</p>
+
+           <p><strong>Message:</strong> SQLSTATE[42000]: Syntax error or access violation: 1066 Not unique table/alias: 'cotranslator'</p>
+
+           <p><strong>Code:</strong> 42000</p>
+
+           <p><strong>File:</strong> F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php</p>
+
+           <p><strong>Line:</strong> 104</p>
+
+           <h3>Stack trace:</h3>
+
+           <pre>#0 F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php(104): PDOStatement->execute()
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Models\EventsModel.php(216): Helpers\Database->select('SELECT vm_trans...', Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(85): Models\EventsModel->getMemberEvents('8', 'translator', '17')
+#3 [internal function]: Controllers\EventsController->translator('17')
+#4 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(126): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(254): Core\Router::invokeObject('Controllers\\Eve...', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\app\Core\routes.php(67): Core\Router::dispatch()
+#7 F:\xampp\htdocs\v-mast.mvc\www\index.php(82): require('F:\\xampp\\htdocs...')
+#8 {main}</pre>
+
+           <hr />
+<h3>Exception information:</h3>
+
+           <p><strong>Date:</strong> Mar 25, 2016 12:03PM</p>
+
+           <p><strong>Message:</strong> SQLSTATE[42000]: Syntax error or access violation: 1066 Not unique table/alias: 'cotranslator'</p>
+
+           <p><strong>Code:</strong> 42000</p>
+
+           <p><strong>File:</strong> F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php</p>
+
+           <p><strong>Line:</strong> 104</p>
+
+           <h3>Stack trace:</h3>
+
+           <pre>#0 F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php(104): PDOStatement->execute()
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Models\EventsModel.php(216): Helpers\Database->select('SELECT vm_trans...', Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(85): Models\EventsModel->getMemberEvents('8', 'translator', '17')
+#3 [internal function]: Controllers\EventsController->translator('17')
+#4 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(126): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(254): Core\Router::invokeObject('Controllers\\Eve...', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\app\Core\routes.php(67): Core\Router::dispatch()
+#7 F:\xampp\htdocs\v-mast.mvc\www\index.php(82): require('F:\\xampp\\htdocs...')
+#8 {main}</pre>
+
+           <hr />
+<h3>Exception information:</h3>
+
+           <p><strong>Date:</strong> Mar 25, 2016 12:06PM</p>
+
+           <p><strong>Message:</strong> SQLSTATE[42000]: Syntax error or access violation: 1066 Not unique table/alias: 'cotranslator'</p>
+
+           <p><strong>Code:</strong> 42000</p>
+
+           <p><strong>File:</strong> F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php</p>
+
+           <p><strong>Line:</strong> 104</p>
+
+           <h3>Stack trace:</h3>
+
+           <pre>#0 F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php(104): PDOStatement->execute()
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Models\EventsModel.php(216): Helpers\Database->select('SELECT vm_trans...', Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(85): Models\EventsModel->getMemberEvents('8', 'translator', '17')
+#3 [internal function]: Controllers\EventsController->translator('17')
+#4 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(126): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(254): Core\Router::invokeObject('Controllers\\Eve...', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\app\Core\routes.php(67): Core\Router::dispatch()
+#7 F:\xampp\htdocs\v-mast.mvc\www\index.php(82): require('F:\\xampp\\htdocs...')
+#8 {main}</pre>
+
+           <hr />
+<h3>Exception information:</h3>
+
+           <p><strong>Date:</strong> Mar 25, 2016 12:10PM</p>
+
+           <p><strong>Message:</strong> SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cotranslator.trIDLEFT' in 'on clause'</p>
+
+           <p><strong>Code:</strong> 42S22</p>
+
+           <p><strong>File:</strong> F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php</p>
+
+           <p><strong>Line:</strong> 104</p>
+
+           <h3>Stack trace:</h3>
+
+           <pre>#0 F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php(104): PDOStatement->execute()
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Models\EventsModel.php(218): Helpers\Database->select('SELECT vm_trans...', Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(85): Models\EventsModel->getMemberEvents('8', 'translator', '17')
+#3 [internal function]: Controllers\EventsController->translator('17')
+#4 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(126): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(254): Core\Router::invokeObject('Controllers\\Eve...', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\app\Core\routes.php(67): Core\Router::dispatch()
+#7 F:\xampp\htdocs\v-mast.mvc\www\index.php(82): require('F:\\xampp\\htdocs...')
+#8 {main}</pre>
+
+           <hr />
+<h3>Exception information:</h3>
+
+           <p><strong>Date:</strong> Mar 25, 2016 12:12PM</p>
+
+           <p><strong>Message:</strong> SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cotranslator.trIDLEFT' in 'on clause'</p>
+
+           <p><strong>Code:</strong> 42S22</p>
+
+           <p><strong>File:</strong> F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php</p>
+
+           <p><strong>Line:</strong> 104</p>
+
+           <h3>Stack trace:</h3>
+
+           <pre>#0 F:\xampp\htdocs\v-mast.mvc\www\app\Helpers\Database.php(104): PDOStatement->execute()
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Models\EventsModel.php(218): Helpers\Database->select('SELECT vm_trans...', Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(85): Models\EventsModel->getMemberEvents('8', 'translator', '17')
+#3 [internal function]: Controllers\EventsController->translator('17')
+#4 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(126): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Router.php(254): Core\Router::invokeObject('Controllers\\Eve...', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\app\Core\routes.php(67): Core\Router::dispatch()
+#7 F:\xampp\htdocs\v-mast.mvc\www\index.php(82): require('F:\\xampp\\htdocs...')
+#8 {main}</pre>
+
+           <hr />
+<p>Error on Mar 25, 2016 13:24PM - Missing argument 2 for Controllers\EventsController::getSourceText(), called in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 163 and defined in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 597</p><p>Error on Mar 25, 2016 13:28PM - Missing argument 2 for Controllers\EventsController::getSourceText(), called in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 163 and defined in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php on line 597</p>

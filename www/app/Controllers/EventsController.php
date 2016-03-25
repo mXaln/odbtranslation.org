@@ -113,70 +113,28 @@ class EventsController extends Controller
                     {
                         if($_POST["confirm_step"])
                         {
-                            $this->_model->updateTranslator(array("step" => EventSteps::DISCUSS), array("trID" => $data["event"][0]->trID));
-                            Url::redirect('events/translator/'.$data["event"][0]->eventID);
-                            exit;
-                        }
-                    }
-
-                    $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
-                    $source = CacheManager::get($cache_keyword);
-
-                    if(is_null($source))
-                    {
-                        $source = $this->_model->getSourceBookFromApi($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->bookProject);
-                        $json = json_decode($source, true);
-
-                        if(!empty($json))
-                            CacheManager::set($cache_keyword, $source, 60*60*24*7);
-                    }
-                    else
-                    {
-                        $json = json_decode($source, true);
-                    }
-
-                    if(!empty($json))
-                    {
-                        $currentChapter = 0;
-                        $currentChunk = "";
-                        $currentChapterText = "";
-                        //$currentChunkText = "";
-
-                        if($data["event"][0]->currentChunk == "")
-                        {
-                            foreach (json_decode($data["event"][0]->chapters, true) as $item) {
-                                if($currentChunk = array_search($data["event"][0]->trID, $item))
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            $currentChunk = $data["event"][0]->currentChunk;
-                        }
-
-                        $split = explode("-", $currentChunk);
-                        $currentChapter = (integer)$split[0];
-
-                        foreach ($json["chapters"][$currentChapter - 1]["frames"] as $frame) {
-                            $currentChapterText .= $frame["text"];
-                        }
-
-                        /*foreach ($json["chapters"][$currentChapter - 1]["frames"] as $frame) {
-                            if($frame["id"] == $currentChunk)
+                            if($data["event"][0]->cotrStep != EventSteps::PRAY)
                             {
-                                $currentChunkText = $frame["text"];
-                                break;
+                                $this->_model->updateTranslator(array("step" => EventSteps::DISCUSS, "currentChunk" => Session::get("currentChunk")), array("trID" => $data["event"][0]->trID));
+                                Url::redirect('events/translator/'.$data["event"][0]->eventID);
+                                exit;
                             }
-                        }*/
+                            else
+                            {
+                                $error[] = $this->language->get("cotranslator_not_ready_error");
+                            }
+                        }
+                    }
 
-                        $currentChapterText = preg_replace("/<\/?para.*>/", "", $currentChapterText);
-                        $currentChapterText = preg_replace("/<verse\D+(\d+)\D+>/", '<strong><sup>${1}</sup></strong> ', $currentChapterText);
+                    $sourceText = $this->getSourceText($data);
 
-                        $data["text"] = $currentChapterText;
+                    if(!array_key_exists("error", $sourceText))
+                    {
+                        $data = $sourceText;
                     }
                     else
                     {
-                        $error[] = $this->language->get("no_source_error");
+                        $error[] = $sourceText["error"];
                     }
 
                     View::renderTemplate('header', $data);
@@ -190,15 +148,70 @@ class EventsController extends Controller
                     {
                         if($_POST["confirm_step"])
                         {
-                            $this->_model->updateTranslator(array("step" => EventSteps::DISCUSS), array("trID" => $data["event"][0]->trID));
-                            Url::redirect('events/translator/'.$data["event"][0]->eventID);
-                            exit;
+                            if($data["event"][0]->cotrStep != EventSteps::CONSUME) {
+                                $this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
+                                Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                exit;
+                            }
+                            else
+                            {
+                                $error[] = $this->language->get("cotranslator_not_ready_error");
+                            }
                         }
+                    }
+
+                    $sourceText = $this->getSourceText($data);
+
+                    if(!array_key_exists("error", $sourceText))
+                    {
+                        $data = $sourceText;
+                    }
+                    else
+                    {
+                        $error[] = $sourceText["error"];
                     }
 
                     View::renderTemplate('header', $data);
                     View::render('events/translator', $data, $error);
                     View::render('events/discuss', $data, $error);
+                    break;
+
+                case EventSteps::CHUNKING:
+
+                    if(isset($_POST) && !empty($_POST))
+                    {
+                        if($_POST["confirm_step"])
+                        {
+                            if($data["event"][0]->cotrStep != EventSteps::DISCUSS) {
+                                $nextStep = EventSteps::BLIND_DRAFT;
+                                if($data["event"][0]->gwLang == $data["event"][0]->targetLang)
+                                    $nextStep = EventSteps::SELF_CHECK;
+
+                                $this->_model->updateTranslator(array("step" => $nextStep), array("trID" => $data["event"][0]->trID));
+                                Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                exit;
+                            }
+                            else
+                            {
+                                $error[] = $this->language->get("cotranslator_not_ready_error");
+                            }
+                        }
+                    }
+
+                    $sourceText = $this->getSourceText($data, true);
+
+                    if(!array_key_exists("error", $sourceText))
+                    {
+                        $data = $sourceText;
+                    }
+                    else
+                    {
+                        $error[] = $sourceText["error"];
+                    }
+
+                    View::renderTemplate('header', $data);
+                    View::render('events/translator', $data, $error);
+                    View::render('events/chunking', $data, $error);
                     break;
             }
         }
@@ -572,6 +585,94 @@ class EventsController extends Controller
         else
         {
             return $arr;
+        }
+    }
+
+    /**
+     * Get source of current chapter or chunk
+     * @param array $data
+     * @param bool $getChunk
+     * @return array
+     */
+    private function getSourceText($data, $getChunk = false)
+    {
+        $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
+        $source = CacheManager::get($cache_keyword);
+
+        if(is_null($source))
+        {
+            $source = $this->_model->getSourceBookFromApi($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->bookProject);
+            $json = json_decode($source, true);
+
+            if(!empty($json))
+                CacheManager::set($cache_keyword, $source, 60*60*24*7);
+        }
+        else
+        {
+            $json = json_decode($source, true);
+        }
+
+        if(!empty($json))
+        {
+            $currentChunk = "";
+            $currentChapterText = "";
+            $totalVerses = 0;
+            $currentChunkText = "";
+
+            if($data["event"][0]->currentChunk == "")
+            {
+                foreach (json_decode($data["event"][0]->chapters, true) as $item) {
+                    if($currentChunk = array_search($data["event"][0]->trID, $item))
+                        break;
+                }
+            }
+            else
+            {
+                $currentChunk = $data["event"][0]->currentChunk;
+            }
+
+            Session::set("currentChunk", $currentChunk);
+
+            $split = explode("-", $currentChunk);
+            $currentChapter = (integer)$split[0];
+
+            if(!$getChunk)
+            {
+                foreach ($json["chapters"][$currentChapter - 1]["frames"] as $frame) {
+                    $currentChapterText .= $frame["text"];
+                }
+
+                $data["text"] = $currentChapterText;
+            }
+            else
+            {
+                foreach ($json["chapters"][$currentChapter - 1]["frames"] as $frame) {
+                    if($frame["id"] == $currentChunk)
+                    {
+                        $currentChunkText = $frame["text"];
+                        break;
+                    }
+                }
+
+                $matches = array();
+                preg_match_all("/<verse\D+(\d+)\D+>/", $currentChunkText, $matches);
+
+                $data["totalVerses"] = $matches[1][0]."-".$matches[1][sizeof($matches[1])-1];
+
+                $data["text"] = $currentChunkText;
+            }
+
+            $data["text"] = preg_replace("/<\/?para.*>/", "", $data["text"]);
+            $data["text"] = preg_replace("/<verse\D+(\d+)\D+>/", '<br><strong><sup>${1}</sup></strong> ', $data["text"], -1, $totalVerses);
+
+            $data["currentChapter"] = $currentChapter;
+            $data["totalVerses"] = !$getChunk ? "1-".$totalVerses : $data["totalVerses"];
+
+            return $data;
+        }
+        else
+        {
+            return array("error" => $this->language->get("no_source_error"));
         }
     }
 }

@@ -1,6 +1,10 @@
+<?php
+use \Core\Language;
+?>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title">Prayer and focus</div>
+        <div class="main_content_title"><?php echo Language::show("prayer_focus", "Events")?></div>
     </div>
 
     <div class="row">
