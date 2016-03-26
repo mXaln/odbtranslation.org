@@ -31,8 +31,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 1:</span> Prayer</div>
-                <div class="help_descr_steps">Description about prayer</div>
+                <div class="help_name_steps"><span>Step 1:</span> <?php echo Language::show("prayer_focus", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("prayer_focus_desc", "Events")?></div>
             </div>
         </div>
     </div>

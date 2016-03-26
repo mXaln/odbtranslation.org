@@ -5,45 +5,7 @@ use \Core\Language;
 
 echo \Core\Error::display($error);
 
-/*$arr = array(
-    array(
-        "01-01" => 44,
-        "01-04" => 44,
-        "01-07" => 35,
-        "01-11" => 35,
-        "01-15" => 35
-    ),
-    array(
-        "02-01" => 44,
-        "02-07" => 44,
-        "02-09" => 35,
-        "02-13" => 35
-    ),
-    array(
-        "03-01" => 56,
-        "03-04" => 56,
-        "03-07" => 57,
-        "03-11" => 57,
-        "03-15" => 57
-    ),
-);
-
-\Helpers\Data::pr($arr);
-
-foreach ($arr as $chap => $chunks) {
-    echo (in_array(35, $chunks) ? "chapter: " . ($chap+1)."<br>" : "");
-    foreach ($chunks as $chunk => $translator) {
-        if($translator == 35)
-            echo "\t Chunk: " . $chunk."<br>";
-    }
-    echo "<br><br>";
-}
-*/
-
-//echo (integer)preg_replace("/\d+-/", "", "11-03")."<br>";
-
-
-if(!empty($data["event"])):
+if(!empty($data["event"]) && !isset($data["error"])):
 ?>
 
 <div id="translator_steps" class="open <?php echo $data["event"][0]->step ?>">

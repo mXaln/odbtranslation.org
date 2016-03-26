@@ -178,8 +178,8 @@ class EventsModel extends Model
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, ".PREFIX."translators.step, "
                 .PREFIX."translators.currentChunk, cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, " : "")
-            .PREFIX."events.eventID, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
-            .PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
+            .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
+            .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
         $mainTable = "";
 
@@ -488,6 +488,13 @@ class EventsModel extends Model
         {
             return "[Member update error]";
         }
+    }
+
+
+    public function createTranslation($data)
+    {
+        $this->db->insert(PREFIX."translations",$data);
+        return $this->db->lastInsertId('tID');
     }
 
     /**

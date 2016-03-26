@@ -160,4 +160,8 @@ $(function () {
 
         e.preventDefault();
     });
+
+    $(".verse").each(function(index) {
+        $(this).next().css("height", $(this).css("height"));
+    });
 });

@@ -15,7 +15,9 @@ use \Core\Language;
                     .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                     .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
 
-                <?php echo $data["text"] ?>
+                <?php for($i=1; $i <= sizeof($data["text"]); $i++): ?>
+                    <p><?php echo $data["text"][$i]; ?></p>
+                <?php endfor; ?>
             </div>
 
             <?php //if(empty($error)):?>
@@ -38,8 +40,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 1:</span> Consume</div>
-                <div class="help_descr_steps">Description about consume</div>
+                <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show("reading_text", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("reading_text_desc", "Events")?></div>
             </div>
         </div>
     </div>

@@ -462,6 +462,10 @@
     opacity: 1 !important;
 }
 
+.content_help {
+
+}
+
 .help_info_steps {
     padding: 10px;
     background-color: #d6e8f3;
@@ -502,6 +506,11 @@
     margin-top: 20px;
 }
 
+.main_content_text {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000000;
+}
+
 #translator_contents {
     position: relative;
 }
@@ -530,3 +539,14 @@
 .peer-review {background-color: #4596cc;}
 .keyword_check {background-color: #4596cc;}
 .content-review {background-color: #4596cc;}
+
+.chunk_verse {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.blind_ta {
+    margin: 10px;
+    width: 700px;
+    height: 250px;
+}
