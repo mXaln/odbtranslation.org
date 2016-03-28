@@ -177,7 +177,8 @@ class EventsModel extends Model
     {
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, ".PREFIX."translators.step, "
-                .PREFIX."translators.currentChunk, cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, " : "")
+                .PREFIX."translators.currentChunk, "
+                ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
@@ -344,6 +345,11 @@ class EventsModel extends Model
         return $source;
     }
 
+    public function getTranslation($trID)
+    {
+        return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE trID = :trID", array(":trID" => $trID));
+    }
+
     /**
      * Create gateway project
      * @param array $data
@@ -490,11 +496,26 @@ class EventsModel extends Model
         }
     }
 
-
+    /**
+     * Create translation record
+     * @param array $data
+     * @return string
+     */
     public function createTranslation($data)
     {
         $this->db->insert(PREFIX."translations",$data);
         return $this->db->lastInsertId('tID');
+    }
+
+
+    /** Update translation
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateTranslation($data, $where)
+    {
+        return $this->db->update(PREFIX."translations", $data, $where);
     }
 
     /**

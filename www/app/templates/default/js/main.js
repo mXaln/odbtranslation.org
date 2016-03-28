@@ -164,4 +164,6 @@ $(function () {
     $(".verse").each(function(index) {
         $(this).next().css("height", $(this).css("height"));
     });
+
+    $("textarea").elastic();
 });

@@ -17,6 +17,6 @@ class EventSteps
     const BLIND_DRAFT           = "blind-draft";
     const SELF_CHECK            = "self-check";
     const PEER_REVIEW           = "peer-review";
-    const KEYWORD_CHECK         = "keyword_check";
+    const KEYWORD_CHECK         = "keyword-check";
     const CONTENT_REVIEW        = "content-review";
 }

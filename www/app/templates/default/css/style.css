@@ -447,15 +447,17 @@
 }
 
 .steps_list li {
-    margin: 30px 0 0 0;
+    margin: 20px 0 0 0;
     list-style: none;
     font-size: 18px;
     color: #fff;
-
+    height: 40px;
+    padding-top: 3px;
 }
 
 .steps_list li span {
     opacity: 0.3;
+    padding-left: 40px;
 }
 
 .steps_list li.active span {
@@ -511,6 +513,11 @@
     border-bottom: 1px solid #000000;
 }
 
+.cotr_main_content {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
 #translator_contents {
     position: relative;
 }
@@ -531,14 +538,80 @@
 }
 
 .pray {background-color: #4596cc;}
+.pray-step {
+    background: url("/app/templates/default/img/steps/Prayer-and-focus-inactive.png");
+    background-repeat:no-repeat;
+    background-position:0 0;
+}
+.pray-step.active {
+    background: url("/app/templates/default/img/steps/Prayer-and-focus-active.png") no-repeat;
+    background-repeat:no-repeat;
+    background-position:0 0;
+}
+
 .consume {background-color: #4596cc;}
+.consume-step {
+    background: url("/app/templates/default/img/steps/Consume-source-inactive.png") no-repeat;
+}
+.consume-step.active {
+    background: url("/app/templates/default/img/steps/Consume-source-active.png") no-repeat;
+}
+
 .discuss {background-color: #886cb3;}
+.discuss-step {
+    background: url("/app/templates/default/img/steps/Verbalize-text-inactive.png") no-repeat;
+}
+.discuss-step.active {
+    background: url("/app/templates/default/img/steps/Verbalize-text-active.png") no-repeat;
+}
+
 .chunking {background-color: #4596cc;}
+.chunking-step {
+    background: url("/app/templates/default/img/steps/Chunking-the-text-inactive.png") no-repeat;
+}
+.chunking-step.active {
+    background: url("/app/templates/default/img/steps/Chunking-the-text-active.png") no-repeat;
+}
+
 .blind-draft {background-color: #4596cc;}
+.blind-draft-step {
+    background: url("/app/templates/default/img/steps/Blind-drafting-inactive.png") no-repeat;
+}
+.blind-draft-step.active {
+    background: url("/app/templates/default/img/steps/Blind-drafting-active.png") no-repeat;
+}
+
 .self-check {background-color: #4596cc;}
+.self-check-step {
+    background: url("/app/templates/default/img/steps/Self-edit-inactive.png") no-repeat;
+}
+.self-check-step.active {
+    background: url("/app/templates/default/img/steps/Self-edit-active.png") no-repeat;
+}
+
 .peer-review {background-color: #4596cc;}
-.keyword_check {background-color: #4596cc;}
+.peer-review-step {
+    background: url("/app/templates/default/img/steps/Peer-edit-inactive.png") no-repeat;
+}
+.peer-review-step.active {
+    background: url("/app/templates/default/img/steps/Peer-edit-active.png") no-repeat;
+}
+
+.keyword-check {background-color: #4596cc;}
+.keyword-check-step {
+    background: url("/app/templates/default/img/steps/Keyword-check-inactive.png") no-repeat;
+}
+.keyword-check-step.active {
+    background: url("/app/templates/default/img/steps/Keyword-check-active.png") no-repeat;
+}
+
 .content-review {background-color: #4596cc;}
+.content-review-step {
+    background: url("/app/templates/default/img/steps/Church-check-inactive.png") no-repeat;
+}
+.content-review-step.active {
+    background: url("/app/templates/default/img/steps/Church-check-active.png") no-repeat;
+}
 
 .chunk_verse {
     border-bottom: 1px solid #ccc;
@@ -546,7 +619,44 @@
 }
 
 .blind_ta {
-    margin: 10px;
-    width: 700px;
-    height: 250px;
+    resize: none;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.readonly {
+    background-image: -webkit-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
+    background-image: -moz-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
+    background-image: -ms-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
+    background-image: -o-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
+    background-image: linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
+}
+
+.verse_ta {
+    resize: none;
+    margin-bottom: 10px;
+    width: 49%;
+}
+
+.peer_verse_ta {
+    resize: none;
+    margin-bottom: 10px;
+}
+
+textarea {
+    background-image: -webkit-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-image: -moz-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-image: -ms-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-image: -o-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-image: linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-size: 100% 31px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 31px;
+    padding: 8px;
+}
+
+.verse {
+    line-height: 31px;
+    width: 49%;
 }

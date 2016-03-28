@@ -284,7 +284,6 @@ class AdminController extends Controller {
             $response = array();
 
             $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("userName"), $langs->langID);
-            $response['books'] = $this->_model->getBooks($sourceLangID, $bookProject);
             echo json_encode($response);
         }
     }

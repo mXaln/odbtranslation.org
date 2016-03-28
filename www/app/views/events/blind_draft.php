@@ -1,5 +1,6 @@
 <?php
 use \Core\Language;
+use \Helpers\Session;
 ?>
 
 <div id="translator_contents" class="row panel-body">
@@ -19,7 +20,9 @@ use \Core\Language;
                     </div>
 
                     <div class="row">
-                        <textarea name="draft" class="col-sm-6 blind_ta"></textarea>
+                        <div class="col-sm-12">
+                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta"><?php echo $_POST["draft"]?></textarea>
+                        </div>
                     </div>
                 </div>
 

@@ -215,6 +215,8 @@ class EventsController extends Controller
                                             ),
                                         );
 
+                                        $chunkVerses = json_decode(Session::get("chunk_verses"));
+
                                         $trData = array(
                                             "projectID"         => $data["event"][0]->projectID,
                                             "eventID"           => $data["event"][0]->eventID,
@@ -225,7 +227,7 @@ class EventsController extends Controller
                                             "bookCode"          => $data["event"][0]->bookCode,
                                             "chapter"           => (integer)preg_replace("/-\d+/", "", Session::get("currentChunk")),
                                             "chunk"             => $data["event"][0]->currentChunk,
-                                            "firstvs"           => 0,
+                                            "firstvs"           => $chunkVerses[0],
                                             "translatedVerses"  => json_encode($translation)
                                         );
 
@@ -265,6 +267,24 @@ class EventsController extends Controller
 
                     case EventSteps::SELF_CHECK:
 
+                        // Get blind draft text
+                        $blindDraftText = "";
+                        $data["blindDraftText"] = "";
+                        if ($data["event"][0]->gwLang != $data["event"][0]->targetLang)
+                        {
+                            $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+
+                            if(!empty($translationData))
+                            {
+                                $translationVerses = json_decode($translationData[0]->translatedVerses, true);
+                                if(is_array($translationVerses) && !empty($translationVerses))
+                                {
+                                    $blindDraftText = $translationVerses["translator"]["blind"];
+                                    $data["blindDraftText"] = $blindDraftText;
+                                }
+                            }
+                        }
+
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
@@ -284,13 +304,14 @@ class EventsController extends Controller
                                         $prevStep = EventSteps::CHUNKING;
 
                                     if ($data["event"][0]->cotrStep != $prevStep) {
+                                        $chunkVerses = json_decode(Session::get("chunk_verses"));
                                         $verses = array_map("trim", $_POST["verses"]);
-                                        $verses = array_combine(json_decode(Session::get("chunk_verses")), $verses);
-                                        $comments = array_combine(json_decode(Session::get("chunk_verses")), $_POST["comments"]);
+                                        $verses = array_combine($chunkVerses, $verses);
+                                        $comments = array_combine($chunkVerses, $_POST["comments"]);
 
                                         $translation = array(
                                             EventMembers::TRANSLATOR => array(
-                                                "blind" => "",
+                                                "blind" => $blindDraftText,
                                                 "verses" => $verses,
                                                 "comments" => $comments
                                             ),
@@ -304,21 +325,36 @@ class EventsController extends Controller
                                             ),
                                         );
 
-                                        $trData = array(
-                                            "projectID"         => $data["event"][0]->projectID,
-                                            "eventID"           => $data["event"][0]->eventID,
-                                            "trID"              => $data["event"][0]->trID,
-                                            "targetLang"        => $data["event"][0]->targetLang,
-                                            "bookProject"       => $data["event"][0]->bookProject,
-                                            "abbrID"            => $data["event"][0]->abbrID,
-                                            "bookCode"          => $data["event"][0]->bookCode,
-                                            "chapter"           => (integer)preg_replace("/-\d+/", "", Session::get("currentChunk")),
-                                            "chunk"             => $data["event"][0]->currentChunk,
-                                            "firstvs"           => array_keys($verses)[0],
-                                            "translatedVerses"  => json_encode($translation)
-                                        );
+                                        $tID = null;
 
-                                        if($this->_model->createTranslation($trData))
+                                        if($data["event"][0]->gwLang == $data["event"][0]->targetLang)
+                                        {
+                                            $trData = array(
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => (integer)preg_replace("/-\d+/", "", Session::get("currentChunk")),
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => $chunkVerses[0],
+                                                "translatedVerses"  => json_encode($translation)
+                                            );
+
+                                            $tID = $this->_model->createTranslation($trData);
+                                        }
+                                        else
+                                        {
+                                            $trData = array(
+                                                "translatedVerses"  => json_encode($translation)
+                                            );
+
+                                            $tID = $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID));
+                                        }
+
+                                        if($tID)
                                         {
                                             $this->_model->updateTranslator(array("step" => EventSteps::PEER_REVIEW), array("trID" => $data["event"][0]->trID));
                                             Url::redirect('events/translator/' . $data["event"][0]->eventID);
@@ -350,22 +386,75 @@ class EventsController extends Controller
 
                     case EventSteps::PEER_REVIEW:
 
+                        $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+
                         if (isset($_POST) && !empty($_POST)) {
+                            $_POST = Gump::xss_clean($_POST);
+
                             if ($_POST["confirm_step"]) {
-                                if ($data["event"][0]->cotrStep != EventSteps::SELF_CHECK) {
-                                    //$this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
-                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                    exit;
-                                } else {
-                                    $error[] = $this->language->get("cotranslator_not_ready_error");
+                                foreach ($_POST["verses"] as $verse) {
+                                    if(trim($verse) == "")
+                                    {
+                                        $error[] = $this->language->get("empty_verses_error");
+                                        break;
+                                    }
+                                }
+
+                                if(!isset($error))
+                                {
+                                    if ($data["event"][0]->cotrStep != EventSteps::SELF_CHECK) {
+                                        $verses = array_map("trim", $_POST["verses"]);
+                                        $comments = array_map("trim", $_POST["comments"]);
+
+                                        if(!empty($translationData))
+                                        {
+                                            $translationVerses = json_decode($translationData[0]->translatedVerses, true);
+                                            if(is_array($translationVerses) && !empty($translationVerses))
+                                            {
+                                                $i=0;
+                                                foreach($translationVerses["translator"]["verses"] as $verse => $text)
+                                                {
+                                                    $translationVerses["translator"]["verses"][$verse] = $verses[$i];
+                                                    $translationVerses["translator"]["comments"][$verse] = $comments[$i];
+                                                    $i++;
+                                                }
+                                            }
+                                        }
+
+                                        $trData = array(
+                                            "translatedVerses"  => json_encode($translationVerses)
+                                        );
+
+                                        if($this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID)))
+                                        {
+                                            //$this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
+                                            Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                            exit;
+                                        }
+                                        else
+                                        {
+                                            $error[] = $this->language->get("translation_not_created_error");
+                                        }
+                                    } else {
+                                        $error[] = $this->language->get("cotranslator_not_ready_error");
+                                    }
                                 }
                             }
                         }
 
                         $sourceText = $this->getSourceText($data, true);
+                        $cotrSourceText = $this->getSourceText($data, true, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
+                            $data["cotrData"] = $cotrSourceText;
+
+                            $translation = json_decode($translationData[0]->translatedVerses, true);
+                            $data["translation"] = $translation;
+
+                            $coTranslationTemp = $this->_model->getTranslation($data["event"][0]->cotrID);
+                            $coTranslation = (array)json_decode($coTranslationTemp[0]->translatedVerses, true);
+                            $data["cotrData"]["translation"] = $coTranslation;
                         } else {
                             $error[] = $sourceText["error"];
                         }
@@ -757,8 +846,11 @@ class EventsController extends Controller
      * @param bool $getChunk
      * @return array
      */
-    private function getSourceText($data, $getChunk = false)
+    private function getSourceText($data, $getChunk = false, $isCoTranslator = false)
     {
+        $eventCurrentChunk = !$isCoTranslator ? $data["event"][0]->currentChunk : $data["event"][0]->cotrCurrentChunk;
+        $eventTrID = !$isCoTranslator ? $data["event"][0]->trID : $data["event"][0]->cotrID;
+
         $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
         $source = CacheManager::get($cache_keyword);
 
@@ -782,19 +874,20 @@ class EventsController extends Controller
             $totalVerses = 0;
             $currentChunkText = "";
 
-            if($data["event"][0]->currentChunk == "")
+            if($eventCurrentChunk == "")
             {
                 foreach (json_decode($data["event"][0]->chapters, true) as $item) {
-                    if($currentChunk = array_search($data["event"][0]->trID, $item))
+                    if($currentChunk = array_search($eventTrID, $item))
                         break;
                 }
             }
             else
             {
-                $currentChunk = $data["event"][0]->currentChunk;
+                $currentChunk = $eventCurrentChunk;
             }
 
-            Session::set("currentChunk", $currentChunk);
+            if(!$isCoTranslator)
+                Session::set("currentChunk", $currentChunk);
 
             $split = explode("-", $currentChunk);
             $currentChapter = (integer)$split[0];
@@ -820,7 +913,9 @@ class EventsController extends Controller
                 $matches = array();
                 preg_match_all("/<verse\D+(\d+)\D+>/", $currentChunkText, $matches);
                 $data["totalVerses"] = $matches[1][0]."-".$matches[1][sizeof($matches[1])-1];
-                Session::set("chunk_verses", json_encode($matches[1]));
+
+                if(!$isCoTranslator)
+                    Session::set("chunk_verses", json_encode($matches[1]));
 
                 $data["text"] = $currentChunkText;
             }

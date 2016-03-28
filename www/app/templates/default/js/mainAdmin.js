@@ -107,11 +107,9 @@ $(function () {
 
     $("#subGwLangs").change(function() {
         var tlOptions = "<option>-- Choose Target Language --</option>";
-        var bookOptions = "<option>-- Choose a Book --</option>";
 
         if($(this).val() == "") {
             $("#targetLangs").html(tlOptions);
-            $("#books").html(bookOptions);
             return;
         }
 
@@ -129,15 +127,6 @@ $(function () {
                     tlOptions += '<option value="'+ v.langID+'">'+ v.langName+'</option>';
                 });
                 $("#targetLangs").html(tlOptions);
-
-                bookOptions += "<optgroup label='Old Testament'>";
-
-                $.each(data.books, function (i, v) {
-                    bookOptions += '<option value="'+ v.bID+'">'+ v.name+'</option>';
-                    bookOptions += i==38 ? "</optgroup><optgroup label='New Testament'>" : "";
-                });
-                bookOptions += "</optgroup>";
-                $("#books").html(bookOptions);
             })
             .always(function() {
                 $(".subGwLoader").hide();
@@ -146,7 +135,6 @@ $(function () {
 
     // Submit project form
     $("#project").submit(function(e) {
-
         $.ajax({
                 url: $("#project").prop("action"),
                 method: "post",

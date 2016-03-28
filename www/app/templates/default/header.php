@@ -39,7 +39,8 @@ $hooks = Hooks::get();
 	Assets::js(array(
 		Url::templatePath() . 'js/jquery.js',
 		Url::templatePath() . 'js/main.js',
-		Url::templatePath() . 'js/bootstrap.min.js'
+		Url::templatePath() . 'js/bootstrap.min.js',
+		Url::templatePath() . 'js/jquery.elastic.source.js'
 	));
 
 	//hook for plugging in javascript

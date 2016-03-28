@@ -9,27 +9,64 @@ use \Core\Language;
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <div class="main_content_text">
-                <h4><?php echo $data["event"][0]->sLang." - "
-                        .Language::show($data["event"][0]->bookProject, "Events")." - "
-                        .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                        .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+            <form action="" method="post">
+                <div class="main_content_text row">
+                    <h4><?php echo $data["event"][0]->sLang." - "
+                            .Language::show($data["event"][0]->bookProject, "Events")." - "
+                            .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
+                            .$data["event"][0]->name." ".$data["cotrData"]["currentChapter"].":".$data["cotrData"]["totalVerses"]?></h4>
 
-                <?php for($i=1; $i <= sizeof($data["text"]); $i++): ?>
-                    <p><?php echo $data["text"][$i]; ?></p>
-                <?php endfor; ?>
-            </div>
+                    <div class="cotr_main_content row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6"><h3>Source</h3></div>
+                                <div class="col-sm-6"><h3>Translation</h3></div>
+                            </div>
+                            <?php $i=1; foreach($data["cotrData"]["translation"]["translator"]["verses"] as $verse => $text): ?>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p><?php echo $data["cotrData"]["text"][$i]; ?></p>
+                                    </div>
 
-            <div class="main_content_footer row">
-                <form action="" method="post">
+                                    <div class="col-sm-6">
+                                        <p>
+                                            <strong><sup><?php echo $verse; ?></sup></strong>
+                                            <?php echo $text; ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php $i++; endforeach; ?>
+                        </div>
+                    </div>
+
+                    <br><br>
+
+                    <div class="row">
+                        <h4><?php echo $data["event"][0]->sLang." - "
+                                .Language::show($data["event"][0]->bookProject, "Events")." - "
+                                .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
+                                .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+
+                        <div class="col-sm-12">
+                            <?php foreach($data["translation"]["translator"]["verses"] as $verse => $text): ?>
+                                <div class="row chunk_verse">
+                                    <textarea name="verses[]" class="col-sm-12 peer_verse_ta"><?php echo $_POST["verses"][$i-1] != "" ? $_POST["verses"][$i-1] : $text ?></textarea>
+                                    <textarea style="display: none" name="comments[]" class="col-sm-6 comment_ta"></textarea>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main_content_footer row">
                     <div class="form-group">
                         <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
                         <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> Yes, I did</label>
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
 
         <div class="content_help col-sm-3">
