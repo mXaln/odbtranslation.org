@@ -119,6 +119,50 @@ $(function () {
         }
     });
 
+    // Show/Hide chat window
+    $("#chat_hide").click(function() {
+        if($("#chat_container").hasClass("open"))
+        {
+            $("#chat_container").removeClass("open")
+                .addClass("closed");
+            $("#chat_container").animate({right: "-610px"}, 500, function() {
+                $("#chat_hide").removeClass("glyphicon-remove")
+                    .addClass("glyphicon-chevron-left");
+            });
+        }
+        else
+        {
+            $("#chat_container").removeClass("closed")
+                .addClass("open");
+            $("#chat_container").animate({right: 0}, 500, function() {
+                $("#chat_hide").removeClass("glyphicon-chevron-left")
+                    .addClass("glyphicon-remove");
+            });
+        }
+    });
+
+    // Change chat room tabs
+    $(".chat_tab").click(function() {
+        var id = $(this).prop("id");
+
+        if(id == "p2p")
+        {
+            $(this).addClass("active");
+            $("#evnt").removeClass("active");
+            $("#chat_type").val("p2p");
+            $("#p2p_messages").show();
+            $("#evnt_messages").hide();
+        }
+        else
+        {
+            $(this).addClass("active");
+            $("#p2p").removeClass("active");
+            $("#chat_type").val("evnt");
+            $("#evnt_messages").show();
+            $("#p2p_messages").hide();
+        }
+    });
+
     // Confirm to go to the next step
     $("#confirm_step").change(function() {
         if($(this).is(":checked"))
@@ -166,4 +210,5 @@ $(function () {
     });
 
     $("textarea").elastic();
+    $("#chat_type").val("p2p");
 });

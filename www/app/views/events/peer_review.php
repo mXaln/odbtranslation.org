@@ -18,24 +18,30 @@ use \Core\Language;
 
                     <div class="cotr_main_content row">
                         <div class="col-sm-12">
+                            <?php if(!empty($data["cotrData"]["translation"])): ?>
                             <div class="row">
                                 <div class="col-sm-6"><h3>Source</h3></div>
                                 <div class="col-sm-6"><h3>Translation</h3></div>
                             </div>
                             <?php $i=1; foreach($data["cotrData"]["translation"]["translator"]["verses"] as $verse => $text): ?>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p><?php echo $data["cotrData"]["text"][$i]; ?></p>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <p>
-                                            <strong><sup><?php echo $verse; ?></sup></strong>
-                                            <?php echo $text; ?>
-                                        </p>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p><?php echo $data["cotrData"]["text"][$i]; ?></p>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <p>
+                                        <strong><sup><?php echo $verse; ?></sup></strong>
+                                        <?php echo $text; ?>
+                                    </p>
+                                </div>
+                            </div>
                             <?php $i++; endforeach; ?>
+                            <?php else: ?>
+                            <div class="row">
+                                <div class="col-sm-12" style="color: #ff0000;">Your co-translator is not ready for this step. Please wait.</div>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -48,12 +54,13 @@ use \Core\Language;
                                 .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
 
                         <div class="col-sm-12">
-                            <?php foreach($data["translation"]["translator"]["verses"] as $verse => $text): ?>
+                            <?php $i=1; foreach($data["translation"]["translator"]["verses"] as $verse => $text): ?>
                                 <div class="row chunk_verse">
-                                    <textarea name="verses[]" class="col-sm-12 peer_verse_ta"><?php echo $_POST["verses"][$i-1] != "" ? $_POST["verses"][$i-1] : $text ?></textarea>
+                                    <p class="col-sm-6 verse"><?php echo $data["text"][$i]; ?></p>
+                                    <textarea name="verses[]" class="col-sm-6 peer_verse_ta"><?php echo $_POST["verses"][$i-1] != "" ? $_POST["verses"][$i-1] : $text ?></textarea>
                                     <textarea style="display: none" name="comments[]" class="col-sm-6 comment_ta"></textarea>
                                 </div>
-                            <?php endforeach; ?>
+                            <?php $i++; endforeach; ?>
                         </div>
                     </div>
                 </div>

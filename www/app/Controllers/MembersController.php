@@ -473,36 +473,44 @@ class MembersController extends Controller
      * @param $memberID
      * @param $authToken
      */
-    public function rpcAuth($memberID, $tID, $authToken) {
+    public function rpcAuth($memberID, $eventID, $authToken) {
 
-        $translationModel = new \Models\TranslationsModel();
+        $eventsModel = new \Models\EventsModel();
 
-        $translation = $translationModel->getTranslation('memberID,bID', array(
-            'tID' => array('=', $tID)));
+        $event = $eventsModel->getEventMember($eventID, $memberID);
 
-        if(!empty($translation))
+        if(!empty($event) && ($event[0]->translators != null || $event[0]->checkers_l2 != null || $event[0]->checkers_l3 != null))
         {
-            $member = $this->_model->getMember('memberID,firstName,lastName,userType,verified', array(
+            $member = $this->_model->getMember('memberID,userName,firstName,lastName,userType,verified', array(
                 'memberID' => array("=", $memberID),
                 'authToken' => array("=", $authToken)
             ));
 
             if(!empty($member))
             {
-                $member[0]->bID = $translation[0]->bID;
+                $member[0]->cotrMemberID = $event[0]->cotrMemberID;
+                echo json_encode($member[0]);
 
-                if($member[0]->userType == 'checker' || $member[0]->userType == 'both')
+                /*if($member[0]->userType == 'checker' || $member[0]->userType == 'both')
                 {
                     echo json_encode($member[0]);
                 }
                 else
                 {
-                    if($translation[0]->memberID == $memberID)
+                    if($event[0]->memberID == $memberID)
                     {
                         echo json_encode($member[0]);
                     }
-                }
+                }*/
             }
+            else
+            {
+                echo json_encode(array());
+            }
+        }
+        else
+        {
+            echo json_encode(array());
         }
     }
 

@@ -25,18 +25,17 @@ var Member = function() {
 	var lastName;
 	var userType;
 	var authToken;
-	var tID; // Translation ID
+	var events;
 
 	// Define which variables and methods can be accessed
 	return {
 		memberID: memberID,
 		userName: userName,
-		firstName:firstName,
-		lastName:lastName,
-		lastName:userType,
-		userType: authToken,
-		tID: tID,
-		sockets: [],
+		firstName: firstName,
+		lastName: lastName,
+		userType: userType,
+		authToken: authToken,
+		events: [],
 	}
 };
 

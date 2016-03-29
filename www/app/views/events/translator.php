@@ -46,4 +46,45 @@ if(!empty($data["event"]) && !isset($data["error"])):
     </ul>
 </div>
 
+<script>
+    var memberID = <?php echo \Helpers\Session::get('memberID');?>;
+    var eventID = <?php echo $data["event"][0]->eventID; ?>;
+    var cotrID = <?php echo $data["event"][0]->cotrID; ?>;
+    var aT = '<?php echo \Helpers\Session::get('authToken');?>';
+</script>
+
+<div id="chat_container" class="open">
+    <div id="chat_hide" class="glyphicon glyphicon-remove"></div>
+
+    <div class="chat">
+        <div class="row chat_tabs">
+            <div id="p2p" class="col-sm-4 chat_tab active">Peer-to-Peer</div>
+            <div id="evnt" class="col-sm-4 chat_tab">Event</div>
+        </div>
+        <ul id="p2p_messages"></ul>
+        <ul id="evnt_messages"></ul>
+        <form action="" class="form-inline">
+            <div class="form-group">
+                <textarea id="m" class="form-control"></textarea>
+                <input type="hidden" id="chat_type" value="p2p" />
+            </div>
+        </form>
+    </div>
+
+    <div class="members_online panel panel-info">
+        <div class="panel-heading">Members Online</div>
+        <ul id="online" class="panel-body"></ul>
+    </div>
+
+    <div class="clear"></div>
+</div>
+
+<!-- Audio for missed chat messages -->
+<audio id="missedMsg">
+    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/missed.ogg" type="audio/ogg" />
+</audio>
+
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/chat.js"></script>
+
 <?php endif; ?>

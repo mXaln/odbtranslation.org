@@ -19,7 +19,8 @@ $(function () {
             if ($(this).val().trim() == "")
                 return false;
 
-            socket.emit('chat message', $(this).val());
+            var chatData = {chatType: $("#chat_type").val(), eventID: eventID, msg: $(this).val()};
+            socket.emit('chat message', chatData);
             $(this).blur().val('');
         }
     });
@@ -35,7 +36,7 @@ $(function () {
 
 function OnConnected()
 {
-    this.emit("new member", {memberID: memberID, tID: tID, aT: aT});
+    this.emit("new member", {memberID: memberID, eventID: eventID, aT: aT});
 }
 
 function OnChatMessage(data)
@@ -44,8 +45,20 @@ function OnChatMessage(data)
 
     data.msg = data.msg.replace(/\n/g,'<br/>');
 
-    var lastMsg = $(".message:last");
+    var messagesType;
+    var lastMsg;
     var msgName, msgClass, playMissed = false;
+
+    if(data.chatType == "p2p")
+    {
+        messagesType = $("#p2p_messages");
+        lastMsg = $("#p2p_messages .message:last");
+    }
+    else
+    {
+        messagesType = $("#evnt_messages");
+        lastMsg = $("#evnt_messages .message:last");
+    }
 
     if(data.member.memberID == memberID)
     {
@@ -70,7 +83,12 @@ function OnChatMessage(data)
             '<div class="msg_text">' + data.msg + '</div>' +
             '</li>';
 
-        $('#messages').append(newBlock);
+        messagesType.append(newBlock);
+    }
+
+    if(isActive)
+    {
+        isActive = messagesType.is(":visible");
     }
 
     if(playMissed && !isActive)
@@ -79,7 +97,10 @@ function OnChatMessage(data)
         missedMsg.play();
     }
 
-    $("#messages").animate({ scrollTop: $("#messages")[0].scrollHeight}, 200);
+    messagesType.animate({ scrollTop: messagesType[0].scrollHeight}, 200);
+
+    console.log(messagesType);
+
     $('#m').focus();
 }
 
@@ -90,6 +111,6 @@ function OnRoomUpdate(roomMates)
     for(var rm in roomMates)
     {
         if(roomMates[rm].memberID != memberID)
-            $("#online").append('<li>'+ roomMates[rm].firstName + ' ' + roomMates[rm].lastName + ' (' + roomMates[rm].userType + ') ' +'</li>');
+            $("#online").append('<li>'+ roomMates[rm].firstName + ' ' + roomMates[rm].lastName + ' (' + roomMates[rm].userName + ') ' +'</li>');
     }
 }

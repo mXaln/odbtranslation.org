@@ -153,13 +153,14 @@ class EventsModel extends Model
 
     public function getEventMember($eventID, $memberID)
     {
-        $sql = "SELECT vm_translators.memberID AS translators, ".
-            "vm_checkers_l2.memberID AS checkers_l2, vm_checkers_l3.memberID AS checkers_l3 ".
-            "FROM vm_events ".
-            "LEFT JOIN vm_translators ON vm_translators.eventID = vm_events.eventID AND vm_translators.memberID = :memberID ".
-            "LEFT JOIN vm_checkers_l2 ON vm_checkers_l2.eventID = vm_events.eventID AND vm_checkers_l2.memberID = :memberID ".
-            "LEFT JOIN vm_checkers_l3 ON vm_checkers_l3.eventID = vm_events.eventID AND vm_checkers_l3.memberID = :memberID ".
-            "WHERE vm_events.eventID = :eventID";
+        $sql = "SELECT cotrMember.memberID AS cotrMemberID, ".PREFIX."translators.memberID AS translators, "
+            .PREFIX."checkers_l2.memberID AS checkers_l2, ".PREFIX."checkers_l3.memberID AS checkers_l3 "
+            ."FROM vm_events "
+            ."LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID = ".PREFIX."events.eventID AND ".PREFIX."translators.memberID = :memberID "
+            ."LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID = ".PREFIX."events.eventID AND ".PREFIX."checkers_l2.memberID = :memberID "
+            ."LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID = ".PREFIX."events.eventID AND ".PREFIX."checkers_l3.memberID = :memberID "
+            ."LEFT JOIN ".PREFIX."translators AS cotrMember ON ".PREFIX."translators.pairID = cotrMember.trID "
+            ."WHERE ".PREFIX."events.eventID = :eventID";
 
         $prepare = array(":eventID" => $eventID, ":memberID" => $memberID);
 

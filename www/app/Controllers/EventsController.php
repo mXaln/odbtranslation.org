@@ -880,6 +880,7 @@ class EventsController extends Controller
                     if($currentChunk = array_search($eventTrID, $item))
                         break;
                 }
+                echo "currentChunk: " . $eventTrID;
             }
             else
             {
