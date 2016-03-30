@@ -6,6 +6,7 @@ $(function () {
     socket.on('connect', OnConnected);
     socket.on('chat message', OnChatMessage);
     socket.on('room update', OnRoomUpdate);
+    socket.on('system message', OnSystemMessage);
 
     $('#m').keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
@@ -41,7 +42,7 @@ function OnConnected()
 
 function OnChatMessage(data)
 {
-    console.log(data);
+    //console.log(data);
 
     data.msg = data.msg.replace(/\n/g,'<br/>');
 
@@ -99,9 +100,10 @@ function OnChatMessage(data)
 
     messagesType.animate({ scrollTop: messagesType[0].scrollHeight}, 200);
 
-    console.log(messagesType);
+    if(isActive)
+        $('#m').focus();
 
-    $('#m').focus();
+
 }
 
 function OnRoomUpdate(roomMates)
@@ -113,4 +115,64 @@ function OnRoomUpdate(roomMates)
         if(roomMates[rm].memberID != memberID)
             $("#online").append('<li>'+ roomMates[rm].firstName + ' ' + roomMates[rm].lastName + ' (' + roomMates[rm].userName + ') ' +'</li>');
     }
+}
+
+function OnSystemMessage(data)
+{
+    switch (data.type)
+    {
+        case "logout":
+            window.location = "/members/logout";
+            break;
+
+        case "prvtMsgs":
+            for(var i in data.msgs)
+            {
+                renderMessages(data.msgs[i], $("#p2p_messages"));
+            }
+
+            $("#p2p_messages").animate({ scrollTop: $("#p2p_messages")[0].scrollHeight}, 200);
+            break;
+
+        case "evntMsgs":
+            for(var i in data.msgs)
+            {
+                renderMessages(data.msgs[i], $("#evnt_messages"));
+            }
+
+            $("#evnt_messages").animate({ scrollTop: $("#evnt_messages")[0].scrollHeight}, 200);
+            break;
+    }
+}
+
+function renderMessages(data, messagesType)
+{
+    var msgName, msgClass, lastMsg;
+    var msgObj = JSON.parse(data);
+
+    lastMsg = $(".message:last", messagesType);
+
+    if(msgObj.member.memberID == memberID)
+    {
+        msgClass = 'msg_my';
+        msgName = 'You';
+    }
+    else
+    {
+        msgClass = 'msg_other';
+        msgName = msgObj.member.firstName + " " + msgObj.member.lastName;
+    }
+
+    if(lastMsg.attr("data") == msgObj.member.memberID)
+    {
+        lastMsg.append('<div class="msg_text">' + msgObj.msg + '</div>');
+    }
+    else {
+        var newBlock = '<li class="message ' + msgClass + '" data="' + msgObj.member.memberID + '">' +
+            '<div class="msg_name">' + msgName + '</div>' +
+            '<div class="msg_text">' + msgObj.msg + '</div>' +
+            '</li>';
+    }
+
+    messagesType.append(newBlock);
 }

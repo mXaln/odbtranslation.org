@@ -8,12 +8,14 @@
 var Event = function() {
     var eventID;
     var cotrMemberID;
+    var pairID;
     var sockets;
 
     // Define which variables and methods can be accessed
     return {
         eventID: eventID,
         cotrMemberID: cotrMemberID,
+        pairID: pairID,
         sockets: [],
     }
 };

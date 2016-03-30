@@ -1,6 +1,7 @@
 var app = require('express')(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
+    redis = require("redis"),
     util = require("util"),
     _ = require("underscore"),
     XMLHttpRequest = require("xmlhttprequest-ssl").XMLHttpRequest,
@@ -9,17 +10,22 @@ var app = require('express')(),
 
 var members = [];
 
+var clientRedis = redis.createClient();
+//var clientDatabase.subscribe("LSpB8W8MMJXtv2Nkk9uf");
+
+clientRedis.on("connect", function() {
+    //inspect(this);
+});
+
 io.on('connection', function(socket)
 {
     console.log('a user connected: %s', socket.id);
 
     socket.on('disconnect', function()
     {
-        console.log('user disconnected');
+        console.log('user disconnected: %s', this.id);
 
         var member = getMemberBySocketId(this.id);
-
-        util.log(this.id);
 
         if(member)
         {
@@ -27,10 +33,17 @@ io.on('connection', function(socket)
 
             for(var evnt in member.events)
             {
-                member.events[evnt].sockets.splice(member.events[evnt].sockets.indexOf(this.id), 1);
-                this.leave("room" + member.events[evnt].eventID);
+                var index = member.events[evnt].sockets.indexOf(this.id);
 
+                if(index == -1) {
+                    sktNum += member.events[evnt].sockets.length;
+                    continue;
+                }
+
+                member.events[evnt].sockets.splice(index, 1);
                 sktNum += member.events[evnt].sockets.length;
+
+                this.leave("room" + member.events[evnt].eventID);
 
                 // Delete event record if it is connected to no socket
                 if(member.events[evnt].sockets.length == 0)
@@ -62,13 +75,13 @@ io.on('connection', function(socket)
 
             if(!_.isEmpty(event))
             {
-                util.log("old event: " + sct.id);
-
                 event.sockets.push(sct.id);
                 sct.join("room" + event.eventID);
 
                 var roomMates = getMembersByRoomID(event.eventID);
                 io.to("room" + event.eventID).emit('room update', roomMates);
+
+                sendSavedMessages(sct, event);
             }
             else
             {
@@ -83,48 +96,62 @@ io.on('connection', function(socket)
 
     socket.on('chat message', function(chatData)
     {
-        util.log(chatData);
         if(chatData.msg.trim() == "")
             return false;
 
         var member = getMemberBySocketId(this.id);
 
-        util.log(this.id);
-
         if(member)
         {
+            var msgObj;
             var client = {
                 memberID: member.memberID,
                 userName: member.userName,
                 firstName: member.firstName,
                 lastName: member.lastName
             };
-
             var event = getMemberEvent(member, chatData.eventID);
-            util.log(event);
+
             if(!_.isEmpty(event))
             {
+                msgObj = {
+                    member : client,
+                    msg : _.escape(chatData.msg),
+                    chatType: "p2p"
+                };
+
                 if(chatData.chatType == "p2p")
                 {
                     var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
-                    var cotrEvent = getMemberEvent(coTranslator, event.eventID);
 
-                    for(var skt in cotrEvent.sockets)
+                    if(typeof coTranslator !== 'undefined')
                     {
-                        io.sockets.socket(cotrEvent.sockets[skt]).emit('chat message', {
-                            member : client,
-                            msg : _.escape(chatData.msg),
-                            chatType: "p2p"
-                        });
+                        var cotrEvent = getMemberEvent(coTranslator, event.eventID);
+
+                        if(!_.isEmpty(cotrEvent))
+                        {
+                            // Send message to co-translator
+                            for(var skt in cotrEvent.sockets)
+                            {
+                                io.to(cotrEvent.sockets[skt]).emit('chat message', msgObj);
+                            }
+                        }
                     }
+
+                    // Send message to translator himself
+                    for(var skt in event.sockets)
+                    {
+                        io.to(event.sockets[skt]).emit('chat message', msgObj);
+                    }
+
+                    clientRedis.ZADD("rooms:" + event.pairID, Date.now(), JSON.stringify(msgObj));
                 }
                 else
                 {
-                    io.to("room" + event.eventID).emit('chat message', {
-                        member : client,
-                        msg : _.escape(chatData.msg),
-                        chatType: "evnt"
-                    });
+                    msgObj.chatType = "evnt";
+                    io.to("room" + event.eventID).emit('chat message', msgObj);
+
+                    clientRedis.ZADD("rooms:event-" + event.eventID, Date.now(), JSON.stringify(msgObj));
                 }
             }
         }
@@ -154,6 +181,19 @@ function registerNewMemberEvent(data, sct, member)
 
                 if(!_.isEmpty(response))
                 {
+                    var pairID = "pair-"
+                        + data.eventID
+                        + "-"
+                        + (Math.min(response.memberID, response.cotrMemberID))
+                        + "-"
+                        + (Math.max(response.memberID, response.cotrMemberID));
+
+                    var newEvent = new Event();
+                    newEvent.eventID = data.eventID;
+                    newEvent.cotrMemberID = response.cotrMemberID;
+                    newEvent.pairID = pairID;
+                    newEvent.sockets.push(sct.id);
+
                     if(_.isEmpty(member))
                     {
                         var newMember = new Member();
@@ -163,34 +203,25 @@ function registerNewMemberEvent(data, sct, member)
                         newMember.lastName = response.lastName;
                         //newMember.userType = response.userType;
                         newMember.authToken = data.aT;
-
-                        var newEvent = new Event();
-                        newEvent.eventID = data.eventID;
-                        newEvent.cotrMemberID = response.cotrMemberID;
-                        newEvent.sockets.push(sct.id);
                         newMember.events.push(newEvent);
 
                         members["user" + newMember.memberID] = newMember;
                     }
                     else
                     {
-                        var newEvent = new Event();
-                        newEvent.eventID = data.eventID;
-                        newEvent.cotrMemberID = response.cotrMemberID;
-                        newEvent.sockets.push(sct.id);
                         member.events.push(newEvent);
-
-                        util.log(member);
                     }
-                    util.log("new member/event: " + sct.id);
+
                     sct.join("room" + data.eventID);
 
                     var roomMates = getMembersByRoomID(data.eventID);
                     io.to("room" + data.eventID).emit('room update', roomMates);
+
+                    sendSavedMessages(sct, newEvent);
                 }
                 else
                 {
-                    // Broadcast to user to logout
+                    sct.emit('system message', {type: "logout"});
                 }
             }
             catch(err)
@@ -226,17 +257,20 @@ function getMemberByUserId(userID) {
 function getMemberBySocketId(socketID)
 {
     if(_.keys(members).length <= 0)
-        return undefined;
+        return null;
 
-    var member = _.findKey(members, function(object) {
-        for (var evnt in object.events)
+    for (var m in members)
+    {
+        for (var e in members[m].events)
         {
-            util.log(object.events[evnt].sockets);
-            return object.events[evnt].sockets.indexOf(socketID) > -1;
+            if(members[m].events[e].sockets.indexOf(socketID) > -1)
+            {
+                return members[m];
+            }
         }
-    });
+    }
 
-    return members[member];
+    return null;
 }
 
 function getMembersByRoomID(roomID)
@@ -284,4 +318,39 @@ function getMemberEvent(member, eventID)
     }
 
     return event;
+}
+
+function sendSavedMessages(socket, event)
+{
+    clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, "-inf", "+inf", function(err, value) {
+        try
+        {
+            if(!_.isEmpty(value))
+            {
+                socket.emit('system message', {type: "prvtMsgs", msgs: value});
+            }
+        }
+        catch (err)
+        {
+            util.log(err);
+        }
+    });
+
+    clientRedis.ZRANGEBYSCORE("rooms:event-" + event.eventID, "-inf", "+inf", function(err, value) {
+        try
+        {
+            if(!_.isEmpty(value))
+            {
+                socket.emit('system message', {type: "evntMsgs", msgs: value});
+            }
+        }
+        catch (err)
+        {
+            util.log(err);
+        }
+    });
+}
+
+function inspect(obj) {
+    console.log(util.inspect(obj, { showHidden: true, depth: null }));
 }
