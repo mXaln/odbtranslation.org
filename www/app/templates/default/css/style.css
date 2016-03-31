@@ -14,7 +14,7 @@
 
 #chat_container {
     position: fixed;
-    right: 0; bottom: 0;
+    right: -610px; bottom: 0;
     width: 620px;
     height: 500px;
     z-index: 9999;
@@ -22,11 +22,11 @@
 
 .chat {
     position: absolute;
-    bottom: 10px; right: 210px;
+    bottom: 0; right: 210px;
     border: 1px solid grey;
     width: 400px;
     height: 500px;
-    border-radius: 6px;
+    margin-bottom: 0;
 }
 
 .chat ul {
@@ -49,19 +49,27 @@
 }
 
 .chat_tabs {
-    margin-left: 0;
+    margin-left: 15px;
+    padding: 0;
+    border-bottom: none;
 }
 
 .chat_tab {
-    height: 30px;
-    padding: 5px 0 0 10px;
+    height: 40px;
+    padding: 10px 0;
     cursor: pointer;
     background-color: #fafcff;
+    background-image: linear-gradient(to bottom, #6cabd7 0px, #6398c5 100%);
+    background-repeat: repeat-x;
+    color: #d4d4d4;
+    text-align: center;
 }
 
 .chat_tab.active {
     background-color: #f2f4f7 !important;
+    background-image: linear-gradient(to bottom, #0092d3 0px, #0080c1 100%) !important;
     font-weight: bold;
+    color: #fff !important;
 }
 
 #m {
@@ -70,16 +78,17 @@
 }
 
 #evnt_messages {
-    display: none;
+
 }
 
 #p2p_messages, #evnt_messages {
-    height: 400px;
+    height: 375px;
     overflow-y: auto;
     word-wrap: break-word;
     list-style-type: none;
     margin: 0;
     padding: 0;
+    display: none;
 }
 
 .message {
@@ -118,12 +127,19 @@
     width: 300px;
 }
 
+.newmsgs {
+    border-bottom: 1px solid red;
+    text-align: right;
+    float: right;
+    width: 100%;
+    color: red;
+}
+
 .members_online {
     width: 200px;
     height: 500px;
-    border-radius: 6px;
     position: absolute;
-    bottom: 10px; right: 3px;
+    bottom: 0; right: 0;
     border: 1px solid grey;
     margin-bottom: 0;
 }

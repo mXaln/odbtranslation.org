@@ -1,4 +1,6 @@
 var isActive;
+var hasP2pNewmsgs = {val: false};
+var hasEvntNewmsgs = {val: false};
 
 $(function () {
     var socket = io.connect('http://v-mast.mvc:8001');
@@ -28,63 +30,55 @@ $(function () {
 
     window.onfocus = function () {
         isActive = true;
+
+        if($("#p2p_messages").is(":visible"))
+        {
+            newp2pMsgsShown = true;
+        }
+        if($("#evnt_messages").is(":visible"))
+        {
+            newEvntMsgsShown = true;
+        }
     };
 
     window.onblur = function () {
         isActive = false;
+        newEvntMsgsShown = false;
+        newp2pMsgsShown = false;
     };
 });
 
 function OnConnected()
 {
+    $("#evnt_messages").html("");
+    $("#p2p_messages").html("");
     this.emit("new member", {memberID: memberID, eventID: eventID, aT: aT});
 }
 
 function OnChatMessage(data)
 {
-    //console.log(data);
-
     data.msg = data.msg.replace(/\n/g,'<br/>');
 
     var messagesType;
     var lastMsg;
     var msgName, msgClass, playMissed = false;
+    var newBlock = "";
+    var hasNewmsgs = false;
 
     if(data.chatType == "p2p")
     {
         messagesType = $("#p2p_messages");
         lastMsg = $("#p2p_messages .message:last");
+        setCookie("p2p_last_msg", data.date, {expires: 24*60*60});
+        hasNewmsgs = hasP2pNewmsgs;
+
     }
     else
     {
         messagesType = $("#evnt_messages");
         lastMsg = $("#evnt_messages .message:last");
-    }
-
-    if(data.member.memberID == memberID)
-    {
-        msgClass = 'msg_my';
-        msgName = 'You';
-    }
-    else
-    {
-        msgClass = 'msg_other';
-        msgName = data.member.firstName + " " + data.member.lastName;
-        playMissed = true;
-    }
-
-    if(lastMsg.attr("data") == data.member.memberID)
-    {
-        lastMsg.append('<div class="msg_text">' + data.msg + '</div>');
-    }
-    else
-    {
-        var newBlock = '<li class="message '+msgClass+'" data="'+ data.member.memberID +'">' +
-            '<div class="msg_name">'+msgName+'</div>' +
-            '<div class="msg_text">' + data.msg + '</div>' +
-            '</li>';
-
-        messagesType.append(newBlock);
+        setCookie("evnt_last_msg", data.date, {expires: 24*60*60});
+        hasNewmsgs = hasEvntNewmsgs;
     }
 
     if(isActive)
@@ -92,10 +86,74 @@ function OnChatMessage(data)
         isActive = messagesType.is(":visible");
     }
 
+    if(data.member.memberID == memberID)
+    {
+        msgClass = 'msg_my';
+        msgName = 'You';
+        $(".newmsgs", messagesType).remove();
+    }
+    else
+    {
+        msgClass = 'msg_other';
+        msgName = data.member.userName; //data.member.firstName + " " + data.member.lastName;
+        playMissed = true;
+    }
+
+    if(lastMsg.attr("data") == data.member.memberID)
+    {
+        var newmsgs = "";
+
+        if(!isActive && !hasNewmsgs.val)
+        {
+            $(".newmsgs", messagesType).remove();
+
+            newmsgs = '<li class="newmsgs">new messages</li>';
+            hasNewmsgs.val = true;
+
+            newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + data.member.memberID + '">' +
+                '<div class="msg_name">' + msgName + '</div>' +
+                '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(data.date)+'">' + data.msg + '</div>' +
+                '</li>';
+        }
+        else
+        {
+            lastMsg.append('<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(data.date)+'">' + data.msg + '</div>');
+        }
+    }
+    else
+    {
+        var newmsgs = "";
+        if(!isActive && !hasNewmsgs.val)
+        {
+            $(".newmsgs", messagesType).remove();
+
+            newmsgs = '<li class="newmsgs">new messages</li>';
+            hasNewmsgs.val = true;
+        }
+
+        newBlock = newmsgs + '<li class="message '+msgClass+'" data="'+ data.member.memberID +'">' +
+            '<div class="msg_name">'+msgName+'</div>' +
+            '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(data.date)+'">' + data.msg + '</div>' +
+            '</li>';
+
+    }
+
+    messagesType.append(newBlock);
+
     if(playMissed && !isActive)
     {
         var missedMsg = document.getElementById('missedMsg');
         missedMsg.play();
+
+        if(newp2pMsgsShown)
+        {
+            newp2pMsgsShown = false;
+        }
+
+        if(newEvntMsgsShown)
+        {
+            newEvntMsgsShown = false;
+        }
     }
 
     messagesType.animate({ scrollTop: messagesType[0].scrollHeight}, 200);
@@ -103,7 +161,7 @@ function OnChatMessage(data)
     if(isActive)
         $('#m').focus();
 
-
+    $('[data-toggle="tooltip"]').tooltip({placement: "top"});
 }
 
 function OnRoomUpdate(roomMates)
@@ -113,7 +171,10 @@ function OnRoomUpdate(roomMates)
     for(var rm in roomMates)
     {
         if(roomMates[rm].memberID != memberID)
-            $("#online").append('<li>'+ roomMates[rm].firstName + ' ' + roomMates[rm].lastName + ' (' + roomMates[rm].userName + ') ' +'</li>');
+        {
+            var name = roomMates[rm].userName; // roomMates[rm].firstName + ' ' + roomMates[rm].lastName
+            $("#online").append('<li>'+ name +'</li>');
+        }
     }
 }
 
@@ -126,53 +187,135 @@ function OnSystemMessage(data)
             break;
 
         case "prvtMsgs":
+            var messages = [];
+            var date, msgObj;
+            var cookieLastMsg = getCookie("p2p_last_msg");
+
             for(var i in data.msgs)
             {
-                renderMessages(data.msgs[i], $("#p2p_messages"));
+                if(isNaN(data.msgs[i]))
+                {
+                    msgObj = JSON.parse(data.msgs[i]);
+                }
+                else
+                {
+                    date = data.msgs[i];
+                    msgObj.date = parseInt(date);
+
+                    messages.push(msgObj);
+                }
             }
 
-            $("#p2p_messages").animate({ scrollTop: $("#p2p_messages")[0].scrollHeight}, 200);
+            var lastDate = renderMessages(messages, $("#p2p_messages"), cookieLastMsg);
+
+            setCookie("p2p_last_msg", lastDate, {expires: 24*60*60});
             break;
 
         case "evntMsgs":
+            var messages = [];
+            var date, msgObj;
+            var cookieLastMsg = getCookie("evnt_last_msg");
+
             for(var i in data.msgs)
             {
-                renderMessages(data.msgs[i], $("#evnt_messages"));
+                if(isNaN(data.msgs[i]))
+                {
+                    msgObj = JSON.parse(data.msgs[i]);
+                }
+                else
+                {
+                    date = data.msgs[i];
+                    msgObj.date = parseInt(date);
+
+                    messages.push(msgObj);
+                }
             }
 
-            $("#evnt_messages").animate({ scrollTop: $("#evnt_messages")[0].scrollHeight}, 200);
+            var lastDate = renderMessages(messages, $("#evnt_messages"), cookieLastMsg);
+
+            setCookie("evnt_last_msg", lastDate, {expires: 24*60*60});
             break;
     }
+
+    $('[data-toggle="tooltip"]').tooltip({placement: "top"});
 }
 
-function renderMessages(data, messagesType)
+function renderMessages(messages, messagesType, cookieLastMsg)
 {
-    var msgName, msgClass, lastMsg;
-    var msgObj = JSON.parse(data);
+    var lastDate;
+    var hasNewmsgs = false;
+    cookieLastMsg = typeof cookieLastMsg == "undefined" ? Date.now() : cookieLastMsg;
 
-    lastMsg = $(".message:last", messagesType);
+    $.each(messages, function(i, msgObj) {
+        var msgName, msgClass, lastMsg, newBlock = "";
 
-    if(msgObj.member.memberID == memberID)
-    {
-        msgClass = 'msg_my';
-        msgName = 'You';
-    }
-    else
-    {
-        msgClass = 'msg_other';
-        msgName = msgObj.member.firstName + " " + msgObj.member.lastName;
-    }
+        lastMsg = $(".message:last", messagesType);
 
-    if(lastMsg.attr("data") == msgObj.member.memberID)
-    {
-        lastMsg.append('<div class="msg_text">' + msgObj.msg + '</div>');
-    }
-    else {
-        var newBlock = '<li class="message ' + msgClass + '" data="' + msgObj.member.memberID + '">' +
-            '<div class="msg_name">' + msgName + '</div>' +
-            '<div class="msg_text">' + msgObj.msg + '</div>' +
-            '</li>';
-    }
+        if(msgObj.member.memberID == memberID)
+        {
+            msgClass = 'msg_my';
+            msgName = 'You';
+        }
+        else
+        {
+            msgClass = 'msg_other';
+            msgName = msgObj.member.userName; //msgObj.member.firstName + " " + msgObj.member.lastName;
+        }
 
-    messagesType.append(newBlock);
+        if(lastMsg.attr("data") == msgObj.member.memberID)
+        {
+            if(hasNewmsgs || cookieLastMsg >= msgObj.date)
+            {
+                lastMsg.append('<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>');
+            }
+            else
+            {
+                var newmsgs = "";
+                if(!hasNewmsgs)
+                {
+                    newmsgs = '<li class="newmsgs">new messages</li>';
+                    hasNewmsgs = true;
+                }
+
+                newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + msgObj.member.memberID + '">' +
+                    '<div class="msg_name">' + msgName + '</div>' +
+                    '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>' +
+                    '</li>';
+            }
+        }
+        else {
+            var newmsgs = "";
+            if(!hasNewmsgs && cookieLastMsg < msgObj.date)
+            {
+                newmsgs = '<li class="newmsgs">new messages</li>';
+                hasNewmsgs = true;
+            }
+
+            newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + msgObj.member.memberID + '">' +
+                '<div class="msg_name">' + msgName + '</div>' +
+                '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>' +
+                '</li>';
+        }
+
+        messagesType.append(newBlock);
+
+        lastDate = msgObj.date;
+    });
+
+    return lastDate;
+}
+
+function ParseDate(timestamp) {
+    var date = new Date();
+    date.setTime(timestamp);
+
+    return date.toLocaleString();
+
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    var day = date.getDate();
+    var month = date.getMonth()+1;
+    var year = date.getFullYear();
+    return day + "." + month + "." + year + " " + hours + ":" + minutes + ":" + seconds;
 }

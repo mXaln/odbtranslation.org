@@ -53,13 +53,15 @@ if(!empty($data["event"]) && !isset($data["error"])):
     var aT = '<?php echo \Helpers\Session::get('authToken');?>';
 </script>
 
-<div id="chat_container" class="open">
-    <div id="chat_hide" class="glyphicon glyphicon-remove"></div>
+<div id="chat_container" class="closed">
+    <div id="chat_hide" class="glyphicon glyphicon-chevron-left"></div>
 
-    <div class="chat">
-        <div class="row chat_tabs">
-            <div id="p2p" class="col-sm-4 chat_tab active">Peer-to-Peer</div>
-            <div id="evnt" class="col-sm-4 chat_tab">Event</div>
+    <div class="chat panel panel-info">
+        <div class="chat_tabs panel-heading">
+            <div class="row">
+                <div id="p2p" class="col-sm-4 chat_tab active">Peer-to-Peer</div>
+                <div id="evnt" class="col-sm-4 chat_tab">Event</div>
+            </div>
         </div>
         <ul id="p2p_messages"></ul>
         <ul id="evnt_messages"></ul>

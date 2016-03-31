@@ -14,7 +14,9 @@ var clientRedis = redis.createClient();
 //var clientDatabase.subscribe("LSpB8W8MMJXtv2Nkk9uf");
 
 clientRedis.on("connect", function() {
-    //inspect(this);
+    this.auth("Tss55-fw7-khU39", function(err, val) {
+        util.log("Redis connected: " + val);
+    });
 });
 
 io.on('connection', function(socket)
@@ -103,7 +105,7 @@ io.on('connection', function(socket)
 
         if(member)
         {
-            var msgObj;
+            var msgObj, date;
             var client = {
                 memberID: member.memberID,
                 userName: member.userName,
@@ -114,9 +116,11 @@ io.on('connection', function(socket)
 
             if(!_.isEmpty(event))
             {
+                date = Date.now();
                 msgObj = {
-                    member : client,
-                    msg : _.escape(chatData.msg),
+                    member: client,
+                    msg: _.escape(chatData.msg),
+                    date: date,
                     chatType: "p2p"
                 };
 
@@ -144,14 +148,14 @@ io.on('connection', function(socket)
                         io.to(event.sockets[skt]).emit('chat message', msgObj);
                     }
 
-                    clientRedis.ZADD("rooms:" + event.pairID, Date.now(), JSON.stringify(msgObj));
+                    clientRedis.ZADD("rooms:" + event.pairID, date, JSON.stringify(msgObj));
                 }
                 else
                 {
                     msgObj.chatType = "evnt";
                     io.to("room" + event.eventID).emit('chat message', msgObj);
 
-                    clientRedis.ZADD("rooms:event-" + event.eventID, Date.now(), JSON.stringify(msgObj));
+                    clientRedis.ZADD("rooms:event-" + event.eventID, date, JSON.stringify(msgObj));
                 }
             }
         }
@@ -322,7 +326,9 @@ function getMemberEvent(member, eventID)
 
 function sendSavedMessages(socket, event)
 {
-    clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, "-inf", "+inf", function(err, value) {
+    var since = Date.now() - 10 * 24 * 60 * 60 * 1000; // get messages within 10 days period
+
+    clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, since, "+inf", "WITHSCORES", function(err, value) {
         try
         {
             if(!_.isEmpty(value))
@@ -336,7 +342,7 @@ function sendSavedMessages(socket, event)
         }
     });
 
-    clientRedis.ZRANGEBYSCORE("rooms:event-" + event.eventID, "-inf", "+inf", function(err, value) {
+    clientRedis.ZRANGEBYSCORE("rooms:event-" + event.eventID, since, "+inf", "WITHSCORES", function(err, value) {
         try
         {
             if(!_.isEmpty(value))
