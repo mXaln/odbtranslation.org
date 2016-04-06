@@ -1,5 +1,7 @@
 var newEvntMsgsShown = false;
 var newp2pMsgsShown = false;
+var currentChunk = -1;
+var chunks = [];
 
 $(function () {
 
@@ -244,6 +246,42 @@ $(function () {
 
     $("textarea").elastic();
     $("#chat_type").val("p2p");
+
+    $(".verse_number").on("click", function(e) {
+        var verse = parseInt($(this).val());
+
+        if(verse > 1 && chunks.length <= 0)
+        {
+            alert("Start from the first verse!");
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        if($(this).is(":checked"))
+        {
+            if(currentChunk < 0)
+            {
+                chunks[0] = [];
+                chunks[0].push(verse);
+                currentChunk = 0;
+            }
+            else
+            {
+                if(typeof chunks[currentChunk] == "undefined")
+                    chunks[currentChunk] = [];
+                chunks[currentChunk].push(verse);
+            }
+        }
+        else
+        {
+
+        }
+    });
+
+    $(".create_chunk").click(function() {
+        currentChunk++;
+    });
 });
 
 

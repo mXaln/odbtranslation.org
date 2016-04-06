@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("reading_text", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("chunking_text", "Events")?></div>
     </div>
 
     <div class="row">
@@ -12,15 +12,21 @@ use \Core\Language;
             <div class="main_content_text">
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
-                    .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                    .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+                        .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
+                        .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
 
                 <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
-                    <p><?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?></p>
+                    <p>
+                        <label class="verse_number_label">
+                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $i/2; ?>" />
+                            <?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?>
+                        </label>
+                    </p>
                 <?php endfor; ?>
+
+                <div class="create_chunk glyphicon glyphicon-plus"> </div>
             </div>
 
-            <?php //if(empty($error)):?>
             <div class="main_content_footer row">
                 <form action="" method="post">
                     <div class="form-group">
@@ -31,7 +37,6 @@ use \Core\Language;
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
                 </form>
             </div>
-            <?php //endif; ?>
         </div>
 
         <div class="content_help col-sm-3">
@@ -40,8 +45,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show("reading_text", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("reading_text_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 4:</span> <?php echo Language::show("chunking_text", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("chunking_text_desc", "Events")?></div>
             </div>
         </div>
     </div>

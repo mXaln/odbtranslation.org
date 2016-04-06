@@ -567,6 +567,7 @@
     padding-bottom: 10px;
     margin-right: 10px;
     border-bottom: 1px solid #000000;
+    position: relative;
 }
 
 .cotr_main_content {
@@ -717,3 +718,23 @@ textarea {
     line-height: 31px;
     width: 49%;
 }
+
+.verse_number_label {
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.verse_number_label:hover {
+    background-color: #a1ccf2;
+}
+
+.create_chunk {
+    position: absolute;
+    top: 200px; left: 400px;
+    background-color: #e17009;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

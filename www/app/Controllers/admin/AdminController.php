@@ -392,11 +392,11 @@ class AdminController extends Controller {
 
                         foreach ($json->chapters as $chapter) {
                             foreach ($chapter->frames as $frame) {
-                                $chapters[(integer)$chapter->number][$frame->id] = 0;
+                                $chapters[(integer)$chapter->number] = array();
                             }
                         }
 
-                        if(sizeof($chapters) >= ($translators/2))
+                        if(sizeof($chapters) >= $translators)
                         {
                             $postdata["chapters"] = json_encode($chapters);
 
@@ -407,7 +407,7 @@ class AdminController extends Controller {
                         }
                         else
                         {
-                            $error[] = $this->language->get("too_many translators_error", array("chap_number" => sizeof($chapters)));
+                            $error[] = $this->language->get("too_many_translators_error", array("chap_number" => sizeof($chapters)));
                             echo json_encode(array("error" => Error::display($error)));
                         }
                     }

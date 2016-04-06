@@ -21,7 +21,8 @@ if(!empty($data["event"]) && !isset($data["error"])):
         <li class="discuss-step <?php echo $data["event"][0]->step == EventSteps::DISCUSS ? "active" : "" ?>">
             <span><?php echo Language::show("text_discussuion", "Events")?></span>
         </li>
-        <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ? "active" : "" ?>">
+        <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ||
+                $data["event"][0]->step == EventSteps::PRE_CHUNKING ? "active" : "" ?>">
             <span><?php echo Language::show("chunking_text", "Events")?></span>
         </li>
 

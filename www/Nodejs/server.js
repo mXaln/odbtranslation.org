@@ -328,6 +328,8 @@ function sendSavedMessages(socket, event)
 {
     var since = Date.now() - 10 * 24 * 60 * 60 * 1000; // get messages within 10 days period
 
+    // TODO Remove old messages by running command ZREMRANGEBYSCORE zset -inf since
+
     clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, since, "+inf", "WITHSCORES", function(err, value) {
         try
         {

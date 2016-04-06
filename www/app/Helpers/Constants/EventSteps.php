@@ -13,6 +13,7 @@ class EventSteps
     const PRAY                  = "pray";
     const CONSUME               = "consume";
     const DISCUSS               = "discuss";
+    const PRE_CHUNKING          = "pre-chunking";
     const CHUNKING              = "chunking";
     const BLIND_DRAFT           = "blind-draft";
     const SELF_CHECK            = "self-check";

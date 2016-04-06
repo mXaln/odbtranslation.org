@@ -138,7 +138,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST)) {
                             if ($_POST["confirm_step"]) {
                                 if ($data["event"][0]->cotrStep != EventSteps::CONSUME) {
-                                    $this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
+                                    $this->_model->updateTranslator(array("step" => EventSteps::PRE_CHUNKING), array("trID" => $data["event"][0]->trID));
                                     Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                     exit;
                                 } else {
@@ -158,6 +158,32 @@ class EventsController extends Controller
                         View::renderTemplate('header', $data);
                         View::render('events/translator', $data, $error);
                         View::render('events/discuss', $data, $error);
+                        break;
+
+                    case EventSteps::PRE_CHUNKING:
+                        if (isset($_POST) && !empty($_POST)) {
+                            if ($_POST["confirm_step"]) {
+                                if ($data["event"][0]->cotrStep != EventSteps::DISCUSS) {
+                                    $this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                    exit;
+                                } else {
+                                    $error[] = $this->language->get("cotranslator_not_ready_error");
+                                }
+                            }
+                        }
+
+                        $sourceText = $this->getSourceText($data);
+
+                        if (!array_key_exists("error", $sourceText)) {
+                            $data = $sourceText;
+                        } else {
+                            $error[] = $sourceText["error"];
+                        }
+
+                        View::renderTemplate('header', $data);
+                        View::render('events/translator', $data, $error);
+                        View::render('events/pre_chunking', $data, $error);
                         break;
 
                     case EventSteps::CHUNKING:
@@ -228,7 +254,8 @@ class EventsController extends Controller
                                             "chapter"           => (integer)preg_replace("/-\d+/", "", Session::get("currentChunk")),
                                             "chunk"             => $data["event"][0]->currentChunk,
                                             "firstvs"           => $chunkVerses[0],
-                                            "translatedVerses"  => json_encode($translation)
+                                            "translatedVerses"  => json_encode($translation),
+                                            "dateCreate"        => "CURRENT_TIMESTAMP"
                                         );
 
                                         if($this->_model->createTranslation($trData))
@@ -340,7 +367,8 @@ class EventsController extends Controller
                                                 "chapter"           => (integer)preg_replace("/-\d+/", "", Session::get("currentChunk")),
                                                 "chunk"             => $data["event"][0]->currentChunk,
                                                 "firstvs"           => $chunkVerses[0],
-                                                "translatedVerses"  => json_encode($translation)
+                                                "translatedVerses"  => json_encode($translation),
+                                                "dateCreate"        => "CURRENT_TIMESTAMP"
                                             );
 
                                             $tID = $this->_model->createTranslation($trData);
@@ -615,16 +643,17 @@ class EventsController extends Controller
                             {
                                 $eventData = array();
 
-                                // Change state of event when all translators applyed
+                                // Change state of event when all translators applied
                                 if($this->checkStateFinished($event[0], EventMembers::TRANSLATOR))
                                     $eventData["state"] = EventStates::TRANSLATING;
 
-                                // If translators applyed is even add last trID
+                                // If translators applied is even add last trID
                                 if(($event[0]->translators%2) <= 0)
                                     $eventData["lastTrID"] = $trID;
 
                                 // Assign chapters and chunks to added translator
-                                $eventData["chapters"] = json_encode($this->assignChaptersChunks($event, $trID));
+                                //$eventData["chapters"] = json_encode($this->assignChaptersChunks($event, $trID));
+                                $eventData["chapters"] = json_encode($this->assignChapters($event, $trID));
 
                                 $this->_model->updateEvent($eventData, array("eventID" => $event[0]->eventID));
 
@@ -759,6 +788,43 @@ class EventsController extends Controller
         return false;
     }
 
+    private function assignChapters($event, $trID)
+    {
+        $chapters = json_decode($event[0]->chapters, true);
+        $totalNum = $event[0]->translatorsNum;
+        $currentNum = $event[0]->translators + 1;
+        $isCurrentEven = $currentNum % 2 == 0;
+
+        $chaptersNum = sizeof($chapters);
+        $val = round($chaptersNum/$totalNum);
+        for($i=0;$i<$totalNum;$i++) {
+            $arr[$i] = $val;
+        }
+        $arr[sizeof($arr)-1] += $chaptersNum - array_sum($arr);
+        $arr = $this->reassignChapters($arr);
+
+        $chaptersCount = $arr[$currentNum-1];
+
+        foreach ($chapters as $chapIndex => $chapter) {
+            if($chaptersCount > 0)
+            {
+                if(empty($chapter))
+                {
+                    $chapters[$chapIndex]["trID"] = $trID;
+                    $chapters[$chapIndex]["chunks"] = array();
+                }
+                else
+                {
+                    continue;
+                }
+
+                $chaptersCount--;
+            }
+        }
+
+        return $chapters;
+    }
+
     private function assignChaptersChunks($event, $trID)
     {
         $chapters = json_decode($event[0]->chapters, true);
@@ -850,6 +916,7 @@ class EventsController extends Controller
     {
         $eventCurrentChunk = !$isCoTranslator ? $data["event"][0]->currentChunk : $data["event"][0]->cotrCurrentChunk;
         $eventTrID = !$isCoTranslator ? $data["event"][0]->trID : $data["event"][0]->cotrID;
+        $currentChapter = 0;
 
         $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
         $source = CacheManager::get($cache_keyword);
@@ -876,22 +943,25 @@ class EventsController extends Controller
 
             if($eventCurrentChunk == "")
             {
-                foreach (json_decode($data["event"][0]->chapters, true) as $item) {
-                    if($currentChunk = array_search($eventTrID, $item))
+                foreach (json_decode($data["event"][0]->chapters) as $chapter => $chunks) {
+                    if($chunks->trID == $eventTrID)
+                    {
+                        $currentChapter = $chapter;
                         break;
+                    }
                 }
-                echo "currentChunk: " . $eventTrID;
+
+                $currentChunk = $currentChapter.":"."1-1";
             }
             else
             {
                 $currentChunk = $eventCurrentChunk;
+                $split = explode(":", $currentChunk);
+                $currentChapter = (integer)$split[0];
             }
 
             if(!$isCoTranslator)
                 Session::set("currentChunk", $currentChunk);
-
-            $split = explode("-", $currentChunk);
-            $currentChapter = (integer)$split[0];
 
             if(!$getChunk)
             {
@@ -922,9 +992,10 @@ class EventsController extends Controller
             }
 
             $data["text"] = preg_replace("/<\/?para.*>/", "", $data["text"]);
-            $data["text"] = preg_replace("/<verse\D+(\d+)\D+>/", ':delimiter:<strong><sup>${1}</sup></strong> ', $data["text"], -1, $totalVerses);
-
-            $data["text"] = explode(":delimiter:", $data["text"]);
+            //$data["text"] = preg_replace("/<verse\D+(\d+)\D+>/", ':delimiter:<strong><sup>${1}</sup></strong> ', $data["text"], -1, $totalVerses);
+            $data["text"] = preg_split("/<verse\D+(\d+)\D+>/", $data["text"], -1, PREG_SPLIT_DELIM_CAPTURE);
+            //$data["text"] = explode(":delimiter:", $data["text"]);
+            $totalVerses = !empty($data["text"]) ? (sizeof($data["text"])-1)/2 : 0;
 
             $data["currentChapter"] = $currentChapter;
             $data["totalVerses"] = !$getChunk ? "1-".$totalVerses : $data["totalVerses"];

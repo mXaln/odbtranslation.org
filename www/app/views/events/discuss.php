@@ -15,8 +15,8 @@ use \Core\Language;
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                         .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
 
-                <?php for($i=1; $i <= sizeof($data["text"]); $i++): ?>
-                    <p><?php echo $data["text"][$i]; ?></p>
+                <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
+                    <p><?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?></p>
                 <?php endfor; ?>
             </div>
 
