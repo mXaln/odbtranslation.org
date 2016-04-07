@@ -13,7 +13,7 @@ use \Core\Language;
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                        .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+                        .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
                 <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
                     <p><?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?></p>

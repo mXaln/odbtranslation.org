@@ -51,7 +51,7 @@ use \Core\Language;
                         <h4><?php echo $data["event"][0]->sLang." - "
                                 .Language::show($data["event"][0]->bookProject, "Events")." - "
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                                .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+                                .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
                         <div class="col-sm-12">
                             <?php $i=1; foreach($data["translation"]["translator"]["verses"] as $verse => $text): ?>

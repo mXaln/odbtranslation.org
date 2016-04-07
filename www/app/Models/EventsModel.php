@@ -178,8 +178,8 @@ class EventsModel extends Model
     {
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, ".PREFIX."translators.step, "
-                .PREFIX."translators.currentChunk, "
-                ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, " : "")
+                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.lastTID, "
+                ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.lastTID AS cotrLastTID, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
@@ -346,9 +346,16 @@ class EventsModel extends Model
         return $source;
     }
 
-    public function getTranslation($trID)
+    public function getTranslation($trID, $tID = null)
     {
-        return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE trID = :trID", array(":trID" => $trID));
+        $where = " trID = :trID";
+        $prepare = array(":trID" => $trID);
+        if($tID) {
+            $where .= " AND tID = :tID";
+            $prepare[":tID"] = $tID;
+        }
+
+        return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE".$where, $prepare);
     }
 
     /**

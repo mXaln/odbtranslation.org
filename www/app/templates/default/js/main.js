@@ -1,6 +1,8 @@
 var newEvntMsgsShown = false;
 var newp2pMsgsShown = false;
 var currentChunk = -1;
+var firstVerse = 0;
+var lastVerse = 0;
 var chunks = [];
 
 $(function () {
@@ -247,40 +249,70 @@ $(function () {
     $("textarea").elastic();
     $("#chat_type").val("p2p");
 
-    $(".verse_number").on("click", function(e) {
+    // Add verse to chunk
+    $(document).on("click", ".verse_number", function(e) {
         var verse = parseInt($(this).val());
+        var p = $(this).parent().parent();
+        var createChunkBtn = $(".create_chunk");
 
-        if(verse > 1 && chunks.length <= 0)
+        if((verse > 1 && chunks.length <= 0) ||
+            !$(this).is(":checked") ||
+            (verse > (lastVerse + 1)))
         {
-            alert("Start from the first verse!");
             e.preventDefault();
             e.stopPropagation();
             return false;
         }
 
-        if($(this).is(":checked"))
+        if(currentChunk < 0)
         {
-            if(currentChunk < 0)
-            {
-                chunks[0] = [];
-                chunks[0].push(verse);
-                currentChunk = 0;
-            }
-            else
-            {
-                if(typeof chunks[currentChunk] == "undefined")
-                    chunks[currentChunk] = [];
-                chunks[currentChunk].push(verse);
-            }
+            chunks[0] = [];
+            chunks[0].push(verse);
+            currentChunk = 0;
+            firstVerse = verse;
+
+            $(".chunks_reset").show();
         }
         else
         {
-
+            if(typeof chunks[currentChunk] == "undefined")
+            {
+                chunks[currentChunk] = [];
+                firstVerse = verse;
+            }
+            chunks[currentChunk].push(verse);
         }
+
+        $("#chunks_array").val(JSON.stringify(chunks));
+
+        $(".verse_p .create_chunk").remove();
+        p.append(createChunkBtn);
+
+        fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
+        lv = verse < 10 ? "0"+verse : verse;
+        $(".verse_p .create_chunk").text("Make chunk "+fv+"-"+lv).show();
+
+        lastVerse = verse;
     });
 
-    $(".create_chunk").click(function() {
+    // Start new chunk
+    $(document).on("click", ".verse_p .create_chunk", function() {
         currentChunk++;
+        $(".verse_p .create_chunk").hide();
+        $(".verse_p .create_chunk").parent().after('<div class="chunk_divider col-sm-12"></div>');
+    });
+
+    // Reset chunks
+    $(".chunks_reset").click(function() {
+        chunks = [];
+        currentChunk = -1;
+        firstVerse = 0;
+        lastVerse = 0
+
+        $(this).hide();
+        $(".chunk_divider").remove();
+        $(".verse_number").prop("checked", false);
+        $("#chunks_array").val("[]");
     });
 });
 

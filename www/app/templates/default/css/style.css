@@ -623,6 +623,14 @@
     background: url("/app/templates/default/img/steps/Verbalize-text-active.png") no-repeat;
 }
 
+.pre-chunking {background-color: #4596cc;}
+.pre-chunking-step {
+    background: url("/app/templates/default/img/steps/Chunking-the-text-inactive.png") no-repeat;
+}
+.pre-chunking-step.active {
+    background: url("/app/templates/default/img/steps/Chunking-the-text-active.png") no-repeat;
+}
+
 .chunking {background-color: #4596cc;}
 .chunking-step {
     background: url("/app/templates/default/img/steps/Chunking-the-text-inactive.png") no-repeat;
@@ -728,13 +736,43 @@ textarea {
     background-color: #a1ccf2;
 }
 
-.create_chunk {
-    position: absolute;
-    top: 200px; left: 400px;
-    background-color: #e17009;
-    text-align: center;
-    padding: 20px;
-    border-radius: 5px;
-    cursor: pointer;
+.verse_p {
+    position: relative;
 }
 
+.create_chunk {
+    position: absolute;
+    bottom: -30px; right: 10px;
+    background-color: #e17009;
+    text-align: center;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    height: 50px;
+    display: none;
+    z-index: 9999;
+    color: #fff;
+    font-weight: bold;
+}
+
+.chunk_divider {
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 10px 0;
+}
+
+.chunks_reset {
+    position: absolute;
+    top: -25px; right: 0;
+    background-color: #e10500;
+    text-align: center;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    z-index: 9999;
+    color: #fff;
+    font-weight: bold;
+    display: none;
+}

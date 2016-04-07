@@ -20,4 +20,5 @@ class EventSteps
     const PEER_REVIEW           = "peer-review";
     const KEYWORD_CHECK         = "keyword-check";
     const CONTENT_REVIEW        = "content-review";
+    const FINISHED              = "finished";
 }

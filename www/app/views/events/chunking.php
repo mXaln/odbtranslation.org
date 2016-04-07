@@ -13,9 +13,9 @@ use \Core\Language;
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                        .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+                        .$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]?></h4>
 
-                <?php for($i=1; $i <= sizeof($data["text"]); $i++): ?>
+                <?php for($i=0; $i <= sizeof($data["text"]); $i++): ?>
                     <p><?php echo $data["text"][$i]; ?></p>
                 <?php endfor; ?>
             </div>

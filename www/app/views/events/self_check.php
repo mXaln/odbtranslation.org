@@ -15,7 +15,7 @@ use \Core\Language;
                         <h4><?php echo $data["event"][0]->sLang." - "
                                 .Language::show($data["event"][0]->bookProject, "Events")." - "
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                                .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+                                .$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]?></h4>
 
                         <!-- Show blind draft text if it is a translation to other language -->
                         <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
@@ -27,7 +27,7 @@ use \Core\Language;
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <?php for($i=1; $i < sizeof($data["text"]); $i++): ?>
+                            <?php for($i=0; $i < sizeof($data["text"]); $i++): ?>
                             <div class="row chunk_verse">
                                 <p class="col-sm-6 verse"><?php echo $data["text"][$i]; ?></p>
                                 <textarea name="verses[]" class="col-sm-6 verse_ta"><?php echo $_POST["verses"][$i-1] ?></textarea>

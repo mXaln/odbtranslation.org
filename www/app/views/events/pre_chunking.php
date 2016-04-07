@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("chunking_text", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("pre_chunking_text", "Events")?></div>
     </div>
 
     <div class="row">
@@ -13,25 +13,25 @@ use \Core\Language;
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                        .$data["event"][0]->name." ".$data["currentChapter"].":".$data["totalVerses"]?></h4>
+                        .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
                 <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
-                    <p>
+                    <p class="verse_p">
                         <label class="verse_number_label">
-                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $i/2; ?>" />
+                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $i/2; ?>">
                             <?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?>
                         </label>
                     </p>
                 <?php endfor; ?>
-
-                <div class="create_chunk glyphicon glyphicon-plus"> </div>
+                <div class="chunks_reset">Reset chunks</div>
             </div>
 
             <div class="main_content_footer row">
                 <form action="" method="post">
                     <div class="form-group">
                         <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
-                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> Yes, I did</label>
+                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1"> Yes, I did</label>
+                        <input type="hidden" name="chunks_array" id="chunks_array" value="[]">
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
@@ -45,9 +45,11 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 4:</span> <?php echo Language::show("chunking_text", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("chunking_text_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 4:</span> <?php echo Language::show("pre_chunking_text", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("pre_chunking_text_desc", "Events")?></div>
             </div>
         </div>
     </div>
 </div>
+
+<span class="create_chunk">Make chunk</span>
