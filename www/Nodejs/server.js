@@ -160,6 +160,35 @@ io.on('connection', function(socket)
             }
         }
     });
+
+    socket.on('step enter', function(data)
+    {
+        var member = getMemberBySocketId(this.id);
+
+        if(member)
+        {
+            var event = getMemberEvent(member, data.eventID);
+
+            if(!_.isEmpty(event))
+            {
+                var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
+
+                if(typeof coTranslator !== 'undefined')
+                {
+                    var cotrEvent = getMemberEvent(coTranslator, event.eventID);
+
+                    if(!_.isEmpty(cotrEvent))
+                    {
+                        // Send message to co-translator
+                        for(var skt in cotrEvent.sockets)
+                        {
+                            io.to(cotrEvent.sockets[skt]).emit('system message', {type: "peerEnter"});
+                        }
+                    }
+                }
+            }
+        }
+    });
 });
 
 http.listen(8001, function()
@@ -357,6 +386,8 @@ function sendSavedMessages(socket, event)
             util.log(err);
         }
     });
+
+    socket.emit('system message', {type: "memberConnected"});
 }
 
 function inspect(obj) {

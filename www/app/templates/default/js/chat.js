@@ -52,7 +52,14 @@ function OnConnected()
 {
     $("#evnt_messages").html("");
     $("#p2p_messages").html("");
-    this.emit("new member", {memberID: memberID, eventID: eventID, aT: aT});
+    var data = {
+        memberID: memberID,
+        eventID: eventID,
+        aT: aT,
+        step: step,
+        peerStep: peerStep
+    };
+    this.emit("new member", data);
 }
 
 function OnChatMessage(data)
@@ -184,6 +191,21 @@ function OnSystemMessage(data)
     {
         case "logout":
             window.location = "/members/logout";
+            break;
+
+        case "memberConnected":
+            if(step == peerStep)
+            {
+                var data = {eventID: eventID, step: step};
+                this.emit('step enter', data);
+            }
+            break;
+
+        case "peerEnter":
+            if($(".cotr_not_ready").length > 0)
+            {
+                window.location.reload();
+            }
             break;
 
         case "prvtMsgs":

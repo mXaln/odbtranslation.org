@@ -414,7 +414,7 @@ class EventsController extends Controller
                                                 "translatedVerses"  => json_encode($translation)
                                             );
 
-                                            $tID = $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID));
+                                            $tID = $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $data["event"][0]->lastTID));
                                         }
 
                                         if($tID)
@@ -483,73 +483,83 @@ class EventsController extends Controller
                     case EventSteps::PEER_REVIEW:
 
                         $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+                        $translation = array();
+
+                        foreach ($translationData as $tv) {
+                            $arr = json_decode($tv->translatedVerses, true);
+                            $arr["tID"] = $tv->tID;
+                            $translation[] = $arr;
+                        }
 
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
-
                             if ($_POST["confirm_step"]) {
-                                foreach ($_POST["verses"] as $verse) {
-                                    if(trim($verse) == "")
-                                    {
-                                        $error[] = $this->language->get("empty_verses_error");
-                                        break;
+                                foreach ($_POST["chunks"] as $key => $chunk) {
+                                    $_POST["chunks"][$key]['verses'] = array_map("trim", $chunk["verses"]);
+
+                                    foreach ($chunk["verses"] as $v => $verse) {
+                                        if(trim($verse) == "")
+                                        {
+                                            $error[] = $this->language->get("empty_verses_error");
+                                            break 2;
+                                        }
                                     }
                                 }
 
                                 if(!isset($error))
                                 {
-                                    if ($data["event"][0]->cotrStep != EventSteps::SELF_CHECK) {
-                                        $verses = array_map("trim", $_POST["verses"]);
-                                        $comments = array_map("trim", $_POST["comments"]);
-
-                                        if(!empty($translationData))
+                                    //if ($data["event"][0]->cotrStep != EventSteps::SELF_CHECK) {
+                                        if(!empty($translation))
                                         {
-                                            $translationVerses = json_decode($translationData[0]->translatedVerses, true);
-                                            if(is_array($translationVerses) && !empty($translationVerses))
-                                            {
+                                            foreach ($translation as $key => $chunk) {
+                                                $shouldUpdate = false;
                                                 $i=0;
-                                                foreach($translationVerses["translator"]["verses"] as $verse => $text)
-                                                {
-                                                    $translationVerses["translator"]["verses"][$verse] = $verses[$i];
-                                                    $translationVerses["translator"]["comments"][$verse] = $comments[$i];
+                                                foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
+                                                    if($verse != $_POST["chunks"][$key]['verses'][$i])
+                                                        $shouldUpdate = true;
+
+                                                    $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
+                                                    $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = $_POST["chunks"][$key]["comments"][$i];
                                                     $i++;
+                                                }
+
+                                                if($shouldUpdate)
+                                                {
+                                                    $tID = $translation[$key]["tID"];
+                                                    unset($translation[$key]["tID"]);
+                                                    $trData = array(
+                                                        "translatedVerses"  => json_encode($translation[$key])
+                                                    );
+                                                    $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
                                                 }
                                             }
                                         }
 
-                                        $trData = array(
-                                            "translatedVerses"  => json_encode($translationVerses)
-                                        );
-
-                                        if($this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID)))
-                                        {
-                                            //$this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
-                                            Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                            exit;
-                                        }
-                                        else
-                                        {
-                                            $error[] = $this->language->get("translation_not_created_error");
-                                        }
-                                    } else {
-                                        $error[] = $this->language->get("cotranslator_not_ready_error");
-                                    }
+                                        //$this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
+                                        Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                        exit;
+                                    //} else {
+                                    //    $error[] = $this->language->get("cotranslator_not_ready_error");
+                                    //}
                                 }
                             }
                         }
 
-                        $sourceText = $this->getSourceText($data, true);
-                        $cotrSourceText = $this->getSourceText($data, true, true);
+                        $sourceText = $this->getSourceText($data);
+                        $cotrSourceText = $this->getSourceText($data, false, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
                             $data["cotrData"] = $cotrSourceText;
 
-                            $translation = json_decode($translationData[0]->translatedVerses, true);
                             $data["translation"] = $translation;
 
                             $coTranslationTemp = $this->_model->getTranslation($data["event"][0]->cotrID);
-                            $coTranslation = (array)json_decode($coTranslationTemp[0]->translatedVerses, true);
+                            $coTranslation = array();
+
+                            foreach ($coTranslationTemp as $tv) {
+                                $coTranslation[] = json_decode($tv->translatedVerses, true);
+                            }
                             $data["cotrData"]["translation"] = $coTranslation;
                         } else {
                             $error[] = $sourceText["error"];

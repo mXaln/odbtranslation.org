@@ -5,7 +5,7 @@ var firstVerse = 0;
 var lastVerse = 0;
 var chunks = [];
 
-$(function () {
+jQuery(function($) {
 
     // Statement of faith block
     $("#sof").click(function() {
@@ -104,6 +104,15 @@ $(function () {
 
 
     // ------------------- Translation Flow ---------------------- //
+
+    // Hide steps panel on small screens
+    $(document).ready(function() {
+        if($(window).width() < 1800)
+        {
+            $("#tr_steps_hide")[0].click();
+        }
+    });
+
     // Show/Hide Steps Panel
     $("#tr_steps_hide").click(function () {
         if($("#translator_steps").hasClass("open"))
@@ -246,7 +255,8 @@ $(function () {
         $(this).next().css("height", $(this).css("height"));
     });
 
-    $("textarea").elastic();
+    autosize($('textarea'));
+
     $("#chat_type").val("p2p");
 
     // Add verse to chunk
@@ -314,6 +324,28 @@ $(function () {
         $(".verse_number").prop("checked", false);
         $("#chunks_array").val("[]");
     });
+
+    // Switching translation tabs on peer review step
+    $("a[href=#cotr_tab]").click(function() {
+        $(".tr_main_content").hide();
+        $("a[href=#tr_tab]").parent().removeClass("active");
+
+        $(".cotr_main_content").show();
+        $(this).parent().addClass("active");
+        return false;
+    });
+
+    $("a[href=#tr_tab]").click(function() {
+        $(".tr_main_content").show();
+        $(this).parent().addClass("active");
+
+        $("a[href=#cotr_tab]").parent().removeClass("active");
+        $(".cotr_main_content").hide();
+
+        autosize.update($('textarea'));
+        return false;
+    });
+
 });
 
 

@@ -2,6 +2,7 @@
 use \Helpers\Url;
 use \Helpers\Constants\EventSteps;
 use \Core\Language;
+use \Helpers\Session;
 
 echo \Core\Error::display($error);
 
@@ -48,10 +49,12 @@ if(!empty($data["event"]) && !isset($data["error"])):
 </div>
 
 <script>
-    var memberID = <?php echo \Helpers\Session::get('memberID');?>;
+    var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
     var cotrID = <?php echo $data["event"][0]->cotrID; ?>;
-    var aT = '<?php echo \Helpers\Session::get('authToken');?>';
+    var aT = '<?php echo Session::get('authToken'); ?>';
+    var step = '<?php echo $data["event"][0]->step; ?>';
+    var peerStep = '<?php echo EventSteps::PEER_REVIEW; ?>';
 </script>
 
 <div id="chat_container" class="closed">

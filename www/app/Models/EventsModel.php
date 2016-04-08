@@ -355,7 +355,7 @@ class EventsModel extends Model
             $prepare[":tID"] = $tID;
         }
 
-        return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE".$where, $prepare);
+        return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE".$where." ORDER BY chunk", $prepare);
     }
 
     /**
