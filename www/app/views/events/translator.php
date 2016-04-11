@@ -54,7 +54,10 @@ if(!empty($data["event"]) && !isset($data["error"])):
     var cotrID = <?php echo $data["event"][0]->cotrID; ?>;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
+
     var peerStep = '<?php echo EventSteps::PEER_REVIEW; ?>';
+    var keywordStep = '<?php echo EventSteps::KEYWORD_CHECK; ?>';
+    var contentStep = '<?php echo EventSteps::CONTENT_REVIEW; ?>';
 </script>
 
 <div id="chat_container" class="closed">
@@ -63,7 +66,7 @@ if(!empty($data["event"]) && !isset($data["error"])):
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
             <div class="row">
-                <div id="p2p" class="col-sm-4 chat_tab active">Peer-to-Peer</div>
+                <div id="p2p" class="col-sm-4 chat_tab active">Partner</div>
                 <div id="evnt" class="col-sm-4 chat_tab">Event</div>
             </div>
         </div>

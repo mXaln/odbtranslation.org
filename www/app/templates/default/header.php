@@ -59,7 +59,7 @@ $hooks->run('afterBody');
 
 	<div class="header page-header row">
 
-		<ul class="nav nav-pills col-md-8" role="tablist">
+		<ul class="nav nav-pills col-md-6" role="tablist">
 			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo \Core\Language::show('home', 'Main')?></a></li>
 			<li <?php if($data['menu'] == 2):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>books">Books</a></li>
 			<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations">Translations</a></li>
@@ -68,10 +68,15 @@ $hooks->run('afterBody');
 			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo \Core\Language::show('about_title', 'Main')?></a></li>
 		</ul>
 
-		<ul class="list-inline col-md-4">
+		<ul class="list-inline col-md-6">
 			<li><a class="btn btn-link" href="<?php echo DIR?>lang/en">English</a></li>
 			<li><a class="btn btn-link" href="<?php echo DIR?>lang/ru">Русский</a></li>
 			<?php if(\Helpers\Session::get('loggedin')): ?>
+			| <li class="notifications">
+					<a class="btn btn-link" href="#">Notifications</a>
+					<ul class="notif_block">
+					</ul>
+				</li>
 			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo \Core\Language::show('logout', 'Members')?></a></li>
 			<?php endif?>
 		</ul>

@@ -258,6 +258,10 @@ jQuery(function($) {
     autosize($('textarea'));
 
     $("#chat_type").val("p2p");
+    if(step == keywordStep || step == contentStep)
+    {
+        $("#p2p").text("Checker");
+    }
 
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
@@ -320,6 +324,7 @@ jQuery(function($) {
         lastVerse = 0
 
         $(this).hide();
+        $(".create_chunk").hide();
         $(".chunk_divider").remove();
         $(".verse_number").prop("checked", false);
         $("#chunks_array").val("[]");
@@ -346,6 +351,28 @@ jQuery(function($) {
         return false;
     });
 
+    // Show/Hide notifications
+    $(".notifications").click(function() {
+
+        if(!$(".notif_block").is(":visible"))
+        {
+            if($(".notif_block li").length <= 0)
+            {
+                $(".notif_block").html("<div class='no_notif'>no notifications</div>");
+            }
+            $(".notif_block").show();
+        }
+        else
+        {
+            $(".notif_block").hide();
+        }
+
+        return false;
+    });
+
+    $(document).click(function() {
+        $(".notif_block").hide();
+    });
 });
 
 

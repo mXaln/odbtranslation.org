@@ -23,7 +23,7 @@ use \Core\Language;
                                 .$data["event"][0]->name." ".$data["cotrData"]["currentChapter"].":1-".$data["cotrData"]["totalVerses"]?></h4>
 
                         <div class="col-sm-12">
-                            <?php if($data["event"][0]->cotrStep == \Helpers\Constants\EventSteps::PEER_REVIEW && !empty($data["cotrData"]["translation"])): ?>
+                            <?php if(/*$data["event"][0]->cotrStep == \Helpers\Constants\EventSteps::PEER_REVIEW && */!empty($data["cotrData"]["translation"])): ?>
                                 <?php $i=2; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
                                     <?php foreach($chunk["translator"]["verses"] as $verse => $text): ?>
                                         <div class="row">
@@ -67,6 +67,10 @@ use \Core\Language;
                                 <div class="chunk_divider col-sm-12"></div>
                             <?php endforeach; ?>
                         </div>
+
+                        <div class="col-sm-12">
+                            <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary">Save</button>
+                        </div>
                     </div>
                 </div>
 
@@ -76,7 +80,7 @@ use \Core\Language;
                         <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> Yes, I did</label>
                     </div>
 
-                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
+                    <button id="next_step" type="submit" name="submit" value="1" class="btn btn-primary" disabled>Next step</button>
                 </div>
             </form>
         </div>

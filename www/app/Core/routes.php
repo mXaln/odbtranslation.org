@@ -33,6 +33,9 @@ Router::any('events', 'Controllers\EventsController@index');
 Router::any('events/project/(:num)', 'Controllers\EventsController@project');
 Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
 Router::any('events/translator/(:num)', 'Controllers\EventsController@translator');
+Router::any('events/checker/(:num)/(:num)', 'Controllers\EventsController@checker');
+Router::any('events/kw_checker/(:num)/(:num)/apply', 'Controllers\EventsController@kw_checker_apply');
+Router::any('events/cont_checker/(:num)/(:num)/apply', 'Controllers\EventsController@cont_checker_apply');
 Router::any('events/checker_l2/(:num)', 'Controllers\EventsController@checker_l2');
 Router::any('events/checker_l3/(:num)', 'Controllers\EventsController@checker_l3');
 

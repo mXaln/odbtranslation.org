@@ -788,3 +788,48 @@ textarea {
     font-weight: bold;
     display: none;
 }
+
+#save_step {
+    float: right;
+}
+
+.notif_a {
+    position: relative;
+}
+
+.notif_block {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 400px;
+    min-height: 200px;
+    max-height: 600px;
+    background-color: #fff;
+    border: 1px solid #2575b8;
+    /*border-bottom: none;*/
+    z-index: 9999;
+    list-style: none;
+    padding: 0px;
+    overflow-y: auto;
+    display: none;
+}
+
+.notif_block a {
+    text-decoration: none;
+}
+
+.notif_block li {
+    height: 50px;
+    border-bottom: 1px solid #2575b8;
+    padding: 10px;
+}
+
+.notif_block li:hover {
+    background-color: #dee1e1;
+}
+
+.no_notif {
+    padding-top: 90px;
+    text-align: center;
+    width: 100%;
+}

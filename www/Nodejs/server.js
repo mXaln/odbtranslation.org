@@ -6,7 +6,8 @@ var app = require('express')(),
     _ = require("underscore"),
     XMLHttpRequest = require("xmlhttprequest-ssl").XMLHttpRequest,
     Member = require("./Member").Member,
-    Event = require("./Event").Event;
+    Event = require("./Event").Event,
+    EventSteps = require("./EventSteps").EventSteps;
 
 var members = [];
 
@@ -164,27 +165,59 @@ io.on('connection', function(socket)
     socket.on('step enter', function(data)
     {
         var member = getMemberBySocketId(this.id);
+        var eSteps = new EventSteps();
 
         if(member)
         {
             var event = getMemberEvent(member, data.eventID);
+            var client = {
+                memberID: member.memberID,
+                userName: member.userName,
+                firstName: member.firstName,
+                lastName: member.lastName
+            };
 
             if(!_.isEmpty(event))
             {
-                var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
-
-                if(typeof coTranslator !== 'undefined')
+                switch (data.step)
                 {
-                    var cotrEvent = getMemberEvent(coTranslator, event.eventID);
+                    case eSteps.PEER_REVIEW:
+                        var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
 
-                    if(!_.isEmpty(cotrEvent))
-                    {
-                        // Send message to co-translator
-                        for(var skt in cotrEvent.sockets)
+                        if(typeof coTranslator !== 'undefined')
                         {
-                            io.to(cotrEvent.sockets[skt]).emit('system message', {type: "peerEnter"});
+                            var cotrEvent = getMemberEvent(coTranslator, event.eventID);
+
+                            if(!_.isEmpty(cotrEvent))
+                            {
+                                // Send message to co-translator
+                                for(var skt in cotrEvent.sockets)
+                                {
+                                    io.to(cotrEvent.sockets[skt]).emit('system message', {type: "peerEnter"});
+                                }
+                            }
                         }
-                    }
+                        break;
+
+                    case eSteps.KEYWORD_CHECK:
+                        var msgObj = {
+                            step: data.step,
+                            client: client,
+                            excludes: [member.memberID, event.cotrMemberID],
+                            link: "/events/kw_checker/"+event.eventID+"/"+member.memberID+"/apply"
+                        };
+                        io.to("room" + event.eventID).emit('checking request', msgObj);
+                        break;
+
+                    case eSteps.CONTENT_REVIEW:
+                        var msgObj = {
+                            step: data.step,
+                            client: client,
+                            excludes: [member.memberID, event.cotrMemberID],
+                            link: "/events/cont_checker/"+event.eventID+"/"+member.memberID+"/apply"
+                        };
+                        io.to("room" + event.eventID).emit('checking request', msgObj);
+                        break;
                 }
             }
         }

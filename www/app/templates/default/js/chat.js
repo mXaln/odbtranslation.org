@@ -9,6 +9,7 @@ $(function () {
     socket.on('chat message', OnChatMessage);
     socket.on('room update', OnRoomUpdate);
     socket.on('system message', OnSystemMessage);
+    socket.on('checking request', OnCheckingRequest);
 
     $('#m').keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
@@ -199,6 +200,17 @@ function OnSystemMessage(data)
                 var data = {eventID: eventID, step: step};
                 this.emit('step enter', data);
             }
+            else if(step == keywordStep)
+            {
+                var data = {eventID: eventID, step: step};
+                this.emit('step enter', data);
+
+                // TODO setInterval
+            }
+            else if(step == contentStep)
+            {
+
+            }
             break;
 
         case "peerEnter":
@@ -260,6 +272,14 @@ function OnSystemMessage(data)
     }
 
     $('[data-toggle="tooltip"]').tooltip({placement: "top"});
+}
+
+function OnCheckingRequest(data)
+{
+    if($.inArray(memberID.toString(), data.excludes) >= 0)
+        return false;
+
+    $(".help_info_steps").append('<a href="'+data.link+'">Link</a>');
 }
 
 function renderMessages(messages, messagesType, cookieLastMsg)

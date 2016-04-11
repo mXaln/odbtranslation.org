@@ -493,7 +493,9 @@ class EventsController extends Controller
 
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
-                            if ($_POST["confirm_step"]) {
+
+                            if($_POST["save"])
+                            {
                                 foreach ($_POST["chunks"] as $key => $chunk) {
                                     $_POST["chunks"][$key]['verses'] = array_map("trim", $chunk["verses"]);
 
@@ -508,39 +510,39 @@ class EventsController extends Controller
 
                                 if(!isset($error))
                                 {
-                                    //if ($data["event"][0]->cotrStep != EventSteps::SELF_CHECK) {
-                                        if(!empty($translation))
-                                        {
-                                            foreach ($translation as $key => $chunk) {
-                                                $shouldUpdate = false;
-                                                $i=0;
-                                                foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
-                                                    if($verse != $_POST["chunks"][$key]['verses'][$i])
-                                                        $shouldUpdate = true;
+                                    if(!empty($translation))
+                                    {
+                                        foreach ($translation as $key => $chunk) {
+                                            $shouldUpdate = false;
+                                            $i=0;
+                                            foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
+                                                if($verse != $_POST["chunks"][$key]['verses'][$i])
+                                                    $shouldUpdate = true;
 
-                                                    $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
-                                                    $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = $_POST["chunks"][$key]["comments"][$i];
-                                                    $i++;
-                                                }
+                                                $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
+                                                $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = $_POST["chunks"][$key]["comments"][$i];
+                                                $i++;
+                                            }
 
-                                                if($shouldUpdate)
-                                                {
-                                                    $tID = $translation[$key]["tID"];
-                                                    unset($translation[$key]["tID"]);
-                                                    $trData = array(
-                                                        "translatedVerses"  => json_encode($translation[$key])
-                                                    );
-                                                    $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
-                                                }
+                                            if($shouldUpdate)
+                                            {
+                                                $tID = $translation[$key]["tID"];
+                                                unset($translation[$key]["tID"]);
+                                                $trData = array(
+                                                    "translatedVerses"  => json_encode($translation[$key])
+                                                );
+                                                $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
                                             }
                                         }
-
-                                        //$this->_model->updateTranslator(array("step" => EventSteps::CHUNKING), array("trID" => $data["event"][0]->trID));
-                                        Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                        exit;
-                                    //} else {
-                                    //    $error[] = $this->language->get("cotranslator_not_ready_error");
-                                    //}
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if ($_POST["confirm_step"]) {
+                                    $this->_model->updateTranslator(array("step" => EventSteps::KEYWORD_CHECK), array("trID" => $data["event"][0]->trID));
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                    exit;
                                 }
                             }
                         }
@@ -568,6 +570,89 @@ class EventsController extends Controller
                         View::renderTemplate('header', $data);
                         View::render('events/translator', $data, $error);
                         View::render('events/peer_review', $data, $error);
+                        break;
+
+                    case EventSteps::KEYWORD_CHECK:
+
+                        $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+                        $translation = array();
+
+                        Data::pr($this->_model->getNotifications());
+
+                        foreach ($translationData as $tv) {
+                            $arr = json_decode($tv->translatedVerses, true);
+                            $arr["tID"] = $tv->tID;
+                            $translation[] = $arr;
+                        }
+
+                        if (isset($_POST) && !empty($_POST)) {
+                            $_POST = Gump::xss_clean($_POST);
+
+                            if($_POST["save"])
+                            {
+                                foreach ($_POST["chunks"] as $key => $chunk) {
+                                    $_POST["chunks"][$key]['verses'] = array_map("trim", $chunk["verses"]);
+
+                                    foreach ($chunk["verses"] as $v => $verse) {
+                                        if(trim($verse) == "")
+                                        {
+                                            $error[] = $this->language->get("empty_verses_error");
+                                            break 2;
+                                        }
+                                    }
+                                }
+
+                                if(!isset($error))
+                                {
+                                    if(!empty($translation))
+                                    {
+                                        foreach ($translation as $key => $chunk) {
+                                            $shouldUpdate = false;
+                                            $i=0;
+                                            foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
+                                                if($verse != $_POST["chunks"][$key]['verses'][$i])
+                                                    $shouldUpdate = true;
+
+                                                $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
+                                                $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = $_POST["chunks"][$key]["comments"][$i];
+                                                $i++;
+                                            }
+
+                                            if($shouldUpdate)
+                                            {
+                                                $tID = $translation[$key]["tID"];
+                                                unset($translation[$key]["tID"]);
+                                                $trData = array(
+                                                    "translatedVerses"  => json_encode($translation[$key])
+                                                );
+                                                $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if ($_POST["confirm_step"]) {
+                                    //$this->_model->updateTranslator(array("step" => EventSteps::KEYWORD_CHECK), array("trID" => $data["event"][0]->trID));
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                    exit;
+                                }
+                            }
+                        }
+
+                        $sourceText = $this->getSourceText($data);
+
+                        if (!array_key_exists("error", $sourceText)) {
+                            $data = $sourceText;
+                            $data["translation"] = $translation;
+                        } else {
+                            $error[] = $sourceText["error"];
+                        }
+
+                        View::renderTemplate('header', $data);
+                        View::render('events/translator', $data, $error);
+                        View::render('events/keyword_check', $data, $error);
                         break;
                 }
             }
