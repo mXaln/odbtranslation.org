@@ -122,34 +122,50 @@ io.on('connection', function(socket)
                     member: client,
                     msg: _.escape(chatData.msg),
                     date: date,
-                    chatType: "p2p"
+                    chatType: "p2p",
+                    step: chatData.step
                 };
 
                 if(chatData.chatType == "p2p")
                 {
-                    var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
+                    var eSteps = new EventSteps();
+                    var id = event.cotrMemberID;
+                    var pairID = event.pairID;
 
-                    if(typeof coTranslator !== 'undefined')
+                    if(chatData.step == eSteps.KEYWORD_CHECK || chatData.step == eSteps.CONTENT_REVIEW)
                     {
-                        var cotrEvent = getMemberEvent(coTranslator, event.eventID);
+                        id = chatData.trMemberID;
+                        pairID = "pair-"
+                            + chatData.eventID
+                            + "-"
+                            + (Math.min(id, member.memberID))
+                            + "-"
+                            + (Math.max(id, member.memberID));
+                    }
 
-                        if(!_.isEmpty(cotrEvent))
+                    var translator = getMemberByUserId("user" + id);
+
+                    if(typeof translator !== 'undefined')
+                    {
+                        var trEvent = getMemberEvent(translator, event.eventID);
+
+                        if(!_.isEmpty(trEvent))
                         {
                             // Send message to co-translator
-                            for(var skt in cotrEvent.sockets)
+                            for(var skt in trEvent.sockets)
                             {
-                                io.to(cotrEvent.sockets[skt]).emit('chat message', msgObj);
+                                io.to(trEvent.sockets[skt]).emit('chat message', msgObj);
                             }
                         }
                     }
 
-                    // Send message to translator himself
+                    // Send message to sender himself
                     for(var skt in event.sockets)
                     {
                         io.to(event.sockets[skt]).emit('chat message', msgObj);
                     }
 
-                    clientRedis.ZADD("rooms:" + event.pairID, date, JSON.stringify(msgObj));
+                    clientRedis.ZADD("rooms:" + pairID, date, JSON.stringify(msgObj));
                 }
                 else
                 {
@@ -170,12 +186,6 @@ io.on('connection', function(socket)
         if(member)
         {
             var event = getMemberEvent(member, data.eventID);
-            var client = {
-                memberID: member.memberID,
-                userName: member.userName,
-                firstName: member.firstName,
-                lastName: member.lastName
-            };
 
             if(!_.isEmpty(event))
             {
@@ -200,21 +210,10 @@ io.on('connection', function(socket)
                         break;
 
                     case eSteps.KEYWORD_CHECK:
-                        var msgObj = {
-                            step: data.step,
-                            client: client,
-                            excludes: [member.memberID, event.cotrMemberID],
-                            link: "/events/kw_checker/"+event.eventID+"/"+member.memberID+"/apply"
-                        };
-                        io.to("room" + event.eventID).emit('checking request', msgObj);
-                        break;
-
                     case eSteps.CONTENT_REVIEW:
                         var msgObj = {
-                            step: data.step,
-                            client: client,
                             excludes: [member.memberID, event.cotrMemberID],
-                            link: "/events/cont_checker/"+event.eventID+"/"+member.memberID+"/apply"
+                            anchor: "check:"+event.eventID+":"+member.memberID
                         };
                         io.to("room" + event.eventID).emit('checking request', msgObj);
                         break;

@@ -14,8 +14,8 @@ if(!empty($data["project"])):
         <div class="row">
             <div class="col-sm-6">
                 <ul class="nav nav-pills book-parts">
-                    <li role="presentation" class="active"><a href="#old_test">Old Testament</a></li>
-                    <li role="presentation"><a href="#new_test">New Testament</a></li>
+                    <li role="presentation" class="active"><a href="#old_test"><?php echo Language::show("old_test", "Events") ?></a></li>
+                    <li role="presentation"><a href="#new_test"><?php echo Language::show("new_test", "Events") ?></a></li>
                 </ul>
             </div>
             <div class="add-event-btn col-sm-6"></div>

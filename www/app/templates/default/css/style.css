@@ -63,6 +63,7 @@
     background-repeat: repeat-x;
     color: #d4d4d4;
     text-align: center;
+    border-right: 1px solid #0092D3;
 }
 
 .chat_tab.active {
@@ -77,11 +78,12 @@
     width: 388px;
 }
 
-#evnt_messages {
 
+#p2p, #kw_chk, #cont_chk {
+    display: none;
 }
 
-#p2p_messages, #evnt_messages {
+#p2p_messages, #evnt_messages, #kw_messages, #cont_messages {
     height: 375px;
     overflow-y: auto;
     word-wrap: break-word;
@@ -802,7 +804,7 @@ textarea {
     top: 40px;
     right: 0;
     width: 400px;
-    min-height: 200px;
+    min-height: 50px;
     max-height: 600px;
     background-color: #fff;
     border: 1px solid #2575b8;
@@ -819,7 +821,7 @@ textarea {
 }
 
 .notif_block li {
-    height: 50px;
+    min-height: 50px;
     border-bottom: 1px solid #2575b8;
     padding: 10px;
 }
@@ -829,7 +831,19 @@ textarea {
 }
 
 .no_notif {
-    padding-top: 90px;
+    padding-top: 15px;
     text-align: center;
     width: 100%;
+}
+
+.notif_count {
+    background-color: #ff0000;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    display: block;
+    float: right;
+    margin-left: 5px;
+    color: #ffffff;
+    font-weight: bold;
 }

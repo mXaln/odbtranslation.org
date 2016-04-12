@@ -151,6 +151,12 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get member with the event info
+     * @param int $eventID
+     * @param int $memberID
+     * @return array
+     */
     public function getEventMember($eventID, $memberID)
     {
         $sql = "SELECT cotrMember.memberID AS cotrMemberID, ".PREFIX."translators.memberID AS translators, "
@@ -168,10 +174,10 @@ class EventsModel extends Model
     }
 
     /**
-     * Get all events of a member
-     * @param $memberID
-     * @param $memberType
-     * @param null $eventID
+     * Get all events of a member or specific event
+     * @param int $memberID
+     * @param int $memberType
+     * @param int null $eventID
      * @return array
      */
     public function getMemberEvents($memberID, $memberType, $eventID = null)
@@ -220,26 +226,49 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-
-    public function getNotifications()
+    public function getMemberCheckerEvents($memberID, $eventID = null, $trMemberID = null)
     {
-        $prepare = array(
-            ":memberID" => Session::get("memberID")
-        );
+        $prepare = array(":memberID" => $memberID);
+        if($eventID)
+            $prepare[":eventID"] = $eventID;
+        if($trMemberID)
+            $prepare[":trMemberID"] = $trMemberID;
 
-        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, t_lang.langName AS tLang, s_lang.langName AS sLang ".
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
+                "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".
+                PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
                 "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
-            "WHERE trs.eventID IN( SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID ) ".
-                "AND trs.memberID != :memberID AND trs.trID NOT IN (SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
-                "AND ( trs.step = 'keyword-check' OR trs.step = 'content-review') ".
-                "AND ((trs.kwcID = 0 AND trs.kwcDone = 0) OR (trs.ctcID = 0 AND trs.ctcDone = 0))";
+                "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
+            "WHERE (trs.kwcID = :memberID AND trs.kwcDone = 0) ".
+                "OR (trs.ctcID = :memberID AND trs.ctcDone = 0) ".
+                ($eventID ? "AND trs.eventID = :eventID " : " ").
+                ($trMemberID ? "AND trs.memberID = :trMemberID " : " ");
 
         return $this->db->select($sql, $prepare);
+    }
+
+
+    public function getNotifications()
+    {
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
+            "FROM ".PREFIX."translators AS trs ".
+                "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+                "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
+                "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
+                "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+                "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+                "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
+            "WHERE trs.eventID IN( SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID ) ".
+                "AND trs.memberID != :memberID AND trs.trID NOT IN (SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
+                "AND ((trs.step = 'keyword-check' AND trs.kwcID = 0 AND trs.kwcDone = 0) ".
+                "OR (trs.step = 'content-review' AND trs.ctcID = 0 AND trs.ctcDone = 0))";
+
+        return $this->db->select($sql, array(":memberID" => Session::get("memberID")));
     }
 
     /**

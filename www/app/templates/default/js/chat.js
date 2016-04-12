@@ -1,6 +1,11 @@
 var isActive;
 var hasP2pNewmsgs = {val: false};
 var hasEvntNewmsgs = {val: false};
+var newEvntMsgsShown = false;
+var newp2pMsgsShown = false;
+var currentP2Ptab;
+var currentP2Pmsgs;
+var currentChatType;
 
 $(function () {
     var socket = io.connect('http://v-mast.mvc:8001');
@@ -10,6 +15,106 @@ $(function () {
     socket.on('room update', OnRoomUpdate);
     socket.on('system message', OnSystemMessage);
     socket.on('checking request', OnCheckingRequest);
+
+    if(step == "keyword-check")
+    {
+        currentP2Ptab = $("#kw_chk");
+        currentP2Pmsgs = $("#kw_messages");
+        currentChatType = "kwc";
+    }
+    else if(step == "content-review")
+    {
+        currentP2Ptab = $("#cont_chk");
+        currentP2Pmsgs = $("#cont_messages");
+        currentChatType = "ctc";
+    }
+    else
+    {
+        currentP2Ptab = $("#p2p");
+        currentP2Pmsgs = $("#p2p_messages");
+        currentChatType = "p2p";
+    }
+
+    currentP2Ptab.show();
+    $("#chat_type").val(currentChatType);
+
+
+    // Show/Hide chat window
+    $("#chat_hide").click(function() {
+        if($("#chat_container").hasClass("open"))
+        {
+            $("#chat_container").removeClass("open")
+                .addClass("closed");
+            $("#chat_container").animate({right: "-610px"}, 500, function() {
+                $("#chat_hide").removeClass("glyphicon-remove")
+                    .addClass("glyphicon-chevron-left");
+
+                $(".chat_tab").removeClass("active");
+                currentP2Ptab.addClass("active");
+                $("#chat_type").val(currentChatType);
+
+                $(".chat_msgs").hide();
+            });
+        }
+        else
+        {
+            $("#chat_container").removeClass("closed")
+                .addClass("open");
+            $("#chat_container").animate({right: 0}, 500, function() {
+                $("#chat_hide").removeClass("glyphicon-chevron-left")
+                    .addClass("glyphicon-remove");
+
+                currentP2Pmsgs.show();
+
+                var newmsgs = $(".newmsgs", currentP2Pmsgs);
+                if(!newp2pMsgsShown && newmsgs.length > 0) {
+                    currentP2Pmsgs.animate({scrollTop: newmsgs.offset().top - currentP2Pmsgs.offset().top + currentP2Pmsgs.scrollTop()}, 200);
+                    newp2pMsgsShown = true;
+                }
+                else
+                {
+                    currentP2Pmsgs.animate({scrollTop: currentP2Pmsgs[0].scrollHeight}, 200);
+                }
+            });
+        }
+    });
+
+    // Change chat room tabs
+    $(".chat_tab").click(function() {
+        var id = $(this).prop("id");
+
+        switch (id)
+        {
+            case currentP2Ptab.prop("id"):
+                $(this).addClass("active");
+                $("#evnt").removeClass("active");
+                $("#chat_type").val(currentChatType);
+                currentP2Pmsgs.show();
+                $("#evnt_messages").hide();
+                break;
+
+            default:
+                $(this).addClass("active");
+                currentP2Ptab.removeClass("active");
+                $("#chat_type").val("evnt");
+                $("#evnt_messages").show();
+                currentP2Pmsgs.hide();
+
+                var newmsgs = $(".newmsgs", $("#evnt_messages"));
+
+                if(!newEvntMsgsShown && newmsgs.length > 0) {
+                    $("#evnt_messages").animate({scrollTop: newmsgs.offset().top - $("#evnt_messages").offset().top + $("#evnt_messages").scrollTop()}, 200);
+
+                    newEvntMsgsShown = true;
+                }
+                else
+                {
+                    $("#evnt_messages").animate({scrollTop: $("#evnt_messages")[0].scrollHeight}, 200);
+                }
+                break;
+        }
+    });
+
 
     $('#m').keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
@@ -23,7 +128,13 @@ $(function () {
             if ($(this).val().trim() == "")
                 return false;
 
-            var chatData = {chatType: $("#chat_type").val(), eventID: eventID, msg: $(this).val()};
+            var chatData = {
+                chatType: $("#chat_type").val(),
+                eventID: eventID,
+                msg: $(this).val(),
+                step: step,
+                trMemberID: trMemberID
+            };
             socket.emit('chat message', chatData);
             $(this).blur().val('');
         }
@@ -32,7 +143,7 @@ $(function () {
     window.onfocus = function () {
         isActive = true;
 
-        if($("#p2p_messages").is(":visible"))
+        if(currentP2Pmsgs.is(":visible"))
         {
             newp2pMsgsShown = true;
         }
@@ -51,8 +162,8 @@ $(function () {
 
 function OnConnected()
 {
-    $("#evnt_messages").html("");
-    $("#p2p_messages").html("");
+    $(".chat_msgs").html("");
+
     var data = {
         memberID: memberID,
         eventID: eventID,
@@ -65,40 +176,44 @@ function OnConnected()
 
 function OnChatMessage(data)
 {
+    if(data.chatType != "evnt" && data.step != step)
+        return false;
+
     data.msg = data.msg.replace(/\n/g,'<br/>');
 
-    var messagesType;
+    var messagesObj;
     var lastMsg;
     var msgName, msgClass, playMissed = false;
     var newBlock = "";
     var hasNewmsgs = false;
 
-    if(data.chatType == "p2p")
+    switch (data.chatType)
     {
-        messagesType = $("#p2p_messages");
-        lastMsg = $("#p2p_messages .message:last");
-        setCookie("p2p_last_msg", data.date, {expires: 24*60*60});
-        hasNewmsgs = hasP2pNewmsgs;
+        case currentChatType:
+            messagesObj = currentP2Pmsgs;
+            lastMsg = $(".message:last", currentP2Pmsgs);
+            setCookie(currentChatType + "_last_msg", data.date, {expires: 24*60*60});
+            hasNewmsgs = hasP2pNewmsgs;
+            break;
 
-    }
-    else
-    {
-        messagesType = $("#evnt_messages");
-        lastMsg = $("#evnt_messages .message:last");
-        setCookie("evnt_last_msg", data.date, {expires: 24*60*60});
-        hasNewmsgs = hasEvntNewmsgs;
+        default:
+            messagesObj = $("#evnt_messages");
+            lastMsg = $("#evnt_messages .message:last");
+            setCookie("evnt_last_msg", data.date, {expires: 24*60*60});
+            hasNewmsgs = hasEvntNewmsgs;
+            break;
     }
 
     if(isActive)
     {
-        isActive = messagesType.is(":visible");
+        isActive = messagesObj.is(":visible");
     }
 
     if(data.member.memberID == memberID)
     {
         msgClass = 'msg_my';
         msgName = 'You';
-        $(".newmsgs", messagesType).remove();
+        $(".newmsgs", messagesObj).remove();
     }
     else
     {
@@ -113,7 +228,7 @@ function OnChatMessage(data)
 
         if(!isActive && !hasNewmsgs.val)
         {
-            $(".newmsgs", messagesType).remove();
+            $(".newmsgs", messagesObj).remove();
 
             newmsgs = '<li class="newmsgs">new messages</li>';
             hasNewmsgs.val = true;
@@ -133,7 +248,7 @@ function OnChatMessage(data)
         var newmsgs = "";
         if(!isActive && !hasNewmsgs.val)
         {
-            $(".newmsgs", messagesType).remove();
+            $(".newmsgs", messagesObj).remove();
 
             newmsgs = '<li class="newmsgs">new messages</li>';
             hasNewmsgs.val = true;
@@ -146,7 +261,7 @@ function OnChatMessage(data)
 
     }
 
-    messagesType.append(newBlock);
+    messagesObj.append(newBlock);
 
     if(playMissed && !isActive)
     {
@@ -164,7 +279,7 @@ function OnChatMessage(data)
         }
     }
 
-    messagesType.animate({ scrollTop: messagesType[0].scrollHeight}, 200);
+    messagesObj.animate({ scrollTop: messagesObj[0].scrollHeight}, 200);
 
     if(isActive)
         $('#m').focus();
@@ -279,7 +394,32 @@ function OnCheckingRequest(data)
     if($.inArray(memberID.toString(), data.excludes) >= 0)
         return false;
 
-    $(".help_info_steps").append('<a href="'+data.link+'">Link</a>');
+    $.ajax({
+        url: "/events/rpc/get_notifications",
+        method: "post",
+        dataType: "json",
+    })
+    .done(function(data) {
+        if(data.success)
+        {
+            $(".notif_block").html("");
+            if(data.notifs.length > 0)
+            {
+                $(".notif_count").remove();
+                $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
+                var notifs = "";
+                $.each(data.notifs, function(i, note) {
+                    notifs += '<a href="'+note.link+'" data="'+note.anchor+'"><li>'+note.text+'</li></a>';
+                });
+                $(".notif_block").html(notifs);
+            }
+            else
+            {
+                $(".notif_count").remove();
+                $(".notif_block").html('<div class="no_notif">'+data.noNotifs+'</div>');
+            }
+        }
+    });
 }
 
 function renderMessages(messages, messagesType, cookieLastMsg)

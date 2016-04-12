@@ -20,6 +20,7 @@ class MembersController extends Controller
 
     private $_model;
     private $_lang;
+    private $_notifications;
 
     public function __construct()
     {
@@ -27,6 +28,10 @@ class MembersController extends Controller
         $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
         $this->language->load('Members', $this->_lang);
         $this->_model = new MembersModel();
+
+        $evntModel = new EventsModel();
+        if(Session::get("loggedin"))
+            $this->_notifications = $evntModel->getNotifications();
     }
 
     public function index()
@@ -40,9 +45,11 @@ class MembersController extends Controller
             $eventModel = new EventsModel();
 
             $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
+            $data["myCheckerL1Events"] = $eventModel->getMemberCheckerEvents(Session::get("memberID"));
             $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
             $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
+            $data["notifications"] = $this->_notifications;
             View::renderTemplate('header', $data);
             View::render('members/index', $data);
             View::renderTemplate('footer', $data);
@@ -490,18 +497,6 @@ class MembersController extends Controller
             {
                 $member[0]->cotrMemberID = $event[0]->cotrMemberID;
                 echo json_encode($member[0]);
-
-                /*if($member[0]->userType == 'checker' || $member[0]->userType == 'both')
-                {
-                    echo json_encode($member[0]);
-                }
-                else
-                {
-                    if($event[0]->memberID == $memberID)
-                    {
-                        echo json_encode($member[0]);
-                    }
-                }*/
             }
             else
             {

@@ -6,6 +6,8 @@
 use Helpers\Assets;
 use Helpers\Url;
 use Helpers\Hooks;
+use \Core\Language;
+use \Helpers\Constants\EventSteps;
 
 //initialise hooks
 $hooks = Hooks::get();
@@ -60,12 +62,12 @@ $hooks->run('afterBody');
 	<div class="header page-header row">
 
 		<ul class="nav nav-pills col-md-6" role="tablist">
-			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo \Core\Language::show('home', 'Main')?></a></li>
+			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo Language::show('home', 'Main')?></a></li>
 			<li <?php if($data['menu'] == 2):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>books">Books</a></li>
 			<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations">Translations</a></li>
 			<li <?php if($data['menu'] == 4):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>events">Events</a></li>
-			<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo \Core\Language::show('contact_us_title', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo \Core\Language::show('about_title', 'Main')?></a></li>
+			<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo Language::show('contact_us_title', 'Main')?></a></li>
+			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo Language::show('about_title', 'Main')?></a></li>
 		</ul>
 
 		<ul class="list-inline col-md-6">
@@ -73,11 +75,30 @@ $hooks->run('afterBody');
 			<li><a class="btn btn-link" href="<?php echo DIR?>lang/ru">Русский</a></li>
 			<?php if(\Helpers\Session::get('loggedin')): ?>
 			| <li class="notifications">
-					<a class="btn btn-link" href="#">Notifications</a>
+					<a class="btn btn-link" id="notifications" href="#">Notifications <?php echo !empty($data["notifications"]) ? '<span class="notif_count">'.sizeof($data["notifications"]).'</span>' : ""; ?></a>
 					<ul class="notif_block">
+					<?php if(!empty($data["notifications"])):?>
+						<?php foreach ($data["notifications"] as $notification):?>
+							<?php
+                            $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
+                            $text = Language::show('checker_apply', 'Events', array(
+                                $notification->userName,
+                                Language::show($type, "Events"),
+                                $notification->bookName,
+                                $notification->tLang,
+                                Language::show($notification->bookProject, "Events"),
+                            ));
+                            ?>
+							<a href="/events/<?php echo $type."/".$notification->eventID."/".$notification->memberID; ?>" data="check:<?php echo $notification->eventID.":".$notification->memberID ?>">
+                                <li><?php echo $text; ?></li>
+                            </a>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<div class='no_notif'><?php echo Language::show("no_notifs_msg", "Events") ?></div>
+					<?php endif; ?>
 					</ul>
 				</li>
-			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo \Core\Language::show('logout', 'Members')?></a></li>
+			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo Language::show('logout', 'Members')?></a></li>
 			<?php endif?>
 		</ul>
 

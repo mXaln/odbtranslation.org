@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Core\Controller;
+use Models\EventsModel;
 use Core\Error;
 use Core\Language;
 use Core\View;
@@ -18,19 +19,23 @@ class EventsController extends Controller
 {
     private $_model;
     private $_lang;
+    private $_notifications;
 
     public function __construct()
     {
         parent::__construct();
         $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
         $this->language->load('Events', $this->_lang);
-        $this->_model = new \Models\EventsModel();
+        $this->_model = new EventsModel();
 
         $config = array(
             "storage"   =>  "files",
             "path"      =>  ROOT . "cache"
         );
         CacheManager::setup($config);
+
+        if(Session::get("loggedin"))
+            $this->_notifications = $this->_model->getNotifications();
     }
 
     public function index()
@@ -43,7 +48,7 @@ class EventsController extends Controller
         $data['menu'] = 4;
 
         $data["projects"] = $this->_model->getProjects(Session::get("userName"), true);
-
+        $data["notifications"] = $this->_notifications;
         View::renderTemplate('header', $data);
         View::render('events/index', $data, $error);
         View::renderTemplate('footer', $data);
@@ -67,6 +72,7 @@ class EventsController extends Controller
             $data["events"] = $this->_model->getEventsByProject($projectID);
         }
 
+        $data["notifications"] = $this->_notifications;
         View::renderTemplate('header', $data);
         View::render('events/project', $data);
         View::renderTemplate('footer', $data);
@@ -81,7 +87,7 @@ class EventsController extends Controller
         }
 
         $data['menu'] = 4;
-
+        $data["notifications"] = $this->_notifications;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
 
         if(!empty($data["event"]))
@@ -577,8 +583,6 @@ class EventsController extends Controller
                         $translationData = $this->_model->getTranslation($data["event"][0]->trID);
                         $translation = array();
 
-                        Data::pr($this->_model->getNotifications());
-
                         foreach ($translationData as $tv) {
                             $arr = json_decode($tv->translatedVerses, true);
                             $arr["tID"] = $tv->tID;
@@ -672,6 +676,45 @@ class EventsController extends Controller
             View::render('events/translator', $data, $error);
         }
 
+        View::renderTemplate('footer', $data);
+    }
+
+    public function checker($eventID, $memberID)
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if (!Session::get('verified'))
+        {
+            $error[] = $this->language->get("account_not_verirfied_error");
+            echo json_encode(array("error" => Error::display($error)));
+            return;
+        }
+
+        $data["event"] = $this->_model->getMemberCheckerEvents(Session::get("memberID"), $eventID, $memberID);
+
+        if(!empty($data["event"]))
+        {
+            $sourceText = $this->getSourceText($data);
+
+            if (!array_key_exists("error", $sourceText)) {
+                $data = $sourceText;
+            } else {
+                $error[] = $sourceText["error"];
+            }
+        }
+        else
+        {
+            $error[] = $this->language->get("checker_event_error");
+        }
+
+        $data["notifications"] = $this->_notifications;
+        View::renderTemplate('header', $data);
+        View::render('events/translator', $data, $error);
+        View::render('events/checker', $data, $error);
         View::renderTemplate('footer', $data);
     }
 
@@ -921,6 +964,98 @@ class EventsController extends Controller
             echo json_encode(array("error" => Error::display($error)));
         }
     }
+
+    public function checker_apply($type, $eventID, $memberID)
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if (!Session::get('verified'))
+        {
+            $error[] = $this->language->get("account_not_verirfied_error");
+            echo json_encode(array("error" => Error::display($error)));
+            return;
+        }
+
+        $type = preg_match("/(kw_checker|cont_checker)/", $type) ? $type : "kw_checker";
+        $step = $type == kw_checker ? EventSteps::KEYWORD_CHECK : EventSteps::CONTENT_REVIEW;
+        $field = $type == kw_checker ? "kwcID" : "ctcID";
+        $canApply = false;
+
+        foreach ($this->_notifications as $notification) {
+            if($notification->step == $step &&
+                $eventID == $notification->eventID &&
+                $memberID == $notification->memberID)
+            {
+                $canApply = true;
+                break;
+            }
+        }
+
+        if($canApply)
+        {
+            $postdata = array($field => Session::get("memberID"));
+            if($this->_model->updateTranslator($postdata, array("eventID" => $eventID, "memberID" => $memberID)))
+            {
+                Url::redirect('events/checker/'.$eventID.'/'.$memberID);
+                exit;
+            }
+            else
+            {
+                $error[] = $this->language->get("error_ocured");
+            }
+        }
+        else
+        {
+            $error[] = $this->language->get("cannot_apply_checker");
+        }
+
+        $data["notifications"] = $this->_notifications;
+        View::renderTemplate('header', $data);
+        View::render('events/checker_apply', $data, $error);
+        View::renderTemplate('footer', $data);
+    }
+
+    public function getNotifications()
+    {
+        if(Session::get("loggedin"))
+        {
+            $data["notifs"] = array();
+
+            if(!empty($this->_notifications))
+            {
+                foreach ($this->_notifications as $notification)
+                {
+                    $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
+                    $text = $this->language->get("checker_apply", array(
+                        $notification->userName,
+                        $this->language->get($type),
+                        $notification->bookName,
+                        $notification->tLang,
+                        $this->language->get($notification->bookProject)
+                    ));
+
+                    $note["link"] = "/events/".$type."/".$notification->eventID."/".$notification->memberID;
+                    $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
+                    $note["text"] = $text;
+                    $data["notifs"][] = $note;
+                }
+            }
+            else
+            {
+                $data["noNotifs"] = $this->language->get("no_notifs_msg");
+            }
+
+            $data["success"] = true;
+            echo json_encode($data);
+        }
+    }
+
+
+    //-------------------- Private functions --------------------------//
 
     private function checkStateFinished($event, $memberType)
     {

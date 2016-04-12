@@ -51,7 +51,7 @@ if(!empty($data["event"]) && !isset($data["error"])):
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
-    var cotrID = <?php echo $data["event"][0]->cotrID; ?>;
+    var trMemberID = <?php echo $data["event"][0]->cotrID | $data["event"][0]->memberID; ?>;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
 
@@ -67,11 +67,15 @@ if(!empty($data["event"]) && !isset($data["error"])):
         <div class="chat_tabs panel-heading">
             <div class="row">
                 <div id="p2p" class="col-sm-4 chat_tab active">Partner</div>
+                <div id="kw_chk" class="col-sm-4 chat_tab active">Keyword Check</div>
+                <div id="cont_chk" class="col-sm-4 chat_tab active">Content Review</div>
                 <div id="evnt" class="col-sm-4 chat_tab">Event</div>
             </div>
         </div>
-        <ul id="p2p_messages"></ul>
-        <ul id="evnt_messages"></ul>
+        <ul id="p2p_messages" class="chat_msgs"></ul>
+        <ul id="kw_messages" class="chat_msgs"></ul>
+        <ul id="cont_messages" class="chat_msgs"></ul>
+        <ul id="evnt_messages" class="chat_msgs"></ul>
         <form action="" class="form-inline">
             <div class="form-group">
                 <textarea id="m" class="form-control"></textarea>
