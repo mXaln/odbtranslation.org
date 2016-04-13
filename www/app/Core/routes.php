@@ -35,9 +35,9 @@ Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent')
 Router::any('events/rpc/get_notifications', 'Controllers\EventsController@getNotifications');
 Router::any('events/translator/(:num)', 'Controllers\EventsController@translator');
 Router::any('events/checker/(:num)/(:num)', 'Controllers\EventsController@checker');
-Router::any('events/(:any)/(:num)/(:num)', 'Controllers\EventsController@checker_apply');
-Router::any('events/checker_l2/(:num)', 'Controllers\EventsController@checker_l2');
-Router::any('events/checker_l3/(:num)', 'Controllers\EventsController@checker_l3');
+Router::any('events/checker/(:num)/(:num)/apply', 'Controllers\EventsController@applyChecker');
+Router::any('events/checker_l2/(:num)', 'Controllers\EventsController@checkerL2');
+Router::any('events/checker_l3/(:num)', 'Controllers\EventsController@checkerL3');
 
 Router::any('members', 'Controllers\MembersController@index');
 Router::any('members/login', 'Controllers\MembersController@login');

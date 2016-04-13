@@ -83,13 +83,15 @@ $hooks->run('afterBody');
                             $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
                             $text = Language::show('checker_apply', 'Events', array(
                                 $notification->userName,
-                                Language::show($type, "Events"),
                                 $notification->bookName,
+                                $notification->currentChapter,
                                 $notification->tLang,
                                 Language::show($notification->bookProject, "Events"),
                             ));
                             ?>
-							<a href="/events/<?php echo $type."/".$notification->eventID."/".$notification->memberID; ?>" data="check:<?php echo $notification->eventID.":".$notification->memberID ?>">
+							<a href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
+                               data="check:<?php echo $notification->eventID.":".$notification->memberID ?>"
+                                target="_blank">
                                 <li><?php echo $text; ?></li>
                             </a>
 						<?php endforeach; ?>

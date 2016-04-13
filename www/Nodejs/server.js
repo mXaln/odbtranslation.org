@@ -84,7 +84,25 @@ io.on('connection', function(socket)
                 var roomMates = getMembersByRoomID(event.eventID);
                 io.to("room" + event.eventID).emit('room update', roomMates);
 
-                sendSavedMessages(sct, event);
+                // Add pair to checkers chat
+                var eSteps = new EventSteps();
+                var checkPair = "";
+                if(data.step == eSteps.KEYWORD_CHECK || data.step == eSteps.CONTENT_REVIEW)
+                {
+                    checkPair = "pair-"
+                        + event.eventID
+                        + "-"
+                        + (Math.min(data.trMemberID, member.memberID))
+                        + "-"
+                        + (Math.max(data.trMemberID, member.memberID));
+
+                    if(event.checkPairs.indexOf(checkPair) < 0)
+                    {
+                        event.checkPairs.push(checkPair);
+                    }
+                }
+
+                sendSavedMessages(sct, event, checkPair);
             }
             else
             {
@@ -122,25 +140,28 @@ io.on('connection', function(socket)
                     member: client,
                     msg: _.escape(chatData.msg),
                     date: date,
-                    chatType: "p2p",
-                    step: chatData.step
+                    chatType: "p2p"
                 };
 
-                if(chatData.chatType == "p2p")
+                if(chatData.chatType == "p2p" || chatData.chatType == "chk")
                 {
                     var eSteps = new EventSteps();
                     var id = event.cotrMemberID;
                     var pairID = event.pairID;
 
-                    if(chatData.step == eSteps.KEYWORD_CHECK || chatData.step == eSteps.CONTENT_REVIEW)
+                    if(chatData.chatType == "chk")
                     {
+                        msgObj.chatType = "chk";
                         id = chatData.trMemberID;
                         pairID = "pair-"
-                            + chatData.eventID
+                            + event.eventID
                             + "-"
-                            + (Math.min(id, member.memberID))
+                            + (Math.min(chatData.trMemberID, member.memberID))
                             + "-"
-                            + (Math.max(id, member.memberID));
+                            + (Math.max(chatData.trMemberID, member.memberID));
+
+                        if(event.checkPairs.indexOf(pairID) < 0)
+                            return false;
                     }
 
                     var translator = getMemberByUserId("user" + id);
@@ -151,7 +172,7 @@ io.on('connection', function(socket)
 
                         if(!_.isEmpty(trEvent))
                         {
-                            // Send message to co-translator
+                            // Send message to co-translator/checker
                             for(var skt in trEvent.sockets)
                             {
                                 io.to(trEvent.sockets[skt]).emit('chat message', msgObj);
@@ -259,6 +280,21 @@ function registerNewMemberEvent(data, sct, member)
                     newEvent.pairID = pairID;
                     newEvent.sockets.push(sct.id);
 
+                    // Add pair to checkers chat
+                    var eSteps = new EventSteps();
+                    var checkPair = "";
+                    if(data.step == eSteps.KEYWORD_CHECK || data.step == eSteps.CONTENT_REVIEW)
+                    {
+                        checkPair = "pair-"
+                            + newEvent.eventID
+                            + "-"
+                            + (Math.min(data.trMemberID, response.memberID))
+                            + "-"
+                            + (Math.max(data.trMemberID, response.memberID));
+
+                        newEvent.checkPairs.push(pairID);
+                    }
+
                     if(_.isEmpty(member))
                     {
                         var newMember = new Member();
@@ -282,7 +318,7 @@ function registerNewMemberEvent(data, sct, member)
                     var roomMates = getMembersByRoomID(data.eventID);
                     io.to("room" + data.eventID).emit('room update', roomMates);
 
-                    sendSavedMessages(sct, newEvent);
+                    sendSavedMessages(sct, newEvent, checkPair);
                 }
                 else
                 {
@@ -385,25 +421,45 @@ function getMemberEvent(member, eventID)
     return event;
 }
 
-function sendSavedMessages(socket, event)
+function sendSavedMessages(socket, event, checkPair)
 {
     var since = Date.now() - 10 * 24 * 60 * 60 * 1000; // get messages within 10 days period
 
     // TODO Remove old messages by running command ZREMRANGEBYSCORE zset -inf since
 
-    clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, since, "+inf", "WITHSCORES", function(err, value) {
-        try
-        {
-            if(!_.isEmpty(value))
+    if(checkPair != "")
+    {
+        clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, since, "+inf", "WITHSCORES", function(err, value) {
+            try
             {
-                socket.emit('system message', {type: "prvtMsgs", msgs: value});
+                if(!_.isEmpty(value))
+                {
+                    socket.emit('system message', {type: "prvtMsgs", msgs: value});
+                }
             }
-        }
-        catch (err)
-        {
-            util.log(err);
-        }
-    });
+            catch (err)
+            {
+                util.log(err);
+            }
+        });
+    }
+    else
+    {
+        clientRedis.ZRANGEBYSCORE("rooms:" + checkPair, since, "+inf", "WITHSCORES", function(err, value) {
+            try
+            {
+                if(!_.isEmpty(value))
+                {
+                    socket.emit('system message', {type: "prvtMsgs", msgs: value});
+                }
+            }
+            catch (err)
+            {
+                util.log(err);
+            }
+        });
+    }
+
 
     clientRedis.ZRANGEBYSCORE("rooms:event-" + event.eventID, since, "+inf", "WITHSCORES", function(err, value) {
         try

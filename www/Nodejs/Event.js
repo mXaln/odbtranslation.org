@@ -16,6 +16,7 @@ var Event = function() {
         eventID: eventID,
         cotrMemberID: cotrMemberID,
         pairID: pairID,
+        checkPairs: [],
         sockets: [],
     }
 };

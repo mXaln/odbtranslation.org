@@ -79,11 +79,11 @@
 }
 
 
-#p2p, #kw_chk, #cont_chk {
+#p2p, #chk {
     display: none;
 }
 
-#p2p_messages, #evnt_messages, #kw_messages, #cont_messages {
+#p2p_messages, #evnt_messages, #chk_messages {
     height: 375px;
     overflow-y: auto;
     word-wrap: break-word;

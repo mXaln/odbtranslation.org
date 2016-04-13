@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("keyword_check", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("content_review", "Events")?></div>
     </div>
 
     <div class="row">
@@ -51,8 +51,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 8:</span> <?php echo Language::show("keyword_check", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("keyword_check_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 8:</span> <?php echo Language::show("content_review", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("content_review_desc", "Events")?></div>
             </div>
         </div>
     </div>

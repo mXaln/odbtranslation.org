@@ -239,6 +239,7 @@ class MembersController extends Controller
         {
             Url::redirect('members');
         }
+exit;
 
         if (isset($_POST['submit']))
         {

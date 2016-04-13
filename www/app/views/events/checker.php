@@ -8,9 +8,7 @@
 use \Core\Language;
 use \Helpers\Constants\EventSteps;
 
-echo \Core\Error::display($error);
-
-if(empty($error)):
+if(empty($error) && empty($data["success"])):
 ?>
 
 <div id="translator_contents" class="row panel-body">

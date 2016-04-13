@@ -7,6 +7,20 @@ var currentP2Ptab;
 var currentP2Pmsgs;
 var currentChatType;
 
+var eventSteps = {
+    PRAY: "pray",
+    CONSUME: "consume",
+    DISCUSS: "discuss",
+    PRE_CHUNKING: "pre-chunking",
+    CHUNKING: "chunking",
+    BLIND_DRAFT: "blind-draft",
+    SELF_CHECK: "self-check",
+    PEER_REVIEW: "peer-review",
+    KEYWORD_CHECK: "keyword-check",
+    CONTENT_REVIEW: "content-review",
+    FINISHED: "finished",
+};
+
 $(function () {
     var socket = io.connect('http://v-mast.mvc:8001');
 
@@ -16,17 +30,11 @@ $(function () {
     socket.on('system message', OnSystemMessage);
     socket.on('checking request', OnCheckingRequest);
 
-    if(step == "keyword-check")
+    if(step == "keyword-check" || step == "content-review")
     {
-        currentP2Ptab = $("#kw_chk");
-        currentP2Pmsgs = $("#kw_messages");
-        currentChatType = "kwc";
-    }
-    else if(step == "content-review")
-    {
-        currentP2Ptab = $("#cont_chk");
-        currentP2Pmsgs = $("#cont_messages");
-        currentChatType = "ctc";
+        currentP2Ptab = $("#chk");
+        currentP2Pmsgs = $("#chk_messages");
+        currentChatType = "chk";
     }
     else
     {
@@ -129,11 +137,11 @@ $(function () {
                 return false;
 
             var chatData = {
-                chatType: $("#chat_type").val(),
                 eventID: eventID,
-                msg: $(this).val(),
+                chatType: $("#chat_type").val(),
                 step: step,
-                trMemberID: trMemberID
+                trMemberID: trMemberID,
+                msg: $(this).val(),
             };
             socket.emit('chat message', chatData);
             $(this).blur().val('');
@@ -169,6 +177,7 @@ function OnConnected()
         eventID: eventID,
         aT: aT,
         step: step,
+        trMemberID: trMemberID,
         peerStep: peerStep
     };
     this.emit("new member", data);
@@ -176,8 +185,8 @@ function OnConnected()
 
 function OnChatMessage(data)
 {
-    if(data.chatType != "evnt" && data.step != step)
-        return false;
+    //if(data.chatType != "evnt" && data.step != step)
+    //    return false;
 
     data.msg = data.msg.replace(/\n/g,'<br/>');
 
@@ -338,7 +347,7 @@ function OnSystemMessage(data)
         case "prvtMsgs":
             var messages = [];
             var date, msgObj;
-            var cookieLastMsg = getCookie("p2p_last_msg");
+            var cookieLastMsg = getCookie(currentChatType + "_last_msg");
 
             for(var i in data.msgs)
             {
@@ -355,9 +364,9 @@ function OnSystemMessage(data)
                 }
             }
 
-            var lastDate = renderMessages(messages, $("#p2p_messages"), cookieLastMsg);
+            var lastDate = renderMessages(messages, currentP2Pmsgs, cookieLastMsg);
 
-            setCookie("p2p_last_msg", lastDate, {expires: 24*60*60});
+            setCookie(currentChatType + "_last_msg", lastDate, {expires: 24*60*60});
             break;
 
         case "evntMsgs":
@@ -409,7 +418,7 @@ function OnCheckingRequest(data)
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
                 var notifs = "";
                 $.each(data.notifs, function(i, note) {
-                    notifs += '<a href="'+note.link+'" data="'+note.anchor+'"><li>'+note.text+'</li></a>';
+                    notifs += '<a href="'+note.link+'" data="'+note.anchor+'" target="_blank"><li>'+note.text+'</li></a>';
                 });
                 $(".notif_block").html(notifs);
             }

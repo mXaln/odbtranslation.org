@@ -5,8 +5,9 @@ use \Core\Language;
 use \Helpers\Session;
 
 echo \Core\Error::display($error);
+echo \Core\Error::display($data["success"], "alert alert-success");
 
-if(!empty($data["event"]) && !isset($data["error"])):
+if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
 ?>
 
 <div id="translator_steps" class="open <?php echo $data["event"][0]->step ?>">
@@ -67,14 +68,12 @@ if(!empty($data["event"]) && !isset($data["error"])):
         <div class="chat_tabs panel-heading">
             <div class="row">
                 <div id="p2p" class="col-sm-4 chat_tab active">Partner</div>
-                <div id="kw_chk" class="col-sm-4 chat_tab active">Keyword Check</div>
-                <div id="cont_chk" class="col-sm-4 chat_tab active">Content Review</div>
+                <div id="chk" class="col-sm-4 chat_tab active">Checking</div>
                 <div id="evnt" class="col-sm-4 chat_tab">Event</div>
             </div>
         </div>
         <ul id="p2p_messages" class="chat_msgs"></ul>
-        <ul id="kw_messages" class="chat_msgs"></ul>
-        <ul id="cont_messages" class="chat_msgs"></ul>
+        <ul id="chk_messages" class="chat_msgs"></ul>
         <ul id="evnt_messages" class="chat_msgs"></ul>
         <form action="" class="form-inline">
             <div class="form-group">
