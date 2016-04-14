@@ -2,33 +2,42 @@
 use \Helpers\Session;
 ?>
 
-<h1><?php echo $data['title'] ?></h1>
-
 <?php
-if(isset($data['bookProject'])) {
-    echo "Books<br><br>";
+if(isset($data['languages'])) {
+    echo "Bible<br><br>";
 
-    foreach ($data['bookProject'] as $bookProject) {
-        echo "<a href=\"" . DIR . "translations/" . $bookProject . "\">" . strtoupper($bookProject) . "</a><br>";
+    foreach ($data['languages'] as $language) {
+        echo "<a href=\"" . DIR . "translations/" . $language->targetLang . "\">" . $language->angName . " (".$language->langName.")</a><br>";
+    }
+}
+
+if(isset($data['bookProjects'])) {
+    echo '<a href="'.DIR.'translations">Bible</a> → '.$data['bookProjects'][0]->angName . ' ('.$data['bookProjects'][0]->langName.')<br><br>';
+
+    foreach ($data['bookProjects'] as $bookProject) {
+        echo "<a href=\"" . DIR . "translations/" . $bookProject->targetLang . "/". $bookProject->bookProject . "\">" . strtoupper($bookProject->bookProject) . "</a><br>";
     }
 }
 
 if(isset($data['books'])) {
-    echo '<a href="'.DIR.'translations">Books</a>->'.strtoupper($data['books'][0]->bookProject).'<br><br>';
+    echo '<a href="'.DIR.'translations">Bible</a> → ';
+    echo '<a href="'.DIR.'translations/'.$data['books'][0]->targetLang.'">'.$data['books'][0]->angName . ' ('.$data['books'][0]->langName.')</a> → ';
+    echo $data['books'][0]->bookProject.'</a><br><br>';
 
-    foreach ($data['books'] as $books) {
-        echo "<a href=\"" . DIR . "translations/" . $books->bookProject . "/" . $books->bookID . "\">" . $books->bookName . "</a><br>";
+    foreach ($data['books'] as $book) {
+        echo "<a href=\"" . DIR . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">" . $book->bookName . "</a><br>";
     }
 }
 
-if(isset($data['chapters'])) {
-    echo '<a href="'.DIR.'translations">Books</a>->';
-    echo '<a href="'.DIR.'translations/'.$data['chapters'][0]->bookProject.'">'.strtoupper($data['chapters'][0]->bookProject).'</a>->';
-    echo $data['chapters'][0]->bookName.'</a><br><br>';
+if(isset($data['book'])) {
+    echo '<a href="'.DIR.'translations">Bible</a> → ';
+    echo '<a href="'.DIR.'translations/'.$data['data']->targetLang.'">'.$data['data']->angName . ' ('.$data['data']->langName.')</a> → ';
+    echo '<a href="'.DIR.'translations/'.$data['data']->targetLang.'/'.$data['data']->bookProject.'">'.\Core\Language::show($data["data"]->bookProject, "Events").'</a> → ';
+    echo $data['data']->bookName.'</a><br><br>';
 
-    foreach ($data['chapters'] as $chapter) {
-        echo "<a href=\"" . DIR . "translations/".$chapter->bookProject. "/" . $chapter->bookID . "/" . $chapter->chapter . "\">Chapter " . $chapter->chapter . "</a><br>";
-    }
+    echo '<h1>'.$data['data']->bookName.'</h1>';
+
+    echo $data["book"];
 }
 
 if(isset($data['verses'])) {

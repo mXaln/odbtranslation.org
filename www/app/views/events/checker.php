@@ -9,11 +9,13 @@ use \Core\Language;
 use \Helpers\Constants\EventSteps;
 
 if(empty($error) && empty($data["success"])):
+
+    $current = $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
 ?>
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? Language::show("kw_checker", "Events") : Language::show("cont_checker", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show($current, "Events")?></div>
 </div>
 
 <div class="row">
@@ -49,8 +51,8 @@ if(empty($error) && empty($data["success"])):
 
             <div class="clear"></div>
 
-            <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show("kw_checker_help", "Events")?></div>
-            <div class="help_descr_steps"><?php echo Language::show("kw_checker_help_desc", "Events")?></div>
+            <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show($current . "_help", "Events")?></div>
+            <div class="help_descr_steps"><?php echo Language::show($current . "_help_desc", "Events")?></div>
         </div>
     </div>
 </div>

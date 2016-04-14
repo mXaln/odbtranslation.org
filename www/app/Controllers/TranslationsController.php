@@ -21,7 +21,7 @@ class TranslationsController extends Controller
         $this->_model = new \Models\TranslationsModel();
     }
 
-    public function index($bookProject = null, $bookID = null, $chapter = null)
+    public function index($lang = null, $bookProject = null, $bookCode = null)
     {
         if (!Session::get('loggedin'))
         {
@@ -41,32 +41,47 @@ class TranslationsController extends Controller
             return;
         }
 
-        if($bookProject == null)
+        if($lang == null)
+        {
+            $data['title'] = $this->language->get('Choose language');
+            $data["languages"] = $this->_model->getTranslationLanguages();
+        }
+        else if($bookProject == null)
         {
             $data['title'] = $this->language->get('Choose book type');
-            $data['bookProject'] = array('udb', 'ulb');
+            $data['bookProjects'] = $this->_model->getTranslationProjects($lang);
         }
-        elseif($bookID == null)
+        elseif($bookCode == null)
         {
             $data['title'] = $this->language->get('Choose book');
-            $data['books'] = $this->_model->getTranslationWithBook(PREFIX.'books.bookID,'.PREFIX.'books.bookName,'.PREFIX.'books.bookProject', array(
-                PREFIX.'books.bookProject' => array('=', $bookProject)
-            ), 'books.bookID');
-        }
-        elseif($chapter == null)
-        {
-            $data['title'] = $this->language->get('Choose chapter');
-            $data['chapters'] = $this->_model->getTranslationWithBook(PREFIX.'books.bookID,'.PREFIX.'books.bookName,'.PREFIX.'books.bookProject,'.PREFIX.'books.chapter', array(
-                PREFIX.'books.bookID' => array('=', $bookID),
-                PREFIX.'books.bookProject' => array('=', $bookProject)), 'books.bID');
+            $data['books'] = $this->_model->getTranslationBooks($lang, $bookProject);
         }
         else
         {
             $data['title'] = $this->language->get('Choose segment');
-            $data['verses'] = $this->_model->getTranslationWithBook('*', array(
-                PREFIX.'books.bookID' => array('=', $bookID),
-                PREFIX.'books.chapter' => array('=', $chapter),
-                PREFIX.'books.bookProject' => array('=', $bookProject)));
+
+            $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            $data["data"] = $book[0];
+            $data['book'] = "";
+            $lastChapter = 0;
+
+            foreach ($book as $chunk) {
+                $verses = json_decode($chunk->translatedVerses);
+
+                if($chunk->chapter != $lastChapter)
+                {
+                    $data['book'] .= '<h2>Chapter '.$chunk->chapter.'</h2>';
+                    $lastChapter = $chunk->chapter;
+                }
+
+                // Start of chunk
+                $data['book'] .= '<p>';
+                foreach ($verses->translator->verses as $verse => $text) {
+                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong>'.$text." ";
+                }
+                // End of chunk
+                $data['book'] .= '</p>';
+            }
         }
 
         View::renderTemplate('header', $data);
@@ -94,7 +109,7 @@ class TranslationsController extends Controller
             return;
         }
 
-        $data['verses'] = $this->_model->getTranslationWithBook('*', array(
+        $data['verses'] = $this->_model->getTranslationBooks('*', array(
             PREFIX.'books.bookID' => array('=', $bookID),
             PREFIX.'books.chapter' => array('=', $chapter),
             PREFIX.'books.bookProject' => array('=', $bookProject)));
@@ -124,7 +139,7 @@ class TranslationsController extends Controller
             return;
         }
 
-        $data['verses'] = $this->_model->getTranslationWithBook('*', array(
+        $data['verses'] = $this->_model->getTranslationBooks('*', array(
             PREFIX.'books.bookID' => array('=', $bookID),
             PREFIX.'books.chapter' => array('=', $chapter),
             PREFIX.'books.bookProject' => array('=', $bookProject)));

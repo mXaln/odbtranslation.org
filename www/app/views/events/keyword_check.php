@@ -11,6 +11,10 @@ use \Core\Language;
         <div class="main_content col-sm-9">
             <form action="" method="post">
                 <div class="main_content_text row">
+                    <?php if($data["event"][0]->checkerID == 0): ?>
+                    <div class="alert alert-success"><?php echo Language::show("check_request_sent_success", "Events") ?></div>
+                    <?php endif; ?>
+
                     <h4><?php echo $data["event"][0]->sLang." - "
                             .Language::show($data["event"][0]->bookProject, "Events")." - "
                             .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "

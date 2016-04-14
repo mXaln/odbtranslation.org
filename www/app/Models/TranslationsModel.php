@@ -11,68 +11,54 @@ class TranslationsModel extends Model
         parent::__construct();
     }
 
+
+    public function getTranslationLanguages()
+    {
+        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName FROM ".PREFIX."translations AS trs ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
+            "GROUP BY trs.targetLang";
+
+        return $this->db->select($sql);
+    }
+
+    public function getTranslationProjects($lang)
+    {
+        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject FROM ".PREFIX."translations AS trs ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
+            "WHERE trs.targetLang = :lang ".
+            "GROUP BY trs.bookProject";
+
+        return $this->db->select($sql, array(":lang" => $lang));
+    }
+
+    public function getTranslationBooks($lang, $bookProject)
+    {
+        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject, trs.bookCode, abbr.name AS bookName ".
+            "FROM ".PREFIX."translations AS trs ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr AS abbr ON trs.bookCode = abbr.code ".
+            "WHERE trs.targetLang = :lang AND trs.bookProject = :bookProject ".
+            "GROUP BY trs.bookCode";
+
+        return $this->db->select($sql, array(":lang" => $lang, ":bookProject" => $bookProject));
+    }
+
     /**
      * For getting data of a translation
      * @param $fields Requested fields could be * for all or comma separated list
      * @param $where array Example: array('id' => array('=', 1), 'name' => array('!=', 'John'))
      * @return array
      */
-    public function getTranslation($fields, $where)
+    public function getTranslation($lang, $bookProject, $bookCode)
     {
-        $sql = "SELECT $fields FROM ".PREFIX."translations WHERE";
-        $prepare = array();
-        $i=0;
+        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject, trs.bookCode, abbr.name AS bookName, ".
+                "trs.chapter, trs.translatedVerses ".
+            "FROM ".PREFIX."translations AS trs ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr AS abbr ON trs.bookCode = abbr.code ".
+            "WHERE trs.targetLang = :lang AND trs.bookProject = :bookProject AND trs.bookCode = :bookCode ".
+            "ORDER BY trs.chapter, trs.chunk";
 
-        foreach($where as $key=>$value)
-        {
-            $sql .= ($i>0 ? " AND " : " ")."$key ".$value[0]." :$key";
-            $prepare[':'.$key] = $value[1];
-            $i++;
-        }
-
-        return $this->db->select($sql, $prepare);
-    }
-
-    public function getTranslationWithBook($fields, $where, $group = false)
-    {
-        $sql = "SELECT $fields FROM ".PREFIX."translations".
-            " LEFT JOIN ".PREFIX."books".
-            " ON ".PREFIX."translations.bID=".PREFIX."books.bID".
-            " WHERE";
-        $prepare = array();
-        $i=0;
-
-        foreach($where as $key=>$value)
-        {
-            $sql .= ($i>0 ? " AND " : " ")."$key ".$value[0]." :".preg_replace("/.*\./", "", $key);
-            $prepare[':'.preg_replace("/.*\./", "", $key)] = $value[1];
-            $i++;
-        }
-
-        if($group)
-            $sql .= " GROUP BY ".PREFIX."$group";
-        $sql .= " ORDER BY ".PREFIX."books.chapter AND ".PREFIX."translations.translatedVerses";
-
-        return $this->db->select($sql, $prepare);
-    }
-
-    /**
-     * Create new translation
-     * @param $data
-     * @return string
-     */
-    public function createTranslation($data)
-    {
-        $this->db->insert(PREFIX."translations",$data);
-        return $this->db->lastInsertId('tID');
-    }
-
-    /**
-     * Update translation
-     * @param $data
-     * @param $where
-     */
-    public function updateTranslation($data, $where){
-        $this->db->update(PREFIX."translations",$data,$where);
+        return $this->db->select($sql, array(":lang" => $lang, ":bookProject" => $bookProject, ":bookCode" => $bookCode));
     }
 }

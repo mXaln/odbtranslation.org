@@ -183,9 +183,11 @@ class EventsModel extends Model
     public function getMemberEvents($memberID, $memberType, $eventID = null)
     {
         $events = array();
-        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, ".PREFIX."translators.step, ".PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
-                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.lastTID, "
-                ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.lastTID AS cotrLastTID, " : "")
+        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, "
+                .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, ".PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
+                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
+                ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
+                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
@@ -265,7 +267,7 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE trs.eventID IN( SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID ) ".
                 "AND trs.memberID != :memberID AND trs.trID NOT IN (SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
-                "AND (trs.step = 'keyword-check' AND trs.checkerID = 0)";
+                "AND (trs.step = 'keyword-check' AND (trs.checkerID = 0 OR (trs.checkerID = :memberID AND trs.checkDone = 0 AND trs.hideChkNotif = 0)))";
 
         return $this->db->select($sql, array(":memberID" => Session::get("memberID")));
     }
@@ -396,13 +398,26 @@ class EventsModel extends Model
         return $source;
     }
 
-    public function getTranslation($trID, $tID = null)
+    /** Get translation (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
+     * @param int $trID
+     * @param int $tID
+     * @param int $chapter
+     * @return array
+     */
+    public function getTranslation($trID, $tID = null, $chapter = null)
     {
         $where = " trID = :trID";
         $prepare = array(":trID" => $trID);
         if($tID) {
-            $where .= " AND tID = :tID";
+            $where .= " AND tID = :tID ";
             $prepare[":tID"] = $tID;
+        }
+        else
+        {
+            if($chapter) {
+                $where .= " AND chapter = :chapter ";
+                $prepare[":chapter"] = $chapter;
+            }
         }
 
         return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE".$where." ORDER BY chunk", $prepare);

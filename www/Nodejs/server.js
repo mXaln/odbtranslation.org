@@ -89,16 +89,23 @@ io.on('connection', function(socket)
                 var checkPair = "";
                 if(data.step == eSteps.KEYWORD_CHECK || data.step == eSteps.CONTENT_REVIEW)
                 {
-                    checkPair = "pair-"
-                        + event.eventID
-                        + "-"
-                        + (Math.min(data.trMemberID, member.memberID))
-                        + "-"
-                        + (Math.max(data.trMemberID, member.memberID));
-
-                    if(event.checkPairs.indexOf(checkPair) < 0)
+                    if(data.chkMemberID > 0)
                     {
-                        event.checkPairs.push(checkPair);
+                        checkPair = "pair-"
+                            + event.eventID
+                            + "-"
+                            + (Math.min(data.chkMemberID, member.memberID))
+                            + "-"
+                            + (Math.max(data.chkMemberID, member.memberID));
+
+                        if(event.checkPairs.indexOf(checkPair) < 0)
+                        {
+                            event.checkPairs.push(checkPair);
+                        }
+                    }
+                    else
+                    {
+                        checkPair = "zero";
                     }
                 }
 
@@ -152,13 +159,16 @@ io.on('connection', function(socket)
                     if(chatData.chatType == "chk")
                     {
                         msgObj.chatType = "chk";
-                        id = chatData.trMemberID;
+                        id = chatData.chkMemberID;
+
+                        if(id <= 0) return false;
+
                         pairID = "pair-"
                             + event.eventID
                             + "-"
-                            + (Math.min(chatData.trMemberID, member.memberID))
+                            + (Math.min(id, member.memberID))
                             + "-"
-                            + (Math.max(chatData.trMemberID, member.memberID));
+                            + (Math.max(id, member.memberID));
 
                         if(event.checkPairs.indexOf(pairID) < 0)
                             return false;
@@ -237,6 +247,25 @@ io.on('connection', function(socket)
                             anchor: "check:"+event.eventID+":"+member.memberID
                         };
                         io.to("room" + event.eventID).emit('checking request', msgObj);
+
+                        if(data.chkMemberID > 0)
+                        {
+                            var checkMember = getMemberByUserId("user" + data.chkMemberID);
+
+                            if(typeof checkMember !== 'undefined')
+                            {
+                                var checkEvent = getMemberEvent(checkMember, event.eventID);
+
+                                if(!_.isEmpty(checkEvent))
+                                {
+                                    // Send message to check member
+                                    for(var skt in checkEvent.sockets)
+                                    {
+                                        io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkEnter"});
+                                    }
+                                }
+                            }
+                        }
                         break;
                 }
             }
@@ -285,14 +314,21 @@ function registerNewMemberEvent(data, sct, member)
                     var checkPair = "";
                     if(data.step == eSteps.KEYWORD_CHECK || data.step == eSteps.CONTENT_REVIEW)
                     {
-                        checkPair = "pair-"
-                            + newEvent.eventID
-                            + "-"
-                            + (Math.min(data.trMemberID, response.memberID))
-                            + "-"
-                            + (Math.max(data.trMemberID, response.memberID));
+                        if(data.chkMemberID > 0)
+                        {
+                            checkPair = "pair-"
+                                + newEvent.eventID
+                                + "-"
+                                + (Math.min(data.chkMemberID, response.memberID))
+                                + "-"
+                                + (Math.max(data.chkMemberID, response.memberID));
 
-                        newEvent.checkPairs.push(pairID);
+                            newEvent.checkPairs.push(checkPair);
+                        }
+                        else
+                        {
+                            checkPair = "zero";
+                        }
                     }
 
                     if(_.isEmpty(member))
@@ -429,23 +465,26 @@ function sendSavedMessages(socket, event, checkPair)
 
     if(checkPair != "")
     {
-        clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, since, "+inf", "WITHSCORES", function(err, value) {
-            try
-            {
-                if(!_.isEmpty(value))
+        if(checkPair != "zero")
+        {
+            clientRedis.ZRANGEBYSCORE("rooms:" + checkPair, since, "+inf", "WITHSCORES", function(err, value) {
+                try
                 {
-                    socket.emit('system message', {type: "prvtMsgs", msgs: value});
+                    if(!_.isEmpty(value))
+                    {
+                        socket.emit('system message', {type: "prvtMsgs", msgs: value});
+                    }
                 }
-            }
-            catch (err)
-            {
-                util.log(err);
-            }
-        });
+                catch (err)
+                {
+                    util.log(err);
+                }
+            });
+        }
     }
     else
     {
-        clientRedis.ZRANGEBYSCORE("rooms:" + checkPair, since, "+inf", "WITHSCORES", function(err, value) {
+        clientRedis.ZRANGEBYSCORE("rooms:" + event.pairID, since, "+inf", "WITHSCORES", function(err, value) {
             try
             {
                 if(!_.isEmpty(value))

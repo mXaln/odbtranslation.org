@@ -15,36 +15,36 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
-            <span><?php echo Language::show("prayer_focus", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::PRAY, "Events")?></span>
         </li>
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
-            <span><?php echo Language::show("reading_text", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::CONSUME, "Events")?></span>
         </li>
         <li class="discuss-step <?php echo $data["event"][0]->step == EventSteps::DISCUSS ? "active" : "" ?>">
-            <span><?php echo Language::show("text_discussuion", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::DISCUSS, "Events")?></span>
         </li>
         <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ||
                 $data["event"][0]->step == EventSteps::PRE_CHUNKING ? "active" : "" ?>">
-            <span><?php echo Language::show("chunking_text", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::CHUNKING, "Events")?></span>
         </li>
 
         <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
         <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
-            <span><?php echo Language::show("blind_drafting", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::BLIND_DRAFT, "Events")?></span>
         </li>
         <?php endif; ?>
 
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo Language::show("self_check", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::SELF_CHECK, "Events")?></span>
         </li>
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <span><?php echo Language::show("peer_review", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::PEER_REVIEW, "Events")?></span>
         </li>
         <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <span><?php echo Language::show("keyword_check", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::KEYWORD_CHECK, "Events")?></span>
         </li>
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <span><?php echo Language::show("content_review", "Events")?></span>
+            <span><?php echo Language::show(EventSteps::CONTENT_REVIEW, "Events")?></span>
         </li>
     </ul>
 </div>
@@ -52,13 +52,9 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
-    var trMemberID = <?php echo $data["event"][0]->cotrID | $data["event"][0]->memberID; ?>;
+    var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
-
-    var peerStep = '<?php echo EventSteps::PEER_REVIEW; ?>';
-    var keywordStep = '<?php echo EventSteps::KEYWORD_CHECK; ?>';
-    var contentStep = '<?php echo EventSteps::CONTENT_REVIEW; ?>';
 </script>
 
 <div id="chat_container" class="closed">

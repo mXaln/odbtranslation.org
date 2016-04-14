@@ -16,6 +16,7 @@ use \Core\Language;
                         <th>Book</th>
                         <th>Target Language</th>
                         <th>Project</th>
+                        <th>Current step</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,6 +25,7 @@ use \Core\Language;
                             <td><a href="/events/translator/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                            <td><?php echo $event->translateDone ? Language::show(\Helpers\Constants\EventSteps::FINISHED, "Events") : Language::show($event->step, "Events")?></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -47,14 +49,18 @@ use \Core\Language;
                         <th>Book</th>
                         <th>Target Language</th>
                         <th>Project</th>
+                        <th>Current step</th>
+                        <th>User</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach($data["myCheckerL1Events"] as $event): ?>
                         <tr>
-                            <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID ?>"><?php echo $event->bookName ?></a></td>
+                            <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID ?>"><?php echo $event->bookName.", chapter ".$event->currentChapter ?></a></td>
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                            <td><?php echo $event->translateDone ? Language::show(\Helpers\Constants\EventSteps::FINISHED, "Events") : Language::show($event->step, "Events")?></td>
+                            <td><?php echo $event->userName ?></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>

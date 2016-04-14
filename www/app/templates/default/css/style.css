@@ -847,3 +847,7 @@ textarea {
     color: #ffffff;
     font-weight: bold;
 }
+
+.notif_title {
+    float: left;
+}

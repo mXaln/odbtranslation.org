@@ -75,7 +75,10 @@ $hooks->run('afterBody');
 			<li><a class="btn btn-link" href="<?php echo DIR?>lang/ru">Русский</a></li>
 			<?php if(\Helpers\Session::get('loggedin')): ?>
 			| <li class="notifications">
-					<a class="btn btn-link" id="notifications" href="#">Notifications <?php echo !empty($data["notifications"]) ? '<span class="notif_count">'.sizeof($data["notifications"]).'</span>' : ""; ?></a>
+					<a class="btn btn-link" id="notifications" href="#">
+                        <span class="notif_title">Notifications</span>
+                        <?php echo !empty($data["notifications"]) ? '<span class="notif_count">'.sizeof($data["notifications"]).'</span>' : ""; ?>
+                    </a>
 					<ul class="notif_block">
 					<?php if(!empty($data["notifications"])):?>
 						<?php foreach ($data["notifications"] as $notification):?>

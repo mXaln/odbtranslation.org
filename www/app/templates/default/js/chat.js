@@ -140,7 +140,7 @@ $(function () {
                 eventID: eventID,
                 chatType: $("#chat_type").val(),
                 step: step,
-                trMemberID: trMemberID,
+                chkMemberID: chkMemberID,
                 msg: $(this).val(),
             };
             socket.emit('chat message', chatData);
@@ -177,8 +177,7 @@ function OnConnected()
         eventID: eventID,
         aT: aT,
         step: step,
-        trMemberID: trMemberID,
-        peerStep: peerStep
+        chkMemberID: chkMemberID,
     };
     this.emit("new member", data);
 }
@@ -319,26 +318,19 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
-            if(step == peerStep)
-            {
-                var data = {eventID: eventID, step: step};
-                this.emit('step enter', data);
-            }
-            else if(step == keywordStep)
-            {
-                var data = {eventID: eventID, step: step};
-                this.emit('step enter', data);
-
-                // TODO setInterval
-            }
-            else if(step == contentStep)
-            {
-
-            }
+            var data = {eventID: eventID, step: step, chkMemberID: chkMemberID};
+            this.emit('step enter', data);
             break;
 
         case "peerEnter":
             if($(".cotr_not_ready").length > 0)
+            {
+                window.location.reload();
+            }
+            break;
+
+        case "checkEnter":
+            if(chkMemberID == 0 || $(".checker_waits").length > 0)
             {
                 window.location.reload();
             }

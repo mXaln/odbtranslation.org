@@ -149,13 +149,13 @@ class EventsController extends Controller
 
                         if (isset($_POST) && !empty($_POST)) {
                             if ($_POST["confirm_step"]) {
-                                if ($data["event"][0]->cotrStep == EventSteps::DISCUSS || $data["event"][0]->cotrStep == EventSteps::PRE_CHUNKING) {
+                                //if ($data["event"][0]->cotrStep == EventSteps::DISCUSS || $data["event"][0]->cotrStep == EventSteps::PRE_CHUNKING) {
                                     $this->_model->updateTranslator(array("step" => EventSteps::PRE_CHUNKING), array("trID" => $data["event"][0]->trID));
                                     Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                     exit;
-                                } else {
-                                    $error[] = $this->language->get("cotranslator_not_ready_error");
-                                }
+                                //} else {
+                                //    $error[] = $this->language->get("cotranslator_not_ready_error");
+                                //}
                             }
                         }
 
@@ -462,7 +462,7 @@ class EventsController extends Controller
 
                     case EventSteps::PEER_REVIEW:
 
-                        $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+                        $translationData = $this->_model->getTranslation($data["event"][0]->trID, null, $data["event"][0]->currentChapter);
                         $translation = array();
 
                         foreach ($translationData as $tv) {
@@ -520,7 +520,10 @@ class EventsController extends Controller
                             else
                             {
                                 if ($_POST["confirm_step"]) {
-                                    $this->_model->updateTranslator(array("step" => EventSteps::KEYWORD_CHECK), array("trID" => $data["event"][0]->trID));
+                                    $step = $data["event"][0]->translateDone ? EventSteps::FINISHED : EventSteps::KEYWORD_CHECK;
+                                    $hideChkNotif = $step != EventSteps::KEYWORD_CHECK;
+
+                                    $this->_model->updateTranslator(array("step" => $step, "hideChkNotif" => $hideChkNotif), array("trID" => $data["event"][0]->trID));
                                     Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                     exit;
                                 }
@@ -536,12 +539,23 @@ class EventsController extends Controller
 
                             $data["translation"] = $translation;
 
-                            $coTranslationTemp = $this->_model->getTranslation($data["event"][0]->cotrID);
+                            $coTranslationTemp = $this->_model->getTranslation($data["event"][0]->cotrID, null, $data["event"][0]->cotrCurrentChapter);
                             $coTranslation = array();
 
+                            $cotrReady = true;
+
                             foreach ($coTranslationTemp as $tv) {
-                                $coTranslation[] = json_decode($tv->translatedVerses, true);
+                                $tmp = json_decode($tv->translatedVerses, true);
+                                $coTranslation[] = $tmp;
+
+                                if(empty($tmp["translator"]["verses"]))
+                                    $cotrReady = false;
                             }
+
+                            if(sizeof($data["chapters"][$data["event"][0]->cotrCurrentChapter]["chunks"]) > sizeof($coTranslation))
+                                $cotrReady = false;
+
+                            $data["cotrData"]["cotrReady"] = $cotrReady;
                             $data["cotrData"]["translation"] = $coTranslation;
                         } else {
                             $error[] = $sourceText["error"];
@@ -554,7 +568,7 @@ class EventsController extends Controller
 
                     case EventSteps::KEYWORD_CHECK:
 
-                        $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+                        $translationData = $this->_model->getTranslation($data["event"][0]->trID, null, $data["event"][0]->currentChapter);
                         $translation = array();
 
                         foreach ($translationData as $tv) {
@@ -649,7 +663,7 @@ class EventsController extends Controller
 
                     case EventSteps::CONTENT_REVIEW:
 
-                        $translationData = $this->_model->getTranslation($data["event"][0]->trID);
+                        $translationData = $this->_model->getTranslation($data["event"][0]->trID, null, $data["event"][0]->currentChapter);
                         $translation = array();
 
                         foreach ($translationData as $tv) {
@@ -725,15 +739,24 @@ class EventsController extends Controller
                                 if ($_POST["confirm_step"]) {
                                     if($data["event"][0]->checkDone)
                                     {
+                                        // Check what is the next step
                                         $currentChapter = $data["event"][0]->currentChapter;
+                                        $chaptersNum = 0;
+                                        $cotrChaptersNum = 0;
                                         foreach ($sourceText["chapters"] as $chapter => $chunks) {
-                                            if($currentChapter <= $chapter) continue;
+                                            //if($currentChapter >= $chapter) continue;
 
-                                            if($chunks->trID == $data["event"][0]->trID)
+                                            if($chunks["trID"] == $data["event"][0]->trID)
                                             {
                                                 $currentChapter = $chapter;
-                                                break;
+                                                $chaptersNum++;
+                                                //break;
                                             }
+                                            else if($chunks["trID"] == $data["event"][0]->cotrID)
+                                            {
+                                                $cotrChaptersNum++;
+                                            }
+
                                         }
 
                                         if($currentChapter != $data["event"][0]->currentChapter)
@@ -747,7 +770,18 @@ class EventsController extends Controller
                                         else
                                         {
                                             // All chapters are finished
-                                            $postdata["step"] = EventSteps::FINISHED;
+                                            // Check what is the next step for partner
+                                            $postdata["translateDone"] = true;
+                                            if($cotrChaptersNum > $chaptersNum)
+                                            {
+                                                // co-translator has more chapters to translate
+                                                // then got to peer review
+                                                $postdata["step"] = EventSteps::PEER_REVIEW;
+                                            }
+                                            else
+                                            {
+                                                $postdata["step"] = EventSteps::FINISHED;
+                                            }
                                         }
 
                                         $this->_model->updateTranslator($postdata, array("trID" => $data["event"][0]->trID));
@@ -814,7 +848,7 @@ class EventsController extends Controller
 
             if(!empty($data["event"]))
             {
-                if($data["event"][0]->step != EventSteps::FINISHED)
+                if($data["event"][0]->step != EventSteps::FINISHED && !$data["event"][0]->translateDone)
                 {
                     if($data["event"][0]->step == EventSteps::KEYWORD_CHECK || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
                     {
@@ -841,7 +875,7 @@ class EventsController extends Controller
                             }
                             else
                             {
-                                $data["success"] = $this->language->get("checker_translator_finished_success");
+                                $data["success"] = $this->language->get("checker_translator_finished_error");
                             }
                         }
                         else
@@ -862,10 +896,8 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    $data["success"] = $this->language->get("translator_event_finished_success", array(
-                        $this->language->get("translator"),
-                        $this->language->get("his")
-                    ));
+                    $data["success"] = $this->language->get("translator_event_finished_success");
+                    $data["error"] = "";
                 }
 
                 $data['title'] = $data["event"][0]->bookName ." - ". $data["event"][0]->tLang ." - ". $this->language->get($data["event"][0]->bookProject);
@@ -1149,17 +1181,19 @@ class EventsController extends Controller
         $canApply = false;
 
         foreach ($this->_notifications as $notification) {
-            if($eventID == $notification->eventID && $memberID == $notification->memberID
-                && $notification->checkerID == 0)
+            if($eventID == $notification->eventID && $memberID == $notification->memberID)
             {
-                $canApply = true;
-                break;
+                if($notification->checkerID == 0 || $notification->checkerID == Session::get("memberID"))
+                {
+                    $canApply = true;
+                    break;
+                }
             }
         }
 
         if($canApply)
         {
-            $postdata = array("checkerID" => Session::get("memberID"));
+            $postdata = array("checkerID" => Session::get("memberID"), "hideChkNotif" => true);
             $this->_model->updateTranslator($postdata, array("eventID" => $eventID, "memberID" => $memberID));
             Url::redirect('events/checker/'.$eventID.'/'.$memberID);
             exit;

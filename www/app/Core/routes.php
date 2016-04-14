@@ -25,9 +25,7 @@ Router::any('books/(:any)/(:any)/(:any)', 'Controllers\BooksController@index');
 Router::any('translations', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)/(:any)', 'Controllers\TranslationsController@index');
-Router::any('translations/(:any)/(:any)/(:num)', 'Controllers\TranslationsController@index');
-Router::any('translations/(:any)/(:any)/(:num)/view', 'Controllers\TranslationsController@view');
-Router::any('translations/(:any)/(:any)/(:num)/edit', 'Controllers\TranslationsController@edit');
+Router::any('translations/(:any)/(:any)/(:any)', 'Controllers\TranslationsController@index');
 
 Router::any('events', 'Controllers\EventsController@index');
 Router::any('events/project/(:num)', 'Controllers\EventsController@project');
