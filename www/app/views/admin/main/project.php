@@ -95,40 +95,53 @@ if(!empty($data["project"])):
 
             <div class="errors"></div>
 
-            <form action="/admin/rpc/create_event" method="post" id="startEvent" style="width: 500px;">
-                <div class="form-group">
-                    <label for="translators"><?php echo Language::show('translators', 'Events'); ?></label>
-                    <input type="text" class="form-control" id="translators" name="translators" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
+            <div class="row">
+                <div class="col-sm-6">
+                    <form action="/admin/rpc/create_event" method="post" id="startEvent">
+                        <div class="form-group">
+                            <label for="translators"><?php echo Language::show('translators', 'Events'); ?></label>
+                            <input type="text" class="form-control" id="translators" name="translators" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkers_l2"><?php echo Language::show('checkers_l2', 'Events'); ?></label>
+                            <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkers_l3"><?php echo Language::show('checkers_l3', 'Events'); ?></label>
+                            <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cal_from"><?php echo Language::show('cal_from', 'Events'); ?></label>
+                            <input type="text" class="form-control" id="cal_from" name="cal_from" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cal_to"><?php echo Language::show('cal_to', 'Events'); ?></label>
+                            <input type="text" class="form-control" id="cal_to" name="cal_to" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
+                        </div>
+
+                        <input type="hidden" name="book_code" id="bookCode" value="" />
+                        <input type="hidden" name="projectID" id="projectID" value="<?php echo $data["project"][0]->projectID?>" />
+                        <input type="hidden" name="bookProject" id="bookProject" value="<?php echo $data["project"][0]->bookProject?>" />
+                        <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
+
+                        <br><br>
+
+                        <button type="submit" name="startEvent" class="btn btn-primary"><?php echo Language::show('Start', 'Events'); ?></button>
+                        <img class="startEventLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
+                    </form>
                 </div>
 
-                <div class="form-group">
-                    <label for="checkers_l2"><?php echo Language::show('checkers_l2', 'Events'); ?></label>
-                    <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
+                <div class="col-sm-6">
+                    <div class="book_info">
+                        <img class="bookInfoLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
+                        <div class="book_info_content"></div>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="checkers_l3"><?php echo Language::show('checkers_l3', 'Events'); ?></label>
-                    <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
-                </div>
-
-                <div class="form-group">
-                    <label for="cal_from"><?php echo Language::show('cal_from', 'Events'); ?></label>
-                    <input type="text" class="form-control" id="cal_from" name="cal_from" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
-                </div>
-
-                <div class="form-group">
-                    <label for="cal_to"><?php echo Language::show('cal_to', 'Events'); ?></label>
-                    <input type="text" class="form-control" id="cal_to" name="cal_to" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
-                </div>
-
-                <input type="hidden" name="book_code" id="bookCode" value="" />
-                <input type="hidden" name="projectID" id="projectID" value="<?php echo $data["project"][0]->projectID?>" />
-
-                <br><br>
-
-                <button type="submit" name="startEvent" class="btn btn-primary"><?php echo Language::show('Start', 'Events'); ?></button>
-                <img class="startEventLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
-            </form>
+            </div>
         </div>
     </div>
 </div>

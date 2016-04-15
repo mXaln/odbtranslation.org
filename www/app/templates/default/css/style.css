@@ -354,6 +354,19 @@
     display: none;
 }
 
+.bookInfoLoader {
+    position: absolute;
+    left: 50%;
+    top: 100px;
+}
+
+.book_info {
+    position: relative;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
 .sub-content {
     display: none;
     width: 100%;
@@ -850,4 +863,8 @@ textarea {
 
 .notif_title {
     float: left;
+}
+
+.bible_book {
+    text-align: justify;
 }

@@ -214,12 +214,48 @@ $(function () {
     $(".startEvnt").click(function() {
         var bookCode = $(this).attr("data");
         var bookName = $(this).attr("data2");
+        var sourceLangID = $("#sourceLangID").val();
+        var bookProject = $("#bookProject").val();
 
         $("#startEvent").trigger("reset");
         $(".errors").html("");
         $(".bookName").text(bookName);
         $("#bookCode").val(bookCode);
         $(".event-content").show();
+
+        // Get source text
+        $.ajax({
+                url: "/admin/rpc/get_source",
+                method: "post",
+                data: {
+                    bookCode: bookCode,
+                    sourceLangID: sourceLangID,
+                    bookProject: bookProject
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $(".book_info_content").html("");
+                    $(".bookInfoLoader").show();
+                }
+            })
+            .done(function(data) {
+                if(!$.isEmptyObject(data))
+                {
+                    $(".book_info_content").html(
+                        '<div><strong>Chapters:</strong> '+data.chaptersNum+'</div>' +
+                        '<div><strong>Verses:</strong> '+data.versesNum+'</div>'
+                    );
+                }
+                else
+                {
+                    $(".book_info").append(
+                        'Book source not found'
+                    );
+                }
+            })
+            .always(function() {
+                $(".bookInfoLoader").hide();
+            });
     });
 
     $( "#cal_from" ).datepicker({

@@ -17,11 +17,6 @@ Router::any('about', 'Controllers\MainController@about');
 Router::any('contact', 'Controllers\MainController@contactUs');
 Router::any('lang/(:any)', 'Controllers\MainController@lang');
 
-Router::any('books', 'Controllers\BooksController@index');
-Router::any('books/(:any)', 'Controllers\BooksController@index');
-Router::any('books/(:any)/(:any)', 'Controllers\BooksController@index');
-Router::any('books/(:any)/(:any)/(:any)', 'Controllers\BooksController@index');
-
 Router::any('translations', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)/(:any)', 'Controllers\TranslationsController@index');
@@ -53,6 +48,7 @@ Router::any('admin/rpc/create_project', 'Controllers\admin\AdminController@creat
 Router::any('admin/rpc/get_members', 'Controllers\admin\AdminController@getMembers');
 Router::any('admin/rpc/get_target_languages', 'Controllers\admin\AdminController@getTargetLanguagesByGwLanguage');
 Router::any('admin/rpc/create_event', 'Controllers\admin\AdminController@createEvent');
+Router::any('admin/rpc/get_source', 'Controllers\admin\AdminController@getSource');
 
 /** Module routes. */
 $hooks = Hooks::get();

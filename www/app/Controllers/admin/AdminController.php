@@ -434,4 +434,52 @@ class AdminController extends Controller {
             echo json_encode(array("error" => Error::display($error)));
         }
     }
+
+
+    public function getSource()
+    {
+        $response = array();
+        $_POST = Gump::xss_clean($_POST);
+
+        $bookCode = isset($_POST["bookCode"]) && $_POST["bookCode"] != "" ? $_POST["bookCode"] : null;
+        $sourceLangID = isset($_POST["sourceLangID"]) && $_POST["sourceLangID"] != "" ? $_POST["sourceLangID"] : null;
+        $bookProject = isset($_POST["bookProject"]) && $_POST["bookProject"] != "" ? $_POST["bookProject"] : null;
+
+        if($bookCode && $sourceLangID && $bookProject)
+        {
+            $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject;
+            $source = CacheManager::get($cache_keyword);
+
+            if(is_null($source))
+            {
+                $source = $this->_model->getSourceBookFromApi($bookCode, $sourceLangID, $bookProject);
+                $json = json_decode($source, true);
+
+                if(!empty($json))
+                    CacheManager::set($cache_keyword, $source, 60*60*24*7);
+            }
+            else
+            {
+                $json = json_decode($source, true);
+            }
+
+            if(!empty($json))
+            {
+                $response["chaptersNum"] = sizeof($json["chapters"]);
+
+                $text = "";
+
+                foreach ($json["chapters"] as $chapter) {
+                    foreach ($chapter["frames"] as $frame) {
+                        $text .= $frame["text"];
+                    }
+                }
+
+                $text = preg_split("/<verse\D+(\d+)\D+>/", $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+                $response["versesNum"] = !empty($text) ? (sizeof($text)-1)/2 : 0;
+            }
+        }
+
+        echo json_encode($response);
+    }
 }

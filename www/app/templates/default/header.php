@@ -63,7 +63,6 @@ $hooks->run('afterBody');
 
 		<ul class="nav nav-pills col-md-6" role="tablist">
 			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo Language::show('home', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 2):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>books">Books</a></li>
 			<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations">Translations</a></li>
 			<li <?php if($data['menu'] == 4):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>events">Events</a></li>
 			<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo Language::show('contact_us_title', 'Main')?></a></li>

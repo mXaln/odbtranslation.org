@@ -37,7 +37,7 @@ if(isset($data['book'])) {
 
     echo '<h1>'.$data['data']->bookName.'</h1>';
 
-    echo $data["book"];
+    echo '<div class="bible_book">'.$data["book"].'</div>';
 }
 
 if(isset($data['verses'])) {

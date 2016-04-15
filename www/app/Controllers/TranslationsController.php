@@ -58,10 +58,10 @@ class TranslationsController extends Controller
         }
         else
         {
-            $data['title'] = $this->language->get('Choose segment');
 
             $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
             $data["data"] = $book[0];
+            $data['title'] = $data['data']->bookName;
             $data['book'] = "";
             $lastChapter = 0;
 
@@ -77,7 +77,7 @@ class TranslationsController extends Controller
                 // Start of chunk
                 $data['book'] .= '<p>';
                 foreach ($verses->translator->verses as $verse => $text) {
-                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong>'.$text." ";
+                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                 }
                 // End of chunk
                 $data['book'] .= '</p>';
