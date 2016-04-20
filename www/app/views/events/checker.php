@@ -10,7 +10,7 @@ use \Helpers\Constants\EventSteps;
 
 if(empty($error) && empty($data["success"])):
 
-    $current = $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
+    $current = $data["event"][0]->step;
 ?>
 
 <div id="translator_contents" class="row panel-body">
@@ -35,11 +35,11 @@ if(empty($error) && empty($data["success"])):
         <div class="main_content_footer row">
             <form action="" method="post">
                 <div class="form-group">
-                    <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
-                    <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> Yes, I did</label>
+                    <div class="main_content_confirm_desc"><?php echo Language::show("confirm_finished", "Events")?></div>
+                    <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo Language::show("confirm_yes", "Events")?></label>
                 </div>
 
-                <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
+                <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo Language::show("next_step", "Events")?></button>
             </form>
         </div>
         <?php //endif; ?>
@@ -51,8 +51,8 @@ if(empty($error) && empty($data["success"])):
 
             <div class="clear"></div>
 
-            <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show($current . "_help", "Events")?></div>
-            <div class="help_descr_steps"><?php echo Language::show($current . "_help_desc", "Events")?></div>
+            <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show($current, "Events")?></div>
+            <div class="help_descr_steps"><?php echo Language::show($current . "_desc", "Events")?></div>
         </div>
     </div>
 </div>

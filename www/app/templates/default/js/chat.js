@@ -22,7 +22,7 @@ var eventSteps = {
 };
 
 $(function () {
-    var socket = io.connect('http://v-mast.mvc:8001');
+    var socket = io.connect('http://v-mast.com:8001');
 
     socket.on('connect', OnConnected);
     socket.on('chat message', OnChatMessage);

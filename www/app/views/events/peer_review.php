@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("peer_review", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("peer-review", "Events")?></div>
     </div>
 
     <div class="row">
@@ -49,7 +49,7 @@ use \Core\Language;
                                 <?php endforeach; ?>
                             <?php else: ?>
                             <div class="row">
-                                <div class="col-sm-12 cotr_not_ready" style="color: #ff0000;">Your co-translator is not ready for this step. Please wait. This page will be reloaded automatically when your partner is ready.</div>
+                                <div class="col-sm-12 cotr_not_ready" style="color: #ff0000;"><?php echo Language::show("partner_not_ready", "Events")?></div>
                             </div>
                             <?php endif; ?>
                         </div>
@@ -85,11 +85,11 @@ use \Core\Language;
 
                 <div class="main_content_footer row">
                     <div class="form-group">
-                        <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
-                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> Yes, I did</label>
+                        <div class="main_content_confirm_desc"><?php echo Language::show("confirm_finished", "Events")?></div>
+                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo Language::show("confirm_yes", "Events")?></label>
                     </div>
 
-                    <button id="next_step" type="submit" name="submit" value="1" class="btn btn-primary" disabled>Next step</button>
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo Language::show("next_step", "Events")?></button>
                 </div>
             </form>
         </div>
@@ -100,8 +100,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 7:</span> <?php echo Language::show("peer_review", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("peer_review_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 7:</span> <?php echo Language::show("peer-review", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("peer-review_desc", "Events")?></div>
             </div>
         </div>
     </div>

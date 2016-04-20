@@ -52,7 +52,8 @@ echo \Core\Error::display($error);
     </div>
 
 	<input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>" />
-
+    <?php //local: 6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr ?>
+    <?php //remote: 6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2 ?>
 	<div class="form-group">
 		<div class="g-recaptcha" data-sitekey="6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr"></div>
 	</div>

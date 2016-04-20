@@ -9,6 +9,7 @@ use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Password;
 use Helpers\PhpMailer\Mail;
+use Helpers\PhpMailer\PhpMailer;
 use Helpers\ReCaptcha\ReCaptcha;
 use Helpers\Session;
 use Helpers\Url;
@@ -122,7 +123,10 @@ class MembersController extends Controller
                     $error[] = $this->language->get('passwords_notmatch_error');
                 }
 
-                $recaptcha = new ReCaptcha('6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1');
+                // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
+                // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
+
+                $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
                 $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 
                 if (!$resp->isSuccess())
@@ -159,17 +163,19 @@ class MembersController extends Controller
                         'email' => $email,
                         'password' => $hash,
                         //'userType' => $userType,
-                        'activationToken' => $activationToken
+                        'activationToken' => $activationToken,
+                        //'active' => true
                     );
 
                     $id = $this->_model->createMember($postdata);
                     $link = DIR . "members/activate/$id/$activationToken";
 
-                    $mail = new Mail();
+                    $mail = new PhpMailer();
+                    $mail->isSendmail();
                     $mail->setFrom('noreply@v-mast.com');
                     $mail->addAddress($email);
-                    $mail->subject($this->language->get('activate_account_title'));
-                    $mail->body($this->language->get('activation_link_message', array($link, $link)));
+                    $mail->Subject = $this->language->get('activate_account_title');
+                    $mail->msgHTML($this->language->get('activation_link_message', array($link, $link)));
                     $mail->send();
 
                     $msg = $this->language->get('registration_success_message');
@@ -258,7 +264,10 @@ class MembersController extends Controller
             {
                 if($loginTry > 3)
                 {
-                    $recaptcha = new ReCaptcha('6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1');
+                    // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
+                    // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
+
+                    $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
                     $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 
                     if (!$resp->isSuccess())

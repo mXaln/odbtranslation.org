@@ -35,7 +35,7 @@ return array(
 	'success' => 'Success',
 
 	// Activate method
-	'activation_link_message' => 'Thank you for registering. To activate your account please click on this link. <a href="{0}">{1}</a>',
+	'activation_link_message' => '<h3>Thank you for registering!</h3>'."\n".' To activate your account please click on this link. <a href="{0}">{1}</a>',
 	'no_account_error' => 'No such account or token is not valid',
 	'account_activated_error' => 'Account has already been activated',
 	'account_activated_success' => 'Your account is now active you may now <a href="{0}">Login</a>',

@@ -24,6 +24,8 @@ $hooks = Hooks::get();
 	?>
 	<title><?php echo $data['title'].' | '.SITETITLE; ?></title>
 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
 	<!-- CSS -->
 	<?php
 	Assets::css(array(

@@ -544,8 +544,12 @@ class EventsController extends Controller
 
                             $cotrReady = true;
 
+                            if(empty($coTranslationTemp))
+                                $cotrReady = false;
+
                             foreach ($coTranslationTemp as $tv) {
                                 $tmp = json_decode($tv->translatedVerses, true);
+
                                 $coTranslation[] = $tmp;
 
                                 if(empty($tmp["translator"]["verses"]))
@@ -871,7 +875,7 @@ class EventsController extends Controller
                             if($data["event"][0]->step == EventSteps::KEYWORD_CHECK)
                             {
                                 $data["event"][0]->step = EventSteps::CONTENT_REVIEW;
-                                $error[] = $this->language->get("checker_translator_not_ready_error");
+                                $data["success"] = $this->language->get("checker_translator_not_ready_error");
                             }
                             else
                             {

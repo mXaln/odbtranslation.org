@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("pre_chunking_text", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("pre-chunking", "Events")?></div>
     </div>
 
     <div class="row">
@@ -29,12 +29,12 @@ use \Core\Language;
             <div class="main_content_footer row">
                 <form action="" method="post">
                     <div class="form-group">
-                        <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
-                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1"> Yes, I did</label>
+                        <div class="main_content_confirm_desc"><?php echo Language::show("confirm_finished", "Events")?></div>
+                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo Language::show("confirm_yes", "Events")?></label>
                         <input type="hidden" name="chunks_array" id="chunks_array" value="[]">
                     </div>
 
-                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo Language::show("next_step", "Events")?></button>
                 </form>
             </div>
         </div>
@@ -45,8 +45,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 4:</span> <?php echo Language::show("pre_chunking_text", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("pre_chunking_text_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 4:</span> <?php echo Language::show("pre-chunking", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("pre-chunking_desc", "Events")?></div>
             </div>
         </div>
     </div>

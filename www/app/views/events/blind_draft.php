@@ -5,7 +5,7 @@ use \Helpers\Session;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("blind_drafting", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("blind-draft", "Events")?></div>
     </div>
 
     <div class="row">
@@ -28,11 +28,11 @@ use \Helpers\Session;
 
                 <div class="main_content_footer row">
                     <div class="form-group">
-                        <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
-                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> Yes, I did</label>
+                        <div class="main_content_confirm_desc"><?php echo Language::show("confirm_finished", "Events")?></div>
+                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo Language::show("confirm_yes", "Events")?></label>
                     </div>
 
-                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled>Next step</button>
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo Language::show("next_step", "Events")?></button>
                 </div>
             </form>
         </div>
@@ -43,8 +43,8 @@ use \Helpers\Session;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show("blind_drafting", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("blind_drafting_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show("blind-draft", "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show("blind-draft_desc", "Events")?></div>
             </div>
         </div>
     </div>

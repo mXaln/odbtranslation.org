@@ -6,7 +6,6 @@ use Core\Controller;
 use Helpers\Data;
 use Helpers\Session;
 use Helpers\Url;
-use Models\EventsModel;
 
 /**
  * Sample controller showing a construct and 2 methods and their typical usage.
@@ -89,6 +88,6 @@ class MainController extends Controller
 
         }
 
-        Url::redirect('');
+        Url::previous();
     }
 }

@@ -35,7 +35,7 @@ return array(
     'success' => 'Успешно',
 
 	// Activate method
-	'activation_link_message' => 'Спасибо за регистрацию. Чтобы активировать учетную запись перейдите по этой ссылке. <a href="{0}">{1}</a>',
+	'activation_link_message' => '<h3>Спасибо за регистрацию!</h3>'."\n".' Чтобы активировать учетную запись перейдите по этой ссылке. <a href="{0}">{1}</a>',
 	'no_account_error' => 'Учетная запись не существует или код недействителен',
 	'account_activated_error' => 'Account has already been activated',
 	'account_activated_success' => 'Учетная запись активирована. Теперь вы можете <a href="{0}">Войти</a>',
