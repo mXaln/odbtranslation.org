@@ -10,7 +10,9 @@ use \Core\Language;
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                some text about prayer
+                Pray - God created all the languages of the world and has given us the ability to learn and use them. He has also given us His spirit to help us i everything we do. Therefore, begin this exercise with some time in prayer, exalting the Lord and asking that He will grant the wisdom and guidance necessary to enable you to faithfully and accurately translate His holy Word. Pray early and pray often.
+
+
             </div>
 
             <div class="main_content_footer row">

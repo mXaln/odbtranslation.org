@@ -728,12 +728,13 @@
 .verse_ta {
     resize: none;
     margin-bottom: 10px;
-    width: 49%;
+    width: 100%;
 }
 
 .peer_verse_ta {
     resize: none;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 textarea {
@@ -767,6 +768,15 @@ textarea {
     position: relative;
 }
 
+.p_verse_num {
+    float: left;
+}
+
+.verse_right {
+    float: right;
+    width: 98%;
+}
+
 .create_chunk {
     position: absolute;
     bottom: -30px; right: 10px;
@@ -784,7 +794,7 @@ textarea {
 }
 
 .chunk_divider {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #cc0005;
     margin: 0 0 10px 0;
 }
 
@@ -863,6 +873,10 @@ textarea {
 
 .notif_title {
     float: left;
+}
+
+.notifications {
+    position: relative;
 }
 
 .bible_book {

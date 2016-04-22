@@ -18,8 +18,8 @@ use \Core\Language;
                 <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
                     <p class="verse_p">
                         <label class="verse_number_label">
-                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $i/2; ?>">
-                            <?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?>
+                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $data["text"][$i-1]; ?>">
+                            <?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?>
                         </label>
                     </p>
                 <?php endfor; ?>

@@ -1,10 +1,12 @@
 <?php
 use \Core\Language;
+use \Helpers\Constants\EventSteps;
 ?>
 
 <div id="translator_contents" class="row panel-body">
     <div class="row">
-        <div class="main_content_title"><?php echo Language::show("self-check", "Events")?></div>
+        <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
+        <div class="main_content_title"><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
     </div>
 
     <div class="row">
@@ -29,9 +31,15 @@ use \Core\Language;
                         <div class="col-sm-12">
                             <?php for($i=0; $i < sizeof($data["text"]); $i++): ?>
                             <div class="row chunk_verse">
-                                <p class="col-sm-6 verse"><?php echo $data["text"][$i]; ?></p>
-                                <textarea name="verses[]" class="col-sm-6 verse_ta"><?php echo $_POST["verses"][$i-1] ?></textarea>
-                                <textarea style="display: none" name="comments[]" class="col-sm-6 comment_ta"></textarea>
+                                <p class="col-sm-6 verse"><?php echo "<strong><sup>".$data["text"][$i]["verse"]."</sup></strong> " . $data["text"][$i]["content"]; ?></p>
+                                <p class="col-sm-6">
+                                <?php
+                                $verses = explode("-", $data["text"][$i]["verse"]);
+                                foreach ($verses as $verse):?>
+                                    <textarea name="verses[]" class="verse_ta"><?php echo $_POST["verses"][$i-1] ?></textarea>
+                                    <textarea style="display: none" name="comments[]" class="comment_ta"></textarea>
+                                <?php endforeach; ?>
+                                </p>
                             </div>
                             <?php endfor; ?>
                         </div>
@@ -55,8 +63,8 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show("self-check", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("self-check_desc", "Events")?></div>
+                <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
+                <div class="help_descr_steps"><?php echo Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events")?></div>
             </div>
         </div>
     </div>

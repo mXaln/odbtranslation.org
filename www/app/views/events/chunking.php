@@ -16,7 +16,7 @@ use \Core\Language;
                         .$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]?></h4>
 
                 <?php for($i=0; $i <= sizeof($data["text"]); $i++): ?>
-                    <p><?php echo $data["text"][$i]; ?></p>
+                    <p><?php echo "<strong><sup>".$data["text"][$i]["verse"]."</sup></strong> " . $data["text"][$i]["content"]; ?></p>
                 <?php endfor; ?>
             </div>
 

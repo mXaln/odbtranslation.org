@@ -21,11 +21,11 @@ return array(
 
     // Steps
     "pray" => "Pray",
-    "pray_desc" => "Prayer Step Description",
+    "pray_desc" => "Pray as long as you feel necessary for this step, but try to spend at least 5-10 minutes.",
     "consume" => "Consume Text",
     "consume_desc" => "Consume Text Description",
-    "discuss" => "Discuss Text",
-    "discuss_desc" => "Discuss Text Description",
+    "discuss" => "Verbalize Text",
+    "discuss_desc" => "Verbalize Description",
     "pre-chunking" => "Prepare chunks",
     "pre-chunking_desc" => "Prepare chunks Description",
     "chunking" => "Working with Chunks",
@@ -34,6 +34,8 @@ return array(
     "blind-draft_desc" => "Blind Draft Description",
     "self-check" => "Self Check",
     "self-check_desc" => "Self Check Description",
+    "self-check_gl" => "Draft and Self Check",
+    "self-check_gl_desc" => "Draft and Self Check Description",
     "peer-review" => "Peer Review",
     "peer-review_desc" => "Peer Review Description",
     "keyword-check" => "Keyword Check",

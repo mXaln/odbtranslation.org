@@ -20,12 +20,13 @@ use \Core\Language;
                         <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
                             <?php $k=0; foreach($chunk["translator"]["verses"] as $verse => $text): ?>
                                 <div class="row chunk_verse">
-                                    <p class="col-sm-6 verse"><strong><sup><?php echo $i/2; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
-                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-6 peer_verse_ta"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
-                                    <textarea style="display: none" name="chunks[<?php echo $key; ?>][comments][]" class="col-sm-6 comment_ta"></textarea>
+                                    <p class="p_verse_num"><strong><sup><?php echo $verse ?></sup></strong></p>
+                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-11 peer_verse_ta verse_right"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
+                                    <textarea style="display: none" name="chunks[<?php echo $key; ?>][comments][]" class="col-sm-11 comment_ta"></textarea>
                                 </div>
                                 <?php $k++; $i+=2; endforeach; ?>
                             <div class="chunk_divider col-sm-12"></div>
+                            <div class="clear"></div>
                         <?php endforeach; ?>
                     </div>
 

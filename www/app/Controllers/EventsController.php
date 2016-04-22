@@ -46,6 +46,7 @@ class EventsController extends Controller
         }
 
         $data['menu'] = 4;
+        $data['title'] = $this->language->get('events_title');
 
         $data["projects"] = $this->_model->getProjects(Session::get("userName"), true);
         $data["notifications"] = $this->_notifications;
@@ -63,7 +64,7 @@ class EventsController extends Controller
         }
 
         $data['menu'] = 4;
-        $data['title'] = $this->language->get('project_title');
+
 
         $data["project"] = $this->_model->getProjects(Session::get("userName"), true, $projectID);
         $data["events"] = array();
@@ -72,6 +73,7 @@ class EventsController extends Controller
             $data["events"] = $this->_model->getEventsByProject($projectID);
         }
 
+        $data['title'] = $data["project"][0]->langName . " [".Language::show($data["project"][0]->bookProject, "Events")."]";
         $data["notifications"] = $this->_notifications;
         View::renderTemplate('header', $data);
         View::render('events/project', $data);
@@ -1449,8 +1451,10 @@ class EventsController extends Controller
             }
 
             $data["text"] = preg_replace("/<\/?para.*>/", "", $data["text"]);
-            $data["text"] = preg_split("/<verse\D+(\d+)\D+>/", $data["text"], -1, PREG_SPLIT_DELIM_CAPTURE);
-            $totalVerses = !empty($data["text"]) ? (sizeof($data["text"])-1)/2 : 0;
+            $data["text"] = preg_split("/<verse\D+(\d+(?:-\d+)?)\D+>/", $data["text"], -1, PREG_SPLIT_DELIM_CAPTURE);
+            $lastVerse = explode("-", $data["text"][sizeof($data["text"])-2]);
+            $lastVerse = $lastVerse[sizeof($lastVerse)-1];
+            $totalVerses = !empty($data["text"]) ?  $lastVerse/*(sizeof($data["text"])-1)/2*/ : 0;
             $data["totalVerses"] = $totalVerses;
             $data["currentChapter"] = $currentChapter;
             $data["currentChunk"] = $currentChunk;
@@ -1460,7 +1464,6 @@ class EventsController extends Controller
 
             if($getChunk)
             {
-
                 $chunks = $chapters[$currentChapter]["chunks"];
                 $chunk = $chunks[$currentChunk];
                 $fv = $chunk[0];
@@ -1468,9 +1471,17 @@ class EventsController extends Controller
 
                 for($i=2; $i <= sizeof($data["text"]); $i+=2)
                 {
-                    if(($i/2) >= $fv && ($i/2) <= $lv)
+                    $verse = explode("-", $data["text"][$i-1]);
+                    $map = array_map(function($value) use ($fv, $lv) {
+                        return $value >= $fv && $value <= $lv;
+                    }, $verse);
+                    $map = array_unique($map);
+
+                    if($map[0])
                     {
-                        $currentChunkText[] = "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i];
+                        $tmp["verse"] = $data["text"][$i-1];
+                        $tmp["content"] = $data["text"][$i];
+                        $currentChunkText[] = $tmp;
                     }
                 }
 

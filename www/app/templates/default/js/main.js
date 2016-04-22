@@ -173,43 +173,53 @@ jQuery(function($) {
     });
 
     $(".verse").each(function(index) {
-        $(this).next().css("min-height", $(this).css("height"));
+        var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
+        var height = parseInt($(this).css("height"))/verseTa.length;
+        verseTa.css("min-height", height);
     });
 
     autosize($('textarea'));
 
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
-        var verse = parseInt($(this).val());
         var p = $(this).parent().parent();
         var createChunkBtn = $(".create_chunk");
 
-        if((verse > 1 && chunks.length <= 0) ||
-            !$(this).is(":checked") ||
-            (verse > (lastVerse + 1)))
-        {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
+        var verses = $(this).val().split("-");
 
-        if(currentChunk < 0)
+        for(var i=0; i<verses.length; i++)
         {
-            chunks[0] = [];
-            chunks[0].push(verse);
-            currentChunk = 0;
-            firstVerse = verse;
+            var verse = parseInt(verses[i]);
 
-            $(".chunks_reset").show();
-        }
-        else
-        {
-            if(typeof chunks[currentChunk] == "undefined")
+            if((verse > 1 && chunks.length <= 0) ||
+                !$(this).is(":checked") ||
+                (verse > (lastVerse + 1)))
             {
-                chunks[currentChunk] = [];
-                firstVerse = verse;
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             }
-            chunks[currentChunk].push(verse);
+
+            if(currentChunk < 0)
+            {
+                chunks[0] = [];
+                chunks[0].push(verse);
+                currentChunk = 0;
+                firstVerse = verse;
+
+                $(".chunks_reset").show();
+            }
+            else
+            {
+                if(typeof chunks[currentChunk] == "undefined")
+                {
+                    chunks[currentChunk] = [];
+                    firstVerse = verse;
+                }
+                chunks[currentChunk].push(verse);
+            }
+
+            lastVerse = verse;
         }
 
         $("#chunks_array").val(JSON.stringify(chunks));
@@ -220,8 +230,6 @@ jQuery(function($) {
         fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
         lv = verse < 10 ? "0"+verse : verse;
         $(".verse_p .create_chunk").text("Make chunk "+fv+"-"+lv).show();
-
-        lastVerse = verse;
     });
 
     // Start new chunk

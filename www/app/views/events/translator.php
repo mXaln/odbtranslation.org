@@ -34,8 +34,9 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </li>
         <?php endif; ?>
 
+        <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::SELF_CHECK, "Events")?></span>
+            <span><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></span>
         </li>
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::PEER_REVIEW, "Events")?></span>

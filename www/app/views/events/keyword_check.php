@@ -22,13 +22,31 @@ use \Core\Language;
 
                     <div class="col-sm-12">
                         <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
-                            <?php $k=0; foreach($chunk["translator"]["verses"] as $verse => $text): ?>
+                            <?php
+                            $k=0;
+                            $count = 0;
+                            foreach($chunk["translator"]["verses"] as $verse => $text):
+                                $verses = explode("-", $data["text"][$i-1]);?>
+                                <?php if($count == 0): ?>
                                 <div class="row chunk_verse">
-                                    <p class="col-sm-6 verse"><strong><sup><?php echo $i/2; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
+                                    <p class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
+                                    <p class="col-sm-6">
+                                <?php endif; ?>
                                     <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-6 peer_verse_ta"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
                                     <textarea style="display: none" name="chunks[<?php echo $key; ?>][comments][]" class="col-sm-6 comment_ta"></textarea>
-                                </div>
-                                <?php $k++; $i+=2; endforeach; ?>
+                                <?php
+                                $k++;
+                                $count++;
+
+                                if($count == sizeof($verses)) :
+                                    $i+=2;
+                                    $count = 0; ?>
+                                    </p>
+                                    </div>
+                                    <?php
+                                endif;
+                            endforeach;
+                            ?>
                             <div class="chunk_divider col-sm-12"></div>
                         <?php endforeach; ?>
                     </div>

@@ -27,7 +27,7 @@ if(empty($error) && empty($data["success"])):
                     .$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
             <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
-                <p><?php echo "<strong><sup>".($i/2)."</sup></strong> ".$data["text"][$i]; ?></p>
+                <p><?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?></p>
             <?php endfor; ?>
         </div>
 

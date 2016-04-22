@@ -12,10 +12,9 @@ return array(
 	In pericula constituto vim. Timeam feugait consulatu ea vim, cum et euismod alienum, qui an novum noluisse. Est id probo movet. Has principes scribentur in, cu maiorum albucius delicata ius. Amet nostrud ex qui. Ius illud meliore invenire no, ad mollis pertinax vix.
 	Ea quot iuvaret scribentur has. Per posse persequeris et, no quaeque voluptua scaevola mel. Ne quis reformidans quo, eu per habeo lobortis. Atomorum vituperatoribus ius ea, nam ex putant facilisi definiebas, no duo utinam similique vituperatoribus.',
 
-	// Contact us method
+	'translations_title' => "Переводы",
+	'events_title' => "События",
 	'contact_us_title' => 'Обратная связь',
-
-	// About us method
 	'about_title' => 'О нас',
 
 
