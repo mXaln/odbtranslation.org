@@ -10,9 +10,7 @@ use \Core\Language;
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                Pray - God created all the languages of the world and has given us the ability to learn and use them. He has also given us His spirit to help us i everything we do. Therefore, begin this exercise with some time in prayer, exalting the Lord and asking that He will grant the wisdom and guidance necessary to enable you to faithfully and accurately translate His holy Word. Pray early and pray often.
-
-
+                <?php echo Language::show("pray_text", "Events")?>
             </div>
 
             <div class="main_content_footer row">
@@ -34,7 +32,9 @@ use \Core\Language;
                 <div class="clear"></div>
 
                 <div class="help_name_steps"><span>Step 1:</span> <?php echo Language::show("pray", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("pray_desc", "Events")?></div>
+                <div class="help_descr_steps">
+                    <ul><?php echo Language::show("pray_desc", "Events")?></ul>
+                </div>
             </div>
         </div>
     </div>

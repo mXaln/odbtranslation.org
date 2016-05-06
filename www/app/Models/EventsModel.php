@@ -246,7 +246,7 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
                 "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
-            "WHERE (trs.checkerID = :memberID) ".
+            "WHERE trs.checkerID = :memberID AND trs.checkDone = false ".
                 ($eventID ? "AND trs.eventID = :eventID " : " ").
                 ($trMemberID ? "AND trs.memberID = :trMemberID " : " ");
 
@@ -267,7 +267,7 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE trs.eventID IN( SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID ) ".
                 "AND trs.memberID != :memberID AND trs.trID NOT IN (SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
-                "AND (trs.step = 'keyword-check' AND (trs.checkerID = 0 OR (trs.checkerID = :memberID AND trs.checkDone = 0 AND trs.hideChkNotif = 0)))";
+                "AND (trs.step = 'keyword-check' OR trs.step = 'content-review') AND trs.checkerID = 0";
 
         return $this->db->select($sql, array(":memberID" => Session::get("memberID")));
     }
@@ -362,6 +362,21 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    public function getTranslationCheckers($tID, $memberID)
+    {
+        $sql = "SELECT ts.translatedVerses, trs1.checkerID, trs2.memberID AS pairMemberID, l2.memberID AS l2memberID, l3.memberID AS l3memberID ".
+                "FROM `vm_translations` AS ts ".
+                "LEFT JOIN vm_translators AS trs1 ON ts.trID = trs1.trID ".
+                "LEFT JOIN vm_translators AS trs2 ON trs1.pairID = trs2.trID ".
+                "LEFT JOIN vm_checkers_l2 AS l2 ON ts.eventID = l2.eventID AND l2.memberID = :memberID ".
+                "LEFT JOIN vm_checkers_l3 AS l3 ON ts.eventID = l3.eventID AND l3.memberID = :memberID ".
+                "WHERE tID = :tID";
+
+        $prepare = array(":memberID" => $memberID, ":tID" => $tID);
+
+        return $this->db->select($sql, $prepare);
+    }
+
     /**
      * Get admins by name
      * @param string $search
@@ -373,6 +388,19 @@ class EventsModel extends Model
                     "WHERE isAdmin=1 ".
                         "AND isSuperAdmin=0 " .
                         "AND userName LIKE :userName";
+
+        $prepare = array(":userName" => "%$search%");
+
+        return $this->db->select($sql, $prepare);
+
+    }
+
+    public function getMembers($search)
+    {
+        $sql = "SELECT userName FROM ".PREFIX."members ".
+            "WHERE isSuperAdmin=0 " .
+            "AND verified=1 " .
+            "AND userName LIKE :userName";
 
         $prepare = array(":userName" => "%$search%");
 
@@ -432,6 +460,16 @@ class EventsModel extends Model
     {
         $this->db->insert(PREFIX."gateway_projects",$data);
         return $this->db->lastInsertId('gwProjectID');
+    }
+
+    /**
+     * Create gateway project
+     * @param array $data
+     * @return string
+     */
+    public function updateGatewayProject($data, $where)
+    {
+        return $this->db->update(PREFIX."gateway_projects", $data, $where);
     }
 
     /**

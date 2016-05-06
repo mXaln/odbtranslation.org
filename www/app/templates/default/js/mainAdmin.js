@@ -10,6 +10,10 @@ $(function () {
         $("#gwProject").trigger("reset");
         $(".errors").html("");
         $(".main-content").show();
+        $(".admins-div").remove();
+        $("#gwLang").prop("disabled", false);
+        $("#gwProjectAction").val("create");
+        $("button[name=gwProject]").text(buttonCreate);
     });
 
     $(document).on("click", ".admins-delete", function() {
@@ -96,6 +100,57 @@ $(function () {
         e.preventDefault();
     });
 
+    $(".main-edit").click(function() {
+        var gwLang = $(this).attr("data");
+
+        $("#gwProject").trigger("reset");
+        $(".errors").html("");
+        $(".main-content").show();
+        $(".admins-div").remove();
+        //$("#gwLang").prop("disabled", true);
+        $("#gwProjectAction").val("edit");
+        $("button[name=gwProject]").text(buttonEdit);
+
+        $.ajax({
+                url: "/admin/rpc/get_gw_project",
+                method: "post",
+                data: {gwLang: gwLang},
+                dataType: "json",
+                beforeSend: function() {
+                    $(".gwProjectLoader").show();
+                }
+            })
+            .done(function(data) {
+                if(data.length <= 0) return false;
+
+                if(typeof data.login != "undefined")
+                    location.reload();
+
+                if(data.length > 0)
+                {
+                    $("#gwLang").val(data[0].langID);
+                    var admins = JSON.parse(data[0].admins);
+
+                    var content = "";
+
+                    $.each(admins, function(k, v) {
+                        content += '' +
+                            '<div class="admins-div">' +
+                            '<span class="admins-span">' + v + '</span>' +
+                            '<span class="admins-delete glyphicon glyphicon-remove"></span>' +
+                            '<input name="admins[]" value="' + v + '" type="hidden" />' +
+                            '</div>';
+                    });
+
+                    $(".admins-area").prepend(content);
+                    CorrectAdminsTextareaLength(false);
+                }
+            })
+            .always(function() {
+                $(".gwProjectLoader").hide();
+            });
+    });
+
 
     // Sub Event Form
 
@@ -123,6 +178,11 @@ $(function () {
                 }
             })
             .done(function(data) {
+                if(data.length <= 0) return false;
+
+                if(typeof data.login != "undefined")
+                    location.reload();
+
                 $.each(data.targetLangs, function (i, v) {
                     tlOptions += '<option value="'+ v.langID+'">'+ v.langName+'</option>';
                 });
@@ -145,6 +205,12 @@ $(function () {
                 }
             })
             .done(function(data) {
+                if(typeof data.login != "undefined")
+                {
+                    location.reload();
+                    return false;
+                }
+
                 if(data.success)
                 {
                     alert(data.success);

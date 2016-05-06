@@ -39,7 +39,9 @@ use \Core\Language;
                 <div class="clear"></div>
 
                 <div class="help_name_steps"><span>Step 4:</span> <?php echo Language::show("chunking", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("chunking_desc", "Events")?></div>
+                <div class="help_descr_steps">
+                    <ul><?php echo Language::show("chunking_desc", "Events")?></ul>
+                </div>
             </div>
         </div>
     </div>

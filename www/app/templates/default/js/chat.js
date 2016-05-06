@@ -243,12 +243,12 @@ function OnChatMessage(data)
 
             newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + data.member.memberID + '">' +
                 '<div class="msg_name">' + msgName + '</div>' +
-                '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(data.date)+'">' + data.msg + '</div>' +
+                '<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(data.date)+'">' + data.msg + '</div>' +
                 '</li>';
         }
         else
         {
-            lastMsg.append('<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(data.date)+'">' + data.msg + '</div>');
+            lastMsg.append('<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(data.date)+'">' + data.msg + '</div>');
         }
     }
     else
@@ -264,7 +264,7 @@ function OnChatMessage(data)
 
         newBlock = newmsgs + '<li class="message '+msgClass+'" data="'+ data.member.memberID +'">' +
             '<div class="msg_name">'+msgName+'</div>' +
-            '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(data.date)+'">' + data.msg + '</div>' +
+            '<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(data.date)+'">' + data.msg + '</div>' +
             '</li>';
 
     }
@@ -292,7 +292,7 @@ function OnChatMessage(data)
     if(isActive)
         $('#m').focus();
 
-    $('[data-toggle="tooltip"]').tooltip({placement: "top"});
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function OnRoomUpdate(roomMates)
@@ -387,7 +387,7 @@ function OnSystemMessage(data)
             break;
     }
 
-    $('[data-toggle="tooltip"]').tooltip({placement: "top"});
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function OnCheckingRequest(data)
@@ -449,7 +449,7 @@ function renderMessages(messages, messagesType, cookieLastMsg)
         {
             if(hasNewmsgs || cookieLastMsg >= msgObj.date)
             {
-                lastMsg.append('<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>');
+                lastMsg.append('<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>');
             }
             else
             {
@@ -462,7 +462,7 @@ function renderMessages(messages, messagesType, cookieLastMsg)
 
                 newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + msgObj.member.memberID + '">' +
                     '<div class="msg_name">' + msgName + '</div>' +
-                    '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>' +
+                    '<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>' +
                     '</li>';
             }
         }
@@ -476,7 +476,7 @@ function renderMessages(messages, messagesType, cookieLastMsg)
 
             newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + msgObj.member.memberID + '">' +
                 '<div class="msg_name">' + msgName + '</div>' +
-                '<div class="msg_text" data-toggle="tooltip" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>' +
+                '<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>' +
                 '</li>';
         }
 

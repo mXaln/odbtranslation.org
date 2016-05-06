@@ -13,6 +13,18 @@ if(empty($error) && empty($data["success"])):
     $current = $data["event"][0]->step;
 ?>
 
+<div class="alt_editor">
+    <div class="alt_comment_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <span class="alt_editor-close glyphicon glyphicon-floppy-disk"></span>
+        </div>
+        <textarea class="textarea textarea_editor"></textarea>
+        <img src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif" class="commentEditorLoader">
+    </div>
+</div>
+
+
 <div id="translator_contents" class="row panel-body">
     <div class="row">
         <div class="main_content_title"><?php echo Language::show($current, "Events")?></div>
@@ -20,15 +32,91 @@ if(empty($error) && empty($data["success"])):
 
 <div class="row">
     <div class="main_content col-sm-9">
-        <div class="main_content_text">
+        <div class="main_content_text row">
             <h4><?php echo $data["event"][0]->sLang." - "
                     .Language::show($data["event"][0]->bookProject, "Events")." - "
                     .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                     .$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
-            <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
-                <p><?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?></p>
-            <?php endfor; ?>
+            <?php if($data["event"][0]->step == EventSteps::CONTENT_REVIEW): ?>
+            <div class="row">
+                <div class="col-sm-12 side_by_side_toggle">
+                    <label><input type="checkbox" id="side_by_side_toggle" value="0" /> <?php echo Language::show("side_by_side_toggle", "Events") ?></label>
+                </div>
+            </div>
+
+            <div class="col-sm-12 side_by_side_content">
+                <?php $i=2; foreach($data["translation"] as $key => $chunk): ?>
+                    <?php
+                    $count = 0;
+                    foreach($chunk["translator"]["verses"] as $verse => $text):
+                        $verses = explode("-", $data["text"][$i-1]);
+                        $comment = $chunk["translator"]["comments"][$verse];
+                        $commentAlt = $chunk["translator"]["comments_alt"][$verse];
+                        ?>
+                        <?php if($count == 0): ?>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
+                                </div>
+
+                                <div class="col-sm-6 verse_with_note">
+                                    <p>
+                        <?php endif; ?>
+                                        <strong><sup><?php echo $verse; ?></sup></strong>
+                                        <?php echo $text; ?>
+                                        <?php
+                                        $count++;
+
+                        if($count == sizeof($verses)) :
+                            $i+=2;
+                            $count = 0; ?>
+                                    </p>
+                                    <?php if(trim($comment != "")): ?>
+                                    <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
+                                    <?php endif;?>
+                                    <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                    <span class="commentAltText"><?php echo $commentAlt; ?></span>
+                                    <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
+                                    <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
+                                </div>
+                            </div>
+                    <?php endif; endforeach; ?>
+                    <div class="chunk_divider col-sm-12"></div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+
+            <div class="col-sm-12 one_side_content">
+                <?php $i=2; foreach($data["translation"] as $key => $chunk): ?>
+                    <?php
+                    $count = 0;
+                    foreach($chunk["translator"]["verses"] as $verse => $text):
+                        $verses = explode("-", $data["text"][$i-1]);
+                        $comment = $chunk["translator"]["comments"][$verse];
+                        $commentAlt = $chunk["translator"]["comments_alt"][$verse];
+                        ?>
+                        <?php if($count == 0): ?>
+                        <div class="source_content verse_with_note">
+                            <div style="padding-right: 15px"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
+                            <?php if(trim($comment != "")): ?>
+                                <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
+                            <?php endif;?>
+                            <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                            <span class="commentAltText"><?php echo $commentAlt; ?></span>
+                            <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
+                            <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
+                        </div>
+                        <?php
+                        endif;
+                        $count++;
+                        if($count == sizeof($verses)) {
+                            $i+=2;
+                            $count = 0;
+                        }
+                    endforeach;
+                endforeach; ?>
+            </div>
         </div>
 
         <?php //if(empty($error)):?>
@@ -52,7 +140,9 @@ if(empty($error) && empty($data["success"])):
             <div class="clear"></div>
 
             <div class="help_name_steps"><span>Step 2:</span> <?php echo Language::show($current, "Events")?></div>
-            <div class="help_descr_steps"><?php echo Language::show($current . "_desc", "Events")?></div>
+            <div class="help_descr_steps">
+                <ul><?php echo Language::show($current . "_checker_desc", "Events")?></ul>
+            </div>
         </div>
     </div>
 </div>

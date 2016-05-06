@@ -28,10 +28,11 @@ if(\Helpers\Session::get("isSuperAdmin")):
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data["gwProjects"] as $gwProject): ?>
+                    <?php foreach($data["gwProjects"] as $gwProject):?>
                         <tr>
                             <td><?php echo $gwProject->langName ?></td>
-                            <td><span class="action-btn main-edit">edit</span> | <span class="action-btn main-delete">delete</span></td>
+                            <td>
+                                <span class="action-btn main-edit" data="<?php echo $gwProject->langID; ?>">edit</span></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -53,8 +54,8 @@ if(\Helpers\Session::get("isSuperAdmin")):
 
             <form action="/admin/rpc/create_gw_project" method="post" id="gwProject" style="width: 500px;">
                 <div class="form-group">
-                    <label for="gwLangs"><?php echo Language::show('gw_language', 'Events'); ?></label>
-                    <select class="form-control" id="gwLangs" name="gwLangs">
+                    <label for="gwLang"><?php echo Language::show('gw_language', 'Events'); ?></label>
+                    <select class="form-control" id="gwLang" name="gwLang">
                         <option value="">Choose Gateway Language</option>
                         <?php foreach ($data["gwLangs"] as $targetLang):?>
                         <option value="<?php echo $targetLang->langID; ?>"><?php echo $targetLang->langName; ?></option>
@@ -79,7 +80,8 @@ if(\Helpers\Session::get("isSuperAdmin")):
 
                 <br><br>
 
-                <button type="submit" name="gwProject" class="btn btn-primary"><?php echo Language::show('Create', 'Events'); ?></button>
+                <input type="hidden" name="act" id="gwProjectAction" value="create">
+                <button type="submit" name="gwProject" class="btn btn-primary"><?php echo Language::show('create', 'Events'); ?></button>
                 <img class="gwProjectLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
             </form>
         </div>
@@ -113,16 +115,14 @@ if(\Helpers\Session::get("isAdmin")):
                         <th>Target Language</th>
                         <th>Gateway Language</th>
                         <th>Project</th>
-                        <th>&nbsp;</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data["projects"] as $project): ?>
+                    <?php foreach($data["projects"] as $project):?>
                         <tr>
                             <td><a href="/admin/project/<?php echo $project->projectID ?>"><?php echo $project->langName ?></a></td>
                             <td><?php echo $project->gwLang ?></td>
                             <td><?php echo Language::show($project->bookProject, "Events") ?></td>
-                            <td><span class="action-btn sub-edit">edit</span> | <span class="action-btn sub-delete">delete</span></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -182,3 +182,8 @@ if(\Helpers\Session::get("isAdmin")):
 <?php
 endif;
 ?>
+
+<script>
+    var buttonCreate = '<?php echo Language::show('create', 'Events'); ?>';
+    var buttonEdit = '<?php echo Language::show('edit', 'Events'); ?>';
+</script>

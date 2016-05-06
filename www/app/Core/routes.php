@@ -26,6 +26,7 @@ Router::any('events', 'Controllers\EventsController@index');
 Router::any('events/project/(:num)', 'Controllers\EventsController@project');
 Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
 Router::any('events/rpc/get_notifications', 'Controllers\EventsController@getNotifications');
+Router::any('events/rpc/save_comment_alt', 'Controllers\EventsController@saveCommentAlt');
 Router::any('events/translator/(:num)', 'Controllers\EventsController@translator');
 Router::any('events/checker/(:num)/(:num)', 'Controllers\EventsController@checker');
 Router::any('events/checker/(:num)/(:num)/apply', 'Controllers\EventsController@applyChecker');
@@ -44,6 +45,7 @@ Router::any('members/rpc/auth/(:num)/(:num)/(:any)', 'Controllers\MembersControl
 Router::any('admin', 'Controllers\admin\AdminController@index');
 Router::any('admin/project/(:num)', 'Controllers\admin\AdminController@project');
 Router::any('admin/rpc/create_gw_project', 'Controllers\admin\AdminController@createGwProject');
+Router::any('admin/rpc/get_gw_project', 'Controllers\admin\AdminController@getGwProject');
 Router::any('admin/rpc/create_project', 'Controllers\admin\AdminController@createProject');
 Router::any('admin/rpc/get_members', 'Controllers\admin\AdminController@getMembers');
 Router::any('admin/rpc/get_target_languages', 'Controllers\admin\AdminController@getTargetLanguagesByGwLanguage');

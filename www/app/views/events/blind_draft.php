@@ -21,7 +21,7 @@ use \Helpers\Session;
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta"><?php echo $_POST["draft"]?></textarea>
+                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php echo $_POST["draft"]?></textarea>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,9 @@ use \Helpers\Session;
                 <div class="clear"></div>
 
                 <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show("blind-draft", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("blind-draft_desc", "Events")?></div>
+                <div class="help_descr_steps">
+                    <ul><?php echo Language::show("blind-draft_desc", "Events")?></ul>
+                </div>
             </div>
         </div>
     </div>

@@ -3,6 +3,16 @@ use \Core\Language;
 use \Helpers\Constants\EventSteps;
 ?>
 
+<div class="editor">
+    <div class="comment_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+        </div>
+        <textarea class="textarea textarea_editor"></textarea>
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row">
         <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
@@ -31,15 +41,16 @@ use \Helpers\Constants\EventSteps;
                         <div class="col-sm-12">
                             <?php for($i=0; $i < sizeof($data["text"]); $i++): ?>
                             <div class="row chunk_verse">
-                                <p class="col-sm-6 verse"><?php echo "<strong><sup>".$data["text"][$i]["verse"]."</sup></strong> " . $data["text"][$i]["content"]; ?></p>
-                                <p class="col-sm-6">
+                                <div class="col-sm-6 verse"><?php echo "<strong><sup>".$data["text"][$i]["verse"]."</sup></strong> " . $data["text"][$i]["content"]; ?></div>
+                                <div class="col-sm-6 editor_area">
                                 <?php
                                 $verses = explode("-", $data["text"][$i]["verse"]);
                                 foreach ($verses as $verse):?>
-                                    <textarea name="verses[]" class="verse_ta"><?php echo $_POST["verses"][$i-1] ?></textarea>
-                                    <textarea style="display: none" name="comments[]" class="comment_ta"></textarea>
+                                    <textarea name="verses[]" class="verse_ta textarea"><?php echo $_POST["verses"][$i] ?></textarea>
+                                    <img class="editComment" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                    <textarea name="comments[]" class="comment_ta textarea"><?php echo $_POST["comments"][$i] ?></textarea>
                                 <?php endforeach; ?>
-                                </p>
+                                </div>
                             </div>
                             <?php endfor; ?>
                         </div>
@@ -64,7 +75,9 @@ use \Helpers\Constants\EventSteps;
                 <div class="clear"></div>
 
                 <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events")?></div>
+                <div class="help_descr_steps">
+                    <ul><?php echo Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events")?></ul>
+                </div>
             </div>
         </div>
     </div>

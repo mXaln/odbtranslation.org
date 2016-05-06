@@ -9,6 +9,7 @@ use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
 use Models\EventsModel;
+use Models\MembersModel;
 use phpFastCache\CacheManager;
 
 class AdminController extends Controller {
@@ -59,6 +60,10 @@ class AdminController extends Controller {
             $data["memberGwLangs"] = Session::get("isSuperAdmin") ? $data["gwLangs"] :
                 $this->_model->getMemberGwLanguages(Session::get("userName"));
             $data["sourceTranslations"] = $this->_model->getSourceTranslations();
+
+            for($i=0; $i< sizeof($data["memberGwLangs"]); $i++){
+                unset($data["memberGwLangs"][$i]->admins);
+            }
         }
 
         View::renderTemplate('headerAdmin', $data);
@@ -94,6 +99,38 @@ class AdminController extends Controller {
         View::renderTemplate('footer', $data);
     }
 
+    public function getGwProject()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $gwLang = isset($_POST['gwLang']) && $_POST['gwLang'] != "" ? $_POST['gwLang'] : null;
+
+        if($gwLang == null)
+        {
+            $error[] = $this->language->get('choose_gateway_language_error');
+        }
+
+        if(!isset($error))
+        {
+            $gwProject = $this->_model->getGatewayProject("*", array(
+                PREFIX."gateway_projects.gwLang" => array("=", $gwLang)
+            ));
+
+            echo json_encode($gwProject);
+        }
+    }
+
     public function createGwProject()
     {
         if (!Session::get('loggedin'))
@@ -109,41 +146,73 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $gwLangs = isset($_POST['gwLangs']) && $_POST['gwLangs'] != "" ? $_POST['gwLangs'] : null;
+        $gwLang = isset($_POST['gwLang']) && $_POST['gwLang'] != "" ? $_POST['gwLang'] : null;
+        $act = isset($_POST['act']) && $_POST['act'] != "" ? $_POST['act'] : "create";
         $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : null;
 
-        if($gwLangs == null)
+        if($gwLang == null)
         {
-            $error[] = $this->language->get('choose_gateway_language');
+            $error[] = $this->language->get('choose_gateway_language_error');
         }
 
         if($admins == null)
         {
-            $error[] = $this->language->get("add_admins_event");
+            $error[] = $this->language->get("no_admins_error");
         }
 
         if(!isset($error))
         {
             $exist = $this->_model->getGatewayProject(PREFIX."gateway_projects.gwProjectID", array(
-                PREFIX."gateway_projects.gwLang" => array("=", $gwLangs)
+                PREFIX."gateway_projects.gwLang" => array("=", $gwLang)
             ));
 
-            if(!empty($exist))
+            switch($act)
             {
-                $error[] = $this->language->get("event_exists");
-                echo json_encode(array("error" => Error::display($error)));
-                return;
+                case "create":
+                    if(!empty($exist))
+                    {
+                        $error[] = $this->language->get("gw_project_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+                    break;
+
+                case "edit":
+                    if(empty($exist))
+                    {
+                        $error[] = $this->language->get("gw_project_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+                    break;
+            }
+
+            $memberModel = new MembersModel();
+            foreach ($admins as $admin) {
+                $memberModel->updateMember(array("isAdmin" => true), array("userName" => $admin));
             }
 
             $postdata = array(
-                "gwLang" => $gwLangs,
                 "admins" => json_encode($admins)
             );
 
-            $id = $this->_model->createGatewayProject($postdata);
+            $msg = "";
+
+            if($act == "create")
+            {
+                $postdata["gwLang"] = $gwLang;
+                $id = $this->_model->createGatewayProject($postdata);
+                $msg = json_encode(array("success" => $this->language->get("successfully_created")));
+            }
+            else if($act == "edit")
+            {
+                $this->_model->updateGatewayProject($postdata, array("gwLang" => $gwLang));
+                $msg = json_encode(array("success" => $this->language->get("successfully_updated")));
+                $id = true;
+            }
 
             if($id)
-                echo json_encode(array("success" => $this->language->get("successfully_created")));
+                echo $msg;
             else
             {
                 $error[] = $this->language->get("error_ocured");
@@ -160,13 +229,14 @@ class AdminController extends Controller {
     {
         if (!Session::get('loggedin'))
         {
-            Session::set('redirect', 'admin');
-            Url::redirect('members/login');
+            echo json_encode(array("login" => true));
+            exit;
         }
 
         if(!Session::get('isAdmin'))
         {
-            return;
+            echo json_encode(array());
+            exit;
         }
 
         $_POST = Gump::xss_clean($_POST);
@@ -243,19 +313,21 @@ class AdminController extends Controller {
     {
         if (!Session::get('loggedin'))
         {
-            return;
+            echo json_encode(array("login" => true));
+            exit;
         }
 
         if(!Session::get('isSuperAdmin'))
         {
-            return;
+            echo json_encode(array());
+            exit;
         }
 
         $_POST = Gump::xss_clean($_POST);
 
         if(isset($_POST['search']) && $_POST['search'] != "")
         {
-            $admins = $this->_model->getAdmins($_POST['search']);
+            $admins = $this->_model->getMembers($_POST['search']);
 
             echo json_encode($admins);
         }
@@ -265,13 +337,14 @@ class AdminController extends Controller {
     {
         if (!Session::get('loggedin'))
         {
-            Session::set('redirect', 'admin');
-            Url::redirect('members/login');
+            echo json_encode(array("login" => true));
+            exit;
         }
 
         if(!Session::get('isAdmin'))
         {
-            return;
+            echo json_encode(array());
+            exit;
         }
 
         $gwLang = isset($_POST["gwLang"]) && $_POST["gwLang"] != "" ? $_POST["gwLang"] : null;

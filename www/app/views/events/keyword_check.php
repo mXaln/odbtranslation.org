@@ -2,6 +2,16 @@
 use \Core\Language;
 ?>
 
+<div class="editor">
+    <div class="comment_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <span class="editor-close glyphicon glyphicon-ok-sign"></span>
+        </div>
+        <textarea class="textarea textarea_editor"></textarea>
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row">
         <div class="main_content_title"><?php echo Language::show("keyword-check", "Events")?></div>
@@ -20,20 +30,27 @@ use \Core\Language;
                             .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                             .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 no_padding">
                         <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
                             <?php
                             $k=0;
                             $count = 0;
                             foreach($chunk["translator"]["verses"] as $verse => $text):
-                                $verses = explode("-", $data["text"][$i-1]);?>
+                                $verses = explode("-", $data["text"][$i-1]);
+                                $comment = $chunk["translator"]["comments"][$verse];
+                                $commentAlt = $chunk["translator"]["comments_alt"][$verse];
+                                ?>
                                 <?php if($count == 0): ?>
                                 <div class="row chunk_verse">
-                                    <p class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
-                                    <p class="col-sm-6">
+                                    <div class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
+                                    <div class="col-sm-6 editor_area">
                                 <?php endif; ?>
-                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-6 peer_verse_ta"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
-                                    <textarea style="display: none" name="chunks[<?php echo $key; ?>][comments][]" class="col-sm-6 comment_ta"></textarea>
+                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-6 peer_verse_ta textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
+                                    <img class="editComment" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                    <textarea name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta textarea"><?php echo $_POST["chunks"][$key]["comments"][$k] != "" ? $_POST["chunks"][$key]["comments"][$k] : $comment; ?></textarea>
+                                    <?php if(trim($commentAlt != "")): ?>
+                                    <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $commentAlt; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png"/>
+                                    <?php endif;?>
                                 <?php
                                 $k++;
                                 $count++;
@@ -41,7 +58,7 @@ use \Core\Language;
                                 if($count == sizeof($verses)) :
                                     $i+=2;
                                     $count = 0; ?>
-                                    </p>
+                                    </div>
                                     </div>
                                     <?php
                                 endif;
@@ -74,7 +91,9 @@ use \Core\Language;
                 <div class="clear"></div>
 
                 <div class="help_name_steps"><span>Step 8:</span> <?php echo Language::show("keyword-check", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("keyword-check_desc", "Events")?></div>
+                <div class="help_descr_steps">
+                    <ul><?php echo Language::show("keyword-check_desc", "Events")?></ul>
+                </div>
             </div>
         </div>
     </div>

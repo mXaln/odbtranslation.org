@@ -2,6 +2,8 @@ var currentChunk = -1;
 var firstVerse = 0;
 var lastVerse = 0;
 var chunks = [];
+var lastCommentEditor;
+var lastCommentAltEditor;
 
 jQuery(function($) {
 
@@ -109,6 +111,48 @@ jQuery(function($) {
         {
             $("#tr_steps_hide")[0].click();
         }
+
+        $(".verse_ta:first").focus();
+
+        $(".comment_ta").each(function() {
+            var img = $(".editComment", $(this).parents(".editor_area"));
+
+            if(img.length > 0)
+            {
+                var src = img.attr("src");
+
+                if($(this).val().trim() == "")
+                {
+                    src = src.replace(/edit_done.png/, "edit.png");
+                    img.attr("src", src);
+                }
+                else
+                {
+                    src = src.replace(/edit.png/, "edit_done.png");
+                    img.attr("src", src);
+                }
+            }
+        });
+
+        $(".commentAltText").each(function() {
+            var img = $(".editCommentAlt", $(this).parents(".verse_with_note"));
+
+            if(img.length > 0)
+            {
+                var src = img.attr("src");
+
+                if($(this).text().trim() == "")
+                {
+                    src = src.replace(/edit_done.png/, "edit.png");
+                    img.attr("src", src);
+                }
+                else
+                {
+                    src = src.replace(/edit.png/, "edit_done.png");
+                    img.attr("src", src);
+                }
+            }
+        });
     });
 
     // Show/Hide Steps Panel
@@ -274,6 +318,20 @@ jQuery(function($) {
         return false;
     });
 
+    // Toggle Side by Side view on content review page (checker)
+    $("#side_by_side_toggle").click(function() {
+        if($(this).is(":checked"))
+        {
+            $(".side_by_side_content").show();
+            $(".one_side_content").hide();
+        }
+        else
+        {
+            $(".side_by_side_content").hide();
+            $(".one_side_content").show();
+        }
+    });
+
     // Show/Hide notifications
     $(".notifications").click(function() {
 
@@ -291,8 +349,114 @@ jQuery(function($) {
     $(document).click(function() {
         $(".notif_block").hide();
     });
-});
 
+
+    // Show/Hide Comment Textarea
+    $(".editComment").click(function() {
+        var comment = $(this).next(".comment_ta").val();
+        $(".editor").show();
+        $("textarea", $(".comment_div")).val(comment).focus();
+        lastCommentEditor = $(this);
+        autosize.update($('textarea'));
+    });
+
+    $(".editor").click(function(e) {
+        if(e.target.className == "comment_div" || e.target.className == "editor")
+        {
+            $(".editor").hide();
+        }
+    });
+
+    $(".editor-close").click(function() {
+        $(".editor").hide();
+
+        var text = $("textarea", $(".comment_div")).val();
+        var src = lastCommentEditor.attr("src");
+
+        if(text.trim() == "")
+        {
+            src = src.replace(/edit_done.png/, "edit.png");
+            lastCommentEditor.attr("src", src);
+            lastCommentEditor.next("textarea").val("");
+        }
+        else
+        {
+            src = src.replace(/edit.png/, "edit_done.png");
+            lastCommentEditor.attr("src", src);
+            lastCommentEditor.next("textarea").val(text);
+        }
+    });
+
+
+    // Show/Hide Checker Comment Textarea
+    $(".editCommentAlt").click(function() {
+        var commentAlt = $(this).next(".commentAltText").text();
+        $(".alt_editor").show();
+        $("textarea", $(".alt_comment_div")).val(commentAlt).focus();
+        lastCommentAltEditor = $(this);
+        autosize.update($('textarea'));
+    });
+
+    $(".alt_editor").click(function(e) {
+        if(e.target.className == "alt_comment_div" || e.target.className == "alt_editor")
+        {
+            $(".alt_editor").hide();
+        }
+    });
+
+    $(".alt_editor-close").click(function() {
+        var text = $("textarea", $(".alt_comment_div")).val().trim();
+
+        if(lastCommentAltEditor.next("span").text() != text)
+        {
+            var tID = lastCommentAltEditor.nextAll(".tID").val();
+            var verse = lastCommentAltEditor.nextAll(".verseNum").val();
+
+            $.ajax({
+                    url: "/events/rpc/save_comment_alt",
+                    method: "post",
+                    data: {tID: tID, verse: verse, comment: text.trim()},
+                    dataType: "json",
+                    beforeSend: function() {
+                        $(".commentEditorLoader").show();
+                    }
+                })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        $(".alt_editor").hide();
+                        var src = lastCommentAltEditor.attr("src");
+
+                        if(data.text == "")
+                        {
+                            src = src.replace(/edit_done.png/, "edit.png");
+                            lastCommentAltEditor.next("span").text("");
+                        }
+                        else
+                        {
+                            src = src.replace(/edit.png/, "edit_done.png");
+                            lastCommentAltEditor.next("span").text(data.text);
+                        }
+                        lastCommentAltEditor.attr("src", src);
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            alert(data.error);
+                        }
+                    }
+                })
+                .always(function() {
+                    $(".commentEditorLoader").hide();
+                });
+        }
+        else
+        {
+            $(".alt_editor").hide();
+        }
+    });
+});
 
 // Cookie Helpers
 /**

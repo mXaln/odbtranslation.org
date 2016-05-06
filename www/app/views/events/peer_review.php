@@ -2,6 +2,27 @@
 use \Core\Language;
 ?>
 
+<div class="editor">
+    <div class="comment_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <span class="editor-close glyphicon glyphicon-ok-sign"></span>
+        </div>
+        <textarea class="textarea textarea_editor"></textarea>
+    </div>
+</div>
+
+<div class="alt_editor">
+    <div class="alt_comment_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <span class="alt_editor-close glyphicon glyphicon-floppy-disk"></span>
+        </div>
+        <textarea class="textarea textarea_editor"></textarea>
+        <img src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif" class="commentEditorLoader">
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row">
         <div class="main_content_title"><?php echo Language::show("peer-review", "Events")?></div>
@@ -29,12 +50,14 @@ use \Core\Language;
                                 .$data["event"][0]->name." ".$data["cotrData"]["currentChapter"].":1-".$data["cotrData"]["totalVerses"]?></h4>
 
                         <div class="col-sm-12">
-                            <?php if($data["cotrData"]["cotrReady"] /*$data["event"][0]->cotrStep == \Helpers\Constants\EventSteps::PEER_REVIEW && !empty($data["cotrData"]["translation"])*/): ?>
+                            <?php if($data["cotrData"]["cotrReady"]): ?>
                                 <?php $i=2; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
                                     <?php
                                     $count = 0;
                                     foreach($chunk["translator"]["verses"] as $verse => $text):
                                         $verses = explode("-", $data["cotrData"]["text"][$i-1]);
+                                        $comment = $chunk["translator"]["comments"][$verse];
+                                        $commentAlt = $chunk["translator"]["comments_alt"][$verse];
                                     ?>
                                         <?php if($count == 0): ?>
                                         <div class="row">
@@ -42,7 +65,7 @@ use \Core\Language;
                                                 <p><strong><sup><?php echo $data["cotrData"]["text"][$i-1]; ?></sup></strong> <?php echo $data["cotrData"]["text"][$i]; ?></p>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 verse_with_note">
                                                 <p>
                                         <?php endif; ?>
                                                     <strong><sup><?php echo $verse; ?></sup></strong>
@@ -54,6 +77,13 @@ use \Core\Language;
                                             $i+=2;
                                             $count = 0; ?>
                                                 </p>
+                                                <?php if(trim($comment != "")): ?>
+                                                <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
+                                                <?php endif;?>
+                                                <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                                <span class="commentAltText"><?php echo $commentAlt; ?></span>
+                                                <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
+                                                <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
                                             </div>
                                         </div>
                                     <?php endif; endforeach; ?>
@@ -81,14 +111,21 @@ use \Core\Language;
                                 $k=0;
                                 $count = 0;
                                 foreach($chunk["translator"]["verses"] as $verse => $text):
-                                    $verses = explode("-", $data["text"][$i-1]); ?>
+                                    $verses = explode("-", $data["text"][$i-1]);
+                                    $comment = $chunk["translator"]["comments"][$verse];
+                                    $commentAlt = $chunk["translator"]["comments_alt"][$verse];
+                                    ?>
                                     <?php if($count == 0): ?>
                                     <div class="row chunk_verse">
-                                        <p class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
-                                        <p class="col-sm-6">
+                                        <div class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
+                                        <div class="col-sm-6 editor_area">
                                     <?php endif; ?>
-                                            <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
-                                            <textarea style="display: none" name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta"></textarea>
+                                            <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
+                                            <img class="editComment" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                            <textarea name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta textarea"><?php echo $_POST["chunks"][$key]["comments"][$k] != "" ? $_POST["chunks"][$key]["comments"][$k] : $comment; ?></textarea>
+                                            <?php if(trim($commentAlt != "")): ?>
+                                            <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $commentAlt; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png"/>
+                                            <?php endif;?>
                                 <?php
                                 $k++;
                                 $count++;
@@ -96,7 +133,7 @@ use \Core\Language;
                                 if($count == sizeof($verses)) :
                                     $i+=2;
                                     $count = 0; ?>
-                                        </p>
+                                        </div>
                                     </div>
                                 <?php
                                 endif;
@@ -131,7 +168,9 @@ use \Core\Language;
                 <div class="clear"></div>
 
                 <div class="help_name_steps"><span>Step 7:</span> <?php echo Language::show("peer-review", "Events")?></div>
-                <div class="help_descr_steps"><?php echo Language::show("peer-review_desc", "Events")?></div>
+                <div class="help_descr_steps">
+                    <ul><?php echo Language::show("peer-review_desc", "Events")?></ul>
+                </div>
             </div>
         </div>
     </div>
