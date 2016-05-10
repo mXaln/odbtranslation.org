@@ -58,7 +58,12 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var step = '<?php echo $data["event"][0]->step; ?>';
 </script>
 
+<div style="position: fixed; right: 0;">
+
+</div>
+
 <div id="chat_container" class="closed">
+    <div id="chat_new_msgs" class="chat_new_msgs"></div>
     <div id="chat_hide" class="glyphicon glyphicon-chevron-left"></div>
 
     <div class="chat panel panel-info">

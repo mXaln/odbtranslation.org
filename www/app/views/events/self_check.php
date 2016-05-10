@@ -74,11 +74,30 @@ use \Helpers\Constants\EventSteps;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 6:</span> <?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(5))?></span> <?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events")?></ul>
+                    <ul><?php echo mb_substr(Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tutorial_container">
+    <div class="tutorial_popup">
+        <div class="tutorial-close glyphicon glyphicon-remove"></div>
+        <div class="tutorial_pic">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/self-check.png" width="100px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/self-check.png" width="280px">
+            <div class="hide_tutorial">
+                <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
+            </div>
+        </div>
+
+        <div class="tutorial_content">
+            <h3><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></h3>
+            <ul><?php echo Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events")?></ul>
         </div>
     </div>
 </div>

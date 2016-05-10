@@ -17,8 +17,11 @@ return array(
     "confirm_finished" => "Please confirm that you finished this step",
     "confirm_yes" => "Yes, I did",
     "next_step" => "Next step",
-    "partner_not_ready" => "Your partner is not ready for this step. Please wait. This page will be reloaded automatically when your partner will be ready.",
+    "partner_not_ready" => "Your partner is not ready for this step. Content will be reloaded automatically when your partner will be ready.",
     "side_by_side_toggle" => "Side by side review",
+    "do_not_show_tutorial" => "Don't show this message again",
+    "show_more" => "Show more",
+    "step_num" => "Step {0}:",
 
     // Steps
     "pray" => "Pray",

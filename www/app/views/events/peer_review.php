@@ -49,7 +49,7 @@ use \Core\Language;
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                                 .$data["event"][0]->name." ".$data["cotrData"]["currentChapter"].":1-".$data["cotrData"]["totalVerses"]?></h4>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 cotrData">
                             <?php if($data["cotrData"]["cotrReady"]): ?>
                                 <?php $i=2; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
                                     <?php
@@ -167,11 +167,30 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 7:</span> <?php echo Language::show("peer-review", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(6))?></span> <?php echo Language::show("peer-review", "Events")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo Language::show("peer-review_desc", "Events")?></ul>
+                    <ul><?php echo mb_substr(Language::show("peer-review_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tutorial_container">
+    <div class="tutorial_popup">
+        <div class="tutorial-close glyphicon glyphicon-remove"></div>
+        <div class="tutorial_pic">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/peer-review.png" width="100px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/peer-review.png" width="280px">
+            <div class="hide_tutorial">
+                <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
+            </div>
+        </div>
+
+        <div class="tutorial_content">
+            <h3><?php echo Language::show("peer-review", "Events")?></h3>
+            <ul><?php echo Language::show("peer-review_desc", "Events")?></ul>
         </div>
     </div>
 </div>

@@ -1,11 +1,11 @@
 var isActive;
 var hasP2pNewmsgs = {val: false};
-var hasEvntNewmsgs = {val: false};
+var hasEvntNewMsgs = {val: false};
 var newEvntMsgsShown = false;
 var newp2pMsgsShown = false;
-var currentP2Ptab;
-var currentP2Pmsgs;
-var currentChatType;
+var currentP2Ptab, currentP2Pmsgs, currentChatType;
+var titleChanger, initTitle = document.title, isNewTitle = false;
+var missedMsgsNum = 0;
 
 var eventSteps = {
     PRAY: "pray",
@@ -193,22 +193,26 @@ function OnChatMessage(data)
     var lastMsg;
     var msgName, msgClass, playMissed = false;
     var newBlock = "";
-    var hasNewmsgs = false;
+    var hasNewMsgs = false;
 
     switch (data.chatType)
     {
         case currentChatType:
             messagesObj = currentP2Pmsgs;
             lastMsg = $(".message:last", currentP2Pmsgs);
-            setCookie(currentChatType + "_last_msg", data.date, {expires: 24*60*60});
-            hasNewmsgs = hasP2pNewmsgs;
+            setTimeout(function() {
+                setCookie(currentChatType + "_last_msg", data.date, {expires: 24*60*60});
+            }, 1000);
+            hasNewMsgs = hasP2pNewmsgs;
             break;
 
         default:
             messagesObj = $("#evnt_messages");
             lastMsg = $("#evnt_messages .message:last");
-            setCookie("evnt_last_msg", data.date, {expires: 24*60*60});
-            hasNewmsgs = hasEvntNewmsgs;
+            setTimeout(function() {
+                setCookie("evnt_last_msg", data.date, {expires: 24*60*60});
+            }, 1000);
+            hasNewMsgs = hasEvntNewMsgs;
             break;
     }
 
@@ -226,7 +230,7 @@ function OnChatMessage(data)
     else
     {
         msgClass = 'msg_other';
-        msgName = data.member.userName; //data.member.firstName + " " + data.member.lastName;
+        msgName = data.member.userName;
         playMissed = true;
     }
 
@@ -234,12 +238,12 @@ function OnChatMessage(data)
     {
         var newmsgs = "";
 
-        if(!isActive && !hasNewmsgs.val)
+        if(!isActive && !hasNewMsgs.val && data.member.memberID != memberID)
         {
             $(".newmsgs", messagesObj).remove();
 
             newmsgs = '<li class="newmsgs">new messages</li>';
-            hasNewmsgs.val = true;
+            hasNewMsgs.val = true;
 
             newBlock = newmsgs + '<li class="message ' + msgClass + '" data="' + data.member.memberID + '">' +
                 '<div class="msg_name">' + msgName + '</div>' +
@@ -254,12 +258,12 @@ function OnChatMessage(data)
     else
     {
         var newmsgs = "";
-        if(!isActive && !hasNewmsgs.val)
+        if(!isActive && !hasNewMsgs.val && data.member.memberID != memberID)
         {
             $(".newmsgs", messagesObj).remove();
 
             newmsgs = '<li class="newmsgs">new messages</li>';
-            hasNewmsgs.val = true;
+            hasNewMsgs.val = true;
         }
 
         newBlock = newmsgs + '<li class="message '+msgClass+'" data="'+ data.member.memberID +'">' +
@@ -285,6 +289,14 @@ function OnChatMessage(data)
         {
             newEvntMsgsShown = false;
         }
+
+        titleChanger = setInterval(function() {
+            document.title = !isNewTitle ? "New message arrived" : initTitle;
+            isNewTitle = !isNewTitle;
+        }, 1000);
+
+        missedMsgsNum++;
+        $(".chat_new_msgs").text(missedMsgsNum).show();
     }
 
     messagesObj.animate({ scrollTop: messagesObj[0].scrollHeight}, 200);
@@ -293,6 +305,13 @@ function OnChatMessage(data)
         $('#m').focus();
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    $("#chat_container").click(function() {
+        clearInterval(titleChanger);
+        document.title = initTitle;
+        $(".chat_new_msgs").text("").hide();
+        missedMsgsNum = 0;
+    });
 }
 
 function OnRoomUpdate(roomMates)
@@ -325,14 +344,23 @@ function OnSystemMessage(data)
         case "peerEnter":
             if($(".cotr_not_ready").length > 0)
             {
-                window.location.reload();
+                $.ajax({
+                        url: "/events/rpc/get_partner_translation",
+                        method: "post",
+                        dataType: "html",
+                        data: {eventID: eventID}
+                    })
+                    .done(function(data) {
+                        $(".cotrData").html(data);
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
             }
             break;
 
         case "checkEnter":
             if(chkMemberID == 0 || $(".checker_waits").length > 0)
             {
-                window.location.reload();
+                $(".check_request").remove();
             }
             break;
 

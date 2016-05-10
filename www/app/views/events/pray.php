@@ -10,7 +10,9 @@ use \Core\Language;
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <?php echo Language::show("pray_text", "Events")?>
+                <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/pray.png">
+                <br>
+                <div><?php echo Language::show("pray_text", "Events")?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -31,7 +33,7 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 1:</span> <?php echo Language::show("pray", "Events")?></div>
+                <div class="help_name_steps"><span>&nbsp;&nbsp;&nbsp;</span><?php echo Language::show("pray", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo Language::show("pray_desc", "Events")?></ul>
                 </div>

@@ -153,6 +153,15 @@ jQuery(function($) {
                 }
             }
         });
+
+        var role = $("#hide_tutorial").attr("data2");
+        var cookie = typeof role != "undefined" && role == "checker" ?
+            getCookie(step + "_checker_tutorial") : getCookie(step + "_tutorial");
+
+        if(typeof cookie == "undefined")
+        {
+            $(".tutorial_container").show();
+        }
     });
 
     // Show/Hide Steps Panel
@@ -389,7 +398,7 @@ jQuery(function($) {
 
 
     // Show/Hide Checker Comment Textarea
-    $(".editCommentAlt").click(function() {
+    $(document).on("click", ".editCommentAlt", function() {
         var commentAlt = $(this).next(".commentAltText").text();
         $(".alt_editor").show();
         $("textarea", $(".alt_comment_div")).val(commentAlt).focus();
@@ -454,6 +463,37 @@ jQuery(function($) {
         else
         {
             $(".alt_editor").hide();
+        }
+    });
+
+    // Show/Hide Tutorial popup
+    $(".tutorial-close").click(function() {
+        $(".tutorial_container").hide();
+    });
+
+    $(".show_tutorial_popup").click(function() {
+        $(".tutorial_container").show();
+
+        var role = $("#hide_tutorial").attr("data2");
+
+        var cookie = typeof role != "undefined" && role == "checker" ?
+            getCookie(step + "_checker_tutorial") : getCookie(step + "_tutorial");
+
+        if(typeof cookie != "undefined")
+        {
+            $("#hide_tutorial").prop("checked", true);
+        }
+    });
+
+    $("#hide_tutorial").change(function() {
+        var step = $(this).attr("data");
+        if($(this).is(":checked"))
+        {
+            setCookie(step + "_tutorial", true, {expires: 30*24*60*60});
+        }
+        else
+        {
+            deleteCookie(step + "_tutorial");
         }
     });
 });

@@ -27,6 +27,7 @@ Router::any('events/project/(:num)', 'Controllers\EventsController@project');
 Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
 Router::any('events/rpc/get_notifications', 'Controllers\EventsController@getNotifications');
 Router::any('events/rpc/save_comment_alt', 'Controllers\EventsController@saveCommentAlt');
+Router::any('events/rpc/get_partner_translation', 'Controllers\EventsController@getPartnerTranslation');
 Router::any('events/translator/(:num)', 'Controllers\EventsController@translator');
 Router::any('events/checker/(:num)/(:num)', 'Controllers\EventsController@checker');
 Router::any('events/checker/(:num)/(:num)/apply', 'Controllers\EventsController@applyChecker');

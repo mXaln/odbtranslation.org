@@ -1322,6 +1322,106 @@ class EventsController extends Controller
         View::renderTemplate('footer', $data);
     }
 
+
+    public function getPartnerTranslation()
+    {
+        if (!Session::get('loggedin'))
+        {
+            echo Language::show("not_loggedin_error", "Events");
+            return;
+        }
+
+        if (!Session::get('verified'))
+        {
+            echo Language::show("account_not_verirfied_error", "Events");
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+
+        if($eventID !== null)
+        {
+            $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
+
+            if(!empty($data["event"]))
+            {
+                $cotrSourceText = $this->getSourceText($data, false, true);
+
+                if (!array_key_exists("error", $cotrSourceText)) {
+                    $data["cotrData"] = $cotrSourceText;
+
+                    $coTranslationTemp = $this->_model->getTranslation($data["event"][0]->cotrID, null, $data["event"][0]->cotrCurrentChapter);
+                    $coTranslation = array();
+
+                    $cotrReady = true;
+
+                    if(empty($coTranslationTemp))
+                        $cotrReady = false;
+
+                    foreach ($coTranslationTemp as $tv) {
+                        $tmp = json_decode($tv->translatedVerses, true);
+                        $tmp["tID"] = $tv->tID;
+                        $coTranslation[] = $tmp;
+
+                        if(empty($tmp["translator"]["verses"]))
+                            $cotrReady = false;
+                    }
+
+                    if(sizeof($data["chapters"][$data["event"][0]->cotrCurrentChapter]["chunks"]) > sizeof($coTranslation))
+                        $cotrReady = false;
+
+                    $data["cotrData"]["cotrReady"] = $cotrReady;
+                    $data["cotrData"]["translation"] = $coTranslation;
+
+                    if($data["cotrData"]["cotrReady"]) {
+                        $i=2;
+                        foreach($data["cotrData"]["translation"] as $key => $chunk) {
+                            $count = 0;
+                            foreach($chunk["translator"]["verses"] as $verse => $text) {
+                                $verses = explode("-", $data["cotrData"]["text"][$i - 1]);
+                                $comment = $chunk["translator"]["comments"][$verse];
+                                $commentAlt = $chunk["translator"]["comments_alt"][$verse];
+                                if ($count == 0) {
+                                    echo '<div class="row">' .
+                                        '<div class="col-sm-6">' .
+                                        '<p><strong><sup>' . $data["cotrData"]["text"][$i - 1] . '</sup></strong> ' . $data["cotrData"]["text"][$i] . '</p>' .
+                                        '</div>' .
+                                        '<div class="col-sm-6 verse_with_note">' .
+                                        '<p>';
+                                }
+                                echo '<strong><sup>' . $verse . '</sup></strong>';
+                                echo $text;
+                                $count++;
+
+                                if ($count == sizeof($verses)) {
+                                    $i += 2;
+                                    $count = 0;
+                                    echo '</p>';
+                                    if (trim($comment != "")) {
+                                        echo '<img class="showComment" data-toggle="tooltip" data-placement="left" title="' . $comment . '" width="16px" src="' . \Helpers\Url::templatePath() . 'img/note.png">';
+                                    }
+                                    echo '<img class="editCommentAlt" width="16px" src="' . \Helpers\Url::templatePath() . 'img/'.(trim($commentAlt) == "" ? "edit" : "edit_done").'.png" title="write note"/>' .
+                                        '<span class="commentAltText">' . $commentAlt . '</span>' .
+                                        '<input type="hidden" class="tID" value="' . $chunk["tID"] . '">' .
+                                        '<input type="hidden" class="verseNum" value="' . $verse . '">' .
+                                        '</div>' .
+                                        '</div>';
+                                }
+                            }
+                        }
+                        echo '<div class="chunk_divider col-sm-12"></div>';
+                    } else {
+                        echo '<div class="row">'.
+                            '<div class="col-sm-12 cotr_not_ready" style="color: #ff0000;">'.Language::show("partner_not_ready", "Events").'</div>'.
+                        '</div>';
+                    }
+                }
+            }
+        }
+    }
+
     public function getNotifications()
     {
         if(Session::get("loggedin"))
