@@ -104,8 +104,8 @@ use \Core\Language;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/keyword-check.png" width="100px">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/keyword-check.png" width="280px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/keyword-check.png" width="100px" height="100px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/keyword-check.png" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
             </div>
