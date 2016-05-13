@@ -272,13 +272,22 @@ class EventsModel extends Model
         return $this->db->select($sql, array(":memberID" => Session::get("memberID")));
     }
 
-    /**
-     * Get list of all gateway languages
+    /** Get list of all languages
+     * @param null $isGW (true - gateway, false - other, null - all)
      * @return array
      */
-    public function getAllGwLanguages()
+    public function getAllLanguages($isGW = null)
     {
-        return $this->db->select("SELECT langID, langName FROM ".PREFIX."languages WHERE isGW = 1 ORDER BY `langID` ASC");
+        $where = "";
+        $prepare = array();
+        if($isGW !== null)
+        {
+            $where = "WHERE isGW = :isGW";
+            $prepare[":isGW"] = $isGW;
+        }
+
+        $sql = "SELECT langID, langName FROM ".PREFIX."languages $where ORDER BY `langID` ASC";
+        return $this->db->select($sql, $prepare);
     }
 
     /**
@@ -530,38 +539,28 @@ class EventsModel extends Model
      */
     public function addL2Checker($data, $checkerData, $shouldUpdateChecker)
     {
-        $updateSuccess = true;
-        if($shouldUpdateChecker)
-        {
-            if($this->db->update(PREFIX."members", $checkerData, array("memberID" => Session::get("memberID"))))
-            {
-                foreach ($checkerData as $key => $value)
-                    Session::set($key, $value);
-            }
-            else
-            {
-                $updateSuccess = false;
-            }
-        }
+        $oldData = $checkerData;
 
-        if($updateSuccess)
-        {
-            foreach ($checkerData as $key => $value)
-                Session::set($key, $value);
+        $checkerData["education"] = json_encode($checkerData["education"]);
+        $checkerData["ed_area"] = json_encode($checkerData["ed_area"]);
+        $checkerData["church_role"] = json_encode($checkerData["church_role"]);
 
-            try
-            {
-                $this->db->insert(PREFIX."checkers_l2",$data);
-            } catch(\PDOException $e)
-            {
-                return $e->getMessage();
-            }
-            return $this->db->lastInsertId('l2chID');
-        }
-        else
+        $this->db->update(PREFIX."profile", $checkerData, array("mID" => Session::get("memberID")));
+        $profile = Session::get("profile");
+
+        foreach ($oldData as $key => $value)
+            $profile[$key] = $value;
+
+        Session::set("profile", $profile);
+
+        try
         {
-            return "[Member update error]";
+            $this->db->insert(PREFIX."checkers_l2",$data);
+        } catch(\PDOException $e)
+        {
+            return $e->getMessage();
         }
+        return $this->db->lastInsertId('l2chID');
     }
 
     /**
@@ -573,38 +572,28 @@ class EventsModel extends Model
      */
     public function addL3Checker($data, $checkerData, $shouldUpdateChecker)
     {
-        $updateSuccess = true;
-        if($shouldUpdateChecker)
-        {
-            if($this->db->update(PREFIX."members", $checkerData, array("memberID" => Session::get("memberID"))))
-            {
-                foreach ($checkerData as $key => $value)
-                    Session::set($key, $value);
-            }
-            else
-            {
-                $updateSuccess = false;
-            }
-        }
+        $oldData = $checkerData;
 
-        if($updateSuccess)
-        {
-            foreach ($checkerData as $key => $value)
-                Session::set($key, $value);
+        $checkerData["education"] = json_encode($checkerData["education"]);
+        $checkerData["ed_area"] = json_encode($checkerData["ed_area"]);
+        $checkerData["church_role"] = json_encode($checkerData["church_role"]);
 
-            try
-            {
-                $this->db->insert(PREFIX."checkers_l3",$data);
-            } catch(\PDOException $e)
-            {
-                return $e->getMessage();
-            }
-            return $this->db->lastInsertId('l3chID');
-        }
-        else
+        $this->db->update(PREFIX."profile", $checkerData, array("mID" => Session::get("memberID")));
+        $profile = Session::get("profile");
+
+        foreach ($oldData as $key => $value)
+            $profile[$key] = $value;
+
+        Session::set("profile", $profile);
+
+        try
         {
-            return "[Member update error]";
+            $this->db->insert(PREFIX."checkers_l3",$data);
+        } catch(\PDOException $e)
+        {
+            return $e->getMessage();
         }
+        return $this->db->lastInsertId('l3chID');
     }
 
     /**

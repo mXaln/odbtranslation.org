@@ -51,7 +51,7 @@ class AdminController extends Controller {
         {
             $data["gwProjects"] = $this->_model->getGatewayProject("*", array(
                 "gwProjectID" => array(">", 0)));
-            $data["gwLangs"] = $this->_model->getAllGwLanguages();
+            $data["gwLangs"] = $this->_model->getAllLanguages(true);
         }
 
         if(Session::get("isAdmin"))

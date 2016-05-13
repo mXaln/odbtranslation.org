@@ -105,6 +105,7 @@ $hooks->run('afterBody');
 					</ul>
 				</li>
 			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo Language::show('logout', 'Members')?></a></li>
+				<li><a class="btn btn-link" href="<?php echo DIR?>members/profile"><?php echo \Helpers\Session::get("userName")?></a></li>
 			<?php endif?>
 		</ul>
 

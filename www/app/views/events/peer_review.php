@@ -81,7 +81,7 @@ use \Core\Language;
                                                 <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
                                                 <?php endif;?>
                                                 <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                                <span class="commentAltText"><?php echo $commentAlt; ?></span>
+                                                <span class="commentAltText"><?php echo preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $commentAlt); ?></span>
                                                 <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
                                                 <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
                                             </div>
@@ -122,7 +122,7 @@ use \Core\Language;
                                     <?php endif; ?>
                                             <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
                                             <img class="editComment" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                            <textarea name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta textarea"><?php echo $_POST["chunks"][$key]["comments"][$k] != "" ? $_POST["chunks"][$key]["comments"][$k] : $comment; ?></textarea>
+                                            <textarea name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta textarea"><?php echo $_POST["chunks"][$key]["comments"][$k] != "" ? $_POST["chunks"][$key]["comments"][$k] : preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $comment); ?></textarea>
                                             <?php if(trim($commentAlt != "")): ?>
                                             <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $commentAlt; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png"/>
                                             <?php endif;?>

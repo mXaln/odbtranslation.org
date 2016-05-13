@@ -18,5 +18,9 @@ $hooks = Hooks::get();
 $hooks->run('footer');
 ?>
 
+<div class="footer">
+
+</div>
+
 </body>
 </html>

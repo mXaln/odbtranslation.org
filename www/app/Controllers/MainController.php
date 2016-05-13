@@ -29,8 +29,13 @@ class MainController extends Controller
      */
     public function index()
     {
-        if(Session::get('loggedin') == true)
+        if(Session::get('loggedin'))
         {
+            if(empty(Session::get("profile")))
+            {
+                Url::redirect("members/profile");
+            }
+
             Url::redirect("members");
         }
 

@@ -40,7 +40,7 @@ use \Core\Language;
                                     <div class="p_verse_num"><strong><sup><?php echo $verse ?></sup></strong></div>
                                     <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-9 peer_verse_ta verse_right textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
                                     <img class="editComment" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                    <textarea name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta textarea"><?php echo $_POST["chunks"][$key]["comments"][$k] != "" ? $_POST["chunks"][$key]["comments"][$k] : $comment; ?></textarea>
+                                    <textarea name="chunks[<?php echo $key; ?>][comments][]" class="comment_ta textarea"><?php echo $_POST["chunks"][$key]["comments"][$k] != "" ? $_POST["chunks"][$key]["comments"][$k] : preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $comment); ?></textarea>
                                     <?php if(trim($commentAlt != "")): ?>
                                         <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $commentAlt; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png"/>
                                     <?php endif;?>

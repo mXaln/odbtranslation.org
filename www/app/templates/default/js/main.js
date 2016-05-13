@@ -5,7 +5,7 @@ var chunks = [];
 var lastCommentEditor;
 var lastCommentAltEditor;
 
-jQuery(function($) {
+$(document).ready(function() {
 
     // Statement of faith block
     $("#sof").click(function() {
@@ -67,6 +67,7 @@ jQuery(function($) {
 
         $("#applyEvent").trigger("reset");
         $(".errors").html("");
+        $("label").removeClass("label_error");
         $(".bookName").text(bookName);
         $(".panel-title").text(bookName);
         $("#bookCode").val(bookCode);
@@ -98,6 +99,44 @@ jQuery(function($) {
         $(".event-content").show();
     });
 
+    // Submit apply event form
+    $("#applyEvent").submit(function(e) {
+
+        $.ajax({
+                url: $("#applyEvent").prop("action"),
+                method: "post",
+                data: $("#applyEvent").serialize(),
+                dataType: "json",
+                beforeSend: function() {
+                    $(".applyEventLoader").show();
+                }
+            })
+            .done(function(data) {
+                $("label").removeClass("label_error");
+
+                if(data.success)
+                {
+                    alert(data.success);
+                    location.reload();
+                }
+                else
+                {
+                    $(".errors").html(data.error);
+                    if(typeof data.errors != "undefined")
+                    {
+                        $.each(data.errors, function(k, v) {
+                            $("label."+k).addClass("label_error");
+                        });
+                    }
+                }
+            })
+            .always(function() {
+                $(".applyEventLoader").hide();
+            });
+
+        e.preventDefault();
+    });
+
     $(".panel-close").click(function() {
         $(this).parents(".form-panel").hide();
     });
@@ -106,54 +145,57 @@ jQuery(function($) {
     // ------------------- Translation Flow ---------------------- //
 
     // Hide steps panel on small screens
-    $(document).ready(function() {
-        if($(window).width() < 1800)
-        {
+
+    if($(window).width() < 1800)
+    {
+        if($("#tr_steps_hide").length > 0)
             $("#tr_steps_hide")[0].click();
+    }
+
+    $(".verse_ta:first").focus();
+
+    $(".comment_ta").each(function() {
+        var img = $(".editComment", $(this).parents(".editor_area"));
+
+        if(img.length > 0)
+        {
+            var src = img.attr("src");
+
+            if($(this).val().trim() == "")
+            {
+                src = src.replace(/edit_done.png/, "edit.png");
+                img.attr("src", src);
+            }
+            else
+            {
+                src = src.replace(/edit.png/, "edit_done.png");
+                img.attr("src", src);
+            }
         }
+    });
 
-        $(".verse_ta:first").focus();
+    $(".commentAltText").each(function() {
+        var img = $(".editCommentAlt", $(this).parents(".verse_with_note"));
 
-        $(".comment_ta").each(function() {
-            var img = $(".editComment", $(this).parents(".editor_area"));
+        if(img.length > 0)
+        {
+            var src = img.attr("src");
 
-            if(img.length > 0)
+            if($(this).text().trim() == "")
             {
-                var src = img.attr("src");
-
-                if($(this).val().trim() == "")
-                {
-                    src = src.replace(/edit_done.png/, "edit.png");
-                    img.attr("src", src);
-                }
-                else
-                {
-                    src = src.replace(/edit.png/, "edit_done.png");
-                    img.attr("src", src);
-                }
+                src = src.replace(/edit_done.png/, "edit.png");
+                img.attr("src", src);
             }
-        });
-
-        $(".commentAltText").each(function() {
-            var img = $(".editCommentAlt", $(this).parents(".verse_with_note"));
-
-            if(img.length > 0)
+            else
             {
-                var src = img.attr("src");
-
-                if($(this).text().trim() == "")
-                {
-                    src = src.replace(/edit_done.png/, "edit.png");
-                    img.attr("src", src);
-                }
-                else
-                {
-                    src = src.replace(/edit.png/, "edit_done.png");
-                    img.attr("src", src);
-                }
+                src = src.replace(/edit.png/, "edit_done.png");
+                img.attr("src", src);
             }
-        });
+        }
+    });
 
+    if(typeof step != "undefined")
+    {
         var role = $("#hide_tutorial").attr("data2");
         var cookie = typeof role != "undefined" && role == "checker" ?
             getCookie(step + "_checker_tutorial") : getCookie(step + "_tutorial");
@@ -162,7 +204,8 @@ jQuery(function($) {
         {
             $(".tutorial_container").show();
         }
-    });
+    }
+
 
     // Show/Hide Steps Panel
     $("#tr_steps_hide").click(function () {
@@ -193,36 +236,6 @@ jQuery(function($) {
             $("#next_step").prop("disabled", false);
         else
             $("#next_step").prop("disabled", true);
-    });
-
-    // Submit apply event form
-    $("#applyEvent").submit(function(e) {
-
-        $.ajax({
-                url: $("#applyEvent").prop("action"),
-                method: "post",
-                data: $("#applyEvent").serialize(),
-                dataType: "json",
-                beforeSend: function() {
-                    $(".applyEventLoader").show();
-                }
-            })
-            .done(function(data) {
-                if(data.success)
-                {
-                    alert(data.success);
-                    location.reload();
-                }
-                else
-                {
-                    $(".errors").html(data.error);
-                }
-            })
-            .always(function() {
-                $(".applyEventLoader").hide();
-            });
-
-        e.preventDefault();
     });
 
     $(".verse").each(function(index) {
@@ -496,6 +509,175 @@ jQuery(function($) {
             deleteCookie(step + "_tutorial");
         }
     });
+
+
+    // Profile form
+    $(".language").change(function() {
+        var parent = $(this).parents(".language_block");
+        if($(this).val() != "")
+        {
+            $(".fluency", parent).prop("name", "lang["+$(this).val()+"][fluency]").prop("disabled", false);
+            $(".geo_years", parent).prop("name", "lang["+$(this).val()+"][geo_years]").prop("disabled", false);
+        }
+        else
+        {
+            $(".fluency", parent).prop("name", "").prop("disabled", true);
+            $(".geo_years", parent).prop("name", "").prop("disabled", true);
+        }
+    });
+
+    $(".language-close").click(function() {
+        $(".language_container").css("left", "-9999px");
+    });
+
+    $(".language_add").click(function() {
+        $(".language_container").css("left", 0);
+
+        $(".language").val("");
+        $(".fluency").prop("checked", false).prop("disabled", true);
+        $(".geo_years").prop("checked", false).prop("disabled", true);
+        $(".fluency, .geo_years").trigger("change");
+        $(".language").trigger("chosen:updated");
+    });
+
+    $(".add_lang").click(function() {
+        var lang = $(".language").val();
+        var langName = $(".language option:selected").text();
+        var fluency = $(".fluency:checked").val();
+        var geo_years = $(".geo_years:checked").val();
+        var option = $(".langs option[value^='"+lang+":']");
+
+        if(option.length <= 0) {
+            $(".langs").append("<option value='"+lang+":"+fluency+":"+geo_years+"'>" + langName + "</option>");
+            option = $(".langs option[value^='"+lang+":']");
+        }
+        else
+        {
+            option.val(lang+":"+fluency+":"+geo_years)
+        }
+
+        option.prop("selected", true);
+
+        $(".language_container").css("left", "-9999px");
+
+        $(".langs").trigger("chosen:updated");
+    });
+
+    $(".fluency, .geo_years").change(function() {
+        var fluency = $(".fluency:checked").val();
+        var geo_years = $(".geo_years:checked").val();
+
+        if(typeof fluency != "undefined" && typeof geo_years != "undefined")
+        {
+            $(".add_lang").prop("disabled", false);
+        }
+        else
+        {
+            $(".add_lang").prop("disabled", true);
+        }
+    });
+
+    $(".langs option").each(function() {
+        var val = $(this).val();
+        var langs = val.split(":");
+
+        if(langs.length != 3) {
+            $(this).remove();
+            return true
+        }
+
+        $(this).text($(".language option[value="+langs[0]+"]").text());
+    });
+
+    // Mast events number test
+    $("input[name=mast_evnts]").change(function() {
+        if($(this).val() > 1)
+        {
+            $("input[name^='mast_role']").prop("disabled", false);
+        }
+        else
+        {
+            $("input[name^='mast_role']").prop("disabled", true); //.prop("checked", false);
+        }
+    });
+
+    if($("input[name=mast_evnts]:checked").val() > 1)
+    {
+        $("input[name^='mast_role']").prop("disabled", false);
+    }
+    else
+    {
+        $("input[name^='mast_role']").prop("disabled", true); //.prop("checked", false);
+    }
+
+
+    // Facilitator test
+    $("input[name=mast_facilitator]").change(function() {
+        if($(this).val() == 1)
+        {
+            $("input[name=org]").prop("disabled", false);
+            $("input[name=ref_person]").prop("disabled", false);
+            $("input[name=ref_email]").prop("disabled", false);
+        }
+        else
+        {
+            $("input[name=org]").prop("disabled", true); //.prop("checked", false);
+            $("input[name=ref_person]").prop("disabled", true); //.val("");
+            $("input[name=ref_email]").prop("disabled", true); //.val("");
+        }
+    });
+
+    if($("input[name=mast_facilitator]:checked").val() > 0)
+    {
+        $("input[name=org]").prop("disabled", false);
+        $("input[name=ref_person]").prop("disabled", false);
+        $("input[name=ref_email]").prop("disabled", false);
+    }
+    else
+    {
+        $("input[name=org]").prop("disabled", true); //.prop("checked", false);
+        $("input[name=ref_person]").prop("disabled", true); //.val("");
+        $("input[name=ref_email]").prop("disabled", true); //.val("");
+    }
+
+    // Checking levels test
+    $("input[name^='education']").change(function() {
+        var checked = $("input[name^='education']:checked").length;
+        if(checked > 0)
+        {
+            $("input[name^='ed_area']").prop("disabled", false);
+            $("input[name=ed_place]").prop("disabled", false);
+            $("input[name=hebrew_knwlg]").prop("disabled", false);
+            $("input[name=greek_knwlg]").prop("disabled", false);
+            $("input[name^='church_role']").prop("disabled", false);
+        }
+        else
+        {
+            $("input[name^='ed_area']").prop("disabled", true); //.prop("checked", false);;
+            $("input[name=ed_place]").prop("disabled", true); //.val("");;
+            $("input[name=hebrew_knwlg]").prop("disabled", true); //.prop("checked", false);;
+            $("input[name=greek_knwlg]").prop("disabled", true); //.prop("checked", false);;
+            $("input[name^='church_role']").prop("disabled", true); //.prop("checked", false);;
+        }
+    });
+
+    var checked = $("input[name^='education']:checked").length;
+    if(checked > 0)
+    {
+        $("input[name^='ed_area']").prop("disabled", false);
+        $("input[name=ed_place]").prop("disabled", false);
+        $("input[name=hebrew_knwlg]").prop("disabled", false);
+        $("input[name=greek_knwlg]").prop("disabled", false);
+        $("input[name^='church_role']").prop("disabled", false);
+    }
+    else
+    {
+        $("input[name^='ed_area']").prop("disabled", true); //.prop("checked", false);;
+        $("input[name=ed_place]").prop("disabled", true); //.val("");;
+        $("input[name=hebrew_knwlg]").prop("disabled", true); //.prop("checked", false);;
+        $("input[name=greek_knwlg]").prop("disabled", true); //.prop("checked", false);;
+        $("input[name^='church_role']").prop("disabled", true); //.prop("checked", false);;
+    }
 });
 
 // Cookie Helpers

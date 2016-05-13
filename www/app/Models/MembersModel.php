@@ -34,13 +34,30 @@ class MembersModel extends Model {
 		return $this->db->select($sql, $prepare);
 	}
 
+
+	/** Get member data
+	 * @param $email
+	 * @return array
+	 */
+	public function getMemberWithProfile($email)
+	{
+		$sql = "SELECT * FROM ".PREFIX."members ".
+			"LEFT JOIN ".PREFIX."profile ON ".PREFIX."members.memberID = ".PREFIX."profile.mID ".
+			"WHERE ".PREFIX."members.userName = :email ".
+			"OR ".PREFIX."members.email = :email";
+
+		$prepare = array(":email" => $email);
+
+		return $this->db->select($sql, $prepare);
+	}
+
     /**
      * Create new member
      * @param $data
      * @return string
      */
 	public function createMember($data){
-		$this->db->insert(PREFIX."members",$data);
+		$this->db->insert(PREFIX."members", $data);
 		return $this->db->lastInsertId('memberID');
 	}
 
@@ -52,6 +69,17 @@ class MembersModel extends Model {
      * @return int Number of affected rows
      */
 	public function updateMember($data, $where){
-		return $this->db->update(PREFIX."members",$data,$where);
+		return $this->db->update(PREFIX."members", $data, $where);
+	}
+
+	public function createProfile($data)
+	{
+		$this->db->insert(PREFIX."profile", $data);
+		return $this->db->lastInsertId('pID');
+	}
+
+	public function updateProfile($data, $where)
+	{
+		return $this->db->update(PREFIX."profile", $data, $where);
 	}
 }

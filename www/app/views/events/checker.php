@@ -77,7 +77,7 @@ if(empty($error) && empty($data["success"])):
                                         <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
                                         <?php endif;?>
                                         <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                        <span class="commentAltText"><?php echo $commentAlt; ?></span>
+                                        <span class="commentAltText"><?php echo preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $commentAlt); ?></span>
                                         <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
                                         <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
                                     </div>
@@ -104,7 +104,7 @@ if(empty($error) && empty($data["success"])):
                                     <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
                                 <?php endif;?>
                                 <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                <span class="commentAltText"><?php echo $commentAlt; ?></span>
+                                <span class="commentAltText"><?php echo preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $commentAlt); ?></span>
                                 <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
                                 <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
                             </div>

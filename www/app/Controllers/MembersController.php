@@ -41,6 +41,11 @@ class MembersController extends Controller
 
         if (Session::get('loggedin') == true)
         {
+            if(empty(Session::get("profile")))
+            {
+                Url::redirect("members/profile");
+            }
+
             $data['title'] = $this->language->get('welcome_title');
 
             $eventModel = new EventsModel();
@@ -193,9 +198,245 @@ class MembersController extends Controller
         }
     }
 
+
+    public function profile()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Url::redirect('members/login');
+        }
+
+        $eventModel = new EventsModel();
+
+        $data["languages"] = $eventModel->getAllLanguages();
+        $data["errors"] = array();
+
+        $profile = Session::get("profile");
+        $data["profile"] = $profile;
+
+        if(!empty($_POST))
+        {
+            $_POST = Gump::xss_clean($_POST);
+
+            $langs = isset($_POST["langs"]) && !empty($_POST["langs"]) ? (array)$_POST["langs"] : null;
+            $bbl_trans_yrs = isset($_POST["bbl_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["bbl_trans_yrs"]) ? $_POST["bbl_trans_yrs"] : null;
+            $othr_trans_yrs = isset($_POST["othr_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["othr_trans_yrs"]) ? $_POST["othr_trans_yrs"] : null;
+            $bbl_knwlg_degr = isset($_POST["bbl_knwlg_degr"]) && preg_match("/^[1-4]{1}$/", $_POST["bbl_knwlg_degr"]) ? $_POST["bbl_knwlg_degr"] : null;
+            $mast_evnts = isset($_POST["mast_evnts"]) && preg_match("/^[1-4]{1}$/", $_POST["mast_evnts"]) ? $_POST["mast_evnts"] : null;
+            $mast_role = isset($_POST["mast_role"]) && !empty($_POST["mast_role"]) ? (array)$_POST["mast_role"] : ($mast_evnts > 1 ? null : array());
+            $teamwork = isset($_POST["teamwork"]) && preg_match("/^[1-4]{1}$/", $_POST["teamwork"]) ? $_POST["teamwork"] : null;
+
+            $mast_facilitator = isset($_POST["mast_facilitator"]) && preg_match("/^[0-1]{1}$/", $_POST["mast_facilitator"]) ? $_POST["mast_facilitator"] : 0;
+            $org = isset($_POST["org"]) && preg_match("/^(Other|WA EdServices)$/", $_POST["org"]) ? $_POST["org"] : ($mast_facilitator ? null : "");
+            $ref_person = isset($_POST["ref_person"]) && trim($_POST["ref_person"]) != "" ? trim($_POST["ref_person"]) : ($mast_facilitator ? null : "");
+            $ref_email = isset($_POST["ref_email"]) && trim($_POST["ref_email"]) != "" ? trim($_POST["ref_email"]) : ($mast_facilitator ? null : "");
+
+            $education = isset($_POST["education"]) && !empty($_POST["education"]) ? (array)$_POST["education"] : array();
+            $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : (!empty($education) ? null : array());
+            $ed_place = isset($_POST["ed_place"]) && trim($_POST["ed_place"]) != "" ? trim($_POST["ed_place"]) : (!empty($education) ? null : "");
+            $hebrew_knwlg = isset($_POST["hebrew_knwlg"]) && preg_match("/^[1-4]{1}$/", $_POST["hebrew_knwlg"]) ? $_POST["hebrew_knwlg"] : (!empty($education) ? null : 0);
+            $greek_knwlg = isset($_POST["greek_knwlg"]) && preg_match("/^[1-4]{1}$/", $_POST["greek_knwlg"]) ? $_POST["greek_knwlg"] : (!empty($education) ? null : 0);
+            $church_role = isset($_POST["church_role"]) && !empty($_POST["church_role"]) ? (array)$_POST["church_role"] : (!empty($education) ? null : array());
+
+            if($langs !== null)
+            {
+                $languages = array();
+                $langArr = array();
+                foreach ($langs as $lang) {
+                    $arr = explode(":", $lang);
+
+                    if(sizeof($arr) != 3) continue;
+
+                    $langID = preg_match("/^[a-z-]{2,12}$/", $arr[0]) ? $arr[0] : null;
+
+                    if($langID === null || (integer)$arr[1] == 0 || (integer)$arr[2] == 0) continue;
+                    if((integer)$arr[1] > 5 || (integer)$arr[2] > 4) continue;
+
+                    $languages[$langID] = array((integer)$arr[1], (integer)$arr[2]);
+
+                    $langArr[$langID]["lang_fluency"] = (integer)$arr[1];
+                    $langArr[$langID]["geo_lang_yrs"] = (integer)$arr[2];
+                }
+
+                if(sizeof($languages) <= 0)
+                {
+                    $data["errors"]["langs"] = true;
+                }
+            }
+            else
+            {
+                $data["errors"]["langs"] = true;
+            }
+
+            if($bbl_trans_yrs === null)
+                $data["errors"]["bbl_trans_yrs"] = true;
+
+            if($othr_trans_yrs === null)
+                $data["errors"]["othr_trans_yrs"] = true;
+
+            if($bbl_knwlg_degr === null)
+                $data["errors"]["bbl_knwlg_degr"] = true;
+
+            if($mast_evnts === null)
+                $data["errors"]["mast_evnts"] = true;
+
+            if($mast_role === null)
+                $data["errors"]["mast_role"] = true;
+            else
+            {
+                foreach ($mast_role as $item) {
+                    if(!preg_match("/^(translator|facilitator|l2_checker|l3_checker)$/", $item))
+                    {
+                        $data["errors"]["mast_role"] = true;
+                        break;
+                    }
+                }
+            }
+
+            if($teamwork === null)
+            {
+                $data["errors"]["teamwork"] = true;
+            }
+
+            if(!empty($education))
+            {
+                foreach ($education as $item) {
+                    if(!preg_match("/^(BA|MA|PHD)$/", $item))
+                    {
+                        $data["errors"]["education"] = true;
+                        break;
+                    }
+                }
+            }
+
+            if($org === null)
+                $data["errors"]["org"] = true;
+
+            if($ref_person === null)
+                $data["errors"]["ref_person"] = true;
+
+            if($ref_email === null)
+                $data["errors"]["ref_email"] = true;
+
+            if($ed_area === null)
+                $data["errors"]["ed_area"] = true;
+            else
+            {
+                foreach ($ed_area as $item) {
+                    if(!preg_match("/^(Theology|Pastoral Ministry|Bible Translation|Exegetics)$/", $item))
+                    {
+                        $data["errors"]["ed_area"] = true;
+                        break;
+                    }
+                }
+            }
+
+            if($ed_place === null)
+                $data["errors"]["ed_place"] = true;
+
+            if($hebrew_knwlg === null)
+                $data["errors"]["hebrew_knwlg"] = true;
+
+            if($greek_knwlg === null)
+                $data["errors"]["greek_knwlg"] = true;
+
+            if($church_role === null)
+                $data["errors"]["church_role"] = true;
+            else
+            {
+                foreach ($church_role as $item) {
+                    if(!preg_match("/^(Elder|Bishop|Pastor|Teacher|Denominational Leader|Seminary Professor)$/", $item))
+                    {
+                        $data["errors"]["church_role"] = true;
+                        break;
+                    }
+                }
+            }
+
+            if(empty($data["errors"]))
+            {
+                $postdata = array(
+                    "mID" => Session::get("memberID"),
+                    "bbl_trans_yrs" => $bbl_trans_yrs,
+                    "othr_trans_yrs" => $othr_trans_yrs,
+                    "bbl_knwlg_degr" => $bbl_knwlg_degr,
+                    "languages" => json_encode($languages),
+                    "mast_evnts" => $mast_evnts,
+                    "mast_role" => json_encode($mast_role),
+                    "teamwork" => $teamwork,
+                    "mast_facilitator" => $mast_facilitator,
+                    "org" => $org,
+                    "ref_person" => $ref_person,
+                    "ref_email" => $ref_email,
+                    "education" => json_encode($education),
+                    "ed_area" => json_encode($ed_area),
+                    "ed_place" => $ed_place,
+                    "hebrew_knwlg" => $hebrew_knwlg,
+                    "greek_knwlg" => $greek_knwlg,
+                    "church_role" => json_encode($church_role)
+                );
+
+                if(empty($profile))
+                {
+                    // Create new profile
+                    $pID = $this->_model->createProfile($postdata);
+
+                    if($pID)
+                    {
+                        $postdata["pID"] = $profile["pID"];
+                        $postdata["languages"] = $langArr;
+                        $postdata["mast_role"] = $mast_role;
+                        $postdata["education"] = $education;
+                        $postdata["ed_area"] = $ed_area;
+                        $postdata["church_role"] = $church_role;
+
+                        $profile = $postdata;
+
+                        Session::set("profile", $profile);
+                        Session::set("success", $this->language->get("update_profile_success"));
+
+                        Url::redirect("members/profile");
+                    }
+                    else
+                    {
+                        $error[] = $this->language->get('update_profile_error');
+                    }
+                }
+                else
+                {
+                    // Update profile
+                    $this->_model->updateProfile($postdata, array("pID" => $profile["pID"]));
+
+                    $postdata["pID"] = $profile["pID"];
+                    $postdata["languages"] = $langArr;
+                    $postdata["mast_role"] = $mast_role;
+                    $postdata["education"] = $education;
+                    $postdata["ed_area"] = $ed_area;
+                    $postdata["church_role"] = $church_role;
+
+                    $profile = $postdata;
+
+                    Session::set("profile", $profile);
+                    Session::set("success", $this->language->get("update_profile_success"));
+
+                    Url::redirect("members/profile");
+                }
+            }
+            else
+            {
+                $error[] = $this->language->get('required_fields_empty_error');
+            }
+        }
+
+        View::renderTemplate('header', $data);
+        View::render('members/profile', $data, $error);
+        View::renderTemplate('footer', $data);
+    }
+
+
     public function activate($memberID, $activationToken)
     {
-        if (Session::get('loggedin') == true)
+        if (Session::get('loggedin'))
         {
             Url::redirect('members');
         }
@@ -241,11 +482,10 @@ class MembersController extends Controller
 
     public function login()
     {
-        if (Session::get('loggedin') == true)
+        if (Session::get('loggedin'))
         {
             Url::redirect('members');
         }
-
 
         if (isset($_POST['submit']))
         {
@@ -279,9 +519,7 @@ class MembersController extends Controller
 
             if(!isset($error))
             {
-                $data = $this->_model->getMember('*', array(
-                    'email' => array("=", $_POST['email']),
-                    'userName' => array("=", $_POST['email'], "OR")));
+                $data = $this->_model->getMemberWithProfile($_POST['email']);
 
                 if (Password::verify($_POST['password'], $data[0]->password))
                 {
@@ -290,20 +528,46 @@ class MembersController extends Controller
 
                     if($updated === 1)
                     {
+                        $profile = array();
+                        if($data[0]->pID != null)
+                        {
+                            $profile["pID"] = $data[0]->pID;
+                            $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
+                            $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
+                            $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
+                            $profile["mast_evnts"] = $data[0]->mast_evnts;
+                            $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
+                            $profile["teamwork"] = $data[0]->teamwork;
+                            $profile["org"] = $data[0]->org;
+                            $profile["ref_person"] = $data[0]->ref_person;
+                            $profile["ref_email"] = $data[0]->ref_email;
+                            $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
+                            $profile["education"] = (array)json_decode($data[0]->education, true);
+                            $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
+                            $profile["ed_place"] = $data[0]->ed_place;
+                            $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
+                            $profile["greek_knwlg"] = $data[0]->greek_knwlg;
+                            $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+
+                            $arr = (array)json_decode($data[0]->languages, true);
+                            $languages = array();
+                            foreach ($arr as $i => $item) {
+                                $languages[$i]["lang_fluency"] = $item[0];
+                                $languages[$i]["geo_lang_yrs"] = $item[1];
+                            }
+                            $profile["languages"] = $languages;
+                        }
+
                         Session::set('memberID', $data[0]->memberID);
                         Session::set('userName', $data[0]->userName);
                         Session::set('firstName', $data[0]->firstName);
                         Session::set('lastName', $data[0]->lastName);
-                        Session::set('churchName', $data[0]->churchName);
-                        Session::set('position', $data[0]->position);
-                        Session::set('expYears', $data[0]->expYears);
-                        Session::set('education', $data[0]->education);
-                        Session::set('educationPlace', $data[0]->educationPlace);
                         Session::set('authToken', $authToken);
                         Session::set('verified', $data[0]->verified);
                         Session::set('isAdmin', $data[0]->isAdmin == 1);
                         Session::set('isSuperAdmin', $data[0]->isSuperAdmin == 1);
                         Session::set('loggedin', true);
+                        Session::set("profile", $profile);
 
                         Session::destroy('loginTry');
 
@@ -318,7 +582,7 @@ class MembersController extends Controller
                     }
                     else
                     {
-                        $error[] = $this->language->get('update_table_error');
+                        $error[] = $this->language->get('user_login_error');
                     }
                 }
                 else
@@ -340,7 +604,7 @@ class MembersController extends Controller
 
     public function passwordReset()
     {
-        if (Session::get('loggedin') == true)
+        if (Session::get('loggedin'))
         {
             Url::redirect('members');
         }
@@ -405,7 +669,7 @@ class MembersController extends Controller
 
     public function resetPassword($memberID, $resetToken)
     {
-        if (Session::get('loggedin') == true)
+        if (Session::get('loggedin'))
         {
             Url::redirect('members');
         }
@@ -498,7 +762,7 @@ class MembersController extends Controller
 
         if(!empty($event) && ($event[0]->translators != null || $event[0]->checkers_l2 != null || $event[0]->checkers_l3 != null))
         {
-            $member = $this->_model->getMember('memberID,userName,firstName,lastName,userType,verified', array(
+            $member = $this->_model->getMember('memberID,userName,firstName,lastName,verified', array(
                 'memberID' => array("=", $memberID),
                 'authToken' => array("=", $authToken)
             ));
@@ -533,5 +797,4 @@ class MembersController extends Controller
         Session::destroy();
         Url::redirect('/', true);
     }
-
 }

@@ -8,6 +8,12 @@
     padding-right: 15px;
 }
 
+.footer {
+    margin: 50px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .form-group {
     position: relative;
 }
@@ -444,7 +450,7 @@
     margin: 20px auto;
     background-color: white;
     border-radius: 5px;
-    width: 900px;
+    width: 1150px;
 }
 
 .bookName {
@@ -1091,4 +1097,111 @@
     cursor: pointer;
     color: #249b45;
     font-weight: bold;
+}
+
+.language_container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9999px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+.language_block {
+    position: absolute;
+    top: calc(50% - 150px);
+    left: calc(50% - 250px);
+    background-color: #ffffff;
+    z-index: 9999;
+    cursor: auto;
+    width: 500px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.language-close {
+    background-color: #0f86fe;
+    color: #000;
+    font-size: 22px;
+    height: 30px;
+    padding: 5px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    text-align: center;
+    width: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Chosen Select CSS Begin */
+.chosen-container-single .chosen-single {
+    height: 35px !important;
+    background: none !important;
+    line-height: 34px !important;
+}
+
+.chosen-container-multi .chosen-choices {
+    height: auto !important;
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    height: 32px !important;
+}
+
+.search-choice {
+    background-image: none !important;
+    line-height: 20px !important;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single div b {
+    background-position: -18px 6px !important;
+}
+
+.chosen-container-single .chosen-single div b {
+    background-position: 0 6px !important;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice {
+    margin-top: 2px !important;
+}
+
+.chosen-container-multi .chosen-choices {
+    border-radius: 5px !important;
+}
+/* Chosen Select CSS End */
+
+.language_add {
+    font-size: 22px;
+    background-color: #0080c1;
+    color: #ffffff;
+    width: 35px;
+    height: 35px;
+    border-radius: 7px;
+    text-align: center;
+    padding: 5px 0 0 2px;
+    margin: -2px 0 0 -5px;
+    cursor: pointer;
+}
+
+.profile_form .form-group {
+    margin-left: 0 !important;
+}
+
+.profile_form .col-sm-11 {
+    padding-left: 0 !important;
+}
+
+.profile_form h3 {
+    color: #249b45;
+    margin: 40px 0 20px 0;
+}
+
+.label_error {
+    color: #ff0000;
 }
