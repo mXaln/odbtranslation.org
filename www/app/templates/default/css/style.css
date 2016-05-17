@@ -915,6 +915,13 @@
     position: relative;
 }
 
+.all_notifs {
+    border-top: 1px solid #ccc;
+    text-align: center;
+    margin-top: 10px;
+    padding: 5px 0;
+}
+
 .bible_book {
     text-align: justify;
 }

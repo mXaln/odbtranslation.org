@@ -290,6 +290,7 @@ function OnChatMessage(data)
             newEvntMsgsShown = false;
         }
 
+        clearInterval(titleChanger);
         titleChanger = setInterval(function() {
             document.title = !isNewTitle ? "New message arrived" : initTitle;
             isNewTitle = !isNewTitle;

@@ -33,6 +33,7 @@ Router::any('events/checker/(:num)/(:num)', 'Controllers\EventsController@checke
 Router::any('events/checker/(:num)/(:num)/apply', 'Controllers\EventsController@applyChecker');
 Router::any('events/checker_l2/(:num)', 'Controllers\EventsController@checkerL2');
 Router::any('events/checker_l3/(:num)', 'Controllers\EventsController@checkerL3');
+Router::any('events/notifications', 'Controllers\EventsController@allNotifications');
 
 Router::any('members', 'Controllers\MembersController@index');
 Router::any('members/profile', 'Controllers\MembersController@profile');

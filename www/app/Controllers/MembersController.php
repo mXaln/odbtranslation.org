@@ -760,7 +760,7 @@ class MembersController extends Controller
 
         $event = $eventsModel->getEventMember($eventID, $memberID);
 
-        if(!empty($event) && ($event[0]->translators != null || $event[0]->checkers_l2 != null || $event[0]->checkers_l3 != null))
+        if(!empty($event) && ($event[0]->translator != null || $event[0]->checker != null))
         {
             $member = $this->_model->getMember('memberID,userName,firstName,lastName,verified', array(
                 'memberID' => array("=", $memberID),

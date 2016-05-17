@@ -102,6 +102,7 @@ $hooks->run('afterBody');
 					<?php else: ?>
 						<div class='no_notif'><?php echo Language::show("no_notifs_msg", "Events") ?></div>
 					<?php endif; ?>
+						<div class="all_notifs"><a href="<?php echo DIR?>events/notifications">See all</a></div>
 					</ul>
 				</li>
 			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo Language::show('logout', 'Members')?></a></li>

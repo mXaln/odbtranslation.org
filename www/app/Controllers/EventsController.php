@@ -1364,10 +1364,18 @@ class EventsController extends Controller
 
         $canApply = false;
 
-        foreach ($this->_notifications as $notification) {
+        $profile = Session::get("profile");
+        $langs = array();
+        foreach ($profile["languages"] as $lang => $item) {
+            $langs[] = $lang;
+        }
+
+        $allNotifications = $this->_model->getAllNotifications($langs);
+
+        foreach ($allNotifications as $notification) {
             if($eventID == $notification->eventID && $memberID == $notification->memberID)
             {
-                if($notification->checkerID == 0 || $notification->checkerID == Session::get("memberID"))
+                if($notification->checkerID == 0)
                 {
                     $canApply = true;
                     break;
@@ -1527,6 +1535,25 @@ class EventsController extends Controller
             $data["success"] = true;
             echo json_encode($data);
         }
+    }
+
+
+    public function allNotifications()
+    {
+        $data["title"] = $this->language->get("all_notifications_title");
+        $data["notifications"] = $this->_notifications;
+
+        $profile = Session::get("profile");
+        $langs = array();
+        foreach ($profile["languages"] as $lang => $item) {
+            $langs[] = $lang;
+        }
+
+        $data["all_notifications"] = $this->_model->getAllNotifications($langs);
+
+        View::renderTemplate('header', $data);
+        View::render('events/notifications', $data, $error);
+        View::renderTemplate('footer', $data);
     }
 
 
