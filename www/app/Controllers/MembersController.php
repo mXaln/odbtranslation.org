@@ -51,7 +51,7 @@ class MembersController extends Controller
             $eventModel = new EventsModel();
 
             $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
-            $data["myCheckerL1Events"] = $eventModel->getMemberCheckerEvents(Session::get("memberID"));
+            $data["myCheckerL1Events"] = $eventModel->getMemberEventsForChecker(Session::get("memberID"));
             $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
             $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
@@ -208,7 +208,7 @@ class MembersController extends Controller
 
         $eventModel = new EventsModel();
 
-        $data["languages"] = $eventModel->getAllLanguages();
+        $data["languages"] = $eventModel->getAllLanguages(true);
         $data["errors"] = array();
 
         $profile = Session::get("profile");
@@ -760,15 +760,54 @@ class MembersController extends Controller
 
         $event = $eventsModel->getEventMember($eventID, $memberID);
 
-        if(!empty($event) && ($event[0]->translator != null || $event[0]->checker != null))
+        if(!empty($event))
         {
-            $member = $this->_model->getMember('memberID,userName,firstName,lastName,verified', array(
+            $member = $this->_model->getMember('memberID, userName, firstName, lastName, verified, isAdmin', array(
                 'memberID' => array("=", $memberID),
                 'authToken' => array("=", $authToken)
             ));
 
+            $isAdmin = 0;
+
             if(!empty($member))
             {
+                if($event[0]->translator == null && $event[0]->checker == null)
+                {
+
+                    if($member[0]->isAdmin)
+                    {
+                        $admin = $this->_model->getAdminMember($member[0]->memberID);
+
+                        foreach ($admin as $item) {
+                            if($item->gwLang == $event[0]->gwLang)
+                            {
+                                $isAdmin = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!$isAdmin)
+                    {
+                        echo json_encode(array());
+                        return;
+                    }
+                }
+
+                if($member[0]->isAdmin && !$isAdmin)
+                {
+                    $admin = $this->_model->getAdminMember($member[0]->memberID);
+
+                    foreach ($admin as $item) {
+                        if($item->gwLang == $event[0]->gwLang)
+                        {
+                            $isAdmin = true;
+                            break;
+                        }
+                    }
+                }
+
+                $member[0]->isAdmin = $isAdmin;
                 $member[0]->cotrMemberID = $event[0]->cotrMemberID;
                 echo json_encode($member[0]);
             }

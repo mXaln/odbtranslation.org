@@ -35,6 +35,22 @@ class MembersModel extends Model {
 	}
 
 
+	public function getMembers($memberIDs = array())
+	{
+		if(is_array($memberIDs) && !empty($memberIDs))
+		{
+			foreach($memberIDs as &$val)
+				$val = $this->db->quote($val);
+			$in = implode(',',$memberIDs);
+
+			$sql = "SELECT memberID, userName FROM ".PREFIX."members ".
+				"WHERE memberID IN ($in)";
+
+			return $this->db->select($sql);
+		}
+	}
+
+
 	/** Get member data
 	 * @param $email
 	 * @return array
@@ -49,6 +65,53 @@ class MembersModel extends Model {
 		$prepare = array(":email" => $email);
 
 		return $this->db->select($sql, $prepare);
+	}
+
+	public function getAdminMember($memberID)
+	{
+		$sql = "SELECT gwProjectID, gwLang FROM ".PREFIX."gateway_projects ".
+			"WHERE admins LIKE :memberID";
+
+		return $this->db->select($sql, array(":memberID" => '%"'.$memberID.'"%'));
+	}
+
+	/**
+	 * Get admins by name
+	 * @param string $search
+	 * @return array
+	 */
+	public function getAdminsByTerm($search)
+	{
+		$sql = "SELECT memberID, userName FROM ".PREFIX."members ".
+			"WHERE isAdmin=1 ".
+			"AND isSuperAdmin=0 " .
+			"AND userName LIKE :userName";
+
+		$prepare = array(":userName" => "%$search%");
+
+		return $this->db->select($sql, $prepare);
+
+	}
+
+	public function getAdminsByGwProject($gwProjectID)
+	{
+		$sql = "SELECT admins FROM ".PREFIX."gateway_projects ".
+			"WHERE gwProjectID = :gwProjectID";
+
+		return $this->db->select($sql, array(":gwProjectID" => $gwProjectID));
+	}
+
+	public function getMembersByTerm($search)
+	{
+		$sql = "SELECT memberID, userName FROM ".PREFIX."members ".
+			"WHERE isSuperAdmin=0 " .
+			"AND verified=1 " .
+			"AND userName LIKE :userName";
+
+		$prepare = array(":userName" => "%$search%");
+
+		return $this->db->select($sql, $prepare);
+
 	}
 
     /**

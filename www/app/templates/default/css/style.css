@@ -26,6 +26,7 @@
     z-index: 9999;
 }
 
+
 .chat {
     position: absolute;
     bottom: 0; right: 210px;
@@ -116,6 +117,10 @@
     display: none;
 }
 
+#evnt_messages.info {
+    display: block;
+}
+
 .message {
     padding: 5px 10px;
 }
@@ -167,6 +172,10 @@
     bottom: 0; right: 0;
     border: 1px solid grey;
     margin-bottom: 0;
+}
+
+.members_online.info {
+    display: none;
 }
 
 #online {
@@ -247,12 +256,11 @@
 }
 
 .main-content {
-    display: none;
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0; bottom: 0;
-    left:0; right:0;
+    left:-9999px; right:0;
     background: rgba(0,0,0,0.7);
     z-index: 99999;
     overflow-y: auto;
@@ -391,12 +399,11 @@
 }
 
 .sub-content {
-    display: none;
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0; bottom: 0;
-    left:0; right:0;
+    left:-9999px; right:0;
     background: rgba(0,0,0,0.7);
     z-index: 99999;
     overflow-y: auto;
@@ -599,10 +606,51 @@
     padding-left: 15px;
 }
 
+.event_info {
+    padding: 10px;
+    background-color: #d6e8f3;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.participant_name {
+    margin-top: 10px;
+}
+
+.participant_name span:first-child {
+    font-weight: bold;
+    color: #249b45;
+}
+
+.additional_info {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.additional_info a {
+
+}
+
+.main_content_header {
+    border-bottom: 3px solid #4596cc;
+}
+
 .main_content_title {
     color: #4596cc;
     font-size: 30px;
-    border-bottom: 3px solid #4596cc;
+    float: left;
+}
+
+.main_information {
+    float: right;
+    font-size: 18px;
+    padding-top: 15px;
+}
+
+.main_information a:hover {
+    text-decoration: none;
 }
 
 .main_content {
@@ -881,8 +929,12 @@
 
 .notif_block li {
     min-height: 50px;
-    border-bottom: 1px solid #2575b8;
     padding: 10px;
+    border-top: 1px solid #2575b8;
+}
+
+.notif_block a:first-child li {
+    border-top: none;
 }
 
 .notif_block li:hover {
@@ -890,7 +942,7 @@
 }
 
 .no_notif {
-    padding-top: 15px;
+    padding: 15px;
     text-align: center;
     width: 100%;
 }
@@ -918,7 +970,6 @@
 .all_notifs {
     border-top: 1px solid #ccc;
     text-align: center;
-    margin-top: 10px;
     padding: 5px 0;
 }
 
@@ -1211,4 +1262,148 @@
 
 .label_error {
     color: #ff0000;
+}
+
+.book_title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.project_title {
+    color: #249b45;
+    font-size: 16px;
+}
+
+.chapter_list {
+    margin-top: 30px;
+}
+
+.chapter_number {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.section_header {
+    margin-top: 10px;
+    cursor: pointer;
+    width: 300px;
+}
+
+.chapter_item {
+    margin-top: 20px;
+}
+
+.section_content {
+    display: none;
+}
+
+.section_content {
+    width: 600px;
+    margin: 10px;
+}
+
+.section_translator {
+    background-color: #e8ffe8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.section_translator_progress_bar {
+    width: 400px;
+    margin-top: 10px;
+}
+
+.section_translator_chunk {
+    padding: 5px 0 0 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.progress {
+    float: left;
+    width: 350px;
+}
+
+.finished_icon {
+    float: left;
+    color: #249b45;
+    margin-left: 10px;
+}
+
+.finished_msg {
+    color: #249b45;
+    font-size: 12px;
+    font-weight: normal !important;
+}
+
+.checker_kwc, .checker_crc {
+    background-color: #eaf4ff;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.not_started_block {
+    background-color: #f2e6ff;
+}
+
+.checker_name {
+    color: #000;
+}
+
+.state_active {
+    color: #249b45;
+    font-size: 12px;
+}
+
+.not_started_name {
+    color: #ff9125;
+}
+
+.checker_label {
+    color: #024b9e;
+    font-weight: bold;
+}
+
+.not_started_label {
+    color: #481583;
+}
+
+.checker_status {
+    margin-top: 10px;
+}
+
+.members_list {
+    margin-top: 30px;
+}
+
+.member_item {
+    margin-top: 20px;
+}
+
+.members_title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.online_indicator {
+    color: #d10000;
+}
+
+.online_indicator.online {
+    color: #249b45;
+}
+
+.online_status {
+    color: #249b45;
+    display: none;
+}
+
+.offline_status {
+    color: #d10000;
+}
+
+.member_admin {
+    display: none;
 }

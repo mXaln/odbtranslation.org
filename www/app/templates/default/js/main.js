@@ -678,6 +678,29 @@ $(document).ready(function() {
         $("input[name=greek_knwlg]").prop("disabled", true); //.prop("checked", false);;
         $("input[name^='church_role']").prop("disabled", true); //.prop("checked", false);;
     }
+
+    // Event information accordion
+    $(".section_header").click(function() {
+        var content = $(this).next(".section_content");
+        var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+
+        if(!isCollapsed)
+        {
+            content.hide(300);
+            $(".section_arrow", $(this))
+                .removeClass("glyphicon-triangle-bottom")
+                .addClass("glyphicon-triangle-right");
+            $(".section_title", $(this)).css("font-weight", "normal");
+        }
+        else
+        {
+            content.show(300);
+            $(".section_arrow", $(this))
+                .removeClass("glyphicon-triangle-right")
+                .addClass("glyphicon-triangle-bottom");
+            $(".section_title", $(this)).css("font-weight", "bold");
+        }
+    });
 });
 
 // Cookie Helpers

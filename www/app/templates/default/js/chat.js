@@ -6,6 +6,8 @@ var newp2pMsgsShown = false;
 var currentP2Ptab, currentP2Pmsgs, currentChatType;
 var titleChanger, initTitle = document.title, isNewTitle = false;
 var missedMsgsNum = 0;
+var isInfoPage = false;
+var chatRightPos = 0;
 
 var eventSteps = {
     PRAY: "pray",
@@ -21,7 +23,7 @@ var eventSteps = {
     FINISHED: "finished",
 };
 
-$(function () {
+$(document).ready(function () {
     var socket = io.connect('http://v-mast.com:8001');
 
     socket.on('connect', OnConnected);
@@ -29,6 +31,8 @@ $(function () {
     socket.on('room update', OnRoomUpdate);
     socket.on('system message', OnSystemMessage);
     socket.on('checking request', OnCheckingRequest);
+
+    isInfoPage = $("#chat_container").hasClass("info");
 
     if(step == "keyword-check" || step == "content-review")
     {
@@ -38,9 +42,21 @@ $(function () {
     }
     else
     {
-        currentP2Ptab = $("#p2p");
-        currentP2Pmsgs = $("#p2p_messages");
-        currentChatType = "p2p";
+        if(!isInfoPage)
+        {
+            currentP2Ptab = $("#p2p");
+            currentP2Pmsgs = $("#p2p_messages");
+            currentChatType = "p2p";
+        }
+        else
+        {
+            currentP2Ptab = $("#evnt");
+            currentP2Pmsgs = $("#evnt_messages");
+            currentChatType = "evnt";
+            chatRightPos = -210;
+        }
+
+        currentP2Ptab.addClass("active");
     }
 
     currentP2Ptab.show();
@@ -53,7 +69,7 @@ $(function () {
         {
             $("#chat_container").removeClass("open")
                 .addClass("closed");
-            $("#chat_container").animate({right: "-610px"}, 500, function() {
+            $("#chat_container").animate({right: -610}, 500, function() {
                 $("#chat_hide").removeClass("glyphicon-remove")
                     .addClass("glyphicon-chevron-left");
 
@@ -68,7 +84,7 @@ $(function () {
         {
             $("#chat_container").removeClass("closed")
                 .addClass("open");
-            $("#chat_container").animate({right: 0}, 500, function() {
+            $("#chat_container").animate({right: chatRightPos}, 500, function() {
                 $("#chat_hide").removeClass("glyphicon-chevron-left")
                     .addClass("glyphicon-remove");
 
@@ -94,11 +110,11 @@ $(function () {
         switch (id)
         {
             case currentP2Ptab.prop("id"):
-                $(this).addClass("active");
                 $("#evnt").removeClass("active");
-                $("#chat_type").val(currentChatType);
-                currentP2Pmsgs.show();
                 $("#evnt_messages").hide();
+                $(this).addClass("active");
+                currentP2Pmsgs.show();
+                $("#chat_type").val(currentChatType);
                 break;
 
             default:
@@ -166,6 +182,34 @@ $(function () {
         newEvntMsgsShown = false;
         newp2pMsgsShown = false;
     };
+
+    $("#chat_container").click(function() {
+        clearInterval(titleChanger);
+        document.title = initTitle;
+        $(".chat_new_msgs").text("").hide();
+        missedMsgsNum = 0;
+    });
+
+    $(".chat_new_msgs").click(function() {
+        $("#chat_container").removeClass("closed")
+            .addClass("open");
+        $("#chat_container").animate({right: chatRightPos}, 500, function() {
+            $("#chat_hide").removeClass("glyphicon-chevron-left")
+                .addClass("glyphicon-remove");
+
+            currentP2Pmsgs.show();
+
+            var newmsgs = $(".newmsgs", currentP2Pmsgs);
+            if(!newp2pMsgsShown && newmsgs.length > 0) {
+                currentP2Pmsgs.animate({scrollTop: newmsgs.offset().top - currentP2Pmsgs.offset().top + currentP2Pmsgs.scrollTop()}, 200);
+                newp2pMsgsShown = true;
+            }
+            else
+            {
+                currentP2Pmsgs.animate({scrollTop: currentP2Pmsgs[0].scrollHeight}, 200);
+            }
+        });
+    });
 });
 
 function OnConnected()
@@ -184,6 +228,19 @@ function OnConnected()
 
 function OnChatMessage(data)
 {
+    if(typeof disableChat != "undefined" && disableChat === true)
+    {
+        if(!isAdmin)
+        {
+            return;
+        }
+        else
+        {
+            if(currentChatType == "p2p" || currentChatType == "chk")
+                return;
+        }
+    }
+
     //if(data.chatType != "evnt" && data.step != step)
     //    return false;
 
@@ -306,25 +363,37 @@ function OnChatMessage(data)
         $('#m').focus();
 
     $('[data-toggle="tooltip"]').tooltip();
-
-    $("#chat_container").click(function() {
-        clearInterval(titleChanger);
-        document.title = initTitle;
-        $(".chat_new_msgs").text("").hide();
-        missedMsgsNum = 0;
-    });
 }
 
 function OnRoomUpdate(roomMates)
 {
     $("#online").html("");
 
+    var membersObj = $(".member_item");
+    if(membersObj.length > 0)
+    {
+        $(".online_indicator", membersObj).removeClass("online");
+        $(".online_status", membersObj).hide();
+        $(".offline_status", membersObj).show();
+    }
+
     for(var rm in roomMates)
     {
+        var memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
+        if(memberObj.length > 0)
+        {
+            $(".online_indicator", memberObj).addClass("online");
+            $(".online_status", memberObj).show();
+            $(".offline_status", memberObj).hide();
+
+            if(roomMates[rm].isAdmin)
+                $(".member_admin", memberObj).show();
+        }
+
         if(roomMates[rm].memberID != memberID)
         {
             var name = roomMates[rm].userName; // roomMates[rm].firstName + ' ' + roomMates[rm].lastName
-            $("#online").append('<li>'+ name +'</li>');
+            $("#online").append('<li>'+ name + (roomMates[rm].isAdmin ? " (facilitator)" : "")+'</li>');
         }
     }
 }
@@ -366,6 +435,9 @@ function OnSystemMessage(data)
             break;
 
         case "prvtMsgs":
+            if(currentP2Pmsgs.prop("id") == "evnt_messages")
+                break;
+
             var messages = [];
             var date, msgObj;
             var cookieLastMsg = getCookie(currentChatType + "_last_msg");
@@ -454,6 +526,20 @@ function OnCheckingRequest(data)
 
 function renderMessages(messages, messagesType, cookieLastMsg)
 {
+    console.log(messagesType.prop("id"));
+    if(typeof disableChat != "undefined" && disableChat === true)
+    {
+        if(!isAdmin)
+        {
+            return;
+        }
+        else
+        {
+            if(messagesType == "p2p" || messagesType == "chk")
+                return;
+        }
+    }
+
     var lastDate;
     var hasNewmsgs = false;
     cookieLastMsg = typeof cookieLastMsg == "undefined" ? Date.now() : cookieLastMsg;
@@ -476,6 +562,9 @@ function renderMessages(messages, messagesType, cookieLastMsg)
 
         if(lastMsg.attr("data") == msgObj.member.memberID)
         {
+            if(cookieLastMsg < msgObj.date)
+                missedMsgsNum++;
+
             if(hasNewmsgs || cookieLastMsg >= msgObj.date)
             {
                 lastMsg.append('<div class="msg_text" data-toggle="tooltip" data-placement="top" title="'+ParseDate(msgObj.date)+'">' + msgObj.msg + '</div>');
@@ -496,6 +585,9 @@ function renderMessages(messages, messagesType, cookieLastMsg)
             }
         }
         else {
+            if(cookieLastMsg < msgObj.date)
+                missedMsgsNum++
+
             var newmsgs = "";
             if(!hasNewmsgs && cookieLastMsg < msgObj.date)
             {
@@ -513,6 +605,9 @@ function renderMessages(messages, messagesType, cookieLastMsg)
 
         lastDate = msgObj.date;
     });
+
+    if(missedMsgsNum > 0)
+        $(".chat_new_msgs").text(missedMsgsNum).show();
 
     return lastDate;
 }

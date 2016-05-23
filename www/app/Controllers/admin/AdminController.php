@@ -56,9 +56,9 @@ class AdminController extends Controller {
 
         if(Session::get("isAdmin"))
         {
-            $data["projects"] = $this->_model->getProjects(Session::get("userName"), Session::get("isSuperAdmin"));
+            $data["projects"] = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"));
             $data["memberGwLangs"] = Session::get("isSuperAdmin") ? $data["gwLangs"] :
-                $this->_model->getMemberGwLanguages(Session::get("userName"));
+                $this->_model->getMemberGwLanguages(Session::get("memberID"));
             $data["sourceTranslations"] = $this->_model->getSourceTranslations();
 
             for($i=0; $i< sizeof($data["memberGwLangs"]); $i++){
@@ -87,7 +87,7 @@ class AdminController extends Controller {
         $data['menu'] = 1;
         $data['title'] = $this->language->get('admin_project_title');
 
-        $data["project"] = $this->_model->getProjects(Session::get("userName"), Session::get("isSuperAdmin"), $projectID);
+        $data["project"] = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"), $projectID);
         $data["events"] = array();
         if(!empty($data["project"]))
         {
@@ -126,6 +126,16 @@ class AdminController extends Controller {
             $gwProject = $this->_model->getGatewayProject("*", array(
                 PREFIX."gateway_projects.gwLang" => array("=", $gwLang)
             ));
+
+            $memberModel = new MembersModel();
+            $members = array();
+            $membersArray = (array)$memberModel->getMembers(json_decode($gwProject[0]->admins));
+
+            foreach ($membersArray as $member) {
+                $members[$member->memberID] = $member->userName;
+            }
+
+            $gwProject[0]->admins = $members;
 
             echo json_encode($gwProject);
         }
@@ -189,7 +199,7 @@ class AdminController extends Controller {
 
             $memberModel = new MembersModel();
             foreach ($admins as $admin) {
-                $memberModel->updateMember(array("isAdmin" => true), array("userName" => $admin));
+                $memberModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
             }
 
             $postdata = array(
@@ -327,9 +337,18 @@ class AdminController extends Controller {
 
         if(isset($_POST['search']) && $_POST['search'] != "")
         {
-            $admins = $this->_model->getMembers($_POST['search']);
+            $membersModel = new MembersModel();
+            $admins = $membersModel->getMembersByTerm($_POST['search']);
+            $arr = array();
 
-            echo json_encode($admins);
+            foreach ($admins as $admin) {
+                $tmp = array();
+                $tmp["value"] = $admin->memberID;
+                $tmp["text"] = $admin->userName;
+
+                $arr[] = $tmp;
+            }
+            echo json_encode($arr);
         }
     }
 
@@ -356,7 +375,7 @@ class AdminController extends Controller {
             $bookProject = isset($langs->bookProject) ? $langs->bookProject : "udb";
             $response = array();
 
-            $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("userName"), $langs->langID);
+            $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("memberID"), $langs->langID);
             echo json_encode($response);
         }
     }
@@ -429,7 +448,7 @@ class AdminController extends Controller {
 
             if(empty($event))
             {
-                $project = $this->_model->getProjects(Session::get("userName"), Session::get("isSuperAdmin"), $projectID);
+                $project = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"), $projectID);
 
                 if(!empty($project))
                 {

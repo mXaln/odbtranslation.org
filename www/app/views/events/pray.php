@@ -3,7 +3,7 @@ use \Core\Language;
 ?>
 
 <div id="translator_contents" class="row panel-body">
-    <div class="row">
+    <div class="row main_content_header">
         <div class="main_content_title"><?php echo Language::show("pray", "Events")?></div>
     </div>
 
@@ -36,6 +36,22 @@ use \Core\Language;
                 <div class="help_name_steps"><span>&nbsp;&nbsp;&nbsp;</span><?php echo Language::show("pray", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo Language::show("pray_desc", "Events")?></ul>
+                </div>
+            </div>
+
+            <div class="event_info">
+                <div class="participant_info">
+                    <div class="participant_name">
+                        <span><?php echo Language::show("your_partner", "Events") ?>:</span>
+                        <span><?php echo $data["event"][0]->pairName ?></span>
+                    </div>
+                    <div class="participant_name">
+                        <span><?php echo Language::show("your_checker", "Events") ?>:</span>
+                        <span><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
+                    </div>
+                    <div class="additional_info">
+                        <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo Language::show("event_info", "Events") ?></a>
+                    </div>
                 </div>
             </div>
         </div>

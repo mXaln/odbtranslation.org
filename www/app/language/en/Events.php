@@ -22,6 +22,26 @@ return array(
     "do_not_show_tutorial" => "Don't show this message again",
     "show_more" => "Show more",
     "step_num" => "Step {0}:",
+    "chapter_number" => "Chapter {0}",
+    "chapter_not_started" => "Not started",
+    "chapter_in_progress" => "{0}% in progress",
+    "chapter_finished" => "100% finished",
+    "chunks_number" => "{0} chunks",
+    "chunk_number" => "chunk {0}",
+    "chunk_finished" => "&nbsp;&nbsp;<span class='finished_msg'>Finished</span> <span class='finished_msg glyphicon glyphicon-ok'></span>",
+    "checker_kwc" => "Checker (Keyword Check)",
+    "checker_crc" => "Checker (Content Review)",
+    "checker_status" => "Status",
+    "checker_status_not_started" => "Not Started",
+    "checker_status_in_progress" => "In Progress",
+    "checker_status_finished" => "Finished",
+    "your_partner" => "Your partner",
+    "your_checker" => "Your checker",
+    "your_translator" => "Your translator",
+    "event_info" => "Event Progress",
+    "event_participants" => "Event participants",
+    "status_online" => "online",
+    "status_offline" => "offline",
 
     // Steps
     "pray" => "Pray",
@@ -55,6 +75,7 @@ return array(
 
     "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator will be ready.<span class='checker_waits'></span>",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
+    "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

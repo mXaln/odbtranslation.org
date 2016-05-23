@@ -63,19 +63,11 @@ if(\Helpers\Session::get("isSuperAdmin")):
                     </select>
                 </div>
 
-                <div class="form-group admins-block">
-                    <label for="admins"><?php echo Language::show('admins', 'Events'); ?></label>
-                    <div class="admins-area">
-
-                        <textarea id="admins" spellcheck="false" rows="1" role="combobox"></textarea>
-
-                        <div class="admins-list">
-                            <ul></ul>
-                        </div>
-
-                        <img class="adminsEvLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
-                    </div>
-
+                <div class="form-group">
+                    <label for="gwLang"><?php echo Language::show('admins', 'Events'); ?></label>
+                    <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder=" ">
+                        <option></option>
+                    </select>
                 </div>
 
                 <br><br>
@@ -182,6 +174,10 @@ if(\Helpers\Session::get("isAdmin")):
 <?php
 endif;
 ?>
+
+<link href="<?php echo \Helpers\Url::templatePath()?>css/chosen.min.css" type="text/css" rel="stylesheet" />
+<script src="<?php echo \Helpers\Url::templatePath()?>js/chosen.jquery.min.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/ajax-chosen.min.js"></script>
 
 <script>
     var buttonCreate = '<?php echo Language::show('create', 'Events'); ?>';

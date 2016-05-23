@@ -342,5 +342,4 @@ $profile = $data["profile"];
     $(document).ready(function() {
         $("select").chosen();
     });
-
 </script>

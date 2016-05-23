@@ -72,7 +72,7 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-    public function getProjects($userName, $isSuperAdmin, $projectID = null)
+    public function getProjects($memberID, $isSuperAdmin, $projectID = null)
     {
         $sql = "SELECT * FROM ".PREFIX."projects ".
             "LEFT JOIN ".PREFIX."languages ".
@@ -87,8 +87,8 @@ class EventsModel extends Model
         if(!$isSuperAdmin)
         {
             $sql .= PREFIX."projects.gwProjectID IN ".
-                "(SELECT gwProjectID FROM ".PREFIX."gateway_projects WHERE admins LIKE :userName) ";
-            $prepare[":userName"] = '%"'.$userName.'"%';
+                "(SELECT gwProjectID FROM ".PREFIX."gateway_projects WHERE admins LIKE :memberID) ";
+            $prepare[":memberID"] = '%"'.$memberID.'"%';
         }
 
         if($projectID != null)
@@ -157,7 +157,7 @@ class EventsModel extends Model
      * @param int $memberID
      * @return array
      */
-    public function getEventMember($eventID, $memberID)
+    public function getEventMember($eventID, $memberID, $getInfo = false)
     {
         /*$sql = "SELECT cotrMember.memberID AS cotrMemberID, ".PREFIX."translators.memberID AS translators, "
             .PREFIX."checkers_l2.memberID AS checkers_l2, ".PREFIX."checkers_l3.memberID AS checkers_l3 "
@@ -170,11 +170,20 @@ class EventsModel extends Model
         */
 
         $sql = "SELECT cotrMember.memberID AS cotrMemberID, ".PREFIX."translators.memberID AS translator, "
-            ."checkers.checkerID AS checker "
+            ."checkers.checkerID AS checker, "
+            .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID "
+            .($getInfo ?
+                ", ".PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
+                ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID " : "")
             ."FROM vm_events "
             ."LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID = ".PREFIX."events.eventID AND ".PREFIX."translators.memberID = :memberID "
             ."LEFT JOIN ".PREFIX."translators AS checkers ON checkers.eventID = ".PREFIX."events.eventID AND checkers.checkerID = :memberID "
             ."LEFT JOIN ".PREFIX."translators AS cotrMember ON ".PREFIX."translators.pairID = cotrMember.trID "
+            ."LEFT JOIN ".PREFIX."projects ON ".PREFIX."events.projectID = ".PREFIX."projects.projectID "
+            .($getInfo ?
+                "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+                "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+                "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code " : "")
             ."WHERE ".PREFIX."events.eventID = :eventID";
 
         $prepare = array(":eventID" => $eventID, ":memberID" => $memberID);
@@ -196,7 +205,8 @@ class EventsModel extends Model
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, ".PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
                 ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
-                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, " : "")
+                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
+                ."mems.userName AS pairName, mems2.userName AS checkerName, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
@@ -219,7 +229,9 @@ class EventsModel extends Model
 
         $sql .= $mainTable.
             ($memberType == EventMembers::TRANSLATOR ?
-                "LEFT JOIN ".PREFIX."translators AS cotranslator ON ".PREFIX."translators.pairID = cotranslator.trID " : "").
+                "LEFT JOIN ".PREFIX."translators AS cotranslator ON ".PREFIX."translators.pairID = cotranslator.trID ".
+                "LEFT JOIN ".PREFIX."members AS mems ON cotranslator.memberID = mems.memberID ".
+                "LEFT JOIN ".PREFIX."members AS mems2 ON ".PREFIX."translators.checkerID = mems2.memberID ": "").
             "LEFT JOIN ".PREFIX."events ON ".$mainTable.".eventID = ".PREFIX."events.eventID ".
             "LEFT JOIN ".PREFIX."projects ON ".PREFIX."events.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -237,7 +249,7 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-    public function getMemberCheckerEvents($memberID, $eventID = null, $trMemberID = null)
+    public function getMemberEventsForChecker($memberID, $eventID = null, $trMemberID = null)
     {
         $prepare = array(":memberID" => $memberID);
         if($eventID)
@@ -356,32 +368,32 @@ class EventsModel extends Model
 
     /**
      * Get Gateway languages assigned to admin
-     * @param string $userName
+     * @param string $memberID
      * @return array
      */
-    public function getMemberGwLanguages($userName)
+    public function getMemberGwLanguages($memberID)
     {
         $sql = "SELECT * FROM ".PREFIX."gateway_projects LEFT JOIN ".PREFIX."languages ".
             "ON ".PREFIX."gateway_projects.gwLang=".PREFIX."languages.langID ".
-            "WHERE ".PREFIX."gateway_projects.admins LIKE :userName ".
+            "WHERE ".PREFIX."gateway_projects.admins LIKE :memberID ".
             "GROUP BY ".PREFIX."gateway_projects.gwLang ORDER BY ".PREFIX."languages.langID";
 
-        $prepare = array(":userName" => '%"'.$userName.'"%');
+        $prepare = array(":memberID" => '%"'.$memberID.'"%');
 
         return $this->db->select($sql, $prepare);
     }
 
     /**
      * Get list of other languages
-     * @param string $userName
+     * @param string $memberID
      * @param string $gwLang
      * @return array
      */
-    public function getTargetLanguages($userName, $gwLang)
+    public function getTargetLanguages($memberID, $gwLang)
     {
         $adminPart = "WHERE ".PREFIX."languages.gwLang IN ".
             "(SELECT langName FROM ".PREFIX."languages WHERE langID IN ".
-            "(SELECT gwLang FROM ".PREFIX."gateway_projects WHERE admins LIKE :userName AND gwLang=:gwLang))";
+            "(SELECT gwLang FROM ".PREFIX."gateway_projects WHERE admins LIKE :memberID AND gwLang=:gwLang))";
 
         $sql = "SELECT * FROM vm_languages ".
             (Session::get("isSuperAdmin") ? "WHERE ".PREFIX."languages.gwLang IN (SELECT langName FROM ".PREFIX."languages WHERE langID=:gwLang)" : $adminPart).
@@ -391,7 +403,7 @@ class EventsModel extends Model
         $prepare[":gwLang"] = $gwLang;
         if(!Session::get("isSuperAdmin"))
         {
-            $prepare[":userName"] = '%"'.$userName.'"%';
+            $prepare[":memberID"] = '%"'.$memberID.'"%';
         }
         return $this->db->select($sql, $prepare);
     }
@@ -435,6 +447,12 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+    /**
+     * Get members that can write notes on translation
+     * @param int $tID
+     * @param int $memberID
+     * @return array
+     */
     public function getTranslationCheckers($tID, $memberID)
     {
         $sql = "SELECT ts.translatedVerses, trs1.checkerID, trs2.memberID AS pairMemberID, l2.memberID AS l2memberID, l3.memberID AS l3memberID ".
@@ -450,36 +468,6 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-    /**
-     * Get admins by name
-     * @param string $search
-     * @return array
-     */
-    public function getAdmins($search)
-    {
-        $sql = "SELECT userName FROM ".PREFIX."members ".
-                    "WHERE isAdmin=1 ".
-                        "AND isSuperAdmin=0 " .
-                        "AND userName LIKE :userName";
-
-        $prepare = array(":userName" => "%$search%");
-
-        return $this->db->select($sql, $prepare);
-
-    }
-
-    public function getMembers($search)
-    {
-        $sql = "SELECT userName FROM ".PREFIX."members ".
-            "WHERE isSuperAdmin=0 " .
-            "AND verified=1 " .
-            "AND userName LIKE :userName";
-
-        $prepare = array(":userName" => "%$search%");
-
-        return $this->db->select($sql, $prepare);
-
-    }
 
     /**
      * Get book source from unfolding word api
@@ -499,7 +487,8 @@ class EventsModel extends Model
         return $source;
     }
 
-    /** Get translation (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
+    /** Get translation of translator in event
+     * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
      * @param int $trID
      * @param int $tID
      * @param int $chapter
@@ -601,7 +590,7 @@ class EventsModel extends Model
      * @param bool $shouldUpdateChecker
      * @return string
      */
-    public function addL2Checker($data, $checkerData, $shouldUpdateChecker)
+    public function addL2Checker($data, $checkerData)
     {
         $oldData = $checkerData;
 
@@ -634,7 +623,7 @@ class EventsModel extends Model
      * @param bool $shouldUpdateChecker
      * @return string
      */
-    public function addL3Checker($data, $checkerData, $shouldUpdateChecker)
+    public function addL3Checker($data, $checkerData)
     {
         $oldData = $checkerData;
 

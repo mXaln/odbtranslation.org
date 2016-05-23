@@ -9,65 +9,38 @@ $(function () {
     $("#cregwpr").click(function () {
         $("#gwProject").trigger("reset");
         $(".errors").html("");
-        $(".main-content").show();
-        $(".admins-div").remove();
+        $(".main-content").css("left", 0);
+        $("#adminsSelect").empty().trigger("chosen:updated");
         $("#gwLang").prop("disabled", false);
         $("#gwProjectAction").val("create");
         $("button[name=gwProject]").text(buttonCreate);
     });
 
-    $(document).on("click", ".admins-delete", function() {
-        $(this).parent().remove();
+    if($().ajaxChosen)
+    {
+        $("#adminsSelect").ajaxChosen({
+                type: 'post',
+                url: '/admin/rpc/get_members',
+                dataType: 'json',
+                minTermLength: 1,
+                afterTypeDelay: 500,
+                jsonTermKey: "search",
+                lookingForMsg: "searching for"
+            },
+            function (data)
+            {
+                var terms = {};
 
-        CorrectAdminsTextareaLength(false);
-    });
+                $.each(data, function (i, val) {
+                    terms[i] = val;
+                });
 
-    $("#admins").keydown(function (e) {
-        if(e.keyCode == 8)
-        {
-            if($(this).val() != "") {
-                GetAdminsList();
-                return;
-            }
-
-            if($(".admins-div").length == 0) return;
-
-            $(".admins-div:last").remove();
-            CorrectAdminsTextareaLength(false);
-            return;
-        }
-
-        GetAdminsList();
-
-        //$(".admins-list").show();
-    });
-    
-    $(":not(.admins-list ul li)").click(function () {
-        $(".admins-list").hide();
-    });
-
-    $(document).on("click", ".admins-list ul li", function () {
-        var content = '' +
-            '<div class="admins-div">' +
-                '<span class="admins-span">' + $(this).text() + '</span>' +
-                '<span class="admins-delete glyphicon glyphicon-remove"></span>' +
-                '<input name="admins[]" value="' + $(this).text() + '" type="hidden" />' +
-            '</div>';
-
-        if($(".admins-div").length > 0)
-        {
-            $(".admins-div:last").after(content);
-        }
-        else
-        {
-            $(".admins-area").prepend(content);
-        }
-
-        CorrectAdminsTextareaLength(true);
-    });
+                return terms;
+            });
+    }
 
     $(".panel-close").click(function() {
-        $(this).parents(".form-panel").hide();
+        $(this).parents(".form-panel").css("left", "-9999px");
     });
 
     // Submit gwProject form
@@ -105,11 +78,9 @@ $(function () {
 
         $("#gwProject").trigger("reset");
         $(".errors").html("");
-        $(".main-content").show();
-        $(".admins-div").remove();
-        //$("#gwLang").prop("disabled", true);
         $("#gwProjectAction").val("edit");
         $("button[name=gwProject]").text(buttonEdit);
+        $("#adminsSelect").empty();
 
         $.ajax({
                 url: "/admin/rpc/get_gw_project",
@@ -129,25 +100,22 @@ $(function () {
                 if(data.length > 0)
                 {
                     $("#gwLang").val(data[0].langID);
-                    var admins = JSON.parse(data[0].admins);
+                    var admins = data[0].admins;
 
                     var content = "";
 
                     $.each(admins, function(k, v) {
                         content += '' +
-                            '<div class="admins-div">' +
-                            '<span class="admins-span">' + v + '</span>' +
-                            '<span class="admins-delete glyphicon glyphicon-remove"></span>' +
-                            '<input name="admins[]" value="' + v + '" type="hidden" />' +
-                            '</div>';
+                            '<option value="' + k + '" selected>' + v + '</option>';
                     });
 
-                    $(".admins-area").prepend(content);
-                    CorrectAdminsTextareaLength(false);
+                    $("#adminsSelect").prepend(content);
+                    $("#adminsSelect").trigger("chosen:updated");
                 }
             })
             .always(function() {
                 $(".gwProjectLoader").hide();
+                $(".main-content").css("left", 0);
             });
     });
 
@@ -157,7 +125,7 @@ $(function () {
     $("#crepr").click(function () {
         $("#project").trigger("reset");
         $(".subErrors").html("");
-        $(".sub-content").show();
+        $(".sub-content").css("left", 0);
     });
 
     $("#subGwLangs").change(function() {
@@ -377,71 +345,8 @@ $(function () {
 
 // --------------- Variables ---------------- //
 
-var autoCompleteTimerId;
-var autoCompleteTime = 5;
 
 
 
 // --------------- Functions ---------------- //
 
-
-function CorrectAdminsTextareaLength(add)
-{
-    if(add)
-    {
-        $("#admins").width($("#admins").width() - 106);
-        $("#admins").val("");
-
-        if($("#admins").width() < 58)
-        {
-            $("#admins").width(478);
-        }
-    }
-    else
-    {
-        if((($(".admins-div").length + 1) % 4) == 0)
-        {
-            $("#admins").width($("#admins").width() - 106*3);
-            return;
-        }
-
-        $("#admins").width($("#admins").width() + 106);
-    }
-
-    $("#admins").focus();
-}
-
-function GetAdminsList()
-{
-    clearTimeout(autoCompleteTimerId);
-    autoCompleteTimerId = setTimeout(function() {
-        if($("#admins").val() == "") return;
-
-        $(".admins-list").hide();
-
-        $.ajax({
-            url: "/admin/rpc/get_members",
-            method: "post",
-            data: {search: $("#admins").val()},
-            dataType: "json",
-            beforeSend: function() {
-                $(".adminsEvLoader").show();
-            }
-        })
-            .done(function(data) {
-                if(data.length <= 0) return;
-
-                var list = "";
-
-                $.each(data, function(i, v) {
-                    list += '<li>' + v.userName + '</li>';
-                })
-
-                $(".admins-list ul").html(list);
-                $(".admins-list").show();
-            })
-            .always(function() {
-                $(".adminsEvLoader").hide();
-            });
-    }, 500);
-}

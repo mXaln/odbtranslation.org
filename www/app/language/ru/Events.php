@@ -22,6 +22,26 @@ return array(
     "do_not_show_tutorial" => "Don't show this message again",
     "show_more" => "Show more",
     "step_num" => "Шаг {0}:",
+    "chapter_number" => "Глава {0}",
+    "chapter_not_started" => "Не начато",
+    "chapter_in_progress" => "{0}% переведено",
+    "chapter_finished" => "100% завершено",
+    "chunks_number" => "{0} отрывков",
+    "chunk_number" => "отрывок {0}",
+    "chunk_finished" => "&nbsp;&nbsp;<span class='finished_msg'>Завершено</span> <span class='finished_msg glyphicon glyphicon-ok'></span>",
+    "checker_kwc" => "Checker (Keyword Check)",
+    "checker_crc" => "Checker (Content Review)",
+    "checker_status" => "Статус",
+    "checker_status_not_started" => "Не начато",
+    "checker_status_in_progress" => "В процессе",
+    "checker_status_finished" => "Завершено",
+    "your_partner" => "Ваш партнёр",
+    "your_checker" => "Ваш проверяющий",
+    "your_translator" => "Ваш переводчик",
+    "event_info" => "Прогресс события",
+    "event_participants" => "Участники события",
+    "status_online" => "в сети",
+    "status_offline" => "не в сети",
 
     // Steps
     "pray" => "Pray",
@@ -54,6 +74,7 @@ return array(
     // Errors
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class='checker_waits'></span>",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
+    "empty_or_not_permitted_event_error" => "У вас недостаточно прав, чтобы просматривать информацию об этом событии.",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",
