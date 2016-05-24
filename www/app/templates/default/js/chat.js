@@ -386,8 +386,8 @@ function OnRoomUpdate(roomMates)
             $(".online_status", memberObj).show();
             $(".offline_status", memberObj).hide();
 
-            if(roomMates[rm].isAdmin)
-                $(".member_admin", memberObj).show();
+            //if(roomMates[rm].isAdmin)
+            //    $(".member_admin", memberObj).show();
         }
 
         if(roomMates[rm].memberID != memberID)

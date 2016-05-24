@@ -124,7 +124,7 @@ if(!isset($error)):
                 <div class="member_item" data="<?php echo $id ?>">
                     <span class="online_indicator glyphicon glyphicon-record">&nbsp;</span>
                     <span class="member_uname"><?php echo $member ?></span>
-                    <span class="member_admin"> (<?php echo Language::show("facilitator", "Events") ?>)</span>
+                    <span class="member_admin"> <?php echo in_array($id, $data["admins"]) ? "(".Language::show("facilitator", "Events").")" : "" ?></span>
                     <span class="online_status"><?php echo Language::show("status_online", "Events") ?></span>
                     <span class="offline_status"><?php echo Language::show("status_offline", "Events") ?></span>
                 </div>

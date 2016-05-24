@@ -1207,6 +1207,7 @@ class EventsController extends Controller
 
             $members["na"] = "N/A";
 
+            $data["admins"] = $adminsArr;
             $data["members"] = $members;
         }
 
