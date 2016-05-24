@@ -56,6 +56,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
+    var isAdmin = false;
+    var disableChat = false;
 </script>
 
 <div style="position: fixed; right: 0;">
@@ -99,6 +101,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 </audio>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat.js"></script>
 
 <?php endif; ?>

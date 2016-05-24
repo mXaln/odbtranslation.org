@@ -138,8 +138,8 @@ if(!isset($error)):
         var chkMemberID = 0;
         var aT = '<?php echo Session::get('authToken'); ?>';
         var step = '<?php //echo $data["event"][0]->step; ?>';
-        var disableChat = true;
         var isAdmin = <?php echo (integer)$data["isAdmin"]; ?>;
+        var disableChat = true;
     </script>
 
     <?php if($data["isAdmin"]): ?>
@@ -177,6 +177,7 @@ if(!isset($error)):
 <?php endif; ?>
 
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
     <script src="<?php echo \Helpers\Url::templatePath()?>js/chat.js"></script>
 
     <?php
