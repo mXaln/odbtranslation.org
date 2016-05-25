@@ -1743,6 +1743,7 @@ class EventsController extends Controller
         }
 
         $data["all_notifications"] = $this->_model->getAllNotifications($langs);
+        $data["all_notifications"] += $this->_notifications;
 
         View::renderTemplate('header', $data);
         View::render('events/notifications', $data, $error);

@@ -261,7 +261,7 @@ io.on('connection', function(socket)
                                     // Send message to check member
                                     for(var skt in checkEvent.sockets)
                                     {
-                                        io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkEnter"});
+                                        io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkEnter", memberID: member.memberID});
                                     }
                                 }
                             }

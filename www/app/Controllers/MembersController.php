@@ -556,6 +556,14 @@ class MembersController extends Controller
                                 $languages[$i]["geo_lang_yrs"] = $item[1];
                             }
                             $profile["languages"] = $languages;
+
+                            $adminMember = $this->_model->getAdminMember($data[0]->memberID);
+                            foreach ($adminMember as $item) {
+                                if(!array_key_exists($item->gwLang, $profile["languages"]))
+                                {
+                                    $profile["languages"][$item->gwLang] = array("isAdmin" => true);
+                                }
+                            }
                         }
 
                         Session::set('memberID', $data[0]->memberID);

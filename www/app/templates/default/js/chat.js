@@ -1,7 +1,10 @@
+var socket, sctUrl = 'http://v-mast.com:8001';
+
 $(document).ready(function () {
-    var socket = io.connect('http://v-mast.com:8001');
+    socket = io.connect(sctUrl);
 
     socket.on('connect', OnConnected);
+    socket.on('reconnect', OnConnected);
     socket.on('chat message', OnChatMessage);
     socket.on('room update', OnRoomUpdate);
     socket.on('system message', OnSystemMessage);
@@ -97,6 +100,11 @@ function OnSystemMessage(data)
             if(chkMemberID == 0 || $(".checker_waits").length > 0)
             {
                 $(".check_request").remove();
+                chkMemberID = parseInt(data.memberID);
+                $("#chat_container").chat("options", {chkMemberID: chkMemberID});
+                //this.disconnect();
+                //this.connect();
+                socket.io.reconnect();
             }
             break;
 

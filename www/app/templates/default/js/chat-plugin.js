@@ -29,7 +29,7 @@
         init : function( options ) {
             var $this = this;
 
-            settings = $.extend({
+            settings = $.extend({}, {
                 step: "",
                 memberID: memberID,
                 eventID: 0,
@@ -231,7 +231,7 @@
                 }
                 else
                 {
-                    if(currentChatType == "p2p" || currentChatType == "chk")
+                    if(data.chatType == "p2p" || data.chatType == "chk")
                         return;
                 }
             }
@@ -290,7 +290,7 @@
             {
                 var newmsgs = "";
 
-                if(!isActive && !hasNewMsgs.val && data.member.memberID != memberID)
+                if(!isActive && !hasNewMsgs.val && data.member.memberID != settings.memberID)
                 {
                     $(".newmsgs", messagesObj).remove();
 
@@ -310,7 +310,7 @@
             else
             {
                 var newmsgs = "";
-                if(!isActive && !hasNewMsgs.val && data.member.memberID != memberID)
+                if(!isActive && !hasNewMsgs.val && data.member.memberID != settings.memberID)
                 {
                     $(".newmsgs", messagesObj).remove();
 
@@ -428,6 +428,12 @@
             setCookie("evnt_last_msg", lastDate, {expires: 24*60*60});
 
             $('[data-toggle="tooltip"]').tooltip();
+        },
+        options: function(data)
+        {
+            $.each(data, function(i, v) {
+                settings[i] = v;
+            });
         }
     };
 
@@ -458,7 +464,7 @@
             }
             else
             {
-                if(messagesType == "p2p" || messagesType == "chk")
+                if(messages[0].chatType == "p2p" || messages[0].chatType == "chk")
                     return;
             }
         }
@@ -485,7 +491,7 @@
 
             if(lastMsg.attr("data") == msgObj.member.memberID)
             {
-                if(cookieLastMsg < msgObj.date)
+                if(cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
                     missedMsgsNum++;
 
                 if(hasNewmsgs || cookieLastMsg >= msgObj.date)
@@ -495,7 +501,7 @@
                 else
                 {
                     var newmsgs = "";
-                    if(!hasNewmsgs)
+                    if(!hasNewmsgs && msgObj.member.memberID != settings.memberID)
                     {
                         newmsgs = '<li class="newmsgs">new messages</li>';
                         hasNewmsgs = true;
@@ -508,11 +514,11 @@
                 }
             }
             else {
-                if(cookieLastMsg < msgObj.date)
+                if(cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
                     missedMsgsNum++
 
                 var newmsgs = "";
-                if(!hasNewmsgs && cookieLastMsg < msgObj.date)
+                if(!hasNewmsgs && cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
                 {
                     newmsgs = '<li class="newmsgs">new messages</li>';
                     hasNewmsgs = true;
