@@ -231,12 +231,12 @@ class MembersController extends Controller
             $ref_person = isset($_POST["ref_person"]) && trim($_POST["ref_person"]) != "" ? trim($_POST["ref_person"]) : ($mast_facilitator ? null : "");
             $ref_email = isset($_POST["ref_email"]) && trim($_POST["ref_email"]) != "" ? trim($_POST["ref_email"]) : ($mast_facilitator ? null : "");
 
+            $church_role = isset($_POST["church_role"]) && !empty($_POST["church_role"]) ? (array)$_POST["church_role"] : array();
+            $hebrew_knwlg = isset($_POST["hebrew_knwlg"]) && preg_match("/^[0-4]{1}$/", $_POST["hebrew_knwlg"]) ? $_POST["hebrew_knwlg"] : 0;
+            $greek_knwlg = isset($_POST["greek_knwlg"]) && preg_match("/^[0-4]{1}$/", $_POST["greek_knwlg"]) ? $_POST["greek_knwlg"] : 0;
             $education = isset($_POST["education"]) && !empty($_POST["education"]) ? (array)$_POST["education"] : array();
-            $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : (!empty($education) ? null : array());
-            $ed_place = isset($_POST["ed_place"]) && trim($_POST["ed_place"]) != "" ? trim($_POST["ed_place"]) : (!empty($education) ? null : "");
-            $hebrew_knwlg = isset($_POST["hebrew_knwlg"]) && preg_match("/^[1-4]{1}$/", $_POST["hebrew_knwlg"]) ? $_POST["hebrew_knwlg"] : (!empty($education) ? null : 0);
-            $greek_knwlg = isset($_POST["greek_knwlg"]) && preg_match("/^[1-4]{1}$/", $_POST["greek_knwlg"]) ? $_POST["greek_knwlg"] : (!empty($education) ? null : 0);
-            $church_role = isset($_POST["church_role"]) && !empty($_POST["church_role"]) ? (array)$_POST["church_role"] : (!empty($education) ? null : array());
+            $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : array();
+            $ed_place = isset($_POST["ed_place"]) && trim($_POST["ed_place"]) != "" ? trim($_POST["ed_place"]) : "";
 
             if($langs !== null)
             {
@@ -316,6 +316,8 @@ class MembersController extends Controller
                 $data["errors"]["ref_person"] = true;
 
             if($ref_email === null)
+                $data["errors"]["ref_email"] = true;
+            elseif($ref_email != "" && !filter_var($ref_email, FILTER_VALIDATE_EMAIL))
                 $data["errors"]["ref_email"] = true;
 
             if($ed_area === null)

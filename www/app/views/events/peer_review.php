@@ -145,6 +145,7 @@ use \Core\Language;
 
                         <div class="col-sm-12">
                             <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary">Save</button>
+                            <img src="<?php echo \Helpers\Url::templatePath() ?>img/alert.png" class="unsaved_alert">
                         </div>
                     </div>
                     <?php endif; ?>

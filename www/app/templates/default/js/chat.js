@@ -83,6 +83,7 @@ function OnSystemMessage(data)
         case "peerEnter":
             if($(".cotr_not_ready").length > 0)
             {
+                $(".alert.alert-danger").remove();
                 $.ajax({
                         url: "/events/rpc/get_partner_translation",
                         method: "post",
@@ -92,6 +93,7 @@ function OnSystemMessage(data)
                     .done(function(data) {
                         $(".cotrData").html(data);
                         $('[data-toggle="tooltip"]').tooltip();
+                        alert("Your partner has joined peer review step");
                     });
             }
             break;
@@ -102,9 +104,11 @@ function OnSystemMessage(data)
                 $(".check_request").remove();
                 chkMemberID = parseInt(data.memberID);
                 $("#chat_container").chat("options", {chkMemberID: chkMemberID});
+                $(".checker_name_span").text(data.userName);
                 //this.disconnect();
                 //this.connect();
                 socket.io.reconnect();
+                alert("A checker has joined");
             }
             break;
 

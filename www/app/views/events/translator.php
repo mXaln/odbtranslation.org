@@ -100,7 +100,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     <source src="<?php echo \Helpers\Url::templatePath()?>sounds/missed.ogg" type="audio/ogg" />
 </audio>
 
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/socket.io-1.4.5.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat.js"></script>
 

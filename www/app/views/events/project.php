@@ -114,6 +114,55 @@ if(!empty($data["project"])):
 
                     <div class="checker_info">
                         <div class="form-group">
+                            <label class="church_role"><?php echo Language::show('church_role', 'Members'); ?>: </label>
+                            <div class="form-control">
+                                <label><input type="checkbox" name="church_role[]" value="Elder"
+                                        <?php echo isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('elder', 'Members'); ?> &nbsp;</label>
+                                <label><input type="checkbox" name="church_role[]" value="Bishop"
+                                        <?php echo isset($profile["church_role"]) && in_array("Bishop", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('bishop', 'Members'); ?> &nbsp;</label>
+                                <label><input type="checkbox" name="church_role[]" value="Pastor"
+                                        <?php echo isset($profile["church_role"]) && in_array("Pastor", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('pastor', 'Members'); ?> &nbsp;</label>
+                                <label><input type="checkbox" name="church_role[]" value="Teacher"
+                                        <?php echo isset($profile["church_role"]) && in_array("Teacher", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('teacher', 'Members'); ?> &nbsp;</label>
+                                <label><input type="checkbox" name="church_role[]" value="Denominational Leader"
+                                        <?php echo isset($profile["church_role"]) && in_array("Denominational Leader", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('denominational_leader', 'Members'); ?> &nbsp;</label>
+                                <label><input type="checkbox" name="church_role[]" value="Seminary Professor"
+                                        <?php echo isset($profile["church_role"]) && in_array("Seminary Professor", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('seminary_professor', 'Members'); ?> &nbsp;</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><?php echo Language::show('orig_langs', 'Members'); ?>: </label>
+                            <div class="form-control">
+                                <label class="hebrew_knwlg"><?php echo Language::show('hebrew_knwlg', 'Members'); ?>: </label> &nbsp;&nbsp;
+                                <label><input type="radio" name="hebrew_knwlg" value="0"
+                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 0 ? "checked" : "" ?>> <?php echo Language::show('none', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="hebrew_knwlg" value="1"
+                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 1 ? "checked" : "" ?>> <?php echo Language::show('limited', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="hebrew_knwlg" value="2"
+                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 2 ? "checked" : "" ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="hebrew_knwlg" value="3"
+                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 3 ? "checked" : "" ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="hebrew_knwlg" value="4"
+                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 4 ? "checked" : "" ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
+                            </div>
+                            <br>
+                            <div class="form-control">
+                                <label class="greek_knwlg"><?php echo Language::show('greek_knwlg', 'Members'); ?>: </label> &nbsp;&nbsp;
+                                <label><input type="radio" name="greek_knwlg" value="0"
+                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 0 ? "checked" : "" ?>> <?php echo Language::show('none', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="greek_knwlg" value="1"
+                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 1 ? "checked" : "" ?>> <?php echo Language::show('limited', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="greek_knwlg" value="2"
+                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 2 ? "checked" : "" ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="greek_knwlg" value="3"
+                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 3 ? "checked" : "" ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
+                                <label><input type="radio" name="greek_knwlg" value="4"
+                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 4 ? "checked" : "" ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="education"><?php echo Language::show('education', 'Members'); ?>: </label>
                             <div class="form-control">
                                 <label><input type="checkbox" name="education[]" value="BA"
@@ -128,13 +177,13 @@ if(!empty($data["project"])):
                         <div class="form-group">
                             <label class="ed_area"><?php echo Language::show('ed_area', 'Members'); ?>: </label>
                             <div class="form-control">
-                                <label><input type="checkbox" name="ed_area[]" value="Theology" disabled
+                                <label><input type="checkbox" name="ed_area[]" value="Theology"
                                         <?php echo isset($profile["ed_area"]) && in_array("Theology", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo Language::show('theology', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="ed_area[]" value="Pastoral Ministry" disabled
+                                <label><input type="checkbox" name="ed_area[]" value="Pastoral Ministry"
                                         <?php echo isset($profile["ed_area"]) && in_array("Pastoral Ministry", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo Language::show('pastoral_ministry', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="ed_area[]" value="Bible Translation" disabled
+                                <label><input type="checkbox" name="ed_area[]" value="Bible Translation"
                                         <?php echo isset($profile["ed_area"]) && in_array("Bible Translation", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo Language::show('bible_translation', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="ed_area[]" value="Exegetics" disabled
+                                <label><input type="checkbox" name="ed_area[]" value="Exegetics"
                                         <?php echo isset($profile["ed_area"]) && in_array("Exegetics", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo Language::show('exegetics', 'Members'); ?> &nbsp;</label>
                             </div>
                         </div>
@@ -142,52 +191,7 @@ if(!empty($data["project"])):
                         <div class="form-group">
                             <label class="ed_place"><?php echo Language::show('ed_place', 'Members'); ?>: </label>
                             <input type="text" class="form-control" name="ed_place"
-                                   value="<?php echo isset($profile["ed_place"]) ? $profile["ed_place"] : "" ?>" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label><?php echo Language::show('orig_langs', 'Members'); ?>: </label>
-                            <div class="form-control">
-                                <label class="hebrew_knwlg"><?php echo Language::show('hebrew_knwlg', 'Members'); ?>: </label> &nbsp;&nbsp;
-                                <label><input type="radio" name="hebrew_knwlg" value="1" disabled
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 1 ? "checked" : "" ?>> <?php echo Language::show('limited', 'Members'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="2" disabled
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 2 ? "checked" : "" ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="3" disabled
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 3 ? "checked" : "" ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="4" disabled
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 4 ? "checked" : "" ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
-                            </div>
-                            <br>
-                            <div class="form-control">
-                                <label class="greek_knwlg"><?php echo Language::show('greek_knwlg', 'Members'); ?>: </label> &nbsp;&nbsp;
-                                <label><input type="radio" name="greek_knwlg" value="1" disabled
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 1 ? "checked" : "" ?>> <?php echo Language::show('limited', 'Members'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="2" disabled
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 2 ? "checked" : "" ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="3" disabled
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 3 ? "checked" : "" ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="4" disabled
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 4 ? "checked" : "" ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="church_role"><?php echo Language::show('church_role', 'Members'); ?>: </label>
-                            <div class="form-control">
-                                <label><input type="checkbox" name="church_role[]" value="Elder" disabled
-                                        <?php echo isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('elder', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Bishop" disabled
-                                        <?php echo isset($profile["church_role"]) && in_array("Bishop", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('bishop', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Pastor" disabled
-                                        <?php echo isset($profile["church_role"]) && in_array("Pastor", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('pastor', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Teacher" disabled
-                                        <?php echo isset($profile["church_role"]) && in_array("Teacher", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('teacher', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Denominational Leader" disabled
-                                        <?php echo isset($profile["church_role"]) && in_array("Denominational Leader", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('denominational_leader', 'Members'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Seminary Professor" disabled
-                                        <?php echo isset($profile["church_role"]) && in_array("Seminary Professor", $profile["church_role"]) ? "checked" : "" ?>> <?php echo Language::show('seminary_professor', 'Members'); ?> &nbsp;</label>
-                            </div>
+                                   value="<?php echo isset($profile["ed_place"]) ? $profile["ed_place"] : "" ?>">
                         </div>
                     </div>
 

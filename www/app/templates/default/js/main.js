@@ -4,6 +4,7 @@ var lastVerse = 0;
 var chunks = [];
 var lastCommentEditor;
 var lastCommentAltEditor;
+var hasChangesOnPage = false;
 
 $(document).ready(function() {
 
@@ -117,7 +118,7 @@ $(document).ready(function() {
                 if(data.success)
                 {
                     alert(data.success);
-                    location.reload();
+                    window.location = "/members";
                 }
                 else
                 {
@@ -144,13 +145,32 @@ $(document).ready(function() {
 
     // ------------------- Translation Flow ---------------------- //
 
-    // Hide steps panel on small screens
+    // Hide steps panel on small screens or if it was closed manually
+    var panelClosed = getCookie("close_left_panel");
 
-    if($(window).width() < 1800)
+    if(typeof panelClosed != "undefined" && panelClosed == "true")
     {
-        if($("#tr_steps_hide").length > 0)
-            $("#tr_steps_hide")[0].click();
+        $("#translator_steps").removeClass("open")
+            .addClass("closed");
+        $("#translator_steps").animate({left: "-250px"}, 50, function() {
+            $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
+                .addClass("glyphicon-chevron-right");
+        });
     }
+    else if($(window).width() < 1800)
+    {
+        $("#translator_steps").removeClass("open")
+            .addClass("closed");
+        $("#translator_steps").animate({left: "-250px"}, 500, function() {
+            $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
+                .addClass("glyphicon-chevron-right");
+        });
+    }
+
+    $(".comment_ta, .peer_verse_ta").change(function() {
+        hasChangesOnPage = true;
+        $(".unsaved_alert").show();
+    });
 
     $(".verse_ta:first").focus();
 
@@ -197,12 +217,17 @@ $(document).ready(function() {
     if(typeof step != "undefined")
     {
         var role = $("#hide_tutorial").attr("data2");
-        var cookie = typeof role != "undefined" && role == "checker" ?
+        var tutorialCookie = typeof role != "undefined" && role == "checker" ?
             getCookie(step + "_checker_tutorial") : getCookie(step + "_tutorial");
 
-        if(typeof cookie == "undefined")
+        if(typeof tutorialCookie == "undefined")
         {
-            $(".tutorial_container").show();
+            var tempTutorialCookie = getCookie("temp_tutorial");
+            if(typeof tempTutorialCookie == "undefined")
+            {
+                $(".tutorial_container").show();
+                setCookie("temp_tutorial", true, {expires: 365*24*60*60})
+            }
         }
     }
 
@@ -217,6 +242,7 @@ $(document).ready(function() {
                 $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
                     .addClass("glyphicon-chevron-right");
             });
+            setCookie("close_left_panel", true, {expires: 365*24*60*60});
         }
         else
         {
@@ -225,6 +251,7 @@ $(document).ready(function() {
             $("#translator_steps").animate({left: 0}, 500, function() {
             $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
                 .addClass("glyphicon-chevron-left");
+            deleteCookie("close_left_panel");
         });
         }
     });
@@ -236,6 +263,24 @@ $(document).ready(function() {
             $("#next_step").prop("disabled", false);
         else
             $("#next_step").prop("disabled", true);
+    });
+
+    $("#next_step").click(function() {
+        if(hasChangesOnPage)
+        {
+            if(confirm("There are some changes made on this page. Do you want to continue without saving?"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
     });
 
     $(".verse").each(function(index) {
@@ -399,13 +444,19 @@ $(document).ready(function() {
         {
             src = src.replace(/edit_done.png/, "edit.png");
             lastCommentEditor.attr("src", src);
-            lastCommentEditor.next("textarea").val("");
+            if(lastCommentEditor.next("textarea").val() != text)
+                lastCommentEditor.next("textarea").val("").trigger("change");
+            else
+                lastCommentEditor.next("textarea").val("");
         }
         else
         {
             src = src.replace(/edit.png/, "edit_done.png");
             lastCommentEditor.attr("src", src);
-            lastCommentEditor.next("textarea").val(text);
+            if(lastCommentEditor.next("textarea").val() != text)
+                lastCommentEditor.next("textarea").val(text).trigger("change");
+            else
+                lastCommentEditor.next("textarea").val(text);
         }
     });
 
@@ -502,7 +553,7 @@ $(document).ready(function() {
         var step = $(this).attr("data");
         if($(this).is(":checked"))
         {
-            setCookie(step + "_tutorial", true, {expires: 30*24*60*60});
+            setCookie(step + "_tutorial", true, {expires: 365*24*60*60});
         }
         else
         {
@@ -512,6 +563,10 @@ $(document).ready(function() {
 
 
     // Profile form
+    var langs = $(".langs option:selected");
+    if(langs.length > 0)
+        $(".langs").prop("disabled", false);
+
     $(".language").change(function() {
         var parent = $(this).parents(".language_block");
         if($(this).val() != "")
@@ -560,7 +615,7 @@ $(document).ready(function() {
 
         $(".language_container").css("left", "-9999px");
 
-        $(".langs").trigger("chosen:updated");
+        $(".langs").prop("disabled", false).trigger("chosen:updated");
     });
 
     $(".fluency, .geo_years").change(function() {
@@ -638,45 +693,6 @@ $(document).ready(function() {
         $("input[name=org]").prop("disabled", true); //.prop("checked", false);
         $("input[name=ref_person]").prop("disabled", true); //.val("");
         $("input[name=ref_email]").prop("disabled", true); //.val("");
-    }
-
-    // Checking levels test
-    $("input[name^='education']").change(function() {
-        var checked = $("input[name^='education']:checked").length;
-        if(checked > 0)
-        {
-            $("input[name^='ed_area']").prop("disabled", false);
-            $("input[name=ed_place]").prop("disabled", false);
-            $("input[name=hebrew_knwlg]").prop("disabled", false);
-            $("input[name=greek_knwlg]").prop("disabled", false);
-            $("input[name^='church_role']").prop("disabled", false);
-        }
-        else
-        {
-            $("input[name^='ed_area']").prop("disabled", true); //.prop("checked", false);;
-            $("input[name=ed_place]").prop("disabled", true); //.val("");;
-            $("input[name=hebrew_knwlg]").prop("disabled", true); //.prop("checked", false);;
-            $("input[name=greek_knwlg]").prop("disabled", true); //.prop("checked", false);;
-            $("input[name^='church_role']").prop("disabled", true); //.prop("checked", false);;
-        }
-    });
-
-    var checked = $("input[name^='education']:checked").length;
-    if(checked > 0)
-    {
-        $("input[name^='ed_area']").prop("disabled", false);
-        $("input[name=ed_place]").prop("disabled", false);
-        $("input[name=hebrew_knwlg]").prop("disabled", false);
-        $("input[name=greek_knwlg]").prop("disabled", false);
-        $("input[name^='church_role']").prop("disabled", false);
-    }
-    else
-    {
-        $("input[name^='ed_area']").prop("disabled", true); //.prop("checked", false);;
-        $("input[name=ed_place]").prop("disabled", true); //.val("");;
-        $("input[name=hebrew_knwlg]").prop("disabled", true); //.prop("checked", false);;
-        $("input[name=greek_knwlg]").prop("disabled", true); //.prop("checked", false);;
-        $("input[name^='church_role']").prop("disabled", true); //.prop("checked", false);;
     }
 
     // Event information accordion

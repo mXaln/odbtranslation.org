@@ -255,7 +255,7 @@ $(function () {
         $(".errors").html("");
         $(".bookName").text(bookName);
         $("#bookCode").val(bookCode);
-        $(".event-content").show();
+        $(".event-content").css("left", 0);
 
         // Get source text
         $.ajax({

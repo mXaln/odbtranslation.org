@@ -62,18 +62,27 @@ class TranslationsModel extends Model
         return $this->db->select($sql, array(":lang" => $lang, ":bookProject" => $bookProject, ":bookCode" => $bookCode));
     }
 
-    /** Get translation information
+    /** Get translations information
      * @param $eventID
      * @return array
      */
     public function getTranslationByEventID($eventID)
     {
-        $sql = "SELECT trs.chapter, trs.chunk, trs.translateDone, ".
+        /*$sql = "SELECT trs.chapter, trs.chunk, trs.translateDone, ".
             "trs.firstvs, ts.memberID, ts.step, ts.kwCheck, ts.crCheck, ".
             "ts.currentChapter, ts.checkerID ".
             "FROM ".PREFIX."translations AS trs ".
             "LEFT JOIN ".PREFIX."translators AS ts ON ts.trID = trs.trID ".
             "WHERE trs.eventID = :eventID ".
+            "ORDER BY trs.chapter, trs.chunk";*/
+
+        $sql = "SELECT trs.chapter, trs.chunk, trs.translateDone, ".
+            "trs.firstvs, ts.memberID, prs.memberID AS pairMemberID, ts.step, ts.kwCheck, ts.crCheck, ".
+            "ts.currentChapter, ts.checkerID ".
+            "FROM ".PREFIX."translators AS ts ".
+            "LEFT JOIN ".PREFIX."translations AS trs ON trs.trID = ts.trID ".
+            "LEFT JOIN ".PREFIX."translators AS prs ON prs.trID = ts.pairID ".
+            "WHERE ts.eventID = :eventID ".
             "ORDER BY trs.chapter, trs.chunk";
 
         return $this->db->select($sql, array(":eventID" => $eventID));

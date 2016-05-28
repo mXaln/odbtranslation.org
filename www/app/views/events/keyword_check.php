@@ -70,6 +70,7 @@ use \Core\Language;
 
                     <div class="col-sm-12">
                         <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary">Save</button>
+                        <img src="<?php echo \Helpers\Url::templatePath() ?>img/alert.png" class="unsaved_alert">
                     </div>
                 </div>
 
@@ -104,7 +105,7 @@ use \Core\Language;
                     </div>
                     <div class="participant_name">
                         <span><?php echo Language::show("your_checker", "Events") ?>:</span>
-                        <span><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
+                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo Language::show("event_info", "Events") ?></a>

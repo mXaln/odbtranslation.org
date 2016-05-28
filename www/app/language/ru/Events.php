@@ -27,8 +27,10 @@ return array(
     "chapter_in_progress" => "{0}% переведено",
     "chapter_finished" => "100% завершено",
     "chunks_number" => "{0} отрывков",
+    "no_chunks_number" => "пока нет отрывков",
     "chunk_number" => "отрывок {0}",
     "chunk_finished" => "&nbsp;&nbsp;<span class='finished_msg'>Завершено</span> <span class='finished_msg glyphicon glyphicon-ok'></span>",
+    "checker_peer" => "Checker (Peer Review)",
     "checker_kwc" => "Checker (Keyword Check)",
     "checker_crc" => "Checker (Content Review)",
     "checker_status" => "Статус",
@@ -42,6 +44,7 @@ return array(
     "event_participants" => "Участники события",
     "status_online" => "в сети",
     "status_offline" => "не в сети",
+    "go_back" => "Назад",
 
     // Steps
     "pray" => "Pray",
@@ -62,7 +65,7 @@ return array(
     "self-check_gl" => "Draft and Self Check",
     "self-check_gl_desc" => "<li><b>PURPOSE:</b> to translate the meaning of the source text accurately while maintaining the form and structure of the source.</li><li>With the source text in front of you, type your translation of the chunk. Strive for natural language, but maintain as best you can the form and structure of the original.</li><li>Check as you go to make sure nothing is missed, and nothing is added.</li><li>Do not amplify, simplify, or add text to clarify. Anything that you think requires such should be recorded in a note on the appropriate verse, and move on.</li><li>Review the entire chunk when finished to ensure the source content is faithfully represented in the translation.</li><li>Spend no more than 15-20 minutes on this exercise.</li>",
     "peer-review" => "Peer Review",
-    "peer-review_desc" => "<li><b>PURPOSE:</b> to confirm with another speaker of the target language that the translated text is a faithful and natural expression of the source content</li><li>Your translation will be reviewed by your partner, and you will review theirs</li><li>Check your partner’s translation (Partner Translation tab), looking for anything that is missed, added, or significantly different from the source in form and structure.</li><li>Check also for words used in the translation that do not seem natural, clear, and understandable.</li><li>Spend no more than 10 minutes on this exercise</li><li>When you are finished making your notes and observations, contact your partner on a suitable conversation platform: Skype, Hangout, phone, etc.</li><li>Discuss your respective observations. As your partner makes their comments, adjust your translation (Your Translation tab).</li><li>Spend no more than 20 minutes with your partner on this exercise. Do not waste time on disagreements. In such cases, leave the translated text as is, record a note on the appropriate verse, and move on.</li>",
+    "peer-review_desc" => "<li><b>PURPOSE:</b> to confirm with another speaker of the target language that the translated text is a faithful and natural expression of the source content</li><li>Your translation will be reviewed by your partner, and you will review theirs</li><li>Check your partner’s translation (Partner Translation tab), looking for anything that is missed, added, or significantly different from the source in form and structure.</li><li>Check also for words used in the translation that do not seem natural, clear, and understandable.</li><li>Spend no more than 30-45 minutes on this exercise</li><li>When you are finished making your notes and observations, contact your partner on a suitable conversation platform: Skype, Hangout, phone, etc.</li><li>Discuss your respective observations. As your partner makes their comments, adjust your translation (Your Translation tab).</li><li>Spend no more than 60-90 minutes with your partner on this exercise. Do not waste time on disagreements. In such cases, leave the translated text as is, record a note on the appropriate verse, and move on.</li>",
     "keyword-check" => "Keyword Check",
     "keyword-check_desc" => "<li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed</li><li>Your text has been submitted to someone else on your translation team besides your translation partner for this step. When someone has accepted the task, they will see only the source from which you have translated.</li><li>Contact your checker on a suitable conversation platform: Skype, Hangout, phone, etc.</li><li>Your checker will proceed through each verse of the entire chapter (all chunks) and ask you about how you have translated certain words.</li><li>Make any appropriate changes to your text as the discussion proceeds.</li><li>Spend no more than 30 minutes on this exercise. Do not waste time on disagreements. In such cases, leave the translated text as is, record a note on the appropriate verse, and move on.</li>",
     "keyword-check_checker_desc" => "<li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed</li><li>When you accept the task to check someone’s work, you will see only the source from which they have translated.</li><li>Contact the translator on a suitable conversation platform: Skype, Hangout, phone, etc.</li><li>Proceed through each verse, and review with the translator each highlighted word. Ensure the word exists in the translated text and ask how the translator expressed it. Look for major errors and significant misses.</li><li>Review any notes associated with the verse and attempt to resolve keyword issues.</li><li>You may ask about other words that you think are important beyond the highlighted, but do not over analyze or critique the text, and focus only the words which carry the more important meaning.</li><li>Spend no more than 30 minutes on this exercise. Do not waste time on disagreements. In such cases, leave the translated text as is, record a note on the appropriate verse, and move on.",
@@ -75,6 +78,7 @@ return array(
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class='checker_waits'></span>",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
     "empty_or_not_permitted_event_error" => "У вас недостаточно прав, чтобы просматривать информацию об этом событии.",
+    "partner_not_ready_error" => "Вы не можете перейти к следующему шагу, пока ваш партнер не готов к шагу peer review",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",
