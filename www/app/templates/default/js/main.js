@@ -167,41 +167,21 @@ $(document).ready(function() {
         });
     }
 
-    $(".comment_ta, .peer_verse_ta").change(function() {
+    $(".peer_verse_ta").change(function() {
         hasChangesOnPage = true;
         $(".unsaved_alert").show();
     });
 
     $(".verse_ta:first").focus();
 
-    $(".comment_ta").each(function() {
-        var img = $(".editComment", $(this).parents(".editor_area"));
+    $(".my_comment").each(function() {
+        var img = $(".editComment", $(this).parents(".editor_area, .verse_with_note"));
 
         if(img.length > 0)
         {
             var src = img.attr("src");
 
-            if($(this).val().trim() == "")
-            {
-                src = src.replace(/edit_done.png/, "edit.png");
-                img.attr("src", src);
-            }
-            else
-            {
-                src = src.replace(/edit.png/, "edit_done.png");
-                img.attr("src", src);
-            }
-        }
-    });
-
-    $(".commentAltText").each(function() {
-        var img = $(".editCommentAlt", $(this).parents(".verse_with_note"));
-
-        if(img.length > 0)
-        {
-            var src = img.attr("src");
-
-            if($(this).text().trim() == "")
+            if($(this).text() == "")
             {
                 src = src.replace(/edit_done.png/, "edit.png");
                 img.attr("src", src);
@@ -420,11 +400,18 @@ $(document).ready(function() {
 
     // Show/Hide Comment Textarea
     $(".editComment").click(function() {
-        var comment = $(this).next(".comment_ta").val();
+        comments = $(this).next(".comments");
+        var comment = $(".my_comment", comments).text();
         $(".editor").show();
         $("textarea", $(".comment_div")).val(comment).focus();
         lastCommentEditor = $(this);
         autosize.update($('textarea'));
+
+        $(".other_comments_list").html("");
+
+        $(".other_comments", comments).each(function() {
+            $("<div />").addClass("other_comments").html($(this).html()).appendTo(".other_comments_list");
+        });
     });
 
     $(".editor").click(function(e) {
@@ -437,58 +424,25 @@ $(document).ready(function() {
     $(".editor-close").click(function() {
         $(".editor").hide();
 
-        var text = $("textarea", $(".comment_div")).val();
-        var src = lastCommentEditor.attr("src");
+        comments = lastCommentEditor.next(".comments");
+        var comment = $(".my_comment", comments);
+        var text = $("textarea", $(".comment_div")).val().trim();
 
-        if(text.trim() == "")
+        chapverse = lastCommentEditor.attr("data").split(":");
+
+        if(comment.text() != text)
         {
-            src = src.replace(/edit_done.png/, "edit.png");
-            lastCommentEditor.attr("src", src);
-            if(lastCommentEditor.next("textarea").val() != text)
-                lastCommentEditor.next("textarea").val("").trigger("change");
-            else
-                lastCommentEditor.next("textarea").val("");
-        }
-        else
-        {
-            src = src.replace(/edit.png/, "edit_done.png");
-            lastCommentEditor.attr("src", src);
-            if(lastCommentEditor.next("textarea").val() != text)
-                lastCommentEditor.next("textarea").val(text).trigger("change");
-            else
-                lastCommentEditor.next("textarea").val(text);
-        }
-    });
-
-
-    // Show/Hide Checker Comment Textarea
-    $(document).on("click", ".editCommentAlt", function() {
-        var commentAlt = $(this).next(".commentAltText").text();
-        $(".alt_editor").show();
-        $("textarea", $(".alt_comment_div")).val(commentAlt).focus();
-        lastCommentAltEditor = $(this);
-        autosize.update($('textarea'));
-    });
-
-    $(".alt_editor").click(function(e) {
-        if(e.target.className == "alt_comment_div" || e.target.className == "alt_editor")
-        {
-            $(".alt_editor").hide();
-        }
-    });
-
-    $(".alt_editor-close").click(function() {
-        var text = $("textarea", $(".alt_comment_div")).val().trim();
-
-        if(lastCommentAltEditor.next("span").text() != text)
-        {
-            var tID = lastCommentAltEditor.nextAll(".tID").val();
-            var verse = lastCommentAltEditor.nextAll(".verseNum").val();
+            if(comment.length <= 0)
+                comment = $("<div />").addClass("my_comment").appendTo(comments);
 
             $.ajax({
-                    url: "/events/rpc/save_comment_alt",
+                    url: "/events/rpc/save_comment",
                     method: "post",
-                    data: {tID: tID, verse: verse, comment: text.trim()},
+                    data: {
+                        eventID: eventID,
+                        chapter: chapverse[0],
+                        verse: chapverse[1],
+                        comment: text},
                     dataType: "json",
                     beforeSend: function() {
                         $(".commentEditorLoader").show();
@@ -498,19 +452,22 @@ $(document).ready(function() {
                     if(data.success)
                     {
                         $(".alt_editor").hide();
-                        var src = lastCommentAltEditor.attr("src");
+                        var src = lastCommentEditor.attr("src");
 
                         if(data.text == "")
                         {
                             src = src.replace(/edit_done.png/, "edit.png");
-                            lastCommentAltEditor.next("span").text("");
+                            comment.remove();
                         }
                         else
                         {
                             src = src.replace(/edit.png/, "edit_done.png");
-                            lastCommentAltEditor.next("span").text(data.text);
+                            comment.text(data.text);
                         }
-                        lastCommentAltEditor.attr("src", src);
+                        lastCommentEditor.attr("src", src);
+
+                        num = comments.children().length > 0 ? comments.children().length : "";
+                        $(".comments_number", lastCommentEditor.parent()).text(num);
                     }
                     else
                     {
@@ -523,10 +480,6 @@ $(document).ready(function() {
                 .always(function() {
                     $(".commentEditorLoader").hide();
                 });
-        }
-        else
-        {
-            $(".alt_editor").hide();
         }
     });
 

@@ -68,14 +68,6 @@ class TranslationsModel extends Model
      */
     public function getTranslationByEventID($eventID)
     {
-        /*$sql = "SELECT trs.chapter, trs.chunk, trs.translateDone, ".
-            "trs.firstvs, ts.memberID, ts.step, ts.kwCheck, ts.crCheck, ".
-            "ts.currentChapter, ts.checkerID ".
-            "FROM ".PREFIX."translations AS trs ".
-            "LEFT JOIN ".PREFIX."translators AS ts ON ts.trID = trs.trID ".
-            "WHERE trs.eventID = :eventID ".
-            "ORDER BY trs.chapter, trs.chunk";*/
-
         $sql = "SELECT trs.chapter, trs.chunk, trs.translateDone, ".
             "trs.firstvs, ts.memberID, prs.memberID AS pairMemberID, ts.step, ts.kwCheck, ts.crCheck, ".
             "ts.currentChapter, ts.checkerID ".
@@ -87,4 +79,52 @@ class TranslationsModel extends Model
 
         return $this->db->select($sql, array(":eventID" => $eventID));
     }
+
+    public function getComment($eventID, $chapter, $verse, $memberID)
+    {
+        $sql = "SELECT * FROM ".PREFIX."comments ".
+            "WHERE eventID = :eventID AND chapter = :chapter AND verse = :verse AND memberID = :memberID";
+
+        $prepare = array(
+            ":eventID" => $eventID,
+            ":chapter" => $chapter,
+            ":verse" => $verse,
+            ":memberID" => $memberID
+        );
+
+        return $this->db->select($sql, $prepare);
+    }
+
+    public function getCommentsByEvent($eventID, $chapter = null)
+    {
+        $sql = "SELECT cmts.*, mems.userName FROM ".PREFIX."comments AS cmts ".
+            "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = cmts.memberID ".
+            "WHERE cmts.eventID = :eventID ".
+            ($chapter != null ? "AND cmts.chapter = :chapter " : "").
+            "ORDER BY cmts.chapter, cmts.verse, cmts.cID";
+
+        $prepare = array(":eventID" => $eventID);
+
+        if($chapter != null)
+            $prepare[":chapter"] = $chapter;
+
+        return $this->db->select($sql, $prepare);
+    }
+
+    public function createComment($data)
+    {
+        $this->db->insert(PREFIX."comments",$data);
+        return $this->db->lastInsertId('cID');
+    }
+
+    public function updateComment($data, $where)
+    {
+        return $this->db->update(PREFIX."comments", $data, $where);
+    }
+
+    public function deleteComment($where)
+    {
+        return $this->db->delete(PREFIX."comments", $where);
+    }
+
 }

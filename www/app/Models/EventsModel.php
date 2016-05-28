@@ -469,6 +469,21 @@ class EventsModel extends Model
     }
 
 
+    public function getEventMemberInfo($eventID, $memberID)
+    {
+        $sql = "SELECT trs.memberID AS translator, l2.memberID AS l2checker, l3.memberID AS l3checker ".
+            "FROM ".PREFIX."events AS evnt ".
+            "LEFT JOIN ".PREFIX."translators AS trs ON evnt.eventID = trs.eventID AND trs.memberID = :memberID ".
+            "LEFT JOIN ".PREFIX."checkers_l2 AS l2 ON evnt.eventID = l2.eventID AND l2.memberID = :memberID ".
+            "LEFT JOIN ".PREFIX."checkers_l3 AS l3 ON evnt.eventID = l3.eventID AND l3.memberID = :memberID ".
+            "WHERE evnt.eventID = :eventID";
+
+        $prepare = array(":memberID" => $memberID, ":eventID" => $eventID);
+
+        return $this->db->select($sql, $prepare);
+    }
+
+
     /**
      * Get book source from unfolding word api
      * @param string $bookCode

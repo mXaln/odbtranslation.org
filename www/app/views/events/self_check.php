@@ -10,6 +10,7 @@ use \Helpers\Constants\EventSteps;
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
+        <img src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif" class="commentEditorLoader">
     </div>
 </div>
 
@@ -47,8 +48,19 @@ use \Helpers\Constants\EventSteps;
                                 $verses = explode("-", $data["text"][$i]["verse"]);
                                 foreach ($verses as $verse):?>
                                     <textarea name="verses[]" class="verse_ta textarea"><?php echo $_POST["verses"][$i] ?></textarea>
-                                    <img class="editComment" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                    <textarea name="comments[]" class="comment_ta textarea"><?php echo $_POST["comments"][$i] ?></textarea>
+                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+
+                                    <div class="comments">
+                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
+                                        <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                            <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                <div class="my_comment"><?php echo $comment->text; ?></div>
+                                            <?php else: ?>
+                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    </div>
                                 <?php endforeach; ?>
                                 </div>
                             </div>

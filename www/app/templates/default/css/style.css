@@ -995,7 +995,22 @@
 
 .textarea_editor {
     width: 505px;
-    min-height: 200px;
+    min-height: 100px;
+}
+
+.other_comments_list {
+    padding-top: 10px;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.other_comments {
+    padding: 5px 10px;
+}
+
+.other_comments span {
+    font-weight: bold;
 }
 
 .editor, .alt_editor {
@@ -1046,6 +1061,12 @@
     position: absolute;
     top: 0; right: -10px;
     cursor: pointer;
+}
+
+.comments_number {
+    position: absolute;
+    top: -10px; right: -20px;
+    z-index: 10;
 }
 
 .commentAltText {
@@ -1435,4 +1456,8 @@
     display: none;
     float: right;
     margin: 7px 10px;
+}
+
+.comments {
+    display: none;
 }

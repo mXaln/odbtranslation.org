@@ -349,6 +349,7 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::SELF_CHECK:
+                        $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
 
                         // Get blind draft text
                         $blindDraftText = "";
@@ -493,6 +494,8 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::PEER_REVIEW:
+                        $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
+                        $data["comments_cotr"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->cotrCurrentChapter);
 
                         $translationData = $this->_model->getTranslation($data["event"][0]->trID, null, $data["event"][0]->currentChapter);
                         $translation = array();
@@ -613,6 +616,7 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::KEYWORD_CHECK:
+                        $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
 
                         $translationData = $this->_model->getTranslation($data["event"][0]->trID, null, $data["event"][0]->currentChapter);
                         $translation = array();
@@ -717,6 +721,7 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::CONTENT_REVIEW:
+                        $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
 
                         $translationData = $this->_model->getTranslation($data["event"][0]->trID, null, $data["event"][0]->currentChapter);
                         $translation = array();
@@ -920,6 +925,8 @@ class EventsController extends Controller
                 {
                     if($data["event"][0]->step == EventSteps::KEYWORD_CHECK || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
                     {
+                        $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
+
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
@@ -1560,6 +1567,82 @@ class EventsController extends Controller
     }
 
 
+    public function saveComment()
+    {
+        $response = array("success" => false);
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = $this->language->get("not_loggedin_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if (!Session::get('verified'))
+        {
+            $response["error"] = $this->language->get("account_not_verirfied_error");
+            echo json_encode($response);
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+        $chapter = isset($_POST["chapter"]) && $_POST["chapter"] != "" ? (integer)$_POST["chapter"] : null;
+        $verse = isset($_POST["verse"]) && $_POST["verse"] != "" ? (integer)$_POST["verse"] : null;
+        $comment = isset($_POST["comment"]) ? $_POST["comment"] : "";
+        $memberID = Session::get("memberID");
+
+        if($eventID != null && $chapter != null && $verse != null)
+        {
+            $memberInfo = (array)$this->_model->getEventMemberInfo($eventID, $memberID);
+
+            if(!empty($memberInfo) && ($memberInfo[0]->translator == $memberID ||
+                    $memberInfo[0]->l2checker == $memberID || $memberInfo[0]->l3checker == $memberID))
+            {
+                $transModel = new TranslationsModel();
+                $commentDB = (array)$transModel->getComment($eventID, $chapter, $verse, Session::get("memberID"));
+
+                $postdata = array(
+                    "text" => $comment,
+                );
+
+                $result = false;
+
+                if(!empty($commentDB))
+                {
+                    if($comment == "")
+                    {
+                        $result = $transModel->deleteComment(array("cID" => $commentDB[0]->cID));
+                    }
+                    else
+                    {
+                        $result = $transModel->updateComment($postdata,  array("cID" => $commentDB[0]->cID));
+                    }
+                }
+                else
+                {
+                    $postdata += array(
+                        "eventID" => $eventID,
+                        "chapter" => $chapter,
+                        "verse" => $verse,
+                        "memberID" => Session::get("memberID")
+                    );
+
+                    $result = $transModel->createComment($postdata);
+                }
+
+                if($result)
+                {
+                    $response["success"] = true;
+                    $response["text"] = $comment;
+                }
+            }
+        }
+
+        echo json_encode($response);
+    }
+
     public function saveCommentAlt()
     {
         $response = array("success" => false);
@@ -1592,7 +1675,7 @@ class EventsController extends Controller
             $translation = $this->_model->getTranslationCheckers($tID, $memberID);
 
             if($translation[0]->checkerID == $memberID || $translation[0]->pairMemberID == $memberID ||
-                $translation[0]->checkerID == l2memberID || $translation[0]->l3memberID == $memberID)
+                $translation[0]->l2memberID == $memberID || $translation[0]->l3memberID == $memberID)
             {
                 $translation = json_decode($translation[0]->translatedVerses, true);
 
@@ -2105,5 +2188,20 @@ class EventsController extends Controller
         if($lastVerse != $totalVerses) return false;
 
         return true;
+    }
+
+    private function getComments($eventID, $chapter = null)
+    {
+        $translationModel = new TranslationsModel();
+        $comments = $translationModel->getCommentsByEvent($eventID, $chapter);
+        $commentsFinal = array();
+
+        foreach ($comments as $comment) {
+            $commentsFinal[$comment->chapter][$comment->verse][] = $comment;
+        }
+
+        unset($comments);
+
+        return $commentsFinal;
     }
 }

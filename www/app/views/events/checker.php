@@ -14,13 +14,14 @@ if(empty($error) && empty($data["success"])):
     $step_num = $current == EventSteps::KEYWORD_CHECK ? 7 : 8;
 ?>
 
-<div class="alt_editor">
-    <div class="alt_comment_div panel panel-default">
+<div class="editor">
+    <div class="comment_div panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
-            <span class="alt_editor-close glyphicon glyphicon-floppy-disk"></span>
+            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
+        <div class="other_comments_list"></div>
         <img src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif" class="commentEditorLoader">
     </div>
 </div>
@@ -52,8 +53,6 @@ if(empty($error) && empty($data["success"])):
                         $count = 0;
                         foreach($chunk["translator"]["verses"] as $verse => $text):
                             $verses = explode("-", $data["text"][$i-1]);
-                            $comment = $chunk["translator"]["comments"][$verse];
-                            $commentAlt = $chunk["translator"]["comments_alt"][$verse];
                             ?>
                             <?php if($count == 0): ?>
                                 <div class="row">
@@ -73,13 +72,26 @@ if(empty($error) && empty($data["success"])):
                                 $i+=2;
                                 $count = 0; ?>
                                         </p>
-                                        <?php if(trim($comment != "")): ?>
-                                        <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
-                                        <?php endif;?>
-                                        <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                        <span class="commentAltText"><?php echo preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $commentAlt); ?></span>
-                                        <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
-                                        <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
+                                        <div class="comments_number">
+                                            <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
+                                                sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                        </div>
+
+                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+
+                                        <div class="comments">
+                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
+                                                <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                                    <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
+                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                    <?php else: ?>
+                                                        <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <div class="my_comment" data="<?php echo $data["currentChapter"].":".$verse ?>"></div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
                         <?php endif; endforeach; ?>
@@ -94,19 +106,30 @@ if(empty($error) && empty($data["success"])):
                         $count = 0;
                         foreach($chunk["translator"]["verses"] as $verse => $text):
                             $verses = explode("-", $data["text"][$i-1]);
-                            $comment = $chunk["translator"]["comments"][$verse];
-                            $commentAlt = $chunk["translator"]["comments_alt"][$verse];
                             ?>
                             <?php if($count == 0): ?>
                             <div class="source_content verse_with_note">
                                 <div style="padding-right: 15px"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
-                                <?php if(trim($comment != "")): ?>
-                                    <img class="showComment" data-toggle="tooltip" data-placement="left" title="<?php echo $comment; ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/note.png">
-                                <?php endif;?>
-                                <img class="editCommentAlt" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-                                <span class="commentAltText"><?php echo preg_replace("/^@[a-z]+[a-z0-9]*:\s/", "", $commentAlt); ?></span>
-                                <input type="hidden" class="tID" value="<?php echo $chunk["tID"]; ?>">
-                                <input type="hidden" class="verseNum" value="<?php echo $verse; ?>">
+
+                                <div class="comments_number">
+                                    <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
+                                        sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                </div>
+                                <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+
+                                <div class="comments">
+                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
+                                        <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                            <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
+                                                <div class="my_comment"><?php echo $comment->text; ?></div>
+                                            <?php else: ?>
+                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="my_comment" data="<?php echo $data["currentChapter"].":".$verse ?>"></div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                             <?php
                             endif;
