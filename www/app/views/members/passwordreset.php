@@ -18,7 +18,7 @@ echo \Core\Error::display($error);
     <input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>"/>
 
     <div class="form-group">
-        <div class="g-recaptcha" data-sitekey="6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr"></div>
+        <div class="g-recaptcha" data-sitekey="6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2"></div>
     </div>
 
     <button type="submit" name="submit"

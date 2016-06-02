@@ -7,4 +7,4 @@
  */
 ?>
 
-FINISHED!!!
+<a href="/events/information/<?php echo $data["event"][0]->eventID ?>">Go to event information page</a>

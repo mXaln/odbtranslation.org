@@ -97,7 +97,7 @@ $(document).ready(function() {
             $(".checker_info").show();
         }
 
-        $(".event-content").show();
+        $(".event-content").css("left", 0);
     });
 
     // Submit apply event form
@@ -139,7 +139,7 @@ $(document).ready(function() {
     });
 
     $(".panel-close").click(function() {
-        $(this).parents(".form-panel").hide();
+        $(this).parents(".form-panel").css("left", -9999);
     });
 
 
@@ -399,7 +399,7 @@ $(document).ready(function() {
 
 
     // Show/Hide Comment Textarea
-    $(".editComment").click(function() {
+    $(document).on("click", ".editComment", function() {
         comments = $(this).next(".comments");
         var comment = $(".my_comment", comments).text();
         $(".editor").show();
@@ -422,8 +422,6 @@ $(document).ready(function() {
     });
 
     $(".editor-close").click(function() {
-        $(".editor").hide();
-
         comments = lastCommentEditor.next(".comments");
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
@@ -451,7 +449,7 @@ $(document).ready(function() {
                 .done(function(data) {
                     if(data.success)
                     {
-                        $(".alt_editor").hide();
+                        $(".editor").hide();
                         var src = lastCommentEditor.attr("src");
 
                         if(data.text == "")
@@ -481,6 +479,10 @@ $(document).ready(function() {
                     $(".commentEditorLoader").hide();
                 });
         }
+		else
+		{
+			$(".editor").hide();
+		}
     });
 
     // Show/Hide Tutorial popup

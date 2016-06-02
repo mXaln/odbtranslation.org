@@ -76,7 +76,7 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
-            var data = {eventID: eventID, step: step, chkMemberID: chkMemberID};
+            var data = {eventID: eventID, step: step, chkMemberID: chkMemberID, isChecker: isChecker};
             this.emit('step enter', data);
             break;
 
@@ -108,7 +108,9 @@ function OnSystemMessage(data)
                 //this.disconnect();
                 //this.connect();
                 socket.io.reconnect();
-                alert("A checker has joined");
+                
+				if(step != "")
+					alert("A checker has joined");
             }
             break;
 
@@ -135,16 +137,18 @@ function OnCheckingRequest(data)
     .done(function(data) {
         if(data.success)
         {
-            $(".notif_block").html("");
+            //$(".notif_block").html("");
             if(data.notifs.length > 0)
             {
+                $(".notif_block .no_notif").remove();
                 $(".notif_count").remove();
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
                 var notifs = "";
                 $.each(data.notifs, function(i, note) {
-                    notifs += '<a href="'+note.link+'" data="'+note.anchor+'" target="_blank"><li>'+note.text+'</li></a>';
+                    if($("a[data='"+note.anchor+"']").length <= 0)
+                        notifs += '<a href="'+note.link+'" data="'+note.anchor+'" target="_blank"><li>'+note.text+'</li></a>';
                 });
-                $(".notif_block").html(notifs);
+                $(".notif_block").prepend(notifs);
             }
             else
             {

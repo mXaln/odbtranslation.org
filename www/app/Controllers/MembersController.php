@@ -630,7 +630,7 @@ class MembersController extends Controller
 
             $data = $this->_model->getMember('memberID,email', array('email' => array("=", $email)));
 
-            $recaptcha = new ReCaptcha('6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1');
+            $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
             $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 
             if (!$resp->isSuccess())
@@ -649,12 +649,14 @@ class MembersController extends Controller
 
                     $link = DIR."members/resetpassword/".$data[0]->memberID."/$resetToken";
 
-                    $mail = new Mail();
+				    $mail = new PhpMailer();
+                    $mail->isSendmail();
+                    $mail->setFrom('noreply@v-mast.com');
                     $mail->addAddress($email);
-                    $mail->subject($this->language->get('passwordreset_title'));
-                    $mail->body($this->language->get('passwordreset_link_message', array($link, $link)));
+                    $mail->Subject = $this->language->get('passwordreset_title');
+                    $mail->msgHTML($this->language->get('passwordreset_link_message', array($link, $link)));
                     $mail->send();
-
+					
                     $msg = $this->language->get('pwresettoken_send_success');
                     Session::set('success', $msg);
 

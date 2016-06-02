@@ -310,7 +310,7 @@ class EventsModel extends Model
                 "OR trs.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l2 WHERE memberID = :memberID) ".
                 "OR trs.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l3 WHERE memberID = :memberID)) ".
             "AND trs.memberID != :memberID ".
-            "AND trs.trID NOT IN(SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
+            //"AND trs.trID NOT IN(SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
             "AND(trs.step = 'keyword-check' OR trs.step = 'content-review') ".
             "AND trs.checkerID = 0";
 
@@ -340,7 +340,7 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = vm_abbr.code ".
                 "WHERE (".PREFIX."projects.gwLang IN($in) OR ".PREFIX."projects.targetLang IN($in)) ".
                 "AND trs.memberID != :memberID ".
-                "AND trs.trID NOT IN(SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
+                //"AND trs.trID NOT IN(SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
                 "AND(trs.step = 'keyword-check' OR trs.step = 'content-review') ".
                 "AND trs.checkerID = 0";
 

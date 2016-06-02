@@ -202,4 +202,8 @@ if(empty($error) && empty($data["success"])):
         </div>
     </div>
 </div>
+
+<script>
+    var isChecker = true;
+</script>
 <?php endif; ?>

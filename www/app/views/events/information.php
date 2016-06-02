@@ -11,7 +11,7 @@ if(!isset($error)):
 
     <div class="back_link">
         <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
-        <a><?php echo Language::show("go_back", "Events") ?></a>
+        <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo Language::show("go_back", "Events") ?></a>
         <?php endif; ?>
     </div>
 
@@ -147,6 +147,7 @@ if(!isset($error)):
         var step = '<?php //echo $data["event"][0]->step; ?>';
         var isAdmin = <?php echo (integer)$data["isAdmin"]; ?>;
         var disableChat = true;
+        var isChecker = false;
     </script>
 
     <?php if($data["isAdmin"]): ?>

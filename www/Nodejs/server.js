@@ -242,26 +242,31 @@ io.on('connection', function(socket)
 
                     case eSteps.KEYWORD_CHECK:
                     case eSteps.CONTENT_REVIEW:
-                        var msgObj = {
-                            excludes: [member.memberID, event.cotrMemberID],
-                            anchor: "check:"+event.eventID+":"+member.memberID
-                        };
-                        io.to("room" + event.eventID).emit('checking request', msgObj);
-
-                        if(data.chkMemberID > 0)
+                        if(!data.isChecker)
                         {
-                            var checkMember = getMemberByUserId("user" + data.chkMemberID);
-
-                            if(typeof checkMember !== 'undefined')
+                            var msgObj = {
+                                excludes: [member.memberID/*, event.cotrMemberID*/],
+                                anchor: "check:"+event.eventID+":"+member.memberID
+                            };
+                            io.to("room" + event.eventID).emit('checking request', msgObj);
+                        }
+                        else
+                        {
+                            if(data.chkMemberID > 0)
                             {
-                                var checkEvent = getMemberEvent(checkMember, event.eventID);
+                                var checkMember = getMemberByUserId("user" + data.chkMemberID);
 
-                                if(!_.isEmpty(checkEvent))
+                                if(typeof checkMember !== 'undefined')
                                 {
-                                    // Send message to check member
-                                    for(var skt in checkEvent.sockets)
+                                    var checkEvent = getMemberEvent(checkMember, event.eventID);
+
+                                    if(!_.isEmpty(checkEvent))
                                     {
-                                        io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkEnter", memberID: member.memberID, userName: member.userName});
+                                        // Send message to check member
+                                        for(var skt in checkEvent.sockets)
+                                        {
+                                            io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkEnter", memberID: member.memberID, userName: member.userName});
+                                        }
                                     }
                                 }
                             }

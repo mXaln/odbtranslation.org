@@ -290,17 +290,13 @@ class EventsController extends Controller
                                     $translation = array(
                                         EventMembers::TRANSLATOR => array(
                                             "blind" => trim($_POST["draft"]),
-                                            "verses" => array(),
-                                            "comments" => array(),
-                                            "comments_alt" => array()
+                                            "verses" => array()
                                         ),
                                         EventMembers::L2_CHECKER => array(
-                                            "verses" => array(),
-                                            "comments" => array()
+                                            "verses" => array()
                                         ),
                                         EventMembers::L3_CHECKER => array(
-                                            "verses" => array(),
-                                            "comments" => array()
+                                            "verses" => array()
                                         ),
                                     );
 
@@ -398,28 +394,17 @@ class EventsController extends Controller
                                     //if ($data["event"][0]->cotrStep != $prevStep) {
                                     $verses = array_map("trim", $_POST["verses"]);
                                     $verses = array_combine($sourceText["chunk"], $verses);
-                                    $comments = array_combine($sourceText["chunk"], $_POST["comments"]);
-                                    $altComments = array_combine($sourceText["chunk"], array_fill(0, sizeof($sourceText["chunk"]), ""));
-
-                                    foreach ($comments as $v => $comment) {
-                                        $comments[$v] = trim($comment) != ""
-                                            ? "@".Session::get("userName").": ".$comment : "";
-                                    }
 
                                     $translation = array(
                                         EventMembers::TRANSLATOR => array(
                                             "blind" => $blindDraftText,
-                                            "verses" => $verses,
-                                            "comments" => $comments,
-                                            "comments_alt" => $altComments
+                                            "verses" => $verses
                                         ),
                                         EventMembers::L2_CHECKER => array(
-                                            "verses" => array(),
-                                            "comments" => array()
+                                            "verses" => array()
                                         ),
                                         EventMembers::L3_CHECKER => array(
-                                            "verses" => array(),
-                                            "comments" => array()
+                                            "verses" => array()
                                         ),
                                     );
 
@@ -548,7 +533,6 @@ class EventsController extends Controller
                             {
                                 foreach ($_POST["chunks"] as $key => $chunk) {
                                     $_POST["chunks"][$key]['verses'] = array_map("trim", $chunk["verses"]);
-                                    $_POST["chunks"][$key]['comments'] = array_map("trim", $chunk["comments"]);
 
                                     foreach ($chunk["verses"] as $v => $verse) {
                                         if(trim($verse) == "")
@@ -567,13 +551,10 @@ class EventsController extends Controller
                                             $shouldUpdate = false;
                                             $i=0;
                                             foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
-                                                if($verse != $_POST["chunks"][$key]['verses'][$i] ||
-                                                    $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] != $_POST["chunks"][$key]['comments'][$i])
+                                                if($verse != $_POST["chunks"][$key]['verses'][$i])
                                                     $shouldUpdate = true;
 
                                                 $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
-                                                $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = trim($_POST["chunks"][$key]["comments"][$i]) != ""
-                                                    ? "@".Session::get("userName").": ".$_POST["chunks"][$key]["comments"][$i] : "";
                                                 $i++;
                                             }
 
@@ -654,13 +635,10 @@ class EventsController extends Controller
                                                 $shouldUpdate = false;
                                                 $i=0;
                                                 foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
-                                                    if($verse != $_POST["chunks"][$key]['verses'][$i] ||
-                                                        $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] != $_POST["chunks"][$key]['comments'][$i])
+                                                    if($verse != $_POST["chunks"][$key]['verses'][$i])
                                                         $shouldUpdate = true;
 
                                                     $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
-                                                    $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = trim($_POST["chunks"][$key]["comments"][$i]) != ""
-                                                        ? "@".Session::get("userName").": ".$_POST["chunks"][$key]["comments"][$i] : "";
                                                     $i++;
                                                 }
 
@@ -768,13 +746,10 @@ class EventsController extends Controller
                                                 $shouldUpdate = false;
                                                 $i=0;
                                                 foreach ($chunk[EventMembers::TRANSLATOR]["verses"] as $v => $verse) {
-                                                    if($verse != $_POST["chunks"][$key]['verses'][$i] ||
-                                                        $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] != $_POST["chunks"][$key]['comments'][$i])
+                                                    if($verse != $_POST["chunks"][$key]['verses'][$i])
                                                         $shouldUpdate = true;
 
                                                     $translation[$key][EventMembers::TRANSLATOR]["verses"][$v] = $_POST["chunks"][$key]["verses"][$i];
-                                                    $translation[$key][EventMembers::TRANSLATOR]["comments"][$v] = trim($_POST["chunks"][$key]["comments"][$i]) != ""
-                                                        ? "@".Session::get("userName").": ".$_POST["chunks"][$key]["comments"][$i] : "";
                                                     $i++;
                                                 }
 
@@ -1128,7 +1103,7 @@ class EventsController extends Controller
             }
 
             $data["chapters"] = json_decode($data["event"][0]->chapters, true);
-
+			
             $translationModel = new TranslationsModel();
             $chunks = $translationModel->getTranslationByEventID($data["event"][0]->eventID);
             $members = array();
@@ -1142,13 +1117,14 @@ class EventsController extends Controller
                 $data["chapters"][$key]["crc"]["state"] = "not_started";
                 $data["chapters"][$key]["crc"]["checkerID"] = "na";
             }*/
-
+			
             $pairMembers = array();
             $i = 0;
             foreach ($chunks as $index => $chunk) {
                 if($chunk->chapter === null)
                 {
-                    $data["chapters"][$chunk->currentChapter]["peer"]["checkerID"] = $chunk->pairMemberID;
+                    if($chunk->currentChapter > 0)
+						$data["chapters"][$chunk->currentChapter]["peer"]["checkerID"] = $chunk->pairMemberID;
                     $pairMembers[$chunk->memberID] = $chunk->pairMemberID;
 
                     continue;
@@ -1780,7 +1756,8 @@ class EventsController extends Controller
 
             if(!empty($data["event"]))
             {
-                $cotrSourceText = $this->getSourceText($data, false, true);
+                $data["comments_cotr"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->cotrCurrentChapter);
+				$cotrSourceText = $this->getSourceText($data, false, true);
 
                 if (!array_key_exists("error", $cotrSourceText)) {
                     $data["cotrData"] = $cotrSourceText;
@@ -1814,8 +1791,6 @@ class EventsController extends Controller
                             $count = 0;
                             foreach($chunk["translator"]["verses"] as $verse => $text) {
                                 $verses = explode("-", $data["cotrData"]["text"][$i - 1]);
-                                $comment = $chunk["translator"]["comments"][$verse];
-                                $commentAlt = $chunk["translator"]["comments_alt"][$verse];
                                 if ($count == 0) {
                                     echo '<div class="row">' .
                                         '<div class="col-sm-6">' .
@@ -1832,13 +1807,28 @@ class EventsController extends Controller
                                     $i += 2;
                                     $count = 0;
                                     echo '</p>';
-                                    if (trim($comment != "")) {
-                                        echo '<img class="showComment" data-toggle="tooltip" data-placement="left" title="' . $comment . '" width="16px" src="' . \Helpers\Url::templatePath() . 'img/note.png">';
-                                    }
-                                    echo '<img class="editCommentAlt" width="16px" src="' . \Helpers\Url::templatePath() . 'img/'.(trim($commentAlt) == "" ? "edit" : "edit_done").'.png" title="write note"/>' .
-                                        '<span class="commentAltText">' . $commentAlt . '</span>' .
-                                        '<input type="hidden" class="tID" value="' . $chunk["tID"] . '">' .
-                                        '<input type="hidden" class="verseNum" value="' . $verse . '">' .
+                                    echo '<div class="comments_number">'.
+											(array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]]) ?
+												sizeof($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse]) : "").
+										 '</div>';
+									echo '<img class="editComment" data="'.$data["cotrData"]["currentChapter"].":".$verse.'" width="16px" '.
+												'src="' . \Helpers\Url::templatePath() . 'img/'.(trim($commentAlt) == "" ? "edit" : "edit_done").'.png" title="write note"/>' .
+											'<div class="comments">';
+												if(array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]])) 
+												{
+													foreach($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse] as $comment)
+													{
+														if($comment->memberID == $data["event"][0]->myMemberID)
+														{
+															echo '<div class="my_comment">'.$comment->text.'</div>';
+														}
+														else
+														{
+															echo '<div class="other_comments"><span>'.$comment->userName.':</span> '.$comment->text.'</div>';
+														}
+													}
+												}
+										echo '</div>'.
                                         '</div>' .
                                         '</div>';
                                 }
