@@ -1,4 +1,4 @@
-var socket, sctUrl = 'http://v-mast.com:8001';
+var socket, sctUrl = 'http://v-mast.mvc:8001';
 
 $(document).ready(function () {
     socket = io.connect(sctUrl);

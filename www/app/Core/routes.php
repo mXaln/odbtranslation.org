@@ -44,6 +44,7 @@ Router::any('members/logout', 'Controllers\MembersController@logout');
 Router::any('members/passwordreset', 'Controllers\MembersController@passwordReset');
 Router::any('members/resetpassword/(:num)/(:any)', 'Controllers\MembersController@resetPassword');
 Router::any('members/activate/(:num)/(:any)', 'Controllers\MembersController@activate');
+Router::any('members/activate/resend/(:any)', 'Controllers\MembersController@resendActivation');
 Router::any('members/success', 'Controllers\MembersController@success');
 Router::any('members/rpc/auth/(:num)/(:num)/(:any)', 'Controllers\MembersController@rpcAuth');
 

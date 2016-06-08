@@ -103,6 +103,6 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.io-1.4.5.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
-<script src="<?php echo \Helpers\Url::templatePath()?>js/chat.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/socket.js"></script>
 
 <?php endif; ?>

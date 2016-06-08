@@ -44,6 +44,9 @@ return array(
 	'account_activated_success' => 'Your account is now active you may now <a href="{0}">Login</a>',
 	'invalid_link_error' => 'Invalid link provided',
 	'activate_account_title' => 'Activate Account',
+	"resend_activation_success_message" => "A message with activation code was sent to your email",
+	"resend_activation_code" => "Haven't got email? Send it again.",
+	"wrong_activation_email" => "Wrong email for activation. The account with this email doesn't exist or already is activated",
 
 	// Login method
 	'wrong_credentials_error' => 'Wrong email/user name or password or account has not been activated yet',
@@ -52,6 +55,7 @@ return array(
 	'logout' => 'Logout',
 	'login_message' => 'Sign Up',
 	'already_member' => 'Already a member?',
+	"dont_have_account" => "Don't have an account?",
 	'login_title' => 'Authorization',
     'forgot_password' => 'Forgot password?',
     'update_table_error' => 'Error while updating database. Please try again.',

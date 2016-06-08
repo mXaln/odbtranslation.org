@@ -3,6 +3,7 @@ use Core\Language;
 ?>
 
 <h1><?php echo Language::show('login_title', 'Members'); ?></h1>
+<p><?php echo Language::show('dont_have_account', 'Members'); ?> <a href='<?php echo DIR;?>members'><?php echo Language::show('signup', 'Members'); ?></a>
 
 <?php
 echo \Core\Error::display($error);
@@ -23,6 +24,7 @@ echo \Core\Error::display($error);
 
 	<?php if(\Helpers\Session::get('loginTry')>=3):?>
 		<?php //local: 6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr ?>
+		<?php //remote: 6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2 ?>
 		<div class="form-group">
 			<div class="g-recaptcha" data-sitekey="6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2"></div>
 		</div>

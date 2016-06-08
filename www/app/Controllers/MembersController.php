@@ -184,7 +184,8 @@ class MembersController extends Controller
                     $mail->send();
 
                     $msg = $this->language->get('registration_success_message');
-                    Session::set('success', $msg);
+                    Session::set("success", $msg);
+                    Session::set("activation_email", $email);
 
                     Url::redirect('members/success');
                 }
@@ -467,6 +468,8 @@ class MembersController extends Controller
                 $msg = $this->language->get('account_activated_success', array(DIR . 'members/login'));
                 Session::set('success', $msg);
 
+                Session::destroy("activation_email");
+
                 Url::redirect('members/success');
             }
         }
@@ -479,6 +482,36 @@ class MembersController extends Controller
 
         View::renderTemplate('header', $data);
         View::render('members/activate', $data, $error);
+        View::renderTemplate('footer', $data);
+    }
+
+    public function resendActivation($email)
+    {
+        $data["member"] = $this->_model->getMember('memberID,email,activationToken', array('email' => array("=", $email), 'active' => array("!=", 1)));
+        $data["title"] = $this->language->get("resend_activation_title");
+
+        if(!empty($data["member"]))
+        {
+            $link = DIR . "members/activate/".$data["member"][0]->memberID."/".$data["member"][0]->activationToken;
+
+            $mail = new PhpMailer();
+            $mail->isSendmail();
+            $mail->setFrom('noreply@v-mast.com');
+            $mail->addAddress($email);
+            $mail->Subject = $this->language->get('activate_account_title');
+            $mail->msgHTML($this->language->get('activation_link_message', array($link, $link)));
+            $mail->send();
+
+            $msg = $this->language->get('resend_activation_success_message');
+            Session::set('success', $msg);
+        }
+        else
+        {
+            $error[] = $this->language->get("wrong_activation_email");
+        }
+
+        View::renderTemplate('header', $data);
+        View::render('members/email_activation', $data, $error);
         View::renderTemplate('footer', $data);
     }
 

@@ -186,7 +186,7 @@ if(!isset($error)):
 
     <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.io-1.4.5.js"></script>
     <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
-    <script src="<?php echo \Helpers\Url::templatePath()?>js/chat.js"></script>
+    <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.js"></script>
 
     <?php
 endif;
