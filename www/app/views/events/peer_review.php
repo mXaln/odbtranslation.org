@@ -90,7 +90,7 @@ use \Core\Language;
                                 <?php endforeach; ?>
                             <?php else: ?>
                             <div class="row">
-                                <div class="col-sm-12 cotr_not_ready" style="color: #ff0000;"><?php echo Language::show("partner_not_ready", "Events")?></div>
+                                <div class="col-sm-12 cotr_not_ready" style="color: #ff0000;"><?php echo Language::show("partner_not_ready_message", "Events")?></div>
                             </div>
                             <?php endif; ?>
                         </div>

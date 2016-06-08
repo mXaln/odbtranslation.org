@@ -17,7 +17,6 @@ return array(
     "confirm_finished" => "Please confirm that you finished this step",
     "confirm_yes" => "Yes, I did",
     "next_step" => "Next step",
-    "partner_not_ready" => "Your partner is not ready for this step. Content will be reloaded automatically when your partner will be ready.",
     "side_by_side_toggle" => "Side by side review",
     "do_not_show_tutorial" => "Don't show this message again",
     "show_more" => "Show more",
@@ -45,6 +44,9 @@ return array(
     "status_online" => "online",
     "status_offline" => "offline",
     "go_back" => "Go Back",
+    "partner_tab_title" => "Partner",
+    "checking_tab_title" => "Checking",
+    "event_tab_title" => "Event",
 
     // Steps
     "pray" => "Pray",
@@ -76,13 +78,15 @@ return array(
 
     // Errors
 
-    "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator will be ready.<span class='checker_waits'></span>",
+    "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is be ready.<span class='checker_waits'></span>",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
     "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
-    "partner_not_ready_error" => "You cannot proceed to the next step while your partner is not ready for peer review step",
+    "partner_not_ready_error" => "You cannot proceed to the next step while your partner is not ready for this step",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",
     "translator_event_finished_success" => "Translator has finished translation of all his/her chapters.",
-    "check_request_sent_success" => "Checking request has been sent. Page will be reloaded when a checker will accept invitation."
+    "check_request_sent_success" => "Checking request has been sent. Page will be reloaded when a checker accepts invitation.",
+    "cotr_not_ready_to_discuss_message" => "Please wait for your partner until he/she joins this step",
+    "partner_not_ready_message" => "Your partner is not ready for this step. Content will be reloaded automatically when your partner is ready.",
 );

@@ -158,7 +158,10 @@ if(!isset($error)):
         <div class="chat panel panel-info">
             <div class="chat_tabs panel-heading">
                 <div class="row">
-                    <div id="evnt" class="col-sm-4 chat_tab">Event</div>
+                    <div id="evnt" class="col-sm-4 chat_tab">
+                        <div><?php echo Language::show("event_tab_title", "Events") ?></div>
+                        <div class="missed"></div>
+                    </div>
                 </div>
             </div>
             <ul id="evnt_messages" class="chat_msgs info"></ul>

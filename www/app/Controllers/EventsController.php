@@ -165,16 +165,20 @@ class EventsController extends Controller
 
                     case EventSteps::DISCUSS:
 
+                        $data["cotr_ready"] = $data["event"][0]->cotrStep != EventSteps::PRAY &&
+                            $data["event"][0]->cotrStep != EventSteps::CONSUME;
+
                         if (isset($_POST) && !empty($_POST)) {
                             if ($_POST["confirm_step"]) {
-                                setcookie("temp_tutorial", false, time() - 3600);
-                                //if ($data["event"][0]->cotrStep == EventSteps::DISCUSS || $data["event"][0]->cotrStep == EventSteps::PRE_CHUNKING) {
-                                $this->_model->updateTranslator(array("step" => EventSteps::PRE_CHUNKING), array("trID" => $data["event"][0]->trID));
-                                Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                exit;
-                                //} else {
-                                //    $error[] = $this->language->get("cotranslator_not_ready_error");
-                                //}
+                                if($data["cotr_ready"])
+                                {
+                                    setcookie("temp_tutorial", false, time() - 3600);
+                                    $this->_model->updateTranslator(array("step" => EventSteps::PRE_CHUNKING), array("trID" => $data["event"][0]->trID));
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                }
+                                else {
+                                    $error[] = $this->language->get("partner_not_ready_error");
+                                }
                             }
                         }
 
@@ -1837,7 +1841,7 @@ class EventsController extends Controller
                         echo '<div class="chunk_divider col-sm-12"></div>';
                     } else {
                         echo '<div class="row">'.
-                            '<div class="col-sm-12 cotr_not_ready" style="color: #ff0000;">'.Language::show("partner_not_ready", "Events").'</div>'.
+                            '<div class="col-sm-12 cotr_not_ready" style="color: #ff0000;">'.Language::show("partner_not_ready_message", "Events").'</div>'.
                             '</div>';
                     }
                 }

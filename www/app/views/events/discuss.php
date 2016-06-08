@@ -15,6 +15,10 @@ use \Core\Language;
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                         .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
 
+                <?php if(!$data["cotr_ready"]): ?>
+                    <div class="alert alert-success discuss_not_ready"><?php echo Language::show("cotr_not_ready_to_discuss_message", "Events") ?></div>
+                <?php endif; ?>
+
                 <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
                     <p><?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?></p>
                 <?php endfor; ?>

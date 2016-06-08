@@ -52,6 +52,7 @@ return array(
 	'logout' => 'Выйти',
 	'login_message' => 'Регистрация',
 	'already_member' => 'Уже являетесь пользователем?',
+	"dont_have_account" => "Нет учетной записи?",
     'login_title' => 'Авторизация',
     'forgot_password' => 'Забыли пароль?',
     'update_table_error' => 'Ошибка записи в базу данных. Пожалуйста, попробуйте снова.',

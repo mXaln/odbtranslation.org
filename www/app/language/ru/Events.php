@@ -17,7 +17,6 @@ return array(
     "confirm_finished" => "Пожалуйста, убедитесь в том, что вы закончили работу в этом шаге",
     "confirm_yes" => "Все сделано",
     "next_step" => "Следующий шаг",
-    "partner_not_ready" => "Your partner is not ready for this step. Content will be reloaded automatically when your partner will be ready.",
     "side_by_side_toggle" => "Side by side review",
     "do_not_show_tutorial" => "Don't show this message again",
     "show_more" => "Show more",
@@ -45,6 +44,9 @@ return array(
     "status_online" => "в сети",
     "status_offline" => "не в сети",
     "go_back" => "Назад",
+    "partner_tab_title" => "Партнер",
+    "checking_tab_title" => "Проверка",
+    "event_tab_title" => "Событие",
 
     // Steps
     "pray" => "Pray",
@@ -78,10 +80,12 @@ return array(
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class='checker_waits'></span>",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
     "empty_or_not_permitted_event_error" => "У вас недостаточно прав, чтобы просматривать информацию об этом событии.",
-    "partner_not_ready_error" => "Вы не можете перейти к следующему шагу, пока ваш партнер не готов к шагу peer review",
+    "partner_not_ready_error" => "Вы не можете перейти к следующему шагу, пока ваш партнер не готов к этому шагу",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",
     "translator_event_finished_success" => "Переводчик закончил переводить все свои главы.",
     "check_request_sent_success" => "Запрос на проверку отправлен. Страница перезагрузится, когда проверяющий примет приглашение.",
+    "cotr_not_ready_to_discuss_message" => "Пожалуйста подождите вашего партнера, пока он/она не присоединится к этому шагу",
+    "partner_not_ready_message" => "Your partner is not ready for this step. Content will be reloaded automatically when your partner is ready.",
 );

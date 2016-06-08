@@ -89,6 +89,7 @@
     color: #d4d4d4;
     text-align: center;
     border-right: 1px solid #0092D3;
+    position: relative;
 }
 
 .chat_tab.active {
@@ -96,6 +97,20 @@
     background-image: linear-gradient(to bottom, #0092d3 0px, #0080c1 100%) !important;
     font-weight: bold;
     color: #fff !important;
+}
+
+.chat_tab .missed {
+    background-color: #f00;
+    border-radius: 10px;
+    color: #fff !important;
+    height: 22px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 22px;
+    z-index: 12;
+    font-weight: bold !important;
+    display: none;
 }
 
 #m {
@@ -189,6 +204,10 @@
 
 #online li {
     padding: 5px 10px;
+}
+
+#online li.mine {
+    color: #02b202;
 }
 
 .verses_segment {

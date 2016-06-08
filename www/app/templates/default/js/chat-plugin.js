@@ -7,6 +7,7 @@
     var currentP2Ptab, currentP2Pmsgs, currentChatType;
     var titleChanger, initTitle = document.title, isNewTitle = false;
     var missedMsgsNum = 0;
+    var missedMsgsNumCurrent = 0;
     var isInfoPage = false;
     var chatRightPos = 0;
 
@@ -46,6 +47,7 @@
                 currentP2Ptab = $("#chk");
                 currentP2Pmsgs = $("#chk_messages");
                 currentChatType = "chk";
+                $("#p2p").removeClass("active");
             }
             else
             {
@@ -54,6 +56,7 @@
                     currentP2Ptab = $("#p2p");
                     currentP2Pmsgs = $("#p2p_messages");
                     currentChatType = "p2p";
+                    $("#chk").removeClass("active");
                 }
                 else
                 {
@@ -105,6 +108,8 @@
                         {
                             currentP2Pmsgs.animate({scrollTop: currentP2Pmsgs[0].scrollHeight}, 200);
                         }
+
+                        currentP2Ptab.trigger("click");
                     });
                 }
             });
@@ -121,6 +126,18 @@
                         $(this).addClass("active");
                         currentP2Pmsgs.show();
                         $("#chat_type").val(currentChatType);
+
+                        missedMsgsNumCurrent = 0;
+                        $(".missed", currentP2Ptab).text("").hide();
+
+                        if((missedMsgsNumCurrent + missedMsgsNum) > 0)
+                        {
+                            $(".chat_new_msgs").text(missedMsgsNum);
+                        }
+                        else
+                        {
+                            $(".chat_new_msgs").text("").hide();
+                        }
                         break;
 
                     default:
@@ -141,8 +158,24 @@
                         {
                             $("#evnt_messages").animate({scrollTop: $("#evnt_messages")[0].scrollHeight}, 200);
                         }
+
+                        missedMsgsNum = 0;
+                        $(".missed", "#evnt").text("").hide();
+
+                        if((missedMsgsNumCurrent + missedMsgsNum) > 0)
+                        {
+                            $(".chat_new_msgs").text(missedMsgsNumCurrent);
+                        }
+                        else
+                        {
+                            $(".chat_new_msgs").text("").hide();
+                        }
                         break;
                 }
+            });
+
+            $("#m, .chat_msgs").click(function() {
+                $(".chat_tab.active").trigger("click");
             });
 
             $('#m').keydown(function (e) {
@@ -192,8 +225,8 @@
             $this.click(function() {
                 clearInterval(titleChanger);
                 document.title = initTitle;
-                $(".chat_new_msgs").text("").hide();
-                missedMsgsNum = 0;
+                //$(".chat_new_msgs").text("").hide();
+                //missedMsgsNum = 0;
             });
 
             $(".chat_new_msgs").click(function() {
@@ -214,6 +247,8 @@
                     {
                         currentP2Pmsgs.animate({scrollTop: currentP2Pmsgs[0].scrollHeight}, 200);
                     }
+
+                    currentP2Ptab.trigger("click");
                 });
             });
         },
@@ -253,7 +288,8 @@
                     messagesObj = currentP2Pmsgs;
                     lastMsg = $(".message:last", currentP2Pmsgs);
                     setTimeout(function() {
-                        setCookie(currentChatType + "_last_msg", data.date, {expires: 24*60*60});
+                        setCookie(currentChatType + "_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
+                        alert(currentChatType + "_last_msg - " + data.date);
                     }, 1000);
                     hasNewMsgs = hasP2pNewmsgs;
                     break;
@@ -262,7 +298,7 @@
                     messagesObj = $("#evnt_messages");
                     lastMsg = $("#evnt_messages .message:last");
                     setTimeout(function() {
-                        setCookie("evnt_last_msg", data.date, {expires: 24*60*60});
+                        setCookie("evnt_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
                     }, 1000);
                     hasNewMsgs = hasEvntNewMsgs;
                     break;
@@ -348,8 +384,20 @@
                     isNewTitle = !isNewTitle;
                 }, 1000);
 
-                missedMsgsNum++;
-                $(".chat_new_msgs").text(missedMsgsNum).show();
+                switch (data.chatType)
+                {
+                    case currentChatType:
+                        missedMsgsNumCurrent++;
+                        $(".missed", currentP2Ptab).text(missedMsgsNumCurrent).show();
+                        break;
+
+                    default:
+                        missedMsgsNum++;
+                        $(".missed", "#evnt").text(missedMsgsNum).show();
+                        break;
+                }
+
+                $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNum).show();
             }
 
             messagesObj.animate({ scrollTop: messagesObj[0].scrollHeight}, 200);
@@ -365,11 +413,12 @@
 
             for(var rm in roomMates)
             {
-                if(roomMates[rm].memberID != settings.memberID)
-                {
-                    var name = roomMates[rm].userName; // roomMates[rm].firstName + ' ' + roomMates[rm].lastName
-                    $("#online").append('<li>'+ name + (roomMates[rm].isAdmin ? " (facilitator)" : "")+'</li>');
-                }
+                var name = roomMates[rm].userName; // roomMates[rm].firstName + ' ' + roomMates[rm].lastName
+                var memberLi = $('<li>'+ name + (roomMates[rm].isAdmin ? " (facilitator)" : "")+'</li>').appendTo("#online");
+
+                if(roomMates[rm].memberID == settings.memberID)
+                    memberLi.addClass("mine");
+
             }
         },
         updatePrivateMessages: function(data)
@@ -398,7 +447,7 @@
 
             var lastDate = renderMessages(messages, currentP2Pmsgs, cookieLastMsg);
 
-            setCookie(currentChatType + "_last_msg", lastDate, {expires: 24*60*60});
+            setCookie(currentChatType + "_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
             $('[data-toggle="tooltip"]').tooltip();
         },
@@ -425,7 +474,7 @@
 
             var lastDate = renderMessages(messages, $("#evnt_messages"), cookieLastMsg);
 
-            setCookie("evnt_last_msg", lastDate, {expires: 24*60*60});
+            setCookie("evnt_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
             $('[data-toggle="tooltip"]').tooltip();
         },
@@ -471,6 +520,7 @@
 
         var lastDate;
         var hasNewmsgs = false;
+
         cookieLastMsg = typeof cookieLastMsg == "undefined" ? Date.now() : cookieLastMsg;
 
         $.each(messages, function(i, msgObj) {
@@ -492,7 +542,20 @@
             if(lastMsg.attr("data") == msgObj.member.memberID)
             {
                 if(cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
-                    missedMsgsNum++;
+                {
+                    switch (messages[0].chatType)
+                    {
+                        case currentChatType:
+                            missedMsgsNumCurrent++;
+                            $(".missed", currentP2Ptab).text(missedMsgsNumCurrent).show();
+                            break;
+
+                        default:
+                            missedMsgsNum++;
+                            $(".missed", "#evnt").text(missedMsgsNum).show();
+                            break;
+                    }
+                }
 
                 if(hasNewmsgs || cookieLastMsg >= msgObj.date)
                 {
@@ -515,7 +578,20 @@
             }
             else {
                 if(cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
-                    missedMsgsNum++
+                {
+                    switch (messages[0].chatType)
+                    {
+                        case currentChatType:
+                            missedMsgsNumCurrent++;
+                            $(".missed", currentP2Ptab).text(missedMsgsNumCurrent).show();
+                            break;
+
+                        default:
+                            missedMsgsNum++;
+                            $(".missed", "#evnt").text(missedMsgsNum).show();
+                            break;
+                    }
+                }
 
                 var newmsgs = "";
                 if(!hasNewmsgs && cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
@@ -535,8 +611,8 @@
             lastDate = msgObj.date;
         });
 
-        if(missedMsgsNum > 0)
-            $(".chat_new_msgs").text(missedMsgsNum).show();
+        if((missedMsgsNumCurrent + missedMsgsNum) > 0)
+            $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNum).show();
 
         return lastDate;
     }

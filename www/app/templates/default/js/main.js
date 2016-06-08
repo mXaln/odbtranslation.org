@@ -206,7 +206,7 @@ $(document).ready(function() {
             if(typeof tempTutorialCookie == "undefined")
             {
                 $(".tutorial_container").show();
-                setCookie("temp_tutorial", true, {expires: 365*24*60*60})
+                setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"})
             }
         }
     }
@@ -222,7 +222,7 @@ $(document).ready(function() {
                 $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
                     .addClass("glyphicon-chevron-right");
             });
-            setCookie("close_left_panel", true, {expires: 365*24*60*60});
+            setCookie("close_left_panel", true, {expires: 365*24*60*60, path: "/"});
         }
         else
         {
@@ -508,7 +508,7 @@ $(document).ready(function() {
         var step = $(this).attr("data");
         if($(this).is(":checked"))
         {
-            setCookie(step + "_tutorial", true, {expires: 365*24*60*60});
+            setCookie(step + "_tutorial", true, {expires: 365*24*60*60, path: "/"});
         }
         else
         {

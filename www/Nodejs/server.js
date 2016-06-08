@@ -222,6 +222,24 @@ io.on('connection', function(socket)
             {
                 switch (data.step)
                 {
+                    case eSteps.DISCUSS:
+                        var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
+
+                        if(typeof coTranslator !== 'undefined')
+                        {
+                            var cotrEvent = getMemberEvent(coTranslator, event.eventID);
+
+                            if(!_.isEmpty(cotrEvent))
+                            {
+                                // Send message to co-translator
+                                for(var skt in cotrEvent.sockets)
+                                {
+                                    io.to(cotrEvent.sockets[skt]).emit('system message', {type: "discussEnter"});
+                                }
+                            }
+                        }
+                        break;
+
                     case eSteps.PEER_REVIEW:
                         var coTranslator = getMemberByUserId("user" + event.cotrMemberID);
 

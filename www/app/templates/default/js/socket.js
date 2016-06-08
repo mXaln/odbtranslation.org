@@ -1,4 +1,4 @@
-var socket, sctUrl = 'http://v-mast.mvc:8001';
+var socket, sctUrl = 'http://v-mast.com:8001';
 
 $(document).ready(function () {
     socket = io.connect(sctUrl);
@@ -78,6 +78,14 @@ function OnSystemMessage(data)
         case "memberConnected":
             var data = {eventID: eventID, step: step, chkMemberID: chkMemberID, isChecker: isChecker};
             this.emit('step enter', data);
+            break;
+
+        case "discussEnter":
+            if($(".discuss_not_ready").length > 0)
+            {
+                $(".alert.alert-danger, .alert.alert-success").remove();
+                alert("Your partner has joined verbalize step");
+            }
             break;
 
         case "peerEnter":

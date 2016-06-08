@@ -72,9 +72,18 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
             <div class="row">
-                <div id="p2p" class="col-sm-4 chat_tab active">Partner</div>
-                <div id="chk" class="col-sm-4 chat_tab active">Checking</div>
-                <div id="evnt" class="col-sm-4 chat_tab">Event</div>
+                <div id="p2p" class="col-sm-4 chat_tab active">
+                    <div><?php echo Language::show("partner_tab_title", "Events") ?></div>
+                    <div class="missed"></div>
+                </div>
+                <div id="chk" class="col-sm-4 chat_tab active">
+                    <div><?php echo Language::show("checking_tab_title", "Events") ?></div>
+                    <div class="missed"></div>
+                </div>
+                <div id="evnt" class="col-sm-4 chat_tab">
+                    <div><?php echo Language::show("event_tab_title", "Events") ?></div>
+                    <div class="missed"></div>
+                </div>
             </div>
         </div>
         <ul id="p2p_messages" class="chat_msgs"></ul>
