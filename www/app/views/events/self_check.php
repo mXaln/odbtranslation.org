@@ -22,7 +22,7 @@ use \Helpers\Constants\EventSteps;
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <form action="" method="post">
+            <form action="" method="post" id="main_form">
                 <div class="main_content_text row">
                     <div class="row">
                         <h4><?php echo $data["event"][0]->sLang." - "
@@ -47,7 +47,7 @@ use \Helpers\Constants\EventSteps;
                                 <?php
                                 $verses = explode("-", $data["text"][$i]["verse"]);
                                 foreach ($verses as $verse):?>
-                                    <textarea name="verses[]" class="verse_ta textarea"><?php echo $_POST["verses"][$i] ?></textarea>
+                                    <textarea name="verses[]" class="verse_ta textarea"><?php echo isset($_POST["verses"][$i]) ? $_POST["verses"][$i] : (isset($data["verses"][$verse]) ? $data["verses"][$verse] : "") ?></textarea>
                                     <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
 
                                     <div class="comments">

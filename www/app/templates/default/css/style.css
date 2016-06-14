@@ -816,7 +816,7 @@
 
 .blind_ta {
     resize: none;
-    margin: 10px 0;
+    margin: 10px 0 20px 0;
     width: 100%;
 }
 
@@ -1181,7 +1181,7 @@
     color: #ffffff;
     font-size: 28px;
     height: 40px;
-    padding: 7px;
+    padding: 6px;
     position: absolute;
     top: -10px;
     right: -10px;

@@ -21,7 +21,7 @@ use \Core\Language;
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <form action="" method="post">
+            <form action="" method="post" id="main_form">
                 <div class="main_content_text row">
                     <?php if($data["event"][0]->checkerID == 0): ?>
                     <div class="alert alert-success check_request"><?php echo Language::show("check_request_sent_success", "Events") ?></div>

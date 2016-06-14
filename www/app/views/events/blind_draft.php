@@ -10,7 +10,7 @@ use \Helpers\Session;
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <form action="" method="post">
+            <form action="" method="post" id="main_form">
                 <div class="main_content_text">
                     <div class="row">
                         <h4><?php echo $data["event"][0]->sLang." - "
@@ -21,7 +21,7 @@ use \Helpers\Session;
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php echo $_POST["draft"]?></textarea>
+                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php echo isset($_POST["draft"]) ? $_POST["draft"] : (isset($data["blindDraftText"]) ? $data["blindDraftText"] : "")?></textarea>
                         </div>
                     </div>
                 </div>

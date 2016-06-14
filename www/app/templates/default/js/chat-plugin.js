@@ -11,20 +11,6 @@
     var isInfoPage = false;
     var chatRightPos = 0;
 
-    var eventSteps = {
-        PRAY: "pray",
-        CONSUME: "consume",
-        DISCUSS: "discuss",
-        PRE_CHUNKING: "pre-chunking",
-        CHUNKING: "chunking",
-        BLIND_DRAFT: "blind-draft",
-        SELF_CHECK: "self-check",
-        PEER_REVIEW: "peer-review",
-        KEYWORD_CHECK: "keyword-check",
-        CONTENT_REVIEW: "content-review",
-        FINISHED: "finished",
-    };
-
     var settings;
     var methods = {
         init : function( options ) {
@@ -42,7 +28,7 @@
 
             isInfoPage = $this.hasClass("info");
 
-            if(settings.step == "keyword-check" || settings.step == "content-review")
+            if(settings.step == eventSteps.KEYWORD_CHECK || settings.step == eventSteps.CONTENT_REVIEW)
             {
                 currentP2Ptab = $("#chk");
                 currentP2Pmsgs = $("#chk_messages");

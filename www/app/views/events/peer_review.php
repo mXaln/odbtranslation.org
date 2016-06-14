@@ -1,5 +1,6 @@
 <?php
 use \Core\Language;
+use \Helpers\Constants\EventMembers;
 ?>
 
 <div class="editor">
@@ -21,7 +22,7 @@ use \Core\Language;
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <form action="" method="post">
+            <form action="" method="post" id="main_form">
                 <div class="main_content_text row">
                     <ul class="nav nav-tabs">
                         <?php if(!$data["event"][0]->cotrTranslateDone): ?>
@@ -45,7 +46,7 @@ use \Core\Language;
                                 <?php $i=2; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
                                     <?php
                                     $count = 0;
-                                    foreach($chunk["translator"]["verses"] as $verse => $text):
+                                    foreach($chunk[EventMembers::TRANSLATOR]["verses"] as $verse => $text):
                                         $verses = explode("-", $data["cotrData"]["text"][$i-1]);
                                     ?>
                                         <?php if($count == 0): ?>
@@ -109,7 +110,7 @@ use \Core\Language;
                                 <?php
                                 $k=0;
                                 $count = 0;
-                                foreach($chunk["translator"]["verses"] as $verse => $text):
+                                foreach($chunk[EventMembers::TRANSLATOR]["verses"] as $verse => $text):
                                     $verses = explode("-", $data["text"][$i-1]);
                                     ?>
                                     <?php if($count == 0): ?>

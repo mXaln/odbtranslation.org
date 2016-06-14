@@ -5,6 +5,21 @@ var chunks = [];
 var lastCommentEditor;
 var lastCommentAltEditor;
 var hasChangesOnPage = false;
+var autosaveTimer;
+
+var eventSteps = {
+    PRAY: "pray",
+    CONSUME: "consume",
+    DISCUSS: "discuss",
+    PRE_CHUNKING: "pre-chunking",
+    CHUNKING: "chunking",
+    BLIND_DRAFT: "blind-draft",
+    SELF_CHECK: "self-check",
+    PEER_REVIEW: "peer-review",
+    KEYWORD_CHECK: "keyword-check",
+    CONTENT_REVIEW: "content-review",
+    FINISHED: "finished",
+};
 
 $(document).ready(function() {
 
@@ -167,7 +182,11 @@ $(document).ready(function() {
         });
     }
 
-    $(".peer_verse_ta").change(function() {
+    $(".peer_verse_ta, .blind_ta, .verse_ta").change(function() {
+
+    });
+
+    $(".peer_verse_ta, .blind_ta, .verse_ta").keyup(function() {
         hasChangesOnPage = true;
         $(".unsaved_alert").show();
     });
@@ -209,6 +228,42 @@ $(document).ready(function() {
                 setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"})
             }
         }
+
+        if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK ||
+            step == eventSteps.PEER_REVIEW || step == eventSteps.KEYWORD_CHECK ||
+            step == eventSteps.CONTENT_REVIEW)
+        {
+            autosaveTimer = setInterval(function() {
+                if(hasChangesOnPage)
+                {
+                    $.ajax({
+                            url: "/events/rpc/autosave_chunk",
+                            method: "post",
+                            data: {
+                                eventID: eventID,
+                                formData: $("#main_form").serialize()},
+                            dataType: "json",
+                            beforeSend: function() {
+
+                            }
+                        })
+                        .done(function(data) {
+                            hasChangesOnPage = false;
+                            if(data.success)
+                            {
+                                $(".unsaved_alert").hide();
+                            }
+                            else
+                            {
+                                console.log(data.error);
+                            }
+                        })
+                        .always(function() {
+
+                        });
+                }
+            }, 10000);
+        }
     }
 
 
@@ -246,6 +301,9 @@ $(document).ready(function() {
     });
 
     $("#next_step").click(function() {
+        if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK)
+            return;
+
         if(hasChangesOnPage)
         {
             if(confirm("There are some changes made on this page. Do you want to continue without saving?"))
