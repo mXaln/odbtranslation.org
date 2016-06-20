@@ -275,7 +275,6 @@
                     lastMsg = $(".message:last", currentP2Pmsgs);
                     setTimeout(function() {
                         setCookie(currentChatType + "_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
-                        alert(currentChatType + "_last_msg - " + data.date);
                     }, 1000);
                     hasNewMsgs = hasP2pNewmsgs;
                     break;

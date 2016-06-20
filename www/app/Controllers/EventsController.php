@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Helpers\ReCaptcha\Response;
+use Helpers\UsfmParser;
 use Models\EventsModel;
 use Core\Error;
 use Core\Language;
@@ -132,7 +133,11 @@ class EventsController extends Controller
 
                     case EventSteps::CONSUME:
 
-                        $sourceText = $this->getSourceText($data);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -183,7 +188,11 @@ class EventsController extends Controller
                             }
                         }
 
-                        $sourceText = $this->getSourceText($data);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -197,7 +206,11 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::PRE_CHUNKING:
-                        $sourceText = $this->getSourceText($data);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -263,7 +276,11 @@ class EventsController extends Controller
                             }
                         }
 
-                        $sourceText = $this->getSourceText($data, true);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data, true);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -277,7 +294,11 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::BLIND_DRAFT:
-                        $sourceText = $this->getSourceText($data, true);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data, true);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -400,7 +421,11 @@ class EventsController extends Controller
                             }
                         }
 
-                        $sourceText = $this->getSourceText($data, true);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data, true);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -526,8 +551,16 @@ class EventsController extends Controller
                             $translation[] = $arr;
                         }
 
-                        $sourceText = $this->getSourceText($data);
-                        $cotrSourceText = $this->getSourceText($data, false, true);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb") {
+                            $sourceText = $this->getSourceText($data);
+                            $cotrSourceText = $this->getSourceText($data, false, true);
+                        }
+                        else
+                        {
+                            $sourceText = $this->getSourceTextUSFM($data);
+                            $cotrSourceText = $this->getSourceTextUSFM($data, false, true);
+                        }
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -719,7 +752,11 @@ class EventsController extends Controller
                             }
                         }
 
-                        $sourceText = $this->getSourceText($data);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -745,7 +782,11 @@ class EventsController extends Controller
                             $translation[] = $arr;
                         }
 
-                        $sourceText = $this->getSourceText($data);
+                        // TODO This just temorarily untill uW pass to USFM format
+                        if($data["event"][0]->bookProject != "rsb")
+                            $sourceText = $this->getSourceText($data);
+                        else
+                            $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -928,7 +969,7 @@ class EventsController extends Controller
         if(!isset($error))
         {
             $data["event"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"), $eventID, $memberID);
-
+            
             if(!empty($data["event"]))
             {
                 if($data["event"][0]->step != EventSteps::FINISHED && !$data["event"][0]->translateDone)
@@ -988,7 +1029,11 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $sourceText = $this->getSourceText($data);
+                            // TODO This just temorarily untill uW pass to USFM format
+                            if($data["event"][0]->bookProject != "rsb")
+                                $sourceText = $this->getSourceText($data);
+                            else
+                                $sourceText = $this->getSourceTextUSFM($data);
 
                             if (!array_key_exists("error", $sourceText)) {
                                 $data = $sourceText;
@@ -2392,8 +2437,103 @@ class EventsController extends Controller
             $data["text"] = preg_split("/<verse\D+(\d+(?:-\d+)?)\D+>/", $data["text"], -1, PREG_SPLIT_DELIM_CAPTURE);
             $lastVerse = explode("-", $data["text"][sizeof($data["text"])-2]);
             $lastVerse = $lastVerse[sizeof($lastVerse)-1];
-            $totalVerses = !empty($data["text"]) ?  $lastVerse/*(sizeof($data["text"])-1)/2*/ : 0;
-            $data["totalVerses"] = $totalVerses;
+            $data["totalVerses"] = !empty($data["text"]) ?  $lastVerse/*(sizeof($data["text"])-1)/2*/ : 0;
+            $data["currentChapter"] = $currentChapter;
+            $data["currentChunk"] = $currentChunk;
+            $data["chapters"] = $chapters;
+
+            if($getChunk)
+            {
+                $chunks = $chapters[$currentChapter]["chunks"];
+                $chunk = $chunks[$currentChunk];
+                $fv = $chunk[0];
+                $lv = $chunk[sizeof($chunk)-1];
+
+                for($i=2; $i <= sizeof($data["text"]); $i+=2)
+                {
+                    $verse = explode("-", $data["text"][$i-1]);
+                    $map = array_map(function($value) use ($fv, $lv) {
+                        return $value >= $fv && $value <= $lv;
+                    }, $verse);
+                    $map = array_unique($map);
+
+                    if($map[0])
+                    {
+                        $tmp["verse"] = $data["text"][$i-1];
+                        $tmp["content"] = $data["text"][$i];
+                        $currentChunkText[] = $tmp;
+                    }
+                }
+
+                $data["chunks"] = $chunks;
+                $data["chunk"] = $chunk;
+                $data["totalVerses"] = sizeof($chunk);
+
+                $data["text"] = $currentChunkText;
+            }
+
+            return $data;
+        }
+        else
+        {
+            return array("error" => $this->language->get("no_source_error"));
+        }
+    }
+
+
+    private function getSourceTextUSFM($data, $getChunk = false, $isCoTranslator = false)
+    {
+        $currentChapter = !$isCoTranslator ? $data["event"][0]->currentChapter : $data["event"][0]->cotrCurrentChapter;
+        $currentChunk = !$isCoTranslator ? $data["event"][0]->currentChunk : $data["event"][0]->cotrCurrentChunk;
+        $eventTrID = !$isCoTranslator ? $data["event"][0]->trID : $data["event"][0]->cotrID;
+
+        $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
+        $source = CacheManager::get($cache_keyword);
+
+        if(is_null($source))
+        {
+            $source = $this->_model->getSourceBookFromApiUSFM($data["event"][0]->bookProject, $data["event"][0]->abbrID, $data["event"][0]->bookCode);
+
+            $usfm = UsfmParser::parse($source);
+
+            if(!empty($usfm))
+                CacheManager::set($cache_keyword, $source, 60*60*24*7);
+        }
+        else
+        {
+            $usfm = UsfmParser::parse($source);
+        }
+
+        if(!empty($usfm))
+        {
+            $currentChapterText = "";
+            $currentChunkText = "";
+            $totalVerses = 0;
+
+            $chapters = json_decode($data["event"][0]->chapters, true);
+
+            if($currentChapter == 0)
+            {
+                foreach ($chapters as $chapter => $chunks) {
+                    if($chunks["trID"] == $eventTrID)
+                    {
+                        $currentChapter = $chapter;
+                        break;
+                    }
+                }
+            }
+
+            $data["text"][] = ""; // For compatibility with usx parser
+            foreach ($usfm["chapters"][$currentChapter] as $section) {
+                foreach ($section as $v => $text) {
+                    $data["text"][] = $v;
+                    $data["text"][] = $text;
+                }
+            }
+
+            $lastVerse = explode("-", $data["text"][sizeof($data["text"])-2]);
+            $lastVerse = $lastVerse[sizeof($lastVerse)-1];
+            $data["totalVerses"] = !empty($data["text"]) ?  $lastVerse : 0;
             $data["currentChapter"] = $currentChapter;
             $data["currentChunk"] = $currentChunk;
             $data["chapters"] = $chapters;

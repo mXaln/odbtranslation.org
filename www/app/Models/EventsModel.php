@@ -13,6 +13,7 @@ use Helpers\Constants\BookSources;
 use Helpers\Constants\EventMembers;
 use Helpers\Data;
 use Helpers\Session;
+use Helpers\Url;
 use PDO;
 
 class EventsModel extends Model
@@ -120,9 +121,9 @@ class EventsModel extends Model
 
         $sql = "SELECT ".PREFIX."events.*" . $addFields . " FROM ".PREFIX."events ".
             ($countMembers ?
-            "LEFT JOIN vm_translators ON vm_translators.eventID=vm_events.eventID ".
-            "LEFT JOIN vm_checkers_l2 ON vm_checkers_l2.eventID=vm_events.eventID ".
-            "LEFT JOIN vm_checkers_l3 ON vm_checkers_l3.eventID=vm_events.eventID "
+            "LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID=".PREFIX."events.eventID ".
+            "LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID=".PREFIX."events.eventID ".
+            "LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID=".PREFIX."events.eventID "
             : "").
             "WHERE projectID=:projectID AND bookCode=:bookCode";
         $prepare = array(":projectID" => $projectID, ":bookCode" => $bookCode);
@@ -258,7 +259,7 @@ class EventsModel extends Model
             $prepare[":trMemberID"] = $trMemberID;
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
-                "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".
+                "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
                 PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -437,16 +438,6 @@ class EventsModel extends Model
             GROUP BY ".PREFIX."books.gwLang, ".PREFIX."books.bookProject ORDER BY ".PREFIX."languages.langName");*/
     }
 
-    public function getBooks($gwLang, $bookProject)
-    {
-        $sql = "SELECT * FROM ".PREFIX."books LEFT JOIN ".PREFIX."abbr ON ".PREFIX."books.abbrID=".PREFIX."abbr.id ".
-            "WHERE ".PREFIX."books.gwLang=:gwLang AND ".PREFIX."books.bookProject=:bookProject ORDER BY ".PREFIX."books.abbrID";
-
-        $prepare = array(":gwLang" => $gwLang, ":bookProject" => $bookProject);
-
-        return $this->db->select($sql, $prepare);
-    }
-
     /**
      * Get members that can write notes on translation
      * @param int $tID
@@ -502,6 +493,17 @@ class EventsModel extends Model
         return $source;
     }
 
+    public function getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, Url::templatePath() . "usfm/".$bookProject."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $source = curl_exec($ch);
+        curl_close($ch);
+        return $source;
+    }
+
     /** Get translation of translator in event
      * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
      * @param int $trID
@@ -526,6 +528,14 @@ class EventsModel extends Model
         }
 
         return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE".$where." ORDER BY chunk", $prepare);
+    }
+
+    public function getBookInfo($bookCode)
+    {
+        $sql = "SELECT * FROM ".PREFIX."abbr ".
+            "WHERE code=:bookCode";
+
+        return $this->db->select($sql, array(":bookCode" => $bookCode));
     }
 
     /**

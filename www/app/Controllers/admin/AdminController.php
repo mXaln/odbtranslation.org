@@ -462,30 +462,15 @@ class AdminController extends Controller {
                         "dateTo" => $dateTo,
                     );
 
-                    $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->bookProject;
-                    $source = CacheManager::get($cache_keyword);
+                    $bookInfo = $this->_model->getBookInfo($bookCode);
 
-                    if(is_null($source))
-                    {
-                        $source = $this->_model->getSourceBookFromApi($bookCode, $project[0]->sourceLangID, $project[0]->bookProject);
-                        $json = json_decode($source);
-
-                        if(!empty($json))
-                            CacheManager::set($cache_keyword, $source, 60*60*24*7);
-                    }
-                    else
-                    {
-                        $json = json_decode($source);
-                    }
-
-                    if(!empty($json))
+                    if(!empty($bookInfo))
                     {
                         $chapters = array();
 
-                        foreach ($json->chapters as $chapter) {
-                            foreach ($chapter->frames as $frame) {
-                                $chapters[(integer)$chapter->number] = array();
-                            }
+                        for($i=1; $i<=$bookInfo[0]->chaptersNum; $i++)
+                        {
+                            $chapters[$i] = array();
                         }
 
                         if(sizeof($chapters) >= $translators)
@@ -505,7 +490,7 @@ class AdminController extends Controller {
                     }
                     else
                     {
-                        $error[] = $this->language->get("no_source_error");
+                        $error[] = $this->language->get("wrong_book_error");
                         echo json_encode(array("error" => Error::display($error)));
                     }
                 }

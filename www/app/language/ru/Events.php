@@ -9,6 +9,7 @@ return array(
     'book_project' => 'Source Translation',
     'udb' => 'Unlocked Dynamic Bible',
     'ulb' => 'Unlocked Literal Bible',
+    "rsb" => "Русская Синодальная Бибилия",
     'error_ocured' => "Возникла ошибка. {0}",
     'old_test' => "Ветхий Завет",
     'new_test' => "Новый Завет",

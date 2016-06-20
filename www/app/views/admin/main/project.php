@@ -57,7 +57,7 @@ if(!empty($data["project"])):
                                 switch($event->state)
                                 {
                                     case null:
-                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" class="btn btn-primary startEvnt">Start</button>';
+                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" data3="'.$event->chaptersNum.'" class="btn btn-primary startEvnt">Start</button>';
                                         break;
 
                                     case EventStates::STARTED:
@@ -137,7 +137,7 @@ if(!empty($data["project"])):
 
                 <div class="col-sm-6">
                     <div class="book_info">
-                        <img class="bookInfoLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
+                        <!--<img class="bookInfoLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">-->
                         <div class="book_info_content"></div>
                     </div>
                 </div>

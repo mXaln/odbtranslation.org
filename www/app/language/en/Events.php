@@ -9,6 +9,7 @@ return array(
     'book_project' => 'Source Translation',
     'udb' => 'Unlocked Dynamic Bible',
     'ulb' => 'Unlocked Literal Bible',
+    "rsb" => "Russian Synodal Bible",
     'error_ocured' => "An error occured. {0}",
     'old_test' => "Old Testament",
     'new_test' => "New Testament",

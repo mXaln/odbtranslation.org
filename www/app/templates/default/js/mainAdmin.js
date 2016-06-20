@@ -248,6 +248,7 @@ $(function () {
     $(".startEvnt").click(function() {
         var bookCode = $(this).attr("data");
         var bookName = $(this).attr("data2");
+        var chapterNum = $(this).attr("data3");
         var sourceLangID = $("#sourceLangID").val();
         var bookProject = $("#bookProject").val();
 
@@ -257,8 +258,12 @@ $(function () {
         $("#bookCode").val(bookCode);
         $(".event-content").css("left", 0);
 
+        $(".book_info_content").html(
+            '<div><strong>Chapters:</strong> '+chapterNum+'</div>'
+        );
+
         // Get source text
-        $.ajax({
+        /*$.ajax({
                 url: "/admin/rpc/get_source",
                 method: "post",
                 data: {
@@ -290,6 +295,7 @@ $(function () {
             .always(function() {
                 $(".bookInfoLoader").hide();
             });
+        */
     });
 
     $( "#cal_from" ).datepicker({
