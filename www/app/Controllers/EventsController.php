@@ -951,6 +951,8 @@ class EventsController extends Controller
 
     public function checker($eventID, $memberID)
     {
+        $response = array("success" => false, "errors" => "");
+
         if (!Session::get('loggedin'))
         {
             Url::redirect('members/login');
@@ -1005,11 +1007,10 @@ class EventsController extends Controller
 
                                 $this->_model->updateTranslator($postdata, array("trID" => $data["event"][0]->trID));
 
-                                Url::redirect('members');
-                                /*if($data["event"][0]->step == EventSteps::KEYWORD_CHECK)
-                                    Url::redirect('events/checker/' . $data["event"][0]->eventID . "/" . $data["event"][0]->memberID);
-                                else
-                                    Url::redirect('members');*/
+                                $response["success"] = true;
+                                echo json_encode($response);
+
+                                //Url::redirect('members');
                                 exit;
                             }
                         }
@@ -1017,15 +1018,6 @@ class EventsController extends Controller
                         if($data["event"][0]->checkDone)
                         {
                             $data["success"] = $this->language->get("checker_translator_finished_error");
-                            /*if($data["event"][0]->step == EventSteps::KEYWORD_CHECK)
-                            {
-                                $data["event"][0]->step = EventSteps::CONTENT_REVIEW;
-                                $data["success"] = $this->language->get("checker_translator_not_ready_error");
-                            }
-                            else
-                            {
-                                $data["success"] = $this->language->get("checker_translator_finished_error");
-                            }*/
                         }
                         else
                         {

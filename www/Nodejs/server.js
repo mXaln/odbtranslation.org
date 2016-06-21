@@ -209,6 +209,40 @@ io.on('connection', function(socket)
         }
     });
 
+    socket.on('system message', function(data)
+    {
+        var member = getMemberBySocketId(this.id);
+
+        if(member)
+        {
+            var event = getMemberEvent(member, data.eventID);
+
+            if(!_.isEmpty(event))
+            {
+                switch (data.type)
+                {
+                    case "checkDone":
+                        var checkMember = getMemberByUserId("user" + data.chkMemberID);
+
+                        if(typeof checkMember !== 'undefined')
+                        {
+                            var checkEvent = getMemberEvent(checkMember, event.eventID);
+
+                            if(!_.isEmpty(checkEvent))
+                            {
+                                // Send message to check member
+                                for(var skt in checkEvent.sockets)
+                                {
+                                    io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkDone"});
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+    });
+
     socket.on('step enter', function(data)
     {
         var member = getMemberBySocketId(this.id);

@@ -321,6 +321,38 @@ $(document).ready(function() {
         }
     });
 
+    $("#checker_submit").submit(function() {
+        $.ajax({
+            method: "post",
+            data: $("#checker_submit").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    var data = {
+                        type: "checkDone",
+                        eventID: eventID,
+                        chkMemberID: chkMemberID,
+                    };
+                    socket.emit("system message", data);
+                    window.location = "/members";
+                }
+                else
+                {
+                    console.log(data.errors);
+                }
+            })
+            .always(function() {
+
+            });
+
+        return false;
+    });
+
     $(".verse").each(function(index) {
         var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
         var height = parseInt($(this).css("height"))/verseTa.length;

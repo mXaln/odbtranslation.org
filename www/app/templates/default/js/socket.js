@@ -129,6 +129,10 @@ function OnSystemMessage(data)
         case "evntMsgs":
             $("#chat_container").chat("updateEventMessages", data);
             break;
+
+        case "checkDone":
+            alert("Checker has approved your translation!");
+            break;
     }
 }
 

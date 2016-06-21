@@ -145,7 +145,7 @@ if(empty($error) && empty($data["success"])):
 
             <?php //if(empty($error)):?>
             <div class="main_content_footer row">
-                <form action="" method="post">
+                <form action="" method="post" id="checker_submit">
                     <div class="form-group">
                         <div class="main_content_confirm_desc"><?php echo Language::show("confirm_finished", "Events")?></div>
                         <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo Language::show("confirm_yes", "Events")?></label>
