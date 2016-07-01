@@ -50,6 +50,9 @@ class MembersController extends Controller
 
             $eventModel = new EventsModel();
 
+            if(Session::get("isAdmin"))
+                $data["myFacilitatorEvents"] = $eventModel->getMemberEventsForAdmin(Session::get("memberID"));
+
             $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
             $data["myCheckerL1Events"] = $eventModel->getMemberEventsForChecker(Session::get("memberID"));
             $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);

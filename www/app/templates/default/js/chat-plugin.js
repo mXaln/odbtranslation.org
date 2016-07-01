@@ -274,7 +274,7 @@
                     messagesObj = currentP2Pmsgs;
                     lastMsg = $(".message:last", currentP2Pmsgs);
                     setTimeout(function() {
-                        setCookie(currentChatType + "_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
+                        setCookie(currentChatType + "_"+settings.eventID+"_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
                     }, 1000);
                     hasNewMsgs = hasP2pNewmsgs;
                     break;
@@ -283,7 +283,7 @@
                     messagesObj = $("#evnt_messages");
                     lastMsg = $("#evnt_messages .message:last");
                     setTimeout(function() {
-                        setCookie("evnt_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
+                        setCookie("evnt_"+settings.eventID+"_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
                     }, 1000);
                     hasNewMsgs = hasEvntNewMsgs;
                     break;
@@ -413,7 +413,7 @@
 
             var messages = [];
             var date, msgObj;
-            var cookieLastMsg = getCookie(currentChatType + "_last_msg");
+            var cookieLastMsg = getCookie(currentChatType + "_"+settings.eventID+"_last_msg");
 
             for(var i in data.msgs)
             {
@@ -432,7 +432,7 @@
 
             var lastDate = renderMessages(messages, currentP2Pmsgs, cookieLastMsg);
 
-            setCookie(currentChatType + "_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
+            setCookie(currentChatType + "_"+settings.eventID+"_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
             $('[data-toggle="tooltip"]').tooltip();
         },
@@ -440,7 +440,7 @@
         {
             var messages = [];
             var date, msgObj;
-            var cookieLastMsg = getCookie("evnt_last_msg");
+            var cookieLastMsg = getCookie("evnt_"+settings.eventID+"_last_msg");
 
             for(var i in data.msgs)
             {
@@ -459,7 +459,7 @@
 
             var lastDate = renderMessages(messages, $("#evnt_messages"), cookieLastMsg);
 
-            setCookie("evnt_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
+            setCookie("evnt_"+settings.eventID+"_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
             $('[data-toggle="tooltip"]').tooltip();
         },

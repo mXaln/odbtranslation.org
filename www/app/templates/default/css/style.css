@@ -917,6 +917,25 @@
     display: none;
 }
 
+.keywords_show {
+    position: absolute;
+    top: -15px; right: 0;
+    background-color: #489f28;
+    text-align: center;
+    padding-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    z-index: 9999;
+    color: #fff;
+    font-weight: bold;
+}
+
+mark {
+    background-color: #FFFF88;
+}
+
 #save_step {
     float: right;
 }
@@ -1112,6 +1131,62 @@
 .no_padding {
     padding: 0;
 }
+
+.keywords_list_container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+    display: none;
+}
+
+.keywords_list {
+    width: 800px;
+    position: absolute;
+    top: calc(50% - 350px);
+    left: calc(50% - 400px);
+    background-color: #ffffff;
+    z-index: 9999;
+    cursor: auto;
+    padding: 10px 0;
+}
+
+.labels_list {
+    max-height: 700px;
+    overflow-y: auto;
+    padding: 20px;
+    font-size: 22px;
+}
+
+.labels_list label {
+    display: block;
+}
+
+.labels_list ul li {
+    font-weight: normal;
+}
+
+.keywords-list-close {
+    background-color: #0f86fe;
+    color: #ffffff;
+    font-size: 28px;
+    height: 40px;
+    padding: 6px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    text-align: center;
+    width: 40px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
 
 .tutorial_container {
     width: 100%;

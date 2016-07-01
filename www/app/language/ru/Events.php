@@ -48,6 +48,8 @@ return array(
     "partner_tab_title" => "Партнер",
     "checking_tab_title" => "Проверка",
     "event_tab_title" => "Событие",
+    "verses" => "Стихи",
+    "show_keywords" => "Ключевые слова",
 
     // Steps
     "pray" => "Pray",

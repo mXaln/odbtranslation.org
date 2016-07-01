@@ -35,6 +35,27 @@ if(empty($error) && empty($data["success"])):
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text row">
+                <div class="keywords_show" style="<?php echo $current == EventSteps::CONTENT_REVIEW ? "display:none;" : "" ?>"><?php echo Language::show("show_keywords", "Events"); ?></div>
+
+                <div class="keywords_list_container">
+                    <div class="keywords_list">
+                        <div class="keywords-list-close glyphicon glyphicon-remove"></div>
+                        <div class="labels_list">
+                            <?php /*if(isset($data["keywords"])): ?>
+                                <?php foreach ($data["keywords"] as $keyword): ?>
+                                    <label><?php echo Language::show("verses", "Events")." ".$keyword["id"]?>
+                                        <ul>
+                                        <?php foreach ($keyword["terms"] as $term):?>
+                                            <li><?php echo $term; ?></li>
+                                        <?php endforeach; ?>
+                                        </ul>
+                                    </label>
+                                <?php endforeach; ?>
+                            <?php endif; */?>
+                        </div>
+                    </div>
+                </div>
+
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
@@ -109,7 +130,7 @@ if(empty($error) && empty($data["success"])):
                             ?>
                             <?php if($count == 0): ?>
                             <div class="source_content verse_with_note">
-                                <div style="padding-right: 15px"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
+                                <div style="padding-right: 15px" class="verse_line"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
 
                                 <div class="comments_number">
                                     <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
@@ -205,5 +226,20 @@ if(empty($error) && empty($data["success"])):
 
 <script>
     var isChecker = true;
+    var keywords = [];
+
+    <?php if(isset($data["keywords"])): ?>
+        <?php foreach ($data["keywords"] as $keyword): ?>
+            <?php foreach ($keyword["terms"] as $term):?>
+                <?php $kws = explode(", ", $term) ?>
+                <?php foreach ($kws as $item):?>
+                    if($.inArray('<?php echo $item; ?>', keywords) <= -1)
+                        keywords.push('<?php echo $item; ?>');
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </script>
 <?php endif; ?>
+
+<script src="<?php echo \Helpers\Url::templatePath()?>js/jquery.mark.min.js" type="text/javascript"></script>

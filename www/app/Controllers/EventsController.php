@@ -1040,6 +1040,7 @@ class EventsController extends Controller
                                 }
 
                                 $data["translation"] = $translation;
+                                $data["keywords"] = $this->getKeyWords($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->currentChapter, $data["totalVerses"]);
 
                             } else {
                                 $error[] = $sourceText["error"];
@@ -1131,6 +1132,7 @@ class EventsController extends Controller
         {
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null)
             {
+                // If member is not a participant of the event, check if he is a facilitator
                 if(Session::get("isAdmin"))
                 {
                     $admin = $memberModel->getAdminMember(Session::get("memberID"));
@@ -1153,6 +1155,21 @@ class EventsController extends Controller
                     $error[] = $this->language->get("empty_or_not_permitted_event_error");
                 }
             }
+            else
+            {
+                if(Session::get("isAdmin"))
+                {
+                    $admin = $memberModel->getAdminMember(Session::get("memberID"));
+
+                    foreach ($admin as $item) {
+                        if($item->gwLang == $data["event"][0]->gwLang)
+                        {
+                            $data["isAdmin"] = true;
+                            break;
+                        }
+                    }
+                }
+            }
         }
         else
         {
@@ -1161,35 +1178,12 @@ class EventsController extends Controller
 
         if(!isset($error))
         {
-            if(Session::get("isAdmin") && !$data["isAdmin"])
-            {
-                $admin = $memberModel->getAdminMember(Session::get("memberID"));
-
-                foreach ($admin as $item) {
-                    if($item->gwLang == $data["event"][0]->gwLang)
-                    {
-                        $data["isAdmin"] = true;
-                        break;
-                    }
-                }
-            }
-
             $data["chapters"] = json_decode($data["event"][0]->chapters, true);
 			
             $translationModel = new TranslationsModel();
             $chunks = $translationModel->getTranslationByEventID($data["event"][0]->eventID);
             $members = array();
 
-            /*foreach ($data["chapters"] as $key => $chapter) {
-                $members[$chapter["memberID"]] = "";
-                $data["chapters"][$key]["peer"]["state"] = "not_started";
-                $data["chapters"][$key]["peer"]["checkerID"] = "na";
-                $data["chapters"][$key]["kwc"]["state"] = "not_started";
-                $data["chapters"][$key]["kwc"]["checkerID"] = "na";
-                $data["chapters"][$key]["crc"]["state"] = "not_started";
-                $data["chapters"][$key]["crc"]["checkerID"] = "na";
-            }*/
-			
             $pairMembers = array();
             $i = 0;
             foreach ($chunks as $index => $chunk) {
@@ -2074,7 +2068,14 @@ class EventsController extends Controller
             if(!empty($data["event"]))
             {
                 $data["comments_cotr"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->cotrCurrentChapter);
-				$cotrSourceText = $this->getSourceText($data, false, true);
+
+                // TODO Remove this when site will fully migrate to USFM format
+                if($data["event"][0]->bookProject != "rsb")
+                    $cotrSourceText = $this->getSourceText($data, false, true);
+                else
+                    $cotrSourceText = $this->getSourceTextUSFM($data, false, true);
+
+                //$cotrSourceText = $this->getSourceText($data, false, true);
 
                 if (!array_key_exists("error", $cotrSourceText)) {
                     $data["cotrData"] = $cotrSourceText;
@@ -2484,7 +2485,7 @@ class EventsController extends Controller
 
         if(is_null($source))
         {
-            $source = $this->_model->getSourceBookFromApiUSFM($data["event"][0]->bookProject, $data["event"][0]->abbrID, $data["event"][0]->bookCode);
+            $source = $this->_model->getSourceBookFromApiUSFM($data["event"][0]->bookProject, $data["event"][0]->abbrID, $data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
 
             $usfm = UsfmParser::parse($source);
 
@@ -2605,5 +2606,67 @@ class EventsController extends Controller
         unset($comments);
 
         return $commentsFinal;
+    }
+
+    private function getKeyWords($book, $lang = "en", $chapter, $versesCount)
+    {
+        $result = array();
+
+        // Get catalog
+        $cat_cache_keyword = "catalog_".$book."_".$lang;
+        $cat_source = CacheManager::get($cat_cache_keyword);
+
+        if(is_null($cat_source))
+        {
+            $cat_source = $this->_model->getTWcatalog($book, $lang);
+            $cat_json = json_decode($cat_source, true);
+
+            if(!empty($cat_json))
+                CacheManager::set($cat_cache_keyword, $cat_source, 60*60*24*7);
+        }
+        else
+        {
+            $cat_json = json_decode($cat_source, true);
+        }
+
+        // Get keywords
+        $tw_cache_keyword = "tw_".$lang;
+        $tw_source = CacheManager::get($tw_cache_keyword);
+
+        if(is_null($tw_source))
+        {
+            $tw_source = $this->_model->getTWords($lang);
+            $tw_json = json_decode($tw_source, true);
+
+            if(!empty($tw_json))
+                CacheManager::set($tw_cache_keyword, $tw_source, 60*60*24*7);
+        }
+        else
+        {
+            $tw_json = json_decode($tw_source, true);
+        }
+
+        if(!empty($cat_json) && !empty($tw_json))
+        {
+            $i=0;
+            foreach ($cat_json["chapters"][$chapter - 1]["frames"] as $key => $frame) {
+                $result[$key]["id"] = (integer)$frame["id"];
+
+                if(isset($result[$key-1]))
+                    $result[$key-1]["id"] .= "-".((integer)$frame["id"] - 1);
+
+                foreach ($frame["items"] as $item) {
+                    $term_index = array_search($item["id"], array_column($tw_json, "id"));
+                    if($term_index)
+                    {
+                        $result[$key]["terms"][] = $tw_json[$term_index]["term"];
+                    }
+                }
+            }
+
+            $result[sizeof($result)-1]["id"] .= "-".$versesCount;
+        }
+
+        return $result;
     }
 }

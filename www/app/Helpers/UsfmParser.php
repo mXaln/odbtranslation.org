@@ -86,6 +86,7 @@ class UsfmParser
                 }
             }
 
+            // Push verse to section
             if(preg_match("/\\\\v\s([0-9]+)\s(.*)/", $line, $matches))
             {
                 // Push section to chapter
@@ -95,7 +96,10 @@ class UsfmParser
                     $sectionStarted = false;
                 }
 
-                $result["chapters"][$lastChapter][sizeof($result["chapters"][$lastChapter])-1][$matches[1]] = $matches[2];
+                // Italic style
+                $verse = preg_replace("/\\\\it (.*)\\\\it\\*/", "<em>$1</em>", $matches[2]);
+
+                $result["chapters"][$lastChapter][sizeof($result["chapters"][$lastChapter])-1][$matches[1]] = $verse;
             }
         }
 

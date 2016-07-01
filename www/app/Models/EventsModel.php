@@ -276,6 +276,20 @@ class EventsModel extends Model
     }
 
 
+    public function getMemberEventsForAdmin($memberID)
+    {
+        $sql = "SELECT evnt.eventID, proj.bookProject, tLang.langName, abbr.name ".
+            "FROM ".PREFIX."events AS evnt ".
+                "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
+                "LEFT JOIN ".PREFIX."gateway_projects AS gwProj ON gwProj.gwProjectID = proj.gwProjectID ".
+                "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
+                "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
+            "WHERE gwProj.admins LIKE :memberID";
+
+        return $this->db->select($sql, array(":memberID" => '%\"'.$memberID.'"%'));
+    }
+
+
     /**
      * Get notifications for assigned events
      * @return array
@@ -493,16 +507,63 @@ class EventsModel extends Model
         return $source;
     }
 
-    public function getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode)
+    public function getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode, $sourceLang = "en")
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, Url::templatePath() . "usfm/".$bookProject."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+
+        switch ($sourceLang)
+        {
+            case "ru":
+                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/rsb-ru/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                break;
+
+            case "ar":
+                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/avd-ar/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                break;
+
+            case "sr-Latn":
+                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/dkl-sr-Latn/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                break;
+
+            case "hu":
+                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/kar-hu/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                break;
+
+            default:
+                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/".$bookProject."/txt/1/".$bookProject."-en/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                break;
+        }
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $source = curl_exec($ch);
         curl_close($ch);
         return $source;
     }
+
+
+    public function getTWcatalog($book, $lang = "en")
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/".$book."/".$lang."/tw_cat.json");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $cat = curl_exec($ch);
+        curl_close($ch);
+        return $cat;
+    }
+
+    public function getTWords($lang = "en")
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/bible/".$lang."/terms.json");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $cat = curl_exec($ch);
+        curl_close($ch);
+        return $cat;
+    }
+
 
     /** Get translation of translator in event
      * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)

@@ -15,7 +15,7 @@ class BookSources
         "en" => array("ulb", "udb"),
         "ru" => array("rsb"),
         //"ar" => array("avd"),
-        //"hu" => array("ulb"),
-        //"sr" => array("ulb"),
+        //"hu" => array("kar"),
+        //"sr-Latn" => array("dkl"),
     );
 }

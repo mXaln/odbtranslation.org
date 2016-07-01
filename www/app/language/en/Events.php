@@ -48,6 +48,9 @@ return array(
     "partner_tab_title" => "Partner",
     "checking_tab_title" => "Checking",
     "event_tab_title" => "Event",
+    "verses" => "Verses",
+    "verses" => "Verses",
+    "show_keywords" => "Keywords",
 
     // Steps
     "pray" => "Pray",

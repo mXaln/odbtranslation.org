@@ -225,6 +225,7 @@ $(document).ready(function() {
             if(typeof tempTutorialCookie == "undefined")
             {
                 $(".tutorial_container").show();
+                $("body").css("overflow", "hidden");
                 setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"})
             }
         }
@@ -575,13 +576,46 @@ $(document).ready(function() {
 		}
     });
 
+    // Show/Hide Keywords List
+    $(".keywords-list-close").click(function() {
+        //$(".keywords_list_container").hide();
+        //$("body").css("overflow", "auto");
+    });
+
+    $(".keywords_show").click(function() {
+        if(keywords.length <= 0) {
+            alert("There are no keywords for this language");
+            return;
+        }
+
+        if(!$(this).hasClass("shown"))
+        {
+            $(".verse_line").mark(keywords, { separateWordSearch: false, "accuracy": {
+                "value": "exactly",
+                "limiters": [",", "."]
+            }});
+            $(this).addClass("shown");
+        }
+        else
+        {
+            $(".verse_line").unmark();
+            $(this).removeClass("shown");
+        }
+
+
+        //$(".keywords_list_container").show();
+        //$("body").css("overflow", "hidden");
+    });
+
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
         $(".tutorial_container").hide();
+        $("body").css("overflow", "auto");
     });
 
     $(".show_tutorial_popup").click(function() {
         $(".tutorial_container").show();
+        $("body").css("overflow", "hidden");
 
         var role = $("#hide_tutorial").attr("data2");
 
