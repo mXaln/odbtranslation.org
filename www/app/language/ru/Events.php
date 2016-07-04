@@ -50,6 +50,7 @@ return array(
     "event_tab_title" => "Событие",
     "verses" => "Стихи",
     "show_keywords" => "Ключевые слова",
+    "check" => "Проверка",
 
     // Steps
     "pray" => "Pray",

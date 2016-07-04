@@ -1347,6 +1347,69 @@ class EventsController extends Controller
         View::renderTemplate('footer', $data);
     }
 
+
+    public function demo($page)
+    {
+        View::renderTemplate('header', $data);
+
+        switch ($page)
+        {
+            case "pray":
+                View::render('events/demo/2_pray');
+                break;
+
+            case "consume":
+                View::render('events/demo/3_consume');
+                break;
+
+            case "verbalize":
+                View::render('events/demo/4_verbalize');
+                break;
+
+            case "prep_chunks":
+                View::render('events/demo/5_prep_chunks');
+                break;
+
+            case "read_chunk":
+                View::render('events/demo/6_read_chunk');
+                break;
+
+            case "blind_draft":
+                View::render('events/demo/7_blind_draft');
+                break;
+
+            case "self_check":
+                View::render('events/demo/7_self_check');
+                break;
+
+            case "draft_self_check":
+                View::render('events/demo/7_draft_self_check');
+                break;
+
+            case "peer_review":
+                View::render('events/demo/8_peer_review');
+                break;
+
+            case "keyword_check":
+                View::render('events/demo/9_keyword_check');
+                break;
+
+            case "keyword_check_checker":
+                View::render('events/demo/9_keyword_check_checker');
+                break;
+
+            case "content_review":
+                View::render('events/demo/10_content_review');
+                break;
+
+            case "content_review_checker":
+                View::render('events/demo/10_content_review_checker');
+                break;
+        }
+
+        View::renderTemplate('footer', $data);
+    }
+
     public function applyEvent()
     {
         if (!Session::get('loggedin'))

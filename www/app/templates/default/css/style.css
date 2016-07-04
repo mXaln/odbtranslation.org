@@ -821,11 +821,11 @@
 }
 
 .readonly {
-    background-image: -webkit-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
-    background-image: -moz-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
-    background-image: -ms-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
-    background-image: -o-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
-    background-image: linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px);
+    background-image: -webkit-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px) !important;
+    background-image: -moz-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px) !important;
+    background-image: -ms-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px) !important;
+    background-image: -o-linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px) !important;
+    background-image: linear-gradient(#ebebe4, #ebebe4 30px, #ccc 30px, #ccc 31px, #ebebe4 31px) !important;
 }
 
 .verse_ta {
@@ -1555,4 +1555,17 @@ mark {
 
 .comments {
     display: none;
+}
+.demo_title {
+    float: right;
+    font-size: 30px;
+    color: #ff0000;
+}
+
+.demo_link {
+    float: right;
+}
+
+a.demo_link, a.demo_link:hover {
+    color: #ff0000;
 }

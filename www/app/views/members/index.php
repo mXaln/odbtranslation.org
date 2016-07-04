@@ -5,7 +5,10 @@ use \Core\Language;
 <?php if(\Helpers\Session::get("isAdmin")): ?>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title">Events for facilitation</h1>
+            <h1 class="panel-title">
+                Events for facilitation
+                <a href="<?php echo DIR ?>events/demo/pray" class="demo_link">See demo</a>
+            </h1>
         </div>
 
         <div class="form-inline dt-bootstrap no-footer">

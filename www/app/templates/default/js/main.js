@@ -850,8 +850,9 @@ function setCookie(name, value, options) {
  * Delete cookie by name (make it expired)
  * @param string name
  */
-function deleteCookie(name) {
+function deleteCookie(name, options) {
     setCookie(name, "", {
-        expires: -1
+        expires: -1,
+        path: "/"
     })
 }

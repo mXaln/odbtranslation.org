@@ -51,6 +51,7 @@ return array(
     "verses" => "Verses",
     "verses" => "Verses",
     "show_keywords" => "Keywords",
+    "check" => "Check",
 
     // Steps
     "pray" => "Pray",

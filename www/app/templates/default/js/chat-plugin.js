@@ -18,9 +18,9 @@
 
             settings = $.extend({}, {
                 step: "",
-                memberID: memberID,
+                memberID: 0,
                 eventID: 0,
-                chkMemberID: chkMemberID,
+                chkMemberID: 0,
                 disableChat: false,
                 isAdmin: false,
                 onSendMessage : function() {},

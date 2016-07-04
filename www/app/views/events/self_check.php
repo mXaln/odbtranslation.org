@@ -33,7 +33,7 @@ use \Helpers\Constants\EventSteps;
                         <!-- Show blind draft text if it is a translation to other language -->
                         <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
                         <div class="col-sm-12">
-                            <textarea readonly class="readonly blind_ta"><?php echo $data["blindDraftText"]; ?></textarea>
+                            <textarea readonly class="readonly blind_ta textarea"><?php echo $data["blindDraftText"]; ?></textarea>
                         </div>
                         <?php endif; ?>
                     </div>

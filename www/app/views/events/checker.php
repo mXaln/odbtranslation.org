@@ -29,7 +29,7 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show($current, "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show($current, "Events") . " (".Language::show("check", "Events").")"?></div>
     </div>
 
     <div class="row">
@@ -228,16 +228,18 @@ if(empty($error) && empty($data["success"])):
     var isChecker = true;
     var keywords = [];
 
-    <?php if(isset($data["keywords"])): ?>
-        <?php foreach ($data["keywords"] as $keyword): ?>
-            <?php foreach ($keyword["terms"] as $term):?>
-                <?php $kws = explode(", ", $term) ?>
-                <?php foreach ($kws as $item):?>
-                    if($.inArray('<?php echo $item; ?>', keywords) <= -1)
-                        keywords.push('<?php echo $item; ?>');
+    <?php if($data["event"][0]->step == EventSteps::KEYWORD_CHECK): ?>
+        <?php if(isset($data["keywords"])): ?>
+            <?php foreach ($data["keywords"] as $keyword): ?>
+                <?php foreach ($keyword["terms"] as $term):?>
+                    <?php $kws = explode(", ", $term) ?>
+                    <?php foreach ($kws as $item):?>
+                        if($.inArray('<?php echo $item; ?>', keywords) <= -1)
+                            keywords.push('<?php echo $item; ?>');
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
             <?php endforeach; ?>
-        <?php endforeach; ?>
+        <?php endif; ?>
     <?php endif; ?>
 </script>
 <?php endif; ?>
