@@ -1591,3 +1591,9 @@ a.demo_link, a.demo_link:hover {
     color: #fff;
     font-size: 20px;
 }
+
+.checker_view {
+    margin-top: 30px;
+    font-size: 22px;
+    text-align: center;
+}

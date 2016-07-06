@@ -91,6 +91,8 @@ return array(
     "state_l3_recruit" => "Waiting for L3 checkers",
     "state_l3_check" => "Level 3 check",
     "state_complete" => "Complete",
+    "checker_view" => "Checker View",
+    "translator_view" => "Translator View",
 
     // Steps
     "pray" => "Pray",

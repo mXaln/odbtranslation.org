@@ -67,8 +67,8 @@ $hooks->run('afterBody');
 			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo Language::show('home', 'Main')?></a></li>
 			<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations"><?php echo Language::show('translations_title', 'Main')?></a></li>
 			<li <?php if($data['menu'] == 4):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>events"><?php echo Language::show('events_title', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo Language::show('contact_us_title', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo Language::show('about_title', 'Main')?></a></li>
+			<!--<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo Language::show('contact_us_title', 'Main')?></a></li>
+			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo Language::show('about_title', 'Main')?></a></li>-->
 		</ul>
 
 		<ul class="list-inline col-md-6">

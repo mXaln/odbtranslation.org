@@ -368,6 +368,10 @@ use Core\Language;
                     </div>
                 </div>
             </div>
+
+            <div class="checker_view">
+                <a href="<?php echo DIR ?>events/demo/content_review_checker"><?php echo Language::show("checker_view", "Events") ?></a>
+            </div>
         </div>
     </div>
 </div>

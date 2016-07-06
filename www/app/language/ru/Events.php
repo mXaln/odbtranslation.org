@@ -90,6 +90,8 @@ return array(
     "state_l3_recruit" => "Ожидание проверки ур.3",
     "state_l3_check" => "Проверка ур.3",
     "state_complete" => "Complete",
+    "checker_view" => "Вид проверяющего",
+    "translator_view" => "Вид переводчика",
 
     // Steps
     "pray" => "Молитва",

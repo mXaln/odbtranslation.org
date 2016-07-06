@@ -421,6 +421,10 @@ heavenly kingdom. To him be the glory forever and ever. Amen.
                     </div>
                 </div>
             </div>
+
+            <div class="checker_view">
+                <a href="<?php echo DIR ?>events/demo/keyword_check_checker"><?php echo Language::show("checker_view", "Events") ?></a>
+            </div>
         </div>
     </div>
 </div>
