@@ -1,93 +1,6 @@
-<div id="translator_steps" class="open keyword-check">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left keyword-check"></div>
-
-    <ul class="steps_list">
-        <li class="pray-step ">
-            <span>Pray</span>
-        </li>
-        <li class="consume-step ">
-            <span>Consume Text</span>
-        </li>
-        <li class="discuss-step ">
-            <span>Verbalize Text</span>
-        </li>
-        <li class="chunking-step ">
-            <span>Working with Chunks</span>
-        </li>
-
-        
-                <li class="self-check-step ">
-            <span>Draft and Self Check</span>
-        </li>
-        <li class="peer-review-step ">
-            <span>Peer Review</span>
-        </li>
-        <li class="keyword-check-step active">
-            <span>Keyword Check</span>
-        </li>
-        <li class="content-review-step ">
-            <span>Content Review</span>
-        </li>
-    </ul>
-</div>
-
-<script>
-    var memberID = 0;
-    var eventID = 0;
-    var chkMemberID = 0;
-    var step = 'keyword-check';
-</script>
-
-<div style="position: fixed; right: 0;">
-
-</div>
-
-<div id="chat_container" class="closed">
-    <div id="chat_new_msgs" class="chat_new_msgs"></div>
-    <div id="chat_hide" class="glyphicon glyphicon-chevron-left"></div>
-
-    <div class="chat panel panel-info">
-        <div class="chat_tabs panel-heading">
-            <div class="row">
-                <div id="p2p" class="col-sm-4 chat_tab">
-                    <div>Partner</div>
-                    <div class="missed"></div>
-                </div>
-                <div style="display: block;" id="chk" class="col-sm-4 chat_tab active">
-                    <div>Checking</div>
-                    <div class="missed"></div>
-                </div>
-                <div id="evnt" class="col-sm-4 chat_tab">
-                    <div>Event</div>
-                    <div class="missed"></div>
-                </div>
-            </div>
-        </div>
-        <ul id="p2p_messages" class="chat_msgs"></ul>
-        <ul style="display: block;" id="chk_messages" class="chat_msgs"><li class="message msg_my" data="7"><div class="msg_name">You</div><div data-original-title="04.07.2016, 17:36:45" class="msg_text" data-toggle="tooltip" data-placement="top" title="">This is chat tab for checking dialog</div></li></ul>
-        <ul style="display: none;" id="evnt_messages" class="chat_msgs"><li class="message msg_other" data="16"><div class="msg_name">mSimpson</div><div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">u druyrdr udru</div></li><li class="message msg_my" data="7"><div class="msg_name">You</div><div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">sgsegse gse gseg segs</div></li></ul>
-        <form action="" class="form-inline">
-            <div class="form-group">
-                <textarea style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 54px;" id="m" class="form-control"></textarea>
-                <input id="chat_type" value="chk" type="hidden">
-            </div>
-        </form>
-    </div>
-
-    <div class="members_online panel panel-info">
-        <div class="panel-heading">Members Online</div>
-        <ul id="online" class="panel-body"><li>Gen2Pet</li><li class="mine">mpat1977</li><li>mSimpson (facilitator)</li></ul>
-    </div>
-
-    <div class="clear"></div>
-</div>
-
-<!-- Audio for missed chat messages -->
-<audio id="missedMsg">
-    <source src="#" type="audio/ogg">
-</audio>
-
-<script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
+<?php
+use Core\Language;
+?>
 
 <div class="editor">
     <div class="comment_div panel panel-default">
@@ -103,8 +16,8 @@
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title">Keyword Check</div>
-        <div class="demo_title">Demo</div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(7)) . Language::show("keyword-check", "Events")?></div>
+        <div class="demo_title"><?php echo Language::show("demo", "Events") ?></div>
     </div>
 
     <div class="row">
@@ -113,7 +26,7 @@
                 <div class="main_content_text row">
                                         
                     
-                    <h4>English - Unlocked Literal Bible - New Testament - 2 Timothy 4:1-22</h4>
+                    <h4>English - Unlocked Literal Bible - New Testament - <span class='book_name'>2 Timothy 4:1-22</span></h4>
 
                     <div class="col-sm-12 no_padding">
                                                                                                                     <div class="row chunk_verse">
@@ -465,49 +378,46 @@ heavenly kingdom. To him be the glory forever and ever. Amen.
                                             </div>
 
                     <div class="col-sm-12">
-                        <button id="save_step" onclick="return false;" value="1" class="btn btn-primary">Save</button>
+                        <button id="save_step" onclick="return false;" value="1" class="btn btn-primary"><?php echo Language::show("save", "Events")?></button>
                         <img src="<?php echo \Helpers\Url::templatePath() ?>img/alert.png" class="unsaved_alert">
                     </div>
                 </div>
 
                 <div class="main_content_footer row">
                     <div class="form-group">
-                        <div class="main_content_confirm_desc">Please confirm that you finished this step</div>
-                        <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> Yes, I did</label>
+                        <div class="main_content_confirm_desc"><?php echo Language::show("confirm_finished", "Events")?></div>
+                        <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo Language::show("confirm_yes", "Events")?></label>
                     </div>
 
-                    <button id="next_step" onclick="window.location.href='<?php echo DIR ?>events/demo/content_review'; return false;" class="btn btn-primary" disabled="disabled">Next step</button>
+                    <button id="next_step" onclick="window.location.href='<?php echo DIR ?>events/demo/content_review'; return false;" class="btn btn-primary" disabled="disabled"><?php echo Language::show("next_step", "Events")?></button>
                 </div>
             </form>
         </div>
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>Step 7:</span> Keyword Check</div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(7))?></span> <?php echo Language::show("keyword-check", "Events")?></div>
                 <div class="help_descr_steps">
-                    <ul><li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed</li><li>Your
- text has been submitted to someone else on your translation team 
-besides your translation partner for this step. When someone has 
-accepted the task, they will see only the... <div class="show_tutorial_popup"> &gt;&gt;&gt; Show more</div></li></ul>
+                    <ul><?php echo mb_substr(Language::show("keyword-check_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>
             </div>
 
             <div class="event_info">
                 <div class="participant_info">
                     <div class="participant_name">
-                        <span>Your partner:</span>
+                        <span><?php echo Language::show("your_partner", "Events") ?>:</span>
                         <span>Gen2Pet</span>
                     </div>
                     <div class="participant_name">
-                        <span>Your checker:</span>
+                        <span><?php echo Language::show("your_checker", "Events") ?>:</span>
                         <span class="checker_name_span">mSimpson</span>
                     </div>
                     <div class="additional_info">
-                        <a href="#">Event Progress</a>
+                        <a href="#"><?php echo Language::show("event_info", "Events") ?></a>
                     </div>
                 </div>
             </div>
@@ -523,30 +433,13 @@ accepted the task, they will see only the... <div class="show_tutorial_popup"> &
             <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/keyword-check.png" height="100px" width="100px">
             <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/keyword-check.png" height="280px" width="280px">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="keyword-check" value="0" type="checkbox"> Don't show this message again</label>
+                <label><input id="hide_tutorial" data="keyword-check" value="0" type="checkbox"> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
             </div>
         </div>
 
         <div class="tutorial_content">
-            <h3>Keyword Check</h3>
-            <ul><li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed</li><li>Your
- text has been submitted to someone else on your translation team 
-besides your translation partner for this step. When someone has 
-accepted the task, they will see only the source from which you have 
-translated.</li><li>Contact your checker on a suitable conversation platform: Skype, Hangout, phone, etc.</li><li>Your
- checker will proceed through each verse of the entire chapter (all 
-chunks) and ask you about how you have translated certain words.</li><li>Make any appropriate changes to your text as the discussion proceeds.</li><li>Spend
- no more than 30 minutes on this exercise. Do not waste time on 
-disagreements. In such cases, leave the translated text as is, record a 
-note on the appropriate verse, and move on.</li></ul>
+            <h3><?php echo Language::show("keyword-check", "Events")?></h3>
+            <ul><?php echo Language::show("keyword-check_desc", "Events")?></ul>
         </div>
     </div>
 </div>
-
-<script>
-    (function($) {
-        $("#chat_container").chat({
-            step: step
-        });
-    }(jQuery));
-</script>

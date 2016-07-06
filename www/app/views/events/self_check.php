@@ -17,7 +17,7 @@ use \Helpers\Constants\EventSteps;
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
-        <div class="main_content_title"><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(5)) . Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
     </div>
 
     <div class="row">
@@ -28,7 +28,7 @@ use \Helpers\Constants\EventSteps;
                         <h4><?php echo $data["event"][0]->sLang." - "
                                 .Language::show($data["event"][0]->bookProject, "Events")." - "
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                                .$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]?></h4>
+                                ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?></h4>
 
                         <!-- Show blind draft text if it is a translation to other language -->
                         <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
@@ -82,7 +82,7 @@ use \Helpers\Constants\EventSteps;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
 

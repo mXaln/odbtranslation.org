@@ -17,7 +17,7 @@ use \Helpers\Constants\EventMembers;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("peer-review", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(6)) . Language::show("peer-review", "Events")?></div>
     </div>
 
     <div class="row">
@@ -26,11 +26,11 @@ use \Helpers\Constants\EventMembers;
                 <div class="main_content_text row">
                     <ul class="nav nav-tabs">
                         <?php if(!$data["event"][0]->cotrTranslateDone): ?>
-                        <li role="presentation" class="translation_tab active"><a href="#cotr_tab">Partner's translation</a></li>
+                        <li role="presentation" class="translation_tab active"><a href="#cotr_tab"><?php echo Language::show("partner_translation", "Events") ?></a></li>
                         <?php endif; ?>
 
                         <?php if(!$data["event"][0]->translateDone): ?>
-                        <li role="presentation" class="translation_tab <?php echo $data["event"][0]->cotrTranslateDone ? "active" : ""?>"><a href="#tr_tab">Your translation</a></li>
+                        <li role="presentation" class="translation_tab <?php echo $data["event"][0]->cotrTranslateDone ? "active" : ""?>"><a href="#tr_tab"><?php echo Language::show("your_translation", "Events") ?></a></li>
                         <?php endif; ?>
                     </ul>
 
@@ -39,7 +39,7 @@ use \Helpers\Constants\EventMembers;
                         <h4><?php echo $data["event"][0]->sLang." - "
                                 .Language::show($data["event"][0]->bookProject, "Events")." - "
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                                .$data["event"][0]->name." ".$data["cotrData"]["currentChapter"].":1-".$data["cotrData"]["totalVerses"]?></h4>
+                                ."<span class='book_name'>".$data["event"][0]->name." ".$data["cotrData"]["currentChapter"].":1-".$data["cotrData"]["totalVerses"]."</span>"?></h4>
 
                         <div class="col-sm-12 cotrData">
                             <?php if($data["cotrData"]["cotrReady"]): ?>
@@ -103,7 +103,7 @@ use \Helpers\Constants\EventMembers;
                         <h4><?php echo $data["event"][0]->sLang." - "
                                 .Language::show($data["event"][0]->bookProject, "Events")." - "
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                                .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
+                                ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                         <div class="col-sm-12">
                             <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
@@ -155,7 +155,7 @@ use \Helpers\Constants\EventMembers;
                         </div>
 
                         <div class="col-sm-12">
-                            <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary">Save</button>
+                            <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary"><?php echo Language::show("save", "Events")?></button>
                             <img src="<?php echo \Helpers\Url::templatePath() ?>img/alert.png" class="unsaved_alert">
                         </div>
                     </div>
@@ -175,7 +175,7 @@ use \Helpers\Constants\EventMembers;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
 

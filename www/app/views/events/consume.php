@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("consume", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(2)) . Language::show("consume", "Events")?></div>
     </div>
 
     <div class="row">
@@ -13,7 +13,7 @@ use \Core\Language;
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
                     .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                    .$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
+                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                 <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
                     <p><?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?></p>
@@ -36,11 +36,11 @@ use \Core\Language;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(1))?></span> <?php echo Language::show("consume", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(2))?></span><?php echo Language::show("consume", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(Language::show("consume_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>

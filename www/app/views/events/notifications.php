@@ -5,7 +5,7 @@ use Core\Language;
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Level 1 Check (keyword, content) Events</h1>
+        <h1 class="panel-title"><?php echo Language::show("l1_events", "Events") ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
@@ -14,11 +14,11 @@ use Core\Language;
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Target Language</th>
-                        <th>Project</th>
-                        <th>Current step</th>
-                        <th>User</th>
+                        <th><?php echo Language::show("book", "Events") ?></th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("current_step", "Events") ?></th>
+                        <th><?php echo Language::show("user", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,7 +31,7 @@ use Core\Language;
                             <td><?php echo $event->userName ?></td>
                             <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID; ?>/apply"
                                    data="check:<?php echo $event->eventID.":".$event->memberID ?>">
-                                    Apply to check
+                                    <?php echo Language::show("apply_check", "Events") ?>
                                 </a>
                             </td>
                         </tr>

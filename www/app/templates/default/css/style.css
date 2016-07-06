@@ -476,7 +476,7 @@
     margin: 20px auto;
     background-color: white;
     border-radius: 5px;
-    width: 1150px;
+    width: 1000px;
 }
 
 .bookName {
@@ -544,7 +544,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px;
+    width: 300px;
     z-index: 9999;
 }
 
@@ -562,7 +562,7 @@
 
 .steps_list {
     margin-top: 50px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 10px;
 }
 
 .steps_list li {
@@ -572,6 +572,15 @@
     color: #fff;
     height: 40px;
     padding-top: 3px;
+}
+
+.steps_list li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.steps_list li a:hover span {
+    opacity: 1;
 }
 
 .steps_list li span {
@@ -1204,7 +1213,7 @@ mark {
 
 .tutorial_popup {
     position: absolute;
-    top: calc(50% - 250px);
+    top: calc(50% - 280px);
     left: calc(50% - 450px);
     background-color: #ffffff;
     z-index: 9999;
@@ -1227,7 +1236,7 @@ mark {
 .tutorial_content {
     float: right;
     width: 600px;
-    height: 510px;
+    height: 560px;
     padding: 0 10px;
     background-color: #d6e8f3;
 }
@@ -1248,7 +1257,7 @@ mark {
     color: #0f86fe;
     font-style: italic;
     font-weight: normal;
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
 .tutorial-close {
@@ -1288,11 +1297,11 @@ mark {
 .language_block {
     position: absolute;
     top: calc(50% - 150px);
-    left: calc(50% - 250px);
+    left: calc(50% - 350px);
     background-color: #ffffff;
     z-index: 9999;
     cursor: auto;
-    width: 500px;
+    width: 700px;
     padding: 20px;
     border-radius: 5px;
 }
@@ -1568,4 +1577,17 @@ mark {
 
 a.demo_link, a.demo_link:hover {
     color: #ff0000;
+}
+
+.book_name {
+    color: #249b45;
+    font-weight: bold;
+}
+
+.gl_ol_mode {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    color: #fff;
+    font-size: 20px;
 }

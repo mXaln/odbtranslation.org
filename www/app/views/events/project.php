@@ -39,13 +39,13 @@ if(!empty($data["project"])):
 
                     <div class="col-sm-3">
                         <div class="event-box">
-                            <div class="event-header">Draft 1</div>
+                            <div class="event-header"><?php echo Language::show("draft1", "Events") ?></div>
 
-                            <div>Translators: <?php echo $event->translators . "/" . (integer)$event->translatorsNum ?></div>
+                            <div><?php echo Language::show("translators", "Events") ?>: <?php echo $event->translators . "/" . (integer)$event->translatorsNum ?></div>
 
                             <div>
                                 <?php echo $event->translatorsNum > $event->translators
-                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="d1" class="btn btn-primary applyDraft applyEvent">Apply</button>'
+                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="d1" class="btn btn-primary applyDraft applyEvent">'.Language::show("apply", "Events").'</button>'
                                     : 'N/A' ?>
                             </div>
                         </div>
@@ -53,13 +53,13 @@ if(!empty($data["project"])):
 
                     <div class="col-sm-3">
                         <div class="event-box">
-                            <div class="event-header">Level 2 Check</div>
+                            <div class="event-header"><?php echo Language::show("level2_3_check", "Events", array(2)) ?></div>
 
-                            <div>Checkers: <?php echo $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum ?></div>
+                            <div><?php echo Language::show("checkers", "Events") ?>: <?php echo $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum ?></div>
 
                             <div>
                                 <?php echo $event->l2CheckersNum > $event->checkers_l2
-                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="l2" class="btn btn-primary applyL2Checkers applyEvent">Apply</button>'
+                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="l2" class="btn btn-primary applyL2Checkers applyEvent">'.Language::show("apply", "Events").'</button>'
                                     : 'N/A' ?>
                             </div>
                         </div>
@@ -67,13 +67,13 @@ if(!empty($data["project"])):
 
                     <div class="col-sm-3 event-box">
                         <div class="event-box">
-                            <div class="event-header">Level 3 Check</div>
+                            <div class="event-header"><?php echo Language::show("level2_3_check", "Events", array(3)) ?></div>
 
-                            <div>Checkers: <?php echo $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum ?></div>
+                            <div><?php echo Language::show("checkers", "Events") ?>: <?php echo $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum ?></div>
 
                             <div>
                                 <?php echo $event->l3CheckersNum > $event->checkers_l3
-                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="l3" class="btn btn-primary applyL3Checkers applyEvent">Apply</button>'
+                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="l3" class="btn btn-primary applyL3Checkers applyEvent">'.Language::show("apply", "Events").'</button>'
                                     : 'N/A' ?>
                             </div>
                         </div>
@@ -105,11 +105,11 @@ if(!empty($data["project"])):
 
                 <div class="errors"></div>
 
-                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 700px;">
+                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 900px;">
                     <div class="form-group">
-                        <h3 class="ftr">Apply as Translator</h3>
-                        <h3 class="fl2" style="display: none">Apply as L2 Checker</h3>
-                        <h3 class="fl3" style="display: none">Apply as L3 Checker</h3>
+                        <h3 class="ftr"><?php echo Language::show("apply_as_translator", "Events") ?></h3>
+                        <h3 class="fl2" style="display: none"><?php echo Language::show("apply_as_checker", "Events", array(2)) ?></h3>
+                        <h3 class="fl3" style="display: none"><?php echo Language::show("apply_as_checker", "Events", array(3)) ?></h3>
                     </div>
 
                     <div class="checker_info">
@@ -201,21 +201,21 @@ if(!empty($data["project"])):
 
                     <br><br>
 
-                    <button type="submit" name="applyEvent" class="btn btn-primary"><?php echo Language::show('Apply Now', 'Events'); ?></button>
+                    <button type="submit" name="applyEvent" class="btn btn-primary"><?php echo Language::show('apply_now', 'Events'); ?></button>
                     <img class="applyEventLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
                 </form>
             </div>
 
-            <div class="col-sm-4">
+            <!--<div class="col-sm-4">
                 <div class="help_info">
-                    <div class="help_title">Help</div>
-                    <div class="help_name">Translator</div>
+                    <div class="help_title"><?php echo Language::show('help', 'Events'); ?></div>
+                    <div class="help_name"><?php echo Language::show('translator', 'Members'); ?></div>
                     <div class="help_descr">Description about translator's role</div>
 
-                    <div class="help_name">Checker</div>
+                    <div class="help_name"><?php echo Language::show('checker', 'Members'); ?></div>
                     <div class="help_descr">Description about checker's role</div>
                 </div>
-            </div>
+            </div>-->
 
         </div>
     </div>

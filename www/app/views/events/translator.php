@@ -98,7 +98,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     </div>
 
     <div class="members_online panel panel-info">
-        <div class="panel-heading">Members Online</div>
+        <div class="panel-heading"><?php echo Language::show("members_online_title", "Events") ?></div>
         <ul id="online" class="panel-body"></ul>
     </div>
 
@@ -113,5 +113,10 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.io-1.4.5.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.js"></script>
+
+<?php else: ?>
+
+<input type="hidden" id="evnt_state_checker" value="<?php echo $data["error"] === true ? "error" : "" ?>">
+<input type="hidden" id="evntid" value="<?php echo $data["event"][0]->eventID ?>">
 
 <?php endif; ?>

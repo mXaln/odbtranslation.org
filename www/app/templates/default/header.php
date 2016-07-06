@@ -77,7 +77,7 @@ $hooks->run('afterBody');
 			<?php if(\Helpers\Session::get('loggedin')): ?>
 			| <li class="notifications">
 					<a class="btn btn-link" id="notifications" href="#">
-                        <span class="notif_title">Notifications</span>
+                        <span class="notif_title"><?php echo Language::show("notifications", "Events") ?></span>
                         <?php echo !empty($data["notifications"]) ? '<span class="notif_count">'.sizeof($data["notifications"]).'</span>' : ""; ?>
                     </a>
 					<ul class="notif_block">
@@ -102,7 +102,7 @@ $hooks->run('afterBody');
 					<?php else: ?>
 						<div class='no_notif'><?php echo Language::show("no_notifs_msg", "Events") ?></div>
 					<?php endif; ?>
-						<div class="all_notifs"><a href="<?php echo DIR?>events/notifications">See all</a></div>
+						<div class="all_notifs"><a href="<?php echo DIR?>events/notifications"><?php echo Language::show("see_all", "Events") ?></a></div>
 					</ul>
 				</li>
 			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo Language::show('logout', 'Members')?></a></li>

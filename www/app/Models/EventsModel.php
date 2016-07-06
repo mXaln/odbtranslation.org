@@ -239,7 +239,8 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
-            (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID" : "");
+            (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
+            "ORDER BY tLang, ".PREFIX."abbr.abbrID";
 
         $prepare = array();
         $prepare[":memberID"] = $memberID;
@@ -270,7 +271,8 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE trs.checkerID = :memberID AND trs.checkDone = false ".
                 ($eventID ? "AND trs.eventID = :eventID " : " ").
-                ($trMemberID ? "AND trs.memberID = :trMemberID " : " ");
+                ($trMemberID ? "AND trs.memberID = :trMemberID " : " ").
+            "ORDER BY tLang, ".PREFIX."abbr.abbrID";
 
         return $this->db->select($sql, $prepare);
     }
@@ -278,13 +280,14 @@ class EventsModel extends Model
 
     public function getMemberEventsForAdmin($memberID)
     {
-        $sql = "SELECT evnt.eventID, proj.bookProject, tLang.langName, abbr.name ".
+        $sql = "SELECT evnt.eventID, evnt.state, proj.bookProject, tLang.langName, abbr.name ".
             "FROM ".PREFIX."events AS evnt ".
                 "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
                 "LEFT JOIN ".PREFIX."gateway_projects AS gwProj ON gwProj.gwProjectID = proj.gwProjectID ".
                 "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
                 "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
-            "WHERE gwProj.admins LIKE :memberID";
+            "WHERE gwProj.admins LIKE :memberID ".
+            "ORDER BY tLang.langName, abbr.abbrID";
 
         return $this->db->select($sql, array(":memberID" => '%\"'.$memberID.'"%'));
     }

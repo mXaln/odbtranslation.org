@@ -1128,7 +1128,7 @@ class EventsController extends Controller
 
         $memberModel = new MembersModel();
 
-        if(!empty($data["event"]))
+        if(!empty($data["event"]) && $data["event"][0]->state != "started")
         {
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null)
             {
@@ -1350,63 +1350,81 @@ class EventsController extends Controller
 
     public function demo($page)
     {
+        $data["title"] = $this->language->get("demo");
+
         View::renderTemplate('header', $data);
+
+        $data["step"] = "";
 
         switch ($page)
         {
             case "pray":
                 View::render('events/demo/2_pray');
+                $data["step"] = "pray";
                 break;
 
             case "consume":
                 View::render('events/demo/3_consume');
+                $data["step"] = "consume";
                 break;
 
             case "verbalize":
                 View::render('events/demo/4_verbalize');
+                $data["step"] = "discuss";
                 break;
 
             case "prep_chunks":
                 View::render('events/demo/5_prep_chunks');
+                $data["step"] = "chunking";
                 break;
 
             case "read_chunk":
                 View::render('events/demo/6_read_chunk');
+                $data["step"] = "chunking";
                 break;
 
             case "blind_draft":
                 View::render('events/demo/7_blind_draft');
+                $data["step"] = "blind-draft";
                 break;
 
             case "self_check":
                 View::render('events/demo/7_self_check');
+                $data["step"] = "self-check";
                 break;
 
             case "draft_self_check":
                 View::render('events/demo/7_draft_self_check');
+                $data["step"] = "self-check";
                 break;
 
             case "peer_review":
                 View::render('events/demo/8_peer_review');
+                $data["step"] = "peer-review";
                 break;
 
             case "keyword_check":
                 View::render('events/demo/9_keyword_check');
+                $data["step"] = "keyword-check";
                 break;
 
             case "keyword_check_checker":
                 View::render('events/demo/9_keyword_check_checker');
+                $data["step"] = "keyword-check";
                 break;
 
             case "content_review":
                 View::render('events/demo/10_content_review');
+                $data["step"] = "content-review";
                 break;
 
             case "content_review_checker":
                 View::render('events/demo/10_content_review_checker');
+                $data["step"] = "content-review";
                 break;
         }
 
+        View::render('events/demo/demo_header', $data);
         View::renderTemplate('footer', $data);
     }
 
@@ -2110,13 +2128,13 @@ class EventsController extends Controller
     {
         if (!Session::get('loggedin'))
         {
-            echo Language::show("not_loggedin_error", "Events");
+            echo $this->language->get("not_loggedin_error");
             return;
         }
 
         if (!Session::get('verified'))
         {
-            echo Language::show("account_not_verirfied_error", "Events");
+            echo $this->language->get("account_not_verirfied_error");
             return;
         }
 
@@ -2224,6 +2242,44 @@ class EventsController extends Controller
                 }
             }
         }
+    }
+
+    public function checkEvent()
+    {
+        $response = array("success" => false);
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = $this->language->get("not_loggedin_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if (!Session::get('verified'))
+        {
+            $response["error"] = $this->language->get("account_not_verirfied_error");
+            echo json_encode($response);
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+
+        if($eventID !== null)
+        {
+            $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
+
+            if(!empty($data["event"]))
+            {
+                if($data["event"][0]->state != "started")
+                {
+                    $response["success"] = true;
+                }
+            }
+        }
+
+        echo json_encode($response);
     }
 
     public function getNotifications()

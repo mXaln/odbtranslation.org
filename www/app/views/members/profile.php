@@ -8,7 +8,7 @@ use Core\Language;
 $profile = $data["profile"];
 ?>
 
-<form action='' method='post' style="width: 700px" class="form-horizontal profile_form">
+<form action='' method='post' style="width: 900px" class="form-horizontal profile_form">
     <?php
     echo \Core\Error::display($error);
     echo \Helpers\Session::message();

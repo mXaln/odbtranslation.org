@@ -31,7 +31,6 @@ return array(
 	"facilitator" => "Facilitator",
 	"l2_checker" => "Level 2 Checking",
 	"l3_checker" => "Level 3 Checking",
-	'trans_checkr' => 'Translator/Checker',
     'captcha_wrong' => 'Captcha wasn\'t solved correctly',
     'userType_wrong_error' => 'Type of user is invalid',
 	'registration_success_message' => 'Registration Successfull! Please check your email to complete registration.',

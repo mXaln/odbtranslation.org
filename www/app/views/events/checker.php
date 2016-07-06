@@ -29,7 +29,7 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show($current, "Events") . " (".Language::show("check", "Events").")"?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array($step_num)) . Language::show($current, "Events") /*. " (".Language::show("check", "Events").")"*/?></div>
     </div>
 
     <div class="row">
@@ -59,7 +59,7 @@ if(empty($error) && empty($data["success"])):
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .Language::show($data["event"][0]->bookProject, "Events")." - "
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                        .$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]?></h4>
+                        ."<span class='book_name'>".$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                 <?php if($data["event"][0]->step == EventSteps::CONTENT_REVIEW): ?>
                 <div class="row">
@@ -180,7 +180,7 @@ if(empty($error) && empty($data["success"])):
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
 

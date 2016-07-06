@@ -6,8 +6,8 @@ use \Core\Language;
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title">
-                Events for facilitation
-                <a href="<?php echo DIR ?>events/demo/pray" class="demo_link">See demo</a>
+                <?php echo Language::show("facilitator_events", "Events") ?>
+                <a href="<?php echo DIR ?>events/demo/pray" class="demo_link"><?php echo Language::show("see_demo", "Events") ?></a>
             </h1>
         </div>
 
@@ -17,9 +17,10 @@ use \Core\Language;
                     <table class="table table-bordered table-hover" role="grid">
                         <thead>
                         <tr>
-                            <th>Book</th>
-                            <th>Target Language</th>
-                            <th>Project</th>
+                            <th><?php echo Language::show("book", "Events") ?></th>
+                            <th><?php echo Language::show("target_lang", "Events") ?></th>
+                            <th><?php echo Language::show("project", "Events") ?></th>
+                            <th><?php echo Language::show("state", "Events") ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -28,6 +29,7 @@ use \Core\Language;
                                 <td><a href="/events/information/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
                                 <td><?php echo $event->langName ?></td>
                                 <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                                <td><?php echo Language::show("state_".$event->state, "Events") ?></td>
                             </tr>
                         <?php endforeach ?>
                         </tbody>
@@ -40,7 +42,7 @@ use \Core\Language;
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Translator Events</h1>
+        <h1 class="panel-title"><?php echo Language::show("translator_events", "Events") ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
@@ -49,10 +51,10 @@ use \Core\Language;
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Target Language</th>
-                        <th>Project</th>
-                        <th>Current step</th>
+                        <th><?php echo Language::show("book", "Events") ?></th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("current_step", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,7 +75,7 @@ use \Core\Language;
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Level 1 Check (keyword, content) Events</h1>
+        <h1 class="panel-title"><?php echo Language::show("l1_events", "Events") ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
@@ -82,11 +84,11 @@ use \Core\Language;
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Target Language</th>
-                        <th>Project</th>
-                        <th>Current step</th>
-                        <th>User</th>
+                        <th><?php echo Language::show("book", "Events") ?></th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("current_step", "Events") ?></th>
+                        <th><?php echo Language::show("user", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -108,7 +110,7 @@ use \Core\Language;
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Level 2 Check Events</h1>
+        <h1 class="panel-title"><?php echo Language::show("l2_3_events", "Events", array(2)) ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
@@ -117,9 +119,9 @@ use \Core\Language;
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Target Language</th>
-                        <th>Project</th>
+                        <th><?php echo Language::show("book", "Events") ?></th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -139,7 +141,7 @@ use \Core\Language;
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Level 3 Check Events</h1>
+        <h1 class="panel-title"><?php echo Language::show("l2_3_events", "Events", array(3)) ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
@@ -148,9 +150,9 @@ use \Core\Language;
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Target Language</th>
-                        <th>Project</th>
+                        <th><?php echo Language::show("book", "Events") ?></th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>

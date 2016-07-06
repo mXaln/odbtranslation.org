@@ -24,12 +24,6 @@ Router::any('translations/(:any)/(:any)/(:any)', 'Controllers\TranslationsContro
 
 Router::any('events', 'Controllers\EventsController@index');
 Router::any('events/project/(:num)', 'Controllers\EventsController@project');
-Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
-Router::any('events/rpc/get_notifications', 'Controllers\EventsController@getNotifications');
-Router::any('events/rpc/autosave_chunk', 'Controllers\EventsController@autosaveChunk');
-Router::any('events/rpc/save_comment', 'Controllers\EventsController@saveComment');
-Router::any('events/rpc/save_comment_alt', 'Controllers\EventsController@saveCommentAlt');
-Router::any('events/rpc/get_partner_translation', 'Controllers\EventsController@getPartnerTranslation');
 Router::any('events/translator/(:num)', 'Controllers\EventsController@translator');
 Router::any('events/information/(:num)', 'Controllers\EventsController@information');
 Router::any('events/checker/(:num)/(:num)', 'Controllers\EventsController@checker');
@@ -38,6 +32,13 @@ Router::any('events/checker_l2/(:num)', 'Controllers\EventsController@checkerL2'
 Router::any('events/checker_l3/(:num)', 'Controllers\EventsController@checkerL3');
 Router::any('events/notifications', 'Controllers\EventsController@allNotifications');
 Router::any('events/demo/(:any)', 'Controllers\EventsController@demo');
+Router::any('events/rpc/apply_event', 'Controllers\EventsController@applyEvent');
+Router::any('events/rpc/get_notifications', 'Controllers\EventsController@getNotifications');
+Router::any('events/rpc/autosave_chunk', 'Controllers\EventsController@autosaveChunk');
+Router::any('events/rpc/save_comment', 'Controllers\EventsController@saveComment');
+Router::any('events/rpc/save_comment_alt', 'Controllers\EventsController@saveCommentAlt');
+Router::any('events/rpc/get_partner_translation', 'Controllers\EventsController@getPartnerTranslation');
+Router::any('events/rpc/check_event', 'Controllers\EventsController@checkEvent');
 
 Router::any('members', 'Controllers\MembersController@index');
 Router::any('members/profile', 'Controllers\MembersController@profile');

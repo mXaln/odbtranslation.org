@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("pray", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(1)) . Language::show("pray", "Events")?></div>
     </div>
 
     <div class="row">
@@ -29,11 +29,11 @@ use \Core\Language;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span>&nbsp;&nbsp;&nbsp;</span><?php echo Language::show("pray", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(1)) ?></span><?php echo Language::show("pray", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo Language::show("pray_desc", "Events")?></ul>
                 </div>

@@ -167,7 +167,7 @@ $(document).ready(function() {
     {
         $("#translator_steps").removeClass("open")
             .addClass("closed");
-        $("#translator_steps").animate({left: "-250px"}, 50, function() {
+        $("#translator_steps").animate({left: "-300px"}, 50, function() {
             $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
                 .addClass("glyphicon-chevron-right");
         });
@@ -176,7 +176,7 @@ $(document).ready(function() {
     {
         $("#translator_steps").removeClass("open")
             .addClass("closed");
-        $("#translator_steps").animate({left: "-250px"}, 500, function() {
+        $("#translator_steps").animate({left: "-300px"}, 500, function() {
             $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
                 .addClass("glyphicon-chevron-right");
         });
@@ -274,7 +274,7 @@ $(document).ready(function() {
         {
             $("#translator_steps").removeClass("open")
                 .addClass("closed");
-            $("#translator_steps").animate({left: "-250px"}, 500, function() {
+            $("#translator_steps").animate({left: "-300px"}, 500, function() {
                 $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
                     .addClass("glyphicon-chevron-right");
             });
@@ -796,6 +796,42 @@ $(document).ready(function() {
             $(".section_title", $(this)).css("font-weight", "bold");
         }
     });
+
+    // Demo mode switch
+    $(".gl_ol_mode input[name=mode]").click(function() {
+        var mode = $(this).val();
+
+        setCookie("demo_mode", mode, {expires: 365*24*60*60});
+        window.location.reload();
+    });
+
+    // Check if event has been started
+    if($("#evnt_state_checker").val() == "error")
+    {
+        setInterval(function () {
+            $.ajax({
+                url: "/events/rpc/check_event",
+                method: "post",
+                data: {
+                    eventID: $("#evntid").val(),
+                },
+                dataType: "json",
+            })
+            .done(function(data) {
+                if(typeof data.success != "undefined" && data.success)
+                {
+                    window.location.reload();
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        window.location.href = "/";
+                    }
+                }
+            });
+        }, 60000);
+    }
 });
 
 // Cookie Helpers

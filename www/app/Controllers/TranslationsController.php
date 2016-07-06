@@ -70,7 +70,7 @@ class TranslationsController extends Controller
 
                 if($chunk->chapter != $lastChapter)
                 {
-                    $data['book'] .= '<h2>Chapter '.$chunk->chapter.'</h2>';
+                    $data['book'] .= '<h2>'.$this->language->get("chapter", array($chunk->chapter)).'</h2>';
                     $lastChapter = $chunk->chapter;
                 }
 

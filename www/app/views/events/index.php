@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Projects</h1>
+        <h1 class="panel-title"><?php echo Language::show("projects", "Events") ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
@@ -13,9 +13,9 @@ use \Core\Language;
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Target Language</th>
-                        <th>Gateway Language</th>
-                        <th>Project</th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("gw_language", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
