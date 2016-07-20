@@ -256,6 +256,19 @@ $(document).ready(function() {
                             }
                             else
                             {
+                                if(typeof data.errorCode != "undefined")
+                                {
+                                    switch (data.errorCode)
+                                    {
+                                        case "logout":
+                                            window.location.href = "members/login";
+                                            break;
+
+                                        case "verify":
+                                            window.location.href = "members";
+                                            break;
+                                    }
+                                }
                                 console.log(data.error);
                             }
                         })

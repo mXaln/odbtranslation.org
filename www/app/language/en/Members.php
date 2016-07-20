@@ -10,6 +10,7 @@ return array(
     'lastName' => 'Last name',
 	'password' => 'Password',
 	'confirm_password' => 'Confirm Password',
+    "enter_new_password" => "Enter new password",
     'userName' => 'User name',
     'userName_characters_error' => 'User name should contain only latin letters and numbers and start with letters',
     'userName_length_error' => 'User name should be of length between 5 and 20',

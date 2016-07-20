@@ -1696,6 +1696,7 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
+            $response["errorType"] = "logout";
             $response["error"] = $this->language->get("not_loggedin_error");
             echo json_encode($response);
             return;
@@ -1703,6 +1704,7 @@ class EventsController extends Controller
 
         if (!Session::get('verified'))
         {
+            $response["errorType"] = "verify";
             $response["error"] = $this->language->get("account_not_verirfied_error");
             echo json_encode($response);
             return;

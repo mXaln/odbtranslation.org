@@ -4,6 +4,8 @@ use Core\Language;
 
 <h1><?php echo Language::show('passwordreset_title', 'Members'); ?></h1>
 
+<h3><?php echo Language::show("enter_new_password", "Members") ?></h3>
+
 <?php
 echo \Core\Error::display($error);
 
@@ -24,9 +26,9 @@ else {
             </div>
 
             <div class="form-group">
-                <label for="passwordConfirm"><?php echo Language::show('passwordConfirm', 'Members'); ?></label>
+                <label for="passwordConfirm"><?php echo Language::show('confirm_password', 'Members'); ?></label>
                 <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"
-                       placeholder="<?php echo Language::show('passwordConfirm', 'Members'); ?>" value="">
+                       placeholder="<?php echo Language::show('confirm_password', 'Members'); ?>" value="">
             </div>
 
             <input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>"/>

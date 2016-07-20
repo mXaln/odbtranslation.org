@@ -212,7 +212,7 @@ class MembersController extends Controller
 
         $eventModel = new EventsModel();
 
-        $data["languages"] = $eventModel->getAllLanguages(true);
+        $data["languages"] = $eventModel->getAllLanguages();
         $data["errors"] = array();
 
         $profile = Session::get("profile");

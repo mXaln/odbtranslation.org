@@ -16,7 +16,7 @@ use Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("content-review", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(8)) . Language::show("content-review", "Events")?></div>
         <div class="demo_title"><?php echo Language::show("demo", "Events") ?></div>
     </div>
 
