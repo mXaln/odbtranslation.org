@@ -21,6 +21,7 @@ Router::any('translations', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)/(:any)', 'Controllers\TranslationsController@index');
 Router::any('translations/(:any)/(:any)/(:any)', 'Controllers\TranslationsController@index');
+Router::any('translations/(:any)/(:any)/(:any)/usfm', 'Controllers\TranslationsController@getUsfm');
 
 Router::any('events', 'Controllers\EventsController@index');
 Router::any('events/project/(:num)', 'Controllers\EventsController@project');

@@ -51,7 +51,7 @@ class TranslationsModel extends Model
      */
     public function getTranslation($lang, $bookProject, $bookCode)
     {
-        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject, trs.bookCode, abbr.name AS bookName, ".
+        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject, trs.bookCode, abbr.name AS bookName, abbr.abbrID, ".
                 "trs.chapter, trs.translatedVerses ".
             "FROM ".PREFIX."translations AS trs ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".

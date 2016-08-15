@@ -83,7 +83,8 @@ class Language
      */
     public static function show($value, $name, $params = array(), $code = LANGUAGE_CODE)
     {
-        $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : $code;
+        if(!isset($code))
+            $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 
         /** lang file */
         $file = SMVC."app/language/$code/$name.php";

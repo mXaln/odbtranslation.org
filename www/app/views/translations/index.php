@@ -38,5 +38,7 @@ if(isset($data['book'])) {
 
     echo '<h1>'.$data['data']->bookName.'</h1>';
 
+    echo "<h4><a href='".$data['data']->bookCode."/usfm'>".Language::show("download_usfm", "Translations")."</a></h4>";
+
     echo '<div class="bible_book">'.$data["book"].'</div>';
 }
