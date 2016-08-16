@@ -107,6 +107,7 @@ if(\Helpers\Session::get("isAdmin")):
                         <th>Target Language</th>
                         <th>Gateway Language</th>
                         <th>Project</th>
+                        <th>Source</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -115,6 +116,7 @@ if(\Helpers\Session::get("isAdmin")):
                             <td><a href="/admin/project/<?php echo $project->projectID ?>"><?php echo $project->langName ?></a></td>
                             <td><?php echo $project->gwLang ?></td>
                             <td><?php echo Language::show($project->bookProject, "Events") ?></td>
+                            <td><?php echo Language::show($project->sourceBible, 'Events'). " (".$project->sourceLangID.")"  ?></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -127,7 +129,7 @@ if(\Helpers\Session::get("isAdmin")):
 <div class="sub-content form-panel">
     <div class="create-sub-content panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title">Create Sub Event</h1>
+            <h1 class="panel-title">Create project</h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -140,7 +142,7 @@ if(\Helpers\Session::get("isAdmin")):
                     <select class="form-control" id="subGwLangs" name="subGwLangs">
                         <option value="">-- Choose Gateway Language --</option>
                         <?php foreach ($data["memberGwLangs"] as $gwLang):?>
-                            <option value="<?php echo base64_encode(json_encode($gwLang)) ?>"><?php echo $gwLang->langName; ?></option>
+                            <option value="<?php echo $gwLang->langID."|".$gwLang->gwProjectID ?>"><?php echo $gwLang->langName; ?></option>
                         <?php endforeach; ?>
                     </select>
                     <img class="subGwLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
@@ -156,10 +158,19 @@ if(\Helpers\Session::get("isAdmin")):
                 <div class="form-group">
                     <label for="projects"><?php echo Language::show('book_project', 'Events'); ?></label>
                     <select name="sourceTranslation" class="form-control">
-                        <option value="">Choose a Source Translation</option>
+                        <option value="">-- Choose a Source Translation --</option>
                         <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
                             <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>"><?php echo $sourceTranslation->langName . " - " . Language::show($sourceTranslation->bookProject, 'Events') ?></option>
                         <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group projectType hidden">
+                    <label for="projectType"><?php echo Language::show('project_type', 'Events'); ?></label>
+                    <select name="projectType" id="projectType" class="form-control">
+                        <option value="">-- Choose project type-- </option>
+                        <option value="udb"><?php echo Language::show("udb", 'Events') ?></option>
+                        <option value="ulb"><?php echo Language::show("ulb", 'Events') ?></option>
                     </select>
                 </div>
 

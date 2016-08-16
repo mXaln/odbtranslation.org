@@ -83,7 +83,7 @@ class Language
      */
     public static function show($value, $name, $params = array(), $code = LANGUAGE_CODE)
     {
-        if(!isset($code))
+        //if(!isset($code))
             $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 
         /** lang file */

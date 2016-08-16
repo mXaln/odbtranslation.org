@@ -122,6 +122,17 @@ $(function () {
 
     // Sub Event Form
 
+    $("select[name=sourceTranslation]").change(function() {
+        if($(this).val() != "" && $(this).val() != "udb|en" && $(this).val() != "ulb|en")
+        {
+            $(".projectType").removeClass("hidden");
+        }
+        else
+        {
+            $(".projectType").addClass("hidden");
+        }
+    });
+
     $("#crepr").click(function () {
         $("#project").trigger("reset");
         $(".subErrors").html("");
@@ -129,7 +140,7 @@ $(function () {
     });
 
     $("#subGwLangs").change(function() {
-        var tlOptions = "<option>-- Choose Target Language --</option>";
+        var tlOptions = "<option value=''>-- Choose Target Language --</option>";
 
         if($(this).val() == "") {
             $("#targetLangs").html(tlOptions);

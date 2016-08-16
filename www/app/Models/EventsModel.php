@@ -75,9 +75,10 @@ class EventsModel extends Model
 
     public function getProjects($memberID, $isSuperAdmin, $projectID = null)
     {
-        $sql = "SELECT * FROM ".PREFIX."projects ".
-            "LEFT JOIN ".PREFIX."languages ".
-            "ON ".PREFIX."projects.targetLang = ".PREFIX."languages.langID ";
+        $sql = "SELECT ".PREFIX."projects.*, tLang.gwLang, tLang.langName as tLang, sLang.langName as sLang ".
+            "FROM ".PREFIX."projects ".
+            "LEFT JOIN ".PREFIX."languages AS tLang ON ".PREFIX."projects.targetLang = tLang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS sLang ON ".PREFIX."projects.sourceLangID = sLang.langID ";
 
         $where = !$isSuperAdmin || $projectID != null ? "WHERE " : "";
 
@@ -210,7 +211,7 @@ class EventsModel extends Model
                 ."mems.userName AS pairName, mems2.userName AS checkerName, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
-            ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
+            .PREFIX."projects.sourceBible, t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
         $mainTable = "";
 
         switch($memberType)
@@ -280,12 +281,13 @@ class EventsModel extends Model
 
     public function getMemberEventsForAdmin($memberID)
     {
-        $sql = "SELECT evnt.eventID, evnt.state, proj.bookProject, tLang.langName, abbr.name ".
+        $sql = "SELECT evnt.eventID, evnt.state, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.name ".
             "FROM ".PREFIX."events AS evnt ".
                 "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
                 "LEFT JOIN ".PREFIX."gateway_projects AS gwProj ON gwProj.gwProjectID = proj.gwProjectID ".
                 "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
                 "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
+                "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
             "WHERE gwProj.admins LIKE :memberID ".
             "ORDER BY tLang.langName, abbr.abbrID";
 

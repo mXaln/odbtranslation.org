@@ -20,6 +20,7 @@ use \Core\Language;
                             <th><?php echo Language::show("book", "Events") ?></th>
                             <th><?php echo Language::show("target_lang", "Events") ?></th>
                             <th><?php echo Language::show("project", "Events") ?></th>
+                            <th><?php echo Language::show("source", "Events") ?></th>
                             <th><?php echo Language::show("state", "Events") ?></th>
                         </tr>
                         </thead>
@@ -29,6 +30,7 @@ use \Core\Language;
                                 <td><a href="/events/information/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
                                 <td><?php echo $event->langName ?></td>
                                 <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                                <td><?php echo Language::show($event->sourceBible, "Events"). " (".$event->sLang.")" ?></td>
                                 <td><?php echo Language::show("state_".$event->state, "Events") ?></td>
                             </tr>
                         <?php endforeach ?>
@@ -54,6 +56,7 @@ use \Core\Language;
                         <th><?php echo Language::show("book", "Events") ?></th>
                         <th><?php echo Language::show("target_lang", "Events") ?></th>
                         <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("source", "Events") ?></th>
                         <th><?php echo Language::show("current_step", "Events") ?></th>
                     </tr>
                     </thead>
@@ -63,6 +66,7 @@ use \Core\Language;
                             <td><a href="/events/translator/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                            <td><?php echo Language::show($event->sourceBible, "Events"). " (".$event->sLang.")" ?></td>
                             <td><?php echo $event->translateDone ? Language::show(\Helpers\Constants\EventSteps::FINISHED, "Events") : Language::show($event->step, "Events")?></td>
                         </tr>
                     <?php endforeach ?>
@@ -88,7 +92,7 @@ use \Core\Language;
                         <th><?php echo Language::show("target_lang", "Events") ?></th>
                         <th><?php echo Language::show("project", "Events") ?></th>
                         <th><?php echo Language::show("current_step", "Events") ?></th>
-                        <th><?php echo Language::show("user", "Events") ?></th>
+                        <th><?php echo Language::show("translator", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -122,6 +126,7 @@ use \Core\Language;
                         <th><?php echo Language::show("book", "Events") ?></th>
                         <th><?php echo Language::show("target_lang", "Events") ?></th>
                         <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("source", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -130,6 +135,7 @@ use \Core\Language;
                             <td><a href="/events/checker_l2/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                            <td><?php echo Language::show($event->sourceBible, "Events"). " (".$event->sLang.")" ?></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -153,6 +159,7 @@ use \Core\Language;
                         <th><?php echo Language::show("book", "Events") ?></th>
                         <th><?php echo Language::show("target_lang", "Events") ?></th>
                         <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("source", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -161,6 +168,7 @@ use \Core\Language;
                             <td><a href="/events/checker_l3/<?php echo $event->eventID ?>"><?php echo $event->name ?></a></td>
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo Language::show($event->bookProject, "Events") ?></td>
+                            <td><?php echo Language::show($event->sourceBible, "Events"). " (".$event->sLang.")" ?></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>

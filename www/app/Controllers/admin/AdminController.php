@@ -254,6 +254,7 @@ class AdminController extends Controller {
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
+        $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
 
         if($subGwLangs == null)
         {
@@ -269,13 +270,23 @@ class AdminController extends Controller {
         {
             $error[] = $this->language->get("choose_source_translation");
         }
+        else
+        {
+            if(($sourceTranslation != "ulb|en" && $sourceTranslation != "udb|en") && $projectType == null)
+            {
+                $error[] = $this->language->get("choose_project_type");
+            }
+        }
 
         if(!isset($error))
         {
             $sourceTrPair = explode("|", $sourceTranslation);
-            $gwLangsObj = json_decode(base64_decode($subGwLangs));
+            $gwLangsPair = explode("|", $subGwLangs);
 
-            if(!isset($gwLangsObj->gwProjectID))
+            $projType = $sourceTrPair[0] != "ulb" && $sourceTrPair[0] != "udb" ?
+                $projectType : $sourceTrPair[0];
+
+            if($gwLangsPair[1] == "")
             {
                 $error[] = $this->language->get("super_admin_cannot_create_sub_event_for_now");
                 echo json_encode(array("error" => Error::display($error)));
@@ -283,24 +294,25 @@ class AdminController extends Controller {
             }
 
             $exist = $this->_model->getProject(PREFIX."projects.projectID", array(
-                PREFIX."projects.gwLang" => array("=", $gwLangsObj->langID),
+                PREFIX."projects.gwLang" => array("=", $gwLangsPair[0]),
                 PREFIX."projects.targetLang" => array("=", $targetLang),
-                PREFIX."projects.bookProject" => array("=", $sourceTrPair[0]),
+                PREFIX."projects.bookProject" => array("=", $projType),
             ));
 
             if(!empty($exist))
             {
-                $error[] = $this->language->get("event_exists");
+                $error[] = $this->language->get("project_exists");
                 echo json_encode(array("error" => Error::display($error)));
                 return;
             }
 
             $postdata = array(
-                "gwProjectID" => $gwLangsObj->gwProjectID,
-                "gwLang" => $gwLangsObj->langID,
+                "gwProjectID" => $gwLangsPair[1],
+                "gwLang" => $gwLangsPair[0],
                 "targetLang" => $targetLang,
-                "bookProject" => $sourceTrPair[0],
-                "sourceLangID" => $sourceTrPair[1],
+                "bookProject" => $projType,
+                "sourceBible" => $sourceTrPair[0],
+                "sourceLangID" => $sourceTrPair[1]
             );
 
             $id = $this->_model->createProject($postdata);
@@ -370,12 +382,12 @@ class AdminController extends Controller {
 
         if($gwLang)
         {
-            $langs = json_decode(base64_decode($gwLang));
-            $sourceLangID = isset($langs->sourceLangID) ? $langs->sourceLangID : "en";
-            $bookProject = isset($langs->bookProject) ? $langs->bookProject : "udb";
+            $langs = explode("|", $gwLang);
+            //$sourceLangID = isset($langs->sourceLangID) ? $langs->sourceLangID : "en";
+            //$bookProject = isset($langs->bookProject) ? $langs->bookProject : "udb";
             $response = array();
 
-            $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("memberID"), $langs->langID);
+            $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("memberID"), $langs[0]);
             echo json_encode($response);
         }
     }
