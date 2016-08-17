@@ -425,6 +425,7 @@ class EventsModel extends Model
         {
             $prepare[":memberID"] = '%"'.$memberID.'"%';
         }
+
         return $this->db->select($sql, $prepare);
     }
 

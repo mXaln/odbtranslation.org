@@ -113,7 +113,7 @@ if(\Helpers\Session::get("isAdmin")):
                     <tbody>
                     <?php foreach($data["projects"] as $project):?>
                         <tr>
-                            <td><a href="/admin/project/<?php echo $project->projectID ?>"><?php echo $project->langName ?></a></td>
+                            <td><a href="/admin/project/<?php echo $project->projectID ?>"><?php echo $project->tLang ?></a></td>
                             <td><?php echo $project->gwLang ?></td>
                             <td><?php echo Language::show($project->bookProject, "Events") ?></td>
                             <td><?php echo Language::show($project->sourceBible, 'Events'). " (".$project->sourceLangID.")"  ?></td>

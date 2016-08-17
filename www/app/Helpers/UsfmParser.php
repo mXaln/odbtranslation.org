@@ -97,7 +97,7 @@ class UsfmParser
                 }
 
                 // Italic style
-                $verse = preg_replace("/\\\\it (.*)\\\\it\\*/", "<em>$1</em>", $matches[2]);
+                $verse = preg_replace("/\\\\it ([\p{L}\p{N}]*)\\\\it\\*/u", "<em>$1</em>", $matches[2]);
 
                 $result["chapters"][$lastChapter][sizeof($result["chapters"][$lastChapter])-1][$matches[1]] = $verse;
             }

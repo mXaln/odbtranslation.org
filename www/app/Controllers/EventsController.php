@@ -134,7 +134,7 @@ class EventsController extends Controller
                     case EventSteps::CONSUME:
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data);
                         else
                             $sourceText = $this->getSourceTextUSFM($data);
@@ -189,7 +189,7 @@ class EventsController extends Controller
                         }
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data);
                         else
                             $sourceText = $this->getSourceTextUSFM($data);
@@ -207,7 +207,7 @@ class EventsController extends Controller
 
                     case EventSteps::PRE_CHUNKING:
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data);
                         else
                             $sourceText = $this->getSourceTextUSFM($data);
@@ -277,7 +277,7 @@ class EventsController extends Controller
                         }
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data, true);
                         else
                             $sourceText = $this->getSourceTextUSFM($data, true);
@@ -295,7 +295,7 @@ class EventsController extends Controller
 
                     case EventSteps::BLIND_DRAFT:
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data, true);
                         else
                             $sourceText = $this->getSourceTextUSFM($data, true);
@@ -422,7 +422,7 @@ class EventsController extends Controller
                         }
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data, true);
                         else
                             $sourceText = $this->getSourceTextUSFM($data, true);
@@ -552,7 +552,7 @@ class EventsController extends Controller
                         }
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb") {
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb") {
                             $sourceText = $this->getSourceText($data);
                             $cotrSourceText = $this->getSourceText($data, false, true);
                         }
@@ -753,7 +753,7 @@ class EventsController extends Controller
                         }
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data);
                         else
                             $sourceText = $this->getSourceTextUSFM($data);
@@ -783,7 +783,7 @@ class EventsController extends Controller
                         }
 
                         // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->bookProject != "rsb")
+                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                             $sourceText = $this->getSourceText($data);
                         else
                             $sourceText = $this->getSourceTextUSFM($data);
@@ -1022,7 +1022,7 @@ class EventsController extends Controller
                         else
                         {
                             // TODO This just temorarily untill uW pass to USFM format
-                            if($data["event"][0]->bookProject != "rsb")
+                            if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
                                 $sourceText = $this->getSourceText($data);
                             else
                                 $sourceText = $this->getSourceTextUSFM($data);
