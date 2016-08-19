@@ -94,6 +94,7 @@ return array(
     "state_complete" => "Complete",
     "checker_view" => "Checker View",
     "translator_view" => "Translator View",
+    "progress_all" => "Overall Progress",
 
     // Steps
     "pray" => "Preparation",

@@ -93,6 +93,7 @@ return array(
     "state_complete" => "Complete",
     "checker_view" => "Вид проверяющего",
     "translator_view" => "Вид переводчика",
+    "progress_all" => "Общий прогресс",
 
     // Steps
     "pray" => "Подготовка",

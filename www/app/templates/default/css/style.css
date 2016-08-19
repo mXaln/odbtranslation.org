@@ -1070,7 +1070,7 @@ mark {
     top: 0; bottom: 0;
     left:0; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99;
+    z-index: 101;
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
@@ -1205,7 +1205,7 @@ mark {
     top: 0; bottom: 0;
     left:0; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99;
+    z-index: 101;
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
@@ -1464,7 +1464,7 @@ mark {
 }
 
 .progress_all {
-    width: 300px !important;
+    width: 340px !important;
 }
 
 .zero .progress-bar {
@@ -1604,7 +1604,7 @@ a.demo_link, a.demo_link:hover {
 }
 
 .ui-widget-overlay{
-    background:#000;
+    background:#000 !important;
     opacity:.7 !important;
     filter:Alpha(Opacity=70) !important
 }

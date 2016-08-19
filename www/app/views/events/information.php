@@ -19,7 +19,7 @@ if(!isset($error)):
         <div class="book_title"><?php echo $data["event"][0]->name ?></div>
         <div class="project_title"><?php echo Language::show($data["event"][0]->bookProject, "Events")." - ".$data["event"][0]->tLang ?></div>
         <div class="overall_progress_bar">
-            <h3>Overall Progress</h3>
+            <h3><?php echo Language::show("progress_all", "Events") ?></h3>
             <div class="progress progress_all <?php echo $data["overall_progress"] <= 0 ? "zero" : ""?>">
                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $data["overall_progress"] ?>" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo $data["overall_progress"]."%" ?>">
                     <?php echo round($data["overall_progress"])."%" ?>
