@@ -101,13 +101,12 @@ $hooks->run('afterBody');
                             ));
                             ?>
 							<?php if(!isset($data["isDemo"])): ?>
-							<a href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
-                               data="check:<?php echo $notification->eventID.":".$notification->memberID ?>"
-                                target="_blank">
+							<a class="notifa" href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
+                               data="check:<?php echo $notification->eventID.":".$notification->memberID ?>">
                                 <li><?php echo $text; ?></li>
                             </a>
 							<?php else: ?>
-							<a href="/events/demo/keyword_check_checker">
+							<a class="notifa" href="/events/demo/keyword_check_checker">
 								<li><?php echo $text; ?></li>
 							</a>
 							<?php endif; ?>

@@ -550,7 +550,7 @@ $(document).ready(function() {
     });
 
 
-    $(document).on("click", ".notif_block a", function() {
+    $(document).on("click", ".notifa", function() {
         var item = $(this);
 
         var yes = Language.yes;
@@ -558,8 +558,7 @@ $(document).ready(function() {
 
         var btns = {};
         btns[yes] = function(){
-            var data = item.attr("data").split(":");
-            window.location.href = "/events/checker/"+data[1]+"/"+data[2]+"/apply";
+            window.location.href = item.attr("href");
         };
         btns[no] = function(){
             $( this ).dialog( "close" );

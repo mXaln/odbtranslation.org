@@ -143,6 +143,7 @@ return array(
     "not_loggedin_error" => "Вы не авторизованы.",
     "account_not_verirfied_error" => "Ваша учетная запись не подтверждена. Обратитесь к администрации сайта.",
     "event_notexist_error" => "Событие не существует.",
+    "no_source_error" => "Текст исходного перевода не найден.",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",

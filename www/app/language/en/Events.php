@@ -144,6 +144,7 @@ return array(
     "not_loggedin_error" => "You are not logged in.",
     "account_not_verirfied_error" => "Your account is not verified. Connect with the site administrator.",
     "event_notexist_error" => "Event not exists.",
+    "no_source_error" => "Source translation text not found.",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",
