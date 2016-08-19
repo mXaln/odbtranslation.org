@@ -23,7 +23,7 @@
     right: -610px; bottom: 0;
     width: 620px;
     height: 500px;
-    z-index: 9999;
+    z-index: 99;
 }
 
 
@@ -231,7 +231,7 @@
      top: 0; bottom: 0;
      left:0; right:0;
      background: rgba(0,0,0,0.7);
-     z-index: 99999;
+     z-index: 99;
      overflow-y: auto;
      overflow-x: hidden;
  }
@@ -254,7 +254,7 @@
     top: 0; bottom: 0;
     left:0; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -282,7 +282,7 @@
     top: 0; bottom: 0;
     left:-9999px; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -425,7 +425,7 @@
     top: 0; bottom: 0;
     left:-9999px; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -465,7 +465,7 @@
     top: 0; bottom: 0;
     left:-9999px; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -545,7 +545,7 @@
     left: 0;
     height: 100%;
     width: 300px;
-    z-index: 9999;
+    z-index: 99;
 }
 
 #tr_steps_hide {
@@ -786,7 +786,7 @@
     background: url("/app/templates/default/img/steps/Blind-drafting-active.png") no-repeat;
 }
 
-.self-check {background-color: #4596cc;}
+.self-check, .self-check-full {background-color: #4596cc;}
 .self-check-step {
     background: url("/app/templates/default/img/steps/Self-edit-inactive.png") no-repeat;
 }
@@ -900,7 +900,7 @@
     width: 200px;
     height: 50px;
     display: none;
-    z-index: 9999;
+    z-index: 99;
     color: #fff;
     font-weight: bold;
 }
@@ -920,7 +920,7 @@
     cursor: pointer;
     width: 150px;
     height: 50px;
-    z-index: 9999;
+    z-index: 99;
     color: #fff;
     font-weight: bold;
     display: none;
@@ -936,7 +936,7 @@
     cursor: pointer;
     width: 150px;
     height: 50px;
-    z-index: 9999;
+    z-index: 99;
     color: #fff;
     font-weight: bold;
 }
@@ -963,11 +963,12 @@ mark {
     background-color: #fff;
     border: 1px solid #2575b8;
     /*border-bottom: none;*/
-    z-index: 9999;
+    z-index: 99;
     list-style: none;
     padding: 0px;
     overflow-y: auto;
     display: none;
+    text-align: left;
 }
 
 .notif_block a {
@@ -1069,7 +1070,7 @@ mark {
     top: 0; bottom: 0;
     left:0; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
@@ -1097,7 +1098,7 @@ mark {
     position: absolute;
     right: -30px;
     top: 0;
-    z-index: 9000;
+    z-index: 90;
 }
 
 .tooltip-inner {
@@ -1148,7 +1149,7 @@ mark {
     top: 0; bottom: 0;
     left:0; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
@@ -1161,7 +1162,7 @@ mark {
     top: calc(50% - 350px);
     left: calc(50% - 400px);
     background-color: #ffffff;
-    z-index: 9999;
+    z-index: 99;
     cursor: auto;
     padding: 10px 0;
 }
@@ -1204,7 +1205,7 @@ mark {
     top: 0; bottom: 0;
     left:0; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
@@ -1216,7 +1217,7 @@ mark {
     top: calc(50% - 280px);
     left: calc(50% - 450px);
     background-color: #ffffff;
-    z-index: 9999;
+    z-index: 99;
     cursor: auto;
 }
 
@@ -1288,7 +1289,7 @@ mark {
     top: 0; bottom: 0;
     left:-9999px; right:0;
     background: rgba(0,0,0,0.7);
-    z-index: 99999;
+    z-index: 99;
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
@@ -1299,7 +1300,7 @@ mark {
     top: calc(50% - 150px);
     left: calc(50% - 350px);
     background-color: #ffffff;
-    z-index: 9999;
+    z-index: 99;
     cursor: auto;
     width: 700px;
     padding: 20px;
@@ -1462,6 +1463,10 @@ mark {
     margin: 0;
 }
 
+.progress_all {
+    width: 300px !important;
+}
+
 .zero .progress-bar {
     color: #380000;
     margin-left: 5px;
@@ -1596,4 +1601,14 @@ a.demo_link, a.demo_link:hover {
     margin-top: 30px;
     font-size: 22px;
     text-align: center;
+}
+
+.ui-widget-overlay{
+    background:#000;
+    opacity:.7 !important;
+    filter:Alpha(Opacity=70) !important
+}
+
+.ui-widget-header, .ui-state-default, .ui-state-hover {
+    background-image: none !important;
 }

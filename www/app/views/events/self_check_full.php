@@ -1,6 +1,5 @@
 <?php
 use \Core\Language;
-use \Helpers\Constants\EventSteps;
 ?>
 
 <div class="editor">
@@ -10,48 +9,47 @@ use \Helpers\Constants\EventSteps;
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
+        <div class="other_comments_list"></div>
         <img src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif" class="commentEditorLoader">
     </div>
 </div>
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
-        <?php $step = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? 4 : 5 ?>
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array($step)) . Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(5)) . Language::show("self-check-full", "Events")?></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row">
-                    <div class="row">
-                        <h4><?php echo $data["event"][0]->sLang." - "
-                                .Language::show($data["event"][0]->bookProject, "Events")." - "
-                                .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
-                                ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?></h4>
+                    <h4><?php echo $data["event"][0]->sLang." - "
+                            .Language::show($data["event"][0]->bookProject, "Events")." - "
+                            .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
+                            ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
-                        <!-- Show blind draft text if it is a translation to other language -->
-                        <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
-                        <div class="col-sm-12">
-                            <textarea readonly class="readonly blind_ta textarea"><?php echo $data["blindDraftText"]; ?></textarea>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <?php for($i=0; $i < sizeof($data["text"]); $i++): ?>
-                            <div class="row chunk_verse">
-                                <div class="col-sm-6 verse"><?php echo "<strong><sup>".$data["text"][$i]["verse"]."</sup></strong> " . $data["text"][$i]["content"]; ?></div>
+                    <div class="col-sm-12 no_padding">
+                        <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
+                            <?php
+                            $k=0;
+                            $count = 0;
+                            foreach($chunk["translator"]["verses"] as $verse => $text):
+                                $verses = explode("-", $data["text"][$i-1]);
+                                ?>
+                                <?php if($count == 0): ?>
+                                <div class="row chunk_verse">
+                                <div class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
                                 <div class="col-sm-6 editor_area">
-                                <?php
-                                $verses = explode("-", $data["text"][$i]["verse"]);
-                                foreach ($verses as $verse):?>
-                                    <textarea name="verses[]" class="verse_ta textarea"><?php echo isset($_POST["verses"][$i]) ? $_POST["verses"][$i] : (isset($data["verses"][$verse]) ? $data["verses"][$verse] : "") ?></textarea>
-                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                            <?php endif; ?>
+                                <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-6 peer_verse_ta textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
 
-                                    <div class="comments">
+                                <div class="comments_number">
+                                    <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
+                                        sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                </div>
+                                <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+
+                                <div class="comments">
                                     <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
                                         <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
                                             <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
@@ -61,12 +59,27 @@ use \Helpers\Constants\EventSteps;
                                             <?php endif; ?>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
-                                    </div>
-                                <?php endforeach; ?>
                                 </div>
-                            </div>
-                            <?php endfor; ?>
-                        </div>
+                                <?php
+                                $k++;
+                                $count++;
+
+                                if($count == sizeof($verses)) :
+                                    $i+=2;
+                                    $count = 0; ?>
+                                    </div>
+                                    </div>
+                                    <?php
+                                endif;
+                            endforeach;
+                            ?>
+                            <div class="chunk_divider col-sm-12"></div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary"><?php echo Language::show("save", "Events")?></button>
+                        <img src="<?php echo \Helpers\Url::templatePath() ?>img/alert.png" class="unsaved_alert">
                     </div>
                 </div>
 
@@ -87,9 +100,9 @@ use \Helpers\Constants\EventSteps;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array($step))?></span> <?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(5))?></span> <?php echo Language::show("self-check-full", "Events")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
+                    <ul><?php echo mb_substr(Language::show("keyword-check_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>
             </div>
 
@@ -101,7 +114,7 @@ use \Helpers\Constants\EventSteps;
                     </div>
                     <div class="participant_name">
                         <span><?php echo Language::show("your_checker", "Events") ?>:</span>
-                        <span><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
+                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo Language::show("event_info", "Events") ?></a>
@@ -125,8 +138,8 @@ use \Helpers\Constants\EventSteps;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></h3>
-            <ul><?php echo Language::show(EventSteps::SELF_CHECK.$apx."_desc", "Events")?></ul>
+            <h3><?php echo Language::show("self-check-full", "Events")?></h3>
+            <ul><?php echo Language::show("self-check-full_desc", "Events")?></ul>
         </div>
     </div>
 </div>

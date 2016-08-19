@@ -31,7 +31,7 @@ use Core\Language;
                             <td><?php echo $event->userName ?></td>
                             <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID; ?>/apply"
                                    data="check:<?php echo $event->eventID.":".$event->memberID ?>">
-                                    <?php echo Language::show("apply_check", "Events") ?>
+                                    <?php echo Language::show("apply", "Events") ?>
                                 </a>
                             </td>
                         </tr>

@@ -10,33 +10,47 @@ use Helpers\Constants\EventSteps;
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/pray"><span><?php echo Language::show("pray", "Events") ?></span></a>
         </li>
+
         <li class="consume-step <?php echo $data["step"] == EventSteps::CONSUME ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/consume"><span><?php echo Language::show("consume", "Events") ?></span></a>
         </li>
+
         <li class="discuss-step <?php echo $data["step"] == EventSteps::DISCUSS ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/verbalize"><span><?php echo Language::show("discuss", "Events") ?></span></a>
         </li>
+
         <li class="chunking-step <?php echo $data["step"] == EventSteps::CHUNKING ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/prep_chunks"><span><?php echo Language::show("chunking", "Events") ?></span></a>
         </li>
+
         <?php if($_COOKIE["demo_mode"] == "ol") : ?>
             <li class="blind-draft-step <?php echo $data["step"] == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
                 <a href="<?php echo DIR ?>events/demo/blind_draft"><span><?php echo Language::show("blind-draft", "Events") ?></span></a>
             </li>
         <?php endif; ?>
+
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
             <?php if($_COOKIE["demo_mode"] == "ol") : ?>
                 <a href="<?php echo DIR ?>events/demo/self_check"><span><?php echo Language::show("self-check", "Events") ?></span></a>
             <?php else: ?>
-                <a href="<?php echo DIR ?>events/demo/draft_self_check"><span><?php echo Language::show("self-check_gl", "Events") ?></span></a>
+                <a href="<?php echo DIR ?>events/demo/draft"><span><?php echo Language::show("self-check_gl", "Events") ?></span></a>
             <?php endif; ?>
         </li>
+
+        <?php if($_COOKIE["demo_mode"] == "gl"):?>
+            <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK_FULL ? "active" : "" ?>">
+                <a href="<?php echo DIR ?>events/demo/self_check_full"><span><?php echo Language::show(EventSteps::SELF_CHECK, "Events")?></span></a>
+            </li>
+        <?php endif; ?>
+
         <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/peer_review"><span><?php echo Language::show("peer-review", "Events") ?></span></a>
         </li>
+
         <li class="keyword-check-step <?php echo $data["step"] == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/keyword_check"><span><?php echo Language::show("keyword-check", "Events") ?></span></a>
         </li>
+
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
             <a href="<?php echo DIR ?>events/demo/content_review"><span><?php echo Language::show("content-review", "Events") ?></span></a>
         </li>

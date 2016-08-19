@@ -17,12 +17,15 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::PRAY, "Events")?></span>
         </li>
+
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::CONSUME, "Events")?></span>
         </li>
+
         <li class="discuss-step <?php echo $data["event"][0]->step == EventSteps::DISCUSS ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::DISCUSS, "Events")?></span>
         </li>
+
         <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ||
                 $data["event"][0]->step == EventSteps::PRE_CHUNKING ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::CHUNKING, "Events")?></span>
@@ -38,12 +41,21 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></span>
         </li>
+
+        <?php if($data["event"][0]->gwLang == $data["event"][0]->targetLang):?>
+        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK_FULL ? "active" : "" ?>">
+            <span><?php echo Language::show(EventSteps::SELF_CHECK, "Events")?></span>
+        </li>
+        <?php endif; ?>
+
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::PEER_REVIEW, "Events")?></span>
         </li>
+
         <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::KEYWORD_CHECK, "Events")?></span>
         </li>
+
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
             <span><?php echo Language::show(EventSteps::CONTENT_REVIEW, "Events")?></span>
         </li>

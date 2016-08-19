@@ -4,7 +4,7 @@ use Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(4)) . Language::show("chunking", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(3)) . Language::show("chunking", "Events")?></div>
         <div class="demo_title"><?php echo Language::show("demo", "Events") ?></div>
     </div>
 
@@ -55,7 +55,7 @@ desires. They will be tickling their hearing.
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(4))?></span> <?php echo Language::show("chunking", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(3))?></span> <?php echo Language::show("chunking", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(Language::show("chunking_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>
@@ -103,7 +103,7 @@ desires. They will be tickling their hearing.
     (function($) {
         $("#next_step").click(function() {
 
-            var url = '<?php echo DIR."events/demo/" . (!isset($_COOKIE["demo_mode"]) || $_COOKIE["demo_mode"] == "gl" ? "draft_self_check" : "blind_draft") ?>';
+            var url = '<?php echo DIR."events/demo/" . (!isset($_COOKIE["demo_mode"]) || $_COOKIE["demo_mode"] == "gl" ? "draft" : "blind_draft") ?>';
 
             window.location.href=url;
 

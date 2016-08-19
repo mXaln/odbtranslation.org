@@ -15,7 +15,7 @@ use Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(5)) . Language::show("self-check_gl", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(4)) . Language::show("self-check_gl", "Events")?></div>
         <div class="demo_title"><?php echo Language::show("demo", "Events") ?></div>
     </div>
 
@@ -116,7 +116,7 @@ own desires. They will be tickling their hearing.
                         <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo Language::show("confirm_yes", "Events")?></label>
                     </div>
 
-                    <button id="next_step" onclick="window.location.href='<?php echo DIR ?>events/demo/peer_review'; return false;" class="btn btn-primary" disabled="disabled"><?php echo Language::show("next_step", "Events")?></button>
+                    <button id="next_step" onclick="window.location.href='<?php echo DIR ?>events/demo/self_check_full'; return false;" class="btn btn-primary" disabled="disabled"><?php echo Language::show("next_step", "Events")?></button>
                 </div>
             </form>
         </div>
@@ -127,7 +127,7 @@ own desires. They will be tickling their hearing.
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(5))?></span><?php echo Language::show("self-check_gl", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(4))?></span><?php echo Language::show("self-check_gl", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(Language::show("self-check_gl_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>

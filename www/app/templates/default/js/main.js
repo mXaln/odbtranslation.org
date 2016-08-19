@@ -15,6 +15,7 @@ var eventSteps = {
     CHUNKING: "chunking",
     BLIND_DRAFT: "blind-draft",
     SELF_CHECK: "self-check",
+    SELF_CHECK_FULL: "self-check-full",
     PEER_REVIEW: "peer-review",
     KEYWORD_CHECK: "keyword-check",
     CONTENT_REVIEW: "content-review",
@@ -132,8 +133,19 @@ $(document).ready(function() {
 
                 if(data.success)
                 {
-                    alert(data.success);
-                    window.location = "/members";
+                    $(".alert_message").text(data.success);
+                    $( "#dialog-message" ).dialog({
+                        modal: true,
+                        resizable: false,
+                        draggable: false,
+                        width: 500,
+                        buttons: {
+                            Ok: function() {
+                                $( this ).dialog( "close" );
+                                window.location = "/members";
+                            }
+                        }
+                    });
                 }
                 else
                 {
@@ -163,14 +175,17 @@ $(document).ready(function() {
     // Hide steps panel on small screens or if it was closed manually
     var panelClosed = getCookie("close_left_panel");
 
-    if(typeof panelClosed != "undefined" && panelClosed == "true")
+    if(typeof panelClosed != "undefined")
     {
-        $("#translator_steps").removeClass("open")
-            .addClass("closed");
-        $("#translator_steps").animate({left: "-300px"}, 50, function() {
-            $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
-                .addClass("glyphicon-chevron-right");
-        });
+        if(panelClosed == "true")
+        {
+            $("#translator_steps").removeClass("open")
+                .addClass("closed");
+            $("#translator_steps").animate({left: "-300px"}, 50, function() {
+                $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
+                    .addClass("glyphicon-chevron-right");
+            });
+        }
     }
     else if($(window).width() < 1800)
     {
@@ -232,7 +247,7 @@ $(document).ready(function() {
 
         if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK ||
             step == eventSteps.PEER_REVIEW || step == eventSteps.KEYWORD_CHECK ||
-            step == eventSteps.CONTENT_REVIEW)
+            step == eventSteps.CONTENT_REVIEW || step == eventSteps.SELF_CHECK_FULL)
         {
             autosaveTimer = setInterval(function() {
                 if(hasChangesOnPage)
@@ -249,10 +264,10 @@ $(document).ready(function() {
                             }
                         })
                         .done(function(data) {
-                            hasChangesOnPage = false;
                             if(data.success)
                             {
                                 $(".unsaved_alert").hide();
+                                hasChangesOnPage = false;
                             }
                             else
                             {
@@ -266,6 +281,21 @@ $(document).ready(function() {
 
                                         case "verify":
                                             window.location.href = "members";
+                                            break;
+
+                                        case "checkDone":
+                                            $(".alert_message").text(data.error);
+                                            $( "#dialog-message" ).dialog({
+                                                modal: true,
+                                                resizable: false,
+                                                draggable: false,
+                                                width: 500,
+                                                buttons: {
+                                                    Ok: function() {
+                                                        $( this ).dialog( "close" );
+                                                    }
+                                                }
+                                            });
                                             break;
                                     }
                                 }
@@ -300,7 +330,8 @@ $(document).ready(function() {
             $("#translator_steps").animate({left: 0}, 500, function() {
             $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
                 .addClass("glyphicon-chevron-left");
-            deleteCookie("close_left_panel");
+            //deleteCookie("close_left_panel");
+            setCookie("close_left_panel", false, {expires: 365*24*60*60, path: "/"});
         });
         }
     });
@@ -320,14 +351,31 @@ $(document).ready(function() {
 
         if(hasChangesOnPage)
         {
-            if(confirm("There are some changes made on this page. Do you want to continue without saving?"))
-            {
-                return true;
-            }
-            else
-            {
+            var yes = Language.yes;
+            var no = Language.no;
+
+            var btns = {};
+            btns[yes] = function(){
+                hasChangesOnPage = false;
+                $("#next_step").click();
+            };
+            btns[no] = function(){
+                $( this ).dialog( "close" );
                 return false;
-            }
+            };
+
+            $(".confirm_message").text(Language.save_changes_confirm);
+            $( "#check-book-confirm" ).dialog({
+                resizable: false,
+                draggable: false,
+                title: Language.save_changes_confirm_title,
+                height: "auto",
+                width: 500,
+                modal: true,
+                buttons: btns,
+            });
+
+            return false;
         }
         else
         {
@@ -502,6 +550,35 @@ $(document).ready(function() {
     });
 
 
+    $(document).on("click", ".notif_block a", function() {
+        var item = $(this);
+
+        var yes = Language.yes;
+        var no = Language.no;
+
+        var btns = {};
+        btns[yes] = function(){
+            var data = item.attr("data").split(":");
+            window.location.href = "/events/checker/"+data[1]+"/"+data[2]+"/apply";
+        };
+        btns[no] = function(){
+            $( this ).dialog( "close" );
+        };
+
+        $(".confirm_message").text(Language.check_book_confirm);
+        $( "#check-book-confirm" ).dialog({
+            resizable: false,
+            draggable: false,
+            title: Language.check_book_confirm_title,
+            height: "auto",
+            width: 500,
+            modal: true,
+            buttons: btns
+        });
+
+        return false;
+    });
+
     // Show/Hide Comment Textarea
     $(document).on("click", ".editComment", function() {
         comments = $(this).next(".comments");
@@ -575,7 +652,19 @@ $(document).ready(function() {
                     {
                         if(typeof data.error != "undefined")
                         {
-                            alert(data.error);
+                            $(".alert_message").text(data.error);
+                            $( "#dialog-message" ).dialog({
+                                modal: true,
+                                resizable: false,
+                                draggable: false,
+                                width: 500,
+                                buttons: {
+                                    Ok: function() {
+                                        $( this ).dialog( "close" );
+                                        window.location.reload(true);
+                                    }
+                                }
+                            });
                         }
                     }
                 })
@@ -597,7 +686,18 @@ $(document).ready(function() {
 
     $(".keywords_show").click(function() {
         if(keywords.length <= 0) {
-            alert("There are no keywords for this language");
+            $(".alert_message").text(Language.no_keywords);
+            $( "#dialog-message" ).dialog({
+                modal: true,
+                resizable: false,
+                draggable: false,
+                width: 500,
+                buttons: {
+                    Ok: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
             return;
         }
 

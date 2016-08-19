@@ -11,6 +11,8 @@ use \Helpers\Constants\EventSteps;
 
 //initialise hooks
 $hooks = Hooks::get();
+
+$code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo LANGUAGE_CODE; ?>">
@@ -32,6 +34,9 @@ $hooks = Hooks::get();
 		Url::templatePath() . 'css/bootstrap.min.css',
 		Url::templatePath() . 'css/bootstrap-theme.min.css',
 		Url::templatePath() . 'css/style.css',
+		Url::templatePath() . 'css/jquery-ui.min.css',
+		Url::templatePath() . 'css/jquery-ui.structure.min.css',
+		Url::templatePath() . 'css/jquery-ui.theme.min.css',
 	));
 
 	//hook for plugging in css
@@ -42,10 +47,12 @@ $hooks = Hooks::get();
 	<?php
 	Assets::js(array(
 		Url::templatePath() . 'js/jquery.js',
+		Url::templatePath() . 'js/languages/'.$code.'.js',
 		Url::templatePath() . 'js/main.js',
 		Url::templatePath() . 'js/bootstrap.min.js',
 		//Url::templatePath() . 'js/jquery.elastic.source.js'
-		Url::templatePath() . 'js/autosize.min.js'
+		Url::templatePath() . 'js/autosize.min.js',
+		Url::templatePath() . 'js/jquery-ui.min.js',
 	));
 
 	//hook for plugging in javascript
@@ -63,7 +70,7 @@ $hooks->run('afterBody');
 
 	<div class="header page-header row">
 
-		<ul class="nav nav-pills col-md-6" role="tablist">
+		<ul class="nav nav-pills col-md-4" role="tablist">
 			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo Language::show('home', 'Main')?></a></li>
 			<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations"><?php echo Language::show('translations_title', 'Main')?></a></li>
 			<li <?php if($data['menu'] == 4):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>events"><?php echo Language::show('events_title', 'Main')?></a></li>
@@ -71,7 +78,7 @@ $hooks->run('afterBody');
 			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo Language::show('about_title', 'Main')?></a></li>-->
 		</ul>
 
-		<ul class="list-inline col-md-6">
+		<ul class="list-inline col-md-8" style="text-align: right">
 			<li><a class="btn btn-link" href="<?php echo DIR?>lang/en">English</a></li>
 			<li><a class="btn btn-link" href="<?php echo DIR?>lang/ru">Русский</a></li>
 			<?php if(\Helpers\Session::get('loggedin')): ?>
@@ -93,11 +100,17 @@ $hooks->run('afterBody');
                                 Language::show($notification->bookProject, "Events"),
                             ));
                             ?>
+							<?php if(!isset($data["isDemo"])): ?>
 							<a href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
                                data="check:<?php echo $notification->eventID.":".$notification->memberID ?>"
                                 target="_blank">
                                 <li><?php echo $text; ?></li>
                             </a>
+							<?php else: ?>
+							<a href="/events/demo/keyword_check_checker">
+								<li><?php echo $text; ?></li>
+							</a>
+							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php else: ?>
 						<div class='no_notif'><?php echo Language::show("no_notifs_msg", "Events") ?></div>
@@ -110,4 +123,22 @@ $hooks->run('afterBody');
 			<?php endif?>
 		</ul>
 
+	</div>
+
+
+	<!-- dialog windows -->
+	<div id="check-book-confirm" title="" style="display: none">
+		<br>
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float:left; margin:3px 12px 20px 0;"></span>
+			<span class="confirm_message"><?php echo Language::show("check_book_confirm", "Events") ?></span>
+		</p>
+	</div>
+
+	<div id="dialog-message" title="<?php echo Language::show("alert_message", "Events") ?>" style="display: none">
+		<br>
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float:left; margin:3px 7px 30px 0;"></span>
+			<span class="alert_message"></span>
+		</p>
 	</div>

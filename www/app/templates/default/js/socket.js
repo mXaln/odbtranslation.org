@@ -84,7 +84,19 @@ function OnSystemMessage(data)
             if($(".discuss_not_ready").length > 0)
             {
                 $(".alert.alert-danger, .alert.alert-success").remove();
-                alert("Your partner has joined verbalize step");
+
+                $(".alert_message").text(Language.partner_joined_verbalize);
+                $( "#dialog-message" ).dialog({
+                    modal: true,
+                    resizable: false,
+                    draggable: false,
+                    width: 500,
+                    buttons: {
+                        Ok: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
             }
             break;
 
@@ -101,7 +113,19 @@ function OnSystemMessage(data)
                     .done(function(data) {
                         $(".cotrData").html(data);
                         $('[data-toggle="tooltip"]').tooltip();
-                        alert("Your partner has joined peer review step");
+
+                        $(".alert_message").text(Language.partner_joined_peer_edit);
+                        $( "#dialog-message" ).dialog({
+                            modal: true,
+                            resizable: false,
+                            draggable: false,
+                            width: 500,
+                            buttons: {
+                                Ok: function() {
+                                    $( this ).dialog( "close" );
+                                }
+                            }
+                        });
                     });
             }
             break;
@@ -118,7 +142,22 @@ function OnSystemMessage(data)
                 socket.io.reconnect();
                 
 				if(step != "")
-					alert("A checker has joined");
+                {
+                    $(".alert.alert-danger, .alert.alert-success").remove();
+
+                    $(".alert_message").text(Language.checker_joined);
+                    $( "#dialog-message" ).dialog({
+                        modal: true,
+                        resizable: false,
+                        draggable: false,
+                        width: 500,
+                        buttons: {
+                            Ok: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+                }
             }
             break;
 
@@ -131,7 +170,20 @@ function OnSystemMessage(data)
             break;
 
         case "checkDone":
-            alert("Checker has approved your translation!");
+            $(".alert.alert-danger, .alert.alert-success").remove();
+
+            $(".alert_message").text(Language.checker_approved);
+            $( "#dialog-message" ).dialog({
+                modal: true,
+                resizable: false,
+                draggable: false,
+                width: 500,
+                buttons: {
+                    Ok: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
             break;
     }
 }

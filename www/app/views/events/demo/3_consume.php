@@ -4,7 +4,7 @@ use Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(2)) . Language::show("consume", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(1)) . Language::show("consume", "Events")?></div>
         <div class="demo_title"><?php echo Language::show("demo", "Events") ?></div>
     </div>
 
@@ -111,7 +111,7 @@ heavenly kingdom. To him be the glory forever and ever. Amen.
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(2))?></span><?php echo Language::show("consume", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(1))?></span><?php echo Language::show("consume", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(Language::show("consume_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>

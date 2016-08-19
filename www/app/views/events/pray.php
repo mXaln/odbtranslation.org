@@ -4,7 +4,7 @@ use \Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(1)) . Language::show("pray", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("pray", "Events")?></div>
     </div>
 
     <div class="row">
@@ -12,7 +12,7 @@ use \Core\Language;
             <div class="main_content_text">
                 <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/pray.png">
                 <br>
-                <div><?php echo Language::show("pray_text", "Events")?></div>
+                <div><?php echo Language::show((!$data["event"][0]->justStarted ? "prep_" : "")."pray_text", "Events")?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -33,7 +33,7 @@ use \Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(1)) ?></span><?php echo Language::show("pray", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("pray", "Events")?></span></div>
                 <div class="help_descr_steps">
                     <ul><?php echo Language::show("pray_desc", "Events")?></ul>
                 </div>

@@ -4,7 +4,7 @@ use Core\Language;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(5)) . Language::show("blind-draft", "Events")?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array(4)) . Language::show("blind-draft", "Events")?></div>
         <div class="demo_title"><?php echo Language::show("demo", "Events") ?></div>
     </div>
 
@@ -40,7 +40,7 @@ use Core\Language;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(5))?></span> <?php echo Language::show("blind-draft", "Events")?></div>
+                <div class="help_name_steps"><span><?php echo Language::show("step_num", "Events", array(4))?></span> <?php echo Language::show("blind-draft", "Events")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(Language::show("blind-draft_desc", "Events"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo Language::show("show_more", "Events")?></div></ul>
                 </div>
