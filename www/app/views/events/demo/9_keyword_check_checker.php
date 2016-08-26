@@ -337,7 +337,7 @@ use Core\Language;
                     </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
+            <div class="help_info_steps is_checker_page_help">
                 <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
@@ -348,7 +348,7 @@ use Core\Language;
                 </div>
             </div>
 
-            <div class="event_info">
+            <div class="event_info is_checker_page_help">
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo Language::show("your_translator", "Events") ?>:</span>

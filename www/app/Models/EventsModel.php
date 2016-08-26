@@ -15,6 +15,7 @@ use Helpers\Data;
 use Helpers\Session;
 use Helpers\Url;
 use PDO;
+use Predis\Command\PrefixableCommandInterface;
 
 class EventsModel extends Model
 {
@@ -154,7 +155,7 @@ class EventsModel extends Model
     }
 
     /**
-     * Get member with the event info
+     * Get member with the event in which he is participating
      * @param int $eventID
      * @param int $memberID
      * @return array
@@ -208,9 +209,9 @@ class EventsModel extends Model
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, "
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, ".PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
-                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
+                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.peerChapter, ".PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
                 ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
-                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
+                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.peerChapter AS cotrPeerChapter, cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
                 ."mems.userName AS pairName, mems2.userName AS checkerName, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
@@ -263,10 +264,11 @@ class EventsModel extends Model
         if($trMemberID)
             $prepare[":trMemberID"] = $trMemberID;
 
-        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, cotr.peerChapter AS cotrPeerChapter, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
                 PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible ".
             "FROM ".PREFIX."translators AS trs ".
+                "LEFT JOIN ".PREFIX."translators AS cotr ON trs.pairID = cotr.trID ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
@@ -281,22 +283,42 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-
-    public function getMemberEventsForAdmin($memberID)
+    /**
+     * Get event/list of events for facilitator
+     * @param $memberID
+     * @param $eventID
+     * @return array
+     */
+    public function getMemberEventsForAdmin($memberID, $eventID = null)
     {
-        $sql = "SELECT evnt.eventID, evnt.state, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.name ".
+        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.name ".
             "FROM ".PREFIX."events AS evnt ".
-                "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
-                "LEFT JOIN ".PREFIX."gateway_projects AS gwProj ON gwProj.gwProjectID = proj.gwProjectID ".
-                "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
-                "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
-                "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
+            "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."gateway_projects AS gwProj ON gwProj.gwProjectID = proj.gwProjectID ".
+            "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
+            "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
             "WHERE gwProj.admins LIKE :memberID ".
+            ($eventID ? "AND evnt.eventID = :eventID " : "").
             "ORDER BY tLang.langName, abbr.abbrID";
 
-        return $this->db->select($sql, array(":memberID" => '%\"'.$memberID.'"%'));
+        $prepare = array(":memberID" => '%\"'.$memberID.'"%');
+        if($eventID) $prepare[":eventID"] = $eventID;
+
+        return $this->db->select($sql, $prepare);
     }
 
+
+    public function getMembersForEvent($eventID)
+    {
+        $sql = "SELECT trs.*, members.userName ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members AS members ON members.memberID = trs.memberID ".
+            "WHERE trs.eventID = :eventID ".
+            "ORDER BY members.userName";
+
+        return $this->db->select($sql, array(":eventID" => $eventID), PDO::FETCH_ASSOC);
+    }
 
     /**
      * Get notifications for assigned events
@@ -670,11 +692,11 @@ class EventsModel extends Model
 
         $trID = $this->db->lastInsertId('trID');
 
-        if($addPair)
+        /*if($addPair)
         {
             $this->db->update(PREFIX."translators", array("pairID" => $trID), array("trID" => $lastTrID));
             $this->db->update(PREFIX."translators", array("pairID" => $lastTrID), array("trID" => $trID));
-        }
+        }*/
         return $trID;
     }
 
@@ -743,6 +765,30 @@ class EventsModel extends Model
         }
         return $this->db->lastInsertId('l3chID');
     }
+
+    public function setTranslatorsPairOrder($pairOrder, $eventID, $members)
+    {
+        $sql = "UPDATE ".PREFIX."translators ".
+            "SET pairOrder = :pairOrder, pairID = :cotr1 ".
+            "WHERE eventID = :eventID AND memberID = :member1; ".
+            "UPDATE ".PREFIX."translators ".
+            "SET pairOrder = :pairOrder, pairID = :cotr2 ".
+            "WHERE eventID = :eventID AND memberID = :member2;";
+
+        $prepare = array(
+            ":pairOrder" => $pairOrder,
+            ":eventID" => $eventID,
+            ":cotr1" => $members[1]["trID"],
+            ":member1" => $members[0]["memberID"],
+            ":cotr2" => $members[0]["trID"],
+            ":member2" => $members[1]["memberID"],
+        );
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($prepare);
+        return $stmt->rowCount();
+    }
+
 
     /**
      * Create translation record

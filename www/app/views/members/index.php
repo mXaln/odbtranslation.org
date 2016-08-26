@@ -22,6 +22,7 @@ use \Core\Language;
                             <th><?php echo Language::show("project", "Events") ?></th>
                             <th><?php echo Language::show("source", "Events") ?></th>
                             <th><?php echo Language::show("state", "Events") ?></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,7 @@ use \Core\Language;
                                 <td><?php echo Language::show($event->bookProject, "Events") ?></td>
                                 <td><?php echo Language::show($event->sourceBible, "Events"). " (".$event->sLang.")" ?></td>
                                 <td><?php echo Language::show("state_".$event->state, "Events") ?></td>
+                                <td><a href="/events/manage/<?php echo $event->eventID ?>"><?php echo Language::show("manage", "Events") ?></a></td>
                             </tr>
                         <?php endforeach ?>
                         </tbody>

@@ -172,14 +172,14 @@ if(empty($error) && empty($data["success"])):
                         <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo Language::show("confirm_yes", "Events")?></label>
                     </div>
 
-                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo Language::show("next_step", "Events")?></button>
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo Language::show("continue", "Events")?></button>
                 </form>
             </div>
             <?php //endif; ?>
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
+            <div class="help_info_steps <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                 <div class="help_title_steps"><?php echo Language::show("help", "Events") ?></div>
 
                 <div class="clear"></div>
@@ -190,7 +190,7 @@ if(empty($error) && empty($data["success"])):
                 </div>
             </div>
 
-            <div class="event_info">
+            <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo Language::show("your_translator", "Events") ?>:</span>
@@ -217,7 +217,7 @@ if(empty($error) && empty($data["success"])):
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
             <h3><?php echo Language::show($current, "Events")?></h3>
             <ul><?php echo Language::show($current . "_checker_desc", "Events")?></ul>
         </div>
@@ -234,8 +234,8 @@ if(empty($error) && empty($data["success"])):
                 <?php foreach ($keyword["terms"] as $term):?>
                     <?php $kws = explode(", ", $term) ?>
                     <?php foreach ($kws as $item):?>
-                        if($.inArray('<?php echo $item; ?>', keywords) <= -1)
-                            keywords.push('<?php echo $item; ?>');
+                        if($.inArray('<?php echo addslashes ($item); ?>', keywords) <= -1)
+                            keywords.push('<?php echo addslashes ($item); ?>');
                     <?php endforeach; ?>
                 <?php endforeach; ?>
             <?php endforeach; ?>

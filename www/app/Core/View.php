@@ -44,7 +44,7 @@ class View
     public static function renderModule($path, $data = false, $error = false)
     {
         self::sendHeaders();
-        
+
         require SMVC."app/Modules/$path.php";
     }
 

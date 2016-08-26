@@ -754,7 +754,7 @@
     background: url("/app/templates/default/img/steps/Consume-source-active.png") no-repeat;
 }
 
-.discuss {background-color: #886cb3;}
+.discuss {background-color: #4596cc;}
 .discuss-step {
     background: url("/app/templates/default/img/steps/Verbalize-text-inactive.png") no-repeat;
 }
@@ -1611,4 +1611,268 @@ a.demo_link, a.demo_link:hover {
 
 .ui-widget-header, .ui-state-default, .ui-state-hover {
     background-image: none !important;
+}
+
+.ui-widget {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
+.manage_container {
+    height: 100%;
+}
+
+.manage_container ul {
+    margin: 0;
+    padding: 0;
+}
+
+.manage_container ul li {
+    list-style: none;
+    margin: 10px 0 0 0;
+}
+
+.manage_container h3 {
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 5px;
+}
+
+.manage_chapters {
+
+}
+
+.manage_chapters ul li {
+    height: 35px;
+}
+
+.manage_chapters_user {
+
+}
+
+.manage_chapter {
+    padding-left: 0;
+    font-weight: bold;
+}
+
+.manage_chapters_user button {
+
+}
+
+.manage_username {
+    display: none;
+}
+
+.uname {
+    float: left;
+    overflow: hidden;
+    max-width: 120px;
+}
+
+.uname_delete {
+    float: left;
+    margin-left: 5px;
+    border-radius: 4px;
+    background-color: #666666;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.manage_members {
+
+}
+
+.member_chapters {
+    margin-top: -10px;
+    display: none;
+}
+
+.manage_pairs {
+
+}
+
+.pair_block {
+    border-radius: 10px;
+    background-color: #becfff;
+    padding: 5px 10px;
+    height: 150px;
+    position: relative;
+}
+
+.pair_member1, .pair_member2, .manage_username, .member_usname {
+    height: 32px;
+    color: #0481ff;
+    font-size: 18px;
+}
+
+.pair_member1 span, .pair_member2 span, .manage_username span {
+    border-radius: 4px;
+    background-color: #666666;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.pair_button {
+    text-align: right;
+}
+
+.chapter_members, .pair_members {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.chapter_members_div, .pair_members_div {
+    margin: 0px auto;
+    position: fixed;
+    width: 450px;
+    left: calc(50% - 300px);
+    top: calc(50% - 250px);
+}
+
+.pair_members_div {
+    width: 550px;
+}
+
+.chapter-members-close, .pair-members-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.chapter_members_div ul, .pair_members_div ul {
+    margin-top: 20px;
+    padding: 0 20px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.chapter_members_div ul li, .pair_members_div ul li {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.pair_members_div ul li {
+    cursor: pointer;
+}
+
+.userlist {
+    float: left;
+    width: 260px;
+    overflow: hidden;
+}
+
+div[class^="member_usname mid"] {
+    max-width: 200px;
+    overflow: hidden;
+}
+
+.chapter_ver {
+    overflow: auto !important;
+    width: auto !important;
+}
+
+.divname {
+    max-width: 280px;
+    overflow: hidden;
+    float: left;
+}
+
+.divvalue {
+    float: left;
+    margin-left: 5px
+}
+
+.assign_chapter {
+    float: right;
+}
+
+.assignChapterLoader.dialog_f, .assignPairLoader.dialog_f {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    width: 100%;
+    height: calc(100% - 40px);
+    z-index: 99;
+}
+
+.assignChapterLoader.dialog_f img, .assignPairLoader.dialog_f img {
+    margin-top: 30px;
+}
+
+.assignChapterLoader.inline_f {
+    position: absolute;
+    left: 60px;
+    display: none;
+}
+
+.assignPairLoader.inline_f {
+    position: absolute;
+    right: 10px;
+    display: none;
+}
+
+.member_chapters {
+    font-weight: bold;
+}
+
+.member_chapters span {
+    font-weight: normal !important;
+}
+
+.member_chapters span b {
+    font-weight: normal;
+    text-decoration: underline;
+    color: #0481ff;
+    cursor: pointer;
+}
+
+.assign_pair_button {
+    margin-top: 30px;
+    padding: 0 0 0 10px !important;
+}
+
+.assigned_members {
+    margin-top: 10px;
+}
+
+.reset_pair_block {
+    display: none;
+}
+
+.start_translation {
+    text-align: right;
+    padding-right: 40px;
+}
+
+.event_state {
+    font-size: 22px;
+    background-color: #ff8400;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    height: 40px;
+    color: #fff;
+    padding-top: 5px;
+}
+
+.is_checker_page {
+    background-color: #ffa500 !important;
+}
+
+.is_checker_page_help {
+    background-color: rgba(255, 212, 152, 0.69) !important;
 }

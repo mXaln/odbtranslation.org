@@ -6,6 +6,7 @@
 use Helpers\Assets;
 use Helpers\Url;
 use Helpers\Hooks;
+use Core\Language;
 
 //initialise hooks
 $hooks = Hooks::get();
@@ -41,9 +42,9 @@ $hooks = Hooks::get();
     <?php
     Assets::js(array(
         Url::templatePath() . 'js/jquery.js',
-        Url::templatePath() . 'js/jquery-ui.min.js',
         Url::templatePath() . 'js/mainAdmin.js',
-        Url::templatePath() . 'js/bootstrap.min.js'
+        Url::templatePath() . 'js/bootstrap.min.js',
+        Url::templatePath() . 'js/jquery-ui.min.js',
     ));
 
     //hook for plugging in javascript
@@ -75,4 +76,13 @@ $hooks->run('afterBody');
             <?php endif?>
         </ul>
 
+    </div>
+
+    <!-- dialog windows -->
+    <div id="dialog-message" title="<?php echo Language::show("alert_message", "Events") ?>" style="display: none">
+        <br>
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float:left; margin:3px 7px 30px 0;"></span>
+            <span class="alert_message"></span>
+        </p>
     </div>

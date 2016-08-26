@@ -25,6 +25,7 @@ echo \Core\Error::display($error);
 	<?php if(\Helpers\Session::get('loginTry')>=3):?>
 		<?php //local: 6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr ?>
 		<?php //remote: 6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2 ?>
+		<?php //remote test: 6LebmSgTAAAAAMOxVD-HIOOEufogdDmb8Qpiu6Rq ?>
 		<div class="form-group">
 			<div class="g-recaptcha" data-sitekey="6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2"></div>
 		</div>

@@ -40,12 +40,6 @@ echo \Core\Error::display($error);
 		<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo Language::show('confirm_password', 'Members'); ?>" value="">
 	</div>
 
-	<!--<div class="form-group">
-		<label><input name="userType" value="translator" type="radio" checked /> <?php echo Language::show('translator', 'Members')?></label>
-		<label><input name="userType" value="checker" type="radio" /><?php echo Language::show('checker', 'Members')?></label>
-		<label><input name="userType" value="both" type="radio" /><?php echo Language::show('trans_checkr', 'Members')?></label>
-	</div>-->
-
     <div class="form-group">
         <label><input name="tou" id="tou" type="checkbox" value="1" /> <?php echo Language::show('tou', 'Members'); ?></label>
         <label><input name="sof" id="sof" type="checkbox" value="1" /> <?php echo Language::show('sof', 'Members'); ?></label>
@@ -54,8 +48,9 @@ echo \Core\Error::display($error);
 	<input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>" />
     <?php //local: 6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr ?>
     <?php //remote: 6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2 ?>
+    <?php //remote test: 6LebmSgTAAAAAMOxVD-HIOOEufogdDmb8Qpiu6Rq ?>
 	<div class="form-group">
-		<div class="g-recaptcha" data-sitekey="6Lf_dBYTAAAAAEBrMuGNitfGTsGpcuWh_6G236qr"></div>
+		<div class="g-recaptcha" data-sitekey="6LdVdhYTAAAAANFr6KVgyhOrerL8rGMyu2N8d0H2"></div>
 	</div>
 
 	<button type="submit" name="submit" class="btn btn-primary"><?php echo Language::show('signup', 'Members'); ?></button>

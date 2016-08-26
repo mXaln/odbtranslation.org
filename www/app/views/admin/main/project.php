@@ -49,8 +49,8 @@ if(!empty($data["project"])):
                             <td><?php echo ($event->translators>0 ? '<a href="#translators" data="'.$event->eventID.'">' : '') . $event->translators . "/" . (integer)$event->translatorsNum . ($event->translators>0 ? '</a>' : '') ?></td>
                             <td><?php echo ($event->checkers_l2>0 ? '<a href="#checkers_l2" data="'.$event->eventID.'">' : '') . $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum . ($event->checkers_l2>0 ? '</a>' : '') ?></td>
                             <td><?php echo ($event->checkers_l3>0 ? '<a href="#checkers_l3" data="'.$event->eventID.'">' : '') . $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum . ($event->checkers_l3>0 ? '</a>' : '') ?></td>
-                            <td><?php echo $event->dateFrom ?></td>
-                            <td><?php echo $event->dateTo ?></td>
+                            <td><?php echo $event->dateFrom != "" ? date("Y-m-d", strtotime($event->dateFrom)) : "" ?></td>
+                            <td><?php echo $event->dateTo != "" ? date("Y-m-d", strtotime($event->dateTo)) : "" ?></td>
                             <td><?php echo $event->state ?></td>
                             <td>
                                 <?php

@@ -10,8 +10,8 @@ echo \Core\Error::display($data["success"], "alert alert-success");
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
 ?>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step ?>"></div>
+<div id="translator_steps" class="open <?php echo $data["event"][0]->step . ($data["isCheckerPage"] ? " is_checker_page" : "") ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . ($data["isCheckerPage"] ? " is_checker_page" : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">

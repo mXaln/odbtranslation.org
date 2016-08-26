@@ -65,6 +65,7 @@ class MembersController extends Controller
         }
         else
         {
+            // Registration
             $data['title'] = $this->language->get('signup');
 
             if (isset($_POST['submit']))
@@ -115,10 +116,17 @@ class MembersController extends Controller
                 }
                 else
                 {
-                    $check = $this->_model->getMember('memberID,email', array('email' => array("=", $email)));
-                    if (strtolower($check[0]->email) == strtolower($email))
-                    {
-                        $error[] = $this->language->get('email_taken_error');
+                    $check = $this->_model->getMember('memberID,userName,email', array('email' => array("=", $email), "userName" => array("=", $userName, "OR")));
+
+                    foreach ($check as $item) {
+                        if (strtolower($item->email) == strtolower($email))
+                        {
+                            $error[] = $this->language->get('email_taken_error');
+                        }
+                        if (strtolower($item->userName) == strtolower($userName))
+                        {
+                            $error[] = $this->language->get('username_taken_error');
+                        }
                     }
                 }
 
@@ -133,6 +141,7 @@ class MembersController extends Controller
 
                 // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
                 // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
+                // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
 
                 $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
                 $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
