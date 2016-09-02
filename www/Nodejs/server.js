@@ -238,6 +238,18 @@ io.on('connection', function(socket)
                             }
                         }
                         break;
+
+                    case "comment":
+                        var commentData = {
+                            type: "comment",
+                            memberID: member.memberID,
+                            userName: member.userName,
+                            verse: _.escape(data.verse),
+                            text: _.escape(data.text)
+                        };
+
+                        io.to("room" + event.eventID).emit('system message', commentData);
+                        break;
                 }
             }
         }
@@ -426,7 +438,7 @@ function registerNewMemberEvent(data, sct, member)
         }
     };
 
-    xhr.open("GET", "http://v-mast.mvc/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
+    xhr.open("GET", "http://v-mast.com/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
     xhr.send();
 }
 

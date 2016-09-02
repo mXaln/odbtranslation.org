@@ -19,9 +19,9 @@ use \Core\Language;
                     <div class="alert alert-success discuss_not_ready"><?php echo Language::show("cotr_not_ready_to_discuss_message", "Events") ?></div>
                 <?php endif; ?>
 
-                <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
-                    <p><?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?></p>
-                <?php endfor; ?>
+                <?php foreach($data["text"] as $verse => $text): ?>
+                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                <?php endforeach; ?>
             </div>
 
             <div class="main_content_footer row">

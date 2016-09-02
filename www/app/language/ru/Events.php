@@ -12,7 +12,7 @@ return array(
     "rsb" => "Русская Синодальная Бибилия",
     'old_test' => "Ветхий Завет",
     'new_test' => "Новый Завет",
-    "checker_apply" => "{0} готов(а) для проверки книги {1}, главы {2} - {3} - ({4})",
+    "checker_apply" => "{0} готов(а) для проверки ({1}) книги {2}, главы {3} - {4} - {5}",
     "apply_to_check" => "Начать проверку",
     "notifications" => "Уведомления",
     "see_all" => "Смотреть все",
@@ -50,7 +50,7 @@ return array(
     "status_offline" => "не в сети",
     "go_back" => "Назад",
     "partner_tab_title" => "Партнер",
-    "checking_tab_title" => "Проверка",
+    "checking_tab_title" => "Проверяющий",
     "event_tab_title" => "Событие",
     "verses" => "Стихи",
     "show_keywords" => "Ключевые слова",
@@ -109,6 +109,8 @@ return array(
     "checkers_l3" => "Проверяющие 3-го уровня",
     "cal_from" => "Событие начинается:",
     "cal_to" => "Событие заканчивается:",
+    "reset_chunks" => "Сбросить отрывки",
+    "make_chunk" => "Создать отрывок",
 
     // Steps
     "pray" => "Подготовка",
@@ -175,6 +177,9 @@ return array(
     "enter_checkers_l3" => "Введите количество проверяющих 3-го уровня",
     "wrong_date_from" => "Неверная дата начала",
     "wrong_date_to" => "Неверная дата окончания",
+    "empty_draft_verses_error" => "Вы перевели не все стихи",
+    "write_note_title" => "Напишите заметку к стиху {0}",
+    "all_notifications_title" => "Все уведомления",
 
 
     // Success messages

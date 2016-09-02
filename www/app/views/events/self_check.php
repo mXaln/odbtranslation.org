@@ -1,12 +1,13 @@
 <?php
 use \Core\Language;
 use \Helpers\Constants\EventSteps;
+use \Helpers\Tools;
 ?>
 
 <div class="editor">
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events", array(""))?><span></span></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
@@ -41,31 +42,34 @@ use \Helpers\Constants\EventSteps;
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <?php for($i=0; $i < sizeof($data["text"]); $i++): ?>
+                            <?php foreach($data["text"] as $verse => $text): ?>
                             <div class="row chunk_verse">
-                                <div class="col-sm-6 verse"><?php echo "<strong><sup>".$data["text"][$i]["verse"]."</sup></strong> " . $data["text"][$i]["content"]; ?></div>
+                                <div class="col-sm-6 verse"><?php echo "<strong><sup>".$verse."</sup></strong> " . $text; ?></div>
                                 <div class="col-sm-6 editor_area">
                                 <?php
-                                $verses = explode("-", $data["text"][$i]["verse"]);
+                                $verses = Tools::parseCombinedVerses($verse);
                                 foreach ($verses as $verse):?>
-                                    <textarea name="verses[]" class="verse_ta textarea"><?php echo isset($_POST["verses"][$i]) ? $_POST["verses"][$i] : (isset($data["verses"][$verse]) ? $data["verses"][$verse] : "") ?></textarea>
-                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                    <div class="vnote">
+                                        <textarea name="verses[]" class="verse_ta textarea"><?php echo isset($_POST["verses"][$i]) ? $_POST["verses"][$i] : (isset($data["verses"][$verse]) ? $data["verses"][$verse] : "") ?></textarea>
+                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="<?php echo Language::show("write_note_title", "Events", array($verse))?>"/>
 
-                                    <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
-                                            <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                        <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        </div>
+                                        <div class="clear"></div>
                                     </div>
                                 <?php endforeach; ?>
                                 </div>
                             </div>
-                            <?php endfor; ?>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
@@ -117,8 +121,8 @@ use \Helpers\Constants\EventSteps;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/self-check.png" width="100px" height="100px">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/self-check.png" width="280px" height="280px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/self-check.png" width="100" height="100">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/self-check.png" width="280" height="280">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
             </div>

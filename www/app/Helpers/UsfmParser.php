@@ -14,97 +14,101 @@ class UsfmParser
 
     public static function parse($usfm)
     {
-        $result = array("chapters" => array());
+        $result = array();
+        $chapters = explode('\c ', $usfm);
 
-        $lines = preg_split("/\n/", $usfm);
-        $sectionStarted = false;
-        $lastChapter = 0;
+        $headings = preg_split("/\\r\\n|\\n|\\r/", $chapters[0]);
 
-        foreach ($lines as $line) {
-            if(!isset($result["id"]))
-            {
-                preg_match("/^\\\\id\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["id"] = $matches[1];
-            }
+        foreach ($headings as $heading) {
+            if(trim($heading) == "") continue;
 
-            if(!isset($result["ide"]))
-            {
-                preg_match("/\\\\ide\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["ide"] = $matches[1];
-            }
+            // Id tag
+            preg_match("/^\\\\id (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["id"] = $matches[1];
 
-            if(!isset($result["h"]))
-            {
-                preg_match("/\\\\h\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["h"] = $matches[1];
-            }
+            // Ide tag
+            preg_match("/^\\\\ide (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["ide"] = $matches[1];
 
-            if(!isset($result["toc1"]))
-            {
-                preg_match("/^\\\\toc1\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["toc1"] = $matches[1];
-            }
+            // H tag
+            preg_match("/^\\\\h (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["h"] = $matches[1];
 
-            if(!isset($result["toc2"]))
-            {
-                preg_match("/\\\\toc2\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["toc2"] = $matches[1];
-            }
+            // Toc1 tag
+            preg_match("/^\\\\toc1 (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["toc1"] = $matches[1];
 
-            if(!isset($result["toc3"]))
-            {
-                preg_match("/\\\\toc3\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["toc3"] = $matches[1];
-            }
+            // Toc2 tag
+            preg_match("/^\\\\toc2 (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["toc2"] = $matches[1];
 
-            if(!isset($result["mt"]))
-            {
-                preg_match("/\\\\mt\s(.*)/", $line, $matches);
-                if(!empty($matches))
-                    $result["mt"] = $matches[1];
-            }
+            // Toc3 tag
+            preg_match("/^\\\\toc3 (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["toc3"] = $matches[1];
 
-            // Start Section
-            if(!$sectionStarted && preg_match("/\\\\s5/", $line))
-            {
-                $sectionStarted = true;
-            }
+            // Mt tag
+            preg_match("/^\\\\(mt[0-9]*) (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result[$matches[1]] = $matches[2];
 
-            // Start chapter
-            if(preg_match("/\\\\c\s([0-9]+)/", $line, $matches))
-            {
-                if(!empty($matches) && !isset($result["chapters"][$matches[1]]))
-                {
-                    $result["chapters"][$matches[1]] = array();
-                    $lastChapter = $matches[1];
-                }
-            }
+            // Ms tag
+            preg_match("/^\\\\ms (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["ms"] = $matches[1];
 
-            // Push verse to section
-            if(preg_match("/\\\\v\s([0-9]+)\s(.*)/", $line, $matches))
-            {
-                // Push section to chapter
-                if($sectionStarted && $lastChapter > 0)
-                {
-                    $result["chapters"][$lastChapter][] = array();
-                    $sectionStarted = false;
-                }
-
-                // Italic style
-                $verse = preg_replace("/\\\\it ([\p{L}\p{N}]*)\\\\it\\*/u", "<em>$1</em>", $matches[2]);
-
-                $result["chapters"][$lastChapter][sizeof($result["chapters"][$lastChapter])-1][$matches[1]] = $verse;
-            }
+            // Cl tag
+            preg_match("/^\\\\cl (.*)/", $heading, $matches);
+            if(!empty($matches))
+                $result["cl"] = $matches[1];
         }
 
-        if(sizeof($result["chapters"]) <= 0)
-            $result = array();
+        $result["chapters"] = array();
+        foreach ($chapters as $chapter => $chapData) {
+            if($chapter == 0) continue;
+
+            $chunks = explode('\s', $chapData);
+
+            foreach ($chunks as $chunk => $chunkData) {
+                //$result["chapters"][$chapter][$chunk] = array();
+
+                $verses = explode('\v ', $chunkData);
+
+                foreach ($verses as $verse => $verseData) {
+                    if($verse == 0) continue;
+
+                    $vData = preg_replace("/\\n|\\r\\n|\\n/", " ", trim($verseData));
+                    $vData = explode(' ', $vData);
+                    //$vData = preg_split("/\s/", $vData);
+
+                    $vNum = $vData[0];
+                    unset($vData[0]);
+
+                    $vText = join(" ", $vData);
+
+                    define('REPLACE_FLAGS', ENT_COMPAT | ENT_SUBSTITUTE);
+                    $vText = htmlspecialchars($vText, REPLACE_FLAGS, "UTF-8");
+
+                    // Italic style
+                    $vText = preg_replace("/\\\\it (.*)\\\\it\\*/", "<em>$1</em>", $vText);
+
+                    // Footnotes
+                    $replacement = "<note data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"glyphicon glyphicon-file\"></note>";
+                    $vText = preg_replace("/\\\\f \\+ \\\\ft (.*) \\\\f\\*/u", $replacement, $vText);
+
+                    // Remove all other usfm tags
+                    // TODO Parse other usfm tags
+                    $vText = preg_replace("/\\\\[a-z0-9]+ ?/", "", $vText);
+
+                    $result["chapters"][$chapter][$chunk][$vNum] = $vText;
+                }
+            }
+        }
 
         return $result;
     }

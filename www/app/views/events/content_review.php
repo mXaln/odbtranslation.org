@@ -5,7 +5,7 @@ use \Core\Language;
 <div class="editor">
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events", array(""))?><span></span></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
@@ -33,23 +33,23 @@ use \Core\Language;
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                     <div class="col-sm-12">
-                        <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
+                        <?php foreach($data["translation"] as $key => $chunk) : ?>
                             <?php $k=0; foreach($chunk["translator"]["verses"] as $verse => $text):
                                 ?>
-                                <div class="row chunk_verse editor_area">
+                                <div class="chunk_verse editor_area">
+                                    <div class="vnote">
                                     <div class="p_verse_num"><strong><sup><?php echo $verse ?></sup></strong></div>
+                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta verse_right textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
 
-                                    <div class="comments_number">
-                                        <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
-                                            sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
                                     </div>
 
-                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="col-sm-9 peer_verse_ta verse_right textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
-
-                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="<?php echo Language::show("write_note_title", "Events", array($verse))?>"/>
 
                                     <div class="comments">
-                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
+                                        <?php if($hasComments): ?>
                                             <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
                                                 <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
                                                     <div class="my_comment"><?php echo $comment->text; ?></div>
@@ -59,8 +59,10 @@ use \Core\Language;
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
+                                    <div class="clear"></div>
+                                    </div>
                                 </div>
-                                <?php $k++; $i+=2; endforeach; ?>
+                                <?php $k++; endforeach; ?>
                             <div class="chunk_divider col-sm-12"></div>
                             <div class="clear"></div>
                         <?php endforeach; ?>
@@ -119,8 +121,8 @@ use \Core\Language;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/content-review.png" width="100px" height="100px">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/content-review.png" width="280px" height="280px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/content-review.png" width="100" height="100">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/content-review.png" width="280" height="280">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
             </div>

@@ -1,12 +1,13 @@
 <?php
 use \Core\Language;
 use \Helpers\Constants\EventMembers;
+use \Helpers\Tools;
 ?>
 
 <div class="editor">
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events", array(""))?><span></span></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
@@ -43,47 +44,52 @@ use \Helpers\Constants\EventMembers;
 
                         <div class="col-sm-12 cotrData">
                             <?php if($data["cotrData"]["cotrReady"]): ?>
-                                <?php $i=2; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
+                                <?php $sourceVerses = array_keys($data["cotrData"]["text"]); ?>
+                                <?php $i=0; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
                                     <?php
                                     $count = 0;
                                     foreach($chunk[EventMembers::TRANSLATOR]["verses"] as $verse => $text):
-                                        $verses = explode("-", $data["cotrData"]["text"][$i-1]);
+                                        $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                                     ?>
                                         <?php if($count == 0): ?>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <p><strong><sup><?php echo $data["cotrData"]["text"][$i-1]; ?></sup></strong> <?php echo $data["cotrData"]["text"][$i]; ?></p>
+                                                <p><strong><sup><?php echo $sourceVerses[$i]; ?></sup></strong> <?php echo $data["cotrData"]["text"][$sourceVerses[$i]]; ?></p>
                                             </div>
 
                                             <div class="col-sm-6 verse_with_note">
-                                                <p>
                                         <?php endif; ?>
+                                                <div class="vnote">
                                                     <strong><sup><?php echo $verse; ?></sup></strong>
                                                     <?php echo $text; ?>
+
+                                                    <?php $hasCotrComments = array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]]); ?>
+                                                    <div class="comments_number <?php echo $hasCotrComments ? "hasComment" : "" ?>">
+                                                        <?php echo $hasCotrComments ? sizeof($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse]) : ""?>
+                                                    </div>
+                                                    <img class="editComment" data="<?php echo $data["cotrData"]["currentChapter"].":".$verse ?>" width="16" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="<?php echo Language::show("write_note_title", "Events", array($verse))?>"/>
+
+                                                    <div class="comments">
+                                                        <?php if($hasCotrComments): ?>
+                                                            <?php foreach($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse] as $comment): ?>
+                                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                                    <div class="my_comment" data="<?php echo $data["cotrData"]["currentChapter"].":".$verse ?>"><?php echo $comment->text; ?></div>
+                                                                <?php else: ?>
+                                                                    <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+
+
                                         <?php
                                         $count++;
 
                                         if($count == sizeof($verses)) :
-                                            $i+=2;
+                                            $i+=1;
                                             $count = 0; ?>
-                                                </p>
-                                                <div class="comments_number">
-                                                    <?php echo array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]]) ?
-                                                    sizeof($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse]) : ""?>
-                                                </div>
-                                                <img class="editComment" data="<?php echo $data["cotrData"]["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-
-                                                <div class="comments">
-                                                    <?php if(array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]])): ?>
-                                                        <?php foreach($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse] as $comment): ?>
-                                                            <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                                <div class="my_comment" data="<?php echo $data["cotrData"]["currentChapter"].":".$verse ?>"><?php echo $comment->text; ?></div>
-                                                            <?php else: ?>
-                                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                    <?php endif; ?>
-                                                </div>
                                             </div>
                                         </div>
                                     <?php endif; endforeach; ?>
@@ -106,43 +112,47 @@ use \Helpers\Constants\EventMembers;
                                 ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                         <div class="col-sm-12">
-                            <?php $i=2; foreach($data["translation"] as $key => $chunk) : ?>
+                            <?php $sourceVerses = array_keys($data["text"]) ?>
+                            <?php $i=0; foreach($data["translation"] as $key => $chunk) : ?>
                                 <?php
                                 $k=0;
                                 $count = 0;
                                 foreach($chunk[EventMembers::TRANSLATOR]["verses"] as $verse => $text):
-                                    $verses = explode("-", $data["text"][$i-1]);
+                                    $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                                     ?>
                                     <?php if($count == 0): ?>
                                     <div class="row chunk_verse">
-                                        <div class="col-sm-6 verse"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
+                                        <div class="col-sm-6 verse"><strong><sup><?php echo $sourceVerses[$i]; ?></sup></strong> <?php echo $data["text"][$sourceVerses[$i]]; ?></div>
                                         <div class="col-sm-6 editor_area">
                                     <?php endif; ?>
-                                            <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
+                                            <div class="vnote">
+                                                <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta textarea"><?php echo $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
 
-                                            <div class="comments_number">
-                                                <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
-                                                    sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
-                                            </div>
-                                            <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                                <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]); ?>
+                                                <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                                </div>
+                                                <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="<?php echo Language::show("write_note_title", "Events", array($verse))?>"/>
 
-                                            <div class="comments">
-                                                <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
-                                                    <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
-                                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                            <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                        <?php else: ?>
-                                                            <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
+                                                <div class="comments">
+                                                    <?php if($hasComments): ?>
+                                                        <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                                            <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                                <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                            <?php else: ?>
+                                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <div class="clear"></div>
                                             </div>
                                 <?php
                                 $k++;
                                 $count++;
 
                                 if($count == sizeof($verses)) :
-                                    $i+=2;
+                                    $i+=1;
                                     $count = 0; ?>
                                         </div>
                                     </div>
@@ -209,8 +219,8 @@ use \Helpers\Constants\EventMembers;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/peer-review.png" width="100px" height="100px">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/peer-review.png" width="280px" height="280px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/peer-review.png" width="100" height="100">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/peer-review.png" width="280" height="280">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
             </div>

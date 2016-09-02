@@ -12,7 +12,7 @@ return array(
     "rsb" => "Russian Synodal Bible",
     'old_test' => "Old Testament",
     'new_test' => "New Testament",
-    "checker_apply" => "{0} is ready for checking book of {1}, chapter {2} - {3} - ({4})",
+    "checker_apply" => "{0} is ready for checking ({1}) book of {2}, chapter {3} - {4} - {5}",
     "apply_to_check" => "Apply to check",
     "notifications" => "Notifications",
     "see_all" => "See all",
@@ -50,7 +50,7 @@ return array(
     "status_offline" => "offline",
     "go_back" => "Go Back",
     "partner_tab_title" => "Partner",
-    "checking_tab_title" => "Checking",
+    "checking_tab_title" => "Checker",
     "event_tab_title" => "Event",
     "verses" => "Verses",
     "verses" => "Verses",
@@ -110,6 +110,10 @@ return array(
     "checkers_l3" => "Level 3 checkers",
     "cal_from" => "Event starts at:",
     "cal_to" => "Event finishes at:",
+    "reset_chunks" => "Reset chunks",
+    "make_chunk" => "Make chunk",
+    "write_note_title" => "Write a note to the verse {0}",
+    "all_notifications_title" => "All notifications",
 
     // Steps
     "pray" => "Preparation",
@@ -151,7 +155,7 @@ return array(
     "partner_not_ready_error" => "You cannot proceed to the next step while your partner is not ready for this step",
     "wrong_event_state_error" => "The translation of the book has not been started yet. Please wait until all translators apply.",
     "not_possible_to_save_error" => "You cannot edit your translation after checker has approved it.",
-    "empty_verses_error" => "Not all verses were translated.",
+    "empty_verses_error" => "You haven't translated all the verses.",
     "wrong_chunks_error" => "Wrong setting of chunks.",
     "error_ocured" => "An error occured. {0}",
     "error_member_in_event" => "You have already applied to this event.",
@@ -176,6 +180,7 @@ return array(
     "enter_checkers_l3" => "Enter the number of level 3 checkers",
     "wrong_date_from" => "Wrong date of start",
     "wrong_date_to" => "Wrong date of finish",
+    "empty_draft_verses_error" => "You haven't translated all the verses",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

@@ -7,6 +7,7 @@
  */
 use \Core\Language;
 use \Helpers\Constants\EventSteps;
+use Helpers\Tools;
 
 if(empty($error) && empty($data["success"])):
 
@@ -17,7 +18,7 @@ if(empty($error) && empty($data["success"])):
 <div class="editor">
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events")?></h1>
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events", array(""))?><span></span></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
@@ -29,7 +30,7 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array($step_num)) . Language::show($current, "Events") /*. " (".Language::show("check", "Events").")"*/?></div>
+        <div class="main_content_title"><?php echo Language::show("step_num", "Events", array($step_num)) . Language::show($current, "Events")?></div>
     </div>
 
     <div class="row">
@@ -69,50 +70,53 @@ if(empty($error) && empty($data["success"])):
                 </div>
 
                 <div class="col-sm-12 side_by_side_content">
-                    <?php $i=2; foreach($data["translation"] as $key => $chunk): ?>
+                    <?php $sourceVerses = array_keys($data["text"]) ?>
+                    <?php $i=0; foreach($data["translation"] as $key => $chunk): ?>
                         <?php
                         $count = 0;
                         foreach($chunk["translator"]["verses"] as $verse => $text):
-                            $verses = explode("-", $data["text"][$i-1]);
+                            $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                             ?>
                             <?php if($count == 0): ?>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <p><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></p>
+                                        <p><strong><sup><?php echo $sourceVerses[$i]; ?></sup></strong> <?php echo $data["text"][$sourceVerses[$i]]; ?></p>
                                     </div>
 
                                     <div class="col-sm-6 verse_with_note">
-                                        <p>
                             <?php endif; ?>
+                                        <div class="vnote">
                                             <strong><sup><?php echo $verse; ?></sup></strong>
                                             <?php echo $text; ?>
+
+                                            <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]); ?>
+                                            <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                                <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                            </div>
+
+                                            <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="<?php echo Language::show("write_note_title", "Events", array($verse))?>"/>
+
+                                            <div class="comments">
+                                                <?php if($hasComments): ?>
+                                                    <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                                        <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
+                                                            <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                        <?php else: ?>
+                                                            <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <div class="my_comment" data="<?php echo $data["currentChapter"].":".$verse ?>"></div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
                                             <?php
                                             $count++;
 
                             if($count == sizeof($verses)) :
-                                $i+=2;
+                                $i+=1;
                                 $count = 0; ?>
-                                        </p>
-                                        <div class="comments_number">
-                                            <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
-                                                sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
-                                        </div>
-
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
-
-                                        <div class="comments">
-                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
-                                                <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
-                                                    <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
-                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                    <?php else: ?>
-                                                        <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <div class="my_comment" data="<?php echo $data["currentChapter"].":".$verse ?>"></div>
-                                            <?php endif; ?>
-                                        </div>
                                     </div>
                                 </div>
                         <?php endif; endforeach; ?>
@@ -122,43 +126,51 @@ if(empty($error) && empty($data["success"])):
                 <?php endif; ?>
 
                 <div class="col-sm-12 one_side_content">
-                    <?php $i=2; foreach($data["translation"] as $key => $chunk): ?>
+                    <?php $sourceVerses = array_keys($data["text"]) ?>
+                    <?php $i=0; foreach($data["translation"] as $key => $chunk): ?>
                         <?php
                         $count = 0;
                         foreach($chunk["translator"]["verses"] as $verse => $text):
-                            $verses = explode("-", $data["text"][$i-1]);
+                            $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                             ?>
                             <?php if($count == 0): ?>
-                            <div class="source_content verse_with_note">
-                                <div style="padding-right: 15px" class="verse_line"><strong><sup><?php echo $data["text"][$i-1]; ?></sup></strong> <?php echo $data["text"][$i]; ?></div>
+                            <div class="source_content verse_with_note row">
 
-                                <div class="comments_number">
-                                    <?php echo array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]) ?
-                                        sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
-                                </div>
-                                <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+                                <div style="padding-right: 15px" class="verse_line col-sm-11"><strong><sup><?php echo $sourceVerses[$i]; ?></sup></strong> <?php echo $data["text"][$sourceVerses[$i]]; ?></div>
+                                <div class="col-sm-1 editor_area">
+                            <?php endif; ?>
+                            <div class="vnote">
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>" style="<?php echo $count>0 ? "top:".($count*5)."px" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
+                                    </div>
+                                    <img class="editComment" style="<?php echo $count>0 ? "top:".($count*5+5)."px" : "" ?>" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="<?php echo Language::show("write_note_title", "Events", array($verse))?>"/>
 
-                                <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
-                                            <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <div class="my_comment" data="<?php echo $data["currentChapter"].":".$verse ?>"></div>
-                                    <?php endif; ?>
-                                </div>
+                                    <div class="comments">
+                                        <?php if($hasComments): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <div class="my_comment" data="<?php echo $data["currentChapter"].":".$verse ?>"></div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="clear"></div>
                             </div>
+
+                            <?php
+                            $count++;
+                            if($count == sizeof($verses)) :
+                                $i+=1;
+                                $count = 0; ?>
+                                </div>
+                                </div>
                             <?php
                             endif;
-                            $count++;
-                            if($count == sizeof($verses)) {
-                                $i+=2;
-                                $count = 0;
-                            }
                         endforeach;
                     endforeach; ?>
                 </div>
@@ -210,8 +222,8 @@ if(empty($error) && empty($data["success"])):
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/<?php echo $current ?>.png" width="100px" height="100px">
-            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/<?php echo $current ?>.png" width="280px" height="280px">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/icons/<?php echo $current ?>.png" width="100" height="100">
+            <img src="<?php echo \Helpers\Url::templatePath() ?>img/steps/big/<?php echo $current ?>.png" width="280" height="280">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step."_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo Language::show("do_not_show_tutorial", "Events")?></label>
             </div>

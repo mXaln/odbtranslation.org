@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Helpers\ReCaptcha\Response;
+use Helpers\Tools;
 use Helpers\UsfmParser;
 use Models\EventsModel;
 use Core\Error;
@@ -18,6 +19,7 @@ use Helpers\Url;
 use Models\MembersModel;
 use Models\TranslationsModel;
 use phpFastCache\CacheManager;
+use Predis\Cluster\Distributor\EmptyRingException;
 
 class EventsController extends Controller
 {
@@ -109,6 +111,10 @@ class EventsController extends Controller
         $data["notifications"] = $this->_notifications;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
 
+        //$data["event"][0]->currentChapter = 1;
+        //$data["event"][0]->bookCode = "act";
+        //$data["event"][0]->abbrID = 45;
+
         if(!empty($data["event"]))
         {
             $data['title'] = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". $this->language->get($data["event"][0]->bookProject);
@@ -120,9 +126,19 @@ class EventsController extends Controller
 
                         if (isset($_POST) && !empty($_POST)) {
                             if ($_POST["confirm_step"]) {
-                                if(($data["event"][0]->currentChapter - $data["event"][0]->cotrPeerChapter) <= 1)
+                                $chapters = json_decode($data["event"][0]->chapters, true);
+                                $prevChapter = 0;
+                                foreach ($chapters as $chapter => $chapData) { // Find previous chapter
+                                    if($data["event"][0]->currentChapter <= 0) break; // Skip zero chapter (beginning of translation)
+                                    if($chapData["trID"] != $data["event"][0]->trID) continue; // Skip not own chapters
+                                    if($chapter >= $data["event"][0]->currentChapter) break; // Stop on current
+                                    $prevChapter = $chapter;
+                                    break;
+                                }
+
+                                if($prevChapter == $data["event"][0]->cotrPeerChapter) // Previous chapter has been peer-checked
                                 {
-                                    $this->_model->updateTranslator(array("step" => EventSteps::CONSUME), array("trID" => $data["event"][0]->trID));
+                                    $this->_model->updateTranslator(array("step" => EventSteps::CONSUME, "peerReady" => false), array("trID" => $data["event"][0]->trID));
                                     Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                 }
                                 else
@@ -141,12 +157,7 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::CONSUME:
-
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data);
+                        $sourceText = $this->getSourceTextUSFM($data);
 
                         if($sourceText !== false)
                         {
@@ -160,6 +171,7 @@ class EventsController extends Controller
                         {
                             $postdata = array(
                                 "step" => EventSteps::PEER_REVIEW,
+                                "peerReady" => true,
                                 "translateDone" => true
                             );
 
@@ -206,11 +218,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data);
+                        $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -224,11 +232,7 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::PRE_CHUNKING:
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data);
+                        $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -286,11 +290,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data, true);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data, true);
+                        $sourceText = $this->getSourceTextUSFM($data, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -304,11 +304,7 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::BLIND_DRAFT:
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data, true);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data, true);
+                        $sourceText = $this->getSourceTextUSFM($data, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -382,7 +378,7 @@ class EventsController extends Controller
                                             "dateUpdate"        => date('Y-m-d H:i:s')
                                         );
 
-                                        if($this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $data["event"][0]->lastTID)))
+                                        if($updated = $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $data["event"][0]->lastTID)))
                                             $tID = $data["event"][0]->lastTID;
                                     }
 
@@ -394,7 +390,7 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("translation_not_created_error");
+                                        $error[] = $this->language->get("error_ocured", array($updated));
                                     }
                                 }
                                 else
@@ -431,11 +427,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data, true);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data, true);
+                        $sourceText = $this->getSourceTextUSFM($data, true);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -502,7 +494,7 @@ class EventsController extends Controller
                                             "translateDone" => true
                                         );
 
-                                        if($this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $data["event"][0]->lastTID)))
+                                        if($updated = $this->_model->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $data["event"][0]->lastTID)))
                                             $tID = $data["event"][0]->lastTID;
                                     }
 
@@ -520,11 +512,14 @@ class EventsController extends Controller
                                         else
                                         {
                                             // Go to PEER CHECK or SELF_EDIT_FULL
-                                            $nextStep = EventSteps::PEER_REVIEW;
-                                            if ($data["event"][0]->gwLang == $data["event"][0]->targetLang)
-                                                $nextStep = EventSteps::SELF_CHECK_FULL;
+                                            $postdata["peerReady"] = true;
+                                            $postdata["step"] = EventSteps::PEER_REVIEW;
 
-                                            $postdata["step"] = $nextStep;
+                                            if ($data["event"][0]->gwLang == $data["event"][0]->targetLang) // If it's GL mode
+                                            {
+                                                $postdata["peerReady"] = false;
+                                                $postdata["step"] = EventSteps::SELF_CHECK_FULL;
+                                            }
                                         }
 
                                         setcookie("temp_tutorial", false, time() - 3600);
@@ -533,7 +528,7 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("translation_not_created_error");
+                                        $error[] = $this->language->get("error_ocured", array($updated));
                                     }
                                 }
                             }
@@ -556,11 +551,7 @@ class EventsController extends Controller
                             $translation[] = $arr;
                         }
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data);
+                        $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -618,7 +609,7 @@ class EventsController extends Controller
                             {
                                 if ($_POST["confirm_step"]) {
                                     setcookie("temp_tutorial", false, time() - 3600);
-                                    $this->_model->updateTranslator(array("step" => EventSteps::PEER_REVIEW), array("trID" => $data["event"][0]->trID));
+                                    $this->_model->updateTranslator(array("step" => EventSteps::PEER_REVIEW, "peerReady" => true), array("trID" => $data["event"][0]->trID));
                                     Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                 }
                             }
@@ -634,30 +625,18 @@ class EventsController extends Controller
 
                         $chapters = json_decode($data["event"][0]->chapters, true);
                         $currentChapter = $data["event"][0]->peerChapter;
-                        foreach ($chapters as $chapter => $chapData) {
+                        foreach ($chapters as $chapter => $chapData) { // Find next un-checked chapter of partner
                             if($chapData["trID"] != $data["event"][0]->cotrID) continue;
                             if($chapter <= $currentChapter) continue;
                             $currentChapter = $chapter;
                             break;
                         }
 
-                        //if($currentChapter > 0 && $currentChapter == $data["event"][0]->peerChapter)
-                        //   $data["event"][0]->cotrTranslateDone = true;
-
-                        //$cotrCurrentChapter = $data["event"][0]->cotrCurrentChapter; // Cache current chapter of partner
                         $data["event"][0]->cotrCurrentChapter = $currentChapter;
                         $data["comments_cotr"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->cotrCurrentChapter);
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb") {
-                            $sourceText = $this->getSourceText($data);
-                            $cotrSourceText = $this->getSourceText($data, false, true);
-                        }
-                        else
-                        {
-                            $sourceText = $this->getSourceTextUSFM($data);
-                            $cotrSourceText = $this->getSourceTextUSFM($data, false, true);
-                        }
+                        $sourceText = $this->getSourceTextUSFM($data);
+                        $cotrSourceText = $this->getSourceTextUSFM($data, false, true);
 
                         if($sourceText !== false)
                         {
@@ -678,7 +657,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        $cotrReady = true;
+                        $cotrReady = $data["event"][0]->cotrPeerReady;
 
                         if($cotrSourceText !== false && !array_key_exists("error", $cotrSourceText))
                         {
@@ -694,20 +673,7 @@ class EventsController extends Controller
                                 $tmp = json_decode($tv->translatedVerses, true);
                                 $tmp["tID"] = $tv->tID;
                                 $coTranslation[] = $tmp;
-
-                                if(empty($tmp[EventMembers::TRANSLATOR]["verses"]))
-                                    $cotrReady = false;
-                                else
-                                {
-                                    foreach ($tmp[EventMembers::TRANSLATOR]["verses"] as $verse) {
-                                        if($verse == "")
-                                            $cotrReady = false;
-                                    }
-                                }
                             }
-
-                            if(sizeof($data["cotrData"]["chapters"][$data["event"][0]->cotrCurrentChapter]["chunks"]) > sizeof($coTranslation))
-                                $cotrReady = false;
 
                             $data["cotrData"]["cotrReady"] = $cotrReady;
                             $data["cotrData"]["translation"] = $coTranslation;
@@ -895,11 +861,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data);
+                        $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -925,11 +887,7 @@ class EventsController extends Controller
                             $translation[] = $arr;
                         }
 
-                        // TODO This just temorarily untill uW pass to USFM format
-                        if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                            $sourceText = $this->getSourceText($data);
-                        else
-                            $sourceText = $this->getSourceTextUSFM($data);
+                        $sourceText = $this->getSourceTextUSFM($data);
 
                         if (!array_key_exists("error", $sourceText)) {
                             $data = $sourceText;
@@ -1030,28 +988,21 @@ class EventsController extends Controller
                                         else
                                         {
                                             // All chapters are finished
-                                            if(($data["event"][0]->currentChapter - $data["event"][0]->cotrPeerChapter) <= 1)
+                                            // Check what is the next step for partner
+                                            $postdata["currentChapter"] = 0;
+                                            $postdata["translateDone"] = true;
+                                            $postdata["checkerID"] = 0;
+                                            $postdata["checkDone"] = true;
+                                            $postdata["hideChkNotif"] = true;
+                                            if($cotrChaptersNum > $chaptersNum)
                                             {
-                                                // Check what is the next step for partner
-                                                $postdata["currentChapter"] = 0;
-                                                $postdata["translateDone"] = true;
-                                                $postdata["checkerID"] = 0;
-                                                $postdata["checkDone"] = true;
-                                                $postdata["hideChkNotif"] = true;
-                                                if($cotrChaptersNum > $chaptersNum)
-                                                {
-                                                    // co-translator has more chapters to translate
-                                                    // then go to peer review
-                                                    $postdata["step"] = EventSteps::PEER_REVIEW;
-                                                }
-                                                else
-                                                {
-                                                    $postdata["step"] = EventSteps::FINISHED;
-                                                }
+                                                // co-translator has more chapters to translate
+                                                // then go to peer review
+                                                $postdata["step"] = EventSteps::PEER_REVIEW;
                                             }
                                             else
                                             {
-                                                $error[] = $this->language->get("peer_check_not_done_error");
+                                                $postdata["step"] = EventSteps::FINISHED;
                                             }
                                         }
 
@@ -1172,11 +1123,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            // TODO This just temorarily untill uW pass to USFM format
-                            if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                                $sourceText = $this->getSourceText($data);
-                            else
-                                $sourceText = $this->getSourceTextUSFM($data);
+                            $sourceText = $this->getSourceTextUSFM($data);
 
                             if (!array_key_exists("error", $sourceText)) {
                                 $data = $sourceText;
@@ -1341,7 +1288,7 @@ class EventsController extends Controller
         if(!isset($error))
         {
             $data["chapters"] = json_decode($data["event"][0]->chapters, true);
-			
+
             $translationModel = new TranslationsModel();
             $chunks = $translationModel->getTranslationByEventID($data["event"][0]->eventID);
             $members = array();
@@ -1354,6 +1301,7 @@ class EventsController extends Controller
                     if($chunk->currentChapter > 0)
 						$data["chapters"][$chunk->currentChapter]["peer"]["checkerID"] = $chunk->pairMemberID;
                     $pairMembers[$chunk->memberID] = $chunk->pairMemberID;
+                    $members[$chunk->pairMemberID] = "";
 
                     continue;
                 }
@@ -1366,6 +1314,9 @@ class EventsController extends Controller
                     // Peer Check
                     $data["chapters"][$chunk->chapter]["peer"]["checkerID"] = $chunk->pairMemberID;
                     $pairMembers[$chunk->memberID] = $chunk->pairMemberID;
+
+                    $members[$chunk->pairMemberID] = "";
+
                     if(array_key_exists($chunk->chapter, $chunk->kwCheck))
                     {
                         $data["chapters"][$chunk->chapter]["peer"]["state"] = "finished";
@@ -1432,6 +1383,8 @@ class EventsController extends Controller
             $overallProgress = 0;
 
             foreach ($data["chapters"] as $key => $chapter) {
+                if(empty($chapter)) continue;
+
                 $members[$chapter["memberID"]] = "";
 
                 $data["chapters"][$key]["progress"] = 0;
@@ -1557,18 +1510,18 @@ class EventsController extends Controller
 
             if (isset($_POST) && !empty($_POST)) {
                 $chaptersValid = true;
-                $pairsValid = true;
                 $membersWithChapters = array();
 
                 // Check chapters
                 foreach ($data["chapters"] as $chapter) {
                     if(empty($chapter))
                     {
-                        $chaptersValid = false;
-                        break;
+                        //$chaptersValid = false;
+                        //break;
                     }
 
-                    $membersWithChapters[$chapter["memberID"]] = 1;
+                    if(!empty($chapter))
+                        $membersWithChapters[$chapter["memberID"]] = 1;
                 }
 
                 // Check pairs
@@ -2175,7 +2128,7 @@ class EventsController extends Controller
                             {
                                 if($event[0]->checkDone)
                                 {
-                                    $response["errorCode"] = "checkDone";
+                                    $response["errorType"] = "checkDone";
                                     $response["error"] = $this->language->get("not_possible_to_save_error");
                                     echo json_encode($response);
                                     exit;
@@ -2264,6 +2217,7 @@ class EventsController extends Controller
             $memberInfo = (array)$this->_model->getEventMemberInfo($eventID, $memberID);
 
             if(!empty($memberInfo) && ($memberInfo[0]->translator == $memberID ||
+                    $memberInfo[0]->checker7_8 == $memberID ||
                     $memberInfo[0]->l2checker == $memberID || $memberInfo[0]->l3checker == $memberID))
             {
                 $transModel = new TranslationsModel();
@@ -2459,13 +2413,7 @@ class EventsController extends Controller
 
                 $data["comments_cotr"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->cotrCurrentChapter);
 
-                // TODO Remove this when site will fully migrate to USFM format
-                if($data["event"][0]->sourceBible == "udb" || $data["event"][0]->sourceBible == "ulb")
-                    $cotrSourceText = $this->getSourceText($data, false, true);
-                else
-                    $cotrSourceText = $this->getSourceTextUSFM($data, false, true);
-
-                //$cotrSourceText = $this->getSourceText($data, false, true);
+                $cotrSourceText = $this->getSourceTextUSFM($data, false, true);
 
                 if (!array_key_exists("error", $cotrSourceText)) {
                     $data["cotrData"] = $cotrSourceText;
@@ -2473,88 +2421,71 @@ class EventsController extends Controller
                     $coTranslationTemp = $this->_model->getTranslation($data["event"][0]->cotrID, null, $data["event"][0]->cotrCurrentChapter);
                     $coTranslation = array();
 
-                    $cotrReady = true;
-
-                    if(empty($coTranslationTemp))
-                        $cotrReady = false;
+                    $cotrReady = $data["event"][0]->cotrPeerReady;
 
                     foreach ($coTranslationTemp as $tv) {
                         $tmp = json_decode($tv->translatedVerses, true);
                         $tmp["tID"] = $tv->tID;
                         $coTranslation[] = $tmp;
-
-                        if(empty($tmp["translator"]["verses"]))
-                            $cotrReady = false;
-                        else
-                        {
-                            foreach ($tmp[EventMembers::TRANSLATOR]["verses"] as $verse) {
-                                if($verse == "")
-                                    $cotrReady = false;
-                            }
-                        }
                     }
-
-                    if(sizeof($data["chapters"][$data["event"][0]->cotrCurrentChapter]["chunks"]) > sizeof($coTranslation))
-                        $cotrReady = false;
 
                     $data["cotrData"]["cotrReady"] = $cotrReady;
                     $data["cotrData"]["translation"] = $coTranslation;
 
-                    if($data["cotrData"]["cotrReady"]) {
-                        $i=2;
-                        foreach($data["cotrData"]["translation"] as $key => $chunk) {
+                    if($data["cotrData"]["cotrReady"]) :
+                        $sourceVerses = array_keys($data["cotrData"]["text"]);
+                        $i=0;
+                        foreach($data["cotrData"]["translation"] as $key => $chunk) :
                             $count = 0;
-                            foreach($chunk["translator"]["verses"] as $verse => $text) {
-                                $verses = explode("-", $data["cotrData"]["text"][$i - 1]);
-                                if ($count == 0) {
-                                    echo '<div class="row">' .
-                                        '<div class="col-sm-6">' .
-                                        '<p><strong><sup> ' . $data["cotrData"]["text"][$i - 1] . '</sup></strong> ' . $data["cotrData"]["text"][$i] . '</p>' .
-                                        '</div>' .
-                                        '<div class="col-sm-6 verse_with_note">' .
-                                        '<p>';
-                                }
-                                echo '<strong><sup>' . $verse . '</sup></strong>';
-                                echo $text;
+                            foreach($chunk["translator"]["verses"] as $verse => $text) :
+                                $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
+                                if ($count == 0): ?>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p><strong><sup> <?php echo $sourceVerses[$i] ?></sup></strong> <?php echo $data["cotrData"]["text"][$sourceVerses[$i]] ?></p>
+                                    </div>
+                                    <div class="col-sm-6 verse_with_note">
+                                <?php endif; ?>
+                                        <div class="vnote">
+                                            <strong><sup><?php echo $verse; ?></sup></strong>
+                                            <?php echo $text; ?>
+
+                                            <?php $hasCotrComments = array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]]); ?>
+                                            <div class="comments_number <?php echo $hasCotrComments ? "hasComment" : "" ?>">
+                                                <?php echo $hasCotrComments ? sizeof($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse]) : ""?>
+                                            </div>
+                                            <img class="editComment" data="<?php echo $data["cotrData"]["currentChapter"].":".$verse ?>" width="16px" src="<?php echo \Helpers\Url::templatePath() ?>img/edit.png" title="write note"/>
+
+                                            <div class="comments">
+                                                <?php if($hasCotrComments): ?>
+                                                    <?php foreach($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse] as $comment): ?>
+                                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                            <div class="my_comment" data="<?php echo $data["cotrData"]["currentChapter"].":".$verse ?>"><?php echo $comment->text; ?></div>
+                                                        <?php else: ?>
+                                                            <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+
+                                <?php
                                 $count++;
 
-                                if ($count == sizeof($verses)) {
-                                    $i += 2;
-                                    $count = 0;
-                                    echo '</p>';
-                                    echo '<div class="comments_number">'.
-											(array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]]) ?
-												sizeof($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse]) : "").
-										 '</div>';
-									echo '<img class="editComment" data="'.$data["cotrData"]["currentChapter"].":".$verse.'" width="16px" '.
-												'src="' . \Helpers\Url::templatePath() . 'img/'.(trim($commentAlt) == "" ? "edit" : "edit_done").'.png" title="write note"/>' .
-											'<div class="comments">';
-												if(array_key_exists($data["cotrData"]["currentChapter"], $data["comments_cotr"]) && array_key_exists($verse, $data["comments_cotr"][$data["cotrData"]["currentChapter"]])) 
-												{
-													foreach($data["comments_cotr"][$data["cotrData"]["currentChapter"]][$verse] as $comment)
-													{
-														if($comment->memberID == $data["event"][0]->myMemberID)
-														{
-															echo '<div class="my_comment">'.$comment->text.'</div>';
-														}
-														else
-														{
-															echo '<div class="other_comments"><span>'.$comment->userName.':</span> '.$comment->text.'</div>';
-														}
-													}
-												}
-										echo '</div>'.
-                                        '</div>' .
-                                        '</div>';
-                                }
-                            }
-                        }
-                        echo '<div class="chunk_divider col-sm-12"></div>';
-                    } else {
-                        echo '<div class="row">'.
-                            '<div class="col-sm-12 cotr_not_ready" style="color: #ff0000;">'.Language::show("partner_not_ready_message", "Events").'</div>'.
-                            '</div>';
-                    }
+                                if ($count == sizeof($verses)) :
+                                    $i += 1;
+                                    $count = 0; ?>
+                                    </div>
+                                </div>
+                                <?php endif; endforeach; ?>
+                            <div class="chunk_divider col-sm-12"></div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                        <div class="row">
+                            <div class="col-sm-12 cotr_not_ready" style="color: #ff0000;"><?php echo Language::show("partner_not_ready_message", "Events"); ?></div>
+                        </div>
+                    <?php endif;
                 }
             }
         }
@@ -2661,6 +2592,7 @@ class EventsController extends Controller
                     $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
                     $text = $this->language->get("checker_apply", array(
                         $notification->userName,
+                        $this->language->get($notification->step),
                         $notification->bookName,
                         $notification->currentChapter,
                         $notification->tLang,
@@ -3187,7 +3119,8 @@ class EventsController extends Controller
                 $data["text"] .= $frame["text"];
             }
 
-            $data["text"] = preg_replace("/<\/?para.*>/", "", $data["text"]);
+            //$data["text"] = preg_replace("/<\/?para.*>/", "", $data["text"]);
+            $data["text"] = preg_replace("/<\/?para[a-z0-9=\\\"\s]*>/", "", $data["text"]);
             $data["text"] = preg_split("/<verse\D+(\d+(?:-\d+)?)\D+>/", $data["text"], -1, PREG_SPLIT_DELIM_CAPTURE);
             $lastVerse = explode("-", $data["text"][sizeof($data["text"])-2]);
             $lastVerse = $lastVerse[sizeof($lastVerse)-1];
@@ -3195,7 +3128,7 @@ class EventsController extends Controller
             $data["currentChapter"] = $currentChapter;
             $data["currentChunk"] = $currentChunk;
             $data["chapters"] = $chapters;
-
+            //Data::pr($data["text"]);
             if($getChunk)
             {
                 $chapData = $chapters[$currentChapter]["chunks"];
@@ -3241,7 +3174,7 @@ class EventsController extends Controller
         $currentChunk = !$isCoTranslator ? $data["event"][0]->currentChunk : $data["event"][0]->cotrCurrentChunk;
         $eventTrID = !$isCoTranslator ? $data["event"][0]->trID : $data["event"][0]->cotrID;
 
-        $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject;
+        $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject."_usfm";
         $source = CacheManager::get($cache_keyword);
 
         if(is_null($source))
@@ -3279,15 +3212,15 @@ class EventsController extends Controller
 
             if($currentChapter <= 0) return false;
 
-            $data["text"][] = ""; // For compatibility with usx parser
+            //$data["text"][] = ""; // For compatibility with usx parser
             foreach ($usfm["chapters"][$currentChapter] as $section) {
                 foreach ($section as $v => $text) {
-                    $data["text"][] = $v;
-                    $data["text"][] = $text;
+                    //$data["text"][] = $v;
+                    $data["text"][$v] = $text;
                 }
             }
 
-            $lastVerse = explode("-", $data["text"][sizeof($data["text"])-2]);
+            $lastVerse = explode("-", end(array_keys($data["text"])));
             $lastVerse = $lastVerse[sizeof($lastVerse)-1];
             $data["totalVerses"] = !empty($data["text"]) ?  $lastVerse : 0;
             $data["currentChapter"] = $currentChapter;
@@ -3301,7 +3234,21 @@ class EventsController extends Controller
                 $fv = $chunk[0];
                 $lv = $chunk[sizeof($chunk)-1];
 
-                for($i=2; $i <= sizeof($data["text"]); $i+=2)
+                foreach ($data["text"] as $verse => $text) {
+                    $v = explode("-", $verse);
+                    $map = array_map(function($value) use ($fv, $lv) {
+                        return $value >= $fv && $value <= $lv;
+                    }, $v);
+                    $map = array_unique($map);
+
+                    if($map[0])
+                    {
+                        $currentChunkText[$verse] = $text;
+                    }
+                }
+
+
+                /*for($i=2; $i <= sizeof($data["text"]); $i+=2)
                 {
                     $verse = explode("-", $data["text"][$i-1]);
                     $map = array_map(function($value) use ($fv, $lv) {
@@ -3315,7 +3262,7 @@ class EventsController extends Controller
                         $tmp["content"] = $data["text"][$i];
                         $currentChunkText[] = $tmp;
                     }
-                }
+                }*/
 
                 $data["chunks"] = $chapData;
                 $data["chunk"] = $chunk;
@@ -3414,6 +3361,7 @@ class EventsController extends Controller
             $i=0;
             foreach ($cat_json["chapters"][$chapter - 1]["frames"] as $key => $frame) {
                 $result[$key]["id"] = (integer)$frame["id"];
+                $result[$key]["terms"] = array();
 
                 if(isset($result[$key-1]))
                     $result[$key-1]["id"] .= "-".((integer)$frame["id"] - 1);

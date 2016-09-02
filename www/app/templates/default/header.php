@@ -96,6 +96,7 @@ $hooks->run('afterBody');
                             $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
                             $text = Language::show('checker_apply', 'Events', array(
                                 $notification->userName,
+								Language::show($notification->step, "Events"),
                                 $notification->bookName,
                                 $notification->currentChapter,
                                 $notification->tLang,
@@ -104,11 +105,11 @@ $hooks->run('afterBody');
                             ?>
 							<?php if(!isset($data["isDemo"])): ?>
 							<a class="notifa" href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
-                               data="check:<?php echo $notification->eventID.":".$notification->memberID ?>">
+                               data="check:<?php echo $notification->eventID.":".$notification->memberID ?>" target="_blank">
                                 <li><?php echo $text; ?></li>
                             </a>
 							<?php else: ?>
-							<a class="notifa" href="/events/demo/keyword_check_checker">
+							<a class="notifa" href="/events/demo/keyword_check_checker" target="_blank">
 								<li><?php echo $text; ?></li>
 							</a>
 							<?php endif; ?>

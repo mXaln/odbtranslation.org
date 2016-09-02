@@ -57,6 +57,7 @@ if(!isset($error)):
                                 </div>
                                 <div class="section_translator_chunks">
                                     <div style="font-weight: bold"><?php echo sizeof($chapter["chunks"]) > 0 ? Language::show("chunks_number", "Events", array(sizeof($chapter["chunks"]))).":" : Language::show("no_chunks_number", "Events") ?></div>
+                                    <?php if(isset($chapter["chunks"])): ?>
                                     <?php foreach ($chapter["chunks"] as $index => $chunk):?>
                                         <div class="section_translator_chunk">
                                             <?php echo Language::show("chunk_number", "Events", array($chunk[0]." - ".$chunk[sizeof($chunk)-1])); ?>
@@ -65,6 +66,7 @@ if(!isset($error)):
                                             } ?>
                                         </div>
                                     <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -135,6 +137,7 @@ if(!isset($error)):
 
         <div class="col-sm-5 members_list">
             <div class="members_title"><?php echo Language::show("event_participants", "Events") ?>:</div>
+            <?php //\Helpers\Data::pr($data["members"]) ?>
             <?php foreach ($data["members"] as $id => $member): ?>
                 <?php if($id == "na") continue; ?>
                 <div class="member_item" data="<?php echo $id ?>">

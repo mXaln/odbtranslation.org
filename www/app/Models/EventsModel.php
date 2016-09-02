@@ -209,9 +209,11 @@ class EventsModel extends Model
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, "
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, ".PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
-                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.peerChapter, ".PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
+                .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.peerReady, ".PREFIX."translators.peerChapter, "
+                .PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
                 ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
-                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.peerChapter AS cotrPeerChapter, cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
+                ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.peerReady AS cotrPeerReady, cotranslator.peerChapter AS cotrPeerChapter, "
+                ."cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
                 ."mems.userName AS pairName, mems2.userName AS checkerName, " : "")
             .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
@@ -507,9 +509,10 @@ class EventsModel extends Model
 
     public function getEventMemberInfo($eventID, $memberID)
     {
-        $sql = "SELECT trs.memberID AS translator, l2.memberID AS l2checker, l3.memberID AS l3checker ".
+        $sql = "SELECT trs.memberID AS translator, chk7_8.checkerID AS checker7_8, l2.memberID AS l2checker, l3.memberID AS l3checker ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."translators AS trs ON evnt.eventID = trs.eventID AND trs.memberID = :memberID ".
+            "LEFT JOIN ".PREFIX."translators AS chk7_8 ON evnt.eventID = chk7_8.eventID AND chk7_8.checkerID = :memberID ".
             "LEFT JOIN ".PREFIX."checkers_l2 AS l2 ON evnt.eventID = l2.eventID AND l2.memberID = :memberID ".
             "LEFT JOIN ".PREFIX."checkers_l3 AS l3 ON evnt.eventID = l3.eventID AND l3.memberID = :memberID ".
             "WHERE evnt.eventID = :eventID";

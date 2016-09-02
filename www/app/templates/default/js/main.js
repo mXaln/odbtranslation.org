@@ -209,7 +209,7 @@ $(document).ready(function() {
     $(".verse_ta:first").focus();
 
     $(".my_comment").each(function() {
-        var img = $(".editComment", $(this).parents(".editor_area, .verse_with_note"));
+        var img = $(this).parent(".comments").prev(".editComment");
 
         if(img.length > 0)
         {
@@ -271,19 +271,20 @@ $(document).ready(function() {
                             }
                             else
                             {
-                                if(typeof data.errorCode != "undefined")
+                                if(typeof data.errorType != "undefined")
                                 {
-                                    switch (data.errorCode)
+                                    switch (data.errorType)
                                     {
                                         case "logout":
-                                            window.location.href = "members/login";
+                                            window.location.href = "/members/login";
                                             break;
 
                                         case "verify":
-                                            window.location.href = "members";
+                                            window.location.href = "/members";
                                             break;
 
                                         case "checkDone":
+                                            hasChangesOnPage = false;
                                             $(".alert_message").text(data.error);
                                             $( "#dialog-message" ).dialog({
                                                 modal: true,
@@ -306,7 +307,7 @@ $(document).ready(function() {
 
                         });
                 }
-            }, 10000);
+            }, 3000);
         }
     }
 
@@ -415,11 +416,13 @@ $(document).ready(function() {
         return false;
     });
 
-    $(".verse").each(function(index) {
-        var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
-        var height = parseInt($(this).css("height"))/verseTa.length;
-        verseTa.css("min-height", height);
-    });
+    setTimeout(function () {
+        $(".verse").each(function() {
+            var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
+            var height = $(this).height()/verseTa.length;
+            verseTa.css("min-height", height);
+        });
+    }, 100);
 
     autosize($('textarea'));
 
@@ -428,15 +431,16 @@ $(document).ready(function() {
         var p = $(this).parent().parent();
         var createChunkBtn = $(".create_chunk");
 
-        var verses = $(this).val().split("-");
+        //var verses = $(this).val().split("-");
+        var verses = parseCombinedVerses($(this).val());
 
         for(var i=0; i<verses.length; i++)
         {
-            var verse = parseInt(verses[i]);
+            var verse = verses[i];
 
             if((verse > 1 && chunks.length <= 0) ||
                 !$(this).is(":checked") ||
-                (verse > (lastVerse + 1)))
+                verse > (lastVerse + 1))
             {
                 e.preventDefault();
                 e.stopPropagation();
@@ -472,7 +476,7 @@ $(document).ready(function() {
 
         fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
         lv = verse < 10 ? "0"+verse : verse;
-        $(".verse_p .create_chunk").text("Make chunk "+fv+"-"+lv).show();
+        $(".verse_p .create_chunk").text(Language.make_chunk+" "+fv+"-"+lv).show();
     });
 
     // Start new chunk
@@ -513,6 +517,11 @@ $(document).ready(function() {
         $("a[href=#cotr_tab]").parent().removeClass("active");
         $(".cotr_main_content").hide();
 
+        $(".verse").each(function() {
+            var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
+            var height = $(this).height()/verseTa.length;
+            verseTa.css("min-height", height);
+        });
         autosize.update($('textarea'));
         return false;
     });
@@ -558,7 +567,19 @@ $(document).ready(function() {
 
         var btns = {};
         btns[yes] = function(){
-            window.location.href = item.attr("href");
+            var notifCount = parseInt($(".notif_count").text());
+            notifCount--;
+
+            $(".notif_count").text(notifCount);
+            if(notifCount <= 0)
+            {
+                $(".notif_count").remove();
+                $(".notif_block").html('<div class="no_notif">'+Language.no_notifs_msg+'</div>');
+            }
+
+            item.remove();
+            window.open(item.attr("href"),"_blank");
+            $( this ).dialog( "close" );
         };
         btns[no] = function(){
             $( this ).dialog( "close" );
@@ -587,6 +608,9 @@ $(document).ready(function() {
         lastCommentEditor = $(this);
         autosize.update($('textarea'));
 
+        chapverse = lastCommentEditor.attr("data").split(":");
+        $(".panel-title span").text(chapverse[1]);
+
         $(".other_comments_list").html("");
 
         $(".other_comments", comments).each(function() {
@@ -608,11 +632,11 @@ $(document).ready(function() {
 
         chapverse = lastCommentEditor.attr("data").split(":");
 
+        if(comment.length <= 0)
+            comment = $("<div />").addClass("my_comment").appendTo(comments);
+
         if(comment.text() != text)
         {
-            if(comment.length <= 0)
-                comment = $("<div />").addClass("my_comment").appendTo(comments);
-
             $.ajax({
                     url: "/events/rpc/save_comment",
                     method: "post",
@@ -632,7 +656,9 @@ $(document).ready(function() {
                         $(".editor").hide();
                         var src = lastCommentEditor.attr("src");
 
-                        if(data.text == "")
+                        data.text = unEscapeStr(data.text);
+
+                        if(data.text.trim() == "")
                         {
                             src = src.replace(/edit_done.png/, "edit.png");
                             comment.remove();
@@ -645,7 +671,16 @@ $(document).ready(function() {
                         lastCommentEditor.attr("src", src);
 
                         num = comments.children().length > 0 ? comments.children().length : "";
-                        $(".comments_number", lastCommentEditor.parent()).text(num);
+                        lastCommentEditor.prev(".comments_number").addClass("hasComment").text(num);
+                        if(num <= 0) lastCommentEditor.prev(".comments_number").removeClass("hasComment");
+
+                        var data = {
+                            type: "comment",
+                            eventID: eventID,
+                            verse: lastCommentEditor.attr("data"),
+                            text: data.text
+                        };
+                        socket.emit("system message", data);
                     }
                     else
                     {
@@ -1003,4 +1038,30 @@ function deleteCookie(name, options) {
         expires: -1,
         path: "/"
     })
+}
+
+function parseCombinedVerses(verse)
+{
+    var versesArr = [];
+    var verses = verse.split("-");
+
+    if(verses.length < 2)
+    {
+        versesArr.push(parseInt(verse));
+        return versesArr;
+    }
+
+    var fv = parseInt(verses[0]);
+    var lv = parseInt(verses[1]);
+
+    for(var i=fv; i <= lv; i++)
+    {
+        versesArr.push(i);
+    }
+
+    return versesArr;
+}
+
+function unEscapeStr(string) {
+    return $('<div/>').html(string).text();
 }

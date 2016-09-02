@@ -173,6 +173,8 @@ function OnSystemMessage(data)
             break;
 
         case "checkDone":
+            if(typeof isChecker != "undefined" && isChecker) return;
+
             $(".alert.alert-danger, .alert.alert-success").remove();
 
             $(".alert_message").text(Language.checker_approved);
@@ -187,6 +189,89 @@ function OnSystemMessage(data)
                     }
                 }
             });
+            break;
+
+        case "comment":
+            var editors = $(".editComment[data='"+data.verse+"']");
+            data.text = unEscapeStr(data.text);
+
+            if(editors.length > 0)
+            {
+                $.each(editors, function () {
+                    var editor = $(this);
+                    var numText = editor.prev(".comments_number").text();
+                    var num = numText.trim() != "" ? parseInt(numText) : 0;
+                    var wasDeleted = data.text.trim() == "";
+
+                    if(data.memberID == memberID)
+                    {
+                        var myComment = $(".my_comment", editor.next(".comments"));
+                        if(myComment.length > 0)
+                        { // Remove or update comment
+                            if(wasDeleted)
+                            {
+                                myComment.remove();
+                                num--;
+                                num = num > 0 ? num : "";
+                                editor.prev(".comments_number").text(num);
+                                if(num <= 0) editor.prev(".comments_number").removeClass("hasComment");
+
+                                var src = editor.attr("src");
+                                src = src.replace(/edit_done.png/, "edit.png");
+                                editor.attr("src", src);
+                            }
+                            else
+                            {
+                                myComment.text(data.text);
+                            }
+                        }
+                        else
+                        { // Add comment
+                            if(wasDeleted) return;
+
+                            editor.next(".comments").prepend(
+                                "<div class='my_comment' data='"+data.verse+"'>"+data.text+"</div>"
+                            );
+                            num++;
+                            editor.prev(".comments_number").text(num);
+                            if(num == 1) editor.prev(".comments_number").addClass("hasComment");
+
+                            var src = editor.attr("src");
+                            src = src.replace(/edit.png/, "edit_done.png");
+                            editor.attr("src", src);
+                        }
+                    }
+                    else
+                    {
+                        var commentor = $(".other_comments span:contains('"+data.userName+":')", editor.next(".comments"));
+                        if(commentor.length > 0)
+                        { // Remove or update comment
+                            if(wasDeleted)
+                            {
+                                commentor.parent().remove();
+                                num--;
+                                num = num > 0 ? num : "";
+                                editor.prev(".comments_number").text(num);
+                                if(num <= 0) editor.prev(".comments_number").removeClass("hasComment");
+                            }
+                            else
+                            {
+                                commentor.parent().html("<span>"+data.userName+": </span>"+data.text);
+                            }
+                        }
+                        else
+                        { // Add comment
+                            editor.next(".comments").append(
+                                "<div class='other_comments'><span>"+data.userName+": </span>"+data.text+"</div>"
+                            );
+                            num++;
+                            editor.prev(".comments_number").text(num);
+                            if(num == 1) editor.prev(".comments_number").addClass("hasComment");
+                        }
+                    }
+                });
+            }
+
             break;
     }
 }

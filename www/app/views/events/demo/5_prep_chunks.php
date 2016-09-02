@@ -179,7 +179,7 @@ kingdom. To him be the glory forever and ever. Amen.
                             <input name="verse" class="verse_number" value="22" type="checkbox">
                             <strong><sup>22</sup></strong> May the Lord be with your spirit. May grace be with you.                        </label>
                     </p>
-                                <div class="chunks_reset">Reset chunks</div>
+                                <div class="chunks_reset"><?php echo Language::show("reset_chunks", "Events") ?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -226,7 +226,7 @@ kingdom. To him be the glory forever and ever. Amen.
     </div>
 </div>
 
-<span class="create_chunk">Make chunk</span>
+<span class="create_chunk"><?php echo Language::show("make_chunk", "Events") ?></span>
 
 
 <div class="tutorial_container">

@@ -6,7 +6,7 @@ var Language = {
     "yes"                       : "Yes",
     "no"                        : "No",
     "no_keywords"               : "There are no keywords for this language.",
-    "check_book_confirm"        : "Do you really want to check this book?",
+    "check_book_confirm"        : "Do you really want to check this book? The page will be opened in new tab/window.",
     "check_book_confirm_title"  : "Checking request",
     "save_changes_confirm"      : "There are some changes made on this page. Do you want to continue without saving?",
     "save_changes_confirm_title": "Changes made",
@@ -26,4 +26,6 @@ var Language = {
     "reset_pair_title"          : "Reset pair",
     "start_translation"         : "Start translation",
     "start_translation_confirm" : "You will not be able to assign chapters and pairs after starting translation. Are you sure you want to start?",
+    "make_chunk"                : "Make chunk",
+    "no_notifs_msg"             : "No notifications",
 };

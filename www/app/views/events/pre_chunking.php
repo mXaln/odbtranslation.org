@@ -15,15 +15,15 @@ use \Core\Language;
                         .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "
                         ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
-                <?php for($i=2; $i <= sizeof($data["text"]); $i+=2): ?>
+                <?php foreach($data["text"] as $verse => $text): ?>
                     <p class="verse_p">
                         <label class="verse_number_label">
-                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $data["text"][$i-1]; ?>">
-                            <?php echo "<strong><sup>".$data["text"][$i-1]."</sup></strong> ".$data["text"][$i]; ?>
+                            <input type="checkbox" name="verse" class="verse_number" value="<?php echo $verse; ?>">
+                            <?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?>
                         </label>
                     </p>
-                <?php endfor; ?>
-                <div class="chunks_reset">Reset chunks</div>
+                <?php endforeach; ?>
+                <div class="chunks_reset"><?php echo Language::show("reset_chunks", "Events") ?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -70,7 +70,7 @@ use \Core\Language;
     </div>
 </div>
 
-<span class="create_chunk">Make chunk</span>
+<span class="create_chunk"><?php echo Language::show("make_chunk", "Events") ?>Make chunk</span>
 
 
 <div class="tutorial_container">

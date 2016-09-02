@@ -126,5 +126,7 @@ use Helpers\Constants\EventSteps;
         $("#chat_container").chat({
             step: step
         });
+
+        $('[data-toggle="tooltip"]').tooltip();
     }(jQuery));
 </script>

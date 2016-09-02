@@ -882,7 +882,9 @@
 
 .p_verse_num {
     float: left;
-    margin-right: 10px;
+    margin-right: 5px;
+    text-align: right;
+    width: 15px;
 }
 
 .verse_right {
@@ -897,7 +899,7 @@
     padding: 15px;
     border-radius: 5px;
     cursor: pointer;
-    width: 200px;
+    min-width: 200px;
     height: 50px;
     display: none;
     z-index: 99;
@@ -915,10 +917,10 @@
     top: -25px; right: 0;
     background-color: #e10500;
     text-align: center;
-    padding: 15px;
+    padding: 15px 5px;
     border-radius: 5px;
     cursor: pointer;
-    width: 150px;
+    min-width: 200px;
     height: 50px;
     z-index: 99;
     color: #fff;
@@ -1108,14 +1110,26 @@ mark {
 
 .editCommentAlt, .editComment {
     position: absolute;
-    top: 0; right: -10px;
+    top: 5px; right: -20px;
     cursor: pointer;
 }
 
 .comments_number {
     position: absolute;
-    top: -10px; right: -20px;
+    top: 0px; right: -42px;
     z-index: 10;
+}
+
+.hasComment {
+    background-color: #ffd800;
+    border: 1px solid #d58512;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding: 0 0 2px 0;
+    color: #5d5d5d;
 }
 
 .commentAltText {
@@ -1237,13 +1251,19 @@ mark {
 .tutorial_content {
     float: right;
     width: 600px;
-    height: 560px;
-    padding: 0 10px;
+    height: 530px;
+    padding: 0 20px;
     background-color: #d6e8f3;
 }
 
 .tutorial_content h3 {
     text-align: center;
+}
+
+.tutorial_content ul {
+    max-height: 460px;
+    overflow-y: auto;
+    padding-left: 20px;
 }
 
 .tutorial_content ul li {
@@ -1609,7 +1629,9 @@ a.demo_link, a.demo_link:hover {
     filter:Alpha(Opacity=70) !important
 }
 
-.ui-widget-header, .ui-state-default, .ui-state-hover {
+.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default, .ui-button,
+html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
     background-image: none !important;
 }
 
@@ -1875,4 +1897,13 @@ div[class^="member_usname mid"] {
 
 .is_checker_page_help {
     background-color: rgba(255, 212, 152, 0.69) !important;
+}
+
+.verse_with_note .vnote {
+    position: relative;
+    padding: 0 0 10px 0;
+}
+
+.editor_area .vnote {
+    position: relative;
 }
