@@ -104,12 +104,12 @@ return array(
 
 	// Success messages
 	"update_profile_success" => "Profile has been updated successfully",
-    'pwresettoken_send_success' => 'We\'ve sent you an email with instructions how to reset your password.',
+    'pwresettoken_send_success' => 'We\'ve sent you an email with instructions how to reset your password. If it\'s not there, check spam/junk folders',
     'password_reset_success' => 'Your password has been changed successfully. You may now login using your new password <a href="{0}">Login</a>',
     'account_activated_success' => 'Your account is now active you may now <a href="{0}">Login</a>',
-    "resend_activation_success_message" => "A message with activation code was sent to your email",
+    "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",
     'activation_link_message' => '<h3>Thank you for registering!</h3>'."\n".' To activate your account please click on this link. <a href="{0}">{1}</a>',
-    'registration_success_message' => 'Registration Successfull! Please check your email to complete registration.',
+    'registration_success_message' => 'Registration Successfull! Please check your email to complete registration. If it\'s not there, check spam/junk folders',
 
     // Error messages
     'userName_characters_error' => 'User name should contain only latin letters and numbers and start with letters',

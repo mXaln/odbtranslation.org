@@ -105,12 +105,12 @@ return array(
 	// Success messages
 	"update_profile_success" => "Profile has been updated successfully",
     'passwordreset_link_message' => 'Чтобы сбросить пароль, перейдите по ссылке. <a href="{0}">{1}</a>',
-    'pwresettoken_send_success' => 'Вам было отправлено письмо с инструкциями по сбросу пароля.',
+    'pwresettoken_send_success' => 'Вам было отправлено письмо с инструкциями по сбросу пароля. Если его нет, проверьте в папке спам.',
     'password_reset_success' => 'Ваш пароль был успешно изменен. Теперь вы можете войти, используя новый пароль <a href="{0}">Войти</a>',
     'activation_link_message' => '<h3>Спасибо за регистрацию!</h3>'."\n".' Чтобы активировать учетную запись перейдите по этой ссылке. <a href="{0}">{1}</a>',
     'account_activated_success' => 'Учетная запись активирована. Теперь вы можете <a href="{0}">Войти</a>',
-    "resend_activation_success_message" => "Сообщение с кодом активации отправлено на вашу электронную почту",
-    'registration_success_message' => 'Регистрация прошла успешно! Проверьте почту для активации учетной записи.',
+    "resend_activation_success_message" => "Сообщение с кодом активации отправлено на вашу электронную почту. Если письма нет во входящих, проверьте в папке спам.",
+    'registration_success_message' => 'Регистрация прошла успешно! Проверьте почту для активации учетной записи. Если письма нет во входящих, проверьте в папке спам.',
 
     // Error messages
     "required_fields_empty_error" => "Please fill in all the required fields",

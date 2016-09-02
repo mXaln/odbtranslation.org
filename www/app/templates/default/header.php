@@ -50,7 +50,7 @@ $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 		Url::templatePath() . 'js/jquery.js',
 		Url::templatePath() . 'js/languages/'.$code.'.js',
 		Url::templatePath() . 'js/main.js',
-		(Session::get("isAdmin") ? Url::templatePath() . 'js/mainAdmin.js' : ''),
+		(Session::get("isAdmin") ?  Url::templatePath() . 'js/mainAdmin.js' : ''),
 		Url::templatePath() . 'js/bootstrap.min.js',
 		//Url::templatePath() . 'js/jquery.elastic.source.js'
 		Url::templatePath() . 'js/autosize.min.js',

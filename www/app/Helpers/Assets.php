@@ -36,6 +36,7 @@ class Assets
 
         if (is_array($files)) {
             foreach ($files as $file) {
+                if($file == "") continue;
                 echo sprintf($template, $file) . "\n";
             }
         } else {
