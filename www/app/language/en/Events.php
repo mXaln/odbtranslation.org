@@ -114,6 +114,13 @@ return array(
     "make_chunk" => "Make chunk",
     "write_note_title" => "Write a note to the verse {0}",
     "all_notifications_title" => "All notifications",
+    "video_call_title" => "Video/Audio Chat (beta)",
+    "video_call" => "Video call",
+    "audio_call" => "Audio call",
+    "turn_off_camera" => "Turn off camera",
+    "mute_mic" => "Mute microphone",
+    "answer_call" => "Answer",
+    "hangup" => "Hang up",
 
     // Steps
     "pray" => "Preparation",

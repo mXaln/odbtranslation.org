@@ -32,7 +32,7 @@ class Config
         /**
          * Define relative base path.
          */
-        define('DIR', 'http://v-mast.mvc/');
+        define('DIR', 'https://v-mast.mvc/');
 
         /**
          * Set default controller and method for legacy calls.

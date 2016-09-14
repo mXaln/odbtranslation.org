@@ -18,6 +18,84 @@
     position: relative;
 }
 
+.container {
+    position: relative;
+}
+
+.video_chat_container {
+    position: fixed !important;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
+    width: 500px;
+    z-index: 101;
+    display: none;
+}
+
+.video_chat {
+    margin: 0;
+}
+
+.video-chat-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.video_chat .video {
+    text-align: center;
+}
+
+.videoCallOpen {
+    /*display: none;*/
+}
+
+.video {
+    position: relative;
+    min-height: 370px;
+}
+
+#answerButton, #cameraButton, #micButton {
+    display: none;
+}
+
+#localVideo {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 102;
+}
+
+#remoteVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.video_chat .buttons {
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    width: 100%;
+}
+
+.video_chat .buttons button {
+    font-size: 22px;
+}
+
+.video_chat .panel-heading {
+    cursor: move;
+}
+
+#callLog {
+    position: absolute;
+    bottom: 70px;
+    font-size: 22px;
+    left: 0;
+    width: 100%;
+}
+
 #chat_container {
     position: fixed;
     right: -610px; bottom: 0;
@@ -25,7 +103,6 @@
     height: 500px;
     z-index: 99;
 }
-
 
 .chat {
     position: absolute;

@@ -71,6 +71,9 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var step = '<?php echo $data["event"][0]->step; ?>';
     var isAdmin = false;
     var disableChat = false;
+    var turnUsername = '<?php echo $data["turn"][0] ?>';
+    var turnPassword = '<?php echo $data["turn"][1] ?>';
+
 </script>
 
 <div style="position: fixed; right: 0;">
@@ -96,6 +99,10 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                     <div><?php echo Language::show("event_tab_title", "Events") ?></div>
                     <div class="missed"></div>
                 </div>
+                <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
+                    <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo Language::show("video_call", "Events") ?>"></button>
+                    <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo Language::show("audio_call", "Events") ?>"></button>
+                </div>
             </div>
         </div>
         <ul id="p2p_messages" class="chat_msgs"></ul>
@@ -117,14 +124,48 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     <div class="clear"></div>
 </div>
 
+<div class="video_chat_container">
+    <div class="video-chat-close glyphicon glyphicon-remove"></div>
+    <div class="video_chat panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo Language::show("video_call_title", "Events")?><span></span></h1>
+            <span class="video-chat-close glyphicon glyphicon-remove"></span>
+        </div>
+        <div class="video">
+            <video id="localVideo" muted autoplay width="160"></video>
+            <video id="remoteVideo" autoplay width="498"></video>
+
+            <div class="buttons">
+                <button class="btn btn-primary glyphicon glyphicon-facetime-video" id="cameraButton" title="<?php echo Language::show("turn_off_camera", "Events") ?>"></button>
+                <button class="btn btn-primary glyphicon glyphicon-volume-up" id="micButton" title="<?php echo Language::show("mute_mic", "Events") ?>"></button>
+                <button class="btn btn-success glyphicon glyphicon-earphone" id="answerButton" disabled="disabled" title="<?php echo Language::show("answer_call", "Events") ?>"></button>
+                <button class="btn btn-danger glyphicon glyphicon-earphone" id="hangupButton" disabled="disabled" title="<?php echo Language::show("hangup", "Events") ?>"></button>
+            </div>
+
+            <div id="callLog"></div>
+        </div>
+    </div>
+</div>
+
 <!-- Audio for missed chat messages -->
 <audio id="missedMsg">
     <source src="<?php echo \Helpers\Url::templatePath()?>sounds/missed.ogg" type="audio/ogg" />
 </audio>
 
+<!-- Audio for video calls -->
+<audio id="callin">
+    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/callin.ogg" type="audio/ogg" />
+</audio>
+
+<audio id="callout">
+    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/callout.ogg" type="audio/ogg" />
+</audio>
+
 <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.io-1.4.5.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
 <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/video-chat.js"></script>
 
 <?php else: ?>
 

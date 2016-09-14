@@ -121,6 +121,27 @@ class EventsController extends Controller
 
             if($data["event"][0]->state == EventStates::TRANSLATING) {
 
+                $turnSecret = $this->_model->getTurnSecret();
+                $turnUsername = (time() + 3600) . ":vmast";
+                $turnPassword = "";
+
+                if(!empty($turnSecret))
+                {
+                    if(($turnSecret[0]->expire - time()) < 0)
+                    {
+                        $pass = $this->_model->generateStrongPassword(22);
+                        if($this->_model->updateTurnSecret(array("value" => $pass, "expire" => time() + (30*24*3600)))) // Update turn secret each month
+                        {
+                            $turnSecret[0]->value = $pass;
+                        }
+                    }
+
+                    $turnPassword = hash_hmac("sha1", $turnUsername, $turnSecret[0]->value, true);
+                }
+
+                $data["turn"][] = $turnUsername;
+                $data["turn"][] = base64_encode($turnPassword);
+
                 switch ($data["event"][0]->step) {
                     case EventSteps::PRAY:
 

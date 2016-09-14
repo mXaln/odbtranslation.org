@@ -180,6 +180,13 @@ return array(
     "empty_draft_verses_error" => "Вы перевели не все стихи",
     "write_note_title" => "Напишите заметку к стиху {0}",
     "all_notifications_title" => "Все уведомления",
+    "video_call_title" => "Видео/Аудио Чат (бета)",
+    "video_call" => "Видео вызов",
+    "audio_call" => "Аудио вызов",
+    "turn_off_camera" => "Выключить камеру",
+    "mute_mic" => "Выключить микрофон",
+    "answer_call" => "Ответить",
+    "hangup" => "Отменить вызов",
 
 
     // Success messages

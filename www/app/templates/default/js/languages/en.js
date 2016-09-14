@@ -28,4 +28,8 @@ var Language = {
     "start_translation_confirm" : "You will not be able to assign chapters and pairs after starting translation. Are you sure you want to start?",
     "make_chunk"                : "Make chunk",
     "no_notifs_msg"             : "No notifications",
+    "calling"                   : "Calling...",
+    "incomming_call"            : "Incomming call from",
+    "call_timeout"              : "No answer from user",
+    "audio_chat_with"           : "Audio chat with",
 };

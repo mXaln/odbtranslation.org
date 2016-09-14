@@ -1,6 +1,12 @@
 var app = require('express')(),
-    http = require('http').Server(app),
-    io = require('socket.io')(http),
+    fs = require('fs'),
+    https = require('https'),
+    server = https.createServer({
+        key:    fs.readFileSync('ssl/server.key'),
+        cert:   fs.readFileSync('ssl/server.crt'),
+        ca:     fs.readFileSync('ssl/ca.crt')
+    }, app).listen(8001),
+    io = require('socket.io')(server),
     redis = require("redis"),
     util = require("util"),
     _ = require("underscore"),
@@ -16,7 +22,7 @@ var clientRedis = redis.createClient();
 
 clientRedis.on("connect", function() {
     this.auth("Tss55-fw7-khU39", function(err, val) {
-        util.log("Redis connected: " + val);
+        util.log("Redis connection status: " + val);
     });
 });
 
@@ -340,20 +346,67 @@ io.on('connection', function(socket)
             }
         }
     });
-});
 
-http.listen(8001, function()
-{
-    console.log('listening on *:8001');
-});
+    socket.on('videoCallMessage', function (data) {
+        var member = getMemberBySocketId(this.id);
 
+        if(member)
+        {
+            var event = getMemberEvent(member, data.eventID);
+
+            if(!_.isEmpty(event))
+            {
+                var id = event.cotrMemberID;
+                var pairID = event.pairID;
+
+                if(data.callType == "chk")
+                {
+                    id = data.chkMemberID;
+
+                    if(id <= 0) return false;
+
+                    pairID = "pair-"
+                        + event.eventID
+                        + "-"
+                        + (Math.min(id, member.memberID))
+                        + "-"
+                        + (Math.max(id, member.memberID));
+
+                    if(event.checkPairs.indexOf(pairID) < 0)
+                        return false;
+                }
+
+                var translator = getMemberByUserId("user" + id);
+
+                if(typeof translator !== 'undefined')
+                {
+                    var trEvent = getMemberEvent(translator, event.eventID);
+
+                    if(!_.isEmpty(trEvent))
+                    {
+                        if(data.type == "gotUserMedia")
+                            data.userName = member.userName;
+
+                        // Send message to co-translator/checker
+                        for(var skt in trEvent.sockets)
+                        {
+                            io.to(trEvent.sockets[skt]).emit('videoCallMessage', data);
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
 
 /**************************************************
  ** HELPER FUNCTIONS
  **************************************************/
 function registerNewMemberEvent(data, sct, member)
 {
-    var xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest({
+        pfx: null,
+    });
 
     xhr.onreadystatechange = function()
     {
@@ -438,7 +491,7 @@ function registerNewMemberEvent(data, sct, member)
         }
     };
 
-    xhr.open("GET", "http://v-mast.com/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
+    xhr.open("GET", "https://v-mast.com/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
     xhr.send();
 }
 

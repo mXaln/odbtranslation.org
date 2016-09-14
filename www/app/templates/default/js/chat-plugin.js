@@ -280,6 +280,8 @@
                     break;
 
                 default:
+                    if(data.chatType == "p2p" || data.chatType == "chk") break;
+
                     messagesObj = $("#evnt_messages");
                     lastMsg = $("#evnt_messages .message:last");
                     setTimeout(function() {
@@ -412,7 +414,7 @@
                 return true;
 
             var messages = [];
-            var date, msgObj;
+            var date, msgObj, skip = false;
             var cookieLastMsg = getCookie(currentChatType + "_"+settings.eventID+"_last_msg");
 
             for(var i in data.msgs)
@@ -420,9 +422,21 @@
                 if(isNaN(data.msgs[i]))
                 {
                     msgObj = JSON.parse(data.msgs[i]);
+                    if(msgObj.chatType != currentChatType) // Skip not relevant to this page messages
+                    {
+                        skip = true;
+                        msgObj = {};
+                        continue;
+                    }
                 }
                 else
                 {
+                    if(skip)
+                    {
+                        skip = false;
+                        continue;
+                    }
+
                     date = data.msgs[i];
                     msgObj.date = parseInt(date);
 
