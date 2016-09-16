@@ -491,7 +491,7 @@ function registerNewMemberEvent(data, sct, member)
         }
     };
 
-    xhr.open("GET", "https://v-mast.mvc/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
+    xhr.open("GET", "https://v-mast.com/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
     xhr.send();
 }
 
