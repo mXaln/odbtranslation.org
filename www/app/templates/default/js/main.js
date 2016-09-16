@@ -24,6 +24,70 @@ var eventSteps = {
 
 $(document).ready(function() {
 
+    $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+        _renderItem: function( ul, item ) {
+            var li = $( "<li>" ),
+                wrapper = $( "<div>", { text: item.label } );
+
+            if ( item.disabled ) {
+                li.addClass( "ui-state-disabled" );
+            }
+
+            $( "<span>", {
+                style: item.element.attr( "data-style" ),
+                "class": "ui-icon " + item.element.attr( "data-class" )
+            })
+                .appendTo( wrapper );
+
+            return li.append( wrapper ).appendTo( ul );
+        }
+    });
+
+    $( "#lang-select" )
+        .iconselectmenu({
+            width: 60,
+            create: function( event, ui ) {
+                var lang = getCookie("lang");
+                lang = typeof lang != "undefined" ? lang : "en";
+                $("#lang-select-button .ui-selectmenu-text").html(
+                    "<img src='/app/templates/default/img/" + lang + ".png' width='16' height='12'>"
+                );
+            },
+            select: function( event, ui ) {
+                $("#lang-select-button .ui-selectmenu-text").html(
+                    "<img src='/app/templates/default/img/" + ui.item.value + ".png' width='16' height='12'>"
+                );
+                window.location.href = "/lang/" + ui.item.value;
+            }
+        })
+        .iconselectmenu( "menuWidget" )
+        .addClass( "ui-menu-icons customicons" );
+
+    $("#profile-select")
+        .selectmenu({
+            position: { my: "right+2 top+41", at: "right top", collision: "fit" },
+            create: function( event, ui ) {
+                $.data(this, "uName", $("option:first", this).val());
+                $("option:first", this).remove();
+            },
+            change: function( event, ui ) {
+                window.location.href = "/members/" + ui.item.value;
+            },
+            select: function (event, ui) {
+                $("#profile-select-button .ui-selectmenu-text").text($.data(this, "uName"));
+            }
+        })
+        .selectmenu( "menuWidget" )
+        .addClass("profile-select");
+
+    $("#btn_signup").click(function () {
+        window.location.href = "/members";
+    });
+
+    $("#btn_signin").click(function () {
+        window.location.href = "/members/login";
+    });
+
     // Statement of faith block
     $("#sof").click(function() {
         $(".sof_block").show();

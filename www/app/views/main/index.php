@@ -2,19 +2,11 @@
 use Core\Language;
 ?>
 
-<div>
-	<h1><?php echo $data['title'] ?></h1>
+<div class="welcome_content">
+	<h1><?php echo Language::show("welcome_text", "Main") ?></h1>
+	<h3><?php echo Language::show("welcome_hint", "Main") ?></h3>
+
+	<div class="text"><?php echo Language::show("welcome_message", "Main")?></div>
 </div>
-
-<p class="well"><?php echo $data['welcome_message'] ?></p>
-
-<a class="btn btn-link" href="<?php echo DIR;?>members">
-	<?php echo Language::show('signup', 'Members'); ?>
-</a>
-
-|
-
-<a class="btn btn-link" href="<?php echo DIR;?>members/login">
-    <?php echo Language::show('login', 'Members'); ?>
 
 

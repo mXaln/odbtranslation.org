@@ -3,9 +3,9 @@
 }
 
 .header {
-    margin: 20px auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin: 10px auto 20px auto;
+    padding: 0;
+    border: none;
 }
 
 .footer {
@@ -20,6 +20,37 @@
 
 .container {
     position: relative;
+}
+
+.welcome_bg {
+    background: url("/app/templates/default/img/bg.jpg") 50% 65px no-repeat;
+    background-size: 100%;
+}
+
+.header_bg {
+    background: url("/app/templates/default/img/header.png") 0 0 repeat-x;
+}
+
+.welcome_content {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    color: #fff;
+}
+
+.welcome_content h1 {
+    font-size: 45px;
+}
+
+.welcome_content h3 {
+    font-size: 32px;
+}
+
+.welcome_content .text {
+    width: 600px;
+    margin: 20px auto;
+    font-size: 16px;
+    font-style: italic;
 }
 
 .video_chat_container {
@@ -628,7 +659,7 @@
 #tr_steps_hide {
     position: absolute;
     right: -30px;
-    top: 50px;
+    top: 70px;
     width: 50px;
     height: 30px;
     border-radius: 15px;
@@ -1034,13 +1065,13 @@ mark {
 
 .notif_block {
     position: absolute;
-    top: 40px;
+    top: 50px;
     right: 0;
     width: 400px;
     min-height: 50px;
     max-height: 600px;
     background-color: #fff;
-    border: 1px solid #2575b8;
+    border: 1px solid #62d8ff;
     /*border-bottom: none;*/
     z-index: 99;
     list-style: none;
@@ -1075,23 +1106,30 @@ mark {
 }
 
 .notif_count {
-    background-color: #ff0000;
+    background-color: #ff7f00;
     border-radius: 10px;
     width: 20px;
     height: 20px;
     display: block;
-    float: right;
     margin-left: 5px;
     color: #ffffff;
     font-weight: bold;
+    position: absolute;
+    top: 3px;
+    right: 8px;
 }
 
 .notif_title {
-    float: left;
+
 }
 
 .notifications {
     position: relative;
+    background-color: #62d8ff;
+}
+
+#notifications {
+
 }
 
 .all_notifs {
@@ -1983,4 +2021,99 @@ div[class^="member_usname mid"] {
 
 .editor_area .vnote {
     position: relative;
+}
+
+.lang-selector {
+
+}
+
+.ui-icon.lang_en {
+    background: url("/app/templates/default/img/en.png") 0 0 no-repeat !important;
+}
+.ui-icon.lang_ru {
+    background: url("/app/templates/default/img/ru.png") 0 0 no-repeat !important;
+}
+
+#lang-select-button {
+    padding:  7px 10px !important;
+}
+
+#profile-select-button {
+    border: none !important;
+    background: none !important;
+    margin-top: 3px;
+}
+
+#profile-select-button.ui-selectmenu-button.ui-button {
+    min-width: 120px !important;
+    max-width: 220px !important;
+    width: auto !important;
+}
+
+#profile-select-button .ui-selectmenu-text {
+    text-align: right;
+}
+
+.profile-select {
+    width: 200px;
+}
+
+.header_menu_left {
+    padding: 0;
+    margin: 0;
+    height: 50px;
+}
+
+.header_menu_left .logo {
+    margin-top: 5px;
+}
+
+.header_menu_left .nav {
+    font-weight: bold;
+    height: 50px;
+}
+
+.header_menu_left .nav li {
+    vertical-align: middle;
+    height: 50px;
+    margin: 0px;
+    text-transform: uppercase;
+}
+
+.header_menu_left .nav-pills > li > a {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    height: 50px;
+    padding-top: 14px;
+}
+
+.header_menu_left .nav-pills > li.active > a,
+.header_menu_left .nav-pills > li.active > a:focus,
+.header_menu_left .nav-pills > li.active > a:hover {
+    background-color: #62d8ff;
+}
+
+.header_menu_right {
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    height: 50px;
+}
+
+.header_menu_right li {
+    height: 50px;
+    vertical-align: middle;
+    padding-top: 6px;
+}
+
+.profile-select li div {
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 7px !important;
+}
+
+.profile-select li:first-child {
+    height: 0px;
 }

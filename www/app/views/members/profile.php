@@ -346,6 +346,6 @@ $profile = $data["profile"];
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("select").chosen();
+        $(".profile_form select").chosen();
     });
 </script>

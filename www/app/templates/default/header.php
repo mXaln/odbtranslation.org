@@ -62,7 +62,7 @@ $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 	?>
 
 </head>
-<body>
+<body class="<?php echo isset($data["isMain"]) ? "welcome_bg" : "header_bg"?>">
 <?php
 //hook for running code after body tag
 $hooks->run('afterBody');
@@ -70,58 +70,77 @@ $hooks->run('afterBody');
 
 <div class="container">
 
-	<div class="header page-header row">
+	<div class="header page-header row <?php echo Session::get("loggedin") ? "loggedin" : ""?>">
 
-		<ul class="nav nav-pills col-md-4" role="tablist">
-			<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo Language::show('home', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations"><?php echo Language::show('translations_title', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 4):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>events"><?php echo Language::show('events_title', 'Main')?></a></li>
-			<!--<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo Language::show('contact_us_title', 'Main')?></a></li>
-			<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo Language::show('about_title', 'Main')?></a></li>-->
-		</ul>
+		<div class="col-sm-8 row header_menu_left">
+			<a href="<?php echo DIR?>" class="col-sm-4 logo"><img src="<?php echo Url::templatePath() ?>img/logo.png" height="40" /></a>
 
-		<ul class="list-inline col-md-8" style="text-align: right">
-			<li><a class="btn btn-link" href="<?php echo DIR?>lang/en">English</a></li>
-			<li><a class="btn btn-link" href="<?php echo DIR?>lang/ru">Русский</a></li>
-			<?php if(\Helpers\Session::get('loggedin')): ?>
-			| <li class="notifications">
-					<a class="btn btn-link" id="notifications" href="#">
-                        <span class="notif_title"><?php echo Language::show("notifications", "Events") ?></span>
-                        <?php echo !empty($data["notifications"]) ? '<span class="notif_count">'.sizeof($data["notifications"]).'</span>' : ""; ?>
-                    </a>
-					<ul class="notif_block">
-					<?php if(!empty($data["notifications"])):?>
-						<?php foreach ($data["notifications"] as $notification):?>
-							<?php
-                            $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
-                            $text = Language::show('checker_apply', 'Events', array(
-                                $notification->userName,
-								Language::show($notification->step, "Events"),
-                                $notification->bookName,
-                                $notification->currentChapter,
-                                $notification->tLang,
-                                Language::show($notification->bookProject, "Events"),
-                            ));
-                            ?>
-							<?php if(!isset($data["isDemo"])): ?>
-							<a class="notifa" href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
-                               data="check:<?php echo $notification->eventID.":".$notification->memberID ?>" target="_blank">
-                                <li><?php echo $text; ?></li>
-                            </a>
-							<?php else: ?>
-							<a class="notifa" href="/events/demo/keyword_check_checker" target="_blank">
-								<li><?php echo $text; ?></li>
-							</a>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					<?php else: ?>
-						<div class='no_notif'><?php echo Language::show("no_notifs_msg", "Events") ?></div>
-					<?php endif; ?>
-						<div class="all_notifs"><a href="<?php echo DIR?>events/notifications"><?php echo Language::show("see_all", "Events") ?></a></div>
-					</ul>
-				</li>
-			| <li><a class="btn btn-link" href="<?php echo DIR?>members/logout"><?php echo Language::show('logout', 'Members')?></a></li>
-				<li><a class="btn btn-link" href="<?php echo DIR?>members/profile"><?php echo \Helpers\Session::get("userName")?></a></li>
+			<ul class="nav nav-pills col-sm-8" role="tablist">
+			<?php if(Session::get('loggedin')): ?>
+				<li <?php if($data['menu'] == 1):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>"><?php echo Language::show('home', 'Main')?></a></li>
+				<li <?php if($data['menu'] == 4):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>events"><?php echo Language::show('events_title', 'Main')?></a></li>
+				<li <?php if($data['menu'] == 3):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>translations"><?php echo Language::show('translations_title', 'Main')?></a></li>
+				<!--<li <?php if($data['menu'] == 5):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>contact"><?php echo Language::show('contact_us_title', 'Main')?></a></li>
+				<li <?php if($data['menu'] == 6):?>class="active"<?php endif?> role="presentation"><a href="<?php echo DIR?>about"><?php echo Language::show('about_title', 'Main')?></a></li>-->
+			<?php endif; ?>
+			</ul>
+		</div>
+
+		<ul class="list-inline col-sm-4 header_menu_right">
+			<?php if(Session::get('loggedin')): ?>
+			<li class="notifications">
+				<a class="btn btn-link" id="notifications" href="#">
+					<span class="notif_title" title="<?php echo Language::show("notifications", "Events") ?>"><img src="<?php echo Url::templatePath() ?>img/notif.png"></span>
+					<?php echo !empty($data["notifications"]) ? '<span class="notif_count">'.sizeof($data["notifications"]).'</span>' : ""; ?>
+				</a>
+				<ul class="notif_block">
+				<?php if(!empty($data["notifications"])):?>
+					<?php foreach ($data["notifications"] as $notification):?>
+						<?php
+						$type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
+						$text = Language::show('checker_apply', 'Events', array(
+							$notification->userName,
+							Language::show($notification->step, "Events"),
+							$notification->bookName,
+							$notification->currentChapter,
+							$notification->tLang,
+							Language::show($notification->bookProject, "Events"),
+						));
+						?>
+						<?php if(!isset($data["isDemo"])): ?>
+						<a class="notifa" href="/events/checker/<?php echo $notification->eventID."/".$notification->memberID; ?>/apply"
+						   data="check:<?php echo $notification->eventID.":".$notification->memberID ?>" target="_blank">
+							<li><?php echo $text; ?></li>
+						</a>
+						<?php else: ?>
+						<a class="notifa" href="/events/demo/keyword_check_checker" target="_blank">
+							<li><?php echo $text; ?></li>
+						</a>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<div class='no_notif'><?php echo Language::show("no_notifs_msg", "Events") ?></div>
+				<?php endif; ?>
+					<div class="all_notifs"><a href="<?php echo DIR?>events/notifications"><?php echo Language::show("see_all", "Events") ?></a></div>
+				</ul>
+			</li>
+			<li>
+				<select id="profile-select">
+					<option value="<?php echo Session::get("userName")?>"><?php echo Session::get("userName")?></option>
+					<option value=""></option>
+					<option value="profile"><?php echo Language::show("profile_message", "Members") ?></option>
+					<option value="logout"><?php echo Language::show('logout', 'Members')?></option>
+				</select>
+			</li>
+			<?php else: ?>
+			<li><button class="btn btn-success" id="btn_signup"><?php echo Language::show("signup", "Members") ?></button></li>
+			<li><button class="btn btn-primary" id="btn_signin"><?php echo Language::show("login", "Members") ?></button></li>
+			<li>
+				<select id="lang-select">
+					<option value="en" data-class="lang_en" <?php echo $code == "en" ? "selected" : ""?>>English</option>
+					<option value="ru" data-class="lang_ru" <?php echo $code == "ru" ? "selected" : ""?>>Русский</option>
+				</select>
+			</li>
 			<?php endif?>
 		</ul>
 

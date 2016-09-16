@@ -5,12 +5,10 @@
 return array(
 
 	// Index method
-	'home' => 'Home',
-	'welcome_text' => 'Welcome',
-	'welcome_message' => 'Lorem ipsum dolor sit amet, id inermis aliquando his. Eu ipsum ullum cetero eos. Vidit sapientem interpretaris nam no. Blandit efficiantur mei ea, id sed nullam suavitate liberavisse, id sed prompta delenit dissentiet. Cu cum eros impetus. Usu an placerat moderatius, ex sumo urbanitas intellegam eum.
-	Est ei noster patrioque intellegat, quod sint cotidieque qui id. Esse errem legere cu pri. Has te dicta atomorum. Wisi nobis in ius, et fugit mnesarchum nam.
-	In pericula constituto vim. Timeam feugait consulatu ea vim, cum et euismod alienum, qui an novum noluisse. Est id probo movet. Has principes scribentur in, cu maiorum albucius delicata ius. Amet nostrud ex qui. Ius illud meliore invenire no, ad mollis pertinax vix.
-	Ea quot iuvaret scribentur has. Per posse persequeris et, no quaeque voluptua scaevola mel. Ne quis reformidans quo, eu per habeo lobortis. Atomorum vituperatoribus ius ea, nam ex putant facilisi definiebas, no duo utinam similique vituperatoribus.',
+	'home' => 'Dashboard',
+	'welcome_text' => 'Welcome to V-MAST',
+    'welcome_hint' => 'You can participate by invitation only',
+	'welcome_message' => "What do you think? If any person has one hundred sheep, and one of them goes astray, does he not leave the ninety-nine on the hillside and go off seeking the one that went astray? And if he finds it, truly I say to you, he rejoices over it more than over the ninety-nine that did not go astray. In the same way, it is not the will of your Father in heaven that one of these little ones should perish <br>Mathew 18:12-14",
 
 	'translations_title' => "Translations",
 	'events_title' => "Events",

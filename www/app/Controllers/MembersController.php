@@ -38,6 +38,7 @@ class MembersController extends Controller
     public function index()
     {
         $data['lang'] = $this->_lang;
+        $data["menu"] = 1;
 
         if (Session::get('loggedin') == true)
         {
@@ -221,6 +222,7 @@ class MembersController extends Controller
 
         $eventModel = new EventsModel();
 
+        $data["title"] = "Profile";
         $data["languages"] = $eventModel->getAllLanguages();
         $data["errors"] = array();
 

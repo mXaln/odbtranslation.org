@@ -41,6 +41,7 @@ class MainController extends Controller
 
         $data['title'] = $this->language->get('welcome_text');
         $data['menu'] = 1;
+        $data["isMain"] = true;
         $data['welcome_message'] = $this->language->get('welcome_message');
 
         View::renderTemplate('header', $data);
