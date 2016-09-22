@@ -32,4 +32,5 @@ var Language = {
     "incomming_call"            : "Входящий звонок от",
     "call_timeout"              : "Нет ответа от пользователя",
     "audio_chat_with"           : "Аудио чат с",
+    "chapters"                  : "Главы"
 };

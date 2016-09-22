@@ -385,13 +385,25 @@ io.on('connection', function(socket)
                     if(!_.isEmpty(trEvent))
                     {
                         if(data.type == "gotUserMedia")
+                        {
                             data.userName = member.userName;
+                            data.memberID = member.memberID;
+                        }
 
                         // Send message to co-translator/checker
                         for(var skt in trEvent.sockets)
                         {
                             io.to(trEvent.sockets[skt]).emit('videoCallMessage', data);
                         }
+                    }
+                }
+
+                // Send message back to member sockets
+                if(data.type == "gotUserMedia")
+                {
+                    for(var skt in event.sockets)
+                    {
+                        io.to(event.sockets[skt]).emit('callAnswered', {});
                     }
                 }
             }

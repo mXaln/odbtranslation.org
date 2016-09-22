@@ -3,7 +3,7 @@ use Core\Language;
 ?>
 
 <h1><?php echo Language::show('login_title', 'Members'); ?></h1>
-<p><?php echo Language::show('dont_have_account', 'Members'); ?> <a href='<?php echo DIR;?>members'><?php echo Language::show('signup', 'Members'); ?></a>
+<p><?php echo Language::show('dont_have_account', 'Members'); ?> <a href='<?php echo DIR;?>members/signup'><?php echo Language::show('signup', 'Members'); ?></a>
 
 <?php
 echo \Core\Error::display($error);
@@ -12,7 +12,7 @@ echo \Core\Error::display($error);
 <form action='' method='post' style="width: 500px">
 	<div class="form-group">
 		<label for="email">Email / <?php echo Language::show('userName', 'Members'); ?></label>
-		<input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
+		<input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $_POST["email"]?>">
 	</div>
 
 	<div class="form-group">

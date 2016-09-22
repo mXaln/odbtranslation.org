@@ -48,6 +48,7 @@ use \Helpers\Tools;
                                 <?php $i=0; foreach($data["cotrData"]["translation"] as $key => $chunk): ?>
                                     <?php
                                     $count = 0;
+                                    if($chunk[EventMembers::TRANSLATOR]["verses"] == null) continue;
                                     foreach($chunk[EventMembers::TRANSLATOR]["verses"] as $verse => $text):
                                         $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                                     ?>
@@ -117,6 +118,7 @@ use \Helpers\Tools;
                                 <?php
                                 $k=0;
                                 $count = 0;
+                                if($chunk[EventMembers::TRANSLATOR]["verses"] == null) continue;
                                 foreach($chunk[EventMembers::TRANSLATOR]["verses"] as $verse => $text):
                                     $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                                     ?>

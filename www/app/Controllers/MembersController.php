@@ -40,176 +40,35 @@ class MembersController extends Controller
         $data['lang'] = $this->_lang;
         $data["menu"] = 1;
 
-        if (Session::get('loggedin') == true)
+        if (Session::get('loggedin') !== true)
         {
-            if(empty(Session::get("profile")))
-            {
-                Url::redirect("members/profile");
-            }
-
-            $data['title'] = $this->language->get('welcome_title');
-
-            $eventModel = new EventsModel();
-
-            if(Session::get("isAdmin"))
-                $data["myFacilitatorEvents"] = $eventModel->getMemberEventsForAdmin(Session::get("memberID"));
-
-            $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
-            $data["myCheckerL1Events"] = $eventModel->getMemberEventsForChecker(Session::get("memberID"));
-            $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
-            $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
-
-            $data["notifications"] = $this->_notifications;
-            View::renderTemplate('header', $data);
-            View::render('members/index', $data);
-            View::renderTemplate('footer', $data);
+            Url::redirect("members/login");
         }
-        else
+
+        if(empty(Session::get("profile")))
         {
-            // Registration
-            $data['title'] = $this->language->get('signup');
-
-            if (isset($_POST['submit']))
-            {
-                $_POST = Gump::xss_clean($_POST);
-
-                $_POST = Gump::filter_input($_POST, array(
-                    'userName' => 'trim',
-                    'firstName' => 'trim',
-                    'lastName' => 'trim',
-                    'email' => 'trim',
-                    'password' => 'trim'
-                ));
-
-                $userName = $_POST['userName'];
-                $firstName = $_POST['firstName'];
-                $lastName = $_POST['lastName'];
-                $email = $_POST['email'];
-                $password = $_POST['password'];
-                $passwordConfirm = $_POST['passwordConfirm'];
-                //$userType = $_POST['userType'];
-                $tou = (int)$_POST['tou'] == 1;
-                $sof = (int)$_POST['sof'] == 1;
-
-                if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
-                {
-                    $error[] = $this->language->get('userName_characters_error');
-                }
-
-                if (strlen($userName) < 5 || strlen($userName) > 20)
-                {
-                    $error[] = $this->language->get('userName_length_error');
-                }
-
-                if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
-                {
-                    $error[] = $this->language->get('firstName_length_error');
-                }
-
-                if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
-                {
-                    $error[] = $this->language->get('lastName_length_error');
-                }
-
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-                {
-                    $error[] = $this->language->get('enter_valid_email_error');
-                }
-                else
-                {
-                    $check = $this->_model->getMember('memberID,userName,email', array('email' => array("=", $email), "userName" => array("=", $userName, "OR")));
-
-                    foreach ($check as $item) {
-                        if (strtolower($item->email) == strtolower($email))
-                        {
-                            $error[] = $this->language->get('email_taken_error');
-                        }
-                        if (strtolower($item->userName) == strtolower($userName))
-                        {
-                            $error[] = $this->language->get('username_taken_error');
-                        }
-                    }
-                }
-
-                if (strlen($password) < 5)
-                {
-                    $error[] = $this->language->get('password_short_error');
-                }
-                elseif ($password != $passwordConfirm)
-                {
-                    $error[] = $this->language->get('passwords_notmatch_error');
-                }
-
-                // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
-                // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
-                // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
-
-                $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
-                $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-
-                if (!$resp->isSuccess())
-                {
-                    $error[] = $this->language->get('captcha_wrong');
-                }
-
-                if(!$tou)
-                {
-                    $error[] = $this->language->get('tou_accept_error');
-                }
-
-                if(!$sof)
-                {
-                    $error[] = $this->language->get('sof_accept_error');
-                }
-
-                /*if (!preg_match("/^(translator|checker|both)$/", $userType))
-                {
-                    $error[] = $this->language->get('userType_wrong_error');
-                }*/
-
-                if (!isset($error))
-                {
-                    $activationToken = md5(uniqid(rand(), true));
-
-                    $hash = Password::make($password);
-
-                    //insert
-                    $postdata = array(
-                        'userName' => $userName,
-                        'firstName' => $firstName,
-                        'lastName' => $lastName,
-                        'email' => $email,
-                        'password' => $hash,
-                        //'userType' => $userType,
-                        'activationToken' => $activationToken,
-                        //'active' => true
-                    );
-
-                    $id = $this->_model->createMember($postdata);
-                    $link = DIR . "members/activate/$id/$activationToken";
-
-                    $mail = new PhpMailer();
-                    $mail->isSendmail();
-                    $mail->setFrom('noreply@v-mast.com');
-                    $mail->addAddress($email);
-                    $mail->Subject = $this->language->get('activate_account_title');
-                    $mail->msgHTML($this->language->get('activation_link_message', array($link, $link)));
-                    $mail->send();
-
-                    $msg = $this->language->get('registration_success_message');
-                    Session::set("success", $msg);
-                    Session::set("activation_email", $email);
-
-                    Url::redirect('members/success');
-                }
-            }
-
-            $data['csrf_token'] = Csrf::makeToken();
-
-            View::renderTemplate('header', $data);
-            View::render('members/signup', $data, $error);
-            View::renderTemplate('footer', $data);
+            Url::redirect("members/profile");
         }
+
+        $data['title'] = $this->language->get('welcome_title');
+
+        $eventModel = new EventsModel();
+
+        if(Session::get("isAdmin"))
+            $data["myFacilitatorEvents"] = $eventModel->getMemberEventsForAdmin(Session::get("memberID"));
+
+        $myLangs = array_keys(Session::get("profile")["languages"]);
+
+        $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
+        $data["newEvents"] = $eventModel->getNewEvents($myLangs);
+        $data["myCheckerL1Events"] = $eventModel->getMemberEventsForChecker(Session::get("memberID"));
+        $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
+        $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
+
+        $data["notifications"] = $this->_notifications;
+        View::renderTemplate('header', $data);
+        View::render('members/index', $data);
+        View::renderTemplate('footer', $data);
     }
 
 
@@ -656,6 +515,160 @@ class MembersController extends Controller
 
         View::renderTemplate('header', $data);
         View::render('members/login', $data, $error);
+        View::renderTemplate('footer', $data);
+    }
+
+
+    public function signup()
+    {
+        // Registration
+        $data['lang'] = $this->_lang;
+        $data["menu"] = 1;
+        $data['title'] = $this->language->get('signup');
+
+        if (Session::get('loggedin') == true) {
+            Url::redirect("members");
+        }
+
+        if (isset($_POST['submit']))
+        {
+            $_POST = Gump::xss_clean($_POST);
+
+            $_POST = Gump::filter_input($_POST, array(
+                'userName' => 'trim',
+                'firstName' => 'trim',
+                'lastName' => 'trim',
+                'email' => 'trim',
+                'password' => 'trim'
+            ));
+
+            $userName = $_POST['userName'];
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $passwordConfirm = $_POST['passwordConfirm'];
+            //$userType = $_POST['userType'];
+            $tou = (int)$_POST['tou'] == 1;
+            $sof = (int)$_POST['sof'] == 1;
+
+            if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
+            {
+                $error[] = $this->language->get('userName_characters_error');
+            }
+
+            if (strlen($userName) < 5 || strlen($userName) > 20)
+            {
+                $error[] = $this->language->get('userName_length_error');
+            }
+
+            if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
+            {
+                $error[] = $this->language->get('firstName_length_error');
+            }
+
+            if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
+            {
+                $error[] = $this->language->get('lastName_length_error');
+            }
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+                $error[] = $this->language->get('enter_valid_email_error');
+            }
+            else
+            {
+                $check = $this->_model->getMember('memberID,userName,email', array('email' => array("=", $email), "userName" => array("=", $userName, "OR")));
+
+                foreach ($check as $item) {
+                    if (strtolower($item->email) == strtolower($email))
+                    {
+                        $error[] = $this->language->get('email_taken_error');
+                    }
+                    if (strtolower($item->userName) == strtolower($userName))
+                    {
+                        $error[] = $this->language->get('username_taken_error');
+                    }
+                }
+            }
+
+            if (strlen($password) < 5)
+            {
+                $error[] = $this->language->get('password_short_error');
+            }
+            elseif ($password != $passwordConfirm)
+            {
+                $error[] = $this->language->get('passwords_notmatch_error');
+            }
+
+            // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
+            // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
+            // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
+
+            $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
+            $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+
+            if (!$resp->isSuccess())
+            {
+                $error[] = $this->language->get('captcha_wrong');
+            }
+
+            if(!$tou)
+            {
+                $error[] = $this->language->get('tou_accept_error');
+            }
+
+            if(!$sof)
+            {
+                $error[] = $this->language->get('sof_accept_error');
+            }
+
+            /*if (!preg_match("/^(translator|checker|both)$/", $userType))
+            {
+                $error[] = $this->language->get('userType_wrong_error');
+            }*/
+
+            if (!isset($error))
+            {
+                $activationToken = md5(uniqid(rand(), true));
+
+                $hash = Password::make($password);
+
+                //insert
+                $postdata = array(
+                    'userName' => $userName,
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'email' => $email,
+                    'password' => $hash,
+                    //'userType' => $userType,
+                    'activationToken' => $activationToken,
+                    //'active' => true
+                );
+
+                $id = $this->_model->createMember($postdata);
+                $link = DIR . "members/activate/$id/$activationToken";
+
+                $mail = new PhpMailer();
+                $mail->isSendmail();
+                $mail->setFrom('noreply@v-mast.com');
+                $mail->addAddress($email);
+                $mail->Subject = $this->language->get('activate_account_title');
+                $mail->msgHTML($this->language->get('activation_link_message', array($link, $link)));
+                $mail->send();
+
+                $msg = $this->language->get('registration_success_message');
+                Session::set("success", $msg);
+                Session::set("activation_email", $email);
+
+                Url::redirect('members/success');
+            }
+        }
+
+        $data['csrf_token'] = Csrf::makeToken();
+
+        View::renderTemplate('header', $data);
+        View::render('members/signup', $data, $error);
         View::renderTemplate('footer', $data);
     }
 

@@ -32,4 +32,5 @@ var Language = {
     "incomming_call"            : "Incomming call from",
     "call_timeout"              : "No answer from user",
     "audio_chat_with"           : "Audio chat with",
+    "chapters"                  : "Chapters"
 };

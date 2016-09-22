@@ -65,6 +65,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
+    var pairMemberID = <?php echo isset($data["event"][0]->cotrMemberID) ? $data["event"][0]->cotrMemberID : 0; ?>;
     var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
@@ -133,7 +134,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </div>
         <div class="video">
             <video id="localVideo" muted autoplay width="160"></video>
-            <video id="remoteVideo" autoplay width="498"></video>
+            <video id="remoteVideo" autoplay ></video>
 
             <div class="buttons">
                 <button class="btn btn-primary glyphicon glyphicon-facetime-video" id="cameraButton" title="<?php echo Language::show("turn_off_camera", "Events") ?>"></button>

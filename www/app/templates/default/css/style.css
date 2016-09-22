@@ -1,17 +1,23 @@
+html, body, .container {
+    height: 100%;
+}
+
 .clear {
     clear: both;
 }
 
 .header {
-    margin: 10px auto 20px auto;
+    margin: 10px auto;
     padding: 0;
     border: none;
 }
 
 .footer {
-    margin: 50px auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin: 10px auto 20px auto;
+    padding: 0;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .form-group {
@@ -20,23 +26,86 @@
 
 .container {
     position: relative;
+    padding: 0;
+}
+
+.container_block {
+    min-height: calc(100% - 175px);
+}
+
+.container_block.isloggedin {
+    position: relative;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .welcome_bg {
-    background: url("/app/templates/default/img/bg.jpg") 50% 65px no-repeat;
-    background-size: 100%;
+    background: url("/app/templates/default/img/bg_sky.jpg") 50% 65px repeat-x;
+    /*background-size: cover;
+    background: #559bd7;
+    background: -webkit-linear-gradient(#559bd7, #87ebfa);
+    background: -o-linear-gradient(#559bd7, #87ebfa);
+    background: -moz-linear-gradient(#559bd7, #87ebfa);
+    background: linear-gradient(#559bd7, #87ebfa);*/
+}
+
+.hide_img {
+    bottom: -100%;
+    left: 0;
+    position: absolute;
+}
+
+.hide_img img {
+    position: relative;
+    width: 100%;
+}
+
+#ground-center {
+    z-index: 100;
+}
+
+#ground-left {
+    z-index: 50;
+}
+
+#ground-right {
+    z-index: 50;
+}
+
+#cloud-right {
+    bottom: -50%;
+    right: -33%;
+    transform: rotate(28deg);
+    z-index: 20;
+}
+
+#cloud-left {
+    bottom: -50%;
+    left: -33%;
+    transform: rotate(-28deg);
+    z-index: 20;
 }
 
 .header_bg {
     background: url("/app/templates/default/img/header.png") 0 0 repeat-x;
+    background-color: #f3f3f4;
 }
 
 .welcome_content {
     width: 100%;
+    height: 585px;
     text-align: center;
     margin-top: 50px;
     color: #fff;
+    position: relative;
+    overflow: hidden;
 }
+
+/*.welcome_content img {
+    position: absolute;
+    bottom: 0; left: 0;
+}*/
 
 .welcome_content h1 {
     font-size: 45px;
@@ -85,6 +154,7 @@
 .video {
     position: relative;
     min-height: 370px;
+    overflow: hidden;
 }
 
 #answerButton, #cameraButton, #micButton {
@@ -541,10 +611,11 @@
 .sub-content > .create-sub-content {
     display: block;
     position: relative;
-    margin: 20px auto;
     background-color: white;
     border-radius: 5px;
     width: 900px;
+    left: calc(50% - 450px);
+    top: calc(50% - 250px);
 }
 
 .subGwLoader {
@@ -581,10 +652,11 @@
 .event-content > .create-event-content {
     display: block;
     position: relative;
-    margin: 20px auto;
     background-color: white;
     border-radius: 5px;
     width: 1000px;
+    left: calc(50% - 500px);
+    top: calc(50% - 300px);
 }
 
 .bookName {
@@ -825,6 +897,7 @@
 
 #translator_contents {
     position: relative;
+    margin: 0;
 }
 
 .main_content_footer {
@@ -1046,9 +1119,10 @@
     cursor: pointer;
     width: 150px;
     height: 50px;
-    z-index: 99;
+    z-index: 98;
     color: #fff;
     font-weight: bold;
+    display: none;
 }
 
 mark {
@@ -1086,6 +1160,7 @@ mark {
 }
 
 .notif_block li {
+    height: auto !important;
     min-height: 50px;
     padding: 10px;
     border-top: 1px solid #2575b8;
@@ -1288,7 +1363,7 @@ mark {
 .keywords_list {
     width: 800px;
     position: absolute;
-    top: calc(50% - 350px);
+    top: calc(50% - 300px);
     left: calc(50% - 400px);
     background-color: #ffffff;
     z-index: 99;
@@ -1297,7 +1372,7 @@ mark {
 }
 
 .labels_list {
-    max-height: 700px;
+    max-height: 600px;
     overflow-y: auto;
     padding: 20px;
     font-size: 22px;
@@ -2038,24 +2113,24 @@ div[class^="member_usname mid"] {
     padding:  7px 10px !important;
 }
 
-#profile-select-button {
-    border: none !important;
-    background: none !important;
-    margin-top: 3px;
-}
-
-#profile-select-button.ui-selectmenu-button.ui-button {
-    min-width: 120px !important;
-    max-width: 220px !important;
-    width: auto !important;
-}
-
-#profile-select-button .ui-selectmenu-text {
-    text-align: right;
-}
-
 .profile-select {
-    width: 200px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.profile-select li {
+    height: auto !important;
+    padding: 3px !important;
+}
+
+#profile-select .uName {
+    display: inline-block;
+    text-overflow: ellipsis;
+    min-width: 82px;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
 }
 
 .header_menu_left {
@@ -2107,13 +2182,77 @@ div[class^="member_usname mid"] {
     padding-top: 6px;
 }
 
-.profile-select li div {
-    height: 35px;
-    text-align: center;
-    vertical-align: middle;
-    padding-top: 7px !important;
+.footer_langs {
+    text-align: right;
+    padding: 0px;
 }
 
-.profile-select li:first-child {
-    height: 0px;
+.flangs {
+    width: 60px;
+    height: 35px;
+    border-radius: 5px;
+    border: 3px solid #dedede;
+    padding: 3px 8px 2px;
+    cursor: pointer;
+    float: right;
+}
+
+.flangs li {
+    height: auto !important;
+    padding: 2px !important;
+}
+
+.my_content {
+    display: none;
+    margin-top: 20px;
+}
+
+.my_content.shown {
+    display: block;
+}
+
+.event_block {
+    width: 500px;
+    height: 300px;
+    border: 1px solid #222222;
+    float: left;
+    margin: 0 30px 30px 0;
+    padding: 10px;
+}
+
+.event_project {
+    font-size: 22px;
+    font-weight: bold;
+    width: 470px;
+    height: 31px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.event_time_title {
+    color: #666666;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.ui_tpicker_timezone select {
+    width: 200px;
+    height: 30px;
+    font-size: 0.9em;
+    margin: 0 0 0 -8px;
+    padding: 0;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    line-height: 1.42857;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+.ui-datepicker {
+    width: 350px;
 }

@@ -296,63 +296,84 @@ $(function () {
         $(".event-content").css("left", 0);
 
         $(".book_info_content").html(
-            '<div><strong>Chapters:</strong> '+chapterNum+'</div>'
+            '<div><strong>'+Language.chapters+':</strong> '+chapterNum+'</div>'
         );
-
-        // Get source text
-        /*$.ajax({
-                url: "/admin/rpc/get_source",
-                method: "post",
-                data: {
-                    bookCode: bookCode,
-                    sourceLangID: sourceLangID,
-                    bookProject: bookProject
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    $(".book_info_content").html("");
-                    $(".bookInfoLoader").show();
-                }
-            })
-            .done(function(data) {
-                if(!$.isEmptyObject(data))
-                {
-                    $(".book_info_content").html(
-                        '<div><strong>Chapters:</strong> '+data.chaptersNum+'</div>' +
-                        '<div><strong>Verses:</strong> '+data.versesNum+'</div>'
-                    );
-                }
-                else
-                {
-                    $(".book_info").append(
-                        'Book source not found'
-                    );
-                }
-            })
-            .always(function() {
-                $(".bookInfoLoader").hide();
-            });
-        */
     });
 
-    $( "#cal_from" ).datepicker({
-        changeMonth: true,
-        numberOfMonths: 1,
-        onClose: function( selectedDate ) {
-            $( "#cal_to" ).datepicker( "option", "minDate", selectedDate );
+    // ------------------ DateTimePicker functionality ------------------- //
+    if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")
+    {
+        var timeFormat;
+        var timezoneList = [
+            { value: -720, label: '(UTC-12:00) International Date Line West'},
+            { value: -660, label: '(UTC-11:00) Midway Island, Samoa' },
+            { value: -600, label: '(UTC-10:00) Hawaii' },
+            { value: -540, label: '(UTC-09:00) Alaska' },
+            { value: -480, label: '(UTC-08:00) Pacific Time (US and Canada); Tijuana' },
+            { value: -420, label: '(UTC-07:00) Mountain Time (US and Canada), Chihuahua, La Paz, Mazatlan' },
+            { value: -360, label: '(UTC-06:00) Central Time (US and Canada), Guadalajara, Mexico City, Monterrey' },
+            { value: -300, label: '(UTC-05:00) Eastern Time (US and Canada), Bogota, Lima, Quito' },
+            { value: -240, label: '(UTC-04:00) Atlantic Time (Canada), Caracas, La Paz' },
+            { value: -210, label: '(UTC-04:30) Newfoundland and Labrador' },
+            { value: -180, label: '(UTC-03:00) Buenos Aires, Georgetown, Greenland' },
+            { value: -120, label: '(UTC-02:00) Mid-Atlantic' },
+            { value: -60, label: '(UTC-01:00) Azores, Cape Verde Islands' },
+            { value: 0, label: '(UTC+00:00) Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London' },
+            { value: 60, label: '(UTC+01:00) Belgrade, Sarajevo, Brussels, Madrid, Paris, Berlin, Rome, West Central Africa' },
+            { value: 120, label: '(UTC+02:00) Bucharest, Cairo, Helsinki, Kiev, Tallinn, Athens, Istanbul, Jerusalem' },
+            { value: 180, label: '(UTC+03:00) Moscow, Volgograd, Kuwait, Nairobi, Baghdad' },
+            { value: 210, label: '(UTC+03:30) Tehran' },
+            { value: 240, label: '(UTC+04:00) Abu Dhabi, Baku, Tbilisi, Yerevan' },
+            { value: 270, label: '(UTC+04:30) Kabul' },
+            { value: 300, label: '(UTC+05:00) Ekaterinburg, Islamabad, Karachi, Tashkent' },
+            { value: 330, label: '(UTC+05:30) Kolkata, Mumbai, New Delhi' },
+            { value: 345, label: '(UTC+05:45) Kathmandu' },
+            { value: 360, label: '(UTC+06:00) Astana, Dhaka, Almaty, Novosibirsk' },
+            { value: 390, label: '(UTC+06:30) Yangon Rangoon' },
+            { value: 420, label: '(UTC+07:00) Bangkok, Hanoi, Jakarta, Krasnoyarsk' },
+            { value: 480, label: '(UTC+08:00) Beijing, Hong Kong SAR, Kuala Lumpur, Singapore, Irkutsk' },
+            { value: 540, label: '(UTC+09:00) Seoul, Osaka, Tokyo, Yakutsk' },
+            { value: 570, label: '(UTC+09:30) Darwin, Adelaide' },
+            { value: 600, label: '(UTC+10:00) Canberra, Melbourne, Sydney, Brisbane, Vladivostok, Guam' },
+            { value: 660, label: '(UTC+11:00) Magadan, Solomon Islands, New Caledonia' },
+            { value: 720, label: '(UTC+12:00) Fiji Islands, Kamchatka, Marshall Islands, Auckland, Wellington' },
+        ];
+        var lang = typeof getCookie("lang") != "undefined" ? getCookie("lang") : "en";
+
+        switch (lang)
+        {
+            case "ru":
+                timeFormat = "HH:mm z";
+                break;
+
+            default:
+                timeFormat = "hh:mm TT z";
+                break;
         }
-    });
-    $( "#cal_from" ).datepicker("option", "dateFormat", "yy-mm-dd");
 
-    $( "#cal_to" ).datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 1,
-        onClose: function( selectedDate ) {
-            $( "#cal_from" ).datepicker( "option", "maxDate", selectedDate );
-        }
-    });
-    $( "#cal_to" ).datepicker("option", "dateFormat", "yy-mm-dd");
+        $( "#cal_from" ).datetimepicker({
+            timeFormat: timeFormat,
+            timezoneList: timezoneList,
+            minDate: new Date(),
+            onClose: function( selectedDate ) {
+                if(selectedDate != "")
+                    $( "#cal_to" ).datepicker( "option", "minDate", selectedDate );
+            },
+        });
+        //$( "#cal_from" ).datepicker( "option", $.datepicker.regional[ "ru" ] );
+
+        $( "#cal_to" ).datetimepicker({
+            //defaultDate: "+1w",
+            timeFormat: timeFormat,
+            timezoneList: timezoneList,
+            minDate: new Date(),
+            onClose: function( selectedDate ) {
+                if(selectedDate != "")
+                    $( "#cal_from" ).datepicker( "option", "maxDate", selectedDate );
+            }
+        });
+        //$( "#cal_to" ).datepicker( "option", $.datepicker.regional[ "ru" ] );
+    }
 
     // Submit create event form
     $("#startEvent").submit(function(e) {

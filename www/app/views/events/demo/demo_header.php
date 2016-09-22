@@ -37,7 +37,7 @@ use Helpers\Constants\EventSteps;
             <?php endif; ?>
         </li>
 
-        <?php if($_COOKIE["demo_mode"] == "gl"):?>
+        <?php if(!isset($_COOKIE["demo_mode"]) || $_COOKIE["demo_mode"] == "gl"):?>
             <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK_FULL ? "active" : "" ?>">
                 <a href="<?php echo DIR ?>events/demo/self_check_full"><span><?php echo Language::show(EventSteps::SELF_CHECK, "Events")?></span></a>
             </li>
@@ -93,6 +93,10 @@ use Helpers\Constants\EventSteps;
                     <div><?php echo Language::show("event_tab_title", "Events") ?></div>
                     <div class="missed"></div>
                 </div>
+                <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
+                    <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo Language::show("video_call", "Events") ?>"></button>
+                    <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo Language::show("audio_call", "Events") ?>"></button>
+                </div>
             </div>
         </div>
         <ul id="p2p_messages" class="chat_msgs"><li class="message msg_my" data="7"><div class="msg_name">You</div><div data-original-title="01.07.2016, 18:22:38" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, let's translate chapter 1</div></li></ul>
@@ -116,7 +120,7 @@ use Helpers\Constants\EventSteps;
 
 <!-- Audio for missed chat messages -->
 <audio id="missedMsg">
-    <source src="#" type="audio/ogg">
+    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/missed.ogg" type="audio/ogg">
 </audio>
 
 <script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>

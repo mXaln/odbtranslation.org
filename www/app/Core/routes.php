@@ -47,6 +47,7 @@ Router::any('events/rpc/get_event_members', 'Controllers\EventsController@getEve
 
 Router::any('members', 'Controllers\MembersController@index');
 Router::any('members/profile', 'Controllers\MembersController@profile');
+Router::any('members/signup', 'Controllers\MembersController@signup');
 Router::any('members/login', 'Controllers\MembersController@login');
 Router::any('members/logout', 'Controllers\MembersController@logout');
 Router::any('members/passwordreset', 'Controllers\MembersController@passwordReset');

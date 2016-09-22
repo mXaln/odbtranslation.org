@@ -12,7 +12,6 @@ use Helpers\Session;
 
 //initialise hooks
 $hooks = Hooks::get();
-
 $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 ?>
 <!DOCTYPE html>
@@ -125,26 +124,41 @@ $hooks->run('afterBody');
 				</ul>
 			</li>
 			<li>
-				<select id="profile-select">
-					<option value="<?php echo Session::get("userName")?>"><?php echo Session::get("userName")?></option>
-					<option value=""></option>
-					<option value="profile"><?php echo Language::show("profile_message", "Members") ?></option>
-					<option value="logout"><?php echo Language::show('logout', 'Members')?></option>
-				</select>
+				<div class="profile-select">
+					<div class="dropdown-toggle" id="profile-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<div class="uName"><?php echo Session::get("userName")?></div>
+						<span class="caret"></span>
+					</div>
+					<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="profile-select">
+						<li><a href="/members/profile"><?php echo Language::show("profile_message", "Members") ?></a></li>
+						<?php if(Session::get("isAdmin")): ?>
+                        <li><a href="/admin"><?php echo Language::show('admin', 'Members')?></a></li>
+                        <?php endif; ?>
+                        <li><a href="/members/logout"><?php echo Language::show('logout', 'Members')?></a></li>
+					</ul>
+				</div>
 			</li>
 			<?php else: ?>
 			<li><button class="btn btn-success" id="btn_signup"><?php echo Language::show("signup", "Members") ?></button></li>
 			<li><button class="btn btn-primary" id="btn_signin"><?php echo Language::show("login", "Members") ?></button></li>
 			<li>
-				<select id="lang-select">
-					<option value="en" data-class="lang_en" <?php echo $code == "en" ? "selected" : ""?>>English</option>
-					<option value="ru" data-class="lang_ru" <?php echo $code == "ru" ? "selected" : ""?>>Русский</option>
-				</select>
+                <div class="dropdown flangs">
+                    <div class="dropdown-toggle" id="footer_langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="/app/templates/default/img/<?php echo $code?>.png">
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="footer_langs">
+                        <li><a href="/lang/en"><img src="/app/templates/default/img/en.png"> English</a></li>
+                        <li><a href="/lang/ru"><img src="/app/templates/default/img/ru.png"> Русский</a></li>
+                    </ul>
+                </div>
 			</li>
 			<?php endif?>
 		</ul>
 
 	</div>
+
+	<div class="container_block <?php echo !isset($data["isMain"]) ? "isloggedin" : "" ?>">
 
 
 	<!-- dialog windows -->

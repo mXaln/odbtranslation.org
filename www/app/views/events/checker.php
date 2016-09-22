@@ -42,7 +42,7 @@ if(empty($error) && empty($data["success"])):
                     <div class="keywords_list">
                         <div class="keywords-list-close glyphicon glyphicon-remove"></div>
                         <div class="labels_list">
-                            <?php /*if(isset($data["keywords"])): ?>
+                            <?php if(isset($data["keywords"])): ?>
                                 <?php foreach ($data["keywords"] as $keyword): ?>
                                     <label><?php echo Language::show("verses", "Events")." ".$keyword["id"]?>
                                         <ul>
@@ -52,7 +52,7 @@ if(empty($error) && empty($data["success"])):
                                         </ul>
                                     </label>
                                 <?php endforeach; ?>
-                            <?php endif; */?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -237,8 +237,8 @@ if(empty($error) && empty($data["success"])):
 </div>
 
 <script>
-    var isChecker = true;
-    var keywords = [];
+    isChecker = true;
+    keywords = [];
 
     <?php if($data["event"][0]->step == EventSteps::KEYWORD_CHECK): ?>
         <?php if(isset($data["keywords"])): ?>

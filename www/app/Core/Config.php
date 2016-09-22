@@ -106,7 +106,7 @@ class Config
         /**
          * Set timezone.
          */
-        date_default_timezone_set('Europe/London');
+        date_default_timezone_set('UTC');
 
         /**
          * Start sessions.

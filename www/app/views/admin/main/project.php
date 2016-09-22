@@ -2,6 +2,8 @@
 use \Core\Language;
 use Helpers\Constants\EventStates;
 
+$code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
+
 if(!empty($data["project"])):
 ?>
 <div class="panel panel-default">
@@ -49,8 +51,8 @@ if(!empty($data["project"])):
                             <td><?php echo ($event->translators>0 ? '<a href="#translators" data="'.$event->eventID.'">' : '') . $event->translators . "/" . (integer)$event->translatorsNum . ($event->translators>0 ? '</a>' : '') ?></td>
                             <td><?php echo ($event->checkers_l2>0 ? '<a href="#checkers_l2" data="'.$event->eventID.'">' : '') . $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum . ($event->checkers_l2>0 ? '</a>' : '') ?></td>
                             <td><?php echo ($event->checkers_l3>0 ? '<a href="#checkers_l3" data="'.$event->eventID.'">' : '') . $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum . ($event->checkers_l3>0 ? '</a>' : '') ?></td>
-                            <td><?php echo $event->dateFrom != "" ? date("Y-m-d", strtotime($event->dateFrom)) : "" ?></td>
-                            <td><?php echo $event->dateTo != "" ? date("Y-m-d", strtotime($event->dateTo)) : "" ?></td>
+                            <td class="datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom != "" ? $event->dateFrom . " UTC" : "" ?></td>
+                            <td class="datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo != "" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ?></td>
                             <td>
                                 <?php
@@ -99,23 +101,23 @@ if(!empty($data["project"])):
                 <div class="col-sm-6">
                     <form action="/admin/rpc/create_event" method="post" id="startEvent">
                         <div class="form-group">
-                            <label for="translators"><?php echo Language::show('translators', 'Events'); ?></label>
+                            <label for="translators"><?php echo Language::show('max_translators', 'Events'); ?></label>
                             <input type="text" class="form-control" id="translators" name="translators" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="checkers_l2"><?php echo Language::show('checkers_l2', 'Events'); ?></label>
+                            <label for="checkers_l2"><?php echo Language::show('max_checkers_l2', 'Events'); ?></label>
                             <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="checkers_l3"><?php echo Language::show('checkers_l3', 'Events'); ?></label>
+                            <label for="checkers_l3"><?php echo Language::show('max_checkers_l3', 'Events'); ?></label>
                             <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="cal_from"><?php echo Language::show('cal_from', 'Events'); ?></label>
-                            <input type="text" class="form-control" id="cal_from" name="cal_from" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
+                            <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
                         </div>
 
                         <div class="form-group">
@@ -148,3 +150,8 @@ if(!empty($data["project"])):
 <?php else: ?>
 <div>Project does not exist or you do not have rights to see it</div>
 <?php endif; ?>
+
+<link href="<?php echo \Helpers\Url::templatePath()?>css/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
+<script src="<?php echo \Helpers\Url::templatePath()?>js/jquery-ui-timepicker-addon.min.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/i18n/jquery-ui-timepicker-<?php echo $code ?>.js"></script>
+<script src="<?php echo \Helpers\Url::templatePath()?>js/i18n/datepicker-<?php echo $code ?>.js"></script>

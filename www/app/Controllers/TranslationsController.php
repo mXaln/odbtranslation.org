@@ -59,7 +59,6 @@ class TranslationsController extends Controller
         }
         else
         {
-
             $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
             $data["data"] = $book[0];
             $data['title'] = $data['data']->bookName;
@@ -68,6 +67,8 @@ class TranslationsController extends Controller
 
             foreach ($book as $chunk) {
                 $verses = json_decode($chunk->translatedVerses);
+
+                if($verses == null) continue;
 
                 if($chunk->chapter != $lastChapter)
                 {
@@ -127,7 +128,7 @@ class TranslationsController extends Controller
                 $chapterStarted = false;
 
                 foreach ($verses->translator->verses as $verse => $text) {
-                    $data["usfm"] .= "\\v ".$verse." ".$text."\n";
+                    $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
                 }
                 // End of chunk
                 $data["usfm"] .= "\n\n";

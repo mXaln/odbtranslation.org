@@ -9,9 +9,14 @@ var localStream;
 var remoteStream;
 var pc;
 var time;
-var timeoutInterval, timeoutClose;
+var timeoutInterval,
+    timeoutDelay = 30000, // Call busy timeout
+    timeoutClose,
+    timeoutCloseDelay = 2000; // timeout of closing video window with error
 var constraints = {audio: true, video: false};
+var calleeID = 0;
 var calleeName = "";
+var callAnswered = false;
 
 $(".videoCallOpen").click(openVideoDialog);
 $(".video-chat-close").click(closeVideoDialog);
@@ -42,11 +47,20 @@ $(document).ready(function () {
         onVideoCallMessage(message);
     });
 
+    socket.on('callAnswered', function(message) {
+        if(!isInitiator && !callAnswered)
+        {
+            closeVideoDialog(false);
+        }
+    });
+
     window.onbeforeunload = function() {
         sendMessage({
             type: 'bye',
             callType: $("#chat_type").val(),
             eventID: eventID,
+            memberID: memberID,
+            isChecker: isChecker,
             chkMemberID: chkMemberID
         });
     };
@@ -63,7 +77,8 @@ $(document).ready(function () {
         minHeight: 300,
         resize: function( event, ui ) {
             $(".video").css("min-height", ui.size.height - 40);
-            $("#remoteVideo").width(ui.size.width - 3);
+            $(".video").css("max-width", ui.size.width);
+            $("#remoteVideo").attr("height", $(".video").height());
         }
     });
 });
@@ -97,7 +112,7 @@ function createPeerConnection() {
         callLog.html('Failed to create PeerConnection, exception: ' + e.message);
         timeoutClose = setTimeout(function () {
             closeVideoDialog();
-        }, 2000);
+        }, timeoutCloseDelay);
         return;
     }
 }
@@ -111,6 +126,7 @@ function doCall() {
         callType: $("#chat_type").val(),
         eventID: eventID,
         chkMemberID: chkMemberID,
+        isChecker: isChecker,
         isIncomming: isInitiator,
         isVideoCall: constraints.video
     });
@@ -146,14 +162,14 @@ function openVideoDialog() {
 
     timeoutInterval = setInterval(function () {
         var now = new Date().getTime();
-        if((now - time) > 30000)
+        if((now - time) > timeoutDelay)
         {
             callLog.html(Language.call_timeout);
             callout.pause();
             $("#hangupButton").prop("disabled", true);
             timeoutClose = setTimeout(function () {
                 closeVideoDialog();
-            }, 2000);
+            }, timeoutCloseDelay);
         }
     }, 1000);
 
@@ -176,11 +192,13 @@ function openVideoDialog() {
             callLog.html(e.name + ": "+ e.message);
             timeoutClose = setTimeout(function () {
                 closeVideoDialog();
-            }, 2000);
+            }, timeoutCloseDelay);
         });
 }
 
-function closeVideoDialog() {
+function closeVideoDialog(bye) {
+    bye = typeof bye != "undefined" ? bye : true;
+
     if(!$(".video_chat_container").is(":visible")) return;
 
     $(".video_chat_container").hide();
@@ -188,6 +206,9 @@ function closeVideoDialog() {
     callLog.html("");
     isStarted = false;
     isInitiator = false;
+    callAnswered = false;
+    calleeID = 0;
+    calleeName = "";
 
     clearInterval(timeoutInterval);
     clearTimeout(timeoutClose);
@@ -221,12 +242,17 @@ function closeVideoDialog() {
         remoteVideo.src = "";
     }
 
-    sendMessage({
-        type: 'bye',
-        callType: $("#chat_type").val(),
-        eventID: eventID,
-        chkMemberID: chkMemberID
-    });
+    if(bye)
+    {
+        sendMessage({
+            type: 'bye',
+            callType: $("#chat_type").val(),
+            eventID: eventID,
+            memberID: memberID,
+            isChecker: isChecker,
+            chkMemberID: chkMemberID
+        });
+    }
 }
 
 function onAnswerClick() {
@@ -237,7 +263,7 @@ function onAnswerClick() {
             callLog.html(e.name + ": "+ e.message);
             timeoutClose = setTimeout(function () {
                 closeVideoDialog();
-            }, 2000);
+            }, timeoutCloseDelay);
         });
 }
 
@@ -286,11 +312,14 @@ function gotStream(stream)
 
     if(!isInitiator)
     {
+        callAnswered = true;
+
         sendMessage({
             type: 'gotUserMedia',
             callType: $("#chat_type").val(),
             eventID: eventID,
             chkMemberID: chkMemberID,
+            isChecker: isChecker,
             isIncomming: isInitiator
         });
 
@@ -299,15 +328,23 @@ function gotStream(stream)
     }
     else
     {
+        calleeID = step == eventSteps.KEYWORD_CHECK || step == eventSteps.CONTENT_REVIEW ?
+            chkMemberID : pairMemberID;
         doCall();
     }
 }
 
 function onVideoCallMessage(message)
 {
+    //if((step == eventSteps.KEYWORD_CHECK || step == eventSteps.CONTENT_REVIEW) &&
+    //   message.callType != "chk") return false;
+
+    if(message.isChecker && message.isChecker == isChecker) return false; // Do not accept call from checker if you are checker too
+
     switch(message.type)
     {
         case "gotUserMedia":
+            calleeID = message.memberID;
             calleeName = message.userName;
 
             if(message.isIncomming) // Incomming call
@@ -325,6 +362,20 @@ function onVideoCallMessage(message)
                 callin.play();
 
                 constraints.video = message.isVideoCall;
+
+                time = new Date().getTime();
+                timeoutInterval = setInterval(function () {
+                    var now = new Date().getTime();
+                    if((now - time) > timeoutDelay)
+                    {
+                        callLog.html(Language.call_timeout);
+                        callout.pause();
+                        $("#hangupButton").prop("disabled", true);
+                        timeoutClose = setTimeout(function () {
+                            closeVideoDialog();
+                        }, timeoutCloseDelay);
+                    }
+                }, 1000);
             }
             else // Peer answered
             {
@@ -334,11 +385,15 @@ function onVideoCallMessage(message)
             break;
 
         case "offer":
+            if(!isInitiator && !callAnswered) break;
+
             pc.setRemoteDescription(new RTCSessionDescription(message.sessionDescription));
             doAnswer();
             break;
 
         case "answer":
+            if(!isInitiator && !callAnswered) break;
+
             if(isStarted)
             {
                 pc.setRemoteDescription(new RTCSessionDescription(message.sessionDescription));
@@ -346,6 +401,8 @@ function onVideoCallMessage(message)
             break;
 
         case "candidate":
+            if(!isInitiator && !callAnswered) break;
+
             if(isStarted)
             {
                 var candidate = new RTCIceCandidate({
@@ -357,7 +414,10 @@ function onVideoCallMessage(message)
             break;
 
         case "bye":
-            closeVideoDialog();
+            if(!isInitiator && !callAnswered) break;
+
+            if(calleeID == message.memberID)
+                closeVideoDialog();
             break;
     }
 }
@@ -372,6 +432,7 @@ function handleIceCandidate(event) {
             candidate: event.candidate.candidate,
             callType: $("#chat_type").val(),
             eventID: eventID,
+            isChecker: isChecker,
             chkMemberID: chkMemberID
         });
     } else {
@@ -400,7 +461,7 @@ function handleRemoteStreamRemoved(event) {
     callLog.html('Remote stream removed. Event: ', event);
     timeoutClose = setTimeout(function () {
         closeVideoDialog();
-    }, 2000);
+    }, timeoutCloseDelay);
 }
 
 function handleCreateOfferError(event) {
@@ -408,7 +469,7 @@ function handleCreateOfferError(event) {
     callLog.html('createOffer() error: ', event);
     timeoutClose = setTimeout(function () {
         closeVideoDialog();
-    }, 2000);
+    }, timeoutCloseDelay);
 }
 
 function onCreateSessionDescriptionError(error) {
@@ -416,5 +477,5 @@ function onCreateSessionDescriptionError(error) {
     callLog.html('Failed to create session description: ' + error.toString());
     timeoutClose = setTimeout(function () {
         closeVideoDialog();
-    }, 2000);
+    }, timeoutCloseDelay);
 }

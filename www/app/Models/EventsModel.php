@@ -11,6 +11,7 @@ namespace Models;
 use Core\Model;
 use Helpers\Constants\BookSources;
 use Helpers\Constants\EventMembers;
+use Helpers\Constants\EventStates;
 use Helpers\Data;
 use Helpers\Session;
 use Helpers\Url;
@@ -100,6 +101,8 @@ class EventsModel extends Model
             $sql .= PREFIX."projects.projectID=:projectID";
             $prepare[":projectID"] = $projectID;
         }
+
+        $sql .= " ORDER BY ".PREFIX."projects.targetLang";
 
         return $this->db->select($sql, $prepare);
     }
@@ -211,11 +214,11 @@ class EventsModel extends Model
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, ".PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, ".PREFIX."translators.peerReady, ".PREFIX."translators.peerChapter, "
                 .PREFIX."translators.translateDone, ".PREFIX."translators.lastTID, "
-                ."cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
+                ."cotranslator.memberID AS cotrMemberID, cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
                 ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.peerReady AS cotrPeerReady, cotranslator.peerChapter AS cotrPeerChapter, "
                 ."cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
                 ."mems.userName AS pairName, mems2.userName AS checkerName, " : "")
-            .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, "
+            .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".PREFIX."events.dateFrom, ".PREFIX."events.dateTo, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             .PREFIX."projects.sourceBible, t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
         $mainTable = "";
@@ -308,6 +311,33 @@ class EventsModel extends Model
         if($eventID) $prepare[":eventID"] = $eventID;
 
         return $this->db->select($sql, $prepare);
+    }
+
+    public function getNewEvents($langs)
+    {
+        $arr = array();
+
+        if(is_array($langs) && !empty($langs)) {
+            foreach ($langs as &$val)
+                $val = $this->db->quote($val);
+            $in = implode(',', $langs);
+
+            $sql = "SELECT evnt.*, proj.bookProject, proj.sourceLangID, tLang.langName AS tLang, sLang.langName AS sLang, abbr.name ".
+                "FROM ".PREFIX."events AS evnt ".
+                "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
+                "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
+                "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
+                "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
+                "WHERE evnt.state = :state AND (proj.gwLang IN ($in) OR proj.targetLang IN ($in))";
+
+            $prepare = array(
+                ":state" => EventStates::STARTED
+            );
+
+            $arr = $this->db->select($sql, $prepare);
+        }
+
+        return $arr;
     }
 
 

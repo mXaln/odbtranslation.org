@@ -1101,6 +1101,27 @@ class EventsController extends Controller
                 {
                     if($data["event"][0]->step == EventSteps::KEYWORD_CHECK || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
                     {
+                        $turnSecret = $this->_model->getTurnSecret();
+                        $turnUsername = (time() + 3600) . ":vmast";
+                        $turnPassword = "";
+
+                        if(!empty($turnSecret))
+                        {
+                            if(($turnSecret[0]->expire - time()) < 0)
+                            {
+                                $pass = $this->_model->generateStrongPassword(22);
+                                if($this->_model->updateTurnSecret(array("value" => $pass, "expire" => time() + (30*24*3600)))) // Update turn secret each month
+                                {
+                                    $turnSecret[0]->value = $pass;
+                                }
+                            }
+
+                            $turnPassword = hash_hmac("sha1", $turnUsername, $turnSecret[0]->value, true);
+                        }
+
+                        $data["turn"][] = $turnUsername;
+                        $data["turn"][] = base64_encode($turnPassword);
+
                         $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
 
                         if (isset($_POST) && !empty($_POST)) {
@@ -1186,6 +1207,7 @@ class EventsController extends Controller
             }
         }
 
+        $data['menu'] = 4;
         $data["isCheckerPage"] = true;
         $data["notifications"] = $this->_notifications;
         View::renderTemplate('header', $data);
@@ -1206,6 +1228,8 @@ class EventsController extends Controller
             Url::redirect("members/profile");
         }
 
+        $data['menu'] = 4;
+
         echo $eventID;
     }
 
@@ -1220,6 +1244,8 @@ class EventsController extends Controller
         {
             Url::redirect("members/profile");
         }
+
+        $data['menu'] = 4;
 
         echo $eventID;
     }
@@ -1242,6 +1268,7 @@ class EventsController extends Controller
             $error[] = $this->language->get("account_not_verirfied_error");
         }
 
+        $data['menu'] = 4;
         $data["title"] = "Event Information";
         $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
         $data["isAdmin"] = false;
@@ -1468,14 +1495,17 @@ class EventsController extends Controller
             $admins = array_combine($adminsArr, $empty);
 
             $members += $admins;
+            //Data::pr($members);
+            //Data::pr(array_filter($members));
 
-            $membersArray = (array)$memberModel->getMembers(array_keys($members));
+            $membersArray = (array)$memberModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
                 $members[$member->memberID] = $member->userName;
             }
 
             $members["na"] = "N/A";
+            $members = array_filter($members);
 
             $data["admins"] = $adminsArr;
             $data["members"] = $members;
@@ -1505,6 +1535,7 @@ class EventsController extends Controller
             $error[] = $this->language->get("account_not_verirfied_error");
         }
 
+        $data['menu'] = 4;
         $data["title"] = "Manage Event";
         $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID);
 
@@ -1600,6 +1631,7 @@ class EventsController extends Controller
         $notifications[] = $notifObj;
         $data["notifications"] = $notifications;
         $data["isDemo"] = true;
+        $data['menu'] = 4;
 
         View::renderTemplate('header', $data);
 

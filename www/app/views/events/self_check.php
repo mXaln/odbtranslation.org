@@ -26,7 +26,7 @@ use \Helpers\Tools;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row">
-                    <div class="row">
+                    <div class="row" style="padding-left: 15px">
                         <h4><?php echo $data["event"][0]->sLang." - "
                                 .Language::show($data["event"][0]->bookProject, "Events")." - "
                                 .($data["event"][0]->abbrID <= 39 ? Language::show("old_test", "Events") : Language::show("new_test", "Events"))." - "

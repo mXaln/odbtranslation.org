@@ -444,12 +444,12 @@ class AdminController extends Controller {
             $error[] = $this->language->get('enter_checkers_l3');
         }
 
-        if($dateFrom == null || !preg_match("/^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/", $dateFrom))
+        if($dateFrom == null || $dateFrom === false)
         {
             $error[] = $this->language->get('wrong_date_from');
         }
 
-        if($dateTo == null || !preg_match("/^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/", $dateTo))
+        if($dateTo == null || $dateTo === false)
         {
             $error[] = $this->language->get('wrong_date_to');
         }
@@ -466,12 +466,13 @@ class AdminController extends Controller {
                 {
                     $postdata = array(
                         "projectID" => $projectID,
+                        "adminID" => Session::get("memberID"),
                         "bookCode" => $bookCode,
                         "translatorsNum" => $translators,
                         "l2CheckersNum" => $checkers_l2,
                         "l3CheckersNum" => $checkers_l3,
-                        "dateFrom" => $dateFrom,
-                        "dateTo" => $dateTo,
+                        "dateFrom" => date("Y-m-d H:i:s", strtotime($dateFrom)),
+                        "dateTo" => date("Y-m-d H:i:s", strtotime($dateTo)),
                     );
 
                     $bookInfo = $this->_model->getBookInfo($bookCode);

@@ -5,7 +5,7 @@ use Core\Language;
 <div class="editor">
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title">write_note_title</h1>
+            <h1 class="panel-title"><?php echo Language::show("write_note_title", "Events", array(""))?></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
@@ -23,7 +23,7 @@ use Core\Language;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row">
-                    <div class="row">
+                    <div class="row" style="padding-left: 15px">
                         <h4>English - Unlocked Literal Bible - New Testament - <span class='book_name'>2 Timothy 4:1-6</span></h4>
 
                         <!-- Show blind draft text if it is a translation to other language -->
