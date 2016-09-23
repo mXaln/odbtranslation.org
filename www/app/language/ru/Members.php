@@ -97,6 +97,8 @@ return array(
 	"hebrew_knwlg" => "Древнееврейский",
 	"greek_knwlg" => "Древнегреческий",
 	"church_role" => "Какое служение вы исполняете в Церкви?",
+    "show_langs_window" => "Нажмите кнопку с “Плюсом”, чтобы добавить языки",
+    "select_search_lang_option" => "Выберите из списка или используйте поиск",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",

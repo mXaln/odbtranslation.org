@@ -870,8 +870,9 @@ $(document).ready(function() {
         $(".fluency").prop("checked", false).prop("disabled", true);
         $(".geo_years").prop("checked", false).prop("disabled", true);
         $(".fluency, .geo_years").trigger("change");
-        $(".language").trigger("chosen:updated");
+        $(".language").chosen();
     });
+
 
     $(".add_lang").click(function() {
         var lang = $(".language").val();

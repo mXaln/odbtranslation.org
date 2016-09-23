@@ -22,7 +22,7 @@ $profile = $data["profile"];
     <div class="form-group">
         <div class="language_add glyphicon glyphicon-plus col-sm-1"></div>
         <div class="col-sm-11">
-            <select class="form-control langs" name="langs[]" multiple data-placeholder="Click Plus Button to add languages >>" disabled >
+            <select class="form-control langs" name="langs[]" multiple data-placeholder="<?php echo Language::show("show_langs_window", "Members")?>" disabled >
                 <?php if(isset($_POST['langs'])): ?>
                     <?php foreach ($_POST['langs'] as $lang): ?>
                         <option value="<?php echo $lang?>" selected><?php echo $lang?></option>
@@ -309,7 +309,7 @@ $profile = $data["profile"];
         <div class="language-close glyphicon glyphicon-remove"></div>
 
         <label><?php echo Language::show('select_language', 'Members'); ?>: </label>
-        <select class="form-control language" data-placeholder="Select an option">
+        <select class="form-control language" data-placeholder="<?php echo Language::show('select_search_lang_option', 'Members'); ?>">
             <option></option>
             <?php foreach ($data["languages"] as $lang):?>
                 <option value="<?php echo $lang->langID; ?>"><?php echo "[".$lang->langID."] " . $lang->langName; ?></option>

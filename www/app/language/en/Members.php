@@ -96,6 +96,8 @@ return array(
 	"hebrew_knwlg" => "Hebrew",
 	"greek_knwlg" => "Greek",
 	"church_role" => "What Church-related roles have you held: check all that apply",
+    "show_langs_window" => "Click Plus Button to add languages",
+    "select_search_lang_option" => "Select an option or use search",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",
