@@ -20,12 +20,15 @@ return array(
     "translator" => "Переводчик",
     "checker" => "Проверяющий",
     "facilitator" => "Фасилитатор",
+    "facilitators" => "Фасилитаторы",
     "l2_checker" => "Проверяющий 2-го уровня",
     "l3_checker" => "Проверяющий 3-го уровня",
     "captcha_wrong" => "Капча решена не верно",
     "userType_wrong_error" => "Тип пользователя не верен",
     "success" => "Успешно",
     "admin" => "Админка",
+    "contact" => "Контакт",
+    "add_lang" => "Добавить язык",
 
 	// Activate method
 	"activate_account_title" => "Активация учетной записи",
@@ -106,7 +109,7 @@ return array(
 	"enter_email" => "Введите Email",
 
 	// Success messages
-	"update_profile_success" => "Profile has been updated successfully",
+	"update_profile_success" => "Профиль был успешно обновлён!",
     "passwordreset_link_message" => "Чтобы сбросить пароль, перейдите по ссылке. <a href='{0}'>{1}</a>",
     "pwresettoken_send_success" => "Вам было отправлено письмо с инструкциями по сбросу пароля. Если его нет, проверьте в папке спам.",
     "password_reset_success" => "Ваш пароль был успешно изменен. Теперь вы можете войти, используя новый пароль <a href='{0}'>Войти</a>",

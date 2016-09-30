@@ -108,20 +108,21 @@ class EventsModel extends Model
     }
 
     /**
-     * Get Event Data
+     * Get Event Data by eventID OR by projectID and bookCode
+     * @param $eventID
      * @param $projectID
      * @param $bookCode
      * @param bool $countMembers
      * @return array
      */
-    public function getEvent($projectID, $bookCode, $countMembers = false)
+    public function getEvent($eventID = null, $projectID, $bookCode, $countMembers = false)
     {
         $addFields = "";
 
         if($countMembers)
         {
-            $addFields .= ", COUNT(DISTINCT vm_translators.memberID) AS translators, ".
-                "COUNT(DISTINCT vm_checkers_l2.memberID) AS checkers_l2, COUNT(DISTINCT vm_checkers_l3.memberID) AS checkers_l3";
+            $addFields .= ", COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators, ".
+                "COUNT(DISTINCT ".PREFIX."checkers_l2.memberID) AS checkers_l2, COUNT(DISTINCT ".PREFIX."checkers_l3.memberID) AS checkers_l3";
         }
 
         $sql = "SELECT ".PREFIX."events.*" . $addFields . " FROM ".PREFIX."events ".
@@ -130,8 +131,13 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID=".PREFIX."events.eventID ".
             "LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID=".PREFIX."events.eventID "
             : "").
-            "WHERE projectID=:projectID AND bookCode=:bookCode";
-        $prepare = array(":projectID" => $projectID, ":bookCode" => $bookCode);
+            "WHERE ".($eventID ? PREFIX."events.eventID = :eventID" :
+                PREFIX."events.projectID=:projectID AND ".PREFIX."events.bookCode=:bookCode");
+
+        if($eventID)
+            $prepare = array(":eventID" => $eventID);
+        else
+            $prepare = array(":projectID" => $projectID, ":bookCode" => $bookCode);
 
         return $this->db->select($sql, $prepare);
     }
@@ -143,14 +149,14 @@ class EventsModel extends Model
      */
     public function getEventsByProject($projectID)
     {
-        $sql = "SELECT vm_abbr.*, vm_events.*, COUNT(DISTINCT vm_translators.memberID) AS translators, ".
-            "COUNT(DISTINCT vm_checkers_l2.memberID) AS checkers_l2, COUNT(DISTINCT vm_checkers_l3.memberID) AS checkers_l3 ".
-            "FROM vm_abbr ".
-            "LEFT JOIN vm_events ON vm_abbr.code=vm_events.bookCode AND (vm_events.projectID=:projectID OR vm_events.projectID is NULL) ".
-            "LEFT JOIN vm_translators ON vm_translators.eventID=vm_events.eventID ".
-            "LEFT JOIN vm_checkers_l2 ON vm_checkers_l2.eventID=vm_events.eventID ".
-            "LEFT JOIN vm_checkers_l3 ON vm_checkers_l3.eventID=vm_events.eventID ".
-            "GROUP BY vm_abbr.abbrID ORDER BY vm_abbr.abbrID";
+        $sql = "SELECT ".PREFIX."abbr.*, ".PREFIX."events.*, COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators, ".
+            "COUNT(DISTINCT ".PREFIX."checkers_l2.memberID) AS checkers_l2, COUNT(DISTINCT ".PREFIX."checkers_l3.memberID) AS checkers_l3 ".
+            "FROM ".PREFIX."abbr ".
+            "LEFT JOIN ".PREFIX."events ON vm_abbr.code=vm_events.bookCode AND (vm_events.projectID=:projectID OR vm_events.projectID is NULL) ".
+            "LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID=".PREFIX."events.eventID ".
+            "LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID=".PREFIX."events.eventID ".
+            "LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID=".PREFIX."events.eventID ".
+            "GROUP BY ".PREFIX."abbr.abbrID ORDER BY ".PREFIX."abbr.abbrID";
 
         $prepare = array(":projectID" => $projectID);
 
@@ -165,16 +171,6 @@ class EventsModel extends Model
      */
     public function getEventMember($eventID, $memberID, $getInfo = false)
     {
-        /*$sql = "SELECT cotrMember.memberID AS cotrMemberID, ".PREFIX."translators.memberID AS translators, "
-            .PREFIX."checkers_l2.memberID AS checkers_l2, ".PREFIX."checkers_l3.memberID AS checkers_l3 "
-            ."FROM vm_events "
-            ."LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID = ".PREFIX."events.eventID AND ".PREFIX."translators.memberID = :memberID "
-            ."LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID = ".PREFIX."events.eventID AND ".PREFIX."checkers_l2.memberID = :memberID "
-            ."LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID = ".PREFIX."events.eventID AND ".PREFIX."checkers_l3.memberID = :memberID "
-            ."LEFT JOIN ".PREFIX."translators AS cotrMember ON ".PREFIX."translators.pairID = cotrMember.trID "
-            ."WHERE ".PREFIX."events.eventID = :eventID";
-        */
-
         $sql = "SELECT cotrMember.memberID AS cotrMemberID, ".PREFIX."translators.memberID AS translator, "
             ."checkers.checkerID AS checker, "
             .PREFIX."checkers_l2.memberID AS checker_l2, ".PREFIX."checkers_l3.memberID AS checker_l3, "
@@ -217,8 +213,10 @@ class EventsModel extends Model
                 ."cotranslator.memberID AS cotrMemberID, cotranslator.trID AS cotrID, cotranslator.step AS cotrStep, cotranslator.currentChunk AS cotrCurrentChunk, "
                 ."cotranslator.currentChapter AS cotrCurrentChapter, cotranslator.peerReady AS cotrPeerReady, cotranslator.peerChapter AS cotrPeerChapter, "
                 ."cotranslator.translateDone AS cotrTranslateDone, cotranslator.lastTID AS cotrLastTID, "
-                ."mems.userName AS pairName, mems2.userName AS checkerName, " : "")
-            .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".PREFIX."events.dateFrom, ".PREFIX."events.dateTo, "
+                ."mems.userName AS pairName, mems2.userName AS checkerName, "
+                ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, ": "")
+            .PREFIX."events.eventID, ".PREFIX."events.state, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".PREFIX."events.dateFrom, ".PREFIX."events.dateTo, ".PREFIX."events.translatorsNum, "
+            .PREFIX."events.adminID, facilitator.userName AS facilUname, facilitator.firstName AS facilFname, facilitator.lastName AS facilLname, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             .PREFIX."projects.sourceBible, t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
         $mainTable = "";
@@ -240,16 +238,18 @@ class EventsModel extends Model
 
         $sql .= $mainTable.
             ($memberType == EventMembers::TRANSLATOR ?
-                "LEFT JOIN ".PREFIX."translators AS cotranslator ON ".PREFIX."translators.pairID = cotranslator.trID ".
+                "LEFT JOIN ".PREFIX."translators AS cotranslator ON cotranslator.trID = ".PREFIX."translators.pairID ".
                 "LEFT JOIN ".PREFIX."members AS mems ON cotranslator.memberID = mems.memberID ".
-                "LEFT JOIN ".PREFIX."members AS mems2 ON ".PREFIX."translators.checkerID = mems2.memberID ": "").
+                "LEFT JOIN ".PREFIX."members AS mems2 ON mems2.memberID = ".PREFIX."translators.checkerID " : "").
             "LEFT JOIN ".PREFIX."events ON ".$mainTable.".eventID = ".PREFIX."events.eventID ".
+            "LEFT JOIN ".PREFIX."members AS facilitator ON facilitator.memberID = ".PREFIX."events.adminID ".
             "LEFT JOIN ".PREFIX."projects ON ".PREFIX."events.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
+            ($memberType == EventMembers::TRANSLATOR ? " AND ".PREFIX."translators.step != 'finished' " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
 
         $prepare = array();
@@ -271,11 +271,13 @@ class EventsModel extends Model
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, cotr.peerChapter AS cotrPeerChapter, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
+                PREFIX."events.adminID, facilitator.userName AS facilUname, facilitator.firstName AS facilFname, facilitator.lastName AS facilLname, ".
                 PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."translators AS cotr ON trs.pairID = cotr.trID ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
+                "LEFT JOIN ".PREFIX."members AS facilitator ON facilitator.memberID = ".PREFIX."events.adminID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
                 "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
@@ -296,7 +298,10 @@ class EventsModel extends Model
      */
     public function getMemberEventsForAdmin($memberID, $eventID = null)
     {
-        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.name ".
+        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.name, ".
+            "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
+            "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
+            "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
             "LEFT JOIN ".PREFIX."gateway_projects AS gwProj ON gwProj.gwProjectID = proj.gwProjectID ".
@@ -305,7 +310,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
             "WHERE gwProj.admins LIKE :memberID ".
             ($eventID ? "AND evnt.eventID = :eventID " : "").
-            "ORDER BY tLang.langName, abbr.abbrID";
+            "ORDER BY evnt.state, tLang.langName, abbr.abbrID";
 
         $prepare = array(":memberID" => '%\"'.$memberID.'"%');
         if($eventID) $prepare[":eventID"] = $eventID;
@@ -313,7 +318,7 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-    public function getNewEvents($langs)
+    public function getNewEvents($langs, $memberID = null)
     {
         $arr = array();
 
@@ -322,17 +327,35 @@ class EventsModel extends Model
                 $val = $this->db->quote($val);
             $in = implode(',', $langs);
 
-            $sql = "SELECT evnt.*, proj.bookProject, proj.sourceLangID, tLang.langName AS tLang, sLang.langName AS sLang, abbr.name ".
+            $sql = "SELECT evnt.*, proj.bookProject, proj.sourceLangID, tLang.langName AS tLang, sLang.langName AS sLang, abbr.name, ".
+                "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
+                "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
+                "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt, ".
+                "evnt.adminID, facilitator.userName AS facilUname, facilitator.firstName AS facilFname, facilitator.lastName AS facilLname ".
                 "FROM ".PREFIX."events AS evnt ".
                 "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
                 "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
                 "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
                 "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
-                "WHERE evnt.state = :state AND (proj.gwLang IN ($in) OR proj.targetLang IN ($in))";
+                "LEFT JOIN ".PREFIX."members AS facilitator ON facilitator.memberID = evnt.adminID ".
+                ($memberID ?
+                    "LEFT JOIN ".PREFIX."translators AS trs ON (trs.eventID = evnt.eventID AND trs.memberID = :memberID) ".
+                    "LEFT JOIN ".PREFIX."checkers_l2 AS chl2 ON (chl2.eventID = evnt.eventID AND chl2.memberID = :memberID) ".
+                    "LEFT JOIN ".PREFIX."checkers_l3 AS chl3 ON (chl3.eventID = evnt.eventID AND chl3.memberID = :memberID) " : "").
+                "WHERE (evnt.state = :state OR evnt.state = :state2 OR evnt.state = :state3) ".
+                    "AND (proj.gwLang IN ($in) OR proj.targetLang IN ($in)) ".
+                ($memberID ?
+                    "AND (trs.memberID IS NULL AND chl2.memberID IS NULL AND chl3.memberID IS NULL) " : "").
+            "ORDER BY evnt.state, abbr.abbrID";
 
             $prepare = array(
-                ":state" => EventStates::STARTED
+                ":state" => EventStates::STARTED,
+                ":state2" => EventStates::L2_RECRUIT,
+                ":state3" => EventStates::L3_RECRUIT,
             );
+
+            if($memberID)
+                $prepare[":memberID"] = $memberID;
 
             $arr = $this->db->select($sql, $prepare);
         }
@@ -468,20 +491,16 @@ class EventsModel extends Model
      */
     public function getTargetLanguages($memberID, $gwLang)
     {
-        $adminPart = "WHERE ".PREFIX."languages.gwLang IN ".
-            "(SELECT langName FROM ".PREFIX."languages WHERE langID IN ".
-            "(SELECT gwLang FROM ".PREFIX."gateway_projects WHERE admins LIKE :memberID AND gwLang=:gwLang))";
+        $sql = "SELECT o_langs.langID, o_langs.langName FROM ".PREFIX."gateway_projects AS gw_proj ".
+            "LEFT JOIN ".PREFIX."languages AS langs ON langs.langID = gw_proj.gwLang ".
+            "LEFT JOIN ".PREFIX."languages AS o_langs ON o_langs.gwLang = langs.gwLang ".
+            "WHERE gw_proj.gwLang = :gwLang ".
+            (!Session::get("isSuperAdmin") ? "AND gw_proj.admins LIKE :memberID " : " ").
+            "ORDER BY o_langs.langName";
 
-        $sql = "SELECT * FROM vm_languages ".
-            (Session::get("isSuperAdmin") ? "WHERE ".PREFIX."languages.gwLang IN (SELECT langName FROM ".PREFIX."languages WHERE langID=:gwLang)" : $adminPart).
-            " ORDER BY langID";
-
-        $prepare = array();
-        $prepare[":gwLang"] = $gwLang;
+        $prepare = array(":gwLang" => $gwLang);
         if(!Session::get("isSuperAdmin"))
-        {
             $prepare[":memberID"] = '%"'.$memberID.'"%';
-        }
 
         return $this->db->select($sql, $prepare);
     }

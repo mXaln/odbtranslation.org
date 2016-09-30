@@ -139,8 +139,8 @@ $hooks->run('afterBody');
 				</div>
 			</li>
 			<?php else: ?>
-			<li><button class="btn btn-success" id="btn_signup"><?php echo Language::show("signup", "Members") ?></button></li>
-			<li><button class="btn btn-primary" id="btn_signin"><?php echo Language::show("login", "Members") ?></button></li>
+			<li><a href="/members/signup" class="btn_signup btn-success"><?php echo Language::show("signup", "Members") ?></a></li>
+			<li><a href="/members/login" class="btn_signin btn-primary"><?php echo Language::show("login", "Members") ?></a></li>
 			<li>
                 <div class="dropdown flangs">
                     <div class="dropdown-toggle" id="footer_langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

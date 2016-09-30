@@ -129,16 +129,17 @@ $(function () {
             .always(function() {
                 $(".gwProjectLoader").hide();
                 $(".main-content").css("left", 0);
+                $("#gwLang").trigger("chosen:updated");
             });
     });
 
 
     // Sub Event Form
-
     $("select[name=sourceTranslation]").change(function() {
         if($(this).val() != "" && $(this).val() != "udb|en" && $(this).val() != "ulb|en")
         {
             $(".projectType").removeClass("hidden");
+            $("#projectType").chosen();
         }
         else
         {
@@ -150,10 +151,12 @@ $(function () {
         $("#project").trigger("reset");
         $(".subErrors").html("");
         $(".sub-content").css("left", 0);
+        $(".projectType").addClass("hidden");
+        $("#project select").val('').trigger("chosen:updated");
     });
 
     $("#subGwLangs").change(function() {
-        var tlOptions = "<option value=''>-- Choose Target Language --</option>";
+        var tlOptions = "<option value=''></option>";
 
         if($(this).val() == "") {
             $("#targetLangs").html(tlOptions);
@@ -179,6 +182,7 @@ $(function () {
                     tlOptions += '<option value="'+ v.langID+'">'+ v.langName+'</option>';
                 });
                 $("#targetLangs").html(tlOptions);
+                $("#project select").trigger("chosen:updated");
             })
             .always(function() {
                 $(".subGwLoader").hide();
@@ -252,33 +256,16 @@ $(function () {
         return false;
     });
 
-    // Show list of members of event
-    $("a[href=#translators]").click(function() {
-        var eventId = $(this).attr("data");
-
-        alert("list of translators for event #" + eventId + ". Not implemented.");
-        return false;
+    $("#translators").spinner({
+        min: 2,
+        step: 2,
+        start: 2
     });
 
-    $("a[href=#checkers_draft]").click(function() {
-        var eventId = $(this).attr("data");
-
-        alert("list of checkers_draft for event #" + eventId + ". Not implemented.");
-        return false;
-    });
-
-    $("a[href=#checkers_l2]").click(function() {
-        var eventId = $(this).attr("data");
-
-        alert("list of checkers_l2 for event #" + eventId + ". Not implemented.");
-        return false;
-    });
-
-    $("a[href=#checkers_l3]").click(function() {
-        var eventId = $(this).attr("data");
-
-        alert("list of checkers_l3 for event #" + eventId + ". Not implemented.");
-        return false;
+    $("#checkers_l2, #checkers_l3").spinner({
+        min: 1,
+        step: 1,
+        start: 1
     });
 
     // Start event
@@ -296,9 +283,12 @@ $(function () {
         $(".event-content").css("left", 0);
 
         $(".book_info_content").html(
-            '<div><strong>'+Language.chapters+':</strong> '+chapterNum+'</div>'
+            '(<strong>'+Language.chaptersNum+':</strong> '+chapterNum+')'
         );
     });
+
+    if(typeof $.fn.chosen == "function")
+        $("#subGwLangs, #targetLangs, #sourceTranslation, #gwLang").chosen();
 
     // ------------------ DateTimePicker functionality ------------------- //
     if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")
@@ -766,6 +756,24 @@ $(function () {
         }
 
         startTranslationConfirm = false;
+    });
+
+    // Show info tip
+    $(".create_info_tip a").click(function () {
+        $(".alert_message").text($(".create_info_tip span").text());
+        $( "#dialog-message" ).dialog({
+            modal: true,
+            resizable: false,
+            draggable: false,
+            width: 500,
+            buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+        return false;
     });
 });
 

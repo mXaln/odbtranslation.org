@@ -76,7 +76,7 @@ use Helpers\Constants\EventSteps;
 
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
-    <div id="chat_hide" class="glyphicon glyphicon-chevron-left"></div>
+    <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo Language::show("chat", "Events") ?></div>
 
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">

@@ -6,14 +6,14 @@ if(\Helpers\Session::get("isSuperAdmin")):
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Gateway Projects</h1>
+        <h1 class="panel-title"><?php echo Language::show("gw_projects", "Events") ?></h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
         <div class="row">
             <div class="col-sm-6">&nbsp;</div>
             <div class="add-event-btn col-sm-6">
-                Create Gateway Project
+                <?php echo Language::show("create_gw_project", "Events") ?>
                 <button id="cregwpr" class="btn btn-primary glyphicon glyphicon-plus"></button>
             </div>
         </div>
@@ -23,16 +23,15 @@ if(\Helpers\Session::get("isSuperAdmin")):
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                         <tr>
-                            <th>Gateway Language</th>
-                            <th>&nbsp;</th>
+                            <th><?php echo Language::show("gw_language", "Events") ?></th>
+                            <th width="150px">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php foreach($data["gwProjects"] as $gwProject):?>
                         <tr>
                             <td><?php echo $gwProject->langName ?></td>
-                            <td>
-                                <span class="action-btn main-edit" data="<?php echo $gwProject->langID; ?>">edit</span></td>
+                            <td style="text-align: center"><span class="action-btn main-edit" data="<?php echo $gwProject->langID; ?>"><?php echo Language::show("edit", "Events") ?></span></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -45,18 +44,18 @@ if(\Helpers\Session::get("isSuperAdmin")):
 <div class="main-content form-panel">
     <div class="create-main-content panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title">Create Gateway Project</h1>
+            <h1 class="panel-title"><?php echo Language::show("create_gw_project", "Events") ?></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
         <div class="page-content row panel-body">
             <div class="errors"></div>
 
-            <form action="/admin/rpc/create_gw_project" method="post" id="gwProject" style="width: 500px;">
+            <form action="/admin/rpc/create_gw_project" method="post" id="gwProject" style="width: 400px;">
                 <div class="form-group">
                     <label for="gwLang"><?php echo Language::show('gw_language', 'Events'); ?></label>
-                    <select class="form-control" id="gwLang" name="gwLang">
-                        <option value="">Choose Gateway Language</option>
+                    <select class="form-control" id="gwLang" name="gwLang" data-placeholder="<?php echo Language::show("choose_gw_lang", "Events") ?>">
+                        <option value=""></option>
                         <?php foreach ($data["gwLangs"] as $targetLang):?>
                         <option value="<?php echo $targetLang->langID; ?>"><?php echo $targetLang->langName; ?></option>
                         <?php endforeach; ?>
@@ -64,8 +63,8 @@ if(\Helpers\Session::get("isSuperAdmin")):
                 </div>
 
                 <div class="form-group">
-                    <label for="gwLang"><?php echo Language::show('admins', 'Events'); ?></label>
-                    <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder=" ">
+                    <label for="gwLang"><?php echo Language::show('facilitators', 'Members'); ?></label>
+                    <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo Language::show("add_admins_by_username", "Events") ?>">
                         <option></option>
                     </select>
                 </div>
@@ -87,14 +86,16 @@ if(\Helpers\Session::get("isAdmin")):
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title">Projects</h1>
+        <h1 class="panel-title"><?php echo Language::show("projects", "Events") ?></h1>
     </div>
+
+    <h3 style="margin-left: 10px"><?php echo Language::show("choose_project", "Events") ?></h3>
 
     <div class="form-inline dt-bootstrap no-footer">
         <div class="row">
-            <div class="col-sm-6">&nbsp;</div>
+            <div class="col-sm-5">&nbsp;</div>
             <div class="add-event-btn col-sm-6">
-                Create Project
+                <?php echo Language::show("create_project", "Events") ?>
                 <button id="crepr" class="btn btn-primary glyphicon glyphicon-plus"></button>
             </div>
         </div>
@@ -104,10 +105,10 @@ if(\Helpers\Session::get("isAdmin")):
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Target Language</th>
-                        <th>Gateway Language</th>
-                        <th>Project</th>
-                        <th>Source</th>
+                        <th><?php echo Language::show("target_lang", "Events") ?></th>
+                        <th><?php echo Language::show("gw_language", "Events") ?></th>
+                        <th><?php echo Language::show("project", "Events") ?></th>
+                        <th><?php echo Language::show("source", "Events") ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -129,18 +130,18 @@ if(\Helpers\Session::get("isAdmin")):
 <div class="sub-content form-panel">
     <div class="create-sub-content panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title">Create project</h1>
+            <h1 class="panel-title"><?php echo Language::show("create_project", "Events") ?></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
         <div class="page-content row panel-body">
             <div class="subErrors"></div>
 
-            <form action="/admin/rpc/create_project" method="post" id="project" style="width: 500px;">
+            <form action="/admin/rpc/create_project" method="post" id="project" style="width: 400px;">
                 <div class="form-group">
                     <label for="subGwLangs"><?php echo Language::show('gw_language', 'Events'); ?></label>
-                    <select class="form-control" id="subGwLangs" name="subGwLangs">
-                        <option value="">-- Choose Gateway Language --</option>
+                    <select class="form-control" id="subGwLangs" name="subGwLangs" data-placeholder="<?php echo Language::show('choose_gw_lang', 'Events'); ?>">
+                        <option value=""></option>
                         <?php foreach ($data["memberGwLangs"] as $gwLang):?>
                             <option value="<?php echo $gwLang->langID."|".$gwLang->gwProjectID ?>"><?php echo $gwLang->langName; ?></option>
                         <?php endforeach; ?>
@@ -149,16 +150,16 @@ if(\Helpers\Session::get("isAdmin")):
                 </div>
 
                 <div class="form-group">
-                    <label for="targetLangs"><?php echo Language::show('target_language', 'Events'); ?></label>
-                    <select class="form-control" id="targetLangs" name="targetLangs">
-                        <option value="">-- Choose Target Language --</option>
+                    <label for="targetLangs"><?php echo Language::show('target_lang', 'Events'); ?></label>
+                    <select class="form-control" id="targetLangs" name="targetLangs" data-placeholder="<?php echo Language::show('choose_target_lang', 'Events'); ?>">
+                        <option value=""></option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="projects"><?php echo Language::show('book_project', 'Events'); ?></label>
-                    <select name="sourceTranslation" class="form-control">
-                        <option value="">-- Choose a Source Translation --</option>
+                    <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo Language::show('choose_source_trans', 'Events'); ?>">
+                        <option value=""></option>
                         <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
                             <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>"><?php echo $sourceTranslation->langName . " - " . Language::show($sourceTranslation->bookProject, 'Events') ?></option>
                         <?php endforeach; ?>
@@ -167,8 +168,8 @@ if(\Helpers\Session::get("isAdmin")):
 
                 <div class="form-group projectType hidden">
                     <label for="projectType"><?php echo Language::show('project_type', 'Events'); ?></label>
-                    <select name="projectType" id="projectType" class="form-control">
-                        <option value="">-- Choose project type-- </option>
+                    <select name="projectType" id="projectType" class="form-control" data-placeholder="<?php echo Language::show('choose_project_type', 'Events'); ?>">
+                        <option value=""></option>
                         <option value="udb"><?php echo Language::show("udb", 'Events') ?></option>
                         <option value="ulb"><?php echo Language::show("ulb", 'Events') ?></option>
                     </select>

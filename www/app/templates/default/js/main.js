@@ -26,7 +26,7 @@ $(document).ready(function() {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    animateBg();
+    animateIntro();
 
     $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
         _renderItem: function( ul, item ) {
@@ -66,14 +66,6 @@ $(document).ready(function() {
         })
         .iconselectmenu( "menuWidget" )
         .addClass( "ui-menu-icons customicons" );
-
-    $("#btn_signup").click(function () {
-        window.location.href = "/members/signup";
-    });
-
-    $("#btn_signin").click(function () {
-        window.location.href = "/members/login";
-    });
 
     // Statement of faith block
     $("#sof").click(function() {
@@ -129,7 +121,7 @@ $(document).ready(function() {
     // Apply for event as translator/checker
     // Start event
     $(".applyEvent").click(function() {
-        var bookCode = $(this).attr("data");
+        var eventID = $(this).attr("data");
         var bookName = $(this).attr("data2");
         var stage = $(this).attr("data3");
 
@@ -138,7 +130,7 @@ $(document).ready(function() {
         $("label").removeClass("label_error");
         $(".bookName").text(bookName);
         $(".panel-title").text(bookName);
-        $("#bookCode").val(bookCode);
+        $("#eventID").val(eventID);
 
         if(stage == "d1")
         {
@@ -146,6 +138,30 @@ $(document).ready(function() {
             $(".ftr").show();
             $(".fl2, .fl3").hide();
             $("input[name=userType]").val("translator");
+
+            var yes = Language.yes;
+            var no = Language.no;
+
+            var btns = {};
+            btns[yes] = function(){
+                $( this ).dialog( "close" );
+                $("#applyEvent").submit();
+            };
+            btns[no] = function(){
+                $( this ).dialog( "close" );
+                return false;
+            };
+
+            $(".confirm_message").text(Language.applyForEventConfirm);
+            $( "#check-book-confirm" ).dialog({
+                resizable: false,
+                draggable: false,
+                title: Language.applyForEventConfirmTitle,
+                height: "auto",
+                width: 500,
+                modal: true,
+                buttons: btns,
+            });
         }
         else
         {
@@ -162,9 +178,10 @@ $(document).ready(function() {
                 $("input[name=userType]").val("checker_l3");
             }
             $(".checker_info").show();
+            $(".event-content").css("left", 0);
         }
 
-        $(".event-content").css("left", 0);
+        return false;
     });
 
     // Submit apply event form
@@ -184,6 +201,7 @@ $(document).ready(function() {
 
                 if(data.success)
                 {
+                    $(".panel-close").click();
                     $(".alert_message").text(data.success);
                     $( "#dialog-message" ).dialog({
                         modal: true,
@@ -200,7 +218,21 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    $(".errors").html(data.error);
+                    $(".alert_message").text(data.error);
+                    $( "#dialog-message" ).dialog({
+                        modal: true,
+                        resizable: false,
+                        draggable: false,
+                        width: 500,
+                        buttons: {
+                            Ok: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+
+                    //$(".errors").html(data.error);
+
                     if(typeof data.errors != "undefined")
                     {
                         $.each(data.errors, function(k, v) {
@@ -360,6 +392,62 @@ $(document).ready(function() {
                 }
             }, 3000);
         }
+    }
+
+    // Update information page periodically
+    if(typeof isInfoPage != "undefined")
+    {
+        var infoUpdateTimer = setInterval(function() {
+            $.ajax({
+                url: "/events/rpc/get_info_update/"+eventID,
+                method: "get",
+                dataType: "html",
+            })
+                .done(function(data) {
+                    switch (data)
+                    {
+                        case "login":
+                            window.location.href = "members/login";
+                            break;
+
+                        case "profile":
+                            window.location.href = "members/profile";
+                            break;
+
+                        case "not_verified":
+                        case "not_started":
+                        case "empty_no_permission":
+                            window.location.href = "members";
+                            break;
+
+                        default:
+                            var openedItems = [];
+                            $.each($(".section_header"), function () {
+                                var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+                                if(!isCollapsed)
+                                    openedItems.push($(this).attr("data"));
+                            });
+
+                            $(".chapter_list").html(data);
+
+                            $.each(openedItems, function (i,v) {
+                                var section = $(".section_header[data="+v+"]");
+                                var content = section.next(".section_content");
+                                content.show(0);
+                                $(".section_arrow", section)
+                                    .removeClass("glyphicon-triangle-right")
+                                    .addClass("glyphicon-triangle-bottom");
+                                $(".section_title", section).css("font-weight", "bold");
+
+                            });
+                            openedItems = [];
+                            break;
+                    }
+                })
+                .always(function() {
+
+                });
+        }, 60000);
     }
 
 
@@ -975,7 +1063,7 @@ $(document).ready(function() {
     }
 
     // Event information accordion
-    $(".section_header").click(function() {
+    $(document).on("click", ".section_header", function() {
         var content = $(this).next(".section_content");
         var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
 
@@ -1037,20 +1125,31 @@ $(document).ready(function() {
         var dateStr = $(this).attr("data");
         if(dateStr == "") return true;
 
-        var options = {
+        var date_options = {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-            weekday: 'long',
+            weekday: 'short',
             timezone: 'UTC',
+        };
+
+        var time_options = {
             hour: 'numeric',
             minute: 'numeric',
+            timezone: 'UTC',
         };
+
+        if($(".event_time_time").length <= 0) // Combine date and time options for full result
+        {
+            date_options.hour = 'numeric';
+            date_options.minute = 'numeric';
+        }
 
         var lang = getCookie("lang") != "undefined" ? getCookie("lang") : "en";
 
         var date = new Date(dateStr + " UTC");
-        $(this).text(date.toLocaleString(lang, options));
+        $(this).text(date.toLocaleString(lang, date_options));
+        $(this).next(".event_time_time").text(date.toLocaleString(lang, time_options));
     });
 
     // Dashboard tabs switch
@@ -1062,10 +1161,18 @@ $(document).ready(function() {
 
         $(this).addClass("active");
         $("#"+id+"_content").addClass("shown");
+
+        return false;
     });
+
+    if(!$(".my_tab:first").hasClass("active"))
+        $(".my_tab:first").addClass("active");
+
+    if(!$(".my_content:first").hasClass("shown"))
+        $(".my_content:first").addClass("shown");
 });
 
-function animateBg() {
+function animateIntro() {
     var  grl=$( "#ground-left" );
     var  grr=$( "#ground-right" );
     var  grc=$( "#ground-center" );

@@ -65,8 +65,8 @@
                     $this.removeClass("open")
                         .addClass("closed");
                     $this.animate({right: -610}, 500, function() {
-                        $("#chat_hide").removeClass("glyphicon-remove")
-                            .addClass("glyphicon-chevron-left");
+                        $("#chat_hide").removeClass("glyphicon-chevron-up")
+                            .addClass("glyphicon-chevron-down");
 
                         $(".chat_tab").removeClass("active");
                         currentP2Ptab.addClass("active");
@@ -80,8 +80,8 @@
                     $this.removeClass("closed")
                         .addClass("open");
                     $this.animate({right: chatRightPos}, 500, function() {
-                        $("#chat_hide").removeClass("glyphicon-chevron-left")
-                            .addClass("glyphicon-remove");
+                        $("#chat_hide").removeClass("glyphicon-chevron-down")
+                            .addClass("glyphicon-chevron-up");
 
                         currentP2Pmsgs.show();
 

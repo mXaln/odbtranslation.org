@@ -60,7 +60,7 @@ class MembersController extends Controller
         $myLangs = array_keys(Session::get("profile")["languages"]);
 
         $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
-        $data["newEvents"] = $eventModel->getNewEvents($myLangs);
+        $data["newEvents"] = $eventModel->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $eventModel->getMemberEventsForChecker(Session::get("memberID"));
         $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
         $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
@@ -81,7 +81,7 @@ class MembersController extends Controller
 
         $eventModel = new EventsModel();
 
-        $data["title"] = "Profile";
+        $data["title"] = $this->language->get("profile_message");
         $data["languages"] = $eventModel->getAllLanguages();
         $data["errors"] = array();
 
@@ -414,6 +414,7 @@ class MembersController extends Controller
                 {
                     // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
                     // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
+                    // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
 
                     $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
                     $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
@@ -689,6 +690,10 @@ class MembersController extends Controller
             $email = $_POST['email'];
 
             $data = $this->_model->getMember('memberID,email', array('email' => array("=", $email)));
+
+            // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
+            // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
+            // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
 
             $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
             $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);

@@ -20,11 +20,14 @@ return array(
 	"translator" => "Translator",
 	"checker" => "Checker",
 	"facilitator" => "Facilitator",
+	"facilitators" => "Facilitators",
 	"l2_checker" => "Level 2 Checking",
 	"l3_checker" => "Level 3 Checking",
     "captcha_wrong" => "Captcha wasn\"t solved correctly",
 	"success" => "Success",
     "admin" => "Admin",
+    "contact" => "Contact",
+    "add_lang" => "Add language",
 
 	// Activate method
 	"activate_account_title" => "Activate Account",
@@ -107,7 +110,7 @@ return array(
 
 	// Success messages
 	"update_profile_success" => "Profile has been updated successfully",
-    "pwresettoken_send_success" => "We\"ve sent you an email with instructions how to reset your password. If it\"s not there, check spam/junk folders",
+    "pwresettoken_send_success" => "We've sent you an email with instructions how to reset your password. If it's not there, check spam/junk folders",
     "password_reset_success" => "Your password has been changed successfully. You may now login using your new password <a href='{0}'>Login</a>",
     "account_activated_success" => "Your account is now active you may now <a href='{0}'>Login</a>",
     "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",

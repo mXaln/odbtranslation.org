@@ -45,7 +45,7 @@ if(!empty($data["project"])):
 
                             <div>
                                 <?php echo $event->translatorsNum > $event->translators
-                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="d1" class="btn btn-primary applyDraft applyEvent">'.Language::show("apply", "Events").'</button>'
+                                    ? '<button data="'.$event->eventID.'" data2="'.$event->name.'" data3="d1" class="btn btn-primary applyDraft applyEvent">'.Language::show("apply", "Events").'</button>'
                                     : 'N/A' ?>
                             </div>
                         </div>
@@ -59,7 +59,7 @@ if(!empty($data["project"])):
 
                             <div>
                                 <?php echo $event->l2CheckersNum > $event->checkers_l2
-                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="l2" class="btn btn-primary applyL2Checkers applyEvent">'.Language::show("apply", "Events").'</button>'
+                                    ? '<button data="'.$event->eventID.'" data2="'.$event->name.'" data3="l2" class="btn btn-primary applyL2Checkers applyEvent">'.Language::show("apply", "Events").'</button>'
                                     : 'N/A' ?>
                             </div>
                         </div>
@@ -73,7 +73,7 @@ if(!empty($data["project"])):
 
                             <div>
                                 <?php echo $event->l3CheckersNum > $event->checkers_l3
-                                    ? '<button data="'.$event->code.'" data2="'.$event->name.'" data3="l3" class="btn btn-primary applyL3Checkers applyEvent">'.Language::show("apply", "Events").'</button>'
+                                    ? '<button data="'.$event->eventID.'" data2="'.$event->name.'" data3="l3" class="btn btn-primary applyL3Checkers applyEvent">'.Language::show("apply", "Events").'</button>'
                                     : 'N/A' ?>
                             </div>
                         </div>
@@ -195,8 +195,7 @@ if(!empty($data["project"])):
                         </div>
                     </div>
 
-                    <input type="hidden" name="book_code" id="bookCode" value="" />
-                    <input type="hidden" name="projectID" id="projectID" value="<?php echo $data["project"][0]->projectID?>" />
+                    <input type="hidden" name="eventID" id="eventID" value="" />
                     <input type="hidden" name="userType" value="translator">
 
                     <br><br>

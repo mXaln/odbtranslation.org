@@ -32,5 +32,8 @@ var Language = {
     "incomming_call"            : "Incomming call from",
     "call_timeout"              : "No answer from user",
     "audio_chat_with"           : "Audio chat with",
-    "chapters"                  : "Chapters"
+    "chapters"                  : "Chapters",
+    "chaptersNum"               : "Number of chapters",
+    "applyForEventConfirm"      : "Do you really want to apply for this event?",
+    "applyForEventConfirmTitle" : "Apply for event"
 };

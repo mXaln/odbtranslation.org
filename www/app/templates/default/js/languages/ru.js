@@ -32,5 +32,8 @@ var Language = {
     "incomming_call"            : "Входящий звонок от",
     "call_timeout"              : "Нет ответа от пользователя",
     "audio_chat_with"           : "Аудио чат с",
-    "chapters"                  : "Главы"
+    "chapters"                  : "Главы",
+    "chaptersNum"               : "Количество глав",
+    "applyForEventConfirm"      : "Вы действительно хотите учавствовать в этом событии?",
+    "applyForEventConfirmTitle" : "Участие в событии"
 };

@@ -45,7 +45,7 @@ class AdminController extends Controller {
         }
 
         $data['menu'] = 1;
-        $data['title'] = $this->language->get('admin_events_title');
+        $data['title'] = $this->language->get('admin_project_title');
 
         if(Session::get("isSuperAdmin"))
         {
@@ -85,7 +85,7 @@ class AdminController extends Controller {
         }
 
         $data['menu'] = 1;
-        $data['title'] = $this->language->get('admin_project_title');
+        $data['title'] = $this->language->get('admin_events_title');
 
         $data["project"] = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"), $projectID);
         $data["events"] = array();
@@ -456,7 +456,7 @@ class AdminController extends Controller {
 
         if(!isset($error))
         {
-            $event = $this->_model->getEvent($projectID, $bookCode);
+            $event = $this->_model->getEvent(null, $projectID, $bookCode);
 
             if(empty($event))
             {

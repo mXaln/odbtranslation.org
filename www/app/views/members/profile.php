@@ -337,7 +337,7 @@ $profile = $data["profile"];
             <label><input type="radio" class="geo_years" name="" value="4" disabled> 8-10 &nbsp;</label>
         </div>
         <br>
-        <button class="add_lang btn btn-primary" disabled>Add</button>
+        <button class="add_lang btn btn-primary" disabled><?php echo Language::show("add_lang", "Members") ?></button>
     </div>
 </div>
 

@@ -34,32 +34,32 @@ if(!empty($data["project"])):
                 <table class="table table-bordered table-hover" role="grid">
                     <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Translators</th>
-                        <th>Level 2 Checkers</th>
-                        <th>Level 3 Checkers</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>State</th>
-                        <th>Action</th>
+                        <th><?php echo Language::show("book", "Events") ?></th>
+                        <th><?php echo Language::show("translators", "Events") ?></th>
+                        <th><?php echo Language::show("checkers_l2", "Events") ?></th>
+                        <th><?php echo Language::show("checkers_l3", "Events") ?></th>
+                        <th><?php echo Language::show("time_start", "Events") ?></th>
+                        <th><?php echo Language::show("time_end", "Events") ?></th>
+                        <th><?php echo Language::show("state", "Events") ?></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                 <?php endif; ?>
                         <tr>
                             <td><?php echo $event->name ?></td>
-                            <td><?php echo ($event->translators>0 ? '<a href="#translators" data="'.$event->eventID.'">' : '') . $event->translators . "/" . (integer)$event->translatorsNum . ($event->translators>0 ? '</a>' : '') ?></td>
-                            <td><?php echo ($event->checkers_l2>0 ? '<a href="#checkers_l2" data="'.$event->eventID.'">' : '') . $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum . ($event->checkers_l2>0 ? '</a>' : '') ?></td>
-                            <td><?php echo ($event->checkers_l3>0 ? '<a href="#checkers_l3" data="'.$event->eventID.'">' : '') . $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum . ($event->checkers_l3>0 ? '</a>' : '') ?></td>
+                            <td><?php echo $event->translators . "/" . (integer)$event->translatorsNum ?></td>
+                            <td><?php echo $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum ?></td>
+                            <td><?php echo $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum ?></td>
                             <td class="datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom != "" ? $event->dateFrom . " UTC" : "" ?></td>
                             <td class="datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo != "" ? $event->dateTo . " UTC" : "" ?></td>
-                            <td><?php echo $event->state ?></td>
+                            <td><?php echo $event->state ? Language::show("state_".$event->state, "Events") : "" ?></td>
                             <td>
                                 <?php
                                 switch($event->state)
                                 {
                                     case null:
-                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" data3="'.$event->chaptersNum.'" class="btn btn-primary startEvnt">Start</button>';
+                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" data3="'.$event->chaptersNum.'" class="btn btn-primary startEvnt">'.Language::show("create_event", "Events").'</button>';
                                         break;
 
                                     case EventStates::STARTED:
@@ -88,41 +88,51 @@ if(!empty($data["project"])):
 <div class="event-content form-panel">
     <div class="create-event-content panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title">Start Event</h1>
+            <h1 class="panel-title"><?php echo Language::show("create_event", "Events"); ?></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
         <div class="page-content row panel-body">
             <div class="bookName"></div>
+            <div class="book_info_content"></div>
+            <div class="clear"></div>
 
             <div class="errors"></div>
 
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <form action="/admin/rpc/create_event" method="post" id="startEvent">
                         <div class="form-group">
-                            <label for="translators"><?php echo Language::show('max_translators', 'Events'); ?></label>
-                            <input type="text" class="form-control" id="translators" name="translators" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
+                            <label for="translators"><?php echo Language::show('max_translators', 'Events'); ?>
+                                <br>
+                                <input type="text" class="form-control" id="translators" name="translators" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
+                            </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="checkers_l2"><?php echo Language::show('max_checkers_l2', 'Events'); ?></label>
-                            <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
+                            <label for="checkers_l2"><?php echo Language::show('max_checkers_l2', 'Events'); ?>
+                                <br>
+                                <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
+                            </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="checkers_l3"><?php echo Language::show('max_checkers_l3', 'Events'); ?></label>
-                            <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
+                            <label for="checkers_l3"><?php echo Language::show('max_checkers_l3', 'Events'); ?>
+                                <br>
+                                <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
+                            </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="cal_from"><?php echo Language::show('cal_from', 'Events'); ?></label>
-                            <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
+                            <label for="cal_from"><?php echo Language::show('time_start', 'Events'); ?>
+                                <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
+                            </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="cal_to"><?php echo Language::show('cal_to', 'Events'); ?></label>
-                            <input type="text" class="form-control" id="cal_to" name="cal_to" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
+                            <label for="cal_to"><?php echo Language::show('time_end', 'Events'); ?>
+                                <input type="text" class="form-control" id="cal_to" name="cal_to" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
+                            </label>
                         </div>
 
                         <input type="hidden" name="book_code" id="bookCode" value="" />
@@ -132,16 +142,9 @@ if(!empty($data["project"])):
 
                         <br><br>
 
-                        <button type="submit" name="startEvent" class="btn btn-primary"><?php echo Language::show('Start', 'Events'); ?></button>
+                        <button type="submit" name="startEvent" class="btn btn-primary"><?php echo Language::show("create_event", "Events"); ?></button>
                         <img class="startEventLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">
                     </form>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="book_info">
-                        <!--<img class="bookInfoLoader" width="24px" src="<?php echo \Helpers\Url::templatePath() ?>img/loader.gif">-->
-                        <div class="book_info_content"></div>
-                    </div>
                 </div>
             </div>
         </div>

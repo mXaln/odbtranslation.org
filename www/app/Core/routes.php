@@ -44,6 +44,7 @@ Router::any('events/rpc/check_event', 'Controllers\EventsController@checkEvent')
 Router::any('events/rpc/assign_chapter', 'Controllers\EventsController@assignChapter');
 Router::any('events/rpc/assign_pair', 'Controllers\EventsController@assignPair');
 Router::any('events/rpc/get_event_members', 'Controllers\EventsController@getEventMembers');
+Router::any('events/rpc/get_info_update/(:num)', 'Controllers\EventsController@getInfoUpdate');
 
 Router::any('members', 'Controllers\MembersController@index');
 Router::any('members/profile', 'Controllers\MembersController@profile');
