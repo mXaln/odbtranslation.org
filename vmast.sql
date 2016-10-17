@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2016 at 02:47 PM
+-- Generation Time: Oct 17, 2016 at 06:00 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -384,7 +384,7 @@ INSERT INTO `vm_events` (`eventID`, `projectID`, `adminID`, `bookCode`, `transla
 (52, 12, 5, 'act', 2, 1, 1, '2016-07-31 20:00:00', '2016-09-29 20:00:00', 'translating', 0, '{"1":{"trID":"103","memberID":"5","chunks":[[1,2,3,4,5,6,7,8],[9,10,11,12,13,14,15,16,17,18],[19,20,21,22,23,24,25,26]]},"2":{"trID":"104","memberID":"16","chunks":[[1,2,3,4,5,6,7,8,9,10],[11,12,13,14,15,16,17,18,19,20],[21,22,23,24,25,26,27,28,29,30],[31,32,33,34,35,36,37,38,39,40],[41,42,43,44,45,46,47]]},"3":[],"4":[],"5":[],"6":[],"7":[],"8":[],"9":[],"10":[],"11":[],"12":[],"13":[],"14":[],"15":[],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[],"22":[],"23":[],"24":[],"25":[],"26":[],"27":{"trID":"104","memberID":"16","chunks":[]},"28":{"trID":"103","memberID":"5","chunks":[]}}'),
 (53, 1, 5, 'gen', 2, 1, 1, '2016-08-01 09:30:00', '2016-09-24 06:00:00', 'translating', 0, '{"1":[],"2":[],"3":[],"4":[],"5":[],"6":[],"7":[],"8":[],"9":[],"10":[],"11":[],"12":[],"13":[],"14":[],"15":[],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[],"22":[],"23":[],"24":[],"25":[],"26":[],"27":[],"28":[],"29":[],"30":[],"31":[],"32":[],"33":[],"34":[],"35":[],"36":{"trID":"105","memberID":"5","chunks":[[1,2,3,4,5,6,7,8,9,10,11],[12,13,14,15,16,17,18,19,20,21,22],[23,24,25,26,27,28,29,30,31,32],[33,34,35,36,37,38,39,40,41,42,43]]},"37":{"trID":"106","memberID":"16","chunks":[[1,2,3,4,5,6,7,8,9,10,11,12],[13,14,15,16,17,18,19,20,21,22,23,24],[25,26,27,28,29,30,31,32,33,34,35,36]]},"38":{"trID":"106","memberID":"16","chunks":[[1,2,3,4,5,6,7,8,9,10,11],[12,13,14,15,16,17,18,19,20,21,22],[23,24,25,26,27,28,29,30]]},"39":[],"40":[],"41":[],"42":[],"43":[],"44":[],"45":[],"46":[],"47":[],"48":[],"49":[],"50":[]}'),
 (54, 12, 5, 'num', 2, 1, 1, '2016-08-31 20:00:00', '2016-09-29 20:00:00', 'translating', 0, '{"1":{"trID":"107","memberID":"5","chunks":[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37],[38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]]},"2":[],"3":[],"4":[],"5":[],"6":[],"7":[],"8":[],"9":[],"10":[],"11":[],"12":[],"13":[],"14":[],"15":[],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[],"22":[],"23":[],"24":[],"25":[],"26":[],"27":[],"28":[],"29":[],"30":[],"31":[],"32":[],"33":[],"34":[],"35":[],"36":[]}'),
-(58, 12, 5, 'gen', 2, 1, 1, '2016-09-22 10:15:00', '2016-09-28 01:36:00', 'started', 0, '{"1":{"trID":"111","memberID":"5","chunks":[]},"2":{"trID":"113","memberID":"4","chunks":[]},"3":{"trID":"113","memberID":"4","chunks":[]},"4":{"trID":"111","memberID":"5","chunks":[]},"5":[],"6":[],"7":[],"8":[],"9":[],"10":[],"11":[],"12":[],"13":[],"14":[],"15":[],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[],"22":[],"23":[],"24":[],"25":[],"26":[],"27":[],"28":[],"29":[],"30":[],"31":[],"32":[],"33":[],"34":[],"35":[],"36":[],"37":[],"38":[],"39":[],"40":[],"41":[],"42":[],"43":[],"44":[],"45":[],"46":[],"47":[],"48":[],"49":[],"50":[]}'),
+(58, 12, 5, 'gen', 4, 1, 1, '2016-09-22 10:15:00', '2016-09-28 01:36:00', 'started', 0, '{"1":{"trID":"111","memberID":"5","chunks":[]},"2":{"trID":"113","memberID":"4","chunks":[]},"3":{"trID":"113","memberID":"4","chunks":[]},"4":{"trID":"111","memberID":"5","chunks":[]},"5":{"trID":"111","memberID":"5","chunks":[]},"6":{"trID":"111","memberID":"5","chunks":[]},"7":{"trID":"111","memberID":"5","chunks":[]},"8":{"trID":"111","memberID":"5","chunks":[]},"9":{"trID":"111","memberID":"5","chunks":[]},"10":{"trID":"111","memberID":"5","chunks":[]},"11":{"trID":"111","memberID":"5","chunks":[]},"12":{"trID":"111","memberID":"5","chunks":[]},"13":{"trID":"111","memberID":"5","chunks":[]},"14":{"trID":"111","memberID":"5","chunks":[]},"15":{"trID":"111","memberID":"5","chunks":[]},"16":{"trID":"111","memberID":"5","chunks":[]},"17":{"trID":"111","memberID":"5","chunks":[]},"18":{"trID":"111","memberID":"5","chunks":[]},"19":{"trID":"111","memberID":"5","chunks":[]},"20":{"trID":"111","memberID":"5","chunks":[]},"21":{"trID":"111","memberID":"5","chunks":[]},"22":{"trID":"111","memberID":"5","chunks":[]},"23":{"trID":"111","memberID":"5","chunks":[]},"24":{"trID":"111","memberID":"5","chunks":[]},"25":{"trID":"111","memberID":"5","chunks":[]},"26":{"trID":"111","memberID":"5","chunks":[]},"27":{"trID":"111","memberID":"5","chunks":[]},"28":{"trID":"111","memberID":"5","chunks":[]},"29":{"trID":"111","memberID":"5","chunks":[]},"30":{"trID":"111","memberID":"5","chunks":[]},"31":{"trID":"111","memberID":"5","chunks":[]},"32":{"trID":"111","memberID":"5","chunks":[]},"33":{"trID":"111","memberID":"5","chunks":[]},"34":{"trID":"111","memberID":"5","chunks":[]},"35":{"trID":"111","memberID":"5","chunks":[]},"36":{"trID":"111","memberID":"5","chunks":[]},"37":{"trID":"111","memberID":"5","chunks":[]},"38":{"trID":"111","memberID":"5","chunks":[]},"39":{"trID":"111","memberID":"5","chunks":[]},"40":{"trID":"111","memberID":"5","chunks":[]},"41":{"trID":"111","memberID":"5","chunks":[]},"42":{"trID":"111","memberID":"5","chunks":[]},"43":{"trID":"111","memberID":"5","chunks":[]},"44":{"trID":"111","memberID":"5","chunks":[]},"45":{"trID":"111","memberID":"5","chunks":[]},"46":{"trID":"111","memberID":"5","chunks":[]},"47":{"trID":"111","memberID":"5","chunks":[]},"48":{"trID":"111","memberID":"5","chunks":[]},"49":{"trID":"111","memberID":"5","chunks":[]},"50":[]}'),
 (59, 9, 5, 'gal', 4, 2, 2, '2016-09-30 02:35:00', '2016-10-26 21:39:00', 'started', 0, '{"1":[],"2":[],"3":[],"4":[],"5":[],"6":[]}'),
 (60, 17, 5, '1ti', 4, 3, 2, '2016-10-14 12:27:00', '2016-11-04 05:15:00', 'started', 0, '{"1":[],"2":[],"3":[],"4":[],"5":[],"6":[]}'),
 (61, 19, 4, 'num', 4, 2, 2, '2016-10-31 03:00:00', '2016-11-29 16:00:00', 'started', 0, '{"1":[],"2":[],"3":[],"4":[],"5":[],"6":[],"7":[],"8":[],"9":[],"10":[],"11":[],"12":[],"13":[],"14":[],"15":[],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[],"22":[],"23":[],"24":[],"25":[],"26":[],"27":[],"28":[],"29":[],"30":[],"31":[],"32":[],"33":[],"34":[],"35":[],"36":[]}');
@@ -7986,11 +7986,11 @@ CREATE TABLE `vm_members` (
 
 INSERT INTO `vm_members` (`memberID`, `userName`, `firstName`, `lastName`, `password`, `email`, `authToken`, `active`, `verified`, `activationToken`, `resetToken`, `resetDate`, `isAdmin`, `isSuperAdmin`) VALUES
 (4, 'mXaln', 'Max', 'Allen', '$2y$10$tJc7Dc7G4vzRu9.j.pH9ieMH1u4Pp6iuC0joGOefnZXhO/rEyDrKC', 'murmax82@yandex.ru', '517a08901aa36d227d87504b5b01f453', 1, 1, NULL, '818931e1e963af23d1bc756eeb466609', '2016-10-07 09:11:53', 1, 1),
-(5, 'murmax82', 'Mur', 'Max', '$2y$10$ZRB0XBsesGfzor1k4.3I/eiwBHQ.RVXEQ29/VL7e.hc9mqgaj07X6', 'murmax82@gmail.com', '0f76de7f75658da5a5d055c7d8341aa0', 1, 1, NULL, NULL, NULL, 1, 0),
+(5, 'murmax82', 'Mur', 'Max', '$2y$10$ZRB0XBsesGfzor1k4.3I/eiwBHQ.RVXEQ29/VL7e.hc9mqgaj07X6', 'murmax82@gmail.com', '54ded33306d6f15d0dfeb8e2186c039e', 1, 1, NULL, NULL, NULL, 1, 0),
 (6, 'jdeer', 'John', 'Deer', '$2y$10$5C1hz9aKOMwSV7PBgYCU.uC/I0SsrYVFVi/hxsKvID7FGEAgLPUJy', 'alienmax22@yandex.ru', 'f841987973f24b06719d7535bc1c7104', 1, 0, NULL, NULL, '2016-10-07 11:04:07', 0, 0),
 (7, 'mpat1977', 'Mark', 'Patton', '$2y$10$oMoYBg8AlHEjEIF2nkC8m.kcUNFcOaO1FVom4d8z8R6RLb44Q0UiO', 'dimasavisky@gmail.com', '52b28d8546f961a07aaaf9e5ab7d0b6b', 1, 1, NULL, NULL, NULL, 0, 0),
 (8, 'Gen2Pet', 'Генадий', 'Петрович', '$2y$10$g9MF6oPEZSITMAa2hZVlWeCx8jdliAD.toqTZQidnSogzh11Oe/Ly', 'genpet@gmail.com', '42310ceff3cfaf93aa99b10e33dae77b', 1, 1, NULL, NULL, NULL, 1, 0),
-(16, 'mSimpson', 'Marge', 'Simpson', '$2y$10$WwCyjr6YthQszU3d7ZAdQeJrhwQ7V2QFLQ2IiWCbyZ5NR/rf4xrvC', 'msimpson@gmail.com', '88290f242e5075f4d21ca7dd5e04452d', 1, 1, NULL, NULL, NULL, 1, 0),
+(16, 'mSimpson', 'Marge', 'Simpson', '$2y$10$WwCyjr6YthQszU3d7ZAdQeJrhwQ7V2QFLQ2IiWCbyZ5NR/rf4xrvC', 'msimpson@gmail.com', '358a7f385b2b4082c41f5a8f4a571c4f', 1, 1, NULL, NULL, NULL, 1, 0),
 (17, 'bober', 'Bob', 'Ber', '$2y$10$g6A0H8LydVhVfZ0VRbvet.beNR2Tb1lPpYL1z2DsG.hVz9riRktVy', 'bober@gmail.com', '2e7f6a118694a2f0e83b49aee06e8c29', 1, 1, NULL, NULL, NULL, 1, 0),
 (19, 'nuser', 'New', 'User', '$2y$10$v/KUaCSaco2QgYAaFV6dpu5wEIPIuvot6C/WHY6WWnAE6ZHsW3qi2', 'newuser@email.com', NULL, 0, 0, '53c0cc4c1572abd7705443d8506b6441', NULL, NULL, 0, 0),
 (20, 'alienmax', 'serhsehs', 'ejhsehseh', '$2y$10$4kO1QGNaAOXwuk8EoCvxHeVG4upQcGySvYoJeKMa1r8o/hwfjy5eS', 'alienmax1@yandex.ru', '7e5b698d8138d66be72fb21494cc5f32', 1, 0, NULL, '85cbe8d7a0c5f0e5c6c24847d4a48ab5', '2016-10-17 05:31:52', 0, 0);
@@ -8319,7 +8319,7 @@ CREATE TABLE `vm_translators` (
   `eventID` int(10) UNSIGNED NOT NULL,
   `pairID` int(10) UNSIGNED NOT NULL,
   `pairOrder` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `step` enum('pray','consume','discuss','pre-chunking','chunking','blind-draft','self-check','self-check-full','peer-review','keyword-check','content-review','finished') NOT NULL DEFAULT 'pray',
+  `step` enum('none','pray','consume','discuss','pre-chunking','chunking','blind-draft','self-check','self-check-full','peer-review','keyword-check','content-review','finished') NOT NULL DEFAULT 'none',
   `currentChapter` tinyint(3) UNSIGNED NOT NULL,
   `currentChunk` tinyint(3) UNSIGNED NOT NULL,
   `lastTID` int(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -8338,28 +8338,28 @@ CREATE TABLE `vm_translators` (
 --
 
 INSERT INTO `vm_translators` (`trID`, `memberID`, `eventID`, `pairID`, `pairOrder`, `step`, `currentChapter`, `currentChunk`, `lastTID`, `peerReady`, `peerChapter`, `checkerID`, `checkDone`, `hideChkNotif`, `translateDone`, `kwCheck`, `crCheck`) VALUES
-(42, 5, 28, 43, 0, 'finished', 1, 7, 1, 0, 0, 0, 1, 1, 1, '{"1":"17"}', '{"1":"17"}'),
-(43, 7, 28, 42, 0, 'finished', 2, 6, 1, 0, 0, 0, 1, 1, 1, '{"2":"17"}', '{"2":"17"}'),
-(44, 8, 28, 45, 0, 'finished', 3, 4, 1, 0, 0, 0, 1, 1, 1, '{"3":"16"}', '{"3":"5"}'),
-(45, 16, 28, 44, 0, 'finished', 5, 3, 1, 0, 0, 0, 1, 1, 1, '{"4":"5","5":"17"}', '{"4":"5","5":"17"}'),
+(42, 5, 28, 43, 1, 'finished', 1, 7, 1, 0, 0, 0, 1, 1, 1, '{"1":"17"}', '{"1":"17"}'),
+(43, 7, 28, 42, 1, 'finished', 2, 6, 1, 0, 0, 0, 1, 1, 1, '{"2":"17"}', '{"2":"17"}'),
+(44, 8, 28, 45, 2, 'finished', 3, 4, 1, 0, 0, 0, 1, 1, 1, '{"3":"16"}', '{"3":"5"}'),
+(45, 16, 28, 44, 2, 'finished', 5, 3, 1, 0, 0, 0, 1, 1, 1, '{"4":"5","5":"17"}', '{"4":"5","5":"17"}'),
 (46, 16, 29, 47, 1, 'peer-review', 2, 2, 170, 1, 0, 0, 0, 1, 0, '', ''),
 (47, 5, 29, 46, 1, 'peer-review', 4, 3, 166, 1, 0, 16, 0, 1, 0, '{"3":"7"}', '{"3":"17"}'),
 (48, 7, 29, 49, 2, 'peer-review', 5, 4, 1, 1, 0, 0, 0, 1, 0, '', ''),
 (49, 8, 29, 48, 2, 'self-check', 6, 1, 72, 0, 0, 0, 0, 1, 0, '', ''),
-(54, 16, 31, 55, 0, 'keyword-check', 1, 2, 120, 0, 0, 5, 0, 1, 0, '', ''),
-(55, 5, 31, 54, 0, 'content-review', 2, 3, 117, 0, 0, 16, 0, 1, 0, '{"2":"16"}', ''),
-(56, 8, 31, 57, 0, 'peer-review', 3, 3, 202, 0, 0, 0, 0, 1, 0, '', ''),
-(57, 7, 31, 56, 0, 'keyword-check', 4, 3, 198, 0, 0, 16, 0, 1, 0, '', ''),
-(58, 5, 32, 59, 0, 'content-review', 1, 3, 193, 0, 0, 17, 0, 1, 0, '{"1":"17"}', ''),
-(59, 7, 32, 58, 0, 'content-review', 2, 3, 189, 0, 0, 5, 0, 1, 0, '{"2":"5"}', ''),
-(60, 17, 32, 61, 0, 'finished', 3, 4, 179, 0, 0, 0, 1, 1, 1, '{"3":"16"}', '{"3":"16"}'),
-(61, 16, 32, 60, 0, 'keyword-check', 5, 3, 185, 0, 0, 5, 1, 1, 0, '{"4":"17","5":"5"}', '{"4":"17"}'),
+(54, 16, 31, 55, 1, 'keyword-check', 1, 2, 120, 0, 0, 5, 0, 1, 0, '', ''),
+(55, 5, 31, 54, 1, 'content-review', 2, 3, 117, 0, 0, 16, 0, 1, 0, '{"2":"16"}', ''),
+(56, 8, 31, 57, 2, 'peer-review', 3, 3, 202, 0, 0, 0, 0, 1, 0, '', ''),
+(57, 7, 31, 56, 2, 'keyword-check', 4, 3, 198, 0, 0, 16, 0, 1, 0, '', ''),
+(58, 5, 32, 59, 1, 'content-review', 1, 3, 193, 0, 0, 17, 0, 1, 0, '{"1":"17"}', ''),
+(59, 7, 32, 58, 1, 'content-review', 2, 3, 189, 0, 0, 5, 0, 1, 0, '{"2":"5"}', ''),
+(60, 17, 32, 61, 2, 'finished', 3, 4, 179, 0, 0, 0, 1, 1, 1, '{"3":"16"}', '{"3":"16"}'),
+(61, 16, 32, 60, 2, 'keyword-check', 5, 3, 185, 0, 0, 5, 1, 1, 0, '{"4":"17","5":"5"}', '{"4":"17"}'),
 (63, 5, 34, 64, 1, 'peer-review', 1, 1, 364, 1, 0, 0, 0, 1, 0, '', ''),
 (64, 4, 34, 63, 1, 'finished', 0, 3, 368, 1, 1, 0, 1, 1, 1, '{"2":"5"}', '{"2":"5"}'),
 (65, 16, 34, 66, 2, 'peer-review', 3, 5, 220, 0, 0, 0, 0, 1, 0, '', ''),
 (66, 8, 34, 65, 2, 'peer-review', 4, 11, 214, 0, 0, 0, 0, 1, 0, '', ''),
-(69, 5, 36, 70, 0, 'consume', 3, 0, 247, 0, 0, 0, 0, 1, 0, '{"1":"16","2":"16"}', '{"1":"16","2":"16"}'),
-(70, 16, 36, 69, 0, 'keyword-check', 17, 4, 252, 0, 0, 5, 0, 1, 0, '{"15":"5","16":"5"}', '{"15":"5","16":"5"}'),
+(69, 5, 36, 70, 1, 'consume', 3, 0, 247, 0, 0, 0, 0, 1, 0, '{"1":"16","2":"16"}', '{"1":"16","2":"16"}'),
+(70, 16, 36, 69, 1, 'keyword-check', 17, 4, 252, 0, 0, 5, 0, 1, 0, '{"15":"5","16":"5"}', '{"15":"5","16":"5"}'),
 (91, 5, 48, 92, 1, 'finished', 0, 2, 284, 0, 4, 0, 1, 1, 1, '{"1":"16"}', '{"1":"16"}'),
 (92, 16, 48, 91, 1, 'finished', 0, 2, 293, 0, 1, 0, 1, 1, 1, '{"2":"5","3":"5","4":"5"}', '{"2":"5","3":"5","4":"5"}'),
 (93, 5, 49, 94, 1, 'finished', 0, 0, 0, 0, 3, 0, 0, 1, 1, '', ''),
@@ -8379,7 +8379,8 @@ INSERT INTO `vm_translators` (`trID`, `memberID`, `eventID`, `pairID`, `pairOrde
 (107, 5, 54, 108, 1, 'finished', 0, 2, 362, 1, 0, 0, 1, 1, 1, '{"1":"17"}', '{"1":"17"}'),
 (108, 16, 54, 107, 1, 'finished', 0, 0, 0, 1, 1, 0, 0, 1, 1, '', ''),
 (111, 5, 58, 113, 1, 'pray', 0, 0, 0, 0, 0, 0, 0, 1, 0, '', ''),
-(113, 4, 58, 111, 1, 'pray', 0, 0, 0, 0, 0, 0, 0, 1, 0, '', '');
+(113, 4, 58, 111, 1, 'pray', 0, 0, 0, 0, 0, 0, 0, 1, 0, '', ''),
+(114, 16, 58, 0, 0, 'none', 0, 0, 0, 0, 0, 0, 0, 1, 0, '', '');
 
 --
 -- Indexes for dumped tables
@@ -8535,7 +8536,7 @@ ALTER TABLE `vm_translations`
 -- AUTO_INCREMENT for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-  MODIFY `trID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `trID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 --
 -- Constraints for dumped tables
 --
