@@ -1,13 +1,9 @@
-<?php
-use Core\Language;
-?>
+<h1><?php echo __('passwordreset_title'); ?></h1>
 
-<h1><?php echo Language::show('passwordreset_title', 'Members'); ?></h1>
-
-<h3><?php echo Language::show("enter_new_password", "Members") ?></h3>
+<h3><?php echo __("enter_new_password") ?></h3>
 
 <?php
-echo \Core\Error::display($error);
+echo Error::display($error);
 
 if(isset($data['success'])){
     echo "<div class='alert alert-success'>";
@@ -20,21 +16,21 @@ else {
 
         <form action='' method='post' style="width: 500px">
             <div class="form-group">
-                <label for="password"><?php echo Language::show('password', 'Members'); ?></label>
+                <label for="password"><?php echo __('password'); ?></label>
                 <input type="password" class="form-control" id="password" name="password"
-                       placeholder="<?php echo Language::show('password', 'Members'); ?>" value="">
+                       placeholder="<?php echo __('password'); ?>" value="">
             </div>
 
             <div class="form-group">
-                <label for="passwordConfirm"><?php echo Language::show('confirm_password', 'Members'); ?></label>
+                <label for="passwordConfirm"><?php echo __('confirm_password'); ?></label>
                 <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"
-                       placeholder="<?php echo Language::show('confirm_password', 'Members'); ?>" value="">
+                       placeholder="<?php echo __('confirm_password'); ?>" value="">
             </div>
 
-            <input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>"/>
+            <input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>"/>
 
             <button type="submit" name="submit"
-                    class="btn btn-primary"><?php echo Language::show('continue', 'Members'); ?></button>
+                    class="btn btn-primary"><?php echo __('continue'); ?></button>
         </form>
 
         <?php

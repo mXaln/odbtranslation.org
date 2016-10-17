@@ -1,9 +1,10 @@
 <?php
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Core\Language;
-use Core\View;
+use App\Core\Controller;
+use App\Models\TranslationsModel;
+use Shared\Legacy\Error;
+use View;
 use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
@@ -12,14 +13,11 @@ use Helpers\Url;
 class TranslationsController extends Controller
 {
     private $_model;
-    private $_lang;
 
     public function __construct()
     {
         parent::__construct();
-        $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-        $this->language->load('Translations', $this->_lang);
-        $this->_model = new \Models\TranslationsModel();
+        $this->_model = new TranslationsModel();
     }
 
     public function index($lang = null, $bookProject = null, $bookCode = null)
@@ -29,32 +27,31 @@ class TranslationsController extends Controller
             Url::redirect('members/login');
         }
 
-        $data['title'] = $this->language->get('Translations');
         $data['menu'] = 3;
 
         if(!Session::get('verified'))
         {
-            $error[] = $this->language->get('verification_error');
+            $error[] = __('verification_error');
 
-            View::renderTemplate('header', $data);
-            View::render('translations/error', $data, $error);
-            View::renderTemplate('footer', $data);
-            return;
+            return View::make('Translations/Error')
+                ->shares("title", __("translations"))
+                ->shares("data", $data)
+                ->shares("data", @$error);
         }
 
         if($lang == null)
         {
-            $data['title'] = $this->language->get('Choose language');
+            $data['title'] = __('choose_language');
             $data["languages"] = $this->_model->getTranslationLanguages();
         }
         else if($bookProject == null)
         {
-            $data['title'] = $this->language->get('Choose book type');
+            $data['title'] = __('choose_book');
             $data['bookProjects'] = $this->_model->getTranslationProjects($lang);
         }
         elseif($bookCode == null)
         {
-            $data['title'] = $this->language->get('Choose book');
+            $data['title'] = __('choose_book');
             $data['books'] = $this->_model->getTranslationBooks($lang, $bookProject);
         }
         else
@@ -72,7 +69,7 @@ class TranslationsController extends Controller
 
                 if($chunk->chapter != $lastChapter)
                 {
-                    $data['book'] .= '<h2>'.$this->language->get("chapter", array($chunk->chapter)).'</h2>';
+                    $data['book'] .= '<h2>'.__("chapter", [$chunk->chapter]).'</h2>';
                     $lastChapter = $chunk->chapter;
                 }
 
@@ -87,9 +84,9 @@ class TranslationsController extends Controller
             }
         }
 
-        View::renderTemplate('header', $data);
-        View::render('translations/index', $data);
-        View::renderTemplate('footer', $data);
+        return View::make('Translations/Index')
+            ->shares("title", __("translations"))
+            ->shares("data", $data);
     }
 
     public function getUsfm($lang, $bookProject, $bookCode)
@@ -101,7 +98,7 @@ class TranslationsController extends Controller
             $lastChapter = 0;
             $chapterStarted = false;
 
-            $data["usfm"] = "\\id ".strtoupper($book[0]->bookCode)." ".Language::show($book[0]->bookProject, "Events", null, "en")."\n";
+            $data["usfm"] = "\\id ".strtoupper($book[0]->bookCode)." ".__($book[0]->bookProject)."\n";
             $data["usfm"] .= "\\ide UTF-8 \n";
             $data["usfm"] .= "\\h ".strtoupper($book[0]->bookName)."\n";
             $data["usfm"] .= "\\toc1 ".$book[0]->bookName."\n";

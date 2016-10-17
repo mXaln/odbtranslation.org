@@ -1,52 +1,54 @@
 <?php
 
-namespace Models;
+namespace App\Models;
 
-use Core\Model;
+use Database\Model;
 use Helpers\Data;
+use DB;
 
 class MembersModel extends Model {
+
+    protected $table = 'members';
+    protected $primaryKey = 'memberID';
 
 	public  function __construct()
 	{
 		parent::__construct();
 	}
 
-	/**
-	 * For getting data of a member
-	 * @param $fields Requested fields could be * for all or comma separated list
-	 * @param $where array Example: array('id' => array('=', 1), 'name' => array('!=', 'John'))
-	 * @return array
-	 */
-	public function getMember($fields, $where)
-	{
-		$sql = "SELECT $fields FROM ".PREFIX."members WHERE";
-		$prepare = array();
-		$i=0;
+    /**
+     * Get member
+     * @param array $select An array of fields
+     * @param array $where Single/Multidimentional array with where params (field, operator, value, logical)
+     * @return array|static[]
+     */
+	public function getMember(array $select, array $where)
+    {
+        $builder = $this->db->table("members");
 
-		foreach($where as $key=>$value)
-		{
-			$sql .= ($i>0 ? (isset($value[2]) ? " ".$value[2]." " : " AND ") : " ")."$key ".$value[0]." :$key";
-			$prepare[':'.$key] = $value[1];
-			$i++;
-		}
+        foreach ($where as $item) {
+            if(is_array($item))
+            {
+                call_user_func_array(array($builder, "where"), $item);
+            }
+            else
+            {
+                call_user_func_array(array($builder, "where"), $where);
+                break;
+            }
+        }
 
-		return $this->db->select($sql, $prepare);
-	}
-
+        return $builder
+            ->select($select)->get();
+    }
 
 	public function getMembers($memberIDs = array())
 	{
 		if(is_array($memberIDs) && !empty($memberIDs))
 		{
-			foreach($memberIDs as &$val)
-				$val = $this->db->quote($val);
-			$in = implode(',',$memberIDs);
-
-			$sql = "SELECT memberID, userName FROM ".PREFIX."members ".
-				"WHERE memberID IN ($in)";
-
-			return $this->db->select($sql);
+            return $this->db->table("members")
+                ->select("memberID", "userName")
+                ->whereIn("memberID", $memberIDs)->get();
 		}
 	}
 
@@ -57,22 +59,17 @@ class MembersModel extends Model {
 	 */
 	public function getMemberWithProfile($email)
 	{
-		$sql = "SELECT * FROM ".PREFIX."members ".
-			"LEFT JOIN ".PREFIX."profile ON ".PREFIX."members.memberID = ".PREFIX."profile.mID ".
-			"WHERE ".PREFIX."members.userName = :email ".
-			"OR ".PREFIX."members.email = :email";
-
-		$prepare = array(":email" => $email);
-
-		return $this->db->select($sql, $prepare);
+        return $this->db->table("members")
+            ->leftJoin("profile", "members.memberID", "=", "profile.mID")
+            ->where("members.userName", $email)
+            ->orWhere("members.email", $email)->get();
 	}
 
 	public function getAdminMember($memberID)
 	{
-		$sql = "SELECT gwProjectID, gwLang FROM ".PREFIX."gateway_projects ".
-			"WHERE admins LIKE :memberID";
-
-		return $this->db->select($sql, array(":memberID" => '%"'.$memberID.'"%'));
+        return $this->db->table("gateway_projects")
+            ->select("gwProjectID", "gwLang")
+            ->where("admins", "LIKE", "%$memberID%")->get();
 	}
 
 	/**
@@ -82,36 +79,26 @@ class MembersModel extends Model {
 	 */
 	public function getAdminsByTerm($search)
 	{
-		$sql = "SELECT memberID, userName FROM ".PREFIX."members ".
-			"WHERE isAdmin=1 ".
-			"AND isSuperAdmin=0 " .
-			"AND userName LIKE :userName";
-
-		$prepare = array(":userName" => "%$search%");
-
-		return $this->db->select($sql, $prepare);
-
+        return $this->db->table("members")
+            ->select("memberID", "userName")
+            ->where("isAdmin", true)
+            ->where("isSuperAdmin", false)
+            ->where("userName", "LIKE", "%$search%")->get();
 	}
 
 	public function getAdminsByGwProject($gwProjectID)
 	{
-		$sql = "SELECT admins FROM ".PREFIX."gateway_projects ".
-			"WHERE gwProjectID = :gwProjectID";
-
-		return $this->db->select($sql, array(":gwProjectID" => $gwProjectID));
+        return $this->db->table("gateway_projects")
+            ->select("admins")
+            ->where("gwProjectID", $gwProjectID)->get();
 	}
 
 	public function getMembersByTerm($search)
 	{
-		$sql = "SELECT memberID, userName FROM ".PREFIX."members ".
-			"WHERE isSuperAdmin=0 " .
-			"AND verified=1 " .
-			"AND userName LIKE :userName";
-
-		$prepare = array(":userName" => "%$search%");
-
-		return $this->db->select($sql, $prepare);
-
+        return $this->db->table("members")
+            ->where("isSuperAdmin", false)
+            ->where("verified", true)
+            ->where("userName", "LIKE", "%$search%")->get();
 	}
 
     /**
@@ -120,8 +107,8 @@ class MembersModel extends Model {
      * @return string
      */
 	public function createMember($data){
-		$this->db->insert(PREFIX."members", $data);
-		return $this->db->lastInsertId('memberID');
+        return $this->db->table("members")
+            ->insertGetId($data);
 	}
 
 
@@ -132,17 +119,21 @@ class MembersModel extends Model {
      * @return int Number of affected rows
      */
 	public function updateMember($data, $where){
-		return $this->db->update(PREFIX."members", $data, $where);
+        return $this->db->table("members")
+            ->where($where)
+            ->update($data);
 	}
 
 	public function createProfile($data)
 	{
-		$this->db->insert(PREFIX."profile", $data);
-		return $this->db->lastInsertId('pID');
+        return $this->db->table("profile")
+            ->insertGetId($data);
 	}
 
 	public function updateProfile($data, $where)
 	{
-		return $this->db->update(PREFIX."profile", $data, $where);
+		return $this->db->table("profile")
+            ->where($where)
+            ->update($data);
 	}
 }

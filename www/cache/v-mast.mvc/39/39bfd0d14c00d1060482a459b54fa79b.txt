@@ -1,1 +1,0 @@
-a:5:{s:5:"value";i:3600;s:10:"write_time";i:1468428926;s:10:"expired_in";i:157680000;s:12:"expired_time";i:1626108926;s:4:"size";i:4;}

@@ -1,43 +1,38 @@
 <?php
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Core\View;
+use App\Core\Controller;
+use View;
 use Helpers\Constants\EventMembers;
 use Helpers\Csrf;
 use Helpers\Data;
 use Helpers\Gump;
+use Mailer;
 use Helpers\Password;
-use Helpers\PhpMailer\Mail;
-use Helpers\PhpMailer\PhpMailer;
-use Helpers\ReCaptcha\ReCaptcha;
+use Helpers\ReCaptcha;
 use Helpers\Session;
 use Helpers\Url;
-use Models\EventsModel;
-use Models\MembersModel;
+use App\Models\EventsModel;
+use App\Models\MembersModel;
 
 class MembersController extends Controller
 {
-
     private $_model;
-    private $_lang;
+    private $_eventModel;
     private $_notifications;
 
     public function __construct()
     {
         parent::__construct();
-        $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-        $this->language->load('Members', $this->_lang);
         $this->_model = new MembersModel();
 
-        $evntModel = new EventsModel();
+        $this->_eventModel = new EventsModel();
         if(Session::get("loggedin"))
-            $this->_notifications = $evntModel->getNotifications();
+            $this->_notifications = $this->_eventModel->getNotifications();
     }
 
     public function index()
     {
-        $data['lang'] = $this->_lang;
         $data["menu"] = 1;
 
         if (Session::get('loggedin') !== true)
@@ -50,25 +45,22 @@ class MembersController extends Controller
             Url::redirect("members/profile");
         }
 
-        $data['title'] = $this->language->get('welcome_title');
-
-        $eventModel = new EventsModel();
-
         if(Session::get("isAdmin"))
-            $data["myFacilitatorEvents"] = $eventModel->getMemberEventsForAdmin(Session::get("memberID"));
+            $data["myFacilitatorEvents"] = $this->_eventModel->getMemberEventsForAdmin(Session::get("memberID"));
 
         $myLangs = array_keys(Session::get("profile")["languages"]);
 
-        $data["myTranslatorEvents"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR);
-        $data["newEvents"] = $eventModel->getNewEvents($myLangs, Session::get("memberID"));
-        $data["myCheckerL1Events"] = $eventModel->getMemberEventsForChecker(Session::get("memberID"));
-        $data["myCheckerL2Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
-        $data["myCheckerL3Events"] = $eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
+        $data["myTranslatorEvents"] = $this->_eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false);
+        $data["newEvents"] = $this->_eventModel->getNewEvents($myLangs, Session::get("memberID"));
+        $data["myCheckerL1Events"] = $this->_eventModel->getMemberEventsForChecker(Session::get("memberID"));
+        $data["myCheckerL2Events"] = $this->_eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
+        $data["myCheckerL3Events"] = $this->_eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('members/index', $data);
-        View::renderTemplate('footer', $data);
+
+        return View::make('Members/Index')
+            ->shares("title", __("welcome_title"))
+            ->shares("data", $data);
     }
 
 
@@ -79,10 +71,8 @@ class MembersController extends Controller
             Url::redirect('members/login');
         }
 
-        $eventModel = new EventsModel();
-
-        $data["title"] = $this->language->get("profile_message");
-        $data["languages"] = $eventModel->getAllLanguages();
+        $data["languages"] = $this->_eventModel->getAllLanguages();
+        $data["menu"] = 1;
         $data["errors"] = array();
 
         $profile = Session::get("profile");
@@ -259,7 +249,7 @@ class MembersController extends Controller
 
                     if($pID)
                     {
-                        $postdata["pID"] = $profile["pID"];
+                        $postdata["pID"] = $pID;
                         $postdata["languages"] = $langArr;
                         $postdata["mast_role"] = $mast_role;
                         $postdata["education"] = $education;
@@ -269,13 +259,13 @@ class MembersController extends Controller
                         $profile = $postdata;
 
                         Session::set("profile", $profile);
-                        Session::set("success", $this->language->get("update_profile_success"));
+                        Session::set("success", __("update_profile_success"));
 
                         Url::redirect("members/profile");
                     }
                     else
                     {
-                        $error[] = $this->language->get('update_profile_error');
+                        $error[] = __('update_profile_error');
                     }
                 }
                 else
@@ -293,20 +283,23 @@ class MembersController extends Controller
                     $profile = $postdata;
 
                     Session::set("profile", $profile);
-                    Session::set("success", $this->language->get("update_profile_success"));
+                    Session::set("success", __("update_profile_success"));
 
                     Url::redirect("members/profile");
                 }
             }
             else
             {
-                $error[] = $this->language->get('required_fields_empty_error');
+                $error[] = __('required_fields_empty_error');
             }
         }
 
-        View::renderTemplate('header', $data);
-        View::render('members/profile', $data, $error);
-        View::renderTemplate('footer', $data);
+        $data['csrfToken'] = Csrf::makeToken();
+
+        return View::make('Members/Profile')
+            ->shares("title", __("profile_message"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
 
@@ -319,18 +312,19 @@ class MembersController extends Controller
 
         if (($memberID > 0) && (strlen($activationToken) == 32))
         {
-            $user = $this->_model->getMember('memberID,active', array(
-                'memberID' => array("=", $memberID),
-                'active' => array("=", false),
-                'activationToken' => array("=", $activationToken)));
+            $user = $this->_model->getMember(["memberID", "active"], [
+                ["memberID", $memberID],
+                ["active", false],
+                ["activationToken", $activationToken]
+            ]);
 
             if ($user[0]->memberID == 0)
             {
-                $error[] = $this->language->get('no_account_error');
+                $error[] = __('no_account_error');
             }
             elseif ($user[0]->active == true)
             {
-                $error[] = $this->language->get('account_activated_error');
+                $error[] = __('account_activated_error');
             }
             else
             {
@@ -338,7 +332,7 @@ class MembersController extends Controller
                 $where = array('memberID' => $memberID);
                 $this->_model->updateMember($postdata, $where);
 
-                $msg = $this->language->get('account_activated_success', array(DIR . 'members/login'));
+                $msg = __('account_activated_success', array(SITEURL . 'members/login'));
                 Session::set('success', $msg);
 
                 Session::destroy("activation_email");
@@ -348,44 +342,42 @@ class MembersController extends Controller
         }
         else
         {
-            $error[] = $this->language->get('invalid_link_error');
+            $error[] = __('invalid_link_error');
         }
 
-        $data['title'] = $this->language->get('activate_account_title');
-
-        View::renderTemplate('header', $data);
-        View::render('members/activate', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/Activate')
+            ->shares("title", __("activate_account_title"))
+            ->shares("error", @$error);
     }
 
     public function resendActivation($email)
     {
-        $data["member"] = $this->_model->getMember('memberID,email,activationToken', array('email' => array("=", $email), 'active' => array("!=", 1)));
-        $data["title"] = $this->language->get("resend_activation_title");
+        $data = $this->_model->getMember(array("memberID", "email", "activationToken", "userName"),
+            array(
+                array("email", $email),
+                array("active", "!=", true)
+        ));
 
-        if(!empty($data["member"]))
+        if(!empty($data))
         {
-            $link = DIR . "members/activate/".$data["member"][0]->memberID."/".$data["member"][0]->activationToken;
+            Mailer::send('Emails/Auth/Activate', ["memberID" => $data[0]->memberID, "token" => $data[0]->activationToken], function($message) use($data)
+            {
+                $message->to($data[0]->email, $data[0]->userName)
+                    ->subject(__('activate_account_title'));
+            });
 
-            $mail = new PhpMailer();
-            $mail->isSendmail();
-            $mail->setFrom('noreply@v-mast.com');
-            $mail->addAddress($email);
-            $mail->Subject = $this->language->get('activate_account_title');
-            $mail->msgHTML($this->language->get('activation_link_message', array($link, $link)));
-            $mail->send();
-
-            $msg = $this->language->get('resend_activation_success_message');
+            $msg = __('resend_activation_success_message');
             Session::set('success', $msg);
         }
         else
         {
-            $error[] = $this->language->get("wrong_activation_email");
+            $error[] = __("wrong_activation_email");
         }
 
-        View::renderTemplate('header', $data);
-        View::render('members/email_activation', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/EmailActivation')
+            ->shares("title", __("resend_activation_title"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
     public function login()
@@ -412,16 +404,9 @@ class MembersController extends Controller
             {
                 if($loginTry > 3)
                 {
-                    // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
-                    // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
-                    // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
-
-                    $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
-                    $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-
-                    if (!$resp->isSuccess())
+                    if (!ReCaptcha::check())
                     {
-                        $error[] = $this->language->get('captcha_wrong');
+                        $error[] = __('captcha_wrong');
                     }
                 }
             }
@@ -499,33 +484,29 @@ class MembersController extends Controller
                     }
                     else
                     {
-                        $error[] = $this->language->get('user_login_error');
+                        $error[] = __('user_login_error');
                     }
                 }
                 else
                 {
-                    $error[] = $this->language->get('wrong_credentials_error');
+                    $error[] = __('wrong_credentials_error');
                 }
             }
         }
 
-        $data['csrf_token'] = Csrf::makeToken();
+        $data['csrfToken'] = Csrf::makeToken();
 
-        $data['title'] = $this->language->get('login_title');
-        $data['lang'] = $this->_lang;
-
-        View::renderTemplate('header', $data);
-        View::render('members/login', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/Login')
+            ->shares("title", __("login_title"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
 
     public function signup()
     {
         // Registration
-        $data['lang'] = $this->_lang;
         $data["menu"] = 1;
-        $data['title'] = $this->language->get('signup');
 
         if (Session::get('loggedin') == true) {
             Url::redirect("members");
@@ -549,85 +530,76 @@ class MembersController extends Controller
             $email = $_POST['email'];
             $password = $_POST['password'];
             $passwordConfirm = $_POST['passwordConfirm'];
-            //$userType = $_POST['userType'];
-            $tou = (int)$_POST['tou'] == 1;
-            $sof = (int)$_POST['sof'] == 1;
+            $tou = isset($_POST['tou']) ? (int)$_POST['tou'] == 1 : false;
+            $sof = isset($_POST['sof']) ? (int)$_POST['sof'] == 1 : false;
 
             if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
             {
-                $error[] = $this->language->get('userName_characters_error');
+                $error[] = __('userName_characters_error');
             }
 
             if (strlen($userName) < 5 || strlen($userName) > 20)
             {
-                $error[] = $this->language->get('userName_length_error');
+                $error[] = __('userName_length_error');
             }
 
             if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
             {
-                $error[] = $this->language->get('firstName_length_error');
+                $error[] = __('firstName_length_error');
             }
 
             if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
             {
-                $error[] = $this->language->get('lastName_length_error');
+                $error[] = __('lastName_length_error');
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL))
             {
-                $error[] = $this->language->get('enter_valid_email_error');
+                $error[] = __('enter_valid_email_error');
             }
             else
             {
-                $check = $this->_model->getMember('memberID,userName,email', array('email' => array("=", $email), "userName" => array("=", $userName, "OR")));
+                $check = $this->_model->getMember(array("memberID", "userName", "email"),
+                    array(
+                        array("email", $email),
+                        array("userName", $userName, "=", "OR")
+                ));
 
                 foreach ($check as $item) {
                     if (strtolower($item->email) == strtolower($email))
                     {
-                        $error[] = $this->language->get('email_taken_error');
+                        $error[] = __('email_taken_error');
                     }
                     if (strtolower($item->userName) == strtolower($userName))
                     {
-                        $error[] = $this->language->get('username_taken_error');
+                        $error[] = __('username_taken_error');
                     }
                 }
             }
 
             if (strlen($password) < 5)
             {
-                $error[] = $this->language->get('password_short_error');
+                $error[] = __('password_short_error');
             }
             elseif ($password != $passwordConfirm)
             {
-                $error[] = $this->language->get('passwords_notmatch_error');
+                $error[] = __('passwords_notmatch_error');
             }
 
-            // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
-            // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
-            // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
-
-            $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
-            $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-
-            if (!$resp->isSuccess())
+            if (!ReCaptcha::check())
             {
-                $error[] = $this->language->get('captcha_wrong');
+                $error[] = __('captcha_wrong');
             }
 
             if(!$tou)
             {
-                $error[] = $this->language->get('tou_accept_error');
+                $error[] = __('tou_accept_error');
             }
 
             if(!$sof)
             {
-                $error[] = $this->language->get('sof_accept_error');
+                $error[] = __('sof_accept_error');
             }
-
-            /*if (!preg_match("/^(translator|checker|both)$/", $userType))
-            {
-                $error[] = $this->language->get('userType_wrong_error');
-            }*/
 
             if (!isset($error))
             {
@@ -637,28 +609,28 @@ class MembersController extends Controller
 
                 //insert
                 $postdata = array(
-                    'userName' => $userName,
-                    'firstName' => $firstName,
-                    'lastName' => $lastName,
-                    'email' => $email,
-                    'password' => $hash,
-                    //'userType' => $userType,
-                    'activationToken' => $activationToken,
-                    //'active' => true
+                    "userName" => $userName,
+                    "firstName" => $firstName,
+                    "lastName" => $lastName,
+                    "email" => $email,
+                    "password" => $hash,
+                    "activationToken" => $activationToken,
                 );
 
+                $data = [
+                    "userName" => $userName,
+                    "email" => $email
+                ];
+
                 $id = $this->_model->createMember($postdata);
-                $link = DIR . "members/activate/$id/$activationToken";
 
-                $mail = new PhpMailer();
-                $mail->isSendmail();
-                $mail->setFrom('noreply@v-mast.com');
-                $mail->addAddress($email);
-                $mail->Subject = $this->language->get('activate_account_title');
-                $mail->msgHTML($this->language->get('activation_link_message', array($link, $link)));
-                $mail->send();
+                Mailer::send('Emails/Auth/Activate', ["memberID" => $id, "token" => $activationToken], function($message) use($data)
+                {
+                    $message->to($data["email"], $data["userName"])
+                        ->subject(__('activate_account_title'));
+                });
 
-                $msg = $this->language->get('registration_success_message');
+                $msg = __('registration_success_message');
                 Session::set("success", $msg);
                 Session::set("activation_email", $email);
 
@@ -666,11 +638,12 @@ class MembersController extends Controller
             }
         }
 
-        $data['csrf_token'] = Csrf::makeToken();
+        $data['csrfToken'] = Csrf::makeToken();
 
-        View::renderTemplate('header', $data);
-        View::render('members/signup', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/Signup')
+            ->shares("title", __("signup"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
     public function passwordReset()
@@ -689,59 +662,45 @@ class MembersController extends Controller
 
             $email = $_POST['email'];
 
-            $data = $this->_model->getMember('memberID,email', array('email' => array("=", $email)));
+            $data = $this->_model->getMember(array("memberID", "userName", "email"), array("email", $email));
 
-            // local: 6Lf_dBYTAAAAAEql0Tky7_CCARCHAdUwR99TX_f1
-            // remote: 6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4
-            // remote test: 6LebmSgTAAAAAJCWPkx4rH4fhJIzVNpP_RTvmsap
-
-            $recaptcha = new ReCaptcha('6LdVdhYTAAAAAMjHKiMZLVIAmF5nZnQj-WpPGWT4');
-            $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-
-            if (!$resp->isSuccess())
+            if (!ReCaptcha::check())
             {
-                $error[] = $this->language->get('captcha_wrong');
+                $error[] = __('captcha_wrong');
             }
 
             if(!isset($error))
             {
-                if($data[0]->email)
+                if(!empty($data))
                 {
                     $resetToken = md5(uniqid(rand(), true));
                     $postdata = array('resetToken' => $resetToken, 'resetDate' => date('Y-m-d H:i:s',time()));
-                    $where = array('email' => $email);
-                    $this->_model->updateMember($postdata, $where);
+                    $this->_model->updateMember($postdata, array('email' => $email));
 
-                    $link = DIR."members/resetpassword/".$data[0]->memberID."/$resetToken";
+                    Mailer::send('Emails/Auth/PasswordReset', ["memberID" => $data[0]->memberID, "token" => $resetToken], function($message) use($data)
+                    {
+                        $message->to($data[0]->email, $data[0]->userName)
+                            ->subject(__('passwordreset_title'));
+                    });
 
-				    $mail = new PhpMailer();
-                    $mail->isSendmail();
-                    $mail->setFrom('noreply@v-mast.com');
-                    $mail->addAddress($email);
-                    $mail->Subject = $this->language->get('passwordreset_title');
-                    $mail->msgHTML($this->language->get('passwordreset_link_message', array($link, $link)));
-                    $mail->send();
-					
-                    $msg = $this->language->get('pwresettoken_send_success');
+                    $msg = __('pwresettoken_send_success');
                     Session::set('success', $msg);
 
                     Url::redirect('members/success');
                 }
                 else
                 {
-                    $error[] = $this->language->get('enter_valid_email_error');
+                    $error[] = __('enter_valid_email_error');
                 }
             }
         }
 
-        $data['csrf_token'] = Csrf::makeToken();
+        $data['csrfToken'] = Csrf::makeToken();
 
-        $data['title'] = $this->language->get('passwordreset_title');
-        $data['lang'] = $this->_lang;
-
-        View::renderTemplate('header', $data);
-        View::render('members/passwordreset', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/PasswordReset')
+            ->shares("title", __("passwordreset_title"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
     public function resetPassword($memberID, $resetToken)
@@ -755,17 +714,19 @@ class MembersController extends Controller
 
         if (($memberID > 0) && (strlen($resetToken) == 32))
         {
-            $user = $this->_model->getMember('memberID,resetDate', array(
-                'memberID' => array("=", $memberID),
-                'resetToken' => array("=", $resetToken)));
+            $user = $this->_model->getMember(array("memberID", "resetDate"),
+                array(
+                    array("memberID", $memberID),
+                    array("resetToken", $resetToken)
+            ));
 
             if ($user[0]->memberID == 0)
             {
-                $error[] = $this->language->get('no_account_error');
+                $error[] = __('no_account_error');
             }
             elseif((time() - strtotime($user[0]->resetDate) > (60*60*24*3)))
             {
-                $error[] = $this->language->get('token_expired_error');
+                $error[] = __('token_expired_error');
                 $postdata = array('resetToken' => null);
                 $where = array('memberID' => $memberID);
                 $this->_model->updateMember($postdata, $where);
@@ -778,7 +739,7 @@ class MembersController extends Controller
                 {
                     if (!Csrf::isTokenValid())
                     {
-                        Url::redirect(DIR."members/resetpassword/$memberID/$resetToken");
+                        Url::redirect(SITEURL."members/resetpassword/$memberID/$resetToken");
                     }
 
                     $_POST = Gump::filter_input($_POST, array(
@@ -790,20 +751,19 @@ class MembersController extends Controller
 
                     if (strlen($password) < 5)
                     {
-                        $error[] = $this->language->get('password_short_error');
+                        $error[] = __('password_short_error');
                     }
                     elseif ($password != $passwordConfirm)
                     {
-                        $error[] = $this->language->get('passwords_notmatch_error');
+                        $error[] = __('passwords_notmatch_error');
                     }
 
-                    if (!isset($error))
+                    if (empty($error))
                     {
                         $postdata = array('password' => Password::make($password), 'resetToken' => null);
-                        $where = array('memberID' => $memberID);
-                        $this->_model->updateMember($postdata, $where);
+                        $this->_model->updateMember($postdata, array('memberID' => $memberID));
 
-                        $msg = $this->language->get('password_reset_success', array(DIR . 'members/login'));
+                        $msg = __('password_reset_success', array(SITEURL . 'members/login'));
                         Session::set('success', $msg);
 
                         Url::redirect('members/success');
@@ -813,17 +773,15 @@ class MembersController extends Controller
         }
         else
         {
-            $error[] = $this->language->get('invalid_link_error');
+            $error[] = __('invalid_link_error');
         }
 
-        $data['title'] = $this->language->get('passwordreset_title');
-        $data['lang'] = $this->_lang;
+        $data['csrfToken'] = Csrf::makeToken();
 
-        $data['csrf_token'] = Csrf::makeToken();
-
-        View::renderTemplate('header', $data);
-        View::render('members/resetpassword', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/ResetPassword')
+            ->shares("title", __("passwordreset_title"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
     /**
@@ -833,15 +791,14 @@ class MembersController extends Controller
      */
     public function rpcAuth($memberID, $eventID, $authToken) {
 
-        $eventsModel = new \Models\EventsModel();
-
-        $event = $eventsModel->getEventMember($eventID, $memberID);
+        $event = $this->_eventModel->getEventMember($eventID, $memberID);
 
         if(!empty($event))
         {
-            $member = $this->_model->getMember('memberID, userName, firstName, lastName, verified, isAdmin', array(
-                'memberID' => array("=", $memberID),
-                'authToken' => array("=", $authToken)
+            $member = $this->_model->getMember(array("memberID", "userName", "firstName", "lastName", "verified", "isAdmin"),
+                array(
+                    array("memberID", $memberID),
+                    array("authToken", $authToken)
             ));
 
             $isAdmin = 0;
@@ -901,11 +858,10 @@ class MembersController extends Controller
 
     public function success()
     {
-        $data['title'] = $this->language->get('success');
+        $data['title'] = __('success');
 
-        View::renderTemplate('header', $data);
-        View::render('members/success', $data);
-        View::renderTemplate('footer', $data);
+        return View::make('Members/Success')
+            ->shares("title", __("success"));
     }
 
     public function logout()

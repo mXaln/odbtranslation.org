@@ -1,63 +1,63 @@
 <?php
-use \Helpers\Url;
-use \Helpers\Constants\EventSteps;
-use \Core\Language;
-use \Helpers\Session;
+use Helpers\Constants\EventSteps;
+use Helpers\Session;
 
-echo \Core\Error::display($error);
-echo \Core\Error::display($data["success"], "alert alert-success");
+echo Error::display($error);
+
+if(isset($data["success"]))
+    echo Error::display($data["success"], "alert alert-success");
 
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
 ?>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step . ($data["isCheckerPage"] ? " is_checker_page" : "") ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . ($data["isCheckerPage"] ? " is_checker_page" : "") ?>"></div>
+<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::PRAY, "Events")?></span>
+            <span><?php echo __(EventSteps::PRAY)?></span>
         </li>
 
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::CONSUME, "Events")?></span>
+            <span><?php echo __(EventSteps::CONSUME)?></span>
         </li>
 
         <li class="discuss-step <?php echo $data["event"][0]->step == EventSteps::DISCUSS ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::DISCUSS, "Events")?></span>
+            <span><?php echo __(EventSteps::DISCUSS)?></span>
         </li>
 
         <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ||
                 $data["event"][0]->step == EventSteps::PRE_CHUNKING ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::CHUNKING, "Events")?></span>
+            <span><?php echo __(EventSteps::CHUNKING)?></span>
         </li>
 
         <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
         <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::BLIND_DRAFT, "Events")?></span>
+            <span><?php echo __(EventSteps::BLIND_DRAFT)?></span>
         </li>
         <?php endif; ?>
 
         <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::SELF_CHECK.$apx, "Events")?></span>
+            <span><?php echo __(EventSteps::SELF_CHECK.$apx)?></span>
         </li>
 
         <?php if($data["event"][0]->gwLang == $data["event"][0]->targetLang):?>
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK_FULL ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::SELF_CHECK, "Events")?></span>
+            <span><?php echo __(EventSteps::SELF_CHECK)?></span>
         </li>
         <?php endif; ?>
 
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::PEER_REVIEW, "Events")?></span>
+            <span><?php echo __(EventSteps::PEER_REVIEW)?></span>
         </li>
 
         <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::KEYWORD_CHECK, "Events")?></span>
+            <span><?php echo __(EventSteps::KEYWORD_CHECK)?></span>
         </li>
 
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <span><?php echo Language::show(EventSteps::CONTENT_REVIEW, "Events")?></span>
+            <span><?php echo __(EventSteps::CONTENT_REVIEW)?></span>
         </li>
     </ul>
 </div>
@@ -83,26 +83,26 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
-    <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo Language::show("chat", "Events") ?></div>
+    <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("chat") ?></div>
 
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
             <div class="row">
                 <div id="p2p" class="col-sm-4 chat_tab active">
-                    <div><?php echo Language::show("partner_tab_title", "Events") ?></div>
+                    <div><?php echo __("partner_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div id="chk" class="col-sm-4 chat_tab active">
-                    <div><?php echo Language::show("checking_tab_title", "Events") ?></div>
+                    <div><?php echo __("checking_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div id="evnt" class="col-sm-4 chat_tab">
-                    <div><?php echo Language::show("event_tab_title", "Events") ?></div>
+                    <div><?php echo __("event_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
-                    <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo Language::show("video_call", "Events") ?>"></button>
-                    <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo Language::show("audio_call", "Events") ?>"></button>
+                    <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
+                    <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     </div>
 
     <div class="members_online panel panel-info">
-        <div class="panel-heading"><?php echo Language::show("members_online_title", "Events") ?></div>
+        <div class="panel-heading"><?php echo __("members_online_title") ?></div>
         <ul id="online" class="panel-body"></ul>
     </div>
 
@@ -129,7 +129,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     <div class="video-chat-close glyphicon glyphicon-remove"></div>
     <div class="video_chat panel panel-info">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo Language::show("video_call_title", "Events")?><span></span></h1>
+            <h1 class="panel-title"><?php echo __("video_call_title")?><span></span></h1>
             <span class="video-chat-close glyphicon glyphicon-remove"></span>
         </div>
         <div class="video">
@@ -137,10 +137,10 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
             <video id="remoteVideo" autoplay ></video>
 
             <div class="buttons">
-                <button class="btn btn-primary glyphicon glyphicon-facetime-video" id="cameraButton" title="<?php echo Language::show("turn_off_camera", "Events") ?>"></button>
-                <button class="btn btn-primary glyphicon glyphicon-volume-up" id="micButton" title="<?php echo Language::show("mute_mic", "Events") ?>"></button>
-                <button class="btn btn-success glyphicon glyphicon-earphone" id="answerButton" disabled="disabled" title="<?php echo Language::show("answer_call", "Events") ?>"></button>
-                <button class="btn btn-danger glyphicon glyphicon-earphone" id="hangupButton" disabled="disabled" title="<?php echo Language::show("hangup", "Events") ?>"></button>
+                <button class="btn btn-primary glyphicon glyphicon-facetime-video" id="cameraButton" title="<?php echo __("turn_off_camera") ?>"></button>
+                <button class="btn btn-primary glyphicon glyphicon-volume-up" id="micButton" title="<?php echo __("mute_mic") ?>"></button>
+                <button class="btn btn-success glyphicon glyphicon-earphone" id="answerButton" disabled="disabled" title="<?php echo __("answer_call") ?>"></button>
+                <button class="btn btn-danger glyphicon glyphicon-earphone" id="hangupButton" disabled="disabled" title="<?php echo __("hangup") ?>"></button>
             </div>
 
             <div id="callLog"></div>
@@ -150,27 +150,29 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <!-- Audio for missed chat messages -->
 <audio id="missedMsg">
-    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/missed.ogg" type="audio/ogg" />
+    <source src="<?php echo template_url("sounds/missed.ogg")?>" type="audio/ogg" />
 </audio>
 
 <!-- Audio for video calls -->
 <audio id="callin">
-    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/callin.ogg" type="audio/ogg" />
+    <source src="<?php echo template_url("sounds/callin.ogg")?>" type="audio/ogg" />
 </audio>
 
 <audio id="callout">
-    <source src="<?php echo \Helpers\Url::templatePath()?>sounds/callout.ogg" type="audio/ogg" />
+    <source src="<?php echo template_url("sounds/callout.ogg")?>" type="audio/ogg" />
 </audio>
 
-<script src="<?php echo \Helpers\Url::templatePath()?>js/socket.io-1.4.5.js"></script>
-<script src="<?php echo \Helpers\Url::templatePath()?>js/chat-plugin.js"></script>
-<script src="<?php echo \Helpers\Url::templatePath()?>js/socket.js"></script>
+<script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js")?>"></script>
+<script src="<?php echo template_url("js/socket.js")?>"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="<?php echo \Helpers\Url::templatePath()?>js/video-chat.js"></script>
+<script src="<?php echo template_url("js/video-chat.js")?>"></script>
 
 <?php else: ?>
 
-<input type="hidden" id="evnt_state_checker" value="<?php echo $data["error"] === true ? "error" : "" ?>">
-<input type="hidden" id="evntid" value="<?php echo $data["event"][0]->eventID ?>">
+<input type="hidden" id="evnt_state_checker" value="<?php echo isset($data["error"]) && $data["error"] === true ? "error" : "" ?>">
+<input type="hidden" id="evntid" value="<?php echo !empty($data["event"]) && $data["event"][0]->eventID ?>">
 
 <?php endif; ?>
+
+<?php echo isset($page) ? $page : "" ?>

@@ -1,59 +1,102 @@
-![Simple MVC Framework](http://simplemvcframework.com/app/templates/publicthemes/smvc/images/logo.png)
+![Nova Framework](http://novaframework.com/app/templates/publicthemes/nova/images/nova.png)
 
-# Version 2.2
+# Nova Framework
 
-[![Software License](http://img.shields.io/badge/License-BSD--3-brightgreen.svg)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/simple-mvc-framework/v2.svg)](https://packagist.org/packages/simple-mvc-framework/v2)
+[![Total Downloads](https://img.shields.io/packagist/dt/nova-framework/framework.svg)](https://packagist.org/packages/nova-framework/framework)
 [![Dependency Status](https://www.versioneye.com/user/projects/554367f738331321e2000005/badge.svg)](https://www.versioneye.com/user/projects/554367f738331321e2000005)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/simple-mvc-framework/v2/master/license.txt)
-[![GitHub stars](https://img.shields.io/github/stars/simple-mvc-framework/framework.svg)](https://github.com/simple-mvc-framework/framework/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/simple-mvc-framework/framework.svg)](https://github.com/simple-mvc-framework/framework/network)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nova-framework/framework/blob/master/LICENSE.txt)
+[![GitHub stars](https://img.shields.io/github/stars/nova-framework/framework.svg)](https://github.com/nova-framework/framework/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/nova-framework/framework.svg)](https://github.com/nova-framework/framework/network)
 
-[![Join the chat at https://gitter.im/simple-mvc-framework/framework](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/simple-mvc-framework/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the general chat open to all at https://gitter.im/nova-framework/framework](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/nova-framework/framework/novausers)
 
-## What is Simple MVC Framework?
+- [What is the Nova Framework?](#what-is-the-nova-framework)
+- [Requirements](#requirements)
+- [Installation](#installation)
+    - [Recommended](#recommended)
+    - [Manual](#manual)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+    - [Issue Tracker](#issue-tracker)
+    - [Pull Requests](#pull-requests)
+    - [Code Style](#code-style)
+- [License](#license)
 
-Simple MVC Framework is a PHP 5.5 MVC system. It's designed to be lightweight and modular, allowing developers to build better and easy to maintain code with PHP.
+## What is the Nova Framework?
 
-The base framework comes with a range of [helper classes](https://github.com/simple-mvc-framework/framework/tree/master/app/Helpers).
+Nova Framework is a PHP 5.6 MVC system. It's designed to be lightweight and modular, allowing developers to build better and easy to maintain code with PHP.
 
-## Packagist
+The base framework comes with a range of [helper classes](https://github.com/nova-framework/framework/tree/master/system/Helpers).
 
-The framework is now on packagist [https://packagist.org/packages/simple-mvc-framework/v2](https://packagist.org/packages/simple-mvc-framework/v2).
+## Requirements
 
-Install from terminal now by using:
+**The framework requirements are limited.**
+
+- PHP 5.6 or greater.
+- Apache Web Server or equivalent with mod rewrite support.
+- IIS with URL Rewrite module installed - [http://www.iis.net/downloads/microsoft/url-rewrite](http://www.iis.net/downloads/microsoft/url-rewrite)
+
+**The following PHP extensions should be enabled:**
+
+- Fileinfo (edit php.ini and uncomment php_fileinfo.dll or use php selector within cpanel if available.)
+- OpenSSL
+- INTL
+
+> **Note:** Although a database is not required, if a database is to be used, the system is designed to work with a MySQL database using PDO.
+
+## Installation
+
+This framework was designed and is **strongly recommended** to be installed above the document root directory, with it pointing to the `public` folder.
+
+Additionally, installing in a sub-directory, on a production server, will introduce severe security issues. If there is no choice still place the framework files above the document root and have only index.php and .htacess from the public folder in the sub folder and adjust the paths accordingly.
+
+#### Recommended
+The framework is located on [Packagist](https://packagist.org/packages/nova-framework/framework).
+
+You can install the framework from a terminal by using:
 
 ```
-composer create-project simple-mvc-framework/v2 foldername -s dev
+composer create-project nova-framework/framework foldername -s dev
 ```
 
 The foldername is the desired folder to be created.
 
+> **Note:** For additional installation instructions, for example; setting up a Virtualhost (Recommended for Local Development), Nginx or IIS with URL Rewrite, [please visit the install docs](http://novaframework.com/documentation/v3/install).
+
 ## Documentation
 
-Full docs & tutorials are available at [simplemvcframework.com](http://simplemvcframework.com).
+Full docs & tutorials are available on [novaframework.com](http://novaframework.com/documentation/v3).
 
-## Requirements
+Offline docs are available in PDF, EPUB and MOBI formats on [Leanpub](https://leanpub.com/novaframeworkmanual22).
 
-The framework requirements are limited:
+Screencasts are available on [Novacasts](http://novacasts.com).
 
-- [Apache Web Server](https://httpd.apache.org/) or equivalent with [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) support
-- [PHP 5.5 or greater](http://php.net/downloads.php) is required
+## Contributing
 
-Although a database is not required, if a database is to be used the system is designed to work with a [MySQL database](http://www.mysql.com/). The framework can be changed to work with another database type.
+#### Issue Tracker
 
-## Installation
+You can find outstanding issues on the [GitHub Issue Tracker](https://github.com/nova-framework/framework/issues).
 
-1. [Download](https://github.com/simple-mvc-framework/framework/archive/master.zip) the framework.
-2. Unzip the package.
-3. To run [composer](https://getcomposer.org/), navigate to your project on a terminal/command prompt, then run `composer install`. That will update the vendor folder. Or use the vendor folder as is (composer is not required for this step).
-Upload the framework files to your server. Normally the `index.php` file will be at your root.
-4. Open the `app/Core/routes.php` file with a text editor and setup your routes.
-5. Open `app/Core/Config.example.php` and set your base path (if the framework is installed in a folder, the base path should reflect the folder path `/path/to/folder/` otherwise a single `/` will do) and database credentials (if a database is needed). Set the default theme. When you are done, rename the file to `Core/Config.php`.
-6. Edit `.htaccess` file and save the base path (if the framework is installed in a folder, the base path should reflect the folder path `/path/to/folder/` otherwise a single `/` will do).
+#### Pull Requests
 
-## Other Contributions
+* Each pull request should contain only one new feature or improvement.
+* Pull requests should be submitted to the correct version branch ie [3.0/master](https://github.com/nova-framework/framework/tree/master)
 
-Have you found this framework helpful? Why not take a minute to endorse my hard work on [coderwall](https://coderwall.com/daveismynamecom)! Just click the badge below:
+#### Code Style
 
-[![endorse](https://api.coderwall.com/daveismynamecom/endorsecount.png)](https://coderwall.com/daveismynamecom)
+All pull requests must use the PSR-2 code style.
+
+* Code MUST use the PSR-1 code style.
+* Code MUST use 4 spaces for indenting, not tabs.
+* There MUST NOT be a hard limit on line length; the soft limit MUST be 120 characters; lines SHOULD be 80 characters or less.
+* There MUST be one blank line after the namespace declaration, and there MUST be one blank line after the block of use declarations.
+* Opening braces for classes MUST go on the next line, and closing braces MUST go on the next line after the body.
+* Opening braces for methods MUST go on the next line, and closing braces MUST go on the next line after the body.
+* Visibility MUST be declared on all properties and methods; abstract and final MUST be declared before the visibility; static MUST be declared after the visibility.
+* Control structure keywords MUST have one space after them; method and function calls MUST NOT.
+* Opening braces for control structures MUST go on the same line, and closing braces MUST go on the next line after the body.
+* Opening parentheses for control structures MUST NOT have a space after them, and closing parentheses for control structures MUST NOT have a space before.
+
+## License
+
+The Nova Framework is under the MIT License, you can view the license [here](https://github.com/nova-framework/framework/blob/master/LICENSE.txt).

@@ -1,34 +1,25 @@
 <?php
-namespace Controllers\admin;
+namespace App\Controllers\Admin;
 
-use Core\Error;
-use Core\View,
-    Core\Controller;
+use App\Core\Controller;
+use Shared\Legacy\Error;
+use View;
 use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
-use Models\EventsModel;
-use Models\MembersModel;
-use phpFastCache\CacheManager;
+use App\Models\EventsModel;
+use App\Models\MembersModel;
 
 class AdminController extends Controller {
 
     private $_model;
-    private $_lang;
+    protected $layout = "admin";
 
     public function __construct()
     {
         parent::__construct();
-        $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-        $this->language->load('Events', $this->_lang);
         $this->_model = new EventsModel();
-
-        $config = array(
-            "storage"   =>  "files",
-            "path"      =>  ROOT . "cache"
-        );
-        CacheManager::setup($config);
     }
 
     public  function index() {
@@ -45,12 +36,10 @@ class AdminController extends Controller {
         }
 
         $data['menu'] = 1;
-        $data['title'] = $this->language->get('admin_project_title');
 
         if(Session::get("isSuperAdmin"))
         {
-            $data["gwProjects"] = $this->_model->getGatewayProject("*", array(
-                "gwProjectID" => array(">", 0)));
+            $data["gwProjects"] = $this->_model->getGatewayProject();
             $data["gwLangs"] = $this->_model->getAllLanguages(true);
         }
 
@@ -66,9 +55,9 @@ class AdminController extends Controller {
             }
         }
 
-        View::renderTemplate('headerAdmin', $data);
-        View::render('admin/main/index', $data);
-        View::renderTemplate('footer', $data);
+        return View::make('Admin/Main/Index')
+            ->shares("title", __("admin_project_title"))
+            ->shares("data", $data);
     }
 
     public function project($projectID)
@@ -85,8 +74,6 @@ class AdminController extends Controller {
         }
 
         $data['menu'] = 1;
-        $data['title'] = $this->language->get('admin_events_title');
-
         $data["project"] = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"), $projectID);
         $data["events"] = array();
         if(!empty($data["project"]))
@@ -94,9 +81,9 @@ class AdminController extends Controller {
             $data["events"] = $this->_model->getEventsByProject($projectID);
         }
 
-        View::renderTemplate('headerAdmin', $data);
-        View::render('admin/main/project', $data);
-        View::renderTemplate('footer', $data);
+        return View::make('Admin/Main/Project')
+            ->shares("title", __("admin_events_title"))
+            ->shares("data", $data);
     }
 
     public function getGwProject()
@@ -118,17 +105,16 @@ class AdminController extends Controller {
 
         if($gwLang == null)
         {
-            $error[] = $this->language->get('choose_gateway_language_error');
+            $error[] = __('choose_gateway_language_error');
         }
 
         if(!isset($error))
         {
-            $gwProject = $this->_model->getGatewayProject("*", array(
-                PREFIX."gateway_projects.gwLang" => array("=", $gwLang)
-            ));
+            $gwProject = $this->_model->getGatewayProject(["*"],
+                ["gateway_projects.gwLang", $gwLang]);
 
             $memberModel = new MembersModel();
-            $members = array();
+            $members = [];
             $membersArray = (array)$memberModel->getMembers(json_decode($gwProject[0]->admins));
 
             foreach ($membersArray as $member) {
@@ -162,26 +148,25 @@ class AdminController extends Controller {
 
         if($gwLang == null)
         {
-            $error[] = $this->language->get('choose_gateway_language_error');
+            $error[] = __('choose_gateway_language_error');
         }
 
         if($admins == null)
         {
-            $error[] = $this->language->get("no_admins_error");
+            $error[] = __("no_admins_error");
         }
 
         if(!isset($error))
         {
-            $exist = $this->_model->getGatewayProject(PREFIX."gateway_projects.gwProjectID", array(
-                PREFIX."gateway_projects.gwLang" => array("=", $gwLang)
-            ));
+            $exist = $this->_model->getGatewayProject(array("gateway_projects.gwProjectID"),
+                array("gateway_projects.gwLang", $gwLang));
 
             switch($act)
             {
                 case "create":
                     if(!empty($exist))
                     {
-                        $error[] = $this->language->get("gw_project_exists_error");
+                        $error[] = __("gw_project_exists_error");
                         echo json_encode(array("error" => Error::display($error)));
                         return;
                     }
@@ -190,7 +175,7 @@ class AdminController extends Controller {
                 case "edit":
                     if(empty($exist))
                     {
-                        $error[] = $this->language->get("gw_project_not_exists_error");
+                        $error[] = __("gw_project_not_exists_error");
                         echo json_encode(array("error" => Error::display($error)));
                         return;
                     }
@@ -212,12 +197,12 @@ class AdminController extends Controller {
             {
                 $postdata["gwLang"] = $gwLang;
                 $id = $this->_model->createGatewayProject($postdata);
-                $msg = json_encode(array("success" => $this->language->get("successfully_created")));
+                $msg = json_encode(array("success" => __("successfully_created")));
             }
             else if($act == "edit")
             {
                 $this->_model->updateGatewayProject($postdata, array("gwLang" => $gwLang));
-                $msg = json_encode(array("success" => $this->language->get("successfully_updated")));
+                $msg = json_encode(array("success" => __("successfully_updated")));
                 $id = true;
             }
 
@@ -225,7 +210,7 @@ class AdminController extends Controller {
                 echo $msg;
             else
             {
-                $error[] = $this->language->get("error_ocured");
+                $error[] = __("error_ocured");
                 echo json_encode(array("error" => Error::display($error)));
             }
         }
@@ -258,23 +243,23 @@ class AdminController extends Controller {
 
         if($subGwLangs == null)
         {
-            $error[] = $this->language->get('choose_gateway_language');
+            $error[] = __('choose_gateway_language');
         }
 
         if($targetLang == null)
         {
-            $error[] = $this->language->get("choose_target_language");
+            $error[] = __("choose_target_language");
         }
 
         if($sourceTranslation == null)
         {
-            $error[] = $this->language->get("choose_source_translation");
+            $error[] = __("choose_source_translation");
         }
         else
         {
             if(($sourceTranslation != "ulb|en" && $sourceTranslation != "udb|en") && $projectType == null)
             {
-                $error[] = $this->language->get("choose_project_type");
+                $error[] = __("choose_project_type");
             }
         }
 
@@ -286,22 +271,15 @@ class AdminController extends Controller {
             $projType = $sourceTrPair[0] != "ulb" && $sourceTrPair[0] != "udb" ?
                 $projectType : $sourceTrPair[0];
 
-            if($gwLangsPair[1] == "")
-            {
-                $error[] = $this->language->get("super_admin_cannot_create_sub_event_for_now");
-                echo json_encode(array("error" => Error::display($error)));
-                return;
-            }
-
-            $exist = $this->_model->getProject(PREFIX."projects.projectID", array(
-                PREFIX."projects.gwLang" => array("=", $gwLangsPair[0]),
-                PREFIX."projects.targetLang" => array("=", $targetLang),
-                PREFIX."projects.bookProject" => array("=", $projType),
-            ));
+            $exist = $this->_model->getProject(["projects.projectID"], [
+                ["projects.gwLang", $gwLangsPair[0]],
+                ["projects.targetLang", $targetLang],
+                ["projects.bookProject", $projType]
+            ]);
 
             if(!empty($exist))
             {
-                $error[] = $this->language->get("project_exists");
+                $error[] = __("project_exists");
                 echo json_encode(array("error" => Error::display($error)));
                 return;
             }
@@ -318,10 +296,10 @@ class AdminController extends Controller {
             $id = $this->_model->createProject($postdata);
 
             if($id)
-                echo json_encode(array("success" => $this->language->get("successfully_created")));
+                echo json_encode(array("success" => __("successfully_created")));
             else
             {
-                $error[] = $this->language->get("error_ocured");
+                $error[] = __("error_ocured");
                 echo json_encode(array("error" => Error::display($error)));
             }
         }
@@ -382,12 +360,8 @@ class AdminController extends Controller {
 
         if($gwLang)
         {
-            $langs = explode("|", $gwLang);
-            //$sourceLangID = isset($langs->sourceLangID) ? $langs->sourceLangID : "en";
-            //$bookProject = isset($langs->bookProject) ? $langs->bookProject : "udb";
-            $response = array();
-
-            $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("memberID"), $langs[0]);
+            $gwLang = explode("|", $gwLang)[0];
+            $response['targetLangs'] = $this->_model->getTargetLanguages(Session::get("memberID"), $gwLang);
             echo json_encode($response);
         }
     }
@@ -417,41 +391,41 @@ class AdminController extends Controller {
 
         if($bookCode == null)
         {
-            $error[] = $this->language->get('wrong_book_code');
+            $error[] = __('wrong_book_code');
         }
 
         if($projectID == null)
         {
-            $error[] = $this->language->get('wrong_project_id');
+            $error[] = __('wrong_project_id');
         }
 
         if($translators == null || $translators <= 0)
         {
-            $error[] = $this->language->get('enter_translators');
+            $error[] = __('enter_translators');
         }
         else if($translators%2 > 0)
         {
-            $error[] = $this->language->get('not_even_translators');
+            $error[] = __('not_even_translators');
         }
 
         if($checkers_l2 == null || $checkers_l2 <= 0)
         {
-            $error[] = $this->language->get('enter_checkers_l2');
+            $error[] = __('enter_checkers_l2');
         }
 
         if($checkers_l3 == null || $checkers_l3 <= 0)
         {
-            $error[] = $this->language->get('enter_checkers_l3');
+            $error[] = __('enter_checkers_l3');
         }
 
         if($dateFrom == null || $dateFrom === false)
         {
-            $error[] = $this->language->get('wrong_date_from');
+            $error[] = __('wrong_date_from');
         }
 
         if($dateTo == null || $dateTo === false)
         {
-            $error[] = $this->language->get('wrong_date_to');
+            $error[] = __('wrong_date_to');
         }
 
         if(!isset($error))
@@ -493,29 +467,29 @@ class AdminController extends Controller {
                             $eventID = $this->_model->createEvent($postdata);
 
                             if($eventID)
-                                echo json_encode(array("success" => $this->language->get("successfully_created")));
+                                echo json_encode(array("success" => __("successfully_created")));
                         }
                         else
                         {
-                            $error[] = $this->language->get("too_many_translators_error", array("chap_number" => sizeof($chapters)));
+                            $error[] = __("too_many_translators_error", array("chap_number" => sizeof($chapters)));
                             echo json_encode(array("error" => Error::display($error)));
                         }
                     }
                     else
                     {
-                        $error[] = $this->language->get("wrong_book_error");
+                        $error[] = __("wrong_book_error");
                         echo json_encode(array("error" => Error::display($error)));
                     }
                 }
                 else
                 {
-                    $error[] = $this->language->get("no_project_no_rights");
+                    $error[] = __("no_project_no_rights");
                     echo json_encode(array("error" => Error::display($error)));
                 }
             }
             else
             {
-                $error[] = $this->language->get("event_already_exists");
+                $error[] = __("event_already_exists");
                 echo json_encode(array("error" => Error::display($error)));
             }
         }
@@ -538,19 +512,19 @@ class AdminController extends Controller {
         if($bookCode && $sourceLangID && $bookProject)
         {
             $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject;
-            $source = CacheManager::get($cache_keyword);
 
-            if(is_null($source))
+            if(Cache::has($cache_keyword))
+            {
+                $source = Cache::get($cache_keyword);
+                $json = json_decode($source, true);
+            }
+            else
             {
                 $source = $this->_model->getSourceBookFromApi($bookCode, $sourceLangID, $bookProject);
                 $json = json_decode($source, true);
 
                 if(!empty($json))
-                    CacheManager::set($cache_keyword, $source, 60*60*24*7);
-            }
-            else
-            {
-                $json = json_decode($source, true);
+                    Cache::add($cache_keyword, $source, 60*24*7);
             }
 
             if(!empty($json))

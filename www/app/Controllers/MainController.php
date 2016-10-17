@@ -1,8 +1,8 @@
 <?php
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\View;
-use Core\Controller;
+use View;
+use App\Core\Controller;
 use Helpers\Data;
 use Helpers\Session;
 use Helpers\Url;
@@ -12,16 +12,17 @@ use Helpers\Url;
  */
 class MainController extends Controller
 {
-    private $_lang;
-
     /**
      * Call the parent construct
      */
     public function __construct()
     {
         parent::__construct();
-        $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-        $this->language->load('Main', $this->_lang);
+    }
+
+    public function before()
+    {
+        return parent::before();
     }
 
     /**
@@ -39,14 +40,12 @@ class MainController extends Controller
             Url::redirect("members");
         }
 
-        $data['title'] = $this->language->get('welcome_text');
         $data['menu'] = 1;
         $data["isMain"] = true;
-        $data['welcome_message'] = $this->language->get('welcome_message');
 
-        View::renderTemplate('header', $data);
-        View::render('main/index', $data);
-        View::renderTemplate('footer', $data);
+        return View::make('Main/Index')
+            ->shares("title", __("welcome_text"))
+            ->shares("data", $data);
     }
 
     /**
@@ -54,13 +53,12 @@ class MainController extends Controller
      */
     public function about()
     {
-        $data['title'] = $this->language->get('about_title');
+        $data['title'] = __('about_title');
         $data['menu'] = 6;
-        $data['welcome_message'] = $this->language->get('welcome_message');
 
-        View::renderTemplate('header', $data);
-        View::render('main/about', $data);
-        View::renderTemplate('footer', $data);
+        return View::make('Main/About')
+            ->shares("title", __("about_title"))
+            ->shares("data", $data);
     }
 
     /**
@@ -68,32 +66,10 @@ class MainController extends Controller
      */
     public function contactUs()
     {
-        $data['title'] = $this->language->get('contact_us_title');
         $data['menu'] = 5;
-        $data['welcome_message'] = $this->language->get('welcome_message');
 
-        View::renderTemplate('header', $data);
-        View::render('main/contact_us', $data);
-        View::renderTemplate('footer', $data);
-    }
-
-    /**
-     * Change locale of the site
-     */
-    public function lang($lang)
-    {
-        switch($lang)
-        {
-            case 'ru':
-                setcookie('lang', 'ru', time()+60*60*24*1000, '/');
-                break;
-
-            default:
-                setcookie('lang', 'en', time()+60*60*24*1000, '/');
-                break;
-
-        }
-
-        Url::previous();
+        return View::make('Main/ContactUs')
+            ->shares("title", __("contact_us_title"))
+            ->shares("data", $data);
     }
 }

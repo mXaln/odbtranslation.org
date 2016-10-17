@@ -9,7 +9,7 @@ if(isset($data['gl'])) {
     echo "Gateway Language<br><br>";
 
     foreach ($data['gl'] as $gl) {
-        echo "<a href=\"" . DIR . "books/" . $gl . "\">" . strtoupper($gl) . "</a><br>";
+        echo "<a href=\"" . SITEURL . "books/" . $gl . "\">" . strtoupper($gl) . "</a><br>";
     }
 }
 
@@ -17,21 +17,21 @@ if(isset($data['bookProject'])) {
     echo "Books<br><br>";
 
     foreach ($data['bookProject'] as $bookProject) {
-        echo "<a href=\"" . DIR . "books/" . $bookProject . "\">" . strtoupper($bookProject) . "</a><br>";
+        echo "<a href=\"" . SITEURL . "books/" . $bookProject . "\">" . strtoupper($bookProject) . "</a><br>";
     }
 }
 
 if(isset($data['books'])) {
-    echo '<a href="'.DIR.'books">Books</a>->'.strtoupper($data['books'][0]->bookProject).'<br><br>';
+    echo '<a href="'.SITEURL.'books">Books</a>->'.strtoupper($data['books'][0]->bookProject).'<br><br>';
 
     foreach ($data['books'] as $book) {
-        echo "<a href=\"" . DIR . "books/" . $book->bookProject . "/" . $book->bookID . "\">" . $book->bookName . "</a><br>";
+        echo "<a href=\"" . SITEURL . "books/" . $book->bookProject . "/" . $book->bookID . "\">" . $book->bookName . "</a><br>";
     }
 }
 
 if(isset($data['verses'])) {
-    echo '<a href="'.DIR.'books">Books</a>->';
-    echo '<a href="'.DIR.'books/'.$data['verses'][0]->bookProject.'">'.strtoupper($data['verses'][0]->bookProject).'</a>->';
+    echo '<a href="'.SITEURL.'books">Books</a>->';
+    echo '<a href="'.SITEURL.'books/'.$data['verses'][0]->bookProject.'">'.strtoupper($data['verses'][0]->bookProject).'</a>->';
     echo $data['verses'][0]->bookName.'<br><br>';
 
     $verses = json_decode($data['verses'][0]->verses);

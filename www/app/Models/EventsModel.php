@@ -6,9 +6,9 @@
  * Time: 19:57
  */
 
-namespace Models;
+namespace App\Models;
 
-use Core\Model;
+use Database\Model;
 use Helpers\Constants\BookSources;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
@@ -16,63 +16,71 @@ use Helpers\Data;
 use Helpers\Session;
 use Helpers\Url;
 use PDO;
-use Predis\Command\PrefixableCommandInterface;
+use DB;
 
 class EventsModel extends Model
 {
+    protected $table = 'events';
+    protected $primaryKey = 'eventID';
+
     public  function __construct()
     {
         parent::__construct();
     }
 
     /**
-     * For getting data of a gateway project
-     * @param $fields Requested fields could be * for all or comma separated list
-     * @param $where array Example: array('id' => array('=', 1), 'name' => array('!=', 'John'))
-     * @return array
+     * Get gateway project
+     * @param array $select An array of fields
+     * @param array $where Single/Multidimentional array with where params (field, operator, value, logical)
+     * @return array|static[]
      */
-    public function getGatewayProject($fields, $where)
+    public function getGatewayProject($select = array("*"), $where = array())
     {
-        $sql = "SELECT $fields FROM ".PREFIX."gateway_projects ".
-            "LEFT JOIN ".PREFIX."languages ".
-            "ON ".PREFIX."gateway_projects.gwLang = ".PREFIX."languages.langID".
-            " WHERE";
-        $prepare = array();
-        $i=0;
+        $builder = $this->db->table("gateway_projects");
 
-        foreach($where as $key=>$value)
-        {
-            $sql .= ($i>0 ? " AND " : " ")."$key ".$value[0]." :".preg_replace("/.*\./", "", $key);
-            $prepare[':'.preg_replace("/.*\./", "", $key)] = $value[1];
-            $i++;
+        foreach ($where as $item) {
+            if(is_array($item))
+            {
+                call_user_func_array(array($builder, "where"), $item);
+            }
+            else
+            {
+                call_user_func_array(array($builder, "where"), $where);
+                break;
+            }
         }
 
-        return $this->db->select($sql, $prepare);
+        return $builder
+            ->leftJoin("languages", "gateway_projects.gwLang", "=", "languages.langID")
+            ->select($select)->get();
     }
 
-    /**
-     * For getting data of a sub event
-     * @param $fields Requested fields could be * for all or comma separated list
-     * @param $where array Example: array('id' => array('=', 1), 'name' => array('!=', 'John'))
-     * @return array
-     */
-    public function getProject($fields, $where)
-    {
-        $sql = "SELECT $fields FROM ".PREFIX."projects ".
-            "LEFT JOIN ".PREFIX."languages ".
-            "ON ".PREFIX."projects.targetLang = ".PREFIX."languages.langID ".
-            "WHERE ";
-        $prepare = array();
-        $i=0;
 
-        foreach($where as $key=>$value)
-        {
-            $sql .= ($i>0 ? " AND " : " ")."$key ".$value[0]." :".preg_replace("/.*\./", "", $key);
-            $prepare[':'.preg_replace("/.*\./", "", $key)] = $value[1];
-            $i++;
+    /**
+     * Get project
+     * @param array $select An array of fields
+     * @param array $where Single/Multidimentional array with where params (field, operator, value, logical)
+     * @return array|static[]
+     */
+    public function getProject(array $select, array $where)
+    {
+        $builder = $this->db->table("projects");
+
+        foreach ($where as $item) {
+            if(is_array($item))
+            {
+                call_user_func_array(array($builder, "where"), $item);
+            }
+            else
+            {
+                call_user_func_array(array($builder, "where"), $where);
+                break;
+            }
         }
 
-        return $this->db->select($sql, $prepare);
+        return $builder
+            ->leftJoin("languages", "languages.langID", "=", "projects.targetLang")
+            ->select($select)->get();
     }
 
     public function getProjects($memberID, $isSuperAdmin, $projectID = null)
@@ -117,29 +125,27 @@ class EventsModel extends Model
      */
     public function getEvent($eventID = null, $projectID, $bookCode, $countMembers = false)
     {
-        $addFields = "";
-
+        $builder = $this->db->table("events");
+        $select = ["events.*"];
         if($countMembers)
         {
-            $addFields .= ", COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators, ".
-                "COUNT(DISTINCT ".PREFIX."checkers_l2.memberID) AS checkers_l2, COUNT(DISTINCT ".PREFIX."checkers_l3.memberID) AS checkers_l3";
+            $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators");
+            $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."checkers_l2.memberID) AS checkers_l2");
+            $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."checkers_l3.memberID) AS checkers_l3");
+
+            $builder
+                ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
+                ->leftJoin("checkers_l2", "events.eventID", "=", "checkers_l2.eventID")
+                ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID");
         }
 
-        $sql = "SELECT ".PREFIX."events.*" . $addFields . " FROM ".PREFIX."events ".
-            ($countMembers ?
-            "LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID=".PREFIX."events.eventID ".
-            "LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID=".PREFIX."events.eventID ".
-            "LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID=".PREFIX."events.eventID "
-            : "").
-            "WHERE ".($eventID ? PREFIX."events.eventID = :eventID" :
-                PREFIX."events.projectID=:projectID AND ".PREFIX."events.bookCode=:bookCode");
-
         if($eventID)
-            $prepare = array(":eventID" => $eventID);
+            $builder->where("events.eventID", $eventID);
         else
-            $prepare = array(":projectID" => $projectID, ":bookCode" => $bookCode);
+            $builder->where("events.projectID", $projectID)
+                ->where("events.bookCode", $bookCode);
 
-        return $this->db->select($sql, $prepare);
+        return $builder->select($select)->get();
     }
 
     /**
@@ -201,9 +207,10 @@ class EventsModel extends Model
      * @param int $memberID
      * @param int $memberType
      * @param int null $eventID
+     * @param bool true $includeFinished
      * @return array
      */
-    public function getMemberEvents($memberID, $memberType, $eventID = null)
+    public function getMemberEvents($memberID, $memberType, $eventID = null, $includeFinished = true)
     {
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR ? PREFIX."translators.trID, "
@@ -249,7 +256,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
-            ($memberType == EventMembers::TRANSLATOR ? " AND ".PREFIX."translators.step != 'finished' " : " ").
+            ($memberType == EventMembers::TRANSLATOR && !$includeFinished ? " AND ".PREFIX."translators.step != 'finished' " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
 
         $prepare = array();
@@ -272,7 +279,7 @@ class EventsModel extends Model
         $sql = "SELECT trs.*, ".PREFIX."members.userName, cotr.peerChapter AS cotrPeerChapter, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
                 PREFIX."events.adminID, facilitator.userName AS facilUname, facilitator.firstName AS facilFname, facilitator.lastName AS facilLname, ".
-                PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible ".
+                PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."translators AS cotr ON trs.pairID = cotr.trID ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -298,7 +305,7 @@ class EventsModel extends Model
      */
     public function getMemberEventsForAdmin($memberID, $eventID = null)
     {
-        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.name, ".
+        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.abbrID, abbr.name, ".
             "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt ".
@@ -323,11 +330,9 @@ class EventsModel extends Model
         $arr = array();
 
         if(is_array($langs) && !empty($langs)) {
-            foreach ($langs as &$val)
-                $val = $this->db->quote($val);
-            $in = implode(',', $langs);
+            $in = DB::quoteArray($langs);
 
-            $sql = "SELECT evnt.*, proj.bookProject, proj.sourceLangID, tLang.langName AS tLang, sLang.langName AS sLang, abbr.name, ".
+            $sql = "SELECT evnt.*, proj.bookProject, proj.sourceLangID, tLang.langName AS tLang, sLang.langName AS sLang, abbr.abbrID, abbr.name, ".
                 "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
                 "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
                 "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt, ".
@@ -366,13 +371,16 @@ class EventsModel extends Model
 
     public function getMembersForEvent($eventID)
     {
-        $sql = "SELECT trs.*, members.userName ".
-            "FROM ".PREFIX."translators AS trs ".
-            "LEFT JOIN ".PREFIX."members AS members ON members.memberID = trs.memberID ".
-            "WHERE trs.eventID = :eventID ".
-            "ORDER BY members.userName";
+        $this->db->setFetchMode(PDO::FETCH_ASSOC);
+        $res = $this->db->table("translators")
+            ->select("translators.*", "members.userName")
+            ->leftJoin("members", "translators.memberID", "=", "members.memberID")
+            ->where("translators.eventID", $eventID)
+            ->orderBy("members.userName")->get();
 
-        return $this->db->select($sql, array(":eventID" => $eventID), PDO::FETCH_ASSOC);
+        $this->db->setFetchMode(PDO::FETCH_CLASS);
+
+        return $res;
     }
 
     /**
@@ -381,19 +389,6 @@ class EventsModel extends Model
      */
     public function getNotifications()
     {
-        /*$sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
-                "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
-            "FROM ".PREFIX."translators AS trs ".
-                "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
-                "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
-                "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
-                "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
-                "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
-            "WHERE trs.eventID IN( SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID ) ".
-                "AND trs.memberID != :memberID AND trs.trID NOT IN (SELECT pairID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
-                "AND (trs.step = 'keyword-check' OR trs.step = 'content-review') AND trs.checkerID = 0";*/
-
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
                 //"l2ch.memberID AS l2mID, l3ch.memberID AS l3mID ".
@@ -414,7 +409,7 @@ class EventsModel extends Model
             "AND(trs.step = 'keyword-check' OR trs.step = 'content-review') ".
             "AND trs.checkerID = 0";
 
-        return $this->db->select($sql, array(":memberID" => Session::get("memberID")));
+        return DB::select($sql, array(":memberID" => Session::get("memberID")));
     }
 
 
@@ -422,9 +417,7 @@ class EventsModel extends Model
 
         if(is_array($langs) && !empty($langs))
         {
-            foreach($langs as &$val)
-                $val = $this->db->quote($val);
-            $in = implode(',',$langs);
+            $in = $this->db->quoteArray($langs);
 
             $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
@@ -454,16 +447,16 @@ class EventsModel extends Model
      */
     public function getAllLanguages($isGW = null)
     {
-        $where = "";
-        $prepare = array();
+        $builder = $this->db->table("languages");
+
         if($isGW !== null)
         {
-            $where = "WHERE isGW = :isGW";
-            $prepare[":isGW"] = $isGW;
+            $builder->where("isGW", $isGW);
         }
 
-        $sql = "SELECT langID, langName FROM ".PREFIX."languages $where ORDER BY `langID` ASC";
-        return $this->db->select($sql, $prepare);
+        return $builder->select("languages.langID", "languages.langName", "gateway_projects.gwProjectID")
+            ->leftJoin("gateway_projects", "languages.langID", "=", "gateway_projects.gwLang")
+            ->orderBy("languages.langID")->get();
     }
 
     /**
@@ -473,14 +466,24 @@ class EventsModel extends Model
      */
     public function getMemberGwLanguages($memberID)
     {
-        $sql = "SELECT * FROM ".PREFIX."gateway_projects LEFT JOIN ".PREFIX."languages ".
-            "ON ".PREFIX."gateway_projects.gwLang=".PREFIX."languages.langID ".
-            "WHERE ".PREFIX."gateway_projects.admins LIKE :memberID ".
-            "GROUP BY ".PREFIX."gateway_projects.gwLang ORDER BY ".PREFIX."languages.langID";
+        return $this->db->table("gateway_projects")
+            ->leftJoin("languages", "gateway_projects.gwLang", "=", "languages.langID")
+            ->where("gateway_projects.admins", "LIKE", "%$memberID%")
+            ->groupBy("gateway_projects.gwLang")
+            ->orderBy("languages.langID")->get();
+    }
 
-        $prepare = array(":memberID" => '%"'.$memberID.'"%');
 
-        return $this->db->select($sql, $prepare);
+    /**
+     * Used just for testing
+     */
+    public function test()
+    {
+        $builder = $this->db->table("languages")
+            ->leftJoin("gateway_projects", "languages.langID", "=", "gateway_projects.gwLang")
+            ->where("gateway_projects.admins", "LIKE", "%5%");
+
+        Data::pr($builder->toSql());
     }
 
     /**
@@ -491,18 +494,19 @@ class EventsModel extends Model
      */
     public function getTargetLanguages($memberID, $gwLang)
     {
-        $sql = "SELECT o_langs.langID, o_langs.langName FROM ".PREFIX."gateway_projects AS gw_proj ".
-            "LEFT JOIN ".PREFIX."languages AS langs ON langs.langID = gw_proj.gwLang ".
-            "LEFT JOIN ".PREFIX."languages AS o_langs ON o_langs.gwLang = langs.gwLang ".
-            "WHERE gw_proj.gwLang = :gwLang ".
-            (!Session::get("isSuperAdmin") ? "AND gw_proj.admins LIKE :memberID " : " ").
-            "ORDER BY o_langs.langName";
+        $builder = $this->db->table("languages, gateway_projects")
+            ->where("languages.gwLang", function ($query ) use ($gwLang)
+            {
+                $query->select("gwLang")->from("languages")
+                    ->where("langID", $gwLang);
+            })
+            ->where("gateway_projects.gwLang", $gwLang)
+            ->select(array("languages.langID", "languages.langName"));
 
-        $prepare = array(":gwLang" => $gwLang);
         if(!Session::get("isSuperAdmin"))
-            $prepare[":memberID"] = '%"'.$memberID.'"%';
+            $builder->where("gateway_projects.admins", "LIKE", "%$memberID%");
 
-        return $this->db->select($sql, $prepare);
+        return $builder->get();
     }
 
     /**
@@ -511,15 +515,21 @@ class EventsModel extends Model
      */
     public function getSourceTranslations()
     {
-        $in = "('" . join("', '", array_keys(BookSources::catalog)) . "')";
-        $langNames = $this->db->select("SELECT langID, langName FROM ".PREFIX."languages WHERE langID IN $in", array(), PDO::FETCH_KEY_PAIR);
+        $langNames = $this->db->table("languages")
+            ->whereIn("langID", array_keys(BookSources::catalog))
+            ->select("langID", "langName")->get();
+
+        $langs = array();
+        foreach ($langNames as $langName) {
+            $langs[$langName->langID] = $langName->langName;
+        }
 
         $sls = array();
         foreach (BookSources::catalog as $lang => $books) {
             foreach ($books as $book) {
                 $elm = new \stdClass();
                 $elm->langID = $lang;
-                $elm->langName = $langNames[$lang];
+                $elm->langName = $langs[$lang];
                 $elm->bookProject = $book;
 
                 $sls[] = $elm;
@@ -527,11 +537,6 @@ class EventsModel extends Model
         }
 
         return $sls;
-
-        /*return $this->db->select("SELECT ".PREFIX."books.bookProject, ".PREFIX."languages.langName, ".PREFIX."languages.langID ".
-            "FROM ".PREFIX."books
-            LEFT JOIN ".PREFIX."languages ON ".PREFIX."books.gwLang=".PREFIX."languages.langID
-            GROUP BY ".PREFIX."books.gwLang, ".PREFIX."books.bookProject ORDER BY ".PREFIX."languages.langName");*/
     }
 
     /**
@@ -657,29 +662,26 @@ class EventsModel extends Model
      */
     public function getTranslation($trID, $tID = null, $chapter = null)
     {
-        $where = " trID = :trID";
-        $prepare = array(":trID" => $trID);
+        $builder = $this->db->table("translations")
+            ->where("trID", $trID);
+
         if($tID) {
-            $where .= " AND tID = :tID ";
-            $prepare[":tID"] = $tID;
+            $builder->where("tID", $tID);
         }
         else
         {
             if($chapter) {
-                $where .= " AND chapter = :chapter ";
-                $prepare[":chapter"] = $chapter;
+                $builder->where("chapter", $chapter);
             }
         }
 
-        return $this->db->select("SELECT * FROM ".PREFIX."translations WHERE".$where." ORDER BY chunk", $prepare);
+        return $builder->get();
     }
 
     public function getBookInfo($bookCode)
     {
-        $sql = "SELECT * FROM ".PREFIX."abbr ".
-            "WHERE code=:bookCode";
-
-        return $this->db->select($sql, array(":bookCode" => $bookCode));
+        return $this->db->table("abbr")
+            ->where("code", $bookCode)->get();
     }
 
     /**
@@ -689,8 +691,8 @@ class EventsModel extends Model
      */
     public function createGatewayProject($data)
     {
-        $this->db->insert(PREFIX."gateway_projects",$data);
-        return $this->db->lastInsertId('gwProjectID');
+        return $this->db->table("gateway_projects")
+            ->insertGetId($data);
     }
 
     /**
@@ -700,7 +702,9 @@ class EventsModel extends Model
      */
     public function updateGatewayProject($data, $where)
     {
-        return $this->db->update(PREFIX."gateway_projects", $data, $where);
+        return $this->db->table("gateway_projects")
+            ->where($where)
+            ->update($data);
     }
 
     /**
@@ -710,8 +714,8 @@ class EventsModel extends Model
      */
     public function createProject($data)
     {
-        $this->db->insert(PREFIX."projects",$data);
-        return $this->db->lastInsertId('projectID');
+        return $this->db->table("projects")
+            ->insertGetId($data);
     }
 
     /**
@@ -721,8 +725,8 @@ class EventsModel extends Model
      */
     public function createEvent($data)
     {
-        $this->db->insert(PREFIX."events",$data);
-        return $this->db->lastInsertId('eventID');
+        return $this->db->table("events")
+            ->insertGetId($data);
     }
 
     /**
@@ -732,9 +736,9 @@ class EventsModel extends Model
      * @param int $lastTrID
      * @return string
      */
-    public function addTranslator($data, $addPair = false, $lastTrID = 0)
+    public function addTranslator($data)
     {
-        try
+        /*try
         {
             $this->db->insert(PREFIX."translators",$data);
         } catch(\PDOException $e)
@@ -743,13 +747,10 @@ class EventsModel extends Model
         }
 
         $trID = $this->db->lastInsertId('trID');
+        return $trID;*/
 
-        /*if($addPair)
-        {
-            $this->db->update(PREFIX."translators", array("pairID" => $trID), array("trID" => $lastTrID));
-            $this->db->update(PREFIX."translators", array("pairID" => $lastTrID), array("trID" => $trID));
-        }*/
-        return $trID;
+        return $this->db->table("translators")
+            ->insertGetId($data);
     }
 
     /**
@@ -767,7 +768,10 @@ class EventsModel extends Model
         $checkerData["ed_area"] = json_encode($checkerData["ed_area"]);
         $checkerData["church_role"] = json_encode($checkerData["church_role"]);
 
-        $this->db->update(PREFIX."profile", $checkerData, array("mID" => Session::get("memberID")));
+        $this->db->table("profile")
+            ->where(array("mID" => Session::get("memberID")))
+            ->update($checkerData);
+
         $profile = Session::get("profile");
 
         foreach ($oldData as $key => $value)
@@ -775,14 +779,17 @@ class EventsModel extends Model
 
         Session::set("profile", $profile);
 
-        try
+        /*try
         {
             $this->db->insert(PREFIX."checkers_l2",$data);
         } catch(\PDOException $e)
         {
             return $e->getMessage();
         }
-        return $this->db->lastInsertId('l2chID');
+        return $this->db->lastInsertId('l2chID');*/
+
+        return $this->db->table("checkers_l2")
+            ->insertGetId($data);
     }
 
     /**
@@ -800,7 +807,10 @@ class EventsModel extends Model
         $checkerData["ed_area"] = json_encode($checkerData["ed_area"]);
         $checkerData["church_role"] = json_encode($checkerData["church_role"]);
 
-        $this->db->update(PREFIX."profile", $checkerData, array("mID" => Session::get("memberID")));
+        $this->db->table("profile")
+            ->where(array("mID" => Session::get("memberID")))
+            ->update($checkerData);
+
         $profile = Session::get("profile");
 
         foreach ($oldData as $key => $value)
@@ -808,37 +818,32 @@ class EventsModel extends Model
 
         Session::set("profile", $profile);
 
-        try
+        /*try
         {
             $this->db->insert(PREFIX."checkers_l3",$data);
         } catch(\PDOException $e)
         {
             return $e->getMessage();
         }
-        return $this->db->lastInsertId('l3chID');
+        return $this->db->lastInsertId('l3chID');*/
+
+        return $this->db->table("checkers_l3")
+            ->insertGetId($data);
     }
 
     public function setTranslatorsPairOrder($pairOrder, $eventID, $members)
     {
-        $sql = "UPDATE ".PREFIX."translators ".
-            "SET pairOrder = :pairOrder, pairID = :cotr1 ".
-            "WHERE eventID = :eventID AND memberID = :member1; ".
-            "UPDATE ".PREFIX."translators ".
-            "SET pairOrder = :pairOrder, pairID = :cotr2 ".
-            "WHERE eventID = :eventID AND memberID = :member2;";
+        $rows = $this->db->table("translators")
+            ->where("eventID", $eventID)
+            ->where("memberID", $members[0]["memberID"])
+            ->update(array("pairOrder" => $pairOrder, "pairID" => $members[1]["trID"]));
 
-        $prepare = array(
-            ":pairOrder" => $pairOrder,
-            ":eventID" => $eventID,
-            ":cotr1" => $members[1]["trID"],
-            ":member1" => $members[0]["memberID"],
-            ":cotr2" => $members[0]["trID"],
-            ":member2" => $members[1]["memberID"],
-        );
+        $rows += $this->db->table("translators")
+            ->where("eventID", $eventID)
+            ->where("memberID", $members[1]["memberID"])
+            ->update(array("pairOrder" => $pairOrder, "pairID" => $members[0]["trID"]));
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($prepare);
-        return $stmt->rowCount();
+        return $rows;
     }
 
 
@@ -849,8 +854,8 @@ class EventsModel extends Model
      */
     public function createTranslation($data)
     {
-        $this->db->insert(PREFIX."translations",$data);
-        return $this->db->lastInsertId('tID');
+        return $this->db->table("translations")
+            ->insertGetId($data);
     }
 
 
@@ -861,7 +866,9 @@ class EventsModel extends Model
      */
     public function updateTranslation($data, $where)
     {
-        return $this->db->update(PREFIX."translations", $data, $where);
+        return $this->db->table("translations")
+            ->where($where)
+            ->update($data);
     }
 
     /**
@@ -872,7 +879,9 @@ class EventsModel extends Model
      */
     public function updateEvent($data, $where)
     {
-        return $this->db->update(PREFIX."events", $data, $where);
+        return $this->db->table("events")
+            ->where($where)
+            ->update($data);
     }
 
     /**
@@ -883,17 +892,34 @@ class EventsModel extends Model
      */
     public function updateTranslator($data, $where)
     {
-        return $this->db->update(PREFIX."translators", $data, $where);
+        return $this->db->table("translators")
+            ->where($where)
+            ->update($data);
     }
 
     public function getTurnSecret()
     {
-        return $this->db->select("SELECT * FROM turn_secret WHERE realm='v-mast.com'");
+        $this->db->setTablePrefix("");
+        $builder = $this->db->table("turn_secret")
+            ->where("realm", "v-mast.com");
+
+        $res = $builder->get();
+
+        $this->db->setTablePrefix("vm_");
+
+        return $res;
     }
 
     public function updateTurnSecret($data)
     {
-        return $this->db->update("turn_secret", $data, array("realm" => "v-mast.com"));
+        $this->db->setTablePrefix("");
+        $upd = $this->db->table("turn_secret")
+            ->where("realm", "v-mast.com")
+            ->update($data);
+
+        $this->db->setTablePrefix("vm_");
+
+        return $upd;
     }
 
     public function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')

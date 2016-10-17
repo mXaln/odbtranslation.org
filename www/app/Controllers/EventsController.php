@@ -1,14 +1,11 @@
 <?php
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Helpers\ReCaptcha\Response;
+use App\Core\Controller;
+use View;
+use Cache;
 use Helpers\Tools;
 use Helpers\UsfmParser;
-use Models\EventsModel;
-use Core\Error;
-use Core\Language;
-use Core\View;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
@@ -16,29 +13,20 @@ use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
-use Models\MembersModel;
-use Models\TranslationsModel;
-use phpFastCache\CacheManager;
-use Predis\Cluster\Distributor\EmptyRingException;
+use Shared\Legacy\Error;
+use App\Models\EventsModel;
+use App\Models\MembersModel;
+use App\Models\TranslationsModel;
 
 class EventsController extends Controller
 {
     private $_model;
-    private $_lang;
     private $_notifications;
 
     public function __construct()
     {
         parent::__construct();
-        $this->_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-        $this->language->load('Events', $this->_lang);
         $this->_model = new EventsModel();
-
-        $config = array(
-            "storage"   =>  "files",
-            "path"      =>  ROOT . "cache"
-        );
-        CacheManager::setup($config);
 
         if(Session::get("loggedin"))
             $this->_notifications = $this->_model->getNotifications();
@@ -57,13 +45,13 @@ class EventsController extends Controller
         }
 
         $data['menu'] = 4;
-        $data['title'] = $this->language->get('events_title');
 
         $data["projects"] = $this->_model->getProjects(Session::get("memberID"), true);
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('events/index', $data, $error);
-        View::renderTemplate('footer', $data);
+
+        return View::make('Events/Index')
+            ->shares("title", __("events_title"))
+            ->shares("data", $data);
     }
 
     public function project($projectID)
@@ -88,11 +76,11 @@ class EventsController extends Controller
             $data["events"] = $this->_model->getEventsByProject($projectID);
         }
 
-        $data['title'] = $data["project"][0]->langName . " [".Language::show($data["project"][0]->bookProject, "Events")."]";
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('events/project', $data);
-        View::renderTemplate('footer', $data);
+
+        return View::make('Events/Project')
+            ->shares("title", $data["project"][0]->tLang . " [".__($data["project"][0]->bookProject)."]")
+            ->shares("data", $data);
     }
 
     public function translator($eventID)
@@ -115,9 +103,11 @@ class EventsController extends Controller
         //$data["event"][0]->bookCode = "act";
         //$data["event"][0]->abbrID = 45;
 
+        $title = "";
+
         if(!empty($data["event"]))
         {
-            $data['title'] = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". $this->language->get($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING) {
 
@@ -164,7 +154,7 @@ class EventsController extends Controller
                                 }
                                 else
                                 {
-                                    $error[] = $this->language->get("peer_check_not_done_error");
+                                    $error[] = __("peer_check_not_done_error");
                                 }
                             }
                         }
@@ -172,10 +162,11 @@ class EventsController extends Controller
                         // Check if translator just started translating of this book
                         $data["event"][0]->justStarted = $data["event"][0]->lastTID <= 0;
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/pray', $data, $error);
-                        break;
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/Pray')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
 
                     case EventSteps::CONSUME:
                         $sourceText = $this->getSourceTextUSFM($data);
@@ -215,9 +206,11 @@ class EventsController extends Controller
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/consume', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/Consume')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::DISCUSS:
@@ -234,7 +227,7 @@ class EventsController extends Controller
                                     Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                 }
                                 else {
-                                    $error[] = $this->language->get("partner_not_ready_error");
+                                    $error[] = __("partner_not_ready_error");
                                 }
                             }
                         }
@@ -247,9 +240,11 @@ class EventsController extends Controller
                             $error[] = $sourceText["error"];
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/discuss', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/Discuss')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::PRE_CHUNKING:
@@ -281,19 +276,21 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("error_ocured");
+                                        $error[] = __("error_ocured");
                                     }
                                 }
                                 else
                                 {
-                                    $error[] = $this->language->get("wrong_chunks_error");
+                                    $error[] = __("wrong_chunks_error");
                                 }
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/pre_chunking', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/PreChunking')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::CHUNKING:
@@ -319,9 +316,11 @@ class EventsController extends Controller
                             $error[] = $sourceText["error"];
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/chunking', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/Chunking')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::BLIND_DRAFT:
@@ -411,19 +410,21 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("error_ocured", array($updated));
+                                        $error[] = __("error_ocured", array($updated));
                                     }
                                 }
                                 else
                                 {
-                                    $error[] = $this->language->get("empty_draft_verses_error");
+                                    $error[] = __("empty_draft_verses_error");
                                 }
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/blind_draft', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/BlindDraft')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::SELF_CHECK:
@@ -463,7 +464,7 @@ class EventsController extends Controller
                                 foreach ($_POST["verses"] as $verse) {
                                     if(trim($verse) == "")
                                     {
-                                        $error[] = $this->language->get("empty_verses_error");
+                                        $error[] = __("empty_verses_error");
                                         break;
                                     }
                                 }
@@ -549,15 +550,17 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("error_ocured", array($updated));
+                                        $error[] = __("error_ocured", array($updated));
                                     }
                                 }
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/self_check', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/SelfCheck')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::SELF_CHECK_FULL:
@@ -584,7 +587,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if($_POST["save"])
+                            if(isset($_POST["save"]))
                             {
                                 foreach ($_POST["chunks"] as $key => $chunk) {
                                     $_POST["chunks"][$key]['verses'] = array_map("trim", $chunk["verses"]);
@@ -592,7 +595,7 @@ class EventsController extends Controller
                                     foreach ($chunk["verses"] as $v => $verse) {
                                         if(trim($verse) == "")
                                         {
-                                            $error[] = $this->language->get("empty_verses_error");
+                                            $error[] = __("empty_verses_error");
                                             break 2;
                                         }
                                     }
@@ -636,9 +639,11 @@ class EventsController extends Controller
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/self_check_full', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/SelfCheckFull')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::PEER_REVIEW:
@@ -703,7 +708,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if($_POST["save"])
+                            if(isset($_POST["save"]))
                             {
                                 foreach ($_POST["chunks"] as $key => $chunk) {
                                     $_POST["chunks"][$key]['verses'] = array_map("trim", $chunk["verses"]);
@@ -711,7 +716,7 @@ class EventsController extends Controller
                                     foreach ($chunk["verses"] as $v => $verse) {
                                         if(trim($verse) == "")
                                         {
-                                            $error[] = $this->language->get("empty_verses_error");
+                                            $error[] = __("empty_verses_error");
                                             break 2;
                                         }
                                     }
@@ -783,15 +788,17 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("partner_not_ready_error");
+                                        $error[] = __("partner_not_ready_error");
                                     }
                                 }
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/peer_review', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/PeerReview')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::KEYWORD_CHECK:
@@ -809,7 +816,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if($_POST["save"])
+                            if(isset($_POST["save"]))
                             {
                                 if(!$data["event"][0]->checkDone)
                                 {
@@ -819,7 +826,7 @@ class EventsController extends Controller
                                         foreach ($chunk["verses"] as $v => $verse) {
                                             if(trim($verse) == "")
                                             {
-                                                $error[] = $this->language->get("empty_verses_error");
+                                                $error[] = __("empty_verses_error");
                                                 break 2;
                                             }
                                         }
@@ -855,7 +862,7 @@ class EventsController extends Controller
                                 }
                                 else
                                 {
-                                    $error[] = $this->language->get("not_possible_to_save_error");
+                                    $error[] = __("not_possible_to_save_error");
                                 }
                             }
                             else
@@ -876,7 +883,7 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("checker_not_ready_error");
+                                        $error[] = __("checker_not_ready_error");
                                     }
                                 }
                             }
@@ -891,9 +898,11 @@ class EventsController extends Controller
                             $error[] = $sourceText["error"];
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/keyword_check', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/KeywordCheck')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::CONTENT_REVIEW:
@@ -920,7 +929,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if($_POST["save"])
+                            if(isset($_POST["save"]))
                             {
                                 if(!$data["event"][0]->checkDone)
                                 {
@@ -930,7 +939,7 @@ class EventsController extends Controller
                                         foreach ($chunk["verses"] as $v => $verse) {
                                             if(trim($verse) == "")
                                             {
-                                                $error[] = $this->language->get("empty_verses_error");
+                                                $error[] = __("empty_verses_error");
                                                 break 2;
                                             }
                                         }
@@ -966,7 +975,7 @@ class EventsController extends Controller
                                 }
                                 else
                                 {
-                                    $error[] = $this->language->get("not_possible_to_save_error");
+                                    $error[] = __("not_possible_to_save_error");
                                 }
                             }
                             else
@@ -1033,43 +1042,51 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = $this->language->get("checker_not_ready_error");
+                                        $error[] = __("checker_not_ready_error");
                                     }
                                 }
                             }
                         }
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/content_review', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/ContentReview')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
 
                     case EventSteps::FINISHED:
-                        $data["success"] = $this->language->get("you_event_finished_success");
+                        $data["success"] = __("you_event_finished_success");
 
-                        View::renderTemplate('header', $data);
-                        View::render('events/translator', $data, $error);
-                        View::render('events/finished', $data, $error);
+                        return View::make('Events/Translator')
+                            ->nest('page', 'Events/Finished')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
                         break;
                 }
             }
             else
             {
                 $data["error"] = true;
-                $error[] = $this->language->get("wrong_event_state_error");
-                View::renderTemplate('header', $data);
-                View::render('events/translator', $data, $error);
+                $error[] = __("wrong_event_state_error");
+
+                return View::make('Events/Translator')
+                    ->shares("title", $title)
+                    ->shares("data", $data)
+                    ->shares("error", @$error);
             }
         }
         else
         {
-            $error[] = $this->language->get("not_in_event_error");
+            $error[] = __("not_in_event_error");
+            $title = "Error";
 
-            View::renderTemplate('header', $data);
-            View::render('events/translator', $data, $error);
+            return View::make('Events/Translator')
+                ->shares("title", $title)
+                ->shares("data", $data)
+                ->shares("error", @$error);
         }
-
-        View::renderTemplate('footer', $data);
     }
 
     public function checker($eventID, $memberID)
@@ -1088,8 +1105,10 @@ class EventsController extends Controller
 
         if (!Session::get('verified'))
         {
-            $error[] = $this->language->get("account_not_verirfied_error");
+            $error[] = __("account_not_verirfied_error");
         }
+
+        $title = "";
 
         if(!isset($error))
         {
@@ -1161,7 +1180,7 @@ class EventsController extends Controller
 
                         if($data["event"][0]->checkDone)
                         {
-                            $data["success"] = $this->language->get("checker_translator_finished_error");
+                            $data["success"] = __("checker_translator_finished_error");
                         }
                         else
                         {
@@ -1189,31 +1208,33 @@ class EventsController extends Controller
                     }
                     else
                     {
-                        $error[] = $this->language->get("checker_translator_not_ready_error");
+                        $error[] = __("checker_translator_not_ready_error");
                     }
                 }
                 else
                 {
-                    $data["success"] = $this->language->get("translator_event_finished_success");
+                    $data["success"] = __("translator_event_finished_success");
                     $data["error"] = "";
                 }
 
-                $data['title'] = $data["event"][0]->bookName ." - ". $data["event"][0]->tLang ." - ". $this->language->get($data["event"][0]->bookProject);
+                $title = $data["event"][0]->bookName ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
             }
             else
             {
-                $error[] = $this->language->get("checker_event_error");
-                $data['title'] = "Error";
+                $error[] = __("checker_event_error");
+                $title = "Error";
             }
         }
 
         $data['menu'] = 4;
         $data["isCheckerPage"] = true;
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('events/translator', $data, $error);
-        View::render('events/checker', $data, $error);
-        View::renderTemplate('footer', $data);
+
+        return View::make('Events/Translator')
+            ->nest('page', 'Events/Checker')
+            ->shares("title", $title)
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
     public function checkerL2($eventID)
@@ -1265,11 +1286,10 @@ class EventsController extends Controller
 
         if (!Session::get('verified'))
         {
-            $error[] = $this->language->get("account_not_verirfied_error");
+            $error[] = __("account_not_verirfied_error");
         }
 
         $data['menu'] = 4;
-        $data["title"] = "Event Information";
         $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
         $data["isAdmin"] = false;
 
@@ -1297,12 +1317,12 @@ class EventsController extends Controller
 
                     if(!$data["isAdmin"])
                     {
-                        $error[] = $this->language->get("empty_or_not_permitted_event_error");
+                        $error[] = __("empty_or_not_permitted_event_error");
                     }
                 }
                 else
                 {
-                    $error[] = $this->language->get("empty_or_not_permitted_event_error");
+                    $error[] = __("empty_or_not_permitted_event_error");
                 }
             }
             else
@@ -1325,12 +1345,12 @@ class EventsController extends Controller
 
             if($data["event"][0]->state == "started" && $canViewInfo)
             {
-                $error[] = $this->language->get("not_started_event_error", array($data["event"][0]->eventID));
+                $error[] = __("not_started_event_error", array($data["event"][0]->eventID));
             }
         }
         else
         {
-            $error[] = $this->language->get("empty_or_not_permitted_event_error");
+            $error[] = __("empty_or_not_permitted_event_error");
         }
 
         if(!isset($error))
@@ -1519,9 +1539,10 @@ class EventsController extends Controller
         //Data::pr($data["chapters"]);
 
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('events/information', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Events/Information')
+            ->shares("title", __("event_info"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
 
@@ -1539,11 +1560,10 @@ class EventsController extends Controller
 
         if (!Session::get('verified'))
         {
-            $error[] = $this->language->get("account_not_verirfied_error");
+            $error[] = __("account_not_verirfied_error");
         }
 
         $data['menu'] = 4;
-        $data["title"] = "Manage Event";
         $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID);
 
         if(!empty($data["event"]))
@@ -1578,9 +1598,10 @@ class EventsController extends Controller
                         //$chaptersValid = false;
                         //break;
                     }
-
-                    if(!empty($chapter))
+                    else
+                    {
                         $membersWithChapters[$chapter["memberID"]] = 1;
+                    }
                 }
 
                 // Check pairs
@@ -1601,30 +1622,32 @@ class EventsController extends Controller
                     }
                     else
                     {
-                        $error[] = $this->language->get("event_pairs_error");
+                        $error[] = __("event_pairs_error");
                     }
                 }
                 else
                 {
-                    $error[] = $this->language->get("event_chapters_error");
+                    $error[] = __("event_chapters_error");
                 }
             }
         }
         else
         {
-            $error[] = $this->language->get("empty_or_not_permitted_event_error");
+            $error[] = __("empty_or_not_permitted_event_error");
         }
 
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('events/manage', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make('Events/Manage')
+            ->shares("title", __("manage_event"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
 
-    public function demo($page)
+    public function demo($page = null)
     {
-        $data["title"] = $this->language->get("demo");
+        if(!isset($page))
+            Url::redirect("events/demo/pray");
 
         $notifObj = new \stdClass();
         $notifObj->step = EventSteps::KEYWORD_CHECK;
@@ -1640,87 +1663,90 @@ class EventsController extends Controller
         $data["isDemo"] = true;
         $data['menu'] = 4;
 
-        View::renderTemplate('header', $data);
-
+        $view = View::make("Events/Demo/DemoHeader");
         $data["step"] = "";
 
         switch ($page)
         {
             case "pray":
-                View::render('events/demo/2_pray');
+                $view->nest("page", "Events/Demo/Pray");
                 $data["step"] = "pray";
                 break;
 
             case "consume":
-                View::render('events/demo/3_consume');
+                $view->nest("page", "Events/Demo/Consume");
                 $data["step"] = "consume";
                 break;
 
             case "verbalize":
-                View::render('events/demo/4_verbalize');
+                $view->nest("page", "Events/Demo/Verbalize");
                 $data["step"] = "discuss";
                 break;
 
             case "prep_chunks":
-                View::render('events/demo/5_prep_chunks');
+                $view->nest("page", "Events/Demo/PrepChunks");
                 $data["step"] = "chunking";
                 break;
 
             case "read_chunk":
-                View::render('events/demo/6_read_chunk');
+                $view->nest("page", "Events/Demo/ReadChunk");
                 $data["step"] = "chunking";
                 break;
 
             case "blind_draft":
-                View::render('events/demo/7_blind_draft');
+                $view->nest("page", "Events/Demo/BlindDraft");
                 $data["step"] = "blind-draft";
                 break;
 
             case "self_check":
-                View::render('events/demo/7_self_check');
+                $view->nest("page", "Events/Demo/SelfCheck");
                 $data["step"] = "self-check";
                 break;
 
             case "draft":
-                View::render('events/demo/7_draft');
+                $view->nest("page", "Events/Demo/Draft");
                 $data["step"] = "self-check";
                 break;
 
             case "self_check_full":
-                View::render('events/demo/7_self_check_full');
+                $view->nest("page", "Events/Demo/SelfCheckFull");
                 $data["step"] = "self-check-full";
                 break;
 
             case "peer_review":
-                View::render('events/demo/8_peer_review');
+                $view->nest("page", "Events/Demo/PeerReview");
                 $data["step"] = "peer-review";
                 break;
 
             case "keyword_check":
-                View::render('events/demo/9_keyword_check');
+                $view->nest("page", "Events/Demo/KeywordCheck");
                 $data["step"] = "keyword-check";
                 break;
 
             case "keyword_check_checker":
-                View::render('events/demo/9_keyword_check_checker');
+                $view->nest("page", "Events/Demo/KeywordCheckChecker");
                 $data["step"] = "keyword-check";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "content_review":
-                View::render('events/demo/10_content_review');
+                $view->nest("page", "Events/Demo/ContentReview");
                 $data["step"] = "content-review";
                 break;
 
             case "content_review_checker":
-                View::render('events/demo/10_content_review_checker');
+                $view->nest("page", "Events/Demo/ContentReviewChecker");
                 $data["step"] = "content-review";
                 $data["isCheckerPage"] = true;
                 break;
         }
 
-        View::render('events/demo/demo_header', $data);
-        View::renderTemplate('footer', $data);
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+
+        //View::render('events/demo/demo_header', $data);
+        //View::renderTemplate('footer', $data);
     }
 
     public function applyEvent()
@@ -1732,7 +1758,7 @@ class EventsController extends Controller
 
         if (!Session::get('verified'))
         {
-            $error[] = $this->language->get("account_not_verirfied_error");
+            $error[] = __("account_not_verirfied_error");
             echo json_encode(array("error" => Error::display($error)));
             return;
         }
@@ -1754,14 +1780,14 @@ class EventsController extends Controller
 
         if($eventID == null)
         {
-            $error[] = $this->language->get('wrong_event_parameters');
+            $error[] = __('wrong_event_parameters');
             echo json_encode(array("error" => $error));
             return;
         }
 
         if($userType == null || !preg_match("/^(".EventMembers::TRANSLATOR."|".EventMembers::L2_CHECKER."|".EventMembers::L3_CHECKER.")$/", $userType))
         {
-            $error[] = $this->language->get("wrong_event_parameters");
+            $error[] = __("wrong_event_parameters");
             echo json_encode(array("error" => $error));
             return;
         }
@@ -1824,7 +1850,7 @@ class EventsController extends Controller
 
             if(empty($event))
             {
-                $error[] = $this->language->get("event_notexist_error");
+                $error[] = __("event_notexist_error");
                 echo json_encode(array("error" => $error));
                 return;
             }
@@ -1859,21 +1885,21 @@ class EventsController extends Controller
 
                             if(is_numeric($trID))
                             {
-                                echo json_encode(array("success" => $this->language->get("successfully_applied")));
+                                echo json_encode(array("success" => __("successfully_applied")));
                             }
                             else
                             {
-                                $error[] = $this->language->get("error_ocured", array($trID));
+                                $error[] = __("error_ocured", array($trID));
                             }
                         }
                         else
                         {
-                            $error[] = $this->language->get("error_member_in_event");
+                            $error[] = __("error_member_in_event");
                         }
                     }
                     else
                     {
-                        $error[] = $this->language->get("no_translators_available_error");
+                        $error[] = __("no_translators_available_error");
                     }
                     break;
 
@@ -1891,21 +1917,21 @@ class EventsController extends Controller
 
                             if(is_numeric($l2ID))
                             {
-                                echo json_encode(array("success" => $this->language->get("successfully_applied")));
+                                echo json_encode(array("success" => __("successfully_applied")));
                             }
                             else
                             {
-                                $error[] = $this->language->get("error_ocured", array($l2ID));
+                                $error[] = __("error_ocured", array($l2ID));
                             }
                         }
                         else
                         {
-                            $error[] = $this->language->get("error_member_in_event");
+                            $error[] = __("error_member_in_event");
                         }
                     }
                     else
                     {
-                        $error[] = $this->language->get("no_l2_3_checkers_available_error", array(2));
+                        $error[] = __("no_l2_3_checkers_available_error", array(2));
                     }
                     break;
 
@@ -1923,21 +1949,21 @@ class EventsController extends Controller
 
                             if(is_numeric($l3ID))
                             {
-                                echo json_encode(array("success" => $this->language->get("successfully_applied")));
+                                echo json_encode(array("success" => __("successfully_applied")));
                             }
                             else
                             {
-                                $error[] = $this->language->get("error_ocured", array($l3ID));
+                                $error[] = __("error_ocured", array($l3ID));
                             }
                         }
                         else
                         {
-                            $error[] = $this->language->get("error_member_in_event");
+                            $error[] = __("error_member_in_event");
                         }
                     }
                     else
                     {
-                        $error[] = $this->language->get("no_l2_3_checkers_available_error", array(3));
+                        $error[] = __("no_l2_3_checkers_available_error", array(3));
                     }
                     break;
             }
@@ -1949,7 +1975,7 @@ class EventsController extends Controller
         }
         else
         {
-            $error[] = $this->language->get('required_fields_empty_error');
+            $error[] = __('required_fields_empty_error');
             echo json_encode(array("error" => $error, "errors" => $data["errors"]));
         }
     }
@@ -1962,7 +1988,7 @@ class EventsController extends Controller
         if (!Session::get('loggedin'))
         {
             $response["errorType"] = "logout";
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
@@ -1970,7 +1996,7 @@ class EventsController extends Controller
         if (!Session::get('verified'))
         {
             $response["errorType"] = "verify";
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
@@ -2157,7 +2183,7 @@ class EventsController extends Controller
                                 if($event[0]->checkDone)
                                 {
                                     $response["errorType"] = "checkDone";
-                                    $response["error"] = $this->language->get("not_possible_to_save_error");
+                                    $response["error"] = __("not_possible_to_save_error");
                                     echo json_encode($response);
                                     exit;
                                 }
@@ -2220,14 +2246,14 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('verified'))
         {
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
@@ -2297,14 +2323,14 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('verified'))
         {
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
@@ -2617,7 +2643,10 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
-        View::render('events/get_info', $data);
+
+        $this->layout = "dummy";
+        return View::make("Events/GetInfo")
+            ->shares("data", $data);
     }
 
     public function applyChecker($eventID, $memberID)
@@ -2630,7 +2659,7 @@ class EventsController extends Controller
 
         if (!Session::get('verified'))
         {
-            $error[] = $this->language->get("account_not_verirfied_error");
+            $error[] = __("account_not_verirfied_error");
             echo json_encode(array("error" => Error::display($error)));
             return;
         }
@@ -2666,28 +2695,31 @@ class EventsController extends Controller
         }
         else
         {
-            $error[] = $this->language->get("cannot_apply_checker");
+            $error[] = __("cannot_apply_checker");
         }
 
-        $data["title"] = $this->language->get("apply_checker_l1");
+        $data["menu"] = 4;
         $data["notifications"] = $this->_notifications;
-        View::renderTemplate('header', $data);
-        View::render('events/checker_apply', $data, $error);
-        View::renderTemplate('footer', $data);
+
+        return View::make("Events/CheckerApply")
+            ->shares("title", __("apply_checker_l1"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
     }
 
 
     public function getPartnerTranslation()
     {
+        //TODO move html code to the view
         if (!Session::get('loggedin'))
         {
-            echo $this->language->get("not_loggedin_error");
+            echo __("not_loggedin_error");
             return;
         }
 
         if (!Session::get('verified'))
         {
-            echo $this->language->get("account_not_verirfied_error");
+            echo __("account_not_verirfied_error");
             return;
         }
 
@@ -2799,21 +2831,21 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('verified'))
         {
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('isAdmin'))
         {
-            $response["error"] = $this->language->get("not_enough_rights_error");
+            $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
             return;
         }
@@ -2836,7 +2868,7 @@ class EventsController extends Controller
         }
         else
         {
-            $response["error"] = $this->language->get("error_ocured", array("wrong parameters"));
+            $response["error"] = __("error_ocured", array("wrong parameters"));
         }
 
         echo json_encode($response);
@@ -2848,14 +2880,14 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('verified'))
         {
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
@@ -2891,13 +2923,13 @@ class EventsController extends Controller
                 foreach ($this->_notifications as $notification)
                 {
                     $type = $notification->step == EventSteps::KEYWORD_CHECK ? "kw_checker" : "cont_checker";
-                    $text = $this->language->get("checker_apply", array(
+                    $text = __("checker_apply", array(
                         $notification->userName,
-                        $this->language->get($notification->step),
+                        __($notification->step),
                         $notification->bookName,
                         $notification->currentChapter,
                         $notification->tLang,
-                        $this->language->get($notification->bookProject)
+                        __($notification->bookProject)
                     ));
 
                     $note["link"] = "/events/checker/".$notification->eventID."/".$notification->memberID."/apply";
@@ -2908,7 +2940,7 @@ class EventsController extends Controller
             }
             else
             {
-                $data["noNotifs"] = $this->language->get("no_notifs_msg");
+                $data["noNotifs"] = __("no_notifs_msg");
             }
 
             $data["success"] = true;
@@ -2925,7 +2957,6 @@ class EventsController extends Controller
             Url::redirect('members/login');
         }
 
-        $data["title"] = $this->language->get("all_notifications_title");
         $data["notifications"] = $this->_notifications;
 
         $profile = Session::get("profile");
@@ -2934,12 +2965,13 @@ class EventsController extends Controller
             $langs[] = $lang;
         }
 
+        $data["menu"] = 1;
         $data["all_notifications"] = $this->_model->getAllNotifications($langs);
         $data["all_notifications"] += $this->_notifications;
 
-        View::renderTemplate('header', $data);
-        View::render('events/notifications', $data, $error);
-        View::renderTemplate('footer', $data);
+        return View::make("Events/Notifications")
+            ->shares("title", __("all_notifications_title"))
+            ->shares("data", $data);
     }
 
 
@@ -2949,21 +2981,21 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('verified'))
         {
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('isAdmin'))
         {
-            $response["error"] = $this->language->get("not_enough_rights_error");
+            $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
             return;
         }
@@ -3003,12 +3035,12 @@ class EventsController extends Controller
                             }
                             else
                             {
-                                $response["error"] = $this->language->get("error_ocured", array($updated));
+                                $response["error"] = __("error_ocured", array($updated));
                             }
                         }
                         else
                         {
-                            $response["error"] = $this->language->get("error_ocured", array("wrong parameters"));
+                            $response["error"] = __("error_ocured", array("wrong parameters"));
                         }
                     }
                     else
@@ -3026,33 +3058,33 @@ class EventsController extends Controller
                                 }
                                 else
                                 {
-                                    $response["error"] = $this->language->get("error_ocured", array($updated));
+                                    $response["error"] = __("error_ocured", array($updated));
                                 }
                             }
                             else
                             {
-                                $response["error"] = $this->language->get("error_ocured", array("wrong parameters"));
+                                $response["error"] = __("error_ocured", array("wrong parameters"));
                             }
                         }
                         else
                         {
-                            $response["error"] = $this->language->get("chapter_aready_assigned_error");
+                            $response["error"] = __("chapter_aready_assigned_error");
                         }
                     }
                 }
                 else
                 {
-                    $response["error"] = $this->language->get("event_translating_error");
+                    $response["error"] = __("event_translating_error");
                 }
             }
             else
             {
-                $response["error"] = $this->language->get("error_ocured", array("wrong parameters"));
+                $response["error"] = __("error_ocured", array("wrong parameters"));
             }
         }
         else
         {
-            $response["error"] = $this->language->get("error_ocured", array("wrong parameters"));
+            $response["error"] = __("error_ocured", array("wrong parameters"));
         }
 
         echo json_encode($response);
@@ -3065,21 +3097,21 @@ class EventsController extends Controller
 
         if (!Session::get('loggedin'))
         {
-            $response["error"] = $this->language->get("not_loggedin_error");
+            $response["error"] = __("not_loggedin_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('verified'))
         {
-            $response["error"] = $this->language->get("account_not_verirfied_error");
+            $response["error"] = __("account_not_verirfied_error");
             echo json_encode($response);
             return;
         }
 
         if (!Session::get('isAdmin'))
         {
-            $response["error"] = $this->language->get("not_enough_rights_error");
+            $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
             return;
         }
@@ -3171,27 +3203,27 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $response["error"] = $this->language->get("error_ocured", array($updated));
+                            $response["error"] = __("error_ocured", array($updated));
                         }
                     }
                     else
                     {
-                        $response["error"] = $this->language->get("error_ocured", array("wrong parameters 1"));
+                        $response["error"] = __("error_ocured", array("wrong parameters 1"));
                     }
                 }
                 else
                 {
-                    $response["error"] = $this->language->get("event_translating_error");
+                    $response["error"] = __("event_translating_error");
                 }
             }
             else
             {
-                $response["error"] = $this->language->get("error_ocured", array("wrong parameters 2"));
+                $response["error"] = __("error_ocured", array("wrong parameters 2"));
             }
         }
         else
         {
-            $response["error"] = $this->language->get("error_ocured", array("wrong parameters 3"));
+            $response["error"] = __("error_ocured", array("wrong parameters 3"));
         }
 
         echo json_encode($response);
@@ -3368,7 +3400,8 @@ class EventsController extends Controller
     }
 
     /**
-     * Get source of current chapter or chunk
+     * @deprecated Deprecated
+     * Get source of current chapter or chunk from USX format
      * @param array $data
      * @param bool $getChunk
      * @return array
@@ -3464,11 +3497,17 @@ class EventsController extends Controller
         }
         else
         {
-            return array("error" => $this->language->get("no_source_error"));
+            return array("error" => __("no_source_error"));
         }
     }
 
-
+    /**
+     * Get source text for chapter or chunk from USFM format
+     * @param $data
+     * @param bool $getChunk
+     * @param bool $isCoTranslator
+     * @return array
+     */
     private function getSourceTextUSFM($data, $getChunk = false, $isCoTranslator = false)
     {
         $currentChapter = !$isCoTranslator ? $data["event"][0]->currentChapter : $data["event"][0]->cotrCurrentChapter;
@@ -3476,20 +3515,19 @@ class EventsController extends Controller
         $eventTrID = !$isCoTranslator ? $data["event"][0]->trID : $data["event"][0]->cotrID;
 
         $cache_keyword = $data["event"][0]->bookCode."_".$data["event"][0]->sourceLangID."_".$data["event"][0]->bookProject."_usfm";
-        $source = CacheManager::get($cache_keyword);
 
-        if(is_null($source))
+        if(Cache::has($cache_keyword))
         {
-            $source = $this->_model->getSourceBookFromApiUSFM($data["event"][0]->bookProject, $data["event"][0]->abbrID, $data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
-
+            $source = Cache::get($cache_keyword);
             $usfm = UsfmParser::parse($source);
-
-            if(!empty($usfm))
-                CacheManager::set($cache_keyword, $source, 60*60*24*7);
         }
         else
         {
+            $source = $this->_model->getSourceBookFromApiUSFM($data["event"][0]->bookProject, $data["event"][0]->abbrID, $data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
             $usfm = UsfmParser::parse($source);
+
+            if(!empty($usfm))
+                Cache::add($cache_keyword, $source, 60*24*7);
         }
 
         if(!empty($usfm))
@@ -3521,7 +3559,8 @@ class EventsController extends Controller
                 }
             }
 
-            $lastVerse = explode("-", end(array_keys($data["text"])));
+            $arrKeys = array_keys($data["text"]);
+            $lastVerse = explode("-", end($arrKeys));
             $lastVerse = $lastVerse[sizeof($lastVerse)-1];
             $data["totalVerses"] = !empty($data["text"]) ?  $lastVerse : 0;
             $data["currentChapter"] = $currentChapter;
@@ -3576,7 +3615,7 @@ class EventsController extends Controller
         }
         else
         {
-            return array("error" => $this->language->get("no_source_error"));
+            return array("error" => __("no_source_error"));
         }
     }
 
@@ -3625,36 +3664,36 @@ class EventsController extends Controller
 
         // Get catalog
         $cat_cache_keyword = "catalog_".$book."_".$lang;
-        $cat_source = CacheManager::get($cat_cache_keyword);
 
-        if(is_null($cat_source))
+        if(Cache::has($cat_cache_keyword))
+        {
+            $cat_source = Cache::get($cat_cache_keyword);
+            $cat_json = json_decode($cat_source, true);
+        }
+        else
         {
             $cat_source = $this->_model->getTWcatalog($book, $lang);
             $cat_json = json_decode($cat_source, true);
 
             if(!empty($cat_json))
-                CacheManager::set($cat_cache_keyword, $cat_source, 60*60*24*7);
-        }
-        else
-        {
-            $cat_json = json_decode($cat_source, true);
+                Cache::add($cat_cache_keyword, $cat_source, 60*24*7);
         }
 
         // Get keywords
         $tw_cache_keyword = "tw_".$lang;
-        $tw_source = CacheManager::get($tw_cache_keyword);
 
-        if(is_null($tw_source))
+        if(Cache::has($tw_cache_keyword))
+        {
+            $tw_source = Cache::get($tw_cache_keyword);
+            $tw_json = json_decode($tw_source, true);
+        }
+        else
         {
             $tw_source = $this->_model->getTWords($lang);
             $tw_json = json_decode($tw_source, true);
 
             if(!empty($tw_json))
-                CacheManager::set($tw_cache_keyword, $tw_source, 60*60*24*7);
-        }
-        else
-        {
-            $tw_json = json_decode($tw_source, true);
+                Cache::add($tw_cache_keyword, $tw_source, 60*24*7);
         }
 
         if(!empty($cat_json) && !empty($tw_json))

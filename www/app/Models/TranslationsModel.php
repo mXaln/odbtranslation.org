@@ -1,7 +1,7 @@
 <?php
-namespace Models;
+namespace App\Models;
 
-use Core\Model;
+use Database\Model;
 use Helpers\Data;
 
 class TranslationsModel extends Model
@@ -14,33 +14,31 @@ class TranslationsModel extends Model
 
     public function getTranslationLanguages()
     {
-        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName FROM ".PREFIX."translations AS trs ".
-            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
-            "GROUP BY trs.targetLang";
-
-        return $this->db->select($sql);
+        return $this->db->table("translations")
+            ->select("translations.targetLang", "languages.langName", "languages.angName")
+            ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
+            ->groupBy("translations.targetLang")->get();
     }
 
     public function getTranslationProjects($lang)
     {
-        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject FROM ".PREFIX."translations AS trs ".
-            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
-            "WHERE trs.targetLang = :lang ".
-            "GROUP BY trs.bookProject";
-
-        return $this->db->select($sql, array(":lang" => $lang));
+        return $this->db->table("translations")
+            ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject")
+            ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
+            ->where("translations.targetLang", $lang)
+            ->groupBy("translations.bookProject")->get();
     }
 
     public function getTranslationBooks($lang, $bookProject)
     {
-        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject, trs.bookCode, abbr.name AS bookName ".
-            "FROM ".PREFIX."translations AS trs ".
-            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
-            "LEFT JOIN ".PREFIX."abbr AS abbr ON trs.bookCode = abbr.code ".
-            "WHERE trs.targetLang = :lang AND trs.bookProject = :bookProject ".
-            "GROUP BY trs.bookCode";
-
-        return $this->db->select($sql, array(":lang" => $lang, ":bookProject" => $bookProject));
+        return $this->db->table("translations")
+            ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject",
+                "abbr.name AS bookName", "translations.bookCode")
+            ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
+            ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
+            ->where("translations.targetLang", $lang)
+            ->where("translations.bookProject", $bookProject)
+            ->groupBy("translations.bookProject")->get();
     }
 
     /**
@@ -51,15 +49,17 @@ class TranslationsModel extends Model
      */
     public function getTranslation($lang, $bookProject, $bookCode)
     {
-        $sql = "SELECT trs.targetLang, t_lang.langName, t_lang.angName, trs.bookProject, trs.bookCode, abbr.name AS bookName, abbr.abbrID, ".
-                "trs.chapter, trs.translatedVerses ".
-            "FROM ".PREFIX."translations AS trs ".
-            "LEFT JOIN ".PREFIX."languages AS t_lang ON trs.targetLang = t_lang.langID ".
-            "LEFT JOIN ".PREFIX."abbr AS abbr ON trs.bookCode = abbr.code ".
-            "WHERE trs.targetLang = :lang AND trs.bookProject = :bookProject AND trs.bookCode = :bookCode ".
-            "ORDER BY trs.chapter, trs.chunk";
-
-        return $this->db->select($sql, array(":lang" => $lang, ":bookProject" => $bookProject, ":bookCode" => $bookCode));
+        return $this->db->table("translations")
+            ->select("translations.targetLang", "languages.langName", "languages.angName",
+                "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
+                "translations.chapter", "translations.translatedVerses")
+            ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
+            ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
+            ->where("translations.targetLang", $lang)
+            ->where("translations.bookProject", $bookProject)
+            ->where("translations.bookCode", $bookCode)
+            ->orderBy("translations.chapter")
+            ->orderBy("translations.chunk")->get();
     }
 
     /** Get translations information
@@ -77,54 +77,52 @@ class TranslationsModel extends Model
             "WHERE ts.eventID = :eventID ".
             "ORDER BY trs.chapter, trs.chunk";
 
-        return $this->db->select($sql, array(":eventID" => $eventID));
+        return $this->db->select($sql, [":eventID" => $eventID]);
     }
 
     public function getComment($eventID, $chapter, $verse, $memberID)
     {
-        $sql = "SELECT * FROM ".PREFIX."comments ".
-            "WHERE eventID = :eventID AND chapter = :chapter AND verse = :verse AND memberID = :memberID";
-
-        $prepare = array(
-            ":eventID" => $eventID,
-            ":chapter" => $chapter,
-            ":verse" => $verse,
-            ":memberID" => $memberID
-        );
-
-        return $this->db->select($sql, $prepare);
+        return $this->db->table("comments")
+            ->where("eventID", $eventID)
+            ->where("chapter", $chapter)
+            ->where("verse", $verse)
+            ->where("memberID", $memberID)->get();
     }
 
     public function getCommentsByEvent($eventID, $chapter = null)
     {
-        $sql = "SELECT cmts.*, mems.userName FROM ".PREFIX."comments AS cmts ".
-            "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = cmts.memberID ".
-            "WHERE cmts.eventID = :eventID ".
-            ($chapter != null ? "AND cmts.chapter = :chapter " : "").
-            "ORDER BY cmts.chapter, cmts.verse, cmts.cID";
-
-        $prepare = array(":eventID" => $eventID);
+        $builder = $this->db->table("comments")
+            ->select("comments.*", "members.userName")
+            ->leftJoin("members", "comments.memberID", "=", "members.memberID")
+            ->where("comments.eventID", $eventID)
+            ->orderBy("comments.chapter")
+            ->orderBy("comments.verse")
+            ->orderBy("comments.cID");
 
         if($chapter != null)
-            $prepare[":chapter"] = $chapter;
+            $builder->where("comments.chapter", $chapter);
 
-        return $this->db->select($sql, $prepare);
+        return $builder->get();
     }
 
     public function createComment($data)
     {
-        $this->db->insert(PREFIX."comments",$data);
-        return $this->db->lastInsertId('cID');
+        return $this->db->table("comments")
+            ->insertGetId($data);
     }
 
     public function updateComment($data, $where)
     {
-        return $this->db->update(PREFIX."comments", $data, $where);
+        return $this->db->table("comments")
+            ->where($where)
+            ->update($data);
     }
 
     public function deleteComment($where)
     {
-        return $this->db->delete(PREFIX."comments", $where);
+        return $this->db->table("comments")
+            ->where($where)
+            ->delete();
     }
 
 }

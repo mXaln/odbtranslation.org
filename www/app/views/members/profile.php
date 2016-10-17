@@ -1,8 +1,8 @@
 <?php
-use Core\Language;
+use Helpers\Session;
 ?>
 
-<h1><?php echo Language::show('profile_message', 'Members'); ?></h1>
+<h1><?php echo __('profile_message'); ?></h1>
 
 <?php
 $profile = $data["profile"];
@@ -10,19 +10,19 @@ $profile = $data["profile"];
 
 <form action='' method='post' style="width: 900px" class="form-horizontal profile_form">
     <?php
-    echo \Core\Error::display($error);
-    echo \Helpers\Session::message();
+    echo Error::display($error);
+    echo Session::message();
     ?>
 
-    <h3><?php echo Language::show('common_skills', 'Members'); ?></h3>
+    <h3><?php echo __('common_skills'); ?></h3>
 
     <label for="known_languages" class="<?php echo isset($data["errors"]["langs"]) ? "label_error" : "" ?>">
-        <?php echo Language::show('known_languages', 'Members'); ?>:
+        <?php echo __('known_languages'); ?>:
     </label>
     <div class="form-group">
         <div class="language_add glyphicon glyphicon-plus col-sm-1"></div>
         <div class="col-sm-11">
-            <select class="form-control langs" name="langs[]" multiple data-placeholder="<?php echo Language::show("show_langs_window", "Members")?>" disabled >
+            <select class="form-control langs" name="langs[]" multiple data-placeholder="<?php echo __("show_langs_window")?>" disabled >
                 <?php if(isset($_POST['langs'])): ?>
                     <?php foreach ($_POST['langs'] as $lang): ?>
                         <option value="<?php echo $lang?>" selected><?php echo $lang?></option>
@@ -39,7 +39,7 @@ $profile = $data["profile"];
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["bbl_trans_yrs"]) ? "label_error" : "" ?>">
-            <?php echo Language::show('bbl_trans_yrs', 'Members'); ?>:
+            <?php echo __('bbl_trans_yrs'); ?>:
         </label>
         <div class="form-control">
             <label><input type="radio" name="bbl_trans_yrs" value="1"
@@ -59,7 +59,7 @@ $profile = $data["profile"];
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["othr_trans_yrs"]) ? "label_error" : "" ?>">
-            <?php echo Language::show('othr_trans_yrs', 'Members'); ?>:
+            <?php echo __('othr_trans_yrs'); ?>:
         </label>
         <div class="form-control">
             <label><input type="radio" name="othr_trans_yrs" value="1"
@@ -78,26 +78,26 @@ $profile = $data["profile"];
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["bbl_knwlg_degr"]) ? "label_error" : "" ?>"><?php echo Language::show('bbl_knwlg_degr', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["bbl_knwlg_degr"]) ? "label_error" : "" ?>"><?php echo __('bbl_knwlg_degr'); ?>: </label>
         <div class="form-control">
             <label><input type="radio" name="bbl_knwlg_degr" value="1"
                     <?php echo isset($_POST["bbl_knwlg_degr"]) && $_POST["bbl_knwlg_degr"] == 1 ? "checked" :
-                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 1 ? "checked" : "") ?>> <?php echo Language::show('weak', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 1 ? "checked" : "") ?>> <?php echo __('weak'); ?> &nbsp;</label>
             <label><input type="radio" name="bbl_knwlg_degr" value="2"
                     <?php echo isset($_POST["bbl_knwlg_degr"]) && $_POST["bbl_knwlg_degr"] == 2 ? "checked" :
-                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 2 ? "checked" : "") ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 2 ? "checked" : "") ?>> <?php echo __('moderate'); ?> &nbsp;</label>
             <label><input type="radio" name="bbl_knwlg_degr" value="3"
                     <?php echo isset($_POST["bbl_knwlg_degr"]) && $_POST["bbl_knwlg_degr"] == 3 ? "checked" :
-                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 3 ? "checked" : "") ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 3 ? "checked" : "") ?>> <?php echo __('strong'); ?> &nbsp;</label>
             <label><input type="radio" name="bbl_knwlg_degr" value="4"
                     <?php echo isset($_POST["bbl_knwlg_degr"]) && $_POST["bbl_knwlg_degr"] == 4 ? "checked" :
-                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 4 ? "checked" : "") ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["bbl_knwlg_degr"]) && $profile["bbl_knwlg_degr"] == 4 ? "checked" : "") ?>> <?php echo __('expert'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["mast_evnts"]) ? "label_error" : "" ?>">
-            <?php echo Language::show('mast_evnts', 'Members'); ?>:
+            <?php echo __('mast_evnts'); ?>:
         </label>
         <div class="form-control">
             <label><input type="radio" name="mast_evnts" value="1"
@@ -116,65 +116,65 @@ $profile = $data["profile"];
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["mast_role"]) ? "label_error" : "" ?>"><?php echo Language::show('mast_role', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["mast_role"]) ? "label_error" : "" ?>"><?php echo __('mast_role'); ?>: </label>
         <div class="form-control">
             <label><input type="checkbox" name="mast_role[]" value="translator" disabled
                     <?php echo isset($_POST["mast_role"]) && in_array("translator", $_POST["mast_role"]) ? "checked" :
-                        (isset($profile["mast_role"]) && in_array("translator", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo Language::show('translator', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["mast_role"]) && in_array("translator", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo __('translator'); ?> &nbsp;</label>
             <label><input type="checkbox" name="mast_role[]" value="facilitator" disabled
                     <?php echo isset($_POST["mast_role"]) && in_array("facilitator", $_POST["mast_role"]) ? "checked" :
-                        (isset($profile["mast_role"]) && in_array("facilitator", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo Language::show('facilitator', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["mast_role"]) && in_array("facilitator", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo __('facilitator'); ?> &nbsp;</label>
             <label><input type="checkbox" name="mast_role[]" value="l2_checker" disabled
                     <?php echo isset($_POST["mast_role"]) && in_array("l2_checker", $_POST["mast_role"]) ? "checked" :
-                        (isset($profile["mast_role"]) && in_array("l2_checker", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo Language::show('l2_checker', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["mast_role"]) && in_array("l2_checker", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo __('l2_checker'); ?> &nbsp;</label>
             <label><input type="checkbox" name="mast_role[]" value="l3_checker" disabled
                     <?php echo isset($_POST["mast_role"]) && in_array("l3_checker", $_POST["mast_role"]) ? "checked" :
-                        (isset($profile["mast_role"]) && in_array("l3_checker", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo Language::show('l3_checker', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["mast_role"]) && in_array("l3_checker", $profile["mast_role"]) ? "checked" : "") ?>> <?php echo __('l3_checker'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["teamwork"]) ? "label_error" : "" ?>">
-            <?php echo Language::show('teamwork', 'Members'); ?>:
+            <?php echo __('teamwork'); ?>:
         </label>
         <div class="form-control">
             <label><input type="radio" name="teamwork" value="1"
                     <?php echo isset($_POST["teamwork"]) && $_POST["teamwork"] == 1 ? "checked" :
-                        (isset($profile["teamwork"]) && $profile["teamwork"] == 1 ? "checked" : "") ?>> <?php echo Language::show('rarely', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["teamwork"]) && $profile["teamwork"] == 1 ? "checked" : "") ?>> <?php echo __('rarely'); ?> &nbsp;</label>
             <label><input type="radio" name="teamwork" value="2"
                     <?php echo isset($_POST["teamwork"]) && $_POST["teamwork"] == 2 ? "checked" :
-                        (isset($profile["teamwork"]) && $profile["teamwork"] == 2 ? "checked" : "") ?>> <?php echo Language::show('some', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["teamwork"]) && $profile["teamwork"] == 2 ? "checked" : "") ?>> <?php echo __('some'); ?> &nbsp;</label>
             <label><input type="radio" name="teamwork" value="3"
                     <?php echo isset($_POST["teamwork"]) && $_POST["teamwork"] == 3 ? "checked" :
-                        (isset($profile["teamwork"]) && $profile["teamwork"] == 3 ? "checked" : "") ?>> <?php echo Language::show('much', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["teamwork"]) && $profile["teamwork"] == 3 ? "checked" : "") ?>> <?php echo __('much'); ?> &nbsp;</label>
             <label><input type="radio" name="teamwork" value="4"
                     <?php echo isset($_POST["teamwork"]) && $_POST["teamwork"] == 4 ? "checked" :
-                        (isset($profile["teamwork"]) && $profile["teamwork"] == 4 ? "checked" : "") ?>> <?php echo Language::show('frequently', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["teamwork"]) && $profile["teamwork"] == 4 ? "checked" : "") ?>> <?php echo __('frequently'); ?> &nbsp;</label>
         </div>
     </div>
 
-    <h3><?php echo Language::show('facilitator_skills', 'Members'); ?></h3>
+    <h3><?php echo __('facilitator_skills'); ?></h3>
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["mast_facilitator"]) ? "label_error" : "" ?>">
-            <?php echo Language::show('mast_facilitator', 'Members'); ?>:
+            <?php echo __('mast_facilitator'); ?>:
         </label>
         <div class="form-control">
             <label><input type="radio" name="mast_facilitator" value="1"
                     <?php echo isset($_POST["mast_facilitator"]) && $_POST["mast_facilitator"] == 1 ? "checked" :
-                        (isset($profile["mast_facilitator"]) && $profile["mast_facilitator"] == 1 ? "checked" : "") ?>> <?php echo Language::show('yes', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["mast_facilitator"]) && $profile["mast_facilitator"] == 1 ? "checked" : "") ?>> <?php echo __('yes'); ?> &nbsp;</label>
             <label><input type="radio" name="mast_facilitator" value="0"
                     <?php echo ((isset($_POST["mast_facilitator"]) && $_POST["mast_facilitator"] == 0) || (isset($profile["mast_facilitator"]) && $profile["mast_facilitator"] == 0)) ? "checked" :
-                        (!isset($_POST["mast_facilitator"]) && !isset($profile["mast_facilitator"]) ? "checked" : "") ?>> <?php echo Language::show('no', 'Members'); ?> &nbsp;</label>
+                        (!isset($_POST["mast_facilitator"]) && !isset($profile["mast_facilitator"]) ? "checked" : "") ?>> <?php echo __('no'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["org"]) ? "label_error" : "" ?>"><?php echo Language::show('org', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["org"]) ? "label_error" : "" ?>"><?php echo __('org'); ?>: </label>
         <div class="form-control">
             <label><input type="radio" name="org" value="Other" disabled
                     <?php echo isset($_POST["org"]) && $_POST["org"] == "Other" ? "checked" :
-                        (isset($profile["org"]) && $profile["org"] == "Other" ? "checked" : "") ?>> <?php echo Language::show('other', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["org"]) && $profile["org"] == "Other" ? "checked" : "") ?>> <?php echo __('other'); ?> &nbsp;</label>
             <label><input type="radio" name="org" value="WA EdServices" disabled
                     <?php echo isset($_POST["org"]) && $_POST["org"] == "WA EdServices" ? "checked" :
                         (isset($profile["org"]) && $profile["org"] == "WA EdServices" ? "checked" : "") ?>> WA EdServices &nbsp;</label>
@@ -182,134 +182,134 @@ $profile = $data["profile"];
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["ref_person"]) ? "label_error" : "" ?>"><?php echo Language::show('ref_person', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["ref_person"]) ? "label_error" : "" ?>"><?php echo __('ref_person'); ?>: </label>
         <input class="form-control" type="text" name="ref_person"
                value="<?php echo isset($_POST["ref_person"]) ? $_POST["ref_person"] : (isset($profile["ref_person"]) ? $profile["ref_person"] : "") ?>" disabled>
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["ref_email"]) ? "label_error" : "" ?>"><?php echo Language::show('ref_email', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["ref_email"]) ? "label_error" : "" ?>"><?php echo __('ref_email'); ?>: </label>
         <input type="text" class="form-control" name="ref_email"
                value="<?php echo isset($_POST["ref_email"]) ? $_POST["ref_email"] : (isset($profile["ref_email"]) ? $profile["ref_email"] : "") ?>" disabled>
     </div>
 
-    <h3><?php echo Language::show('checker_skills', 'Members'); ?></h3>
+    <h3><?php echo __('checker_skills'); ?></h3>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["church_role"]) ? "label_error" : "" ?>"><?php echo Language::show('church_role', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["church_role"]) ? "label_error" : "" ?>"><?php echo __('church_role'); ?>: </label>
         <div class="form-control">
             <label><input type="checkbox" name="church_role[]" value="Elder"
                     <?php echo isset($_POST["church_role"]) && in_array("Elder", $_POST["church_role"]) ? "checked" :
-                        (isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "") ?>> <?php echo Language::show('elder', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "") ?>> <?php echo __('elder'); ?> &nbsp;</label>
             <label><input type="checkbox" name="church_role[]" value="Bishop"
                     <?php echo isset($_POST["church_role"]) && in_array("Bishop", $_POST["church_role"]) ? "checked" :
-                        (isset($profile["church_role"]) && in_array("Bishop", $profile["church_role"]) ? "checked" : "") ?>> <?php echo Language::show('bishop', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["church_role"]) && in_array("Bishop", $profile["church_role"]) ? "checked" : "") ?>> <?php echo __('bishop'); ?> &nbsp;</label>
             <label><input type="checkbox" name="church_role[]" value="Pastor"
                     <?php echo isset($_POST["church_role"]) && in_array("Pastor", $_POST["church_role"]) ? "checked" :
-                        (isset($profile["church_role"]) && in_array("Pastor", $profile["church_role"]) ? "checked" : "") ?>> <?php echo Language::show('pastor', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["church_role"]) && in_array("Pastor", $profile["church_role"]) ? "checked" : "") ?>> <?php echo __('pastor'); ?> &nbsp;</label>
             <label><input type="checkbox" name="church_role[]" value="Teacher"
                     <?php echo isset($_POST["church_role"]) && in_array("Teacher", $_POST["church_role"]) ? "checked" :
-                        (isset($profile["church_role"]) && in_array("Teacher", $profile["church_role"]) ? "checked" : "") ?>> <?php echo Language::show('teacher', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["church_role"]) && in_array("Teacher", $profile["church_role"]) ? "checked" : "") ?>> <?php echo __('teacher'); ?> &nbsp;</label>
             <label><input type="checkbox" name="church_role[]" value="Denominational Leader"
                     <?php echo isset($_POST["church_role"]) && in_array("Denominational Leader", $_POST["church_role"]) ? "checked" :
-                        (isset($profile["church_role"]) && in_array("Denominational Leader", $profile["church_role"]) ? "checked" : "") ?>> <?php echo Language::show('denominational_leader', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["church_role"]) && in_array("Denominational Leader", $profile["church_role"]) ? "checked" : "") ?>> <?php echo __('denominational_leader'); ?> &nbsp;</label>
             <label><input type="checkbox" name="church_role[]" value="Seminary Professor"
                     <?php echo isset($_POST["church_role"]) && in_array("Seminary Professor", $_POST["church_role"]) ? "checked" :
-                        (isset($profile["church_role"]) && in_array("Seminary Professor", $profile["church_role"]) ? "checked" : "") ?>> <?php echo Language::show('seminary_professor', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["church_role"]) && in_array("Seminary Professor", $profile["church_role"]) ? "checked" : "") ?>> <?php echo __('seminary_professor'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
-        <label><?php echo Language::show('orig_langs', 'Members'); ?>: </label>
+        <label><?php echo __('orig_langs'); ?>: </label>
         <div class="form-control">
-            <label class="<?php echo isset($data["errors"]["hebrew_knwlg"]) ? "label_error" : "" ?>"><?php echo Language::show('hebrew_knwlg', 'Members'); ?>: </label> &nbsp;&nbsp;
+            <label class="<?php echo isset($data["errors"]["hebrew_knwlg"]) ? "label_error" : "" ?>"><?php echo __('hebrew_knwlg'); ?>: </label> &nbsp;&nbsp;
             <label><input type="radio" name="hebrew_knwlg" value="0"
                     <?php echo isset($_POST["hebrew_knwlg"]) && $_POST["hebrew_knwlg"] == 0 ? "checked" :
-                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 0 ? "checked" : "") ?>> <?php echo Language::show('none', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 0 ? "checked" : "") ?>> <?php echo __('none'); ?> &nbsp;</label>
             <label><input type="radio" name="hebrew_knwlg" value="1"
                     <?php echo isset($_POST["hebrew_knwlg"]) && $_POST["hebrew_knwlg"] == 1 ? "checked" :
-                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 1 ? "checked" : "") ?>> <?php echo Language::show('limited', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 1 ? "checked" : "") ?>> <?php echo __('limited'); ?> &nbsp;</label>
             <label><input type="radio" name="hebrew_knwlg" value="2"
                     <?php echo isset($_POST["hebrew_knwlg"]) && $_POST["hebrew_knwlg"] == 2 ? "checked" :
-                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 2 ? "checked" : "") ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 2 ? "checked" : "") ?>> <?php echo __('moderate'); ?> &nbsp;</label>
             <label><input type="radio" name="hebrew_knwlg" value="3"
                     <?php echo isset($_POST["hebrew_knwlg"]) && $_POST["hebrew_knwlg"] == 3 ? "checked" :
-                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 3 ? "checked" : "") ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 3 ? "checked" : "") ?>> <?php echo __('strong'); ?> &nbsp;</label>
             <label><input type="radio" name="hebrew_knwlg" value="4"
                     <?php echo isset($_POST["hebrew_knwlg"]) && $_POST["hebrew_knwlg"] == 4 ? "checked" :
-                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 4 ? "checked" : "") ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 4 ? "checked" : "") ?>> <?php echo __('expert'); ?> &nbsp;</label>
         </div>
         <br>
         <div class="form-control">
-            <label class="<?php echo isset($data["errors"]["greek_knwlg"]) ? "label_error" : "" ?>"><?php echo Language::show('greek_knwlg', 'Members'); ?>: </label> &nbsp;&nbsp;
+            <label class="<?php echo isset($data["errors"]["greek_knwlg"]) ? "label_error" : "" ?>"><?php echo __('greek_knwlg'); ?>: </label> &nbsp;&nbsp;
             <label><input type="radio" name="greek_knwlg" value="0"
                     <?php echo isset($_POST["greek_knwlg"]) && $_POST["greek_knwlg"] == 0 ? "checked" :
-                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 0 ? "checked" : "") ?>> <?php echo Language::show('none', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 0 ? "checked" : "") ?>> <?php echo __('none'); ?> &nbsp;</label>
             <label><input type="radio" name="greek_knwlg" value="1"
                     <?php echo isset($_POST["greek_knwlg"]) && $_POST["greek_knwlg"] == 1 ? "checked" :
-                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 1 ? "checked" : "") ?>> <?php echo Language::show('limited', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 1 ? "checked" : "") ?>> <?php echo __('limited'); ?> &nbsp;</label>
             <label><input type="radio" name="greek_knwlg" value="2"
                     <?php echo isset($_POST["greek_knwlg"]) && $_POST["greek_knwlg"] == 2 ? "checked" :
-                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 2 ? "checked" : "") ?>> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 2 ? "checked" : "") ?>> <?php echo __('moderate'); ?> &nbsp;</label>
             <label><input type="radio" name="greek_knwlg" value="3"
                     <?php echo isset($_POST["greek_knwlg"]) && $_POST["greek_knwlg"] == 3 ? "checked" :
-                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 3 ? "checked" : "") ?>> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 3 ? "checked" : "") ?>> <?php echo __('strong'); ?> &nbsp;</label>
             <label><input type="radio" name="greek_knwlg" value="4"
                     <?php echo isset($_POST["greek_knwlg"]) && $_POST["greek_knwlg"] == 4 ? "checked" :
-                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 4 ? "checked" : "") ?>> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 4 ? "checked" : "") ?>> <?php echo __('expert'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["education"]) ? "label_error" : "" ?>"><?php echo Language::show('education', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["education"]) ? "label_error" : "" ?>"><?php echo __('education'); ?>: </label>
         <div class="form-control">
             <label><input type="checkbox" name="education[]" value="BA"
                     <?php echo isset($_POST["education"]) && in_array("BA", $_POST["education"]) ? "checked" :
-                        (isset($profile["education"]) && in_array("BA", $profile["education"]) ? "checked" : "") ?>> <?php echo Language::show('ba_edu', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["education"]) && in_array("BA", $profile["education"]) ? "checked" : "") ?>> <?php echo __('ba_edu'); ?> &nbsp;</label>
             <label><input type="checkbox" name="education[]" value="MA"
                     <?php echo isset($_POST["education"]) && in_array("MA", $_POST["education"]) ? "checked" :
-                        (isset($profile["education"]) && in_array("MA", $profile["education"]) ? "checked" : "") ?>> <?php echo Language::show('ma_edu', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["education"]) && in_array("MA", $profile["education"]) ? "checked" : "") ?>> <?php echo __('ma_edu'); ?> &nbsp;</label>
             <label><input type="checkbox" name="education[]" value="PHD"
                     <?php echo isset($_POST["education"]) && in_array("PHD", $_POST["education"]) ? "checked" :
-                        (isset($profile["education"]) && in_array("PHD", $profile["education"]) ? "checked" : "") ?>> <?php echo Language::show('phd_edu', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["education"]) && in_array("PHD", $profile["education"]) ? "checked" : "") ?>> <?php echo __('phd_edu'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["ed_area"]) ? "label_error" : "" ?>"><?php echo Language::show('ed_area', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["ed_area"]) ? "label_error" : "" ?>"><?php echo __('ed_area'); ?>: </label>
         <div class="form-control">
             <label><input type="checkbox" name="ed_area[]" value="Theology"
                     <?php echo isset($_POST["ed_area"]) && in_array("Theology", $_POST["ed_area"]) ? "checked" :
-                        (isset($profile["ed_area"]) && in_array("Theology", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo Language::show('theology', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["ed_area"]) && in_array("Theology", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo __('theology'); ?> &nbsp;</label>
             <label><input type="checkbox" name="ed_area[]" value="Pastoral Ministry"
                     <?php echo isset($_POST["ed_area"]) && in_array("Pastoral Ministry", $_POST["ed_area"]) ? "checked" :
-                        (isset($profile["ed_area"]) && in_array("Pastoral Ministry", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo Language::show('pastoral_ministry', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["ed_area"]) && in_array("Pastoral Ministry", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo __('pastoral_ministry'); ?> &nbsp;</label>
             <label><input type="checkbox" name="ed_area[]" value="Bible Translation"
                     <?php echo isset($_POST["ed_area"]) && in_array("Bible Translation", $_POST["ed_area"]) ? "checked" :
-                        (isset($profile["ed_area"]) && in_array("Bible Translation", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo Language::show('bible_translation', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["ed_area"]) && in_array("Bible Translation", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo __('bible_translation'); ?> &nbsp;</label>
             <label><input type="checkbox" name="ed_area[]" value="Exegetics"
                     <?php echo isset($_POST["ed_area"]) && in_array("Exegetics", $_POST["ed_area"]) ? "checked" :
-                        (isset($profile["ed_area"]) && in_array("Exegetics", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo Language::show('exegetics', 'Members'); ?> &nbsp;</label>
+                        (isset($profile["ed_area"]) && in_array("Exegetics", $profile["ed_area"]) ? "checked" : "") ?>> <?php echo __('exegetics'); ?> &nbsp;</label>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="<?php echo isset($data["errors"]["ed_place"]) ? "label_error" : "" ?>"><?php echo Language::show('ed_place', 'Members'); ?>: </label>
+        <label class="<?php echo isset($data["errors"]["ed_place"]) ? "label_error" : "" ?>"><?php echo __('ed_place'); ?>: </label>
         <input type="text" class="form-control" name="ed_place"
                value="<?php echo isset($_POST["ed_place"]) ? $_POST["ed_place"] : (isset($profile["ed_place"]) ? $profile["ed_place"] : "") ?>">
     </div>
 
-    <input type="hidden" name="csrf_token" value="<?php echo $data['csrf_token']; ?>" />
+    <input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>" />
 
-    <button type="submit" name="submit" class="btn btn-primary"><?php echo Language::show('save', 'Members'); ?></button>
+    <button type="submit" name="submit" class="btn btn-primary"><?php echo __('save'); ?></button>
 </form>
 
 <div class="language_container">
     <div class="language_block">
         <div class="language-close glyphicon glyphicon-remove"></div>
 
-        <label><?php echo Language::show('select_language', 'Members'); ?>: </label>
-        <select class="form-control language" data-placeholder="<?php echo Language::show('select_search_lang_option', 'Members'); ?>">
+        <label><?php echo __('select_language'); ?>: </label>
+        <select class="form-control language" data-placeholder="<?php echo __('select_search_lang_option'); ?>">
             <option></option>
             <?php foreach ($data["languages"] as $lang):?>
                 <option value="<?php echo $lang->langID; ?>"><?php echo "[".$lang->langID."] " . $lang->langName; ?></option>
@@ -318,31 +318,31 @@ $profile = $data["profile"];
 
         <br><br>
 
-        <label><?php echo Language::show('language_fluency', 'Members'); ?>: </label>
+        <label><?php echo __('language_fluency'); ?>: </label>
         <div class="form-control">
-            <label><input type="radio" class="fluency" name="" value="1" disabled> <?php echo Language::show('moderate', 'Members'); ?> &nbsp;</label>
-            <label><input type="radio" class="fluency" name="" value="2" disabled> <?php echo Language::show('strong', 'Members'); ?> &nbsp;</label>
-            <label><input type="radio" class="fluency" name="" value="3" disabled> <?php echo Language::show('fluent', 'Members'); ?> &nbsp;</label>
-            <label><input type="radio" class="fluency" name="" value="4" disabled> <?php echo Language::show('native', 'Members'); ?> &nbsp;</label>
-            <label><input type="radio" class="fluency" name="" value="5" disabled> <?php echo Language::show('expert', 'Members'); ?> &nbsp;</label>
+            <label><input type="radio" class="fluency" name="" value="1" disabled> <?php echo __('moderate'); ?> &nbsp;</label>
+            <label><input type="radio" class="fluency" name="" value="2" disabled> <?php echo __('strong'); ?> &nbsp;</label>
+            <label><input type="radio" class="fluency" name="" value="3" disabled> <?php echo __('fluent'); ?> &nbsp;</label>
+            <label><input type="radio" class="fluency" name="" value="4" disabled> <?php echo __('native'); ?> &nbsp;</label>
+            <label><input type="radio" class="fluency" name="" value="5" disabled> <?php echo __('expert'); ?> &nbsp;</label>
         </div>
 
         <br>
 
-        <label><?php echo Language::show('lang_geographic_years', 'Members'); ?>: </label>
+        <label><?php echo __('lang_geographic_years'); ?>: </label>
         <div class="form-control">
-            <label><input type="radio" class="geo_years" name="" value="1" disabled> <?php echo Language::show('less_than', 'Members', array(2)); ?> &nbsp;&nbsp;</label>
+            <label><input type="radio" class="geo_years" name="" value="1" disabled> <?php echo __('less_than', array(2)); ?> &nbsp;&nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="2" disabled> 2-4 &nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="3" disabled> 5-7 &nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="4" disabled> 8-10 &nbsp;</label>
         </div>
         <br>
-        <button class="add_lang btn btn-primary" disabled><?php echo Language::show("add_lang", "Members") ?></button>
+        <button class="add_lang btn btn-primary" disabled><?php echo __("add_lang") ?></button>
     </div>
 </div>
 
-<link href="<?php echo \Helpers\Url::templatePath()?>css/chosen.min.css" type="text/css" rel="stylesheet" />
-<script src="<?php echo \Helpers\Url::templatePath()?>js/chosen.jquery.min.js"></script>
+<link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />
+<script src="<?php echo template_url("js/chosen.jquery.min.js")?>"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
