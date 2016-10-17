@@ -109,7 +109,7 @@ class EventsController extends Controller
         {
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
-            if($data["event"][0]->state == EventStates::TRANSLATING) {
+            if($data["event"][0]->state == EventStates::TRANSLATING && $data["event"][0]->step != EventSteps::NONE) {
 
                 $turnSecret = $this->_model->getTurnSecret();
                 $turnUsername = (time() + 3600) . ":vmast";
@@ -1874,27 +1874,34 @@ class EventsController extends Controller
 
                     if($event[0]->translators < $event[0]->translatorsNum)
                     {
-                        if($exists[0]->translator == null &&
-                            $exists[0]->checker_l2 == null && $exists[0]->checker_l3 == null)   // can apply as translator only if not checker l2, l3
+                        if(!empty(array_filter(json_decode($event[0]->chapters, true), function($v) { return empty($v);})))
                         {
-                            $trData = array(
-                                "memberID" => Session::get("memberID"),
-                                "eventID" => $event[0]->eventID
-                            );
-                            $trID = $this->_model->addTranslator($trData);
-
-                            if(is_numeric($trID))
+                            if($exists[0]->translator == null &&
+                                $exists[0]->checker_l2 == null && $exists[0]->checker_l3 == null)   // can apply as translator only if not checker l2, l3
                             {
-                                echo json_encode(array("success" => __("successfully_applied")));
+                                $trData = array(
+                                    "memberID" => Session::get("memberID"),
+                                    "eventID" => $event[0]->eventID
+                                );
+                                $trID = $this->_model->addTranslator($trData);
+
+                                if(is_numeric($trID))
+                                {
+                                    echo json_encode(array("success" => __("successfully_applied")));
+                                }
+                                else
+                                {
+                                    $error[] = __("error_ocured", array($trID));
+                                }
                             }
                             else
                             {
-                                $error[] = __("error_ocured", array($trID));
+                                $error[] = __("error_member_in_event");
                             }
                         }
                         else
                         {
-                            $error[] = __("error_member_in_event");
+                            $error[] = __("no_translators_available_error");
                         }
                     }
                     else
@@ -3021,26 +3028,33 @@ class EventsController extends Controller
                     {
                         if($action == "add")
                         {
-                            $chapters[$chapter] = array(
+                            $chapters[$chapter] = [
                                 "trID" => $data["event"][0]->trID,
                                 "memberID" => $data["event"][0]->myMemberID,
                                 "chunks" => array()
-                            );
+                            ];
 
-                            $updated = $this->_model->updateEvent(array("chapters" => json_encode($chapters)), array("eventID" => $eventID));
+                            $updateEvent = $this->_model->updateEvent(["chapters" => json_encode($chapters)], ["eventID" => $eventID]);
 
-                            if($updated)
+                            // Change translator's step to pray when at least one chapter is assigned to him
+                            if(sizeof(array_filter($chapters, function ($v) use($memberID) {
+                                return isset($v["memberID"]) && $v["memberID"] == $memberID;
+                            })) == 1) {
+                                $this->_model->updateTranslator(["step" => EventSteps::PRAY], ["trID" => $data["event"][0]->trID]);
+                            }
+
+                            if($updateEvent)
                             {
                                 $response["success"] = true;
                             }
                             else
                             {
-                                $response["error"] = __("error_ocured", array($updated));
+                                $response["error"] = __("error_ocured", [$updateEvent]);
                             }
                         }
                         else
                         {
-                            $response["error"] = __("error_ocured", array("wrong parameters"));
+                            $response["error"] = __("error_ocured", ["wrong parameters"]);
                         }
                     }
                     else
@@ -3050,15 +3064,23 @@ class EventsController extends Controller
                             if($chapters[$chapter]["memberID"] == $memberID)
                             {
                                 $chapters[$chapter] = array();
-                                $updated = $this->_model->updateEvent(array("chapters" => json_encode($chapters)), array("eventID" => $eventID));
+                                $updateEvent = $this->_model->updateEvent(array("chapters" => json_encode($chapters)), array("eventID" => $eventID));
 
-                                if($updated)
+                                // Change translator's step to none when no chapter is assigned to him
+                                if(empty(array_filter($chapters, function ($v) use($memberID) {
+                                    return isset($v["memberID"]) && $v["memberID"] == $memberID;
+                                })))
+                                {
+                                    $this->_model->updateTranslator(["step" => EventSteps::NONE], ["trID" => $data["event"][0]->trID]);
+                                }
+
+                                if($updateEvent)
                                 {
                                     $response["success"] = true;
                                 }
                                 else
                                 {
-                                    $response["error"] = __("error_ocured", array($updated));
+                                    $response["error"] = __("error_ocured", array($updateEvent));
                                 }
                             }
                             else

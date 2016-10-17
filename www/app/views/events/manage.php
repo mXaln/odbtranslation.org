@@ -151,3 +151,7 @@
         <div class="clear"></div>
     </div>
 </div>
+
+<script>
+    isManagePage = true;
+</script>

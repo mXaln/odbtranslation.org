@@ -17092,3 +17092,333 @@ Stack trace:
 #18 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
 #19 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
 #20 {main} [] []
+[2016-10-17 14:17:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:18:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:18:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:19:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:19:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:20:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:20:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:21:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:21:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:22:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:22:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:23:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:23:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:24:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:24:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:25:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:25:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:26:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:26:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:27:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:27:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:28:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:28:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:29:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:29:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:30:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:30:49] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:31:19] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '}'' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 [internal function]: Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2016-10-17 14:34:01] production.ERROR: exception 'ErrorException' with message 'Undefined index: memberID' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3056
+Stack trace:
+#0 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(3056): Exception\Handler->handleError(8, 'Undefined index...', 'F:\\xampp\\htdocs...', 3056, Array)
+#1 [internal function]: App\Controllers\EventsController->App\Controllers\{closure}(Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(3056): array_filter(Array, Object(Closure))
+#3 [internal function]: App\Controllers\EventsController->assignChapter()
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(240): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('assignChapter', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'assignChapter')
+#7 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'assignChapter')
+#8 [internal function]: Routing\Router->Routing\{closure}()
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#13 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#14 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#17 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#18 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#19 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#20 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#21 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#22 {main} [] []
+[2016-10-17 14:37:54] production.ERROR: exception 'ErrorException' with message 'Undefined index: memberID' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:3057
+Stack trace:
+#0 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(3057): Exception\Handler->handleError(8, 'Undefined index...', 'F:\\xampp\\htdocs...', 3057, Array)
+#1 [internal function]: App\Controllers\EventsController->App\Controllers\{closure}(Array)
+#2 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(3057): array_filter(Array, Object(Closure))
+#3 [internal function]: App\Controllers\EventsController->assignChapter()
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(240): call_user_func_array(Array, Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('assignChapter', Array)
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'assignChapter')
+#7 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'assignChapter')
+#8 [internal function]: Routing\Router->Routing\{closure}()
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#13 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#14 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#17 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#18 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#19 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#20 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#21 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#22 {main} [] []
+[2016-10-17 15:06:00] production.ERROR: exception 'ErrorException' with message 'array_filter() expects parameter 1 to be array, string given' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:1877
+Stack trace:
+#0 [internal function]: Exception\Handler->handleError(2, 'array_filter() ...', 'F:\\xampp\\htdocs...', 1877, Array)
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(1877): array_filter('{"1":{"trID":"1...', Object(Closure))
+#2 [internal function]: App\Controllers\EventsController->applyEvent()
+#3 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(240): call_user_func_array(Array, Array)
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('applyEvent', Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'applyEvent')
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'applyEvent')
+#7 [internal function]: Routing\Router->Routing\{closure}()
+#8 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#13 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#14 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#17 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#18 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#19 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#20 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#21 {main} [] []
+[2016-10-17 15:06:07] production.ERROR: exception 'ErrorException' with message 'array_filter() expects parameter 1 to be array, string given' in F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php:1877
+Stack trace:
+#0 [internal function]: Exception\Handler->handleError(2, 'array_filter() ...', 'F:\\xampp\\htdocs...', 1877, Array)
+#1 F:\xampp\htdocs\v-mast.mvc\www\app\Controllers\EventsController.php(1877): array_filter('{"1":{"trID":"1...', Object(Closure))
+#2 [internal function]: App\Controllers\EventsController->applyEvent()
+#3 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(240): call_user_func_array(Array, Array)
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('applyEvent', Array)
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'applyEvent')
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'applyEvent')
+#7 [internal function]: Routing\Router->Routing\{closure}()
+#8 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#13 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#14 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#17 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#18 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#19 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#20 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#21 {main} [] []
+[2016-10-17 15:12:31] production.ERROR: exception 'ErrorException' with message 'Undefined offset: 1' in F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php:85
+Stack trace:
+#0 F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php(85): Exception\Handler->handleError(8, 'Undefined offse...', 'F:\\xampp\\htdocs...', 85, Array)
+#1 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(56): include('F:\\xampp\\htdocs...')
+#2 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(31): View\Engines\PhpEngine->evaluatePath('F:\\xampp\\htdocs...', Array)
+#3 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\Engines\PhpEngine->get('F:\\xampp\\htdocs...', Array)
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(110): View\View->render()
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\View->gatherData()
+#7 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#8 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Controller.php(70): View\View->render()
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(250): App\Core\Controller->processResponse(Object(View\View))
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('manage', Array)
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'manage')
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'manage')
+#13 [internal function]: Routing\Router->Routing\{closure}('31')
+#14 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#17 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#18 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#19 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#20 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#21 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#22 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#23 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#24 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#25 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#26 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#27 {main} [] []
+[2016-10-17 15:12:32] production.ERROR: exception 'ErrorException' with message 'Undefined offset: 1' in F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php:85
+Stack trace:
+#0 F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php(85): Exception\Handler->handleError(8, 'Undefined offse...', 'F:\\xampp\\htdocs...', 85, Array)
+#1 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(56): include('F:\\xampp\\htdocs...')
+#2 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(31): View\Engines\PhpEngine->evaluatePath('F:\\xampp\\htdocs...', Array)
+#3 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\Engines\PhpEngine->get('F:\\xampp\\htdocs...', Array)
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(110): View\View->render()
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\View->gatherData()
+#7 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#8 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Controller.php(70): View\View->render()
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(250): App\Core\Controller->processResponse(Object(View\View))
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('manage', Array)
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'manage')
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'manage')
+#13 [internal function]: Routing\Router->Routing\{closure}('31')
+#14 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#17 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#18 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#19 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#20 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#21 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#22 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#23 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#24 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#25 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#26 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#27 {main} [] []
+[2016-10-17 15:16:28] production.ERROR: exception 'ErrorException' with message 'Undefined offset: 1' in F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php:85
+Stack trace:
+#0 F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php(85): Exception\Handler->handleError(8, 'Undefined offse...', 'F:\\xampp\\htdocs...', 85, Array)
+#1 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(56): include('F:\\xampp\\htdocs...')
+#2 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(31): View\Engines\PhpEngine->evaluatePath('F:\\xampp\\htdocs...', Array)
+#3 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\Engines\PhpEngine->get('F:\\xampp\\htdocs...', Array)
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(110): View\View->render()
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\View->gatherData()
+#7 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#8 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Controller.php(70): View\View->render()
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(250): App\Core\Controller->processResponse(Object(View\View))
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('manage', Array)
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'manage')
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'manage')
+#13 [internal function]: Routing\Router->Routing\{closure}('31')
+#14 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#17 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#18 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#19 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#20 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#21 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#22 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#23 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#24 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#25 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#26 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#27 {main} [] []
+[2016-10-17 15:16:28] production.ERROR: exception 'ErrorException' with message 'Undefined offset: 1' in F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php:85
+Stack trace:
+#0 F:\xampp\htdocs\v-mast.mvc\www\app\Views\Events\Manage.php(85): Exception\Handler->handleError(8, 'Undefined offse...', 'F:\\xampp\\htdocs...', 85, Array)
+#1 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(56): include('F:\\xampp\\htdocs...')
+#2 F:\xampp\htdocs\v-mast.mvc\www\system\View\Engines\PhpEngine.php(31): View\Engines\PhpEngine->evaluatePath('F:\\xampp\\htdocs...', Array)
+#3 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\Engines\PhpEngine->get('F:\\xampp\\htdocs...', Array)
+#4 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#5 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(110): View\View->render()
+#6 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(95): View\View->gatherData()
+#7 F:\xampp\htdocs\v-mast.mvc\www\system\View\View.php(81): View\View->renderContents()
+#8 F:\xampp\htdocs\v-mast.mvc\www\app\Core\Controller.php(70): View\View->render()
+#9 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Controller.php(250): App\Core\Controller->processResponse(Object(View\View))
+#10 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(91): Routing\Controller->callAction('manage', Array)
+#11 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\ControllerDispatcher.php(60): Routing\ControllerDispatcher->call(Object(App\Controllers\EventsController), Object(Routing\Route), 'manage')
+#12 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(957): Routing\ControllerDispatcher->dispatch(Object(Routing\Route), Object(Http\Request), 'App\\Controllers...', 'manage')
+#13 [internal function]: Routing\Router->Routing\{closure}('31')
+#14 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Route.php(147): call_user_func_array(Object(Closure), Array)
+#15 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(1025): Routing\Route->run()
+#16 F:\xampp\htdocs\v-mast.mvc\www\system\Routing\Router.php(993): Routing\Router->dispatchToRoute(Object(Http\Request))
+#17 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(744): Routing\Router->dispatch(Object(Http\Request))
+#18 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(717): Foundation\Application->dispatch(Object(Http\Request))
+#19 F:\xampp\htdocs\v-mast.mvc\www\shared\Http\ContentGuard.php(62): Foundation\Application->handle(Object(Http\Request), 1, true)
+#20 F:\xampp\htdocs\v-mast.mvc\www\system\Session\Middleware.php(77): Shared\Http\ContentGuard->handle(Object(Http\Request), 1, true)
+#21 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Queue.php(49): Session\Middleware->handle(Object(Http\Request), 1, true)
+#22 F:\xampp\htdocs\v-mast.mvc\www\system\Cookie\Guard.php(54): Cookie\Queue->handle(Object(Http\Request), 1, true)
+#23 F:\xampp\htdocs\v-mast.mvc\www\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Cookie\Guard->handle(Object(Http\Request), 1, true)
+#24 F:\xampp\htdocs\v-mast.mvc\www\system\Foundation\Application.php(615): Stack\StackedHttpKernel->handle(Object(Http\Request))
+#25 F:\xampp\htdocs\v-mast.mvc\www\app\Boot\Start.php(250): Foundation\Application->run()
+#26 F:\xampp\htdocs\v-mast.mvc\www\public\index.php(37): require('F:\\xampp\\htdocs...')
+#27 {main} [] []

@@ -497,11 +497,12 @@ $(function () {
         assignChapter(data, "delete");
     });
 
-    // Start interval to check new applyed translators
+    // Start interval to check new applied translators
     var getMembersInterval = setInterval(function() {
         var eventID = $("#eventID").val();
         var ids = [];
 
+        if(typeof isManagePage == "undefined") return false;
         if(typeof eventID == "undefined" || eventID == "") return false;
 
         $.each($(".assign_chapter"), function() {

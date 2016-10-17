@@ -10,6 +10,7 @@ namespace Helpers\Constants;
 
 class EventSteps
 {
+    const NONE                  = "none";
     const PRAY                  = "pray";
     const CONSUME               = "consume";
     const DISCUSS               = "discuss";

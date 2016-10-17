@@ -339,7 +339,7 @@ return array (
     "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
     "not_started_event_error" => "Translation is not yet started. You can go to <a href=\"/events/manage/{0}\">Manage Event</a> page to assign translators and chapters of the book.",
     "partner_not_ready_error" => "You cannot proceed to the next step while your partner is not ready for this step",
-    "wrong_event_state_error" => "The translation of the book has not been started yet. Please wait until facilitator start it.",
+    "wrong_event_state_error" => "The translation of the book has not been started yet. Please wait until facilitator allows to participate.",
     "not_possible_to_save_error" => "You cannot edit your translation after checker has approved it.",
     "empty_verses_error" => "You haven't translated all the verses.",
     "wrong_chunks_error" => "Wrong setting of chunks.",
