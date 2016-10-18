@@ -12,6 +12,7 @@ This README would normally document whatever steps are necessary to get your app
 * Fork the project to a local server folder
 * You should install and activate INTL extension on your server
 * PHP 5.6 is a minimal requirement
+* Nodejs and redis are required for running chat on v-mast
 * Use mysql database. You can find mysql dump in the root directory of repository
 * You need to make some changes in files to configure project according to your server:
 ```
@@ -29,6 +30,9 @@ app\Config\ReCaptcha.php
 
 Nodejs\server.js
   * Set xhr url
+
+Put Nodejs folder wherever you want, open command promt and start nodejs server:
+  node server.js
 ```
 
 ### Contribution guidelines ###
