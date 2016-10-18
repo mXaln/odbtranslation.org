@@ -454,7 +454,7 @@ class EventsModel extends Model
             $builder->where("isGW", $isGW);
         }
 
-        return $builder->select("languages.langID", "languages.langName", "gateway_projects.gwProjectID")
+        return $builder->select("languages.langID", "languages.langName", "languages.angName", "gateway_projects.gwProjectID")
             ->leftJoin("gateway_projects", "languages.langID", "=", "gateway_projects.gwLang")
             ->orderBy("languages.langID")->get();
     }

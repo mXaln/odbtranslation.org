@@ -1817,7 +1817,7 @@ mark {
 }
 
 .demo_link {
-    float: right;
+    float: right;text-decoration: underline;
 }
 
 a.demo_link, a.demo_link:hover {

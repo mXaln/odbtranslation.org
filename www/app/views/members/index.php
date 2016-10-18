@@ -7,6 +7,7 @@ use Helpers\Session;
 
 <div style="border-bottom: dotted #ccc; margin-bottom: 20px">
     <h1><?php echo __("vmast_events") ?></h1>
+    <div class="demo_title"><a href="/events/demo" class="demo_link"><?php echo __("demo")?></a></div>
 </div>
 
 <ul class="nav nav-tabs">

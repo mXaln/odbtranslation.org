@@ -8,6 +8,7 @@ var hasChangesOnPage = false;
 var autosaveTimer;
 
 var eventSteps = {
+    NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
     DISCUSS: "discuss",

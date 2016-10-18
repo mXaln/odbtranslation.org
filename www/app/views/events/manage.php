@@ -82,7 +82,7 @@
                             <?php echo $data["pairs"][$i][1]["userName"] ?>
                         <?php endif; ?>
                     </div>
-                    <div class="create_pair_block pair_button" style="<?php echo sizeof($data["pairs"][$i]) == 2 ? "display:none" : "" ?>">
+                    <div class="create_pair_block pair_button" style="<?php echo isset($data["pairs"][$i]) && sizeof($data["pairs"][$i]) == 2 ? "display:none" : "" ?>">
                         <button class="btn btn-success add_person_pair" data="<?php echo $i ?>"><?php echo __("assign_pair_title") ?></button>
                     </div>
                     <div class="reset_pair_block pair_button" style="<?php echo sizeof($data["pairs"][$i]) == 2 ? "display:block" : "" ?>">
