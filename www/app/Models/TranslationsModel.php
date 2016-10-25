@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Database\Model;
+use Helpers\Constants\EventSteps;
 use Helpers\Data;
 
 class TranslationsModel extends Model
@@ -17,6 +18,7 @@ class TranslationsModel extends Model
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
+            ->where("translations.translateDone", true)
             ->groupBy("translations.targetLang")->get();
     }
 
@@ -26,6 +28,7 @@ class TranslationsModel extends Model
             ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->where("translations.targetLang", $lang)
+            ->where("translations.translateDone", true)
             ->groupBy("translations.bookProject")->get();
     }
 
@@ -38,7 +41,8 @@ class TranslationsModel extends Model
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
-            ->groupBy("translations.bookProject")->get();
+            ->where("translations.translateDone", true)
+            ->groupBy("translations.bookCode")->get();
     }
 
     /**
@@ -58,6 +62,7 @@ class TranslationsModel extends Model
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
             ->where("translations.bookCode", $bookCode)
+            ->where("translations.translateDone", true)
             ->orderBy("translations.chapter")
             ->orderBy("translations.chunk")->get();
     }
@@ -68,24 +73,25 @@ class TranslationsModel extends Model
      */
     public function getTranslationByEventID($eventID)
     {
-        $sql = "SELECT trs.chapter, trs.chunk, trs.translateDone, ".
-            "trs.firstvs, ts.memberID, prs.memberID AS pairMemberID, ts.step, ts.kwCheck, ts.crCheck, ".
-            "ts.currentChapter, ts.checkerID ".
-            "FROM ".PREFIX."translators AS ts ".
-            "LEFT JOIN ".PREFIX."translations AS trs ON trs.trID = ts.trID ".
-            "LEFT JOIN ".PREFIX."translators AS prs ON prs.trID = ts.pairID ".
-            "WHERE ts.eventID = :eventID ".
-            "ORDER BY trs.chapter, trs.chunk";
-
-        return $this->db->select($sql, [":eventID" => $eventID]);
+        return $this->db->table("translators")
+            ->select("translations.chapter", "translations.chunk", "translations.translateDone",
+                "translations.firstvs", "translators.memberID", "translators.step", "translators.verbCheck",
+                "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
+                "translators.currentChapter", "translators.checkerID")
+            ->leftJoin("translations", "translators.trID", "=", "translations.trID")
+            ->where("translators.eventID", $eventID)
+            ->where("translators.step", "!=", EventSteps::NONE)
+            ->orderBy("translations.chapter")
+            ->orderBy("translations.chunk")
+            ->get();
     }
 
-    public function getComment($eventID, $chapter, $verse, $memberID)
+    public function getComment($eventID, $chapter, $chunk, $memberID)
     {
         return $this->db->table("comments")
             ->where("eventID", $eventID)
             ->where("chapter", $chapter)
-            ->where("verse", $verse)
+            ->where("chunk", $chunk)
             ->where("memberID", $memberID)->get();
     }
 
@@ -96,7 +102,7 @@ class TranslationsModel extends Model
             ->leftJoin("members", "comments.memberID", "=", "members.memberID")
             ->where("comments.eventID", $eventID)
             ->orderBy("comments.chapter")
-            ->orderBy("comments.verse")
+            ->orderBy("comments.chunk")
             ->orderBy("comments.cID");
 
         if($chapter != null)

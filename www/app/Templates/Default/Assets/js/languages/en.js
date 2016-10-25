@@ -13,7 +13,7 @@ var Language = {
     "partner_joined_verbalize"  : "Your partner has joined 'Verbalize' step",
     "partner_joined_peer_edit"  : "Your partner has joined 'Peer-Edit' step",
     "checker_joined"            : "A checker has accepted your request",
-    "checker_approved"          : "Checker has approved your translation!",
+    "checker_approved"          : "Checker has approved this step!",
     "assign"                    : "Assign",
     "chapters"                  : "Chapters",
     "newUsersApplyed"           : "These new users have just applyed",
@@ -25,7 +25,7 @@ var Language = {
     "assign_pair_title"         : "Create pair",
     "reset_pair_title"          : "Reset pair",
     "start_translation"         : "Start translation",
-    "start_translation_confirm" : "You will not be able to assign chapters and pairs after starting translation. Are you sure you want to start?",
+    "start_translation_confirm" : "You will not be able to remove chapters after starting translation. Are you sure you want to start?",
     "make_chunk"                : "Make chunk",
     "no_notifs_msg"             : "No notifications",
     "calling"                   : "Calling...",
@@ -35,5 +35,6 @@ var Language = {
     "chapters"                  : "Chapters",
     "chaptersNum"               : "Number of chapters",
     "applyForEventConfirm"      : "Do you really want to apply for this event?",
-    "applyForEventConfirmTitle" : "Apply for event"
+    "applyForEventConfirmTitle" : "Apply for event",
+    "ieVersemarkersInstructions": "Put caret into the text first and then click on the verse marker to put into caret position!"
 };

@@ -842,7 +842,6 @@ class MembersController extends Controller
                 }
 
                 $member[0]->isAdmin = $isAdmin;
-                $member[0]->cotrMemberID = $event[0]->cotrMemberID;
                 echo json_encode($member[0]);
             }
             else

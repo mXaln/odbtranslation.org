@@ -22,31 +22,22 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
             <span><?php echo __(EventSteps::CONSUME)?></span>
         </li>
 
-        <li class="discuss-step <?php echo $data["event"][0]->step == EventSteps::DISCUSS ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::DISCUSS)?></span>
+        <li class="verbalize-step <?php echo $data["event"][0]->step == EventSteps::VERBALIZE ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::VERBALIZE)?></span>
         </li>
 
-        <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ||
-                $data["event"][0]->step == EventSteps::PRE_CHUNKING ? "active" : "" ?>">
+        <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ? "active" : "" ?>">
             <span><?php echo __(EventSteps::CHUNKING)?></span>
         </li>
 
-        <?php if($data["event"][0]->gwLang != $data["event"][0]->targetLang):?>
-        <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
+        <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ||
+            $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
             <span><?php echo __(EventSteps::BLIND_DRAFT)?></span>
         </li>
-        <?php endif; ?>
 
-        <?php $apx = $data["event"][0]->gwLang == $data["event"][0]->targetLang ? "_gl" : "" ?>
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::SELF_CHECK.$apx)?></span>
-        </li>
-
-        <?php if($data["event"][0]->gwLang == $data["event"][0]->targetLang):?>
-        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK_FULL ? "active" : "" ?>">
             <span><?php echo __(EventSteps::SELF_CHECK)?></span>
         </li>
-        <?php endif; ?>
 
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PEER_REVIEW)?></span>
@@ -59,13 +50,16 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
             <span><?php echo __(EventSteps::CONTENT_REVIEW)?></span>
         </li>
+
+        <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::FINAL_REVIEW)?></span>
+        </li>
     </ul>
 </div>
 
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
-    var pairMemberID = <?php echo isset($data["event"][0]->cotrMemberID) ? $data["event"][0]->cotrMemberID : 0; ?>;
     var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
@@ -88,31 +82,34 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
             <div class="row">
-                <div id="p2p" class="col-sm-4 chat_tab active">
-                    <div><?php echo __("partner_tab_title") ?></div>
+                <div id="chk" class="col-sm-4 chat_tab">
+                    <div class="chk_title">
+                        <?php
+                        echo isset($data["event"][0]->checkerName) && $data["event"][0]->checkerName !== null ?
+                            $data["event"][0]->checkerName : (isset($data["event"][0]->userName) && $data["event"][0]->userName !== null ?
+                                $data["event"][0]->userName : __("not_available"))
+                        ?>
+                    </div>
                     <div class="missed"></div>
                 </div>
-                <div id="chk" class="col-sm-4 chat_tab active">
-                    <div><?php echo __("checking_tab_title") ?></div>
-                    <div class="missed"></div>
-                </div>
-                <div id="evnt" class="col-sm-4 chat_tab">
+                <div id="evnt" class="col-sm-4 chat_tab active">
                     <div><?php echo __("event_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
-                <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
-                    <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
-                    <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
+                <div class="col-sm-4" style="text-align: right; float: right; padding: 2px 20px 0 0">
+                    <div class="<?php echo $data["event"][0]->checkerID <= 0 ? "videoBtnHide" : "" ?>">
+                        <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
+                        <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
+                    </div>
                 </div>
             </div>
         </div>
-        <ul id="p2p_messages" class="chat_msgs"></ul>
         <ul id="chk_messages" class="chat_msgs"></ul>
         <ul id="evnt_messages" class="chat_msgs"></ul>
         <form action="" class="form-inline">
             <div class="form-group">
                 <textarea id="m" class="form-control"></textarea>
-                <input type="hidden" id="chat_type" value="p2p" />
+                <input type="hidden" id="chat_type" value="evnt" />
             </div>
         </form>
     </div>

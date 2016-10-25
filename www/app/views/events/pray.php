@@ -37,14 +37,6 @@
 
             <div class="event_info">
                 <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_partner") ?>:</span>
-                        <span><?php echo $data["event"][0]->pairName ?></span>
-                    </div>
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
-                    </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>

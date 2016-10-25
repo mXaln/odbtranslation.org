@@ -38,12 +38,26 @@
                             <?php foreach ($chapter["chunks"] as $index => $chunk):?>
                                 <div class="section_translator_chunk">
                                     <?php echo __("chunk_number", array($chunk[0]." - ".$chunk[sizeof($chunk)-1])); ?>
-                                    <?php if(array_key_exists($index, (array)$chapter["chunksData"]) && $chapter["chunksData"][$index]->translateDone) {
+                                    <?php if(array_key_exists($index, (array)$chapter["chunksData"])) {
                                         echo __("chunk_finished");
                                     } ?>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="checker_verb <?php echo $chapter["verb"]["state"] == "not_started" ? "not_started_block" : "" ?>">
+                    <div class="checker_header">
+                        <span class="checker_label <?php echo $chapter["verb"]["state"] == "not_started" ? "not_started_label" : "" ?>"><?php echo __("checker_verb") ?>:</span>
+                        <span class="checker_name <?php echo $chapter["verb"]["state"] == "not_started" ? "not_started_name" : "" ?>"><?php echo $data["members"][$chapter["verb"]["checkerID"]] ?></span>
+                    </div>
+                    <div class="checker_status">
+                        <span style="font-weight: bold;"><?php echo __("checker_status") ?>:</span>
+                        <span class="state_active <?php echo $chapter["verb"]["state"] == "not_started" ? "not_started_name" : "" ?>">
+                                            <?php echo __("checker_status_".$chapter["verb"]["state"]) ?>
+                            <span class="<?php echo $chapter["verb"]["state"] == "finished" ? "glyphicon glyphicon-ok" : "" ?>"></span>
+                                        </span>
                     </div>
                 </div>
 

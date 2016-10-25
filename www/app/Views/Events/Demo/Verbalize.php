@@ -1,6 +1,6 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(2)) . __("discuss")?></div>
+        <div class="main_content_title"><?php echo __("step_num", array(2)) . __("verbalize")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
     </div>
 
@@ -98,7 +98,7 @@ heavenly kingdom. To him be the glory forever and ever. Amen.
                         <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
                     </div>
 
-                    <button id="next_step" onclick="window.location.href='<?php echo SITEURL ?>events/demo/prep_chunks'; return false;" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <button id="next_step" onclick="window.location.href='<?php echo SITEURL ?>events/demo/chunking'; return false;" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
             </div>
         </div>
@@ -109,9 +109,9 @@ heavenly kingdom. To him be the glory forever and ever. Amen.
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array(2))?></span> <?php echo __("discuss")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", array(2))?></span> <?php echo __("verbalize")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("discuss_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo mb_substr(__("verbalize_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
             </div>
 
@@ -139,16 +139,16 @@ heavenly kingdom. To him be the glory forever and ever. Amen.
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/discuss.png") ?>" height="100px" width="100px">
-            <img src="<?php echo template_url("img/steps/big/discuss.png") ?>" height="280px" width="280px">
+            <img src="<?php echo template_url("img/steps/icons/verbalize.png") ?>" height="100px" width="100px">
+            <img src="<?php echo template_url("img/steps/big/verbalize.png") ?>" height="280px" width="280px">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="discuss" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
+                <label><input id="hide_tutorial" data="verbalize" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("discuss")?></h3>
-            <ul><?php echo __("discuss_desc")?></ul>
+            <h3><?php echo __("verbalize")?></h3>
+            <ul><?php echo __("verbalize_desc")?></ul>
         </div>
     </div>
 </div>

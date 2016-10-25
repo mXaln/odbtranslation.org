@@ -13,7 +13,7 @@ var Language = {
     "partner_joined_verbalize"  : "Ваш партнёр присоединился к шагу 'Пересказ'",
     "partner_joined_peer_edit"  : "Ваш партнёр присоединился к шагу 'Взаимопроверка'",
     "checker_joined"            : "Проверяющий принял ваш запрос",
-    "checker_approved"          : "Проверяющий утвердил ваш перевод!",
+    "checker_approved"          : "Проверяющий утвердил этот шаг!",
     "assign"                    : "Назначить",
     "chapters"                  : "Главы",
     "newUsersApplyed"           : "Новые пользователи только что присоединились",
@@ -25,7 +25,7 @@ var Language = {
     "assign_pair_title"         : "Назначить пару",
     "reset_pair_title"          : "Удалить пару",
     "start_translation"         : "Начать перевод",
-    "start_translation_confirm" : "Вы не сможете назначать главы и пары после того, как перевод начнётся. Вы хотите начать перевод?",
+    "start_translation_confirm" : "Вы не сможете удалять главы после того, как перевод начнётся. Вы хотите начать перевод?",
     "make_chunk"                : "Создать отрывок",
     "no_notifs_msg"             : "Нет уведомлений",
     "calling"                   : "Звоним...",
@@ -35,5 +35,6 @@ var Language = {
     "chapters"                  : "Главы",
     "chaptersNum"               : "Количество глав",
     "applyForEventConfirm"      : "Вы действительно хотите учавствовать в этом событии?",
-    "applyForEventConfirmTitle" : "Участие в событии"
+    "applyForEventConfirmTitle" : "Участие в событии",
+    "ieVersemarkersInstructions": "Поставьте курсор в текст, затем нажмите на маркер стиха, чтобы установить его на место курсора!"
 };

@@ -1,3 +1,7 @@
+<?php
+echo Error::display($error);
+?>
+
 <div class="manage_container row">
     <div class="row">
         <div class="col-sm-9">
@@ -15,7 +19,7 @@
         </div>
     </div>
 
-    <div class="manage_chapters col-sm-4">
+    <div class="manage_chapters col-sm-6">
         <h3><?php echo __("chapters") ?></h3>
         <ul>
             <?php foreach ($data["chapters"] as $chapter => $chapData): ?>
@@ -48,7 +52,7 @@
         </ul>
     </div>
 
-    <div class="manage_members col-sm-4">
+    <div class="manage_members col-sm-6">
         <h3><?php echo __("people_number", array(sizeof($data["members"]), $data["event"][0]->translatorsNum)) ?></h3>
         <ul>
             <?php foreach ($data["members"] as $member):?>
@@ -59,38 +63,6 @@
                     </div>
                 </li>
             <?php endforeach; ?>
-        </ul>
-    </div>
-
-    <div class="manage_pairs col-sm-4">
-        <h3><?php echo __("pairs_number", array(floor(sizeof($data["members"])/2))) ?></h3>
-        <ul>
-            <?php for ($i=1; $i <= floor(sizeof($data["members"])/2); $i++): ?>
-            <li>
-                <div class="pair_block pair_<?php echo $i ?>">
-                    <div class="assignPairLoader inline_f" data="<?php echo $i ?>">
-                        <img src="<?php echo template_url("img/loader_alt.gif") ?>">
-                    </div>
-                    <h4><?php echo __("pair_number", array($i)); ?></h4>
-                    <div class="pair_member1">
-                        <?php if(isset($data["pairs"][$i])): ?>
-                            <?php echo $data["pairs"][$i][0]["userName"] ?>
-                        <?php endif; ?>
-                    </div>
-                    <div class="pair_member2">
-                        <?php if(isset($data["pairs"][$i]) && isset($data["pairs"][$i][1])): ?>
-                            <?php echo $data["pairs"][$i][1]["userName"] ?>
-                        <?php endif; ?>
-                    </div>
-                    <div class="create_pair_block pair_button" style="<?php echo isset($data["pairs"][$i]) && sizeof($data["pairs"][$i]) == 2 ? "display:none" : "" ?>">
-                        <button class="btn btn-success add_person_pair" data="<?php echo $i ?>"><?php echo __("assign_pair_title") ?></button>
-                    </div>
-                    <div class="reset_pair_block pair_button" style="<?php echo sizeof($data["pairs"][$i]) == 2 ? "display:block" : "" ?>">
-                        <button class="btn btn-danger reset_pair" data="<?php echo $i ?>"><?php echo __("reset_pair_title") ?></button>
-                    </div>
-                </div>
-            </li>
-            <?php endfor; ?>
         </ul>
     </div>
 
@@ -121,34 +93,6 @@
             </li>
             <?php endforeach; ?>
         </ul>
-    </div>
-</div>
-
-<div class="pair_members">
-    <div class="pair_members_div panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("assign_pair_title")?> <span></span></h1>
-            <span class="pair-members-close glyphicon glyphicon-remove-sign"></span>
-        </div>
-        <div class="assignPairLoader dialog_f">
-            <img src="<?php echo template_url("img/loader.gif") ?>">
-        </div>
-        <h4 style="margin: 10px 0 0 10px;"><?php echo __("check_pair_members") ?></h4>
-        <ul class="col-sm-7">
-            <?php foreach ($data["members"] as $member): ?>
-                <?php if($member["pairOrder"] > 0) continue; ?>
-                <li>
-                    <div class="member_usname userlist"><?php echo $member["userName"]; ?></div>
-                    <input type="checkbox" class="checkForPair" data="<?php echo $member["memberID"] ?>">
-                    <div class="clear"></div>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-        <div class="col-sm-5 assign_pair_button">
-            <button class="btn btn-success assign_pair" disabled><?php echo __("assign_pair_title") ?></button>
-            <div class="assigned_members"></div>
-        </div>
-        <div class="clear"></div>
     </div>
 </div>
 

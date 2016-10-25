@@ -1,6 +1,6 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(4)) . __("blind-draft")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [4]). ": " . __("blind-draft")?></div>
     </div>
 
     <div class="row">
@@ -16,7 +16,7 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php echo isset($_POST["draft"]) ? $_POST["draft"] : (isset($data["blindDraftText"]) ? $data["blindDraftText"] : "")?></textarea>
+                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php echo isset($_POST["draft"]) ? $_POST["draft"] : ""?></textarea>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array(4))?></span> <?php echo __("blind-draft")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>: </span> <?php echo __("blind-draft")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(__("blind-draft_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
@@ -46,14 +46,6 @@
 
             <div class="event_info">
                 <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_partner") ?>:</span>
-                        <span><?php echo $data["event"][0]->pairName ?></span>
-                    </div>
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
-                    </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>

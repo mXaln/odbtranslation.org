@@ -69,6 +69,7 @@ function OnRoomUpdate(roomMates)
 
 function OnSystemMessage(data)
 {
+    var msg = "";
     switch (data.type)
     {
         case "logout":
@@ -76,79 +77,34 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
-            var data = {eventID: eventID, step: step, chkMemberID: chkMemberID, isChecker: isChecker};
+            var data = {
+                eventID: eventID,
+                step: step,
+                chkMemberID: chkMemberID,
+                isChecker: isChecker};
             this.emit('step enter', data);
             break;
 
-        case "discussEnter":
-            if($(".discuss_not_ready").length > 0)
-            {
-                $(".alert.alert-danger, .alert.alert-success").remove();
-
-                $(".alert_message").text(Language.partner_joined_verbalize);
-                $( "#dialog-message" ).dialog({
-                    modal: true,
-                    resizable: false,
-                    draggable: false,
-                    width: 500,
-                    buttons: {
-                        Ok: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
-            }
-            break;
-
+        case "verbalizeEnter":
+            msg = Language.partner_joined_verbalize;
         case "peerEnter":
-            if($(".cotr_not_ready").length > 0)
-            {
-                $(".alert.alert-danger").remove();
-                $.ajax({
-                        url: "/events/rpc/get_partner_translation",
-                        method: "post",
-                        dataType: "html",
-                        data: {eventID: eventID}
-                    })
-                    .done(function(data) {
-                        $(".cotrData").html(data);
-                        $('[data-toggle="tooltip"]').tooltip();
-
-                        if(!data.match(/cotr_not_ready/))
-                        {
-                            $(".alert_message").text(Language.partner_joined_peer_edit);
-                            $( "#dialog-message" ).dialog({
-                                modal: true,
-                                resizable: false,
-                                draggable: false,
-                                width: 500,
-                                buttons: {
-                                    Ok: function() {
-                                        $( this ).dialog( "close" );
-                                    }
-                                }
-                            });
-                        }
-                    });
-            }
-            break;
-
+            msg = Language.partner_joined_peer_edit;
         case "checkEnter":
             if(chkMemberID == 0 || $(".checker_waits").length > 0)
             {
-                $(".check_request").remove();
                 chkMemberID = parseInt(data.memberID);
-                $("#chat_container").chat("options", {chkMemberID: chkMemberID});
+                $(".check_request").remove();
                 $(".checker_name_span").text(data.userName);
-                //this.disconnect();
-                //this.connect();
+                $(".chk_title").text(data.userName);
+
                 socket.io.reconnect();
                 
 				if(step != "")
                 {
+                    msg = Language.checker_joined;
                     $(".alert.alert-danger, .alert.alert-success").remove();
 
-                    $(".alert_message").text(Language.checker_joined);
+                    $(".alert_message").text(msg);
                     $( "#dialog-message" ).dialog({
                         modal: true,
                         resizable: false,
@@ -161,6 +117,9 @@ function OnSystemMessage(data)
                         }
                     });
                 }
+
+                $("#chat_container").chat("options", {chkMemberID: chkMemberID});
+                $("#chat_container").chat("update");
             }
             break;
 

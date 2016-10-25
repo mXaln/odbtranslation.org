@@ -1,3 +1,7 @@
+<?php
+use Helpers\Constants\EventMembers;
+?>
+
 <div class="editor">
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
@@ -12,7 +16,7 @@
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(8)) . __("content-review")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [8]). ": " . __("content-review")?></div>
     </div>
 
     <div class="row">
@@ -30,7 +34,34 @@
 
                     <div class="col-sm-12">
                         <?php foreach($data["translation"] as $key => $chunk) : ?>
-                            <?php $k=0; foreach($chunk["translator"]["verses"] as $verse => $text):
+                            <div class="chunk_verse editor_area">
+                                <div class="vnote">
+                                    <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
+                                    <textarea name="chunks[]" class="peer_verse_ta textarea"><?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?></textarea>
+
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
+                                    </div>
+
+                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>"/>
+
+                                    <div class="comments">
+                                        <?php if($hasComments): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+
+                            <?php /*$k=0; foreach($chunk["translator"]["verses"] as $verse => $text):
                                 ?>
                                 <div class="chunk_verse editor_area">
                                     <div class="vnote">
@@ -58,7 +89,7 @@
                                     <div class="clear"></div>
                                     </div>
                                 </div>
-                                <?php $k++; endforeach; ?>
+                                <?php $k++; endforeach; */ ?>
                             <div class="chunk_divider col-sm-12"></div>
                             <div class="clear"></div>
                         <?php endforeach; ?>
@@ -87,7 +118,7 @@
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array(8))?></span> <?php echo __("content-review")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [8])?>: </span> <?php echo __("content-review")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(__("content-review_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
@@ -96,12 +127,8 @@
             <div class="event_info">
                 <div class="participant_info">
                     <div class="participant_name">
-                        <span><?php echo __("your_partner") ?>:</span>
-                        <span><?php echo $data["event"][0]->pairName ?></span>
-                    </div>
-                    <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : "N/A" ?></span>
+                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : __("not_available") ?></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>

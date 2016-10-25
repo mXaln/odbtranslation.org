@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\TranslationsModel;
+use Helpers\Constants\EventMembers;
 use Shared\Legacy\Error;
 use View;
 use Helpers\Data;
@@ -79,6 +80,7 @@ class TranslationsController extends Controller
                 foreach ($verses->translator->verses as $verse => $text) {
                     $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                 }
+
                 // End of chunk
                 $data['book'] .= '</p>';
             }

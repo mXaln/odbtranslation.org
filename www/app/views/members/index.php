@@ -185,8 +185,8 @@ use Helpers\Session;
                 <div class="event_curr_step">
                     <?php
                     $step = $event->step;
-                    if($step == EventSteps::PRE_CHUNKING)
-                        $step = EventSteps::CHUNKING;
+                    if($step == EventSteps::CHUNKING)
+                        $step = EventSteps::READ_CHUNK;
 
                     if($step == EventSteps::SELF_CHECK_FULL)
                         $step = EventSteps::SELF_CHECK;
@@ -247,8 +247,8 @@ use Helpers\Session;
                 <div class="event_curr_step">
                     <?php
                     $step = $event->step;
-                    if($step == EventSteps::PRE_CHUNKING)
-                        $step = EventSteps::CHUNKING;
+                    if($step == EventSteps::CHUNKING)
+                        $step = EventSteps::READ_CHUNK;
 
                     if($step == EventSteps::SELF_CHECK_FULL)
                         $step = EventSteps::SELF_CHECK;

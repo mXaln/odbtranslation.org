@@ -7,15 +7,12 @@
  ***************************************************/
 var Event = function() {
     var eventID;
-    var cotrMemberID;
-    var pairID;
+    var checkPairs;
     var sockets;
 
     // Define which variables and methods can be accessed
     return {
         eventID: eventID,
-        cotrMemberID: cotrMemberID,
-        pairID: pairID,
         checkPairs: [],
         sockets: [],
     }

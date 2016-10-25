@@ -1,6 +1,6 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(3)) . __("chunking")?></div>
+        <div class="main_content_title"><?php echo __("step_num", array(3)) . __("read-chunk")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
     </div>
 
@@ -40,7 +40,7 @@ desires. They will be tickling their hearing.
                         <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
                     </div>
 
-                    <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <button id="next_step" onclick="window.location.href='<?php echo SITEURL ?>events/demo/blind_draft'; return false;" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
             </div>
         </div>
@@ -51,9 +51,9 @@ desires. They will be tickling their hearing.
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array(3))?></span> <?php echo __("chunking")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", array(3))?></span> <?php echo __("read-chunk")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("chunking_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo mb_substr(__("read-chunk_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
             </div>
 
@@ -81,29 +81,16 @@ desires. They will be tickling their hearing.
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/chunking.png") ?>" height="100px" width="100px">
-            <img src="<?php echo template_url("img/steps/big/chunking.png") ?>" height="280px" width="280px">
+            <img src="<?php echo template_url("img/steps/icons/read-chunk.png") ?>" height="100px" width="100px">
+            <img src="<?php echo template_url("img/steps/big/read-chunk.png") ?>" height="280px" width="280px">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="chunking" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
+                <label><input id="hide_tutorial" data="read-chunk" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("chunking")?></h3>
-            <ul><?php echo __("chunking_desc")?></ul>
+            <h3><?php echo __("read-chunk")?></h3>
+            <ul><?php echo __("read-chunk_desc")?></ul>
         </div>
     </div>
 </div>
-
-<script>
-    (function($) {
-        $("#next_step").click(function() {
-
-            var url = '<?php echo SITEURL."events/demo/" . (!isset($_COOKIE["demo_mode"]) || $_COOKIE["demo_mode"] == "gl" ? "draft" : "blind_draft") ?>';
-
-            window.location.href=url;
-
-            return false;
-        });
-    }(jQuery));
-</script>

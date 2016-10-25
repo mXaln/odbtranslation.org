@@ -17,32 +17,36 @@ Functions: __construct() - create new EventSteps object
 ** Class Member
 ***************************************************/
 var EventSteps = function() {
+	var NONE;
 	var PRAY;
 	var CONSUME;
-	var DISCUSS;
-	var PRE_CHUNKING;
+	var VERBALIZE;
 	var CHUNKING;
+	var READ_CHUNK;
 	var BLIND_DRAFT;
 	var SELF_CHECK;
 	var SELF_CHECK_FULL;
 	var PEER_REVIEW;
 	var KEYWORD_CHECK;
 	var CONTENT_REVIEW;
+	var FINAL_REVIEW;
 	var FINISHED;
 
 	// Define which variables and methods can be accessed
 	return {
+		NONE: "none",
 		PRAY: "pray",
 		CONSUME: "consume",
-		DISCUSS: "discuss",
-		PRE_CHUNKING: "pre-chunking",
+		VERBALIZE: "verbalize",
 		CHUNKING: "chunking",
+		READ_CHUNK: "read-chunk",
 		BLIND_DRAFT: "blind-draft",
 		SELF_CHECK: "self-check",
 		SELF_CHECK_FULL: "self-check-full",
 		PEER_REVIEW: "peer-review",
 		KEYWORD_CHECK: "keyword-check",
 		CONTENT_REVIEW: "content-review",
+		FINAL_REVIEW: "final-review",
 		FINISHED: "finished",
 	}
 };

@@ -328,8 +328,7 @@ function gotStream(stream)
     }
     else
     {
-        calleeID = step == eventSteps.KEYWORD_CHECK || step == eventSteps.CONTENT_REVIEW ?
-            chkMemberID : pairMemberID;
+        calleeID = chkMemberID;
         doCall();
     }
 }

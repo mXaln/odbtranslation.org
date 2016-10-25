@@ -1,6 +1,6 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(3)) . __("pre-chunking")?></div>
+        <div class="main_content_title"><?php echo __("step_num", array(3)) . __("chunking")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
     </div>
 
@@ -197,9 +197,9 @@ kingdom. To him be the glory forever and ever. Amen.
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array(3))?></span> <?php echo __("pre-chunking")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", array(3))?></span> <?php echo __("chunking")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("pre-chunking_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo mb_substr(__("chunking_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
             </div>
 
@@ -232,13 +232,13 @@ kingdom. To him be the glory forever and ever. Amen.
             <img src="<?php echo template_url("img/steps/icons/chunking.png") ?>" height="100px" width="100px">
             <img src="<?php echo template_url("img/steps/big/chunking.png") ?>" height="280px" width="280px">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="pre-chunking" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
+                <label><input id="hide_tutorial" data="chunking" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("pre-chunking")?></h3>
-            <ul><?php echo __("pre-chunking_desc")?></ul>
+            <h3><?php echo __("chunking")?></h3>
+            <ul><?php echo __("chunking_desc")?></ul>
         </div>
     </div>
 </div>

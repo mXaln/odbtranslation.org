@@ -29,33 +29,12 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array($step_num)) . __($current)?></div>
+        <div class="main_content_title"><?php echo __("step_num", array($step_num)). ": " . __($current)?></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text row">
-                <div class="keywords_show" style="<?php echo $current == EventSteps::CONTENT_REVIEW ? "display:none;" : "" ?>"><?php echo __("show_keywords"); ?></div>
-
-                <div class="keywords_list_container">
-                    <div class="keywords_list">
-                        <div class="keywords-list-close glyphicon glyphicon-remove"></div>
-                        <div class="labels_list">
-                            <?php if(isset($data["keywords"])): ?>
-                                <?php foreach ($data["keywords"] as $keyword): ?>
-                                    <label><?php echo __("verses")." ".$keyword["id"]?>
-                                        <ul>
-                                        <?php foreach ($keyword["terms"] as $term):?>
-                                            <li><?php echo $term; ?></li>
-                                        <?php endforeach; ?>
-                                        </ul>
-                                    </label>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
@@ -195,7 +174,7 @@ if(empty($error) && empty($data["success"])):
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array($step_num))?></span> <?php echo __($current)?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", array($step_num))?>: </span> <?php echo __($current)?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(__($current . "_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
@@ -237,21 +216,6 @@ if(empty($error) && empty($data["success"])):
 
 <script>
     isChecker = true;
-    keywords = [];
-
-    <?php if($data["event"][0]->step == EventSteps::KEYWORD_CHECK): ?>
-        <?php if(isset($data["keywords"])): ?>
-            <?php foreach ($data["keywords"] as $keyword): ?>
-                <?php foreach ($keyword["terms"] as $term):?>
-                    <?php $kws = explode(", ", $term) ?>
-                    <?php foreach ($kws as $item):?>
-                        if($.inArray('<?php echo addslashes ($item); ?>', keywords) <= -1)
-                            keywords.push('<?php echo addslashes ($item); ?>');
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    <?php endif; ?>
 </script>
 <?php endif; ?>
 

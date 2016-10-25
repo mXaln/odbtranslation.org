@@ -538,13 +538,6 @@ $(function () {
                         '</li>';
                         $(".manage_members ul").append(shownListLi);
 
-                        var pairListLi = '<li>'+
-                            '<div class="member_usname userlist">'+value.userName+'</div>'+
-                                '<input type="checkbox" class="checkForPair" id="checkForPair" data="'+value.memberID+'">'+
-                            '<div class="clear"></div>'+
-                        '</li>';
-                        $(".pair_members_div ul").append(pairListLi);
-
                         newUsers.push(value.userName);
                     });
 
@@ -553,34 +546,6 @@ $(function () {
                         var mNum = parseInt($(".manage_members h3 span").text()); // number of current members
                         mNum += newUsers.length;
                         $(".manage_members h3 span").text(mNum);
-
-                        var pNum = parseInt($(".manage_pairs h3 span").text()); // number of current pairs
-                        var pNumNew = Math.floor(mNum/2); // New number of pairs
-                        var pNumAdd = pNumNew - pNum; // pair blocks to create
-
-                        for(var i=1; i <= pNumAdd; i++)
-                        {
-                            var pair = pNum + i;
-                            var li = '<li>'+
-                                '<div class="pair_block pair_'+pair+'">'+
-                                    '<div class="assignPairLoader inline_f" data="'+pair+'">'+
-                                        '<img src="/app/templates/default/img/loader_alt.gif">'+
-                                    '</div>'+
-                                    '<h4>'+Language.pair_number+' '+pair+'</h4>'+
-                                    '<div class="pair_member1"></div>'+
-                                    '<div class="pair_member2"></div>'+
-                                    '<div class="create_pair_block pair_button">'+
-                                        '<button class="btn btn-success add_person_pair" data="'+pair+'">'+Language.assign_pair_title+'</button>'+
-                                    '</div>'+
-                                    '<div class="reset_pair_block pair_button">'+
-                                        '<button class="btn btn-danger reset_pair" data="'+pair+'">'+Language.reset_pair_title+'</button>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</li>';
-
-                            $(".manage_pairs ul").append(li);
-                        }
-                        $(".manage_pairs h3 span").text(pNumNew);
 
                         $(".alert_message").text(Language.newUsersApplyed+": "+newUsers.join(", "));
                         $( "#dialog-message" ).dialog({
@@ -604,129 +569,6 @@ $(function () {
 
     }, 30000);
 
-
-    // Show assign pair dialog
-    $(document).on("click", ".add_person_pair", function() {
-        $(".pair_members_div .panel-title span").text($(this).attr("data"));
-
-        pairMemberIds = [];
-
-        $(".pair_members").show();
-
-        $('html, body').css({
-            'overflow': 'hidden',
-            'height': '100%'
-        });
-
-        pairMemberIds = [];
-        $(".checkForPair").prop("checked", false).prop("disabled", false);
-        $(".assign_pair").prop("disabled", true);
-        $(".assigned_members").html("");
-    });
-
-
-    // Close assign pair dialog
-    $(".pair-members-close").click(function() {
-        $(".pair_members").hide();
-
-        $('html, body').css({
-            'overflow': 'auto',
-            'height': 'auto'
-        });
-
-        pairMemberIds = [];
-        $(".checkForPair").prop("checked", false).prop("disabled", false);
-        $(".assign_pair").prop("disabled", true);
-        $(".assigned_members").html("");
-    });
-
-
-    // Check member to create pair
-    $(document).on("click", ".pair_members_div .member_usname", function () {
-        $(this).next(".checkForPair").trigger("click");
-    });
-    
-    $(document).on("change", ".checkForPair", function () {
-        var memberId = $(this).attr("data");
-        var userName = $(this).prev(".member_usname").text();
-
-        if($(this).is(":checked"))
-        {
-            pairMemberIds.push(memberId);
-            if(pairMemberIds.length >= 2)
-            {
-                $(".checkForPair:not(:checked)").prop("disabled", true);
-                $(".assign_pair").prop("disabled", false);
-            }
-            $(".assigned_members").append("<div class='member_usname mid"+memberId+"'>"+userName+"</div>");
-        }
-        else
-        {
-            pairMemberIds = $.grep(pairMemberIds, function( a ) {
-                return a !== memberId;
-            });
-            $(".checkForPair:not(:checked)").prop("disabled", false);
-            $(".assign_pair").prop("disabled", true);
-            $(".assigned_members .mid"+memberId).remove();
-        }
-    });
-
-    // Save pair on server
-    $(".assign_pair").click(function() {
-        var data = {};
-        data.eventID = $("#eventID").val();
-        data.pairOrder = $(".pair_members_div .panel-title span").text();
-        data.memberUnames = [];
-
-        $.each($(".assigned_members .member_usname"), function () {
-            data.memberUnames.push($(this).text());
-        });
-
-        assignPair(data, "create");
-    });
-
-    $(document).on("click", ".reset_pair", function () {
-        var data = {};
-        data.eventID = $("#eventID").val();
-        data.pairOrder = $(this).attr("data");
-
-        var $this = $(this);
-
-        if(!resetPairConfirm)
-        {
-            var yes = Language.yes;
-            var no = Language.no;
-
-            var btns = {};
-            btns[yes] = function(){
-                resetPairConfirm = true;
-                $( this ).dialog( "close" );
-                $this.click();
-            };
-            btns[no] = function(){
-                $( this ).dialog( "close" );
-                return false;
-            };
-
-            $(".confirm_message").text(Language.resetPairConfirm);
-            $( "#check-book-confirm" ).dialog({
-                resizable: false,
-                draggable: false,
-                title: Language.resetPairConfirmTitle,
-                height: "auto",
-                width: 500,
-                modal: true,
-                buttons: btns,
-            });
-
-            return false;
-        }
-
-        resetPairConfirm = false;
-
-        assignPair(data, "reset");
-    });
-    
     $("#startTranslation").click(function () {
         var $this = $(this);
 

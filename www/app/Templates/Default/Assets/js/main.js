@@ -11,15 +11,16 @@ var eventSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
-    DISCUSS: "discuss",
-    PRE_CHUNKING: "pre-chunking",
+    VERBALIZE: "verbalize",
     CHUNKING: "chunking",
+    READ_CHUNK: "read-chunk",
     BLIND_DRAFT: "blind-draft",
     SELF_CHECK: "self-check",
     SELF_CHECK_FULL: "self-check-full",
     PEER_REVIEW: "peer-review",
     KEYWORD_CHECK: "keyword-check",
     CONTENT_REVIEW: "content-review",
+    FINAL_REVIEW: "final-review",
     FINISHED: "finished",
 };
 
@@ -341,7 +342,8 @@ $(document).ready(function() {
                             method: "post",
                             data: {
                                 eventID: eventID,
-                                formData: $("#main_form").serialize()},
+                                formData: $("#main_form").serialize()
+                            },
                             dataType: "json",
                             beforeSend: function() {
 
@@ -365,6 +367,11 @@ $(document).ready(function() {
 
                                         case "verify":
                                             window.location.href = "/members";
+                                            break;
+
+                                        case "noChange":
+                                            $(".unsaved_alert").hide();
+                                            hasChangesOnPage = false;
                                             break;
 
                                         case "checkDone":
@@ -749,11 +756,9 @@ $(document).ready(function() {
         lastCommentEditor = $(this);
         autosize.update($('textarea'));
 
-        chapverse = lastCommentEditor.attr("data").split(":");
-        $(".panel-title span").text(chapverse[1]);
+        chapchunk = lastCommentEditor.attr("data").split(":");
 
         $(".other_comments_list").html("");
-
         $(".other_comments", comments).each(function() {
             $("<div />").addClass("other_comments").html($(this).html()).appendTo(".other_comments_list");
         });
@@ -771,7 +776,7 @@ $(document).ready(function() {
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
 
-        chapverse = lastCommentEditor.attr("data").split(":");
+        chapchunk = lastCommentEditor.attr("data").split(":");
 
         if(comment.length <= 0)
             comment = $("<div />").addClass("my_comment").appendTo(comments);
@@ -783,8 +788,8 @@ $(document).ready(function() {
                     method: "post",
                     data: {
                         eventID: eventID,
-                        chapter: chapverse[0],
-                        verse: chapverse[1],
+                        chapter: chapchunk[0],
+                        chunk: chapchunk[1],
                         comment: text},
                     dataType: "json",
                     beforeSend: function() {
@@ -853,48 +858,6 @@ $(document).ready(function() {
 		}
     });
 
-    // Show/Hide Keywords List
-    $(".keywords-list-close").click(function() {
-        /*$(".keywords_list_container").hide();
-        $("body").css("overflow", "auto");*/
-    });
-
-    $(".keywords_show").click(function() {
-        /*if(keywords.length <= 0) {
-            $(".alert_message").text(Language.no_keywords);
-            $( "#dialog-message" ).dialog({
-                modal: true,
-                resizable: false,
-                draggable: false,
-                width: 500,
-                buttons: {
-                    Ok: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            });
-            return;
-        }*/
-
-        /*if(!$(this).hasClass("shown"))
-        {
-            $(".verse_line").mark(keywords, { separateWordSearch: false, "accuracy": {
-                "value": "exactly",
-                "limiters": [",", "."]
-            }});
-            $(this).addClass("shown");
-        }
-        else
-        {
-            $(".verse_line").unmark();
-            $(this).removeClass("shown");
-        }*/
-
-
-        /*$(".keywords_list_container").show();
-        $("body").css("overflow", "hidden");*/
-    });
-
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
         $(".tutorial_container").hide();
@@ -928,6 +891,170 @@ $(document).ready(function() {
         }
     });
 
+    $("#finalReview").submit(function () {
+
+        $(".vnote").each(function () {
+            var content = $(".textWithBubbles", $(this));
+
+            $(".bubble", content).each(function () {
+                var newText = "|"+$(this).text()+"|";
+                $(this).text(newText);
+            });
+
+            var textarea = $(".peer_verse_ta", $(this));
+
+            textarea.val(content.text());
+        });
+
+        return true;
+    });
+
+
+    // ---------------------  Verse markers setting start -------------------- //
+    if(!isIE()) $(".bubblesReset").hide();
+
+    var focusedEl = null;
+    $(".textWithBubbles").click(function () {
+        focusedEl = $(this);
+    });
+
+    $(".bubblesReset").click(function (e) {
+        e.preventDefault();
+
+        if(!isIE()) return false;
+
+        var bubblesTxt = $(".textWithBubbles", $(this).parents(".vnote"));
+        var markerBubbles = $(".markerBubbles", $(this).parents(".vnote"));
+
+        $(".bubble", bubblesTxt).remove();
+        $(".bubble", markerBubbles).show();
+
+        return false;
+    });
+
+    $("body").on("click", ".bubble", function(e) {
+        if(!isIE()) return false;
+
+        var vNumber = $(this).text();
+
+        current = $(".textWithBubbles", $(this).parents(".vnote"));
+
+        if(!current.is(focusedEl))
+        {
+            $(".alert_message").text(Language.ieVersemarkersInstructions);
+            $( "#dialog-message" ).dialog({
+                modal: true,
+                resizable: false,
+                draggable: false,
+                width: 500,
+                buttons: {
+                    Ok: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+            return false;
+        }
+
+        current.get(0).focus();
+
+        pasteHtmlAtCaret(e, "<div class=\"bubble\">"+vNumber+"</div>");
+        $(this).hide();
+    });
+
+    var bindDraggables = function() {
+        if(isIE()) return false;
+
+        $('.bubble').attr("contenteditable", false).attr("draggable", true);
+        $('.bubble').off('dragstart').on('dragstart', function(e) {
+            if (!e.target.id)
+                e.target.id = (new Date()).getTime();
+
+            e.originalEvent.dataTransfer.setData('text', e.target.outerHTML);
+            $(e.target).addClass('dragged');
+        });
+    }
+
+    $('.textWithBubbles').on('dragover', function (e) {
+        if(isIE()) return false;
+        e.preventDefault();
+        return false;
+    });
+
+    $('.textWithBubbles').on('drop', function(e) {
+        if(isIE()) return false;
+        e.preventDefault();
+        var e = e.originalEvent;
+        var content = e.dataTransfer.getData('text');
+
+        $(this).get(0).focus();
+
+        pasteHtmlAtCaret(e, content);
+        bindDraggables();
+        $('.dragged').remove();
+    });
+
+    bindDraggables();
+
+    function pasteHtmlAtCaret(e, html) {
+        var sel, range;
+        if (window.getSelection) {
+            // IE9 and non-IE
+            sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+                if(document.caretRangeFromPoint)                                    // Chrome
+                    range = document.caretRangeFromPoint(e.clientX, e.clientY);
+                else if (e.rangeParent) { // Firefox
+                    range = document.createRange();
+                    range.setStart(e.rangeParent, e.rangeOffset);
+                }
+                else                                                                // Opera
+                    range = sel.getRangeAt(0);
+
+                range.deleteContents();
+
+                var el = document.createElement("div");
+                el.innerHTML = html;
+
+                var frag = document.createDocumentFragment(), node, lastNode;
+                while ( (node = el.firstChild) ) {
+                    lastNode = frag.appendChild(node);
+                }
+                range.insertNode(frag);
+
+                // Preserve the selection
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+        } else if (document.selection && document.selection.type != "Control") {
+            // IE < 9
+            document.selection.createRange().pasteHTML(html);
+        }
+    }
+
+    function isIE() {
+        if (/MSIE 10/i.test(navigator.userAgent)) {
+            // this is internet explorer 10
+            return true;
+        }
+
+        if(/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)){
+            // this is internet explorer 9 and 11
+            return true;
+        }
+
+        if (/Edge\/12./i.test(navigator.userAgent)){
+            // this is Microsoft Edge
+            return true;
+        }
+    }
+
+    // ---------------------  Verse markers setting end -------------------- //
 
     // Profile form
     var langs = $(".langs option:selected");

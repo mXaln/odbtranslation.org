@@ -28,31 +28,20 @@
 
             isInfoPage = $this.hasClass("info");
 
-            if(settings.step == eventSteps.KEYWORD_CHECK || settings.step == eventSteps.CONTENT_REVIEW)
+            if(settings.chkMemberID > 0)
             {
                 currentP2Ptab = $("#chk");
                 currentP2Pmsgs = $("#chk_messages");
                 currentChatType = "chk";
-                $("#p2p").removeClass("active");
             }
             else
             {
-                if(!isInfoPage)
-                {
-                    currentP2Ptab = $("#p2p");
-                    currentP2Pmsgs = $("#p2p_messages");
-                    currentChatType = "p2p";
-                    $("#chk").removeClass("active");
-                }
-                else
-                {
-                    currentP2Ptab = $("#evnt");
-                    currentP2Pmsgs = $("#evnt_messages");
-                    currentChatType = "evnt";
-                    chatRightPos = -210;
-                }
+                currentP2Ptab = $("#evnt");
+                currentP2Pmsgs = $("#evnt_messages");
+                currentChatType = "evnt";
 
-                currentP2Ptab.addClass("active");
+                if(isInfoPage)
+                    chatRightPos = -210;
             }
 
             currentP2Ptab.show();
@@ -237,6 +226,20 @@
                     currentP2Ptab.trigger("click");
                 });
             });
+        },
+        update: function()
+        {
+            if(settings.chkMemberID > 0)
+            {
+                currentP2Ptab = $("#chk");
+                currentP2Pmsgs = $("#chk_messages");
+                currentChatType = "chk";
+
+                currentP2Ptab.show();
+                $("#chat_type").val(currentChatType);
+
+                $(".videoBtnHide").removeClass("videoBtnHide");
+            }
         },
         clearMessages: function()
         {
