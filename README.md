@@ -25,6 +25,10 @@ app\Config\App.php
 app\Config\Database.php
   * Set database, username and password
 
+app\Config\Mail.php
+  * Specify path to sendmail on your PC
+  * Specify smtp server, username and password
+
 app\Config\ReCaptcha.php
   * Set siteKey and secret
 
