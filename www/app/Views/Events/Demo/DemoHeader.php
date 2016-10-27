@@ -42,13 +42,24 @@ use Helpers\Constants\EventSteps;
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
             <a href="/events/demo/content_review"><span><?php echo __(EventSteps::CONTENT_REVIEW) ?></span></a>
         </li>
+
+        <li class="final-review-step <?php echo $data["step"] == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
+            <a href="/events/demo/final_review"><span><?php echo __(EventSteps::FINAL_REVIEW) ?></span></a>
+        </li>
     </ul>
 </div>
+
+<?php
+$isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
+    $data["step"] == EventSteps::PEER_REVIEW ||
+    $data["step"] == EventSteps::KEYWORD_CHECK ||
+    $data["step"] == EventSteps::CONTENT_REVIEW;
+?>
 
 <script>
     var memberID = 0;
     var eventID = 0;
-    var chkMemberID = 0;
+    var chkMemberID = <?php echo $isCheckPage? "1" : "0"; ?>;
     var step = '<?php echo $data["step"]; ?>';
 </script>
 
@@ -63,31 +74,42 @@ use Helpers\Constants\EventSteps;
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
             <div class="row">
-                <div id="p2p" class="col-sm-4 chat_tab active">
-                    <div><?php echo __("partner_tab_title") ?></div>
-                    <div class="missed"></div>
-                </div>
                 <div id="chk" class="col-sm-4 chat_tab">
-                    <div><?php echo __("checking_tab_title") ?></div>
+                    <div>mSimpson</div>
                     <div class="missed"></div>
                 </div>
-                <div id="evnt" class="col-sm-4 chat_tab">
+                <div id="evnt" class="col-sm-4 chat_tab active">
                     <div><?php echo __("event_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
-                    <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
-                    <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
+                    <div class="<?php echo !$isCheckPage ? "videoBtnHide" : "" ?>">
+                        <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
+                        <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
+                    </div>
                 </div>
             </div>
         </div>
-        <ul id="p2p_messages" class="chat_msgs"><li class="message msg_my" data="7"><div class="msg_name">You</div><div data-original-title="01.07.2016, 18:22:38" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, let's translate chapter 1</div></li></ul>
-        <ul id="chk_messages" class="chat_msgs"><li class="message msg_my" data="7"><div class="msg_name">You</div><div data-original-title="04.07.2016, 17:36:45" class="msg_text" data-toggle="tooltip" data-placement="top" title="">This is chat tab for checking dialog</div></li></ul>
-        <ul id="evnt_messages" class="chat_msgs"><li class="message msg_other" data="16"><div class="msg_name">mSimpson</div><div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test event message</div></li><li class="message msg_my" data="7"><div class="msg_name">You</div><div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test event message 2</div></li></ul>
+        <ul id="chk_messages" class="chat_msgs">
+            <li class="message msg_my" data="7">
+                <div class="msg_name">You</div>
+                <div data-original-title="04.07.2016, 17:36:45" class="msg_text" data-toggle="tooltip" data-placement="top" title="">This is chat tab for checking dialog</div>
+            </li>
+        </ul>
+        <ul id="evnt_messages" class="chat_msgs">
+            <li class="message msg_other" data="16">
+                <div class="msg_name">mSimpson</div>
+                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message</div>
+            </li>
+            <li class="message msg_my" data="7">
+                <div class="msg_name">You</div>
+                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message 2</div>
+            </li>
+        </ul>
         <form action="" class="form-inline">
             <div class="form-group">
                 <textarea style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 54px;" id="m" class="form-control"></textarea>
-                <input id="chat_type" value="p2p" type="hidden">
+                <input id="chat_type" value="evnt" type="hidden">
             </div>
         </form>
     </div>
@@ -110,7 +132,8 @@ use Helpers\Constants\EventSteps;
 <script>
     (function($) {
         $("#chat_container").chat({
-            step: step
+            step: step,
+            chkMemberID: chkMemberID
         });
 
         $('[data-toggle="tooltip"]').tooltip();

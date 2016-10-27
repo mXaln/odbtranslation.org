@@ -51,7 +51,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
             <span><?php echo __(EventSteps::CONTENT_REVIEW)?></span>
         </li>
 
-        <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
+        <li class="final-review-step <?php echo $data["event"][0]->step == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
             <span><?php echo __(EventSteps::FINAL_REVIEW)?></span>
         </li>
     </ul>

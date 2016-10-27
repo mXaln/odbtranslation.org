@@ -60,20 +60,8 @@ $(function () {
                 {
                     $(".form-panel").css("left", "-9999px");
 
-                    $(".alert_message").text(data.success);
-                    $( "#dialog-message" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 500,
-                        buttons: {
-                            Ok: function() {
-                                $( this ).dialog( "close" );
-                            }
-                        },
-                        close: function( event, ui ) {
-                            location.reload();
-                        }
+                    renderPopup(data.success, function () {
+                        location.reload();
                     });
                 }
                 else
@@ -213,20 +201,8 @@ $(function () {
                 {
                     $(".form-panel").css("left", "-9999px");
 
-                    $(".alert_message").text(data.success);
-                    $( "#dialog-message" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 500,
-                        buttons: {
-                            Ok: function() {
-                                $( this ).dialog( "close" );
-                            }
-                        },
-                        close: function( event, ui ) {
-                            location.reload();
-                        }
+                    renderPopup(data.success, function () {
+                        location.reload();
                     });
                 }
                 else
@@ -261,9 +237,9 @@ $(function () {
     });
 
     $("#translators").spinner({
-        min: 2,
-        step: 2,
-        start: 2
+        min: 1,
+        step: 1,
+        start: 1
     });
 
     $("#checkers_l2, #checkers_l3").spinner({
@@ -354,7 +330,6 @@ $(function () {
                     $( "#cal_to" ).datepicker( "option", "minDate", selectedDate );
             },
         });
-        //$( "#cal_from" ).datepicker( "option", $.datepicker.regional[ "ru" ] );
 
         $( "#cal_to" ).datetimepicker({
             //defaultDate: "+1w",
@@ -366,7 +341,6 @@ $(function () {
                     $( "#cal_from" ).datepicker( "option", "maxDate", selectedDate );
             }
         });
-        //$( "#cal_to" ).datepicker( "option", $.datepicker.regional[ "ru" ] );
     }
 
     // Submit create event form
@@ -384,20 +358,8 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    $(".alert_message").text(data.success);
-                    $( "#dialog-message" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 500,
-                        buttons: {
-                            Ok: function() {
-                                $( this ).dialog( "close" );
-                            }
-                        },
-                        close: function( event, ui ) {
-                            location.reload();
-                        }
+                    renderPopup(data.success, function () {
+                        location.reload();
                     });
                 }
                 else
@@ -456,45 +418,59 @@ $(function () {
         var parent = $(this).parents(".manage_chapters_user");
         var $this = $(this);
 
-        if(!removeChapterConfirm)
-        {
-            var yes = Language.yes;
-            var no = Language.no;
+        renderConfirmPopup(Language.deleteChapterConfirmTitle, Language.deleteChapterConfirm, function () {
+            $( this ).dialog( "close" );
 
-            var btns = {};
-            btns[yes] = function(){
-                removeChapterConfirm = true;
-                $( this ).dialog( "close" );
-                $this.click();
-            };
-            btns[no] = function(){
-                $( this ).dialog( "close" );
-                return false;
-            };
+            var data = {};
+            data.eventID = $("#eventID").val();
+            data.chapter = $(".add_person_chapter", parent).attr("data");
+            data.memberID = $this.attr("data");
+            data.memberName = $this.prev(".uname").text();
 
-            $(".confirm_message").text(Language.deleteChapterConfirm);
-            $( "#check-book-confirm" ).dialog({
-                resizable: false,
-                draggable: false,
-                title: Language.deleteChapterConfirmTitle,
-                height: "auto",
-                width: 500,
-                modal: true,
-                buttons: btns,
-            });
+            assignChapter(data, "delete");
+        }, function () {
+            $( this ).dialog( "close" );
+        });
+    });
 
-            return false;
-        }
+    // Remove member from event
+    $(document).on("click", ".delete_user", function() {
+        $this = $(this);
 
-        removeChapterConfirm = false;
+        renderConfirmPopup(Language.removeFromEvent, Language.deleteMemberConfirm, function () {
+            $( this ).dialog( "close" );
 
-        var data = {};
-        data.eventID = $("#eventID").val();
-        data.chapter = $(".add_person_chapter", parent).attr("data");
-        data.memberID = $(this).attr("data");
-        data.memberName = $(this).prev(".uname").text();
+            var memberID = $this.parents(".member_usname").attr("data");
+            var eventID = $("#eventID").val();
 
-        assignChapter(data, "delete");
+            $.ajax({
+                url: "/events/rpc/delete_event_member",
+                method: "post",
+                data: {eventID: eventID, memberID: memberID},
+                dataType: "json"
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        $(".member_usname[data="+memberID+"]").parents("li").remove();
+                        $(".assign_chapter[data="+memberID+"]").parents("li").remove();
+
+                        var mNum = parseInt($(".manage_members h3 span").text()); // number of current members
+                        mNum -= 1;
+                        $(".manage_members h3 span").text(mNum);
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error);
+                        }
+                        console.log(data.error);
+                    }
+                });
+        }, function () {
+            $( this ).dialog( "close" );
+        });
     });
 
     // Start interval to check new applied translators
@@ -521,20 +497,23 @@ $(function () {
                     var newUsers = [];
                     $.each(data.members, function(index, value) {
                         var hiddenListLi = '<li>'+
-                            '<div class="member_usname userlist chapter_ver">'+
-                                '<div class="divname">'+value.userName+'</div>'+
-                                '<div class="divvalue">(<span>0</span>)</div>'+
-                            '</div>'+
-                            '<button class="btn btn-success assign_chapter" data="'+value.memberID+'">'+Language.assign+'</button>'+
-                            '<div class="clear"></div>'+
+                        '   <div class="member_usname userlist chapter_ver">'+
+                        '       <div class="divname">'+value.userName+'</div>'+
+                        '       <div class="divvalue">(<span>0</span>)</div>'+
+                        '   </div>'+
+                        '   <button class="btn btn-success assign_chapter" data="'+value.memberID+'">'+Language.assign+'</button>'+
+                        '   <div class="clear"></div>'+
                         '</li>';
                         $(".chapter_members_div ul").append(hiddenListLi);
 
                         var shownListLi = '<li>'+
-                            '<div class="member_usname" data="'+value.memberID+'">'+value.userName+' (<span>0</span>)</div>'+
-                            '<div class="member_chapters">'+
+                        '   <div class="member_usname" data="'+value.memberID+'">'+
+                                value.userName+' (<span>0</span>)'+
+                        '   <div class="glyphicon glyphicon-remove delete_user" title="'+Language.removeFromEvent+'"></div>'+
+                        '   </div>'+
+                        '   <div class="member_chapters">'+
                                 Language.chapters+': <span></span>'+
-                            '</div>'+
+                        '   </div>'+
                         '</li>';
                         $(".manage_members ul").append(shownListLi);
 
@@ -547,18 +526,7 @@ $(function () {
                         mNum += newUsers.length;
                         $(".manage_members h3 span").text(mNum);
 
-                        $(".alert_message").text(Language.newUsersApplyed+": "+newUsers.join(", "));
-                        $( "#dialog-message" ).dialog({
-                            modal: true,
-                            resizable: false,
-                            draggable: false,
-                            width: 500,
-                            buttons: {
-                                Ok: function() {
-                                    $( this ).dialog( "close" );
-                                }
-                            }
-                        });
+                        renderPopup(Language.newUsersApplyed+": "+newUsers.join(", "));
                     }
                 }
                 else
@@ -569,67 +537,29 @@ $(function () {
 
     }, 30000);
 
-    $("#startTranslation").click(function () {
+    $("#startTranslation").click(function (e) {
         var $this = $(this);
 
-        if(!startTranslationConfirm)
-        {
-            var yes = Language.yes;
-            var no = Language.no;
+        renderConfirmPopup(Language.startTranslation, Language.startTranslationConfirm, function () {
+            $(this).dialog( "close" );
+            $this.data("yes", true).click();
+        }, function () {
+            $(this).dialog("close");
+        });
 
-            var btns = {};
-            btns[yes] = function(){
-                startTranslationConfirm = true;
-                $( this ).dialog( "close" );
-                $this.click();
-            };
-            btns[no] = function(){
-                $( this ).dialog( "close" );
-                return false;
-            };
-
-            $(".confirm_message").text(Language.start_translation_confirm);
-            $( "#check-book-confirm" ).dialog({
-                resizable: false,
-                draggable: false,
-                title: Language.start_translation,
-                height: "auto",
-                width: 500,
-                modal: true,
-                buttons: btns,
-            });
-
-            return false;
-        }
-
-        startTranslationConfirm = false;
+        if(typeof $this.data("yes") == "undefined")
+            e.preventDefault();
     });
 
     // Show info tip
     $(".create_info_tip a").click(function () {
-        $(".alert_message").text($(".create_info_tip span").text());
-        $( "#dialog-message" ).dialog({
-            modal: true,
-            resizable: false,
-            draggable: false,
-            width: 500,
-            buttons: {
-                Ok: function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
+        renderPopup($(".create_info_tip span").text());
         return false;
     });
 });
 
 
 // --------------- Variables ---------------- //
-var removeChapterConfirm = false;
-var resetPairConfirm = false;
-var startTranslationConfirm = false;
-var pairMemberIds = [];
 
 
 
@@ -721,18 +651,7 @@ function assignChapter(data, action)
             }
             else
             {
-                $(".alert_message").text(response.error);
-                $( "#dialog-message" ).dialog({
-                    modal: true,
-                    resizable: false,
-                    draggable: false,
-                    width: 500,
-                    buttons: {
-                        Ok: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
+                renderPopup(response.error);
             }
         })
         .always(function() {
@@ -803,18 +722,7 @@ function assignPair(data, action)
             }
             else
             {
-                $(".alert_message").text(response.error);
-                $( "#dialog-message" ).dialog({
-                    modal: true,
-                    resizable: false,
-                    draggable: false,
-                    width: 500,
-                    buttons: {
-                        Ok: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
+                renderPopup(response.error);
             }
         })
         .always(function() {

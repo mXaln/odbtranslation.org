@@ -122,7 +122,7 @@ $(document).ready(function() {
 
     // Apply for event as translator/checker
     // Start event
-    $(".applyEvent").click(function() {
+    $(".applyEvent").click(function(e) {
         var eventID = $(this).attr("data");
         var bookName = $(this).attr("data2");
         var stage = $(this).attr("data3");
@@ -131,7 +131,6 @@ $(document).ready(function() {
         $(".errors").html("");
         $("label").removeClass("label_error");
         $(".bookName").text(bookName);
-        $(".panel-title").text(bookName);
         $("#eventID").val(eventID);
 
         if(stage == "d1")
@@ -141,32 +140,16 @@ $(document).ready(function() {
             $(".fl2, .fl3").hide();
             $("input[name=userType]").val("translator");
 
-            var yes = Language.yes;
-            var no = Language.no;
-
-            var btns = {};
-            btns[yes] = function(){
-                $( this ).dialog( "close" );
+            renderConfirmPopup(Language.applyForEventConfirmTitle, Language.applyForEventConfirm, function () {
+                $(this).dialog("close");
                 $("#applyEvent").submit();
-            };
-            btns[no] = function(){
-                $( this ).dialog( "close" );
-                return false;
-            };
-
-            $(".confirm_message").text(Language.applyForEventConfirm);
-            $( "#check-book-confirm" ).dialog({
-                resizable: false,
-                draggable: false,
-                title: Language.applyForEventConfirmTitle,
-                height: "auto",
-                width: 500,
-                modal: true,
-                buttons: btns,
+            }, function () {
+                $(this).dialog("close");
             });
         }
         else
         {
+            $(".panel-title.applyForm").text(bookName);
             if(stage == "l2")
             {
                 $(".ftr, .fl3").hide();
@@ -183,7 +166,7 @@ $(document).ready(function() {
             $(".event-content").css("left", 0);
         }
 
-        return false;
+        e.preventDefault();
     });
 
     // Submit apply event form
@@ -204,35 +187,13 @@ $(document).ready(function() {
                 if(data.success)
                 {
                     $(".panel-close").click();
-                    $(".alert_message").text(data.success);
-                    $( "#dialog-message" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 500,
-                        buttons: {
-                            Ok: function() {
-                                $( this ).dialog( "close" );
-                                window.location = "/members";
-                            }
-                        }
+                    renderPopup(data.success, function () {
+                        window.location = "/members";
                     });
                 }
                 else
                 {
-                    $(".alert_message").text(data.error);
-                    $( "#dialog-message" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 500,
-                        buttons: {
-                            Ok: function() {
-                                $( this ).dialog( "close" );
-                            }
-                        }
-                    });
-
+                    renderPopup(data.error);
                     //$(".errors").html(data.error);
 
                     if(typeof data.errors != "undefined")
@@ -376,18 +337,7 @@ $(document).ready(function() {
 
                                         case "checkDone":
                                             hasChangesOnPage = false;
-                                            $(".alert_message").text(data.error);
-                                            $( "#dialog-message" ).dialog({
-                                                modal: true,
-                                                resizable: false,
-                                                draggable: false,
-                                                width: 500,
-                                                buttons: {
-                                                    Ok: function() {
-                                                        $( this ).dialog( "close" );
-                                                    }
-                                                }
-                                            });
+                                            renderPopup(data.error);
                                             break;
                                     }
                                 }
@@ -493,42 +443,22 @@ $(document).ready(function() {
             $("#next_step").prop("disabled", true);
     });
 
-    $("#next_step").click(function() {
-        if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK)
+    $("#next_step").click(function(e) {
+        if(step == eventSteps.BLIND_DRAFT)
             return;
 
-        if(hasChangesOnPage)
-        {
-            var yes = Language.yes;
-            var no = Language.no;
+        $this = $(this);
 
-            var btns = {};
-            btns[yes] = function(){
-                hasChangesOnPage = false;
-                $("#next_step").click();
-            };
-            btns[no] = function(){
-                $( this ).dialog( "close" );
-                return false;
-            };
+        renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
+            $(this).dialog("close");
+            $this.data("yes", true);
+            $this.click();
+        }, function () {
+            $( this ).dialog("close");
+        });
 
-            $(".confirm_message").text(Language.save_changes_confirm);
-            $( "#check-book-confirm" ).dialog({
-                resizable: false,
-                draggable: false,
-                title: Language.save_changes_confirm_title,
-                height: "auto",
-                width: 500,
-                modal: true,
-                buttons: btns,
-            });
-
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        if(typeof $this.data("yes") == "undefined")
+            e.preventDefault();
     });
 
     $("#checker_submit").submit(function() {
@@ -624,7 +554,7 @@ $(document).ready(function() {
 
         fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
         lv = verse < 10 ? "0"+verse : verse;
-        $(".verse_p .create_chunk").text(Language.make_chunk+" "+fv+"-"+lv).show();
+        $(".verse_p .create_chunk").text(Language.makeChunk+" "+fv+"-"+lv).show();
     });
 
     // Start new chunk
@@ -707,14 +637,14 @@ $(document).ready(function() {
     });
 
 
-    $(document).on("click", ".notifa", function() {
-        var item = $(this);
+    $(document).on("click", ".notifa", function(e) {
+        e.preventDefault();
 
-        var yes = Language.yes;
-        var no = Language.no;
+        var $this = $(this);
 
-        var btns = {};
-        btns[yes] = function(){
+        renderConfirmPopup(Language.checkBookConfirmTitle, Language.checkBookConfirm, function () {
+            $( this ).dialog( "close" );
+
             var notifCount = parseInt($(".notif_count").text());
             notifCount--;
 
@@ -722,29 +652,14 @@ $(document).ready(function() {
             if(notifCount <= 0)
             {
                 $(".notif_count").remove();
-                $(".notif_block").html('<div class="no_notif">'+Language.no_notifs_msg+'</div>');
+                $(".notif_block").html('<div class="no_notif">'+Language.noNotifsMsg+'</div>');
             }
 
-            item.remove();
-            window.open(item.attr("href"),"_blank");
+            $this.remove();
+            window.open($this.attr("href"),"_blank");
+        }, function () {
             $( this ).dialog( "close" );
-        };
-        btns[no] = function(){
-            $( this ).dialog( "close" );
-        };
-
-        $(".confirm_message").text(Language.check_book_confirm);
-        $( "#check-book-confirm" ).dialog({
-            resizable: false,
-            draggable: false,
-            title: Language.check_book_confirm_title,
-            height: "auto",
-            width: 500,
-            modal: true,
-            buttons: btns
         });
-
-        return false;
     });
 
     // Show/Hide Comment Textarea
@@ -832,18 +747,8 @@ $(document).ready(function() {
                     {
                         if(typeof data.error != "undefined")
                         {
-                            $(".alert_message").text(data.error);
-                            $( "#dialog-message" ).dialog({
-                                modal: true,
-                                resizable: false,
-                                draggable: false,
-                                width: 500,
-                                buttons: {
-                                    Ok: function() {
-                                        $( this ).dialog( "close" );
-                                        window.location.reload(true);
-                                    }
-                                }
+                            renderPopup(data.error, function () {
+                                window.location.reload(true);
                             });
                         }
                     }
@@ -915,19 +820,35 @@ $(document).ready(function() {
 
     var focusedEl = null;
     $(".textWithBubbles").click(function () {
+        if(!isIE()) return false;
         focusedEl = $(this);
     });
 
     $(".bubblesReset").click(function (e) {
         e.preventDefault();
-
         if(!isIE()) return false;
 
         var bubblesTxt = $(".textWithBubbles", $(this).parents(".vnote"));
         var markerBubbles = $(".markerBubbles", $(this).parents(".vnote"));
 
+        $(".bubble", bubblesTxt).each(function () {
+            $(this).removeAttr("id");
+            markerBubbles.append($(this)[0].outerHTML + " ");
+        });
+
         $(".bubble", bubblesTxt).remove();
-        $(".bubble", markerBubbles).show();
+
+        var arr = [];
+        $(".bubble", markerBubbles).show().each(function () {
+            arr.push(parseInt($(this).text()));
+        });
+
+        markerBubbles.html("");
+        $.each(arr.sort(function(a, b){
+            return a-b;
+        }), function (i, v) {
+            markerBubbles.append('<div contenteditable="false" class="bubble" draggable="true">'+v+'</div> ');
+        });
 
         return false;
     });
@@ -941,25 +862,14 @@ $(document).ready(function() {
 
         if(!current.is(focusedEl))
         {
-            $(".alert_message").text(Language.ieVersemarkersInstructions);
-            $( "#dialog-message" ).dialog({
-                modal: true,
-                resizable: false,
-                draggable: false,
-                width: 500,
-                buttons: {
-                    Ok: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            });
+            renderPopup(Language.ieVersemarkersInstructions);
             return false;
         }
 
         current.get(0).focus();
 
         pasteHtmlAtCaret(e, "<div class=\"bubble\">"+vNumber+"</div>");
-        $(this).hide();
+        $(this).remove();
     });
 
     var bindDraggables = function() {
@@ -975,6 +885,21 @@ $(document).ready(function() {
         });
     }
 
+    $('.textWithBubbles').keydown(function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    $('.textWithBubbles, .bubble').on("selectstart", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    $('.textWithBubbles, .bubble').on("contextmenu", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
     $('.textWithBubbles').on('dragover', function (e) {
         if(isIE()) return false;
         e.preventDefault();
@@ -984,6 +909,9 @@ $(document).ready(function() {
     $('.textWithBubbles').on('drop', function(e) {
         if(isIE()) return false;
         e.preventDefault();
+
+        console.log(e.originalEvent.dataTransfer.getData('text'));
+
         var e = e.originalEvent;
         var content = e.dataTransfer.getData('text');
 
@@ -1000,8 +928,8 @@ $(document).ready(function() {
         var sel, range;
         if (window.getSelection) {
             // IE9 and non-IE
-            sel = window.getSelection();
-            if (sel.getRangeAt && sel.rangeCount) {
+            sel = window.getSelection();console.log(sel.rangeCount);
+            if (sel.getRangeAt) {
                 if(document.caretRangeFromPoint)                                    // Chrome
                     range = document.caretRangeFromPoint(e.clientX, e.clientY);
                 else if (e.rangeParent) { // Firefox
@@ -1425,4 +1353,65 @@ function parseCombinedVerses(verse)
 
 function unEscapeStr(string) {
     return $('<div/>').html(string).text();
+}
+
+/**
+ * Renders and shows dialog window with OK button
+ * @param message
+ * @param onOK Ok button callback
+ * @returns {boolean}
+ */
+function renderPopup(message, onOK) {
+    onOK = typeof onOK != "undefined" ? onOK : function(){
+        $( this ).dialog( "close" );
+    };
+
+    $(".alert_message").text(message);
+    $( "#dialog-message" ).dialog({
+        modal: true,
+        resizable: false,
+        draggable: false,
+        width: 500,
+        buttons: {
+            Ok: onOK
+        }
+    });
+
+    return true;
+}
+
+/**
+ * Renders and shows confirm dialog window
+ * @param title
+ * @param message
+ * @param onAnswerYes positive answer callback
+ * @param onAnswerNo Negative answer callback
+ */
+function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
+    onAnswerYes = typeof onAnswerYes != "undefined" ? onAnswerYes : function(){
+        $( this ).dialog( "close" );
+        return true;
+    };
+    onAnswerNo = typeof onAnswerNo != "undefined" ? onAnswerNo : function(){
+        $( this ).dialog( "close" );
+        return false;
+    };
+
+    var yes = Language.yes;
+    var no = Language.no;
+
+    var btns = {};
+    btns[yes] = onAnswerYes;
+    btns[no] = onAnswerNo;
+
+    $(".confirm_message").text(message);
+    $( "#check-book-confirm" ).dialog({
+        resizable: false,
+        draggable: false,
+        title: title,
+        height: "auto",
+        width: 500,
+        modal: true,
+        buttons: btns,
+    });
 }

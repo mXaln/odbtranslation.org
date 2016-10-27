@@ -86,9 +86,9 @@ function OnSystemMessage(data)
             break;
 
         case "verbalizeEnter":
-            msg = Language.partner_joined_verbalize;
+            msg = Language.partnerJoinedVerbalize;
         case "peerEnter":
-            msg = Language.partner_joined_peer_edit;
+            msg = Language.partnerJoinedPeerEdit;
         case "checkEnter":
             if(chkMemberID == 0 || $(".checker_waits").length > 0)
             {
@@ -101,21 +101,9 @@ function OnSystemMessage(data)
                 
 				if(step != "")
                 {
-                    msg = Language.checker_joined;
+                    msg = Language.checkerJoined;
                     $(".alert.alert-danger, .alert.alert-success").remove();
-
-                    $(".alert_message").text(msg);
-                    $( "#dialog-message" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 500,
-                        buttons: {
-                            Ok: function() {
-                                $( this ).dialog( "close" );
-                            }
-                        }
-                    });
+                    renderPopup(msg);
                 }
 
                 $("#chat_container").chat("options", {chkMemberID: chkMemberID});
@@ -135,19 +123,7 @@ function OnSystemMessage(data)
             if(typeof isChecker != "undefined" && isChecker) return;
 
             $(".alert.alert-danger, .alert.alert-success").remove();
-
-            $(".alert_message").text(Language.checker_approved);
-            $( "#dialog-message" ).dialog({
-                modal: true,
-                resizable: false,
-                draggable: false,
-                width: 500,
-                buttons: {
-                    Ok: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            });
+            renderPopup(Language.checkerApproved);
             break;
 
         case "comment":

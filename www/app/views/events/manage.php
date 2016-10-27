@@ -57,7 +57,10 @@ echo Error::display($error);
         <ul>
             <?php foreach ($data["members"] as $member):?>
                 <li>
-                    <div class="member_usname" data="<?php echo $member["memberID"] ?>"><?php echo $member["userName"]; ?> (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)</div>
+                    <div class="member_usname" data="<?php echo $member["memberID"] ?>">
+                        <?php echo $member["userName"]; ?> (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
+                        <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
+                    </div>
                     <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
                         <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
                     </div>

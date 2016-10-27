@@ -1,6 +1,6 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(4)) . __("blind-draft")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [4]) . ": " . __("blind-draft")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
     </div>
 
@@ -9,7 +9,7 @@
             <form action="" method="post" id="main_form">
                 <div class="main_content_text">
                     <div class="row">
-                        <h4>English - Unlocked Literal Bible - New Testament - <span class='book_name'>2 Timothy 4:1-6</span></h4>
+                        <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-7</span></h4>
                     </div>
 
                     <div class="row">
@@ -36,7 +36,7 @@
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", array(4))?></span> <?php echo __("blind-draft")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("blind-draft")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo mb_substr(__("blind-draft_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
@@ -44,14 +44,6 @@
 
             <div class="event_info">
                 <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_partner") ?>:</span>
-                        <span>Gen2Pet</span>
-                    </div>
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span>N/A</span>
-                    </div>
                     <div class="additional_info">
                         <a href="#"><?php echo __("event_info") ?></a>
                     </div>

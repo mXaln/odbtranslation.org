@@ -415,76 +415,83 @@ class MembersController extends Controller
             {
                 $data = $this->_model->getMemberWithProfile($_POST['email']);
 
-                if (Password::verify($_POST['password'], $data[0]->password))
+                if(!empty($data))
                 {
-                    $authToken = md5(uniqid(rand(), true));
-                    $updated = $this->_model->updateMember(array('authToken' => $authToken), array('memberID' => $data[0]->memberID));
-
-                    if($updated === 1)
+                    if (Password::verify($_POST['password'], $data[0]->password))
                     {
-                        $profile = array();
-                        if($data[0]->pID != null)
+                        $authToken = md5(uniqid(rand(), true));
+                        $updated = $this->_model->updateMember(array('authToken' => $authToken), array('memberID' => $data[0]->memberID));
+
+                        if($updated === 1)
                         {
-                            $profile["pID"] = $data[0]->pID;
-                            $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
-                            $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
-                            $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
-                            $profile["mast_evnts"] = $data[0]->mast_evnts;
-                            $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
-                            $profile["teamwork"] = $data[0]->teamwork;
-                            $profile["org"] = $data[0]->org;
-                            $profile["ref_person"] = $data[0]->ref_person;
-                            $profile["ref_email"] = $data[0]->ref_email;
-                            $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
-                            $profile["education"] = (array)json_decode($data[0]->education, true);
-                            $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
-                            $profile["ed_place"] = $data[0]->ed_place;
-                            $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
-                            $profile["greek_knwlg"] = $data[0]->greek_knwlg;
-                            $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+                            $profile = array();
+                            if($data[0]->pID != null)
+                            {
+                                $profile["pID"] = $data[0]->pID;
+                                $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
+                                $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
+                                $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
+                                $profile["mast_evnts"] = $data[0]->mast_evnts;
+                                $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
+                                $profile["teamwork"] = $data[0]->teamwork;
+                                $profile["org"] = $data[0]->org;
+                                $profile["ref_person"] = $data[0]->ref_person;
+                                $profile["ref_email"] = $data[0]->ref_email;
+                                $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
+                                $profile["education"] = (array)json_decode($data[0]->education, true);
+                                $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
+                                $profile["ed_place"] = $data[0]->ed_place;
+                                $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
+                                $profile["greek_knwlg"] = $data[0]->greek_knwlg;
+                                $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
 
-                            $arr = (array)json_decode($data[0]->languages, true);
-                            $languages = array();
-                            foreach ($arr as $i => $item) {
-                                $languages[$i]["lang_fluency"] = $item[0];
-                                $languages[$i]["geo_lang_yrs"] = $item[1];
-                            }
-                            $profile["languages"] = $languages;
+                                $arr = (array)json_decode($data[0]->languages, true);
+                                $languages = array();
+                                foreach ($arr as $i => $item) {
+                                    $languages[$i]["lang_fluency"] = $item[0];
+                                    $languages[$i]["geo_lang_yrs"] = $item[1];
+                                }
+                                $profile["languages"] = $languages;
 
-                            $adminMember = $this->_model->getAdminMember($data[0]->memberID);
-                            foreach ($adminMember as $item) {
-                                if(!array_key_exists($item->gwLang, $profile["languages"]))
-                                {
-                                    $profile["languages"][$item->gwLang] = array("isAdmin" => true);
+                                $adminMember = $this->_model->getAdminMember($data[0]->memberID);
+                                foreach ($adminMember as $item) {
+                                    if(!array_key_exists($item->gwLang, $profile["languages"]))
+                                    {
+                                        $profile["languages"][$item->gwLang] = array("isAdmin" => true);
+                                    }
                                 }
                             }
-                        }
 
-                        Session::set('memberID', $data[0]->memberID);
-                        Session::set('userName', $data[0]->userName);
-                        Session::set('firstName', $data[0]->firstName);
-                        Session::set('lastName', $data[0]->lastName);
-                        Session::set('authToken', $authToken);
-                        Session::set('verified', $data[0]->verified);
-                        Session::set('isAdmin', $data[0]->isAdmin == 1);
-                        Session::set('isSuperAdmin', $data[0]->isSuperAdmin == 1);
-                        Session::set('loggedin', true);
-                        Session::set("profile", $profile);
+                            Session::set('memberID', $data[0]->memberID);
+                            Session::set('userName', $data[0]->userName);
+                            Session::set('firstName', $data[0]->firstName);
+                            Session::set('lastName', $data[0]->lastName);
+                            Session::set('authToken', $authToken);
+                            Session::set('verified', $data[0]->verified);
+                            Session::set('isAdmin', $data[0]->isAdmin == 1);
+                            Session::set('isSuperAdmin', $data[0]->isSuperAdmin == 1);
+                            Session::set('loggedin', true);
+                            Session::set("profile", $profile);
 
-                        Session::destroy('loginTry');
+                            Session::destroy('loginTry');
 
-                        if(Session::get('redirect') != null)
-                        {
-                            Url::redirect(Session::get('redirect'));
+                            if(Session::get('redirect') != null)
+                            {
+                                Url::redirect(Session::get('redirect'));
+                            }
+                            else
+                            {
+                                Url::redirect('members');
+                            }
                         }
                         else
                         {
-                            Url::redirect('members');
+                            $error[] = __('user_login_error');
                         }
                     }
                     else
                     {
-                        $error[] = __('user_login_error');
+                        $error[] = __('wrong_credentials_error');
                     }
                 }
                 else

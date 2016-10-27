@@ -303,6 +303,7 @@ return array (
     "apply_checker_l1" => "Apply as checker",
     "not_available" => "Not available",
     "reset_markers" => "Reset markers",
+    "remove_from_event" => "Remove from event",
 
     // Steps
     "pray" => "Preparation",
@@ -313,6 +314,8 @@ return array (
     "consume_desc" => "<li><b>PURPOSE:</b> to prepare your short-term memory to assist you in translation</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being addressed to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 10-11 minutes on this activity.</li>",
     "verbalize" => "Verbalize",
     "verbalize_desc" => "<li><b>PURPOSE:</b> to more firmly embed the current working text in short-term memory.</li><li>Contact your partner on a suitable conversation platform: Skype, Hangout, phone, etc</li><li>Do not discuss the text, only tell your partner what the text is about. Summarize, do not read the text or give minute detail. Focus on relaying the content and main points.</li><li>It is best if the verbalizing can be done in the target language.</li><li>Spend no more than 7-10 minutes in total with your partner on this step.</li>",
+    "verbalize_checker_desc" => "<li><b>PURPOSE:</b> to more firmly embed the current working text in short-term memory.</li><li>Contact your partner on a suitable conversation platform: Skype, Hangout, phone, etc</li><li></li><li></li>",
+    "verbalize_checker_hint" => "Here is some text about how to check partner's \"verbalization\"",
     "chunking" => "Chunks",
     "chunking_desc" => "<li><b>PURPOSE:</b> to segment the text into manageable portions for translation</li><li>Using the verse check boxes, select 3-5 verses for grouping into chunks.</li><li>Chunk the entire chapter, focusing on cohesive topics and logical breaks in thought.</li><li>Spend no more than 5 minutes on this exercise</li>",
     "read-chunk" => "Blind Draft",
@@ -374,6 +377,7 @@ return array (
     "not_in_event_error" => "You aren't participating in this event.",
     "checker_event_error" => "You aren't a checker for this translator",
     "not_equal_verse_markers" => "You haven't properly set the verse markers",
+    "translator_has_chapter" => "Translators with assigned chapters cannot be deleted from event.",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

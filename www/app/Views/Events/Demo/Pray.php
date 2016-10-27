@@ -38,14 +38,6 @@
 
             <div class="event_info">
                 <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_partner") ?>:</span>
-                        <span>Gen2Pet</span>
-                    </div>
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span>N/A</span>
-                    </div>
                     <div class="additional_info">
                         <a href="#"><?php echo __("event_info") ?></a>
                     </div>

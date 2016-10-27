@@ -61,35 +61,6 @@ use Helpers\Constants\EventMembers;
                                 </div>
                             </div>
 
-                            <?php /*$k=0; foreach($chunk["translator"]["verses"] as $verse => $text):
-                                ?>
-                                <div class="chunk_verse editor_area">
-                                    <div class="vnote">
-                                    <div class="p_verse_num"><strong><sup><?php echo $verse ?></sup></strong></div>
-                                    <textarea name="chunks[<?php echo $key; ?>][verses][]" class="peer_verse_ta verse_right textarea"><?php echo isset($_POST["chunks"]) && $_POST["chunks"][$key]["verses"][$k] != "" ? $_POST["chunks"][$key]["verses"][$k] : $text ?></textarea>
-
-                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($verse, $data["comments"][$data["currentChapter"]]); ?>
-                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
-                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$verse]) : ""?>
-                                    </div>
-
-                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$verse ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", array($verse))?>"/>
-
-                                    <div class="comments">
-                                        <?php if($hasComments): ?>
-                                            <?php foreach($data["comments"][$data["currentChapter"]][$verse] as $comment): ?>
-                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                <?php else: ?>
-                                                    <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="clear"></div>
-                                    </div>
-                                </div>
-                                <?php $k++; endforeach; */ ?>
                             <div class="chunk_divider col-sm-12"></div>
                             <div class="clear"></div>
                         <?php endforeach; ?>

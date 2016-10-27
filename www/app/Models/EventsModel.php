@@ -124,7 +124,7 @@ class EventsModel extends Model
      * @param bool $countMembers
      * @return array
      */
-    public function getEvent($eventID = null, $projectID, $bookCode, $countMembers = false)
+    public function getEvent($eventID, $projectID = null, $bookCode = null, $countMembers = false)
     {
         $builder = $this->db->table("events");
         $select = ["events.*"];
@@ -904,6 +904,18 @@ class EventsModel extends Model
         return $this->db->table("translators")
             ->where($where)
             ->update($data);
+    }
+
+    /**
+     * Delete translators from event/s
+     * @param $where
+     * @return int
+     */
+    public function deleteTranslators($where)
+    {
+        return $this->db->table("translators")
+            ->where($where)
+            ->delete();
     }
 
     public function getTurnSecret()

@@ -103,36 +103,28 @@ if(!empty($data["project"])):
                 <div class="col-sm-12">
                     <form action="/admin/rpc/create_event" method="post" id="startEvent">
                         <div class="form-group">
-                            <label for="translators"><?php echo __('max_translators'); ?>
-                                <br>
-                                <input type="text" class="form-control" id="translators" name="translators" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
-                            </label>
+                            <label for="translators" style="width: 100%; display: block"><?php echo __('max_translators'); ?></label>
+                            <input type="text" class="form-control" id="translators" name="translators" size="10" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="checkers_l2"><?php echo __('max_checkers_l2'); ?>
-                                <br>
-                                <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
-                            </label>
+                            <label for="checkers_l2" style="width: 100%; display: block"><?php echo __('max_checkers_l2'); ?></label>
+                            <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" size="10" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="checkers_l3"><?php echo __('max_checkers_l3'); ?>
-                                <br>
-                                <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
-                            </label>
+                            <label for="checkers_l3" style="width: 100%; display: block"><?php echo __('max_checkers_l3'); ?></label>
+                            <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" size="10" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="cal_from"><?php echo __('time_start'); ?>
-                                <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
-                            </label>
+                            <label for="cal_from" style="width: 100%; display: block"><?php echo __('time_start'); ?></label>
+                            <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="cal_to"><?php echo __('time_end'); ?>
-                                <input type="text" class="form-control" id="cal_to" name="cal_to" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
-                            </label>
+                            <label for="cal_to" style="width: 100%; display: block"><?php echo __('time_end'); ?></label>
+                            <input type="text" class="form-control" id="cal_to" name="cal_to" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
                         </div>
 
                         <input type="hidden" name="book_code" id="bookCode" value="" />

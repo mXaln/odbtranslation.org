@@ -164,7 +164,7 @@ function openVideoDialog() {
         var now = new Date().getTime();
         if((now - time) > timeoutDelay)
         {
-            callLog.html(Language.call_timeout);
+            callLog.html(Language.callTimeout);
             callout.pause();
             $("#hangupButton").prop("disabled", true);
             timeoutClose = setTimeout(function () {
@@ -350,7 +350,7 @@ function onVideoCallMessage(message)
             {
                 $(".video_chat_container").show();
                 $(".videoCallOpen").prop("disabled", true);
-                callLog.html(Language.incomming_call + " " + calleeName);
+                callLog.html(Language.incommingCall + " " + calleeName);
                 $("#answerButton").show().prop("disabled", false);
                 $("#hangupButton").prop("disabled", false);
                 $("#cameraButton").addClass("btn-success").removeClass("btn-danger").hide();
@@ -367,7 +367,7 @@ function onVideoCallMessage(message)
                     var now = new Date().getTime();
                     if((now - time) > timeoutDelay)
                     {
-                        callLog.html(Language.call_timeout);
+                        callLog.html(Language.callTimeout);
                         callout.pause();
                         $("#hangupButton").prop("disabled", true);
                         timeoutClose = setTimeout(function () {
@@ -448,7 +448,7 @@ function handleRemoteStreamAdded(event) {
     if(constraints.video) $("#cameraButton").show();
     $("#micButton").show();
     callLog.html("");
-    if(!constraints.video) callLog.html(Language.audio_chat_with + " " + calleeName);
+    if(!constraints.video) callLog.html(Language.audioChatWith + " " + calleeName);
 
     callout.pause();
     clearInterval(timeoutInterval);

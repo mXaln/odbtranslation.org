@@ -1504,6 +1504,21 @@ class EventsController extends Controller
 
     public function demo($page = null)
     {
+        if (!Session::get('loggedin'))
+        {
+            Url::redirect('members/login');
+        }
+
+        if(empty(Session::get("profile")))
+        {
+            Url::redirect("members/profile");
+        }
+
+        if (!Session::get('verified'))
+        {
+            $error[] = __("account_not_verirfied_error");
+        }
+
         if(!isset($page))
             Url::redirect("events/demo/pray");
 
@@ -1541,6 +1556,12 @@ class EventsController extends Controller
                 $data["step"] = EventSteps::VERBALIZE;
                 break;
 
+            case "verbalize_checker":
+                $view->nest("page", "Events/Demo/VerbalizeChecker");
+                $data["step"] = EventSteps::VERBALIZE;
+                $data["isCheckerPage"] = true;
+                break;
+
             case "chunking":
                 $view->nest("page", "Events/Demo/Chunking");
                 $data["step"] = EventSteps::CHUNKING;
@@ -1566,6 +1587,12 @@ class EventsController extends Controller
                 $data["step"] = EventSteps::PEER_REVIEW;
                 break;
 
+            case "peer_review_checker":
+                $view->nest("page", "Events/Demo/PeerReviewChecker");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
             case "keyword_check":
                 $view->nest("page", "Events/Demo/KeywordCheck");
                 $data["step"] = EventSteps::KEYWORD_CHECK;
@@ -1586,6 +1613,11 @@ class EventsController extends Controller
                 $view->nest("page", "Events/Demo/ContentReviewChecker");
                 $data["step"] = EventSteps::CONTENT_REVIEW;
                 $data["isCheckerPage"] = true;
+                break;
+
+            case "final_review":
+                $view->nest("page", "Events/Demo/FinalReview");
+                $data["step"] = EventSteps::FINAL_REVIEW;
                 break;
         }
 
@@ -2639,6 +2671,76 @@ class EventsController extends Controller
 
             $response["members"] = $members;
             $response["success"] = true;
+        }
+        else
+        {
+            $response["error"] = __("error_ocured", array("wrong parameters"));
+        }
+
+        echo json_encode($response);
+    }
+
+
+    public function deleteEventMember()
+    {
+        $response = array("success" => false);
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = __("not_loggedin_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if (!Session::get('verified'))
+        {
+            $response["error"] = __("account_not_verirfied_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if (!Session::get('isAdmin'))
+        {
+            $response["error"] = __("not_enough_rights_error");
+            echo json_encode($response);
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+        $memberID = isset($_POST["memberID"]) && $_POST["memberID"] != "" ? (integer)$_POST["memberID"] : null;
+
+        if($eventID !== null && $memberID != null)
+        {
+            $event = $this->_model->getEvent($eventID);
+            if(!empty($event))
+            {
+                $hasChapter = false;
+                $chapters = json_decode($event[0]->chapters, true);
+                foreach ($chapters as $chapter) {
+                    if(empty($chapter)) continue;
+                    if($chapter['memberID'] == $memberID)
+                    {
+                        $hasChapter = true;
+                        break;
+                    }
+                }
+
+                if(!$hasChapter)
+                {
+                    $this->_model->deleteTranslators(["eventID" => $eventID, "memberID" => $memberID]);
+                    $response["success"] = true;
+                }
+                else
+                {
+                    $response["error"] = __("translator_has_chapter");
+                }
+            }
+            else
+            {
+                $response["error"] = __("error_ocured", array("wrong parameters"));
+            }
         }
         else
         {

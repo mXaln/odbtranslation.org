@@ -1,8 +1,23 @@
 <?php
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
-use Helpers\Url;
 use Helpers\Session;
+
+$stepsNum = [
+    EventSteps::NONE => 0,
+    EventSteps::PRAY => 0,
+    EventSteps::CONSUME => 1,
+    EventSteps::VERBALIZE => 2,
+    EventSteps::CHUNKING => 3,
+    EventSteps::READ_CHUNK => 4,
+    EventSteps::BLIND_DRAFT => 4,
+    EventSteps::SELF_CHECK => 5,
+    EventSteps::PEER_REVIEW => 6,
+    EventSteps::KEYWORD_CHECK => 7,
+    EventSteps::CONTENT_REVIEW => 8,
+    EventSteps::FINAL_REVIEW => 0,
+    EventSteps::FINISHED => 0,
+];
 ?>
 
 <div style="border-bottom: dotted #ccc; margin-bottom: 20px">
@@ -45,7 +60,7 @@ use Helpers\Session;
         </div>
         <div class="create_info_tip"><?php echo __("create_info_tip") ?> <span><?php echo __("create_event_tip") ?></span></div>
         <div>
-            <img src="<?php echo Url::templatePath() ?>/img/tip.png" width="95">
+            <img src="<?php echo template_url("img/tip.png") ?>" width="95">
         </div>
     </div>
 
@@ -57,7 +72,7 @@ use Helpers\Session;
         {
             case EventStates::L2_RECRUIT:
                 $eventType = __("l2_3_events", array(2));
-                $eventImg = Url::templatePath()."img/steps/big/l2_check.png";
+                $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl2";
                 $bgColor = "purple-marked";
                 $currentMembers = $event->chl2Cnt;
@@ -69,7 +84,7 @@ use Helpers\Session;
 
             case EventStates::L3_RECRUIT:
                 $eventType = __("l2_3_events", array(3));
-                $eventImg = Url::templatePath()."img/steps/big/l2_check.png";
+                $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl3";
                 $bgColor = "purple-marked";
                 $currentMembers = $event->chl3Cnt;
@@ -81,7 +96,7 @@ use Helpers\Session;
 
             default:
                 $eventType = __("8steps_vmast");
-                $eventImg = Url::templatePath()."img/steps/big/peer-review.png";
+                $eventImg = template_url("img/steps/big/peer-review.png");
                 $logoBorderClass = "translation";
                 $bgColor = "purple-marked";
                 $currentMembers = $event->trsCnt;
@@ -153,7 +168,7 @@ use Helpers\Session;
             <div class="event_logo translation">
                 <div class="event_type"><?php echo __("8steps_vmast") ?></div>
                 <div class="event_img">
-                    <img width="146" src="<?php echo Url::templatePath() ?>img/steps/big/peer-review.png">
+                    <img width="146" src="<?php echo template_url("img/steps/big/peer-review.png") ?>">
                 </div>
             </div>
             <div class="event_project">
@@ -181,19 +196,18 @@ use Helpers\Session;
                 </div>
             </div>
             <div class="event_current_pos">
-                <div class="event_current_title"><?php echo __("you_are_at") ?></div>
-                <div class="event_curr_step">
-                    <?php
-                    $step = $event->step;
-                    if($step == EventSteps::CHUNKING)
-                        $step = EventSteps::READ_CHUNK;
-
-                    if($step == EventSteps::SELF_CHECK_FULL)
-                        $step = EventSteps::SELF_CHECK;
-                    ?>
-                    <img src="<?php echo Url::templatePath() ."img/steps/green_icons/". $step. ".png" ?>">
-                    <?php echo ($event->currentChapter > 0 ? __("chapter_number", array($event->currentChapter)). ", " : "").__($event->step) ?>
-                </div>
+                <?php if($event->step != EventSteps::NONE): ?>
+                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                    <div class="event_curr_step">
+                        <?php
+                        $step = $event->step;
+                        if($step == EventSteps::READ_CHUNK)
+                            $step = EventSteps::BLIND_DRAFT;
+                        ?>
+                        <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
+                        <?php echo ($event->currentChapter > 0 ? __("chapter_number", array($event->currentChapter)). ", " : "").__($event->step) ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="event_action">
                 <div class="event_link"><a href="/events/translator/<?php echo $event->eventID ?>"><?php echo __("continue_alt") ?></a></div>
@@ -217,11 +231,11 @@ use Helpers\Session;
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
                 <div class="event_type">
-                    <div><?php echo __("step_num", array(7)) ?></div>
+                    <div><?php echo __("step_num", [$stepsNum[$event->step]]) ?></div>
                     <div><?php echo __($event->step) ?></div>
                 </div>
                 <div class="event_img">
-                    <img width="85" src="<?php echo Url::templatePath() ?>img/steps/icons/<?php echo $event->step ?>-gray.png">
+                    <img width="85" src="<?php echo template_url("img/steps/icons/". $event->step ."-gray.png") ?>">
                 </div>
             </div>
             <div class="event_project">
@@ -247,13 +261,10 @@ use Helpers\Session;
                 <div class="event_curr_step">
                     <?php
                     $step = $event->step;
-                    if($step == EventSteps::CHUNKING)
-                        $step = EventSteps::READ_CHUNK;
-
-                    if($step == EventSteps::SELF_CHECK_FULL)
-                        $step = EventSteps::SELF_CHECK;
+                    if($step == EventSteps::READ_CHUNK)
+                        $step = EventSteps::BLIND_DRAFT;
                     ?>
-                    <img src="<?php echo Url::templatePath() ."img/steps/green_icons/". $step. ".png" ?>">
+                    <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
                     <?php echo __("chapter_number", array($event->currentChapter)) ?>
                 </div>
             </div>
@@ -270,7 +281,7 @@ use Helpers\Session;
             <div class="event_logo checkingl2">
                 <div class="event_type"><?php echo __("l2_3_events", array(2)) ?></div>
                 <div class="event_img">
-                    <img width="146" src="<?php echo Url::templatePath() ?>img/steps/big/l2_check.png">
+                    <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
             </div>
             <div class="event_project">
@@ -312,7 +323,7 @@ use Helpers\Session;
             <div class="event_logo checkingl3">
                 <div class="event_type"><?php echo __("l2_3_events", array(3)) ?></div>
                 <div class="event_img">
-                    <img width="146" src="<?php echo Url::templatePath() ?>img/steps/big/l2_check.png">
+                    <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
             </div>
             <div class="event_project">
@@ -363,7 +374,7 @@ use Helpers\Session;
         {
             case EventStates::L2_RECRUIT:
                 $eventType = __("l2_3_events", array(2));
-                $eventImg = Url::templatePath()."img/steps/big/l2_check.png";
+                $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl2";
                 $bgColor = "lemon-marked";
                 $currentMembers = $event->chl2Cnt;
@@ -374,7 +385,7 @@ use Helpers\Session;
 
             case EventStates::L3_RECRUIT:
                 $eventType = __("l2_3_events", array(3));
-                $eventImg = Url::templatePath()."img/steps/big/l2_check.png";
+                $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl3";
                 $bgColor = "blue-marked";
                 $currentMembers = $event->chl3Cnt;
@@ -385,7 +396,7 @@ use Helpers\Session;
 
             default:
                 $eventType = __("8steps_vmast");
-                $eventImg = Url::templatePath()."img/steps/big/peer-review.png";
+                $eventImg = template_url("img/steps/big/peer-review.png");
                 $logoBorderClass = "translation";
                 $bgColor = "green-marked";
                 $currentMembers = $event->trsCnt;
@@ -559,7 +570,7 @@ use Helpers\Session;
                     <br><br>
 
                     <button type="submit" name="applyEvent" class="btn btn-primary"><?php echo __('apply_now', 'Events'); ?></button>
-                    <img class="applyEventLoader" width="24px" src="<?php echo Url::templatePath() ?>img/loader.gif">
+                    <img class="applyEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                 </form>
             </div>
 

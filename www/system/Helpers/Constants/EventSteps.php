@@ -18,7 +18,6 @@ class EventSteps
     const READ_CHUNK            = "read-chunk";
     const BLIND_DRAFT           = "blind-draft";
     const SELF_CHECK            = "self-check";
-    const SELF_CHECK_FULL       = "self-check-full";
     const PEER_REVIEW           = "peer-review";
     const KEYWORD_CHECK         = "keyword-check";
     const CONTENT_REVIEW        = "content-review";

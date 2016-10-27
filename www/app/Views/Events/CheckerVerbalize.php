@@ -37,9 +37,9 @@ if(empty($error) && empty($data["success"])):
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
-                <?php foreach($data["text"] as $verse => $text): ?>
-                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                <?php endforeach; ?>
+                <div class="col-sm-12 one_side_content">
+                    <?php echo __("verbalize_checker_hint"); ?>
+                </div>
             </div>
 
             <?php //if(empty($error)):?>

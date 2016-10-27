@@ -2,6 +2,18 @@
 use Helpers\Constants\EventMembers;
 ?>
 
+<div class="editor">
+    <div class="comment_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+        </div>
+        <textarea class="textarea textarea_editor"></textarea>
+        <div class="other_comments_list"></div>
+        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("final-review")?></div>
@@ -44,7 +56,7 @@ use Helpers\Constants\EventMembers;
                                 <div class="col-sm-6 editor_area" style="padding: 0;">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"];?>
                                     <div class="vnote">
-                                        <div class="bubblesReset"><img src="<?php echo template_url("img/reset.png") ?>" width="40" title="<?php echo __("reset_markers") ?>" ></div>
+                                        <div class="bubblesReset"><img src="<?php echo template_url("img/reset.png") ?>" width="30" title="<?php echo __("reset_markers") ?>" ></div>
                                         <div class="markerBubbles noselect">
                                             <?php foreach ($chunk as $verse): ?>
                                                 <?php
@@ -72,7 +84,7 @@ use Helpers\Constants\EventMembers;
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                             <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                         </div>
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>"/>
 
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
@@ -114,7 +126,7 @@ use Helpers\Constants\EventMembers;
 
                 <div class="help_name_steps"><span><?php echo __("final-review")?></span></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("final-review_desc")?></ul>
+                    <ul><?php echo mb_substr(__("final-review_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
             </div>
 
@@ -125,6 +137,24 @@ use Helpers\Constants\EventMembers;
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="tutorial_container">
+    <div class="tutorial_popup">
+        <div class="tutorial-close glyphicon glyphicon-remove"></div>
+        <div class="tutorial_pic">
+            <img src="<?php echo template_url("img/steps/icons/final-review.png") ?>" height="100px" width="100px">
+            <img src="<?php echo template_url("img/steps/big/final-review.png") ?>" height="280px" width="280px">
+            <div class="hide_tutorial">
+                <label><input id="hide_tutorial" data="read-chunk" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
+            </div>
+        </div>
+
+        <div class="tutorial_content">
+            <h3><?php echo __("final-review")?></h3>
+            <ul><?php echo __("final-review_desc")?></ul>
         </div>
     </div>
 </div>

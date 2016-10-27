@@ -66,6 +66,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/assign_chapter", "EventsController@assignChapter");
     Router::any("rpc/assign_pair", "EventsController@assignPair");
     Router::any("rpc/get_event_members", "EventsController@getEventMembers");
+    Router::any("rpc/delete_event_member", "EventsController@deleteEventMember");
     Router::any("rpc/get_info_update/{eventID}", "EventsController@getInfoUpdate")
         ->where(["eventID" => "[0-9]+"]);
 });

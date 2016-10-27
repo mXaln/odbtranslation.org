@@ -52,7 +52,7 @@ if(!empty($data["project"])):
 
                     <div class="col-sm-3">
                         <div class="event-box">
-                            <div class="event-header"><?php echo __("level2_3_check", array(2)) ?></div>
+                            <div class="event-header"><?php echo __("level2_3_check", [2]) ?></div>
 
                             <div><?php echo __("checkers") ?>: <?php echo $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum ?></div>
 
@@ -66,7 +66,7 @@ if(!empty($data["project"])):
 
                     <div class="col-sm-3 event-box">
                         <div class="event-box">
-                            <div class="event-header"><?php echo __("level2_3_check", array(3)) ?></div>
+                            <div class="event-header"><?php echo __("level2_3_check", [3]) ?></div>
 
                             <div><?php echo __("checkers") ?>: <?php echo $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum ?></div>
 
@@ -92,9 +92,9 @@ if(!empty($data["project"])):
 </div>
 
 <div class="event-content form-panel">
-    <div class="create-event-content panel panel-default">
+    <div class="create-event-content panel panel-default wide_form">
         <div class="panel-heading">
-            <h1 class="panel-title"></h1>
+            <h1 class="panel-title applyForm"></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -107,8 +107,8 @@ if(!empty($data["project"])):
                 <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 900px;">
                     <div class="form-group">
                         <h3 class="ftr"><?php echo __("apply_as_translator") ?></h3>
-                        <h3 class="fl2" style="display: none"><?php echo __("apply_as_checker", array(2)) ?></h3>
-                        <h3 class="fl3" style="display: none"><?php echo __("apply_as_checker", array(3)) ?></h3>
+                        <h3 class="fl2" style="display: none"><?php echo __("apply_as_checker", [2]) ?></h3>
+                        <h3 class="fl3" style="display: none"><?php echo __("apply_as_checker", [3]) ?></h3>
                     </div>
 
                     <div class="checker_info">

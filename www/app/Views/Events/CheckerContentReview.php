@@ -25,7 +25,7 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [8]). ": " . __("verbalize")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [8]). ": " . __("content-review")?></div>
     </div>
 
     <div class="row">
@@ -166,9 +166,9 @@ if(empty($error) && empty($data["success"])):
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [8])?>: </span> <?php echo __("verbalize")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [8])?>: </span> <?php echo __("content-review")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("verbalize_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo mb_substr(__("content-review_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                 </div>
             </div>
 
@@ -192,16 +192,16 @@ if(empty($error) && empty($data["success"])):
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/verbalize.png") ?>" width="100" height="100">
-            <img src="<?php echo template_url("img/steps/big/verbalize.png") ?>" width="280" height="280">
+            <img src="<?php echo template_url("img/steps/icons/content-review.png") ?>" width="100" height="100">
+            <img src="<?php echo template_url("img/steps/big/content-review.png") ?>" width="280" height="280">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="<?php echo "verbalize_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
+                <label><input id="hide_tutorial" data="<?php echo "content-review_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
-            <h3><?php echo __("verbalize")?></h3>
-            <ul><?php echo __("verbalize_checker_desc")?></ul>
+            <h3><?php echo __("content-review")?></h3>
+            <ul><?php echo __("content-review_checker_desc")?></ul>
         </div>
     </div>
 </div>

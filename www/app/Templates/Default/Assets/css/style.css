@@ -688,6 +688,11 @@ html, body, .container {
     top: calc(50% - 350px);
 }
 
+.create-event-content.wide_form {
+    width: 960px;
+    left: calc(50% - 480px);
+}
+
 .bookName {
     font-weight: bold;
     font-size: 30px;
@@ -712,6 +717,14 @@ html, body, .container {
     border: 1px solid #cccccc;
     margin: 5px;
     padding: 5px;
+}
+
+#startEvent #cal_from, #startEvent #cal_to {
+    width: 350px;
+}
+
+div.ui-datepicker {
+    width: 355px;
 }
 
 .event-box {
@@ -1096,26 +1109,31 @@ html, body, .container {
 
 .markerBubbles {
     height: 20px;
+    margin-left: 5px;
 }
 
 .textWithBubbles {
     padding: 10px;
 }
 
+.textWithBubbles:focus {
+    outline: 0px solid transparent;
+}
+
 .bubblesReset {
     position: absolute;
     right: 10px;
-    top: -9px;
+    top: -4px;
     cursor: pointer;
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
+    /*user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;*/
 }
 
 .bubble {
@@ -2004,6 +2022,16 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     height: 32px;
     color: #0481ff;
     font-size: 18px;
+}
+
+.delete_user {
+    border-radius: 4px;
+    background-color: #666666;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px;
+    cursor: pointer;
+    vertical-align: super;
 }
 
 .chapter_members {
