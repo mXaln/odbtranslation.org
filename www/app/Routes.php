@@ -61,7 +61,6 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/autosave_chunk", "EventsController@autosaveChunk");
     Router::any("rpc/save_comment", "EventsController@saveComment");
     Router::any("rpc/save_comment_alt", "EventsController@saveCommentAlt");
-    Router::any("rpc/get_partner_translation", "EventsController@getPartnerTranslation");
     Router::any("rpc/check_event", "EventsController@checkEvent");
     Router::any("rpc/assign_chapter", "EventsController@assignChapter");
     Router::any("rpc/assign_pair", "EventsController@assignPair");

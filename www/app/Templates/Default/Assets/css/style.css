@@ -1255,6 +1255,22 @@ mark {
     position: relative;
 }
 
+.notifa .verbalize_checker {
+    background-color: rgba(0, 102, 204, 0.3);
+}
+
+.notifa .peer-review_checker {
+    background-color: rgba(153, 0, 153, 0.3);
+}
+
+.notifa .keyword-check_checker {
+    background-color: rgba(204, 0, 0, 0.3);
+}
+
+.notifa .content-review_checker {
+    background-color: rgba(0, 102, 0, 0.3);
+}
+
 .notif_block {
     position: absolute;
     top: 50px;
@@ -1282,6 +1298,7 @@ mark {
     min-height: 50px;
     padding: 10px;
     border-top: 1px solid #2575b8;
+    color: #373737;
 }
 
 .notif_block a:first-child li {
@@ -1289,7 +1306,8 @@ mark {
 }
 
 .notif_block li:hover {
-    background-color: #dee1e1;
+    background-color: rgba(127, 127, 127, 0.3);
+    color: #000;
 }
 
 .no_notif {

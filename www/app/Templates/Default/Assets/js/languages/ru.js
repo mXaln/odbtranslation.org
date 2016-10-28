@@ -25,7 +25,7 @@ var Language = {
     "assignPairTitle"           : "Назначить пару",
     "resetPairTitle"            : "Удалить пару",
     "startTranslation"          : "Начать перевод",
-    "startTranslationConfirm"   : "Вы не сможете удалять главы после того, как перевод начнётся. Вы хотите начать перевод?",
+    "startTranslationConfirm"   : "Вы действительно хотите начать перевод?",
     "makeChunk"                 : "Создать отрывок",
     "noNotifsMsg"               : "Нет уведомлений",
     "calling"                   : "Звоним...",

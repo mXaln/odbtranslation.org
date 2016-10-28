@@ -518,35 +518,6 @@ class EventsModel extends Model
         return $builder->get();
     }
 
-    /**
-     * Get source translations
-     * @return array
-     */
-    public function getSourceTranslations()
-    {
-        $langNames = $this->db->table("languages")
-            ->whereIn("langID", array_keys(BookSources::catalog))
-            ->select("langID", "langName")->get();
-
-        $langs = array();
-        foreach ($langNames as $langName) {
-            $langs[$langName->langID] = $langName->langName;
-        }
-
-        $sls = array();
-        foreach (BookSources::catalog as $lang => $books) {
-            foreach ($books as $book) {
-                $elm = new \stdClass();
-                $elm->langID = $lang;
-                $elm->langName = $langs[$lang];
-                $elm->bookProject = $book;
-
-                $sls[] = $elm;
-            }
-        }
-
-        return $sls;
-    }
 
     /**
      * Get members that can write notes on translation
@@ -659,38 +630,6 @@ class EventsModel extends Model
         $cat = curl_exec($ch);
         curl_close($ch);
         return $cat;
-    }
-
-
-    /** Get translation of translator in event
-     * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
-     * @param int $trID
-     * @param int $tID
-     * @param int $chapter
-     * @return array
-     */
-    public function getTranslation($trID, $tID = null, $chapter = null)
-    {
-        $builder = $this->db->table("translations")
-            ->where("trID", $trID);
-
-        if($tID) {
-            $builder->where("tID", $tID);
-        }
-        else
-        {
-            if($chapter) {
-                $builder->where("chapter", $chapter);
-            }
-        }
-
-        return $builder->get();
-    }
-
-    public function getBookInfo($bookCode)
-    {
-        return $this->db->table("abbr")
-            ->where("code", $bookCode)->get();
     }
 
     /**
@@ -840,45 +779,6 @@ class EventsModel extends Model
             ->insertGetId($data);
     }
 
-    public function setTranslatorsPairOrder($pairOrder, $eventID, $members)
-    {
-        $rows = $this->db->table("translators")
-            ->where("eventID", $eventID)
-            ->where("memberID", $members[0]["memberID"])
-            ->update(array("pairOrder" => $pairOrder, "pairID" => $members[1]["trID"]));
-
-        $rows += $this->db->table("translators")
-            ->where("eventID", $eventID)
-            ->where("memberID", $members[1]["memberID"])
-            ->update(array("pairOrder" => $pairOrder, "pairID" => $members[0]["trID"]));
-
-        return $rows;
-    }
-
-
-    /**
-     * Create translation record
-     * @param array $data
-     * @return int
-     */
-    public function createTranslation($data)
-    {
-        return $this->db->table("translations")
-            ->insertGetId($data);
-    }
-
-
-    /** Update translation
-     * @param array $data
-     * @param array $where
-     * @return int
-     */
-    public function updateTranslation($data, $where)
-    {
-        return $this->db->table("translations")
-            ->where($where)
-            ->update($data);
-    }
 
     /**
      * Update event
@@ -916,65 +816,5 @@ class EventsModel extends Model
         return $this->db->table("translators")
             ->where($where)
             ->delete();
-    }
-
-    public function getTurnSecret()
-    {
-        $this->db->setTablePrefix("");
-        $builder = $this->db->table("turn_secret")
-            ->where("realm", "v-mast.com");
-
-        $res = $builder->get();
-
-        $this->db->setTablePrefix("vm_");
-
-        return $res;
-    }
-
-    public function updateTurnSecret($data)
-    {
-        $this->db->setTablePrefix("");
-        $upd = $this->db->table("turn_secret")
-            ->where("realm", "v-mast.com")
-            ->update($data);
-
-        $this->db->setTablePrefix("vm_");
-
-        return $upd;
-    }
-
-    public function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')
-    {
-        $sets = array();
-        if(strpos($available_sets, 'l') !== false)
-            $sets[] = 'abcdefghjkmnpqrstuvwxyz';
-        if(strpos($available_sets, 'u') !== false)
-            $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
-        if(strpos($available_sets, 'd') !== false)
-            $sets[] = '23456789';
-        if(strpos($available_sets, 's') !== false)
-            $sets[] = '!@#$%&*?-';
-        $all = '';
-        $password = '';
-        foreach($sets as $set)
-        {
-            $password .= $set[array_rand(str_split($set))];
-            $all .= $set;
-        }
-        $all = str_split($all);
-        for($i = 0; $i < $length - count($sets); $i++)
-            $password .= $all[array_rand($all)];
-        $password = str_shuffle($password);
-        if(!$add_dashes)
-            return $password;
-        $dash_len = floor(sqrt($length));
-        $dash_str = '';
-        while(strlen($password) > $dash_len)
-        {
-            $dash_str .= substr($password, 0, $dash_len) . '-';
-            $password = substr($password, $dash_len);
-        }
-        $dash_str .= $password;
-        return $dash_str;
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Controllers\Admin;
 
 use App\Core\Controller;
+use App\Models\TranslationsModel;
 use Shared\Legacy\Error;
 use View;
 use Helpers\Data;
@@ -14,12 +15,16 @@ use App\Models\MembersModel;
 class AdminController extends Controller {
 
     private $_model;
+    private $_membersModel;
+    private $_translationModel;
     protected $layout = "admin";
 
     public function __construct()
     {
         parent::__construct();
         $this->_model = new EventsModel();
+        $this->_membersModel = new MembersModel();
+        $this->_translationModel = new TranslationsModel();
     }
 
     public  function index() {
@@ -30,7 +35,7 @@ class AdminController extends Controller {
             Url::redirect('members/login');
         }
 
-        if(!Session::get('isAdmin'))
+        if(!Session::get('isSuperAdmin'))
         {
             Url::redirect('');
         }
@@ -41,14 +46,10 @@ class AdminController extends Controller {
         {
             $data["gwProjects"] = $this->_model->getGatewayProject();
             $data["gwLangs"] = $this->_model->getAllLanguages(true);
-        }
-
-        if(Session::get("isAdmin"))
-        {
             $data["projects"] = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"));
             $data["memberGwLangs"] = Session::get("isSuperAdmin") ? $data["gwLangs"] :
                 $this->_model->getMemberGwLanguages(Session::get("memberID"));
-            $data["sourceTranslations"] = $this->_model->getSourceTranslations();
+            $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
 
             for($i=0; $i< sizeof($data["memberGwLangs"]); $i++){
                 unset($data["memberGwLangs"][$i]->admins);
@@ -68,7 +69,7 @@ class AdminController extends Controller {
             Url::redirect('members/login');
         }
 
-        if(!Session::get('isAdmin'))
+        if(!Session::get('isSuperAdmin'))
         {
             Url::redirect('');
         }
@@ -113,9 +114,8 @@ class AdminController extends Controller {
             $gwProject = $this->_model->getGatewayProject(["*"],
                 ["gateway_projects.gwLang", $gwLang]);
 
-            $memberModel = new MembersModel();
             $members = [];
-            $membersArray = (array)$memberModel->getMembers(json_decode($gwProject[0]->admins));
+            $membersArray = (array)$this->_membersModel->getMembers(json_decode($gwProject[0]->admins));
 
             foreach ($membersArray as $member) {
                 $members[$member->memberID] = $member->userName;
@@ -182,9 +182,8 @@ class AdminController extends Controller {
                     break;
             }
 
-            $memberModel = new MembersModel();
             foreach ($admins as $admin) {
-                $memberModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
             }
 
             $postdata = array(
@@ -228,7 +227,7 @@ class AdminController extends Controller {
             exit;
         }
 
-        if(!Session::get('isAdmin'))
+        if(!Session::get('isSuperAdmin'))
         {
             echo json_encode(array());
             exit;
@@ -327,8 +326,7 @@ class AdminController extends Controller {
 
         if(isset($_POST['search']) && $_POST['search'] != "")
         {
-            $membersModel = new MembersModel();
-            $admins = $membersModel->getMembersByTerm($_POST['search']);
+            $admins = $this->_membersModel->getMembersByTerm($_POST['search']);
             $arr = array();
 
             foreach ($admins as $admin) {
@@ -350,7 +348,7 @@ class AdminController extends Controller {
             exit;
         }
 
-        if(!Session::get('isAdmin'))
+        if(!Session::get('isSuperAdmin'))
         {
             echo json_encode(array());
             exit;
@@ -374,7 +372,7 @@ class AdminController extends Controller {
             Url::redirect('members/login');
         }
 
-        if(!Session::get('isAdmin'))
+        if(!Session::get('isSuperAdmin'))
         {
             return;
         }
@@ -449,7 +447,7 @@ class AdminController extends Controller {
                         "dateTo" => date("Y-m-d H:i:s", strtotime($dateTo)),
                     );
 
-                    $bookInfo = $this->_model->getBookInfo($bookCode);
+                    $bookInfo = $this->_translationModel->getBookInfo($bookCode);
 
                     if(!empty($bookInfo))
                     {

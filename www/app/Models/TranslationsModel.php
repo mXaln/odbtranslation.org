@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Database\Model;
+use Helpers\Constants\BookSources;
 use Helpers\Constants\EventSteps;
 use Helpers\Data;
 
@@ -67,23 +68,116 @@ class TranslationsModel extends Model
             ->orderBy("translations.chunk")->get();
     }
 
-    /** Get translations information
+    /**
+     * Get translations information
      * @param $eventID
-     * @return array
+     * @param null $chapter
+     * @return array|static[]
      */
-    public function getTranslationByEventID($eventID)
+    public function getTranslationByEventID($eventID, $chapter = null)
     {
-        return $this->db->table("translators")
-            ->select("translations.chapter", "translations.chunk", "translations.translateDone",
+        $builder = $this->db->table("translators");
+
+        $builder->select("translations.chapter", "translations.chunk", "translations.translateDone",
                 "translations.firstvs", "translators.memberID", "translators.step", "translators.verbCheck",
                 "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
                 "translators.currentChapter", "translators.checkerID")
             ->leftJoin("translations", "translators.trID", "=", "translations.trID")
             ->where("translators.eventID", $eventID)
-            ->where("translators.step", "!=", EventSteps::NONE)
+            //->where("translators.step", "!=", EventSteps::NONE) TODO check for bugs
             ->orderBy("translations.chapter")
-            ->orderBy("translations.chunk")
-            ->get();
+            ->orderBy("translations.chunk");
+
+        if($chapter != null)
+            $builder->where("translations.chapter", $chapter);
+
+        return $builder->get();
+    }
+
+
+    /** Get translation of translator in event
+     * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
+     * @param int $trID
+     * @param int $tID
+     * @param int $chapter
+     * @return array
+     */
+    public function getEventTranslation($trID, $tID = null, $chapter = null)
+    {
+        $builder = $this->db->table("translations")
+            ->where("trID", $trID);
+
+        if($tID) {
+            $builder->where("tID", $tID);
+        }
+        else
+        {
+            if($chapter) {
+                $builder->where("chapter", $chapter);
+            }
+        }
+
+        return $builder->get();
+    }
+
+    /**
+     * Get source translations
+     * @return array
+     */
+    public function getSourceTranslations()
+    {
+        $langNames = $this->db->table("languages")
+            ->whereIn("langID", array_keys(BookSources::catalog))
+            ->select("langID", "langName")->get();
+
+        $langs = array();
+        foreach ($langNames as $langName) {
+            $langs[$langName->langID] = $langName->langName;
+        }
+
+        $sls = array();
+        foreach (BookSources::catalog as $lang => $books) {
+            foreach ($books as $book) {
+                $elm = new \stdClass();
+                $elm->langID = $lang;
+                $elm->langName = $langs[$lang];
+                $elm->bookProject = $book;
+
+                $sls[] = $elm;
+            }
+        }
+
+        return $sls;
+    }
+
+
+    public function getBookInfo($bookCode)
+    {
+        return $this->db->table("abbr")
+            ->where("code", $bookCode)->get();
+    }
+
+    /**
+     * Create translation record
+     * @param array $data
+     * @return int
+     */
+    public function createTranslation($data)
+    {
+        return $this->db->table("translations")
+            ->insertGetId($data);
+    }
+
+    /** Update translation
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateTranslation($data, $where)
+    {
+        return $this->db->table("translations")
+            ->where($where)
+            ->update($data);
     }
 
     public function getComment($eventID, $chapter, $chunk, $memberID)
