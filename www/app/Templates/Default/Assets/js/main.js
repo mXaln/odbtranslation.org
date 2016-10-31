@@ -16,7 +16,6 @@ var eventSteps = {
     READ_CHUNK: "read-chunk",
     BLIND_DRAFT: "blind-draft",
     SELF_CHECK: "self-check",
-    SELF_CHECK_FULL: "self-check-full",
     PEER_REVIEW: "peer-review",
     KEYWORD_CHECK: "keyword-check",
     CONTENT_REVIEW: "content-review",
@@ -293,7 +292,7 @@ $(document).ready(function() {
 
         if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK ||
             step == eventSteps.PEER_REVIEW || step == eventSteps.KEYWORD_CHECK ||
-            step == eventSteps.CONTENT_REVIEW || step == eventSteps.SELF_CHECK_FULL)
+            step == eventSteps.CONTENT_REVIEW)
         {
             autosaveTimer = setInterval(function() {
                 if(hasChangesOnPage)
@@ -449,15 +448,18 @@ $(document).ready(function() {
 
         $this = $(this);
 
-        renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
-            $(this).dialog("close");
-            $this.data("yes", true);
-            $this.click();
-        }, function () {
-            $( this ).dialog("close");
-        });
+        if(hasChangesOnPage)
+        {
+            renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
+                $(this).dialog("close");
+                $this.data("yes", true);
+                $this.click();
+            }, function () {
+                $( this ).dialog("close");
+            });
+        }
 
-        if(typeof $this.data("yes") == "undefined")
+        if(typeof $this.data("yes") == "undefined" && hasChangesOnPage)
             e.preventDefault();
     });
 

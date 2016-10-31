@@ -40,6 +40,11 @@ class MembersController extends Controller
             Url::redirect("members/login");
         }
 
+        if(Session::get("isDemo"))
+        {
+            Url::redirect('events/demo');
+        }
+
         if(empty(Session::get("profile")))
         {
             Url::redirect("members/profile");
@@ -69,6 +74,11 @@ class MembersController extends Controller
         if (!Session::get('loggedin'))
         {
             Url::redirect('members/login');
+        }
+
+        if(Session::get("isDemo"))
+        {
+            Url::redirect('events/demo');
         }
 
         $data["languages"] = $this->_eventModel->getAllLanguages();
@@ -420,7 +430,11 @@ class MembersController extends Controller
                     if (Password::verify($_POST['password'], $data[0]->password))
                     {
                         $authToken = md5(uniqid(rand(), true));
-                        $updated = $this->_model->updateMember(array('authToken' => $authToken), array('memberID' => $data[0]->memberID));
+                        $updateData = [
+                            "authToken" => $authToken,
+                            "logins" => $data[0]->logins + 1
+                        ];
+                        $updated = $this->_model->updateMember($updateData, ['memberID' => $data[0]->memberID]);
 
                         if($updated === 1)
                         {
@@ -468,8 +482,9 @@ class MembersController extends Controller
                             Session::set('lastName', $data[0]->lastName);
                             Session::set('authToken', $authToken);
                             Session::set('verified', $data[0]->verified);
-                            Session::set('isAdmin', $data[0]->isAdmin == 1);
-                            Session::set('isSuperAdmin', $data[0]->isSuperAdmin == 1);
+                            Session::set('isAdmin', $data[0]->isAdmin);
+                            Session::set('isSuperAdmin', $data[0]->isSuperAdmin);
+                            Session::set('isDemo', $data[0]->isDemo);
                             Session::set('loggedin', true);
                             Session::set("profile", $profile);
 
@@ -669,15 +684,19 @@ class MembersController extends Controller
 
             $email = $_POST['email'];
 
-            $data = $this->_model->getMember(array("memberID", "userName", "email"), array("email", $email));
-
             if (!ReCaptcha::check())
             {
                 $error[] = __('captcha_wrong');
             }
 
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+                $error[] = __('enter_valid_email_error');
+            }
+
             if(!isset($error))
             {
+                $data = $this->_model->getMember(array("memberID", "userName", "email"), array("email", $email));
                 if(!empty($data))
                 {
                     $resetToken = md5(uniqid(rand(), true));

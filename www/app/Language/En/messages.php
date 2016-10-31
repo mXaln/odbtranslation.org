@@ -361,7 +361,7 @@ return array (
     "event_notexist_error" => "Event not exists.",
     "no_source_error" => "Source translation text not found.",
     "not_enough_rights_error" => "Not enough rights to do this action!",
-    "event_translating_error" => "You cannot remove chapters when book is being translated.",
+    "event_translating_error" => "You cannot remove this chapter, because it has translated verses.",
     "chapter_aready_assigned_error" => "Chapter is assigned to other translator!",
     "event_chapters_error" => "You have to assign at least one chapter to start translation.",
     "peer_check_not_done_error" => "Your previous chapter hasn't been checked by your partner.",

@@ -18,6 +18,10 @@ class TranslationsController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        if(Session::get("isDemo"))
+            Url::redirect('events/demo');
+
         $this->_model = new TranslationsModel();
     }
 

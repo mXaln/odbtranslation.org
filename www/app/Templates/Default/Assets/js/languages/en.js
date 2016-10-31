@@ -25,7 +25,7 @@ var Language = {
     "assignPairTitle"           : "Create pair",
     "resetPairTitle"            : "Reset pair",
     "startTranslation"          : "Start translation",
-    "startTranslationConfirm"   : "You will not be able to remove chapters after starting translation. Are you sure you want to start?",
+    "startTranslationConfirm"   : "Are you sure you want to start the event?",
     "makeChunk"                 : "Make chunk",
     "noNotifsMsg"               : "No notifications",
     "calling"                   : "Calling...",
