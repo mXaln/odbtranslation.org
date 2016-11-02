@@ -2462,16 +2462,17 @@ class EventsController extends Controller
 
 			$memberSteps = [];
             $currentChecker = "na";
-            $currentState = "not_started";
+            $currentCheckState = "not_started";
 
             $i = 0;
-            foreach ($chunks as $index => $chunk) {
+            foreach ($chunks as $chunk) {
+                // If member hasn't started translating, show current step and checker
                 if($chunk->chapter === null)
                 {
                     $memberSteps[$chunk->memberID] = $chunk->step;
                     if($chunk->checkerID > 0)
                     {
-                        $currentState = "in_progress";
+                        $currentCheckState = "in_progress";
                         $currentChecker = $chunk->checkerID;
                         $members[$currentChecker] = "";
                     }
@@ -2480,12 +2481,16 @@ class EventsController extends Controller
                         $verbCheck = (array)json_decode($chunk->verbCheck, true);
                         if(array_key_exists($chunk->currentChapter, $verbCheck))
                         {
-                            $currentState = "finished";
+                            $currentCheckState = "finished";
                             $currentChecker = $verbCheck[$chunk->currentChapter];
                             $members[$currentChecker] = "";
                         }
                     }
 					continue;
+                }
+                else
+                {
+                    $memberSteps[$chunk->memberID] = $chunk->step;
                 }
 
                 if($i < $chunk->chapter)
@@ -2556,12 +2561,13 @@ class EventsController extends Controller
                     }
 
 
-                    // Content Review Check
+                    // Content Review (Verse by Verse) Check
                     if(array_key_exists($chunk->chapter, $chunk->crCheck))
                     {
                         $data["chapters"][$chunk->chapter]["crc"]["state"] = "finished";
                         $data["chapters"][$chunk->chapter]["crc"]["checkerID"] = $chunk->crCheck[$chunk->chapter];
-                        $data["chapters"][$chunk->chapter]["step"] = EventSteps::FINISHED;
+                        $data["chapters"][$chunk->chapter]["step"] = $chunk->chapter == $chunk->currentChapter
+                            ? $chunk->step : EventSteps::FINISHED;
                         $members[$chunk->crCheck[$chunk->chapter]] = "";
                     }
                     else
@@ -2596,7 +2602,7 @@ class EventsController extends Controller
 				if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
                 {
                     $data["chapters"][$key]["step"] = $memberSteps[$chapter["memberID"]];
-                    $data["chapters"][$key]["verb"]["state"] = $currentState;
+                    $data["chapters"][$key]["verb"]["state"] = $currentCheckState;
                     $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker;
                     $data["chapters"][$key]["peer"]["state"] = "not_started";
                     $data["chapters"][$key]["peer"]["checkerID"] = "na";
@@ -2645,6 +2651,7 @@ class EventsController extends Controller
                 }
                 else
                 {
+                    // Add 25% of progress when keyword check done
                     if(array_key_exists("state", $chapter["kwc"]) && $data["chapters"][$key]["kwc"]["state"] == "finished")
                         $data["chapters"][$key]["progress"] += 25;
                 }
@@ -2656,6 +2663,7 @@ class EventsController extends Controller
                 }
                 else
                 {
+                    // Add 25% of progress when verse by verse check done
                     if(array_key_exists("state", $chapter["crc"]) && $data["chapters"][$key]["crc"]["state"] == "finished")
                         $data["chapters"][$key]["progress"] += 25;
                 }
