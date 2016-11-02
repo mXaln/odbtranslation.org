@@ -818,62 +818,6 @@ $(document).ready(function() {
 
 
     // ---------------------  Verse markers setting start -------------------- //
-    if(!isIE()) $(".bubblesReset").hide();
-
-    var focusedEl = null;
-    $(".textWithBubbles").click(function () {
-        if(!isIE()) return false;
-        focusedEl = $(this);
-    });
-
-    $(".bubblesReset").click(function (e) {
-        e.preventDefault();
-        if(!isIE()) return false;
-
-        var bubblesTxt = $(".textWithBubbles", $(this).parents(".vnote"));
-        var markerBubbles = $(".markerBubbles", $(this).parents(".vnote"));
-
-        $(".bubble", bubblesTxt).each(function () {
-            $(this).removeAttr("id");
-            markerBubbles.append($(this)[0].outerHTML + " ");
-        });
-
-        $(".bubble", bubblesTxt).remove();
-
-        var arr = [];
-        $(".bubble", markerBubbles).show().each(function () {
-            arr.push(parseInt($(this).text()));
-        });
-
-        markerBubbles.html("");
-        $.each(arr.sort(function(a, b){
-            return a-b;
-        }), function (i, v) {
-            markerBubbles.append('<div contenteditable="false" class="bubble" draggable="true">'+v+'</div> ');
-        });
-
-        return false;
-    });
-
-    $("body").on("click", ".bubble", function(e) {
-        if(!isIE()) return false;
-
-        var vNumber = $(this).text();
-
-        current = $(".textWithBubbles", $(this).parents(".vnote"));
-
-        if(!current.is(focusedEl))
-        {
-            renderPopup(Language.ieVersemarkersInstructions);
-            return false;
-        }
-
-        current.get(0).focus();
-
-        pasteHtmlAtCaret(e, "<div class=\"bubble\">"+vNumber+"</div>");
-        $(this).remove();
-    });
-
     var bindDraggables = function() {
         if(isIE()) return false;
 
@@ -883,7 +827,9 @@ $(document).ready(function() {
                 e.target.id = (new Date()).getTime();
 
             e.originalEvent.dataTransfer.setData('text', e.target.outerHTML);
-            $(e.target).addClass('dragged');
+            var parent = $(e.target).parents(".vnote");
+            $("body").data("bubble", $(e.target));
+            $("body").data("focused", $(".textWithBubbles", parent));
         });
     }
 
@@ -902,19 +848,29 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.textWithBubbles').on('dragover', function (e) {
-        if(isIE()) return false;
-        e.preventDefault();
-        return false;
-    });
-
     $('.textWithBubbles').on('drop', function(e) {
         if(isIE()) return false;
         e.preventDefault();
 
-        console.log(e.originalEvent.dataTransfer.getData('text'));
-
         var e = e.originalEvent;
+        var bubble = $("body").data("bubble");
+        var focused = $("body").data("focused");
+        var txt = $(e.target).text();
+        // Check if text has Chinese/Japanese/Myanmar/Lao characters
+        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f]/.test(txt);
+        $("body").data("hasCJLM", hasCJLM);
+
+        if(!e.target || e.target.className != "splword" // drop only before words
+            || !$(e.target.parentElement).is(focused) // don't drop into other chunk
+            || (!hasCJLM && $(e.target).prev().is(".bubble")) // don't drop when there is verse marker before word
+        )
+        {
+            bindDraggables();
+            return false;
+        }
+
+        bubble.addClass('dragged');
+
         var content = e.dataTransfer.getData('text');
 
         $(this).get(0).focus();
@@ -922,6 +878,8 @@ $(document).ready(function() {
         pasteHtmlAtCaret(e, content);
         bindDraggables();
         $('.dragged').remove();
+
+        return false;
     });
 
     bindDraggables();
@@ -930,18 +888,26 @@ $(document).ready(function() {
         var sel, range;
         if (window.getSelection) {
             // IE9 and non-IE
-            sel = window.getSelection();console.log(sel.rangeCount);
+            sel = window.getSelection();
             if (sel.getRangeAt) {
-                if(document.caretRangeFromPoint)                                    // Chrome
-                    range = document.caretRangeFromPoint(e.clientX, e.clientY);
-                else if (e.rangeParent) { // Firefox
-                    range = document.createRange();
-                    range.setStart(e.rangeParent, e.rangeOffset);
-                }
-                else                                                                // Opera
-                    range = sel.getRangeAt(0);
+                hasCJLM = $("body").data("hasCJLM");
 
-                range.deleteContents();
+                if(!hasCJLM)
+                {
+                    range = document.createRange();
+                    range.selectNode(e.target);
+                }
+                else
+                {
+                    if(document.caretRangeFromPoint)                                    // Chrome
+                        range = document.caretRangeFromPoint(e.clientX, e.clientY);
+                    else if (e.rangeParent) {                                           // Firefox
+                        range = document.createRange();
+                        range.setStart(e.rangeParent, e.rangeOffset);
+                    }
+                    else                                                                // Opera
+                        range = sel.getRangeAt(0);
+                }
 
                 var el = document.createElement("div");
                 el.innerHTML = html;
@@ -951,38 +917,10 @@ $(document).ready(function() {
                     lastNode = frag.appendChild(node);
                 }
                 range.insertNode(frag);
-
-                // Preserve the selection
-                if (lastNode) {
-                    range = range.cloneRange();
-                    range.setStartAfter(lastNode);
-                    range.collapse(true);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                }
             }
-        } else if (document.selection && document.selection.type != "Control") {
-            // IE < 9
-            document.selection.createRange().pasteHTML(html);
         }
     }
 
-    function isIE() {
-        if (/MSIE 10/i.test(navigator.userAgent)) {
-            // this is internet explorer 10
-            return true;
-        }
-
-        if(/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)){
-            // this is internet explorer 9 and 11
-            return true;
-        }
-
-        if (/Edge\/12./i.test(navigator.userAgent)){
-            // this is Microsoft Edge
-            return true;
-        }
-    }
 
     // ---------------------  Verse markers setting end -------------------- //
 
@@ -1416,4 +1354,24 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
         modal: true,
         buttons: btns,
     });
+}
+
+// Detect if current browser is Internet Explorer/Edge
+function isIE() {
+    return false;
+
+    if (/MSIE 10/i.test(navigator.userAgent)) {
+        // this is internet explorer 10
+        return true;
+    }
+
+    if(/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)){
+        // this is internet explorer 9 and 11
+        return true;
+    }
+
+    if (/Edge\/12./i.test(navigator.userAgent)){
+        // this is Microsoft Edge
+        return true;
+    }
 }

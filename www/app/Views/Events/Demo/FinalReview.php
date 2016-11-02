@@ -34,7 +34,6 @@
                         </div>
                         <div style="padding: 0;" class="col-sm-6 editor_area">
                             <div class="vnote">
-                                <div class="bubblesReset"><img width="30" title="<?php echo __("reset_markers") ?>" src="<?php echo template_url("img/reset.png") ?>"></div>
                                 <div class="markerBubbles noselect">
                                     <div contenteditable="false" class="bubble" draggable="true">4</div>
                                     <div contenteditable="false" class="bubble" draggable="true">5</div>
@@ -43,13 +42,63 @@
                                 </div>
 
                                 <div contenteditable="true" class="textWithBubbles">
-                                    <div contenteditable="false" class="bubble" draggable="true" id="1477475338196">1</div>
-                                        Demo translation text, Demo translation text, Demo translation text,
-                                    <div contenteditable="false" class="bubble" draggable="true" id="1477475341708">2</div>
-                                        Demo translation text, Demo translation text, Demo translation text Demo translation text,
-                                    <div contenteditable="false" class="bubble" draggable="true" id="1477475345284">3</div>
-                                        Demo translation text, Demo translation text, Demo translation text, Demo translation text,
-                                        Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text
+                                    <div id="1478016896552" draggable="true" class="bubble" contenteditable="false">1</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div id="1478016901312" draggable="true" class="bubble" contenteditable="false">2</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div id="1478016907160" draggable="true" class="bubble" contenteditable="false">3</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
                                 </div>
 
                                 <textarea class="col-sm-6 peer_verse_ta textarea ta_hidden" name="chunks[]" style="overflow-x: hidden; word-wrap: break-word;"></textarea>
@@ -79,7 +128,6 @@
                         </div>
                         <div style="padding: 0;" class="col-sm-6 editor_area">
                             <div class="vnote">
-                                <div class="bubblesReset"><img width="30" title="<?php echo __("reset_markers") ?>" src="<?php echo template_url("img/reset.png") ?>"></div>
                                 <div class="markerBubbles noselect">
                                     <div contenteditable="false" class="bubble" draggable="true">8</div>
                                     <div contenteditable="false" class="bubble" draggable="true">9</div>
@@ -91,9 +139,62 @@
                                 </div>
 
                                 <div contenteditable="true" class="textWithBubbles">
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text,
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text,
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text
+                                    <div contenteditable="true" class="textWithBubbles noselect">
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text,</div>
+                                        <div class="splword" contenteditable="true">Demo</div>
+                                        <div class="splword" contenteditable="true">translation</div>
+                                        <div class="splword" contenteditable="true">text</div>
+                                    </div>
                                 </div>
 
                                 <textarea class="col-sm-6 peer_verse_ta textarea ta_hidden" name="chunks[]" style="overflow-x: hidden; word-wrap: break-word;"></textarea>
@@ -120,7 +221,6 @@
                         </div>
                         <div style="padding: 0;" class="col-sm-6 editor_area">
                             <div class="vnote">
-                                <div class="bubblesReset"><img width="30" title="<?php echo __("reset_markers") ?>" src="<?php echo template_url("img/reset.png") ?>"></div>
                                 <div class="markerBubbles noselect">
                                     <div contenteditable="false" class="bubble" draggable="true">15</div>
                                     <div contenteditable="false" class="bubble" draggable="true">16</div>
@@ -131,9 +231,60 @@
                                 </div>
 
                                 <div contenteditable="true" class="textWithBubbles">
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text,
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text,
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
                                 </div>
 
                                 <textarea class="col-sm-6 peer_verse_ta textarea ta_hidden" name="chunks[]" style="overflow-x: hidden; word-wrap: break-word;"></textarea>
@@ -160,7 +311,6 @@
                         </div>
                         <div style="padding: 0;" class="col-sm-6 editor_area">
                             <div class="vnote">
-                                <div class="bubblesReset"><img width="30" title="<?php echo __("reset_markers") ?>" src="<?php echo template_url("img/reset.png") ?>"></div>
                                 <div class="markerBubbles noselect">
                                     <div contenteditable="false" class="bubble" draggable="true">21</div>
                                     <div contenteditable="false" class="bubble" draggable="true">22</div>
@@ -171,9 +321,60 @@
                                 </div>
 
                                 <div contenteditable="true" class="textWithBubbles">
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text,
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text,
-                                    Demo translation text, Demo translation text, Demo translation text, Demo translation text
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text,</div>
+                                    <div class="splword" contenteditable="true">Demo</div>
+                                    <div class="splword" contenteditable="true">translation</div>
+                                    <div class="splword" contenteditable="true">text</div>
                                 </div>
 
                                 <textarea class="col-sm-6 peer_verse_ta textarea ta_hidden" name="chunks[]" style="overflow-x: hidden; word-wrap: break-word;"></textarea>

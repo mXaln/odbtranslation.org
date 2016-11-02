@@ -56,7 +56,6 @@ use Helpers\Constants\EventMembers;
                                 <div class="col-sm-6 editor_area" style="padding: 0;">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"];?>
                                     <div class="vnote">
-                                        <div class="bubblesReset"><img src="<?php echo template_url("img/reset.png") ?>" width="30" title="<?php echo __("reset_markers") ?>" ></div>
                                         <div class="markerBubbles noselect">
                                             <?php foreach ($chunk as $verse): ?>
                                                 <?php
@@ -72,10 +71,26 @@ use Helpers\Constants\EventMembers;
 
                                         <?php
                                         if(!empty($_POST) && isset($_POST["chunks"][$key]))
-                                            $text = preg_replace("/\|([0-9]+)\|/", "<div class=\"bubble\">$1</div>", $_POST["chunks"][$key]);
+                                            $text = $_POST["chunks"][$key];
                                         ?>
                                         <div class="textWithBubbles noselect" contentEditable="true">
-                                            <?php echo $text ?>
+                                            <?php
+                                            $wordverse = preg_split("/\|([0-9]+)\|/", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+                                            foreach ($wordverse as $item)
+                                            {
+                                                if(preg_match("/^[0-9]+$/", $item))
+                                                {
+                                                    echo "<div class=\"bubble\">{$item}</div>";
+                                                }
+                                                else
+                                                {
+                                                    $words = preg_split("/ /", $item);
+                                                    foreach ($words as $word) {
+                                                        echo "<div class='splword' contenteditable='true'>{$word}</div> ";
+                                                    }
+                                                }
+                                            }
+                                            ?>
                                         </div>
 
                                         <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea ta_hidden"></textarea>
