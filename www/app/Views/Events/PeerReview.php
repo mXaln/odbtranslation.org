@@ -1,6 +1,7 @@
 <?php
 use \Helpers\Constants\EventMembers;
-use \Helpers\Tools;
+
+if(isset($data["error"])) return;
 ?>
 
 <div class="editor">

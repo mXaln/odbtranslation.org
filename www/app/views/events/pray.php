@@ -1,3 +1,6 @@
+<?php
+if(isset($data["error"])) return;
+?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("pray")?></div>
@@ -6,7 +9,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <img src="<?php echo template_url("img/steps/big/pray.png") ?>">
+                <img src="<?php echo template_url("img/steps/big/".(!$data["event"][0]->justStarted ? "guys" : "pray").".png") ?>">
                 <br>
                 <div><?php echo __((!$data["event"][0]->justStarted ? "prep_" : "")."pray_text")?></div>
             </div>

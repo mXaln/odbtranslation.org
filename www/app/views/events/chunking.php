@@ -1,3 +1,6 @@
+<?php
+if(isset($data["error"])) return;
+?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [3]) . ": " . __("chunking")?></div>

@@ -819,8 +819,6 @@ $(document).ready(function() {
 
     // ---------------------  Verse markers setting start -------------------- //
     var bindDraggables = function() {
-        if(isIE()) return false;
-
         $('.bubble').attr("contenteditable", false).attr("draggable", true);
         $('.bubble').off('dragstart').on('dragstart', function(e) {
             if (!e.target.id)
@@ -849,7 +847,6 @@ $(document).ready(function() {
     });
 
     $('.textWithBubbles').on('drop', function(e) {
-        if(isIE()) return false;
         e.preventDefault();
 
         var e = e.originalEvent;
@@ -1358,8 +1355,6 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
 
 // Detect if current browser is Internet Explorer/Edge
 function isIE() {
-    return false;
-
     if (/MSIE 10/i.test(navigator.userAgent)) {
         // this is internet explorer 10
         return true;
@@ -1374,4 +1369,6 @@ function isIE() {
         // this is Microsoft Edge
         return true;
     }
+
+    return false;
 }
