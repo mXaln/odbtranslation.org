@@ -11,6 +11,7 @@ return array (
 	"events_title" => "События",
 	"contact_us_title" => "Обратная связь",
 	"about_title" => "О нас",
+    "bible" => "Библия",
 
     // ------------ Members Controller ------------------ //
 
@@ -113,6 +114,7 @@ return array (
     "show_langs_window" => "Нажмите кнопку с “Плюсом”, чтобы добавить языки",
     "select_search_lang_option" => "Выберите из списка или используйте поиск",
     "resend_activation_title" => "Повторная отправка кода активации",
+    "create" => "Создать",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -293,6 +295,7 @@ return array (
     "choose_source_trans" => "Выберите источник перевода",
     "choose_project_type" => "Выберите тип проекта",
     "gw_projects" => "Проекты ключевых языков",
+    "gw_project" => "Ключевой язык",
     "create_gw_project" => "Создать проект ключевого языка",
     "edit" => "Редактировать",
     "add_admins_by_username" => "Внесите фасилитаторов по их именам пользователей",

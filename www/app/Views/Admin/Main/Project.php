@@ -1,6 +1,5 @@
 <?php
 use Helpers\Constants\EventStates;
-use Helpers\Url;
 
 $code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
 
@@ -135,7 +134,7 @@ if(!empty($data["project"])):
                         <br><br>
 
                         <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create_event"); ?></button>
-                        <img class="startEventLoader" width="24px" src="<?php echo Url::templatePath() ?>img/loader.gif">
+                        <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>
             </div>
@@ -146,7 +145,7 @@ if(!empty($data["project"])):
 <div>Project does not exist or you do not have rights to see it</div>
 <?php endif; ?>
 
-<link href="<?php echo Url::templatePath()?>css/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
-<script src="<?php echo Url::templatePath()?>js/jquery-ui-timepicker-addon.min.js"></script>
-<script src="<?php echo Url::templatePath()?>js/i18n/jquery-ui-timepicker-<?php echo $code ?>.js"></script>
-<script src="<?php echo Url::templatePath()?>js/i18n/datepicker-<?php echo $code ?>.js"></script>
+<link href="<?php echo template_url("css/jquery-ui-timepicker-addon.css")?>" type="text/css" rel="stylesheet" />
+<script src="<?php echo template_url("js/jquery-ui-timepicker-addon.min.js")?>"></script>
+<script src="<?php echo template_url("js/i18n/jquery-ui-timepicker-".$code.".js")?>"></script>
+<script src="<?php echo template_url("js/i18n/datepicker-".$code.".js")?>"></script>

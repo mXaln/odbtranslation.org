@@ -1,3 +1,3 @@
 <?php
-echo \Core\Error::display($error);
+echo Error::display($error);
 ?>

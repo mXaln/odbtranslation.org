@@ -1,10 +1,3 @@
-<?php
-use Helpers\Session;
-use Helpers\Url;
-
-
-if(Session::get("isSuperAdmin")):
-?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("gw_projects") ?></h1>
@@ -45,7 +38,7 @@ if(Session::get("isSuperAdmin")):
 <div class="main-content form-panel">
     <div class="create-main-content panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("create_gw_project") ?></h1>
+            <h1 class="panel-title"><?php echo __("gw_project") ?></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -74,17 +67,12 @@ if(Session::get("isSuperAdmin")):
 
                 <input type="hidden" name="act" id="gwProjectAction" value="create">
                 <button type="submit" name="gwProject" class="btn btn-primary"><?php echo __('create'); ?></button>
-                <img class="gwProjectLoader" width="24px" src="<?php echo Url::templatePath() ?>img/loader.gif">
+                <img class="gwProjectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
             </form>
         </div>
     </div>
 </div>
-<?php
-endif;
 
-
-if(Session::get("isAdmin")):
-?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("projects") ?></h1>
@@ -131,7 +119,7 @@ if(Session::get("isAdmin")):
 <div class="sub-content form-panel">
     <div class="create-sub-content panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("create_project") ?></h1>
+            <h1 class="panel-title"><?php echo __("project") ?></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -148,7 +136,7 @@ if(Session::get("isAdmin")):
                             <option value="<?php echo $gwLang->langID ."|".$gwLang->gwProjectID ?>"><?php echo $gwLang->langName; ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <img class="subGwLoader" width="24px" src="<?php echo Url::templatePath() ?>img/loader.gif">
+                    <img class="subGwLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                 </div>
 
                 <div class="form-group">
@@ -179,19 +167,16 @@ if(Session::get("isAdmin")):
 
                 <br><br>
 
-                <button type="submit" name="project" class="btn btn-primary"><?php echo __('Create'); ?></button>
-                <img class="projectLoader" width="24px" src="<?php echo Url::templatePath() ?>img/loader.gif">
+                <button type="submit" name="project" class="btn btn-primary"><?php echo __('create'); ?></button>
+                <img class="projectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
             </form>
         </div>
     </div>
 </div>
-<?php
-endif;
-?>
 
-<link href="<?php echo Url::templatePath()?>css/chosen.min.css" type="text/css" rel="stylesheet" />
-<script src="<?php echo Url::templatePath()?>js/chosen.jquery.min.js"></script>
-<script src="<?php echo Url::templatePath()?>js/ajax-chosen.min.js"></script>
+<link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />
+<script src="<?php echo template_url("js/chosen.jquery.min.js")?>"></script>
+<script src="<?php echo template_url("js/ajax-chosen.min.js")?>"></script>
 
 <script>
     var buttonCreate = '<?php echo __('create'); ?>';

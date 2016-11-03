@@ -14,6 +14,7 @@ return array (
     "events_title" => "Events",
     "contact_us_title" => "Contact Us",
     "about_title" => "About",
+    "bible" => "Bible",
 
     // ------------ Members Controller ------------------ //
 
@@ -115,6 +116,7 @@ return array (
     "show_langs_window" => "Click Plus Button to add languages",
     "select_search_lang_option" => "Select an option or use search",
     "resend_activation_title" => "Send activation code again",
+    "create" => "Create",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",
@@ -295,6 +297,7 @@ return array (
     "choose_source_trans" => "Choose Source Translation",
     "choose_project_type" => "Choose Project Type",
     "gw_projects" => "Gateway Projects",
+    "gw_project" => "Gateway Project",
     "create_gw_project" => "Create Gateway Project",
     "edit" => "Edit",
     "add_admins_by_username" => "Add facilitators by typing their user names",

@@ -1,7 +1,7 @@
 <?php
-echo \Core\Error::display($error);
+echo Error::display($error);
 ?>
 
-<a class="btn btn-link" href="<?php echo SITEURL;?>members">
-	<?php echo \Core\Language::show('back_home', 'Main'); ?>
+<a class="btn btn-link" href="/members">
+	<?php echo __('back_home'); ?>
 </a>

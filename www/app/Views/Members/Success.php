@@ -6,7 +6,7 @@ echo Session::message();
 
 <br><br>
 
-<a class="btn btn-link" href="<?php echo SITEURL;?>members">
+<a class="btn btn-link" href="/members">
     <?php echo __('home'); ?>
 </a>
 
