@@ -180,6 +180,7 @@ class EventsController extends Controller
                         {
                             if (isset($_POST["confirm_step"]))
                             {
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                 $postdata = [
                                     "step" => EventSteps::CONSUME,
                                     "currentChapter" => $sourceText["currentChapter"],
@@ -229,7 +230,7 @@ class EventsController extends Controller
                                     "hideChkNotif" => false
                                 ];
 
-                                setcookie("temp_tutorial", false, time() - 3600);
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                 $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                 Url::redirect('events/translator/' . $data["event"][0]->eventID);
                             }
@@ -268,7 +269,7 @@ class EventsController extends Controller
                             {
                                 if($data["event"][0]->checkDone)
                                 {
-                                    setcookie("temp_tutorial", false, time() - 3600);
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                     $postdata = [
                                         "step" => EventSteps::CHUNKING,
                                         "checkerID" => 0,
@@ -317,7 +318,7 @@ class EventsController extends Controller
                         {
                             if (isset($_POST["confirm_step"]))
                             {
-                                setcookie("temp_tutorial", false, time() - 3600);
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
 
                                 $_POST = Gump::xss_clean($_POST);
 
@@ -377,7 +378,7 @@ class EventsController extends Controller
                         {
                             if (isset($_POST["confirm_step"]))
                             {
-                                setcookie("temp_tutorial", false, time() - 3600);
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                 $this->_model->updateTranslator(["step" => EventSteps::BLIND_DRAFT], ["trID" => $data["event"][0]->trID]);
                                 Url::redirect('events/translator/' . $data["event"][0]->eventID);
                             }
@@ -461,7 +462,7 @@ class EventsController extends Controller
                                             $postdata["step"] = EventSteps::READ_CHUNK;
                                         }
 
-                                        setcookie("temp_tutorial", false, time() - 3600);
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]); Data::pr($upd);
                                         Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                     }
@@ -560,7 +561,7 @@ class EventsController extends Controller
                             {
                                 if (isset($_POST["confirm_step"]))
                                 {
-                                    setcookie("temp_tutorial", false, time() - 3600);
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                     $postdata = [
                                         "step" => EventSteps::PEER_REVIEW,
                                         "hideChkNotif" => false,
@@ -662,7 +663,7 @@ class EventsController extends Controller
                                 {
                                     if($data["event"][0]->checkDone)
                                     {
-                                        setcookie("temp_tutorial", false, time() - 3600);
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $postdata = [
                                             "step" => EventSteps::KEYWORD_CHECK,
                                             "checkerID" => 0,
@@ -773,7 +774,7 @@ class EventsController extends Controller
                                 {
                                     if($data["event"][0]->checkDone)
                                     {
-                                        setcookie("temp_tutorial", false, time() - 3600);
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $postdata = array(
                                             "step" => EventSteps::CONTENT_REVIEW,
                                             "checkerID" => 0,
@@ -885,7 +886,7 @@ class EventsController extends Controller
                                 {
                                     if($data["event"][0]->checkDone)
                                     {
-                                        setcookie("temp_tutorial", false, time() - 3600);
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $postdata = array(
                                             "step" => EventSteps::FINAL_REVIEW,
                                             "checkerID" => 0,
@@ -1018,7 +1019,7 @@ class EventsController extends Controller
                                             $postdata["translateDone"] = false;
                                         }
 
-                                        setcookie("temp_tutorial", false, time() - 3600);
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                         Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                     }
@@ -1843,9 +1844,6 @@ class EventsController extends Controller
         return $view
             ->shares("title", __("demo"))
             ->shares("data", $data);
-
-        //View::render('events/demo/demo_header', $data);
-        //View::renderTemplate('footer', $data);
     }
 
     public function applyEvent()

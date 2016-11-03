@@ -151,7 +151,7 @@
                         <input name="chunks_array" id="chunks_array" value="[]" type="hidden">
                     </div>
 
-                    <button id="next_step" onclick="window.location.href='<?php echo SITEURL ?>events/demo/read_chunk'; return false;" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
             </div>
         </div>
@@ -199,3 +199,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#next_step").click(function (e) {
+            e.preventDefault();
+
+            deleteCookie("temp_tutorial");
+            window.location.href = '/events/demo/read_chunk';
+
+            return false;
+        });
+    });
+</script>

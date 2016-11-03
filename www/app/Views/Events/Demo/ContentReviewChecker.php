@@ -168,7 +168,7 @@
                         <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
                     </div>
 
-                    <button id="next_step" onclick="window.location.href='<?php echo SITEURL ?>events/demo/final_review'; return false;" class="btn btn-primary" disabled=""><?php echo __("next_step")?></button>
+                    <button id="next_step" class="btn btn-primary" disabled=""><?php echo __("next_step")?></button>
                 </form>
             </div>
         </div>
@@ -222,3 +222,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#next_step").click(function (e) {
+            e.preventDefault();
+
+            deleteCookie("temp_tutorial");
+            window.location.href = '/events/demo/final_review';
+
+            return false;
+        });
+    });
+</script>

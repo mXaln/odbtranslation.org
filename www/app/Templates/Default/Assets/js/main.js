@@ -7,7 +7,7 @@ var lastCommentAltEditor;
 var hasChangesOnPage = false;
 var autosaveTimer;
 
-var eventSteps = {
+var EventSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
@@ -286,13 +286,13 @@ $(document).ready(function() {
             {
                 $(".tutorial_container").show();
                 $("body").css("overflow", "hidden");
-                setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"})
+                setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"});
             }
         }
 
-        if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK ||
-            step == eventSteps.PEER_REVIEW || step == eventSteps.KEYWORD_CHECK ||
-            step == eventSteps.CONTENT_REVIEW)
+        if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
+            step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
+            step == EventSteps.CONTENT_REVIEW)
         {
             autosaveTimer = setInterval(function() {
                 if(hasChangesOnPage)
@@ -443,7 +443,7 @@ $(document).ready(function() {
     });
 
     $("#next_step").click(function(e) {
-        if(step == eventSteps.BLIND_DRAFT)
+        if(step == EventSteps.BLIND_DRAFT)
             return;
 
         $this = $(this);
@@ -1076,14 +1076,6 @@ $(document).ready(function() {
                 .addClass("glyphicon-triangle-bottom");
             $(".section_title", $(this)).css("font-weight", "bold");
         }
-    });
-
-    // Demo mode switch
-    $(".gl_ol_mode input[name=mode]").click(function() {
-        var mode = $(this).val();
-
-        setCookie("demo_mode", mode, {expires: 365*24*60*60});
-        window.location.reload();
     });
 
     // Check if event has been started
