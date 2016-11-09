@@ -324,7 +324,6 @@ html, body, .container {
     width: 388px;
 }
 
-
 #chk {
     display: none;
 }
@@ -1101,6 +1100,7 @@ div.ui-datepicker {
 
 .chunk_verses {
     text-align: justify;
+    position: relative;
 }
 
 .ta_hidden {
@@ -1131,20 +1131,13 @@ div.ui-datepicker {
     color: #3784cb;
 }
 
-.bubblesReset {
-    position: absolute;
-    right: 10px;
-    top: -4px;
-    cursor: pointer;
-}
-
 .noselect {
-    /*user-select: none;
+    user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
-    -webkit-user-select: none;*/
+    -webkit-user-select: none;
 }
 
 .bubble {
@@ -1160,6 +1153,7 @@ div.ui-datepicker {
     font-size: 12px;
     font-weight: bold;
     padding-top: 2px;
+    margin: 0 2px;
 }
 
 .hovered {
@@ -1212,6 +1206,11 @@ div.ui-datepicker {
     font-weight: bold;
 }
 
+.create_chunk.rtl {
+    right: auto;
+    left: 10px;
+}
+
 .chunk_block {
     position: relative;
     margin: 20px 0;
@@ -1236,6 +1235,11 @@ div.ui-datepicker {
     color: #fff;
     font-weight: bold;
     display: none;
+}
+
+.chunks_reset.rtl {
+    right: auto;
+    left: 0;
 }
 
 .keywords_show {
@@ -1391,6 +1395,10 @@ mark {
     text-align: left;
     max-height: 300px;
     overflow-y: auto;
+}
+
+.other_comments_list.rtl {
+    text-align: right;
 }
 
 .other_comments {
@@ -2650,4 +2658,32 @@ div[class^="member_usname mid"] {
 
 .ui-datepicker {
     width: 350px;
+}
+
+div[class^=kwverse] {
+    display: inline;
+}
+
+.main_content_text strong {
+    margin-right: 3px;
+    margin-left: 0px;
+}
+
+.main_content_text strong.rtl {
+    margin-right: 0px;
+    margin-left: 3px;
+}
+
+.chunk_verses b {
+    background-color: #f8ff00;
+    cursor: pointer;
+    display: inline;
+}
+
+.remove_kw_tip {
+    position: absolute;
+    background-color: #222;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 5px;
 }

@@ -14,7 +14,7 @@ class BookSources
     const catalog = array(
         "en" => array("ulb", "udb"),
         "ru" => array("rsb"),
-        //"ar" => array("avd"),
+        "ar" => array("avd"),
         //"hu" => array("kar"),
         //"sr-Latn" => array("dkl"),
     );

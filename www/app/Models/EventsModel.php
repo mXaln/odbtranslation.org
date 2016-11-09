@@ -225,7 +225,8 @@ class EventsModel extends Model
             .PREFIX."events.dateTo, ".PREFIX."events.translatorsNum, "
             .PREFIX."events.adminID, facilitator.userName AS facilUname, facilitator.firstName AS facilFname, facilitator.lastName AS facilLname, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
-            .PREFIX."projects.sourceBible, t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
+            .PREFIX."projects.sourceBible, t_lang.langName as tLang, t_lang.direction as tLangDir, "
+            ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
         $mainTable = "";
 
         switch($memberType)
@@ -284,7 +285,8 @@ class EventsModel extends Model
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."events.chapters, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
                 PREFIX."events.adminID, facilitator.userName AS facilUname, facilitator.firstName AS facilFname, facilitator.lastName AS facilLname, ".
-                PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang ".
+                PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".
+                "t_lang.direction as tLangDir, s_lang.direction as sLangDir ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
@@ -543,10 +545,10 @@ class EventsModel extends Model
 
     public function getEventMemberInfo($eventID, $memberID)
     {
-        $sql = "SELECT trs.memberID AS translator, chk7_8.checkerID AS checker7_8, l2.memberID AS l2checker, l3.memberID AS l3checker ".
+        $sql = "SELECT trs.memberID AS translator, chk.step AS checkerStep, chk.checkerID AS checker, l2.memberID AS l2checker, l3.memberID AS l3checker ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."translators AS trs ON evnt.eventID = trs.eventID AND trs.memberID = :memberID ".
-            "LEFT JOIN ".PREFIX."translators AS chk7_8 ON evnt.eventID = chk7_8.eventID AND chk7_8.checkerID = :memberID ".
+            "LEFT JOIN ".PREFIX."translators AS chk ON evnt.eventID = chk.eventID AND chk.checkerID = :memberID ".
             "LEFT JOIN ".PREFIX."checkers_l2 AS l2 ON evnt.eventID = l2.eventID AND l2.memberID = :memberID ".
             "LEFT JOIN ".PREFIX."checkers_l3 AS l3 ON evnt.eventID = l3.eventID AND l3.memberID = :memberID ".
             "WHERE evnt.eventID = :eventID";

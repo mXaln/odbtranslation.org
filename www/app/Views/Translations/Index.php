@@ -1,8 +1,4 @@
 <?php
-use Helpers\Session;
-?>
-
-<?php
 if(isset($data['languages'])) {
     echo __("bible")."<br><br>";
 
@@ -39,5 +35,5 @@ if(isset($data['book'])) {
 
     echo "<h4><a href='".$data['data']->bookCode."/usfm'>".__("download_usfm")."</a></h4>";
 
-    echo '<div class="bible_book">'.$data["book"].'</div>';
+    echo '<div class="bible_book" dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
 }

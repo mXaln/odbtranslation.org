@@ -354,6 +354,62 @@ $(function () {
 
         e.preventDefault();
     });
+
+    // Activate/Verify member
+    $(".verifyMember").click(function (e) {
+        e.preventDefault();
+
+        var memberID = $(this).attr("data");
+        var parent = $(this).parents("tr");
+        var activated = $(".activateMember", parent).is(":checked");
+        var verify = $(this).is(":checked");
+
+        if(!verify)
+        {
+            window.location.reload();
+            return false;
+        }
+
+        var msg = "";
+        if(!activated)
+            msg += Language.notActivatedWarning + " ";
+        msg += Language.verifyMessage;
+
+        renderConfirmPopup(Language.verifyTitle, msg, function () {
+            $(this).dialog("close");
+
+            $.ajax({
+                url: "/admin/rpc/verify_member",
+                method: "post",
+                data: {
+                    memberID: memberID,
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    //$(".commentEditorLoader").show();
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        renderPopup(Language.verifySuccess);
+                        parent.remove();
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error, function () {
+                                window.location.reload(true);
+                            });
+                        }
+                    }
+                })
+                .always(function() {
+                    //$(".commentEditorLoader").hide();
+                });
+        });
+    });
 });
 
 

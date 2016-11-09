@@ -15,17 +15,20 @@ return array (
     "contact_us_title" => "Contact Us",
     "about_title" => "About",
     "bible" => "Bible",
+    "members" => "Members",
 
     // ------------ Members Controller ------------------ //
 
     // Index method
     "members_title" => "Members",
+    "new_members_title" => "Non active members",
     "firstName" => "First name",
     "lastName" => "Last name",
     "password" => "Password",
     "confirm_password" => "Confirm Password",
     "enter_new_password" => "Enter new password",
     "userName" => "User name",
+    "name" => "Name",
     "accept_btn" => "Accept",
     "deny_btn" => "Cancel",
     "tou" => "Terms of use",
@@ -42,6 +45,8 @@ return array (
     "admin" => "Admin",
     "contact" => "Contact",
     "add_lang" => "Add language",
+    "activated" => "Activated",
+    "verified" => "Verify",
 
     // Activate method
     "activate_account_title" => "Activate Account",
@@ -158,6 +163,7 @@ return array (
     // ------------ Events Controller ------------- //
 
     "admin_events_title" => "Create and Edit Events",
+    "admin_members_title" => "Members management",
     "gw_language" => "Gateway Language",
     "book_project" => "Source Translation",
     "udb" => "Unlocked Dynamic Bible",
@@ -369,8 +375,6 @@ return array (
     "event_chapters_error" => "You have to assign at least one chapter to start translation.",
     "peer_check_not_done_error" => "Your previous chapter hasn't been checked by your partner.",
     "cannot_apply_checker" => "An error occured. You cannot apply to check this chapter.",
-    "too_many_translators_error" => "Too many translators for such a number of chapters.",
-    "not_even_translators" => "The number of translators should be even in order to form pairs.",
     "enter_translators" => "Enter the number of translators.",
     "enter_checkers_l2" => "Enter the number of level 2 checkers",
     "enter_checkers_l3" => "Enter the number of level 3 checkers",

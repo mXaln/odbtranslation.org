@@ -8,7 +8,7 @@ if(isset($data["error"])) return;
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <div class="main_content_text">
+            <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
                 <h4><?php echo $data["event"][0]->sLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
@@ -59,8 +59,8 @@ if(isset($data["error"])) return;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/read-chunk.png") ?>" width="100px" height="100px">
-            <img src="<?php echo template_url("img/steps/big/read-chunk.png") ?>" width="280px" height="280px">
+            <img src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>" width="100px" height="100px">
+            <img src="<?php echo template_url("img/steps/big/blind-draft.png") ?>" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
             </div>

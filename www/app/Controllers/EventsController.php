@@ -2313,11 +2313,10 @@ class EventsController extends Controller
             $memberInfo = (array)$this->_model->getEventMemberInfo($eventID, $memberID);
 
             if(!empty($memberInfo) && ($memberInfo[0]->translator == $memberID ||
-                    $memberInfo[0]->checker7_8 == $memberID ||
+                    $memberInfo[0]->checker == $memberID ||
                     $memberInfo[0]->l2checker == $memberID || $memberInfo[0]->l3checker == $memberID))
             {
-                $transModel = new TranslationsModel();
-                $commentDB = (array)$transModel->getComment($eventID, $chapter, $chunk, Session::get("memberID"));
+                $commentDB = (array)$this->_translationModel->getComment($eventID, $chapter, $chunk, Session::get("memberID"));
 
                 $postdata = array(
                     "text" => $comment,
@@ -2329,11 +2328,11 @@ class EventsController extends Controller
                 {
                     if($comment == "")
                     {
-                        $result = $transModel->deleteComment(array("cID" => $commentDB[0]->cID));
+                        $result = $this->_translationModel->deleteComment(array("cID" => $commentDB[0]->cID));
                     }
                     else
                     {
-                        $result = $transModel->updateComment($postdata,  array("cID" => $commentDB[0]->cID));
+                        $result = $this->_translationModel->updateComment($postdata,  array("cID" => $commentDB[0]->cID));
                     }
                 }
                 else
@@ -2345,7 +2344,7 @@ class EventsController extends Controller
                         "memberID" => Session::get("memberID")
                     );
 
-                    $result = $transModel->createComment($postdata);
+                    $result = $this->_translationModel->createComment($postdata);
                 }
 
                 if($result)
@@ -2359,6 +2358,141 @@ class EventsController extends Controller
         echo json_encode($response);
     }
 
+
+    public function saveKeyword()
+    {
+        $response = array("success" => false);
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = __("not_loggedin_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if (!Session::get('verified'))
+        {
+            $response["error"] = __("account_not_verirfied_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if(Session::get("isDemo"))
+        {
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+        $chapter = isset($_POST["chapter"]) && $_POST["chapter"] != "" ? (integer)$_POST["chapter"] : null;
+        $chunk = isset($_POST["chunk"]) && $_POST["chunk"] != "" ? (integer)$_POST["chunk"] : null;
+        $index = isset($_POST["index"]) && $_POST["index"] != "" ? (integer)$_POST["index"] : null;
+        $verse = isset($_POST["verse"]) ? $_POST["verse"] : "";
+        $text = isset($_POST["text"]) ? $_POST["text"] : "";
+        $remove = isset($_POST["remove"]) && $_POST["remove"] == "true";
+        $memberID = Session::get("memberID");
+
+        if($eventID !== null && $chapter !== null && $chunk !== null && $index > -1 && $verse != null)
+        {
+            $memberInfo = (array)$this->_model->getEventMemberInfo($eventID, $memberID);
+
+            if(!empty($memberInfo) && $memberInfo[0]->checker == $memberID && $memberInfo[0]->checkerStep == EventSteps::KEYWORD_CHECK)
+            {
+                $keyword = $this->_translationModel->getKeywords([
+                    "eventID" => $eventID,
+                    "chapter" => $chapter,
+                    "chunk" => $chunk,
+                    "verse" => $verse,
+                    "indexOrder" => $index,
+                    "text" => $text
+                ]);
+
+                if(!empty($keyword))
+                {
+                    if($remove)
+                    {
+                        $result = $this->_translationModel->deleteKeyword($keyword[0]->kID);
+                    }
+                    else
+                    {
+                        $response["error"] = __("keyword_exists_error");
+                        echo json_encode($response);
+                        return;
+                    }
+                }
+                else
+                {
+                    $postdata = [
+                        "eventID" => $eventID,
+                        "chapter" => $chapter,
+                        "chunk" => $chunk,
+                        "verse" => $verse,
+                        "indexOrder" => $index,
+                        "text" => $text,
+                        "memberID" => Session::get("memberID")
+                    ];
+
+                    $result = $this->_translationModel->createKeyword($postdata);
+                }
+
+                if($result)
+                {
+                    $response["success"] = true;
+                    $response["text"] = $text;
+                }
+            }
+        }
+
+        echo json_encode($response);
+    }
+
+
+    public function getKeywords()
+    {
+        $response = array("success" => false);
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = __("not_loggedin_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if (!Session::get('verified'))
+        {
+            $response["error"] = __("account_not_verirfied_error");
+            echo json_encode($response);
+            return;
+        }
+
+        if(Session::get("isDemo"))
+        {
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+        $chapter = isset($_POST["chapter"]) && $_POST["chapter"] != "" ? (integer)$_POST["chapter"] : null;
+        $memberID = Session::get("memberID");
+
+        if($eventID !== null && $chapter !== null)
+        {
+            $keywords = $this->_translationModel->getKeywords([
+                "eventID" => $eventID,
+                "chapter" => $chapter
+            ]);
+
+            if(!empty($keywords))
+            {
+                $response["success"] = true;
+                $response["text"] = $keywords;
+            }
+        }
+
+        echo json_encode($response);
+    }
 
 
     public function getInfoUpdate($eventID)
@@ -3371,7 +3505,7 @@ class EventsController extends Controller
         return $commentsFinal;
     }
 
-    private function getKeyWords($book, $lang = "en", $chapter, $versesCount)
+    private function getUwKeyWords($book, $lang = "en", $chapter, $versesCount)
     {
         $result = array();
 

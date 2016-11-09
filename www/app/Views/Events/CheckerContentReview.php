@@ -11,13 +11,13 @@ if(empty($error) && empty($data["success"])):
 ?>
 
 <div class="editor">
-    <div class="comment_div panel panel-default">
+    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list"></div>
+        <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
         <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
     </div>
 </div>
@@ -31,7 +31,7 @@ if(empty($error) && empty($data["success"])):
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text row">
-                <h4><?php echo $data["event"][0]->sLang." - "
+                <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
@@ -45,7 +45,7 @@ if(empty($error) && empty($data["success"])):
                 <div class="col-sm-12 side_by_side_content">
                     <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
                         <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;">
+                            <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                 <?php $firstVerse = 0; ?>
                                 <?php foreach ($chunk as $verse): ?>
                                     <?php
@@ -64,10 +64,10 @@ if(empty($error) && empty($data["success"])):
                                         $verse = $combinedVerse;
                                     }
                                     ?>
-                                    <strong><sup><?php echo $verse; ?></sup></strong><?php echo $data["text"][$verse]; ?>
+                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
                                 <?php endforeach; ?>
                             </div>
-                            <div class="col-sm-6 editor_area" style="padding: 0;">
+                            <div class="col-sm-6 editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
                                 <div class="vnote">
                                     <?php echo $text; ?>
@@ -97,7 +97,7 @@ if(empty($error) && empty($data["success"])):
                     <?php endforeach; ?>
                 </div>
 
-                <div class="col-sm-12 one_side_content">
+                <div class="col-sm-12 one_side_content" dir="<?php echo $data["event"][0]->tLangDir ?>">
                     <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
                         <div class="chunk_block">
                             <div style="padding-right: 15px" class="chunk_verses">
@@ -119,7 +119,7 @@ if(empty($error) && empty($data["success"])):
                                         $verse = $combinedVerse;
                                     }
                                     ?>
-                                    <strong><sup><?php echo $verse; ?></sup></strong><?php echo $data["text"][$verse]; ?>
+                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
                                 <?php endforeach; ?>
                             </div>
                             <div class="vnote">

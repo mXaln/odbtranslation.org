@@ -57,7 +57,7 @@ class TranslationsModel extends Model
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
-                "translations.chapter", "translations.translatedVerses")
+                "translations.chapter", "translations.translatedVerses", "languages.direction")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
@@ -203,6 +203,29 @@ class TranslationsModel extends Model
             $builder->where("comments.chapter", $chapter);
 
         return $builder->get();
+    }
+
+    public function getKeywords($where)
+    {
+        return $this->db->table("keywords")
+            ->select()
+            ->where($where)
+            ->orderBy("chapter")
+            ->orderBy("chunk")
+            ->orderBy("verse")->get();
+    }
+
+    public function deleteKeyword($kID)
+    {
+        return $this->db->table("keywords")
+            ->where("kID", $kID)
+            ->delete();
+    }
+
+    public function createKeyword($data)
+    {
+        return $this->db->table("keywords")
+            ->insertGetId($data);
     }
 
     public function createComment($data)

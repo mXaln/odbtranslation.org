@@ -12,17 +12,20 @@ return array (
 	"contact_us_title" => "Обратная связь",
 	"about_title" => "О нас",
     "bible" => "Библия",
+    "members" => "Пользователи",
 
     // ------------ Members Controller ------------------ //
 
     // Index method
     "members_title" => "Пользователи",
+    "new_members_title" => "Неактивные пользователи",
     "firstName" => "Имя",
     "lastName" => "Фамилия",
     "password" => "Пароль",
     "confirm_password" => "Подтверждение пароля",
     "enter_new_password" => "Введите новый пароль",
     "userName" => "Имя пользователя",
+    "name" => "Имя",
     "accept_btn" => "Принять",
     "deny_btn" => "Отмена",
     "tou" => "Условия использования",
@@ -40,6 +43,8 @@ return array (
     "admin" => "Админка",
     "contact" => "Контакт",
     "add_lang" => "Добавить язык",
+    "activated" => "Активирован",
+    "verified" => "Принять",
 
     // Activate method
     "activate_account_title" => "Активация учетной записи",
@@ -155,6 +160,7 @@ return array (
     // ------------ Events Controller ------------- //
 
     "admin_events_title" => "Создание и редактирование событий",
+    "admin_members_title" => "Управление пользователями",
     "gw_language" => "Ключевой язык",
     "book_project" => "Источник перевода",
     "udb" => "Динамическая Библия",
@@ -367,8 +373,6 @@ return array (
     "event_chapters_error" => "Необходимо назначить хотя бы одну главу, чтобы начать перевод.",
     "peer_check_not_done_error" => "Ваша предыдущая глава не была проверена вашим партнёром.",
     "cannot_apply_checker" => "Возникла ошибка. Вы не можете стать проверяющим этой главы.",
-    "too_many_translators_error" => "Слишком много переводчиков для данного количества глав.",
-    "not_even_translators" => "Количество переводчиков должно быть чётным, для того, чтобы создать пары.",
     "enter_translators" => "Введите количество переводчиков.",
     "enter_checkers_l2" => "Введите количество проверяющих 2-го уровня",
     "enter_checkers_l3" => "Введите количество проверяющих 3-го уровня",

@@ -13,13 +13,13 @@ if(isset($data["error"])) return;
                     <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
                 <?php endif; ?>
 
-                <h4><?php echo $data["event"][0]->sLang." - "
+                <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                 <?php foreach($data["text"] as $verse => $text): ?>
-                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                    <p dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
                 <?php endforeach; ?>
             </div>
 

@@ -11,14 +11,14 @@ if(isset($data["error"])) return;
             <form action="" method="post" id="main_form">
                 <div class="main_content_text">
                     <div class="row">
-                        <h4><?php echo $data["event"][0]->sLang." - "
+                        <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                                 .__($data["event"][0]->bookProject)." - "
                                 .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                                 ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?></h4>
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php echo isset($_POST["draft"]) ? $_POST["draft"] : ""?></textarea>
                         </div>
                     </div>

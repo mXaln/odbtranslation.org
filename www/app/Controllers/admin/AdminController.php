@@ -87,6 +87,31 @@ class AdminController extends Controller {
             ->shares("data", $data);
     }
 
+    public function members()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            Url::redirect('');
+        }
+
+        $data['menu'] = 2;
+
+        $data["members"] = $this->_membersModel->getMember(["*"], [
+            ["active", false],
+            ["verified", false, "=", "OR"]
+        ]);
+
+        return View::make('Admin/Members/Index')
+            ->shares("title", __("admin_members_title"))
+            ->shares("data", $data);
+    }
+
     public function getGwProject()
     {
         if (!Session::get('loggedin'))
@@ -340,6 +365,43 @@ class AdminController extends Controller {
         }
     }
 
+    public function verifyMember()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = "not_loggedin";
+            echo json_encode($response);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $response["error"] = "not_allowed";
+            echo json_encode($response);
+            exit;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $memberID = isset($_POST["memberID"]) ? (integer)$_POST["memberID"] : null;
+
+        if($memberID)
+        {
+            $this->_membersModel->updateMember(
+                ["active" => true, "verified" => true, "activationToken" => null],
+                ["memberID" => $memberID]);
+            $response["success"] = true;
+            echo json_encode($response);
+        }
+        else
+        {
+            $response["error"] = "wrong_parameters";
+            echo json_encode($response);
+        }
+    }
+
     public function getTargetLanguagesByGwLanguage()
     {
         if (!Session::get('loggedin'))
@@ -401,10 +463,6 @@ class AdminController extends Controller {
         {
             $error[] = __('enter_translators');
         }
-        else if($translators%2 > 0)
-        {
-            $error[] = __('not_even_translators');
-        }
 
         if($checkers_l2 == null || $checkers_l2 <= 0)
         {
@@ -458,20 +516,12 @@ class AdminController extends Controller {
                             $chapters[$i] = array();
                         }
 
-                        if(sizeof($chapters) >= $translators)
-                        {
-                            $postdata["chapters"] = json_encode($chapters);
+                        $postdata["chapters"] = json_encode($chapters);
 
-                            $eventID = $this->_model->createEvent($postdata);
+                        $eventID = $this->_model->createEvent($postdata);
 
-                            if($eventID)
-                                echo json_encode(array("success" => __("successfully_created")));
-                        }
-                        else
-                        {
-                            $error[] = __("too_many_translators_error", array("chap_number" => sizeof($chapters)));
-                            echo json_encode(array("error" => Error::display($error)));
-                        }
+                        if($eventID)
+                            echo json_encode(array("success" => __("successfully_created")));
                     }
                     else
                     {

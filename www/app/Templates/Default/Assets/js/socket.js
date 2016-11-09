@@ -206,7 +206,10 @@ function OnSystemMessage(data)
                     }
                 });
             }
+            break;
 
+        case "keyword":
+            highlightKeyword(data.verseID, data.text, data.index, data.remove == "true");
             break;
     }
 }

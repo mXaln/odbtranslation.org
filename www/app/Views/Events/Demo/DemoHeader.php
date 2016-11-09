@@ -61,6 +61,7 @@ $isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
     var eventID = 0;
     var chkMemberID = <?php echo $isCheckPage? "1" : "0"; ?>;
     var step = '<?php echo $data["step"]; ?>';
+    var isDemo = true;
 </script>
 
 <div style="position: fixed; right: 0;">
