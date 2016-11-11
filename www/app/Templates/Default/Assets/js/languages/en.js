@@ -50,4 +50,7 @@ var Language = {
     "verifyMessage"             : "Do you want to verify the member?",
     "verifySuccess"             : "You successfully verified the member!",
     "highlightReservedWarning"  : "You cannot use this letter/word as keyword. It is reserved for system!",
+    "create"                    : "Create",
+    "edit"                      : "Edit",
+    "save"                      : "Save",
 };

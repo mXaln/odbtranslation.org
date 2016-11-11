@@ -101,12 +101,13 @@ $(document).ready(function() {
     });
 
     // Old/New Testament Tabs
-    $("a[href=#new_test]").click(function() {
+    $("a[href=#new_test]").click(function(e) {
         $("#old_test").hide();
         $("a[href=#old_test]").parent().removeClass("active");
 
         $("#new_test").show();
         $(this).parent().addClass("active");
+        setCookie("testTab", "new_test");
         return false;
     });
 
@@ -116,8 +117,15 @@ $(document).ready(function() {
 
         $("a[href=#new_test]").parent().removeClass("active");
         $("#new_test").hide();
+        setCookie("testTab", "old_test");
         return false;
     });
+
+    var testTab = getCookie("testTab");
+    if(typeof testTab != "undefined")
+    {
+        $("a[href=#"+testTab+"]").click();
+    }
 
     // Apply for event as translator/checker
     // Start event

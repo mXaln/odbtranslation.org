@@ -6,13 +6,13 @@
 
 $(function () {
 
+    // Open gateway project form
     $("#cregwpr").click(function () {
         $("#gwProject").trigger("reset");
         $(".errors").html("");
         $(".main-content").css("left", 0);
         $("#adminsSelect").empty().trigger("chosen:updated");
         $("#gwLang").prop("disabled", false);
-        $("#gwProjectAction").val("create");
         $("button[name=gwProject]").text(buttonCreate);
     });
 
@@ -43,7 +43,7 @@ $(function () {
         $(this).parents(".form-panel").css("left", "-9999px");
     });
 
-    // Submit gwProject form
+    // Submit gateway project form
     $("#gwProject").submit(function(e) {
 
         $.ajax({
@@ -76,55 +76,7 @@ $(function () {
         e.preventDefault();
     });
 
-    $(".main-edit").click(function() {
-        var gwLang = $(this).attr("data");
-
-        $("#gwProject").trigger("reset");
-        $(".errors").html("");
-        $("#gwProjectAction").val("edit");
-        $("button[name=gwProject]").text(buttonEdit);
-        $("#adminsSelect").empty();
-
-        $.ajax({
-                url: "/admin/rpc/get_gw_project",
-                method: "post",
-                data: {gwLang: gwLang},
-                dataType: "json",
-                beforeSend: function() {
-                    $(".gwProjectLoader").show();
-                }
-            })
-            .done(function(data) {
-                if(data.length <= 0) return false;
-
-                if(typeof data.login != "undefined")
-                    location.reload();
-
-                if(data.length > 0)
-                {
-                    $("#gwLang").val(data[0].langID);
-                    var admins = data[0].admins;
-
-                    var content = "";
-
-                    $.each(admins, function(k, v) {
-                        content += '' +
-                            '<option value="' + k + '" selected>' + v + '</option>';
-                    });
-
-                    $("#adminsSelect").prepend(content);
-                    $("#adminsSelect").trigger("chosen:updated");
-                }
-            })
-            .always(function() {
-                $(".gwProjectLoader").hide();
-                $(".main-content").css("left", 0);
-                $("#gwLang").trigger("chosen:updated");
-            });
-    });
-
-
-    // Sub Event Form
+    // Open project Form
     $("select[name=sourceTranslation]").change(function() {
         if($(this).val() != "" && $(this).val() != "udb|en" && $(this).val() != "ulb|en")
         {
@@ -145,6 +97,7 @@ $(function () {
         $("#project select").val('').trigger("chosen:updated");
     });
 
+    // Get list of target languages for gateway language
     $("#subGwLangs").change(function() {
         var tlOptions = "<option value=''></option>";
 
@@ -217,6 +170,8 @@ $(function () {
         e.preventDefault();
     });
 
+
+    // Event options
     $("#translators").spinner({
         min: 1,
         step: 1,
@@ -229,7 +184,7 @@ $(function () {
         start: 1
     });
 
-    // Start event
+    // Open event form
     $(".startEvnt").click(function() {
         var bookCode = $(this).attr("data");
         var bookName = $(this).attr("data2");
@@ -237,11 +192,13 @@ $(function () {
         var sourceLangID = $("#sourceLangID").val();
         var bookProject = $("#bookProject").val();
 
+        $("button[name=startEvent]").text(Language.create);
         $("#startEvent").trigger("reset");
         $(".errors").html("");
         $(".bookName").text(bookName);
         $("#bookCode").val(bookCode);
         $(".event-content").css("left", 0);
+        $("#adminsSelect").empty().trigger("chosen:updated");
 
         $(".book_info_content").html(
             '(<strong>'+Language.chaptersNum+':</strong> '+chapterNum+')'
@@ -324,7 +281,7 @@ $(function () {
         });
     }
 
-    // Submit create event form
+    // Submit event form
     $("#startEvent").submit(function(e) {
 
         $.ajax({
@@ -353,6 +310,73 @@ $(function () {
             });
 
         e.preventDefault();
+    });
+
+    // Edit event form
+    $(".editEvnt").click(function () {
+        var bookCode = $(this).attr("data");
+        var eventID = $(this).attr("data2");
+
+        $("#startEvent").trigger("reset");
+        $(".errors").html("");
+        $("#eventAction").val("edit");
+        $("#adminsSelect").empty();
+        $("#bookCode").val(bookCode);
+
+        $.ajax({
+            url: "/admin/rpc/get_event",
+            method: "post",
+            data: {eventID: eventID},
+            dataType: "json",
+            beforeSend: function() {
+                //$(".eventLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $("button[name=startEvent]").text(Language.save);
+
+                    $("#translators").val(data.event.translatorsNum);
+                    $("#checkers_l2").val(data.event.l2CheckersNum);
+                    $("#checkers_l3").val(data.event.l3CheckersNum);
+
+                    $('#cal_from').datepicker('setDate', new Date(data.event.dateFrom + " UTC"));
+                    $('#cal_to').datepicker('setDate', new Date(data.event.dateTo + " UTC"));
+
+                    $(".bookName").text(data.event.name);
+                    $(".book_info_content").html(
+                        '(<strong>'+Language.chaptersNum+':</strong> '+data.event.chaptersNum+')'
+                    );
+
+                    var admins = data["event"].admins;
+                    var content = "";
+                    $.each(admins, function(k, v) {
+                        content += '' +
+                            '<option value="' + k + '" selected>' + v + '</option>';
+                    });
+
+                    $("#adminsSelect").prepend(content);
+
+                    $(".event-content").css("left", 0);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        if(data.error == "login" || data.error == "admin")
+                            window.location.href = "/members/login";
+                        else
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                }
+            })
+            .always(function() {
+                //$(".eventLoader").hide();
+                $("#adminsSelect").trigger("chosen:updated");
+            });
     });
 
     // Activate/Verify member

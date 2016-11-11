@@ -18,14 +18,12 @@
                     <thead>
                         <tr>
                             <th><?php echo __("gw_language") ?></th>
-                            <th width="150px">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php foreach($data["gwProjects"] as $gwProject):?>
                         <tr>
                             <td><?php echo $gwProject->langName ?></td>
-                            <td style="text-align: center"><span class="action-btn main-edit" data="<?php echo $gwProject->langID; ?>"><?php echo __("edit") ?></span></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -56,16 +54,6 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="gwLang"><?php echo __('facilitators'); ?></label>
-                    <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo __("add_admins_by_username") ?>">
-                        <option></option>
-                    </select>
-                </div>
-
-                <br><br>
-
-                <input type="hidden" name="act" id="gwProjectAction" value="create">
                 <button type="submit" name="gwProject" class="btn btn-primary"><?php echo __('create'); ?></button>
                 <img class="gwProjectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
             </form>
@@ -177,8 +165,3 @@
 <link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />
 <script src="<?php echo template_url("js/chosen.jquery.min.js")?>"></script>
 <script src="<?php echo template_url("js/ajax-chosen.min.js")?>"></script>
-
-<script>
-    var buttonCreate = '<?php echo __('create'); ?>';
-    var buttonEdit = '<?php echo __('edit'); ?>';
-</script>

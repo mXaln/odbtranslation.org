@@ -293,6 +293,7 @@ return array (
     "8steps_vmast" => "8 Steps VMAST",
     "vmast_events" => "V-MAST Events",
     "create_event" => "Create event",
+    "edit_event" => "Edit event",
     "create_info_tip" => "If you want to start an event, read <a href=\"#\">instructions</a>!",
     "new_events" => "New Events",
     "choose_project" => "Choose Project",
@@ -385,6 +386,9 @@ return array (
     "checker_event_error" => "You aren't a checker for this translator",
     "not_equal_verse_markers" => "You haven't properly set the verse markers",
     "translator_has_chapter" => "Translators with assigned chapters cannot be deleted from event.",
+    "event_already_exists" => "Event has been already created",
+    "event_not_exists_error" => "Event has not been created yet",
+    "gw_project_exists_error" => "This gateway project has been already created",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

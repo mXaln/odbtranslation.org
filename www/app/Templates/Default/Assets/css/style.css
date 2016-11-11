@@ -2687,3 +2687,7 @@ div[class^=kwverse] {
     padding: 2px 5px;
     border-radius: 5px;
 }
+
+button.startEvnt, button.editEvnt {
+    width: 100px;
+}

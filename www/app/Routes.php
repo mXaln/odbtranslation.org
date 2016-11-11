@@ -114,7 +114,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     ]);
     Router::any("members", "AdminController@members");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
-    Router::any("rpc/get_gw_project", "AdminController@getGwProject");
+    Router::any("rpc/get_event", "AdminController@getEvent");
     Router::any("rpc/create_project", "AdminController@createProject");
     Router::any("rpc/get_members", "AdminController@getMembers");
     Router::any("rpc/get_target_languages", "AdminController@getTargetLanguagesByGwLanguage");

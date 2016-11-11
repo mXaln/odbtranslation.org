@@ -16,6 +16,7 @@ class AdminController extends Controller {
 
     private $_model;
     private $_membersModel;
+    private $_eventsModel;
     private $_translationModel;
     protected $layout = "admin";
 
@@ -24,6 +25,7 @@ class AdminController extends Controller {
         parent::__construct();
         $this->_model = new EventsModel();
         $this->_membersModel = new MembersModel();
+        $this->_eventsModel = new EventsModel();
         $this->_translationModel = new TranslationsModel();
     }
 
@@ -112,44 +114,47 @@ class AdminController extends Controller {
             ->shares("data", $data);
     }
 
-    public function getGwProject()
+    public function getEvent()
     {
+        $response = ["success" => false];
+
         if (!Session::get('loggedin'))
         {
-            Session::set('redirect', 'admin');
-            Url::redirect('members/login');
+            $response["error"] = "login";
         }
 
         if(!Session::get('isSuperAdmin'))
         {
-            return;
+            $response["error"] = "admin";
         }
 
         $_POST = Gump::xss_clean($_POST);
 
-        $gwLang = isset($_POST['gwLang']) && $_POST['gwLang'] != "" ? $_POST['gwLang'] : null;
+        $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? (integer)$_POST['eventID'] : null;
 
-        if($gwLang == null)
+        if($eventID == null)
         {
-            $error[] = __('choose_gateway_language_error');
+            $response["error"] = __('wrong_parameters_error');
         }
 
-        if(!isset($error))
+        if(!isset($response["error"]))
         {
-            $gwProject = $this->_model->getGatewayProject(["*"],
-                ["gateway_projects.gwLang", $gwLang]);
+            $event = $this->_eventsModel->getEvent($eventID);
 
             $members = [];
-            $membersArray = (array)$this->_membersModel->getMembers(json_decode($gwProject[0]->admins));
+            $membersArray = (array)$this->_membersModel->getMembers(json_decode($event[0]->admins));
 
             foreach ($membersArray as $member) {
                 $members[$member->memberID] = $member->userName;
             }
 
-            $gwProject[0]->admins = $members;
-
-            echo json_encode($gwProject);
+            $event[0]->admins = $members;
+            $response["success"] = true;
+            $response["event"] = $event[0];
         }
+
+        echo json_encode($response);
+
     }
 
     public function createGwProject()
@@ -168,17 +173,10 @@ class AdminController extends Controller {
         $_POST = Gump::xss_clean($_POST);
 
         $gwLang = isset($_POST['gwLang']) && $_POST['gwLang'] != "" ? $_POST['gwLang'] : null;
-        $act = isset($_POST['act']) && $_POST['act'] != "" ? $_POST['act'] : "create";
-        $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : null;
 
         if($gwLang == null)
         {
             $error[] = __('choose_gateway_language_error');
-        }
-
-        if($admins == null)
-        {
-            $error[] = __("no_admins_error");
         }
 
         if(!isset($error))
@@ -186,49 +184,15 @@ class AdminController extends Controller {
             $exist = $this->_model->getGatewayProject(array("gateway_projects.gwProjectID"),
                 array("gateway_projects.gwLang", $gwLang));
 
-            switch($act)
+            if(!empty($exist))
             {
-                case "create":
-                    if(!empty($exist))
-                    {
-                        $error[] = __("gw_project_exists_error");
-                        echo json_encode(array("error" => Error::display($error)));
-                        return;
-                    }
-                    break;
-
-                case "edit":
-                    if(empty($exist))
-                    {
-                        $error[] = __("gw_project_not_exists_error");
-                        echo json_encode(array("error" => Error::display($error)));
-                        return;
-                    }
-                    break;
+                $error[] = __("gw_project_exists_error");
+                echo json_encode(array("error" => Error::display($error)));
+                return;
             }
 
-            foreach ($admins as $admin) {
-                $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
-            }
-
-            $postdata = array(
-                "admins" => json_encode($admins)
-            );
-
-            $msg = "";
-
-            if($act == "create")
-            {
-                $postdata["gwLang"] = $gwLang;
-                $id = $this->_model->createGatewayProject($postdata);
-                $msg = json_encode(array("success" => __("successfully_created")));
-            }
-            else if($act == "edit")
-            {
-                $this->_model->updateGatewayProject($postdata, array("gwLang" => $gwLang));
-                $msg = json_encode(array("success" => __("successfully_updated")));
-                $id = true;
-            }
+            $id = $this->_model->createGatewayProject(["gwLang" => $gwLang]);
+            $msg = json_encode(array("success" => __("successfully_created")));
 
             if($id)
                 echo $msg;
@@ -448,6 +412,8 @@ class AdminController extends Controller {
         $checkers_l3 = isset($_POST['checkers_l3']) && $_POST['checkers_l3'] != "" ? (integer)$_POST['checkers_l3'] : null;
         $dateFrom = isset($_POST['cal_from']) && $_POST['cal_from'] != "" ? $_POST['cal_from'] : null;
         $dateTo = isset($_POST['cal_to']) && $_POST['cal_to'] != "" ? $_POST['cal_to'] : null;
+        $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : [];
+        $act = isset($_POST['act']) && preg_match("/^(create|edit)$/", $_POST['act']) ? $_POST['act'] : "create";
 
         if($bookCode == null)
         {
@@ -486,59 +452,73 @@ class AdminController extends Controller {
 
         if(!isset($error))
         {
-            $event = $this->_model->getEvent(null, $projectID, $bookCode);
+            $exist = $this->_model->getEvent(null, $projectID, $bookCode);
 
-            if(empty($event))
+            $postdata = [
+                "translatorsNum" => $translators,
+                "l2CheckersNum" => $checkers_l2,
+                "l3CheckersNum" => $checkers_l3,
+                "dateFrom" => date("Y-m-d H:i:s", strtotime($dateFrom)),
+                "dateTo" => date("Y-m-d H:i:s", strtotime($dateTo)),
+                "admins" => json_encode($admins),
+            ];
+
+            switch($act)
             {
-                $project = $this->_model->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"), $projectID);
-
-                if(!empty($project))
-                {
-                    $postdata = array(
-                        "projectID" => $projectID,
-                        "adminID" => Session::get("memberID"),
-                        "bookCode" => $bookCode,
-                        "translatorsNum" => $translators,
-                        "l2CheckersNum" => $checkers_l2,
-                        "l3CheckersNum" => $checkers_l3,
-                        "dateFrom" => date("Y-m-d H:i:s", strtotime($dateFrom)),
-                        "dateTo" => date("Y-m-d H:i:s", strtotime($dateTo)),
-                    );
-
-                    $bookInfo = $this->_translationModel->getBookInfo($bookCode);
-
-                    if(!empty($bookInfo))
+                case "create":
+                    if(!empty($exist))
                     {
-                        $chapters = array();
-
-                        for($i=1; $i<=$bookInfo[0]->chaptersNum; $i++)
-                        {
-                            $chapters[$i] = array();
-                        }
-
-                        $postdata["chapters"] = json_encode($chapters);
-
-                        $eventID = $this->_model->createEvent($postdata);
-
-                        if($eventID)
-                            echo json_encode(array("success" => __("successfully_created")));
-                    }
-                    else
-                    {
-                        $error[] = __("wrong_book_error");
+                        $error[] = __("event_already_exists");
                         echo json_encode(array("error" => Error::display($error)));
+                        return;
                     }
+
+                    $postdata["projectID"] = $projectID;
+                    $postdata["adminID"] = Session::get("memberID");
+                    $postdata["bookCode"] = $bookCode;
+                    break;
+
+                case "edit":
+                    if(empty($exist))
+                    {
+                        $error[] = __("event_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+                    break;
+            }
+
+            foreach ($admins as $admin) {
+                $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+            }
+
+            if($act == "create")
+            {
+                $bookInfo = $this->_translationModel->getBookInfo($bookCode);
+
+                if(!empty($bookInfo))
+                {
+                    $chapters = array();
+
+                    for($i=1; $i<=$bookInfo[0]->chaptersNum; $i++)
+                        $chapters[$i] = array();
+
+                    $postdata["chapters"] = json_encode($chapters);
+                    $eventID = $this->_model->createEvent($postdata);
+
+                    if($eventID)
+                        echo json_encode(array("success" => __("successfully_created")));
                 }
                 else
                 {
-                    $error[] = __("no_project_no_rights");
+                    $error[] = __("wrong_book_error");
                     echo json_encode(array("error" => Error::display($error)));
                 }
             }
-            else
+            else if($act == "edit")
             {
-                $error[] = __("event_already_exists");
-                echo json_encode(array("error" => Error::display($error)));
+                $this->_eventsModel->updateEvent($postdata, ["projectID" => $projectID, "bookCode" => $bookCode]);
+                echo json_encode(array("success" => __("successfully_updated")));
             }
         }
         else

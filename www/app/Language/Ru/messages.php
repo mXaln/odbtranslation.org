@@ -290,6 +290,7 @@ return array (
     "8steps_vmast" => "8 Шагов VMAST",
     "vmast_events" => "V-MAST События",
     "create_event" => "Создать событие",
+    "edit_event" => "Редактировать событие",
     "create_info_tip" => "Если вы хотите начать событие, прочитайте <a href=\"#\">инструкции</a>!",
     "new_events" => "Новые события",
     "choose_project" => "Выберите проект",
@@ -303,7 +304,7 @@ return array (
     "gw_projects" => "Проекты ключевых языков",
     "gw_project" => "Ключевой язык",
     "create_gw_project" => "Создать проект ключевого языка",
-    "edit" => "Редактировать",
+    "edit" => "Изменить",
     "add_admins_by_username" => "Внесите фасилитаторов по их именам пользователей",
     "admin_project_title" => "Cоздание проектов",
     "admin_events_title" => "Cоздание событий",
@@ -384,6 +385,9 @@ return array (
     "checker_event_error" => "Вы не являетесь проверяющим для этого переводчика",
     "not_equal_verse_markers" => "Вы не верно расставили маркеры стихов",
     "translator_has_chapter" => "Переводчики, которым назначены главы, не могут быть удалены с события.",
+    "event_already_exists" => "Это событие уже было создано",
+    "event_not_exists_error" => "Событие еще не создано",
+    "gw_project_exists_error" => "Проект этого ключевого языка уже был создан",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",

@@ -466,14 +466,6 @@ class MembersController extends Controller
                                     $languages[$i]["geo_lang_yrs"] = $item[1];
                                 }
                                 $profile["languages"] = $languages;
-
-                                $adminMember = $this->_model->getAdminMember($data[0]->memberID);
-                                foreach ($adminMember as $item) {
-                                    if(!array_key_exists($item->gwLang, $profile["languages"]))
-                                    {
-                                        $profile["languages"][$item->gwLang] = array("isAdmin" => true);
-                                    }
-                                }
                             }
 
                             Session::set('memberID', $data[0]->memberID);
@@ -827,25 +819,17 @@ class MembersController extends Controller
                     array("authToken", $authToken)
             ));
 
-            $isAdmin = 0;
+            $isAdmin = false;
 
             if(!empty($member))
             {
-                if($event[0]->translator == null && $event[0]->checker == null)
+                $admins = (array)json_decode($event[0]->admins, true);
+
+                if($event[0]->translator == null && $event[0]->checker == null
+                    && $event[0]->checker_l2 == null && $event[0]->checker_l3 == null)
                 {
-
                     if($member[0]->isAdmin)
-                    {
-                        $admin = $this->_model->getAdminMember($member[0]->memberID);
-
-                        foreach ($admin as $item) {
-                            if($item->gwLang == $event[0]->gwLang)
-                            {
-                                $isAdmin = true;
-                                break;
-                            }
-                        }
-                    }
+                        $isAdmin = in_array($member[0]->memberID, $admins);
 
                     if(!$isAdmin)
                     {
@@ -854,18 +838,9 @@ class MembersController extends Controller
                     }
                 }
 
+                // Make sure that member is admin for this event
                 if($member[0]->isAdmin && !$isAdmin)
-                {
-                    $admin = $this->_model->getAdminMember($member[0]->memberID);
-
-                    foreach ($admin as $item) {
-                        if($item->gwLang == $event[0]->gwLang)
-                        {
-                            $isAdmin = true;
-                            break;
-                        }
-                    }
-                }
+                    $isAdmin = in_array($member[0]->memberID, $admins);
 
                 $member[0]->isAdmin = $isAdmin;
                 echo json_encode($member[0]);
