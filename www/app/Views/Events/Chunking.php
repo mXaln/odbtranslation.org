@@ -1,3 +1,6 @@
+<?php
+if(isset($data["error"])) return;
+?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [3]) . ": " . __("chunking")?></div>
@@ -5,8 +8,8 @@
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <div class="main_content_text">
-                <h4><?php echo $data["event"][0]->sLang." - "
+            <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
@@ -19,7 +22,7 @@
                         </label>
                     </p>
                 <?php endforeach; ?>
-                <div class="chunks_reset"><?php echo __("reset_chunks") ?></div>
+                <div class="chunks_reset <?php echo $data["event"][0]->sLangDir; ?>"><?php echo __("reset_chunks") ?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -58,7 +61,7 @@
     </div>
 </div>
 
-<span class="create_chunk"><?php echo __("make_chunk") ?>Make chunk</span>
+<span class="create_chunk <?php echo $data["event"][0]->sLangDir; ?>"><?php echo __("make_chunk") ?>Make chunk</span>
 
 
 <div class="tutorial_container">

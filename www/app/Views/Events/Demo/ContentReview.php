@@ -27,8 +27,7 @@
                             <div class="vnote">
                                 <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
-                                <div class="comments_number hasComment">
-                                    1                                    </div>
+                                <div class="comments_number hasComment">1</div>
 
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
 
@@ -106,7 +105,7 @@
                         <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
                     </div>
 
-                    <button id="next_step" onclick="window.location.href='<?php echo SITEURL ?>events/demo/final_review'; return false;" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </div>
             </form>
         </div>
@@ -160,3 +159,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    var isChecker = false;
+    $(document).ready(function () {
+        $("#next_step").click(function (e) {
+            e.preventDefault();
+
+            deleteCookie("temp_tutorial");
+            window.location.href = '/events/demo/final_review';
+
+            return false;
+        });
+    });
+</script>

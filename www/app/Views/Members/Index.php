@@ -54,6 +54,7 @@ $stepsNum = [
 
 <?php if(Session::get("isAdmin")): ?>
 <div id="my_facilitation_content" class="my_content shown">
+    <?php if(Session::get("isSuperAdmin")): ?>
     <div class="create_event_block">
         <div>
             <a href="/admin" class="create_event_link"><?php echo __("create_event") ?></a>
@@ -63,6 +64,7 @@ $stepsNum = [
             <img src="<?php echo template_url("img/tip.png") ?>" width="95">
         </div>
     </div>
+    <?php endif; ?>
 
     <div class="clear"></div>
 

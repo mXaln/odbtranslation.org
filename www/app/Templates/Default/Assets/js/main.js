@@ -7,7 +7,7 @@ var lastCommentAltEditor;
 var hasChangesOnPage = false;
 var autosaveTimer;
 
-var eventSteps = {
+var EventSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
@@ -101,12 +101,13 @@ $(document).ready(function() {
     });
 
     // Old/New Testament Tabs
-    $("a[href=#new_test]").click(function() {
+    $("a[href=#new_test]").click(function(e) {
         $("#old_test").hide();
         $("a[href=#old_test]").parent().removeClass("active");
 
         $("#new_test").show();
         $(this).parent().addClass("active");
+        setCookie("testTab", "new_test");
         return false;
     });
 
@@ -116,8 +117,15 @@ $(document).ready(function() {
 
         $("a[href=#new_test]").parent().removeClass("active");
         $("#new_test").hide();
+        setCookie("testTab", "old_test");
         return false;
     });
+
+    var testTab = getCookie("testTab");
+    if(typeof testTab != "undefined")
+    {
+        $("a[href=#"+testTab+"]").click();
+    }
 
     // Apply for event as translator/checker
     // Start event
@@ -286,13 +294,13 @@ $(document).ready(function() {
             {
                 $(".tutorial_container").show();
                 $("body").css("overflow", "hidden");
-                setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"})
+                setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"});
             }
         }
 
-        if(step == eventSteps.BLIND_DRAFT || step == eventSteps.SELF_CHECK ||
-            step == eventSteps.PEER_REVIEW || step == eventSteps.KEYWORD_CHECK ||
-            step == eventSteps.CONTENT_REVIEW)
+        if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
+            step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
+            step == EventSteps.CONTENT_REVIEW)
         {
             autosaveTimer = setInterval(function() {
                 if(hasChangesOnPage)
@@ -443,7 +451,7 @@ $(document).ready(function() {
     });
 
     $("#next_step").click(function(e) {
-        if(step == eventSteps.BLIND_DRAFT)
+        if(step == EventSteps.BLIND_DRAFT)
             return;
 
         $this = $(this);
@@ -816,74 +824,199 @@ $(document).ready(function() {
         return true;
     });
 
+    // Save keywords
+    $("body").on("mouseup", "div[class^=kwverse]", function (e) {
+        if(!isChecker) return false;
+        if(typeof step == "undefined"
+            || step != EventSteps.KEYWORD_CHECK) return;
+
+        var verseID = $(this).attr("class");
+        var text;
+
+        var sel;
+        if (window.getSelection) {
+            sel = window.getSelection();
+            if(sel != "undefined")
+            {
+                if(!sel.isCollapsed)    // Skip caret insert (zero characters select)
+                {
+                    //sel.modify("extend", "forward", "word");
+                    //sel.modify("extend", "backward", "word");
+                    var range = sel.getRangeAt(0);
+
+                    // Exclude previous tags from select
+                    if(sel.anchorNode.parentNode.nodeName == "SUP" || sel.anchorNode.parentNode.className == "chunk_verses")
+                        range.setStart(sel.focusNode, 0);
+                    else if(sel.focusNode.parentNode.nodeName == "B") // Exclude highlighted words from select
+                        range.setEnd(sel.anchorNode, sel.anchorNode.data.length);
+
+                    text = range.toString();
+
+                    // Remove left and right space from select
+                    if(text[text.length-1] == " ")
+                        range.setEnd(range.endContainer, range.endOffset-1);
+                    if(text[0] == " ")
+                        range.setStart(range.startContainer, range.startOffset+1);
+
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+
+                    // Allow selection within one verse only
+                    if(/^kwverse/.test(range.commonAncestorContainer.parentNode.className))
+                    {
+                        text = range.toString();
+
+                        // Allow non-empty text and text that doesn't contain reserved words
+                        if(text.length > 0 && !/^(?:b|d|a|t|data|dat|at|ata|ta)$/.test(text))
+                        {
+                            var wText = sel.anchorNode.textContent;
+                            var sibling = sel.anchorNode.previousSibling;
+                            while(sibling != null)
+                            {
+                                wText = sibling.textContent + wText;
+                                sibling = sibling.previousSibling;
+                            }
+
+                            var diff = wText.length - sel.anchorNode.textContent.length;
+
+                            // Find all occurenses of text in the verse
+                            var regex = new RegExp("("+text+")", "gm");
+                            var search = [];
+                            while (regex.exec(wText) !== null) {
+                                search.push(regex.lastIndex);
+                            }
+
+                            if(search.length > 0)
+                            {
+                                // Find index of that text in the verse
+                                var offset = Math.max(sel.focusOffset, sel.anchorOffset);
+                                var index = search.indexOf(offset + diff);
+
+                                sel.removeAllRanges();
+                                renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
+                                    $(this).dialog("close");
+                                    saveOrRemoveKeyword(verseID, text, index, false);
+                                });
+                            }
+                            else
+                            {
+                                sel.removeAllRanges();
+                            }
+                        }
+                        else
+                        {
+                            renderPopup(Language.highlightReservedWarning);
+                            sel.removeAllRanges();
+                        }
+                    }
+                    else
+                    {
+                        sel.removeAllRanges();
+                        renderPopup(Language.highlightMultipleVerses);
+                    }
+                }
+            }
+        }
+    });
+
+
+    $("body").on("mouseover", ".chunk_verses b", function (e) {
+        if(!isChecker) return false;
+        if(typeof step == "undefined"
+            || step != EventSteps.KEYWORD_CHECK) return;
+
+        if($(".remove_kw_tip").length <= 0)
+        {
+            $("body").append("<div class='remove_kw_tip'>"+Language.delKeywordTip+"</div>");
+            $(".remove_kw_tip").css("left", $(this).offset().left + 20)
+                .css("top", $(this).offset().top - 30);
+        }
+    });
+
+    $("body").on("mouseout", ".chunk_verses b", function (e) {
+        if(isChecker)
+            $(".remove_kw_tip").remove();
+    });
+
+    // Delete keyword
+    $("body").on("click", ".chunk_verses b", function () {
+        if(isChecker && step == EventSteps.KEYWORD_CHECK)
+        {
+            var $this = $(this);
+            var text = $(this).text();
+
+            renderConfirmPopup(Language.delKeywordTitle, Language.delKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
+                $(this).dialog("close");
+
+                var parent = $this.parents("div[class^=kwverse]");
+                var verseID = parent.attr("class");
+                var index = $this.attr("data");
+
+                saveOrRemoveKeyword(verseID, text, index, true);
+            });
+        }
+    });
+
+    loadKeywordsIntoSourse();
+
+    function loadKeywordsIntoSourse() {
+        if(typeof eventID == "undefined") return;
+        if(typeof isDemo != "undefined") return;
+        if(typeof step == "undefined"
+            || (step != EventSteps.KEYWORD_CHECK
+            && step != EventSteps.CONTENT_REVIEW
+            && step != EventSteps.FINAL_REVIEW)) return;
+
+        $("div[class^=kwverse]").html(function() {
+            return $(this).text();
+        });
+
+        $.ajax({
+            url: "/events/rpc/get_keywords",
+            method: "post",
+            data: {
+                eventID: eventID,
+                chapter: myChapter
+            },
+            dataType: "json",
+            beforeSend: function() {
+                //$(".commentEditorLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $.each(data.text, function (i,v) {
+                        var verseID = "kwverse_"+v.chapter+"_"+v.chunk+"_"+v.verse;
+                        highlightKeyword(verseID, unEscapeStr(v.text), v.indexOrder);
+                    });
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error, function () {
+                            window.location.reload(true);
+                        });
+                    }
+                }
+            })
+            .always(function() {
+                //$(".commentEditorLoader").hide();
+            });
+    }
 
     // ---------------------  Verse markers setting start -------------------- //
-    if(!isIE()) $(".bubblesReset").hide();
-
-    var focusedEl = null;
-    $(".textWithBubbles").click(function () {
-        if(!isIE()) return false;
-        focusedEl = $(this);
-    });
-
-    $(".bubblesReset").click(function (e) {
-        e.preventDefault();
-        if(!isIE()) return false;
-
-        var bubblesTxt = $(".textWithBubbles", $(this).parents(".vnote"));
-        var markerBubbles = $(".markerBubbles", $(this).parents(".vnote"));
-
-        $(".bubble", bubblesTxt).each(function () {
-            $(this).removeAttr("id");
-            markerBubbles.append($(this)[0].outerHTML + " ");
-        });
-
-        $(".bubble", bubblesTxt).remove();
-
-        var arr = [];
-        $(".bubble", markerBubbles).show().each(function () {
-            arr.push(parseInt($(this).text()));
-        });
-
-        markerBubbles.html("");
-        $.each(arr.sort(function(a, b){
-            return a-b;
-        }), function (i, v) {
-            markerBubbles.append('<div contenteditable="false" class="bubble" draggable="true">'+v+'</div> ');
-        });
-
-        return false;
-    });
-
-    $("body").on("click", ".bubble", function(e) {
-        if(!isIE()) return false;
-
-        var vNumber = $(this).text();
-
-        current = $(".textWithBubbles", $(this).parents(".vnote"));
-
-        if(!current.is(focusedEl))
-        {
-            renderPopup(Language.ieVersemarkersInstructions);
-            return false;
-        }
-
-        current.get(0).focus();
-
-        pasteHtmlAtCaret(e, "<div class=\"bubble\">"+vNumber+"</div>");
-        $(this).remove();
-    });
-
     var bindDraggables = function() {
-        if(isIE()) return false;
-
         $('.bubble').attr("contenteditable", false).attr("draggable", true);
         $('.bubble').off('dragstart').on('dragstart', function(e) {
             if (!e.target.id)
                 e.target.id = (new Date()).getTime();
 
             e.originalEvent.dataTransfer.setData('text', e.target.outerHTML);
-            $(e.target).addClass('dragged');
+            var parent = $(e.target).parents(".vnote");
+            $("body").data("bubble", $(e.target));
+            $("body").data("focused", $(".textWithBubbles", parent));
         });
     }
 
@@ -902,19 +1035,28 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.textWithBubbles').on('dragover', function (e) {
-        if(isIE()) return false;
-        e.preventDefault();
-        return false;
-    });
-
     $('.textWithBubbles').on('drop', function(e) {
-        if(isIE()) return false;
         e.preventDefault();
-
-        console.log(e.originalEvent.dataTransfer.getData('text'));
 
         var e = e.originalEvent;
+        var bubble = $("body").data("bubble");
+        var focused = $("body").data("focused");
+        var txt = $(e.target).text();
+        // Check if text has Chinese/Japanese/Myanmar/Lao characters
+        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f]/.test(txt);
+        $("body").data("hasCJLM", hasCJLM);
+
+        if(!e.target || e.target.className != "splword" // drop only before words
+            || !$(e.target.parentElement).is(focused) // don't drop into other chunk
+            || (!hasCJLM && $(e.target).prev().is(".bubble")) // don't drop when there is verse marker before word
+        )
+        {
+            bindDraggables();
+            return false;
+        }
+
+        bubble.addClass('dragged');
+
         var content = e.dataTransfer.getData('text');
 
         $(this).get(0).focus();
@@ -922,6 +1064,8 @@ $(document).ready(function() {
         pasteHtmlAtCaret(e, content);
         bindDraggables();
         $('.dragged').remove();
+
+        return false;
     });
 
     bindDraggables();
@@ -930,18 +1074,26 @@ $(document).ready(function() {
         var sel, range;
         if (window.getSelection) {
             // IE9 and non-IE
-            sel = window.getSelection();console.log(sel.rangeCount);
+            sel = window.getSelection();
             if (sel.getRangeAt) {
-                if(document.caretRangeFromPoint)                                    // Chrome
-                    range = document.caretRangeFromPoint(e.clientX, e.clientY);
-                else if (e.rangeParent) { // Firefox
-                    range = document.createRange();
-                    range.setStart(e.rangeParent, e.rangeOffset);
-                }
-                else                                                                // Opera
-                    range = sel.getRangeAt(0);
+                hasCJLM = $("body").data("hasCJLM");
 
-                range.deleteContents();
+                if(!hasCJLM)
+                {
+                    range = document.createRange();
+                    range.selectNode(e.target);
+                }
+                else
+                {
+                    if(document.caretRangeFromPoint)                                    // Chrome
+                        range = document.caretRangeFromPoint(e.clientX, e.clientY);
+                    else if (e.rangeParent) {                                           // Firefox
+                        range = document.createRange();
+                        range.setStart(e.rangeParent, e.rangeOffset);
+                    }
+                    else                                                                // Opera
+                        range = sel.getRangeAt(0);
+                }
 
                 var el = document.createElement("div");
                 el.innerHTML = html;
@@ -951,38 +1103,10 @@ $(document).ready(function() {
                     lastNode = frag.appendChild(node);
                 }
                 range.insertNode(frag);
-
-                // Preserve the selection
-                if (lastNode) {
-                    range = range.cloneRange();
-                    range.setStartAfter(lastNode);
-                    range.collapse(true);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                }
             }
-        } else if (document.selection && document.selection.type != "Control") {
-            // IE < 9
-            document.selection.createRange().pasteHTML(html);
         }
     }
 
-    function isIE() {
-        if (/MSIE 10/i.test(navigator.userAgent)) {
-            // this is internet explorer 10
-            return true;
-        }
-
-        if(/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)){
-            // this is internet explorer 9 and 11
-            return true;
-        }
-
-        if (/Edge\/12./i.test(navigator.userAgent)){
-            // this is Microsoft Edge
-            return true;
-        }
-    }
 
     // ---------------------  Verse markers setting end -------------------- //
 
@@ -1141,14 +1265,6 @@ $(document).ready(function() {
                 .addClass("glyphicon-triangle-bottom");
             $(".section_title", $(this)).css("font-weight", "bold");
         }
-    });
-
-    // Demo mode switch
-    $(".gl_ol_mode input[name=mode]").click(function() {
-        var mode = $(this).val();
-
-        setCookie("demo_mode", mode, {expires: 365*24*60*60});
-        window.location.reload();
     });
 
     // Check if event has been started
@@ -1368,7 +1484,7 @@ function renderPopup(message, onOK) {
         $( this ).dialog( "close" );
     };
 
-    $(".alert_message").text(message);
+    $(".alert_message").html(message);
     $( "#dialog-message" ).dialog({
         modal: true,
         resizable: false,
@@ -1406,7 +1522,7 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
     btns[yes] = onAnswerYes;
     btns[no] = onAnswerNo;
 
-    $(".confirm_message").text(message);
+    $(".confirm_message").html(message);
     $( "#check-book-confirm" ).dialog({
         resizable: false,
         draggable: false,
@@ -1416,4 +1532,137 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
         modal: true,
         buttons: btns,
     });
+}
+
+
+function saveOrRemoveKeyword(verseID, text, index, remove) {
+    remove = remove || false;
+    var verseData = verseID.split("_");
+
+    var chapter = verseData[1];
+    var chunk = verseData[2];
+    var verse = verseData[3];
+
+    if(typeof isDemo != "undefined")
+    {
+        highlightKeyword(verseID, text, index, remove);
+        return false;
+    }
+
+    $.ajax({
+        url: "/events/rpc/save_keyword",
+        method: "post",
+        data: {
+            eventID: eventID,
+            chapter: chapter,
+            chunk: chunk,
+            verse: verse,
+            index: index,
+            text: text,
+            remove: remove
+        },
+        dataType: "json",
+        beforeSend: function() {
+            $(".commentEditorLoader").show();
+        }
+    })
+        .done(function(data) {
+            if(data.success)
+            {
+                var data = {
+                    type: "keyword",
+                    remove: remove,
+                    eventID: eventID,
+                    chkMemberID: chkMemberID,
+                    verseID: verseID,
+                    text: text,
+                    index: index,
+                };
+
+                highlightKeyword(verseID, text, index, remove);
+                socket.emit("system message", data);
+            }
+            else
+            {
+                if(typeof data.error != "undefined")
+                {
+                    renderPopup(data.error, function () {
+                        window.location.reload(true);
+                    });
+                }
+            }
+        })
+        .always(function() {
+            $(".commentEditorLoader").hide();
+        });
+}
+
+/**
+ * Highlight or remove selection of the given keyword
+ * @param verseID   Verse element
+ * @param text      Keyword text
+ * @param index     Order number of the keyword in the verse
+ * @param remove    Whether to remove selection or not
+ */
+function highlightKeyword(verseID, text, index, remove) {
+    remove = remove || false;
+    var verseEl = $("."+verseID);
+
+    if(remove)
+    {
+        $("b[data="+index+"]", verseEl)
+            .filter(function() {
+                return $(this).text() == text;
+            })
+            .contents()
+            .unwrap();
+
+        verseEl.html(function () {
+            return $(this).html();
+        })
+    }
+    else
+    {
+        var verseText = verseEl.html();
+        var regex = new RegExp("("+text+")", "gm");
+
+        var nth = -1;
+        var html = verseText.replace(regex, function(match, i, orig) {
+            nth++;
+            return (nth == index)
+                ? "<b data='"+index+"'>"+match+"</b>"
+                : match;
+        });
+        verseEl.html(html);
+    }
+}
+
+/**
+ * Detect if current browser is Internet Explorer/Edge
+ * @returns {boolean}
+ */
+function isIE() {
+    if (/MSIE 10/i.test(navigator.userAgent)) {
+        // this is internet explorer 10
+        return true;
+    }
+
+    if(/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)){
+        // this is internet explorer 9 and 11
+        return true;
+    }
+
+    if (/Edge\/12./i.test(navigator.userAgent)){
+        // this is Microsoft Edge
+        return true;
+    }
+
+    return false;
+}
+
+function debug(obj, stop) {
+    stop = stop || false;
+    console.log(obj);
+    if(stop)
+        throw new Error("debug stop!");
 }

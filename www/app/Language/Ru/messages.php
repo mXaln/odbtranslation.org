@@ -11,17 +11,21 @@ return array (
 	"events_title" => "События",
 	"contact_us_title" => "Обратная связь",
 	"about_title" => "О нас",
+    "bible" => "Библия",
+    "members" => "Пользователи",
 
     // ------------ Members Controller ------------------ //
 
     // Index method
     "members_title" => "Пользователи",
+    "new_members_title" => "Неактивные пользователи",
     "firstName" => "Имя",
     "lastName" => "Фамилия",
     "password" => "Пароль",
     "confirm_password" => "Подтверждение пароля",
     "enter_new_password" => "Введите новый пароль",
     "userName" => "Имя пользователя",
+    "name" => "Имя",
     "accept_btn" => "Принять",
     "deny_btn" => "Отмена",
     "tou" => "Условия использования",
@@ -39,6 +43,8 @@ return array (
     "admin" => "Админка",
     "contact" => "Контакт",
     "add_lang" => "Добавить язык",
+    "activated" => "Активирован",
+    "verified" => "Принять",
 
     // Activate method
     "activate_account_title" => "Активация учетной записи",
@@ -113,6 +119,7 @@ return array (
     "show_langs_window" => "Нажмите кнопку с “Плюсом”, чтобы добавить языки",
     "select_search_lang_option" => "Выберите из списка или используйте поиск",
     "resend_activation_title" => "Повторная отправка кода активации",
+    "create" => "Создать",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -153,6 +160,7 @@ return array (
     // ------------ Events Controller ------------- //
 
     "admin_events_title" => "Создание и редактирование событий",
+    "admin_members_title" => "Управление пользователями",
     "gw_language" => "Ключевой язык",
     "book_project" => "Источник перевода",
     "udb" => "Динамическая Библия",
@@ -282,6 +290,7 @@ return array (
     "8steps_vmast" => "8 Шагов VMAST",
     "vmast_events" => "V-MAST События",
     "create_event" => "Создать событие",
+    "edit_event" => "Редактировать событие",
     "create_info_tip" => "Если вы хотите начать событие, прочитайте <a href=\"#\">инструкции</a>!",
     "new_events" => "Новые события",
     "choose_project" => "Выберите проект",
@@ -293,8 +302,9 @@ return array (
     "choose_source_trans" => "Выберите источник перевода",
     "choose_project_type" => "Выберите тип проекта",
     "gw_projects" => "Проекты ключевых языков",
+    "gw_project" => "Ключевой язык",
     "create_gw_project" => "Создать проект ключевого языка",
-    "edit" => "Редактировать",
+    "edit" => "Изменить",
     "add_admins_by_username" => "Внесите фасилитаторов по их именам пользователей",
     "admin_project_title" => "Cоздание проектов",
     "admin_events_title" => "Cоздание событий",
@@ -364,8 +374,6 @@ return array (
     "event_chapters_error" => "Необходимо назначить хотя бы одну главу, чтобы начать перевод.",
     "peer_check_not_done_error" => "Ваша предыдущая глава не была проверена вашим партнёром.",
     "cannot_apply_checker" => "Возникла ошибка. Вы не можете стать проверяющим этой главы.",
-    "too_many_translators_error" => "Слишком много переводчиков для данного количества глав.",
-    "not_even_translators" => "Количество переводчиков должно быть чётным, для того, чтобы создать пары.",
     "enter_translators" => "Введите количество переводчиков.",
     "enter_checkers_l2" => "Введите количество проверяющих 2-го уровня",
     "enter_checkers_l3" => "Введите количество проверяющих 3-го уровня",
@@ -377,6 +385,9 @@ return array (
     "checker_event_error" => "Вы не являетесь проверяющим для этого переводчика",
     "not_equal_verse_markers" => "Вы не верно расставили маркеры стихов",
     "translator_has_chapter" => "Переводчики, которым назначены главы, не могут быть удалены с события.",
+    "event_already_exists" => "Это событие уже было создано",
+    "event_not_exists_error" => "Событие еще не создано",
+    "gw_project_exists_error" => "Проект этого ключевого языка уже был создан",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",

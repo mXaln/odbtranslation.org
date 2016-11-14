@@ -1,7 +1,8 @@
 <?php
 echo Error::display($error);
-?>
 
+if(!isset($error)):
+?>
 <div class="manage_container row">
     <div class="row">
         <div class="col-sm-9">
@@ -98,6 +99,7 @@ echo Error::display($error);
         </ul>
     </div>
 </div>
+<?php endif; ?>
 
 <script>
     isManagePage = true;

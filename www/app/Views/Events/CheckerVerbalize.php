@@ -31,8 +31,8 @@ if(empty($error) && empty($data["success"])):
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <div class="main_content_text row">
-                <h4><?php echo $data["event"][0]->sLang." - "
+            <div class="main_content_text row" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>

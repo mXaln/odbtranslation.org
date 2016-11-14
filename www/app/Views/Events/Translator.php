@@ -60,6 +60,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
+    var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
     var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
@@ -165,7 +166,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="<?php echo template_url("js/video-chat.js")?>"></script>
 
-<?php else: ?>
+<?php else:?>
 
 <input type="hidden" id="evnt_state_checker" value="<?php echo isset($data["error"]) && $data["error"] === true ? "error" : "" ?>">
 <input type="hidden" id="evntid" value="<?php echo !empty($data["event"]) && $data["event"][0]->eventID ?>">

@@ -1,15 +1,17 @@
 <?php
 use Helpers\Constants\EventMembers;
+
+if(isset($data["error"])) return;
 ?>
 
 <div class="editor">
-    <div class="comment_div panel panel-default">
+    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
             <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list"></div>
+        <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
         <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
     </div>
 </div>
@@ -23,7 +25,7 @@ use Helpers\Constants\EventMembers;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="finalReview">
                 <div class="main_content_text">
-                    <h4><?php echo $data["event"][0]->sLang." - "
+                    <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->bookProject)." - "
                             .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
@@ -31,7 +33,7 @@ use Helpers\Constants\EventMembers;
                     <div class="col-sm-12">
                         <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
                             <div class="row chunk_block">
-                                <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;">
+                                <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $firstVerse = 0; ?>
                                     <?php foreach ($chunk as $verse): ?>
                                         <?php
@@ -50,13 +52,12 @@ use Helpers\Constants\EventMembers;
                                             $verse = $combinedVerse;
                                         }
                                         ?>
-                                        <strong><sup><?php echo $verse; ?></sup></strong><?php echo $data["text"][$verse]; ?>
+                                        <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
                                     <?php endforeach; ?>
                                 </div>
-                                <div class="col-sm-6 editor_area" style="padding: 0;">
+                                <div class="col-sm-6 editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"];?>
                                     <div class="vnote">
-                                        <div class="bubblesReset"><img src="<?php echo template_url("img/reset.png") ?>" width="30" title="<?php echo __("reset_markers") ?>" ></div>
                                         <div class="markerBubbles noselect">
                                             <?php foreach ($chunk as $verse): ?>
                                                 <?php
@@ -72,10 +73,26 @@ use Helpers\Constants\EventMembers;
 
                                         <?php
                                         if(!empty($_POST) && isset($_POST["chunks"][$key]))
-                                            $text = preg_replace("/\|([0-9]+)\|/", "<div class=\"bubble\">$1</div>", $_POST["chunks"][$key]);
+                                            $text = $_POST["chunks"][$key];
                                         ?>
                                         <div class="textWithBubbles noselect" contentEditable="true">
-                                            <?php echo $text ?>
+                                            <?php
+                                            $wordverse = preg_split("/\|([0-9]+)\|/", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+                                            foreach ($wordverse as $item)
+                                            {
+                                                if(preg_match("/^[0-9]+$/", $item))
+                                                {
+                                                    echo "<div class=\"bubble\">{$item}</div>";
+                                                }
+                                                else
+                                                {
+                                                    $words = preg_split("/ /", $item);
+                                                    foreach ($words as $word) {
+                                                        echo "<div class='splword' contenteditable='true'>{$word}</div> ";
+                                                    }
+                                                }
+                                            }
+                                            ?>
                                         </div>
 
                                         <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea ta_hidden"></textarea>

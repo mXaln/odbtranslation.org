@@ -15,6 +15,8 @@ Router::any("", "App\Controllers\MainController@index");
 Router::any("about", "App\Controllers\MainController@about");
 Router::any("contact", "App\Controllers\MainController@contactUs");
 
+
+// TRANSLATIONS
 Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], function() {
     Router::any("{lang?}/{bookProject?}/{bookCode?}", "TranslationsController@index")
         ->where([
@@ -30,6 +32,8 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
         ]);
 });
 
+
+// EVENTS
 Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function() {
     Router::any("", "EventsController@index");
     Router::any("project/{projectID}", "EventsController@project")
@@ -60,7 +64,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/get_notifications", "EventsController@getNotifications");
     Router::any("rpc/autosave_chunk", "EventsController@autosaveChunk");
     Router::any("rpc/save_comment", "EventsController@saveComment");
-    Router::any("rpc/save_comment_alt", "EventsController@saveCommentAlt");
+    Router::any("rpc/save_keyword", "EventsController@saveKeyword");
+    Router::any("rpc/get_keywords", "EventsController@getKeywords");
     Router::any("rpc/check_event", "EventsController@checkEvent");
     Router::any("rpc/assign_chapter", "EventsController@assignChapter");
     Router::any("rpc/assign_pair", "EventsController@assignPair");
@@ -70,6 +75,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
 });
 
+
+// MEMBERS
 Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function() {
     Router::any("", "MembersController@index");
     Router::any("profile", "MembersController@profile");
@@ -97,19 +104,23 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
         ]);
 });
 
+
+// ADMIN
 Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], function() {
     Router::any("", "AdminController@index");
     Router::any("project/{projectID}", "AdminController@project")
         ->where([
             "projectID" => "[0-9]+"
     ]);
+    Router::any("members", "AdminController@members");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
-    Router::any("rpc/get_gw_project", "AdminController@getGwProject");
+    Router::any("rpc/get_event", "AdminController@getEvent");
     Router::any("rpc/create_project", "AdminController@createProject");
     Router::any("rpc/get_members", "AdminController@getMembers");
     Router::any("rpc/get_target_languages", "AdminController@getTargetLanguagesByGwLanguage");
     Router::any("rpc/create_event", "AdminController@createEvent");
     Router::any("rpc/get_source", "AdminController@getSource");
+    Router::any("rpc/verify_member", "AdminController@verifyMember");
 });
 
 /** End default Routes */

@@ -65,13 +65,6 @@ class MembersModel extends Model {
             ->orWhere("members.email", $email)->get();
 	}
 
-	public function getAdminMember($memberID)
-	{
-        return $this->db->table("gateway_projects")
-            ->select("gwProjectID", "gwLang")
-            ->where("admins", "LIKE", "%$memberID%")->get();
-	}
-
 	/**
 	 * Get admins (facilitators) by name
 	 * @param string $search
@@ -86,17 +79,10 @@ class MembersModel extends Model {
             ->where("userName", "LIKE", "%$search%")->get();
 	}
 
-	public function getAdminsByGwProject($gwProjectID)
-	{
-        return $this->db->table("gateway_projects")
-            ->select("admins")
-            ->where("gwProjectID", $gwProjectID)->get();
-	}
-
 	public function getMembersByTerm($search)
 	{
         return $this->db->table("members")
-            ->where("isSuperAdmin", false)
+            //->where("isSuperAdmin", false)
             ->where("verified", true)
             ->where("userName", "LIKE", "%$search%")->get();
 	}

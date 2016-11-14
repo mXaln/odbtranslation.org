@@ -14,17 +14,21 @@ return array (
     "events_title" => "Events",
     "contact_us_title" => "Contact Us",
     "about_title" => "About",
+    "bible" => "Bible",
+    "members" => "Members",
 
     // ------------ Members Controller ------------------ //
 
     // Index method
     "members_title" => "Members",
+    "new_members_title" => "Non active members",
     "firstName" => "First name",
     "lastName" => "Last name",
     "password" => "Password",
     "confirm_password" => "Confirm Password",
     "enter_new_password" => "Enter new password",
     "userName" => "User name",
+    "name" => "Name",
     "accept_btn" => "Accept",
     "deny_btn" => "Cancel",
     "tou" => "Terms of use",
@@ -41,6 +45,8 @@ return array (
     "admin" => "Admin",
     "contact" => "Contact",
     "add_lang" => "Add language",
+    "activated" => "Activated",
+    "verified" => "Verify",
 
     // Activate method
     "activate_account_title" => "Activate Account",
@@ -115,6 +121,7 @@ return array (
     "show_langs_window" => "Click Plus Button to add languages",
     "select_search_lang_option" => "Select an option or use search",
     "resend_activation_title" => "Send activation code again",
+    "create" => "Create",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",
@@ -156,6 +163,7 @@ return array (
     // ------------ Events Controller ------------- //
 
     "admin_events_title" => "Create and Edit Events",
+    "admin_members_title" => "Members management",
     "gw_language" => "Gateway Language",
     "book_project" => "Source Translation",
     "udb" => "Unlocked Dynamic Bible",
@@ -285,6 +293,7 @@ return array (
     "8steps_vmast" => "8 Steps VMAST",
     "vmast_events" => "V-MAST Events",
     "create_event" => "Create event",
+    "edit_event" => "Edit event",
     "create_info_tip" => "If you want to start an event, read <a href=\"#\">instructions</a>!",
     "new_events" => "New Events",
     "choose_project" => "Choose Project",
@@ -295,6 +304,7 @@ return array (
     "choose_source_trans" => "Choose Source Translation",
     "choose_project_type" => "Choose Project Type",
     "gw_projects" => "Gateway Projects",
+    "gw_project" => "Gateway Project",
     "create_gw_project" => "Create Gateway Project",
     "edit" => "Edit",
     "add_admins_by_username" => "Add facilitators by typing their user names",
@@ -366,8 +376,6 @@ return array (
     "event_chapters_error" => "You have to assign at least one chapter to start translation.",
     "peer_check_not_done_error" => "Your previous chapter hasn't been checked by your partner.",
     "cannot_apply_checker" => "An error occured. You cannot apply to check this chapter.",
-    "too_many_translators_error" => "Too many translators for such a number of chapters.",
-    "not_even_translators" => "The number of translators should be even in order to form pairs.",
     "enter_translators" => "Enter the number of translators.",
     "enter_checkers_l2" => "Enter the number of level 2 checkers",
     "enter_checkers_l3" => "Enter the number of level 3 checkers",
@@ -378,6 +386,9 @@ return array (
     "checker_event_error" => "You aren't a checker for this translator",
     "not_equal_verse_markers" => "You haven't properly set the verse markers",
     "translator_has_chapter" => "Translators with assigned chapters cannot be deleted from event.",
+    "event_already_exists" => "Event has been already created",
+    "event_not_exists_error" => "Event has not been created yet",
+    "gw_project_exists_error" => "This gateway project has been already created",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

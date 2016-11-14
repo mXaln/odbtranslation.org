@@ -1,8 +1,7 @@
 <?php
 use Helpers\Constants\EventStates;
-use Helpers\Url;
 
-$code = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";
+$language = Language::code();
 
 if(!empty($data["project"])):
 ?>
@@ -59,12 +58,11 @@ if(!empty($data["project"])):
                                 switch($event->state)
                                 {
                                     case null:
-                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" data3="'.$event->chaptersNum.'" class="btn btn-primary startEvnt">'.__("create_event").'</button>';
+                                        echo '<button data="'.$event->code.'" data2="'.$event->name.'" data3="'.$event->chaptersNum.'" class="btn btn-primary startEvnt">'.__("create").'</button>';
                                         break;
 
-                                    case EventStates::STARTED:
-
-                                        break;
+                                    default:
+                                        echo '<button data="'.$event->code.'" data2="'.$event->eventID.'" class="btn btn-success editEvnt">'.__("edit").'</button>';
                                 }
                                 ?>
                             </td>
@@ -127,6 +125,14 @@ if(!empty($data["project"])):
                             <input type="text" class="form-control" id="cal_to" name="cal_to" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
                         </div>
 
+                        <div class="form-group" style="width: 350px;">
+                            <label for="gwLang" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
+                            <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo __("add_admins_by_username") ?>">
+                                <option></option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" name="act" id="eventAction" value="create">
                         <input type="hidden" name="book_code" id="bookCode" value="" />
                         <input type="hidden" name="projectID" id="projectID" value="<?php echo $data["project"][0]->projectID?>" />
                         <input type="hidden" name="bookProject" id="bookProject" value="<?php echo $data["project"][0]->bookProject?>" />
@@ -134,8 +140,8 @@ if(!empty($data["project"])):
 
                         <br><br>
 
-                        <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create_event"); ?></button>
-                        <img class="startEventLoader" width="24px" src="<?php echo Url::templatePath() ?>img/loader.gif">
+                        <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create"); ?></button>
+                        <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>
             </div>
@@ -146,7 +152,13 @@ if(!empty($data["project"])):
 <div>Project does not exist or you do not have rights to see it</div>
 <?php endif; ?>
 
-<link href="<?php echo Url::templatePath()?>css/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
-<script src="<?php echo Url::templatePath()?>js/jquery-ui-timepicker-addon.min.js"></script>
-<script src="<?php echo Url::templatePath()?>js/i18n/jquery-ui-timepicker-<?php echo $code ?>.js"></script>
-<script src="<?php echo Url::templatePath()?>js/i18n/datepicker-<?php echo $code ?>.js"></script>
+<link href="<?php echo template_url("css/jquery-ui-timepicker-addon.css")?>" type="text/css" rel="stylesheet" />
+<script src="<?php echo template_url("js/jquery-ui-timepicker-addon.min.js")?>"></script>
+<?php if($language != "en"): ?>
+<script src="<?php echo template_url("js/i18n/jquery-ui-timepicker-".$language.".js")?>"></script>
+<script src="<?php echo template_url("js/i18n/datepicker-".$language.".js")?>"></script>
+<?php endif; ?>
+
+<link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />
+<script src="<?php echo template_url("js/chosen.jquery.min.js")?>"></script>
+<script src="<?php echo template_url("js/ajax-chosen.min.js")?>"></script>
