@@ -83,6 +83,7 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
     Router::any("signup", "MembersController@signup");
     Router::any("login", "MembersController@login");
     Router::any("logout", "MembersController@logout");
+    Router::any("error/verification", "MembersController@verificationError");
     Router::any("passwordreset", "MembersController@passwordReset");
     Router::any("resetpassword/{memberID}/{token}", "MembersController@resetPassword")
         ->where([

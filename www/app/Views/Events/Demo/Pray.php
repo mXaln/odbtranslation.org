@@ -1,7 +1,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("pray")?></div>
-        <div class="demo_title">Demo</div>
+        <div class="demo_title"><?php echo __("demo") ?></div>
     </div>
 
     <div class="row">
@@ -26,7 +26,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_title_steps">HELP</div>
+                <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
 
@@ -39,7 +39,7 @@
             <div class="event_info">
                 <div class="participant_info">
                     <div class="additional_info">
-                        <a href="#"><?php echo __("event_info") ?></a>
+                        <a href="/events/demo/information"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>

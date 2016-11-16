@@ -97,7 +97,7 @@ if(empty($error) && empty($data["success"])):
                     <?php endforeach; ?>
                 </div>
 
-                <div class="col-sm-12 one_side_content" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                <div class="col-sm-12 one_side_content" dir="<?php echo $data["event"][0]->sLangDir ?>">
                     <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
                         <div class="chunk_block">
                             <div style="padding-right: 15px" class="chunk_verses">

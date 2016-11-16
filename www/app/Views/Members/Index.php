@@ -444,7 +444,12 @@ $stepsNum = [
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="#" class="applyEvent" data="<?php echo $event->eventID ?>" data2="<?php echo $event->name ?>" data3="<?php echo $stage ?>"><?php echo __("apply") ?></a>
+                    <a href="#" class="applyEvent <?php echo $currentMembers == $totalMembers ? "eventFull" : "" ?>"
+                       data="<?php echo $event->eventID ?>"
+                       data2="<?php echo $event->name ?>"
+                       data3="<?php echo $stage ?>">
+                    <?php echo __("apply") ?>
+                    </a>
                 </div>
                 <div class="event_members">
                     <div><?php echo $members ?></div>
@@ -575,18 +580,6 @@ $stepsNum = [
                     <img class="applyEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                 </form>
             </div>
-
-            <!--<div class="col-sm-4">
-                <div class="help_info">
-                    <div class="help_title"><?php echo __('help', 'Events'); ?></div>
-                    <div class="help_name"><?php echo __('translator'); ?></div>
-                    <div class="help_descr">Description about translator's role</div>
-
-                    <div class="help_name"><?php echo __('checker'); ?></div>
-                    <div class="help_descr">Description about checker's role</div>
-                </div>
-            </div>-->
-
         </div>
     </div>
 </div>

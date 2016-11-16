@@ -236,7 +236,9 @@ function OnCheckingRequest(data)
                 var notifs = "";
                 $.each(data.notifs, function(i, note) {
                     if($("a[data='"+note.anchor+"']").length <= 0)
-                        notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'"><li>'+note.text+'</li></a>';
+                        notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
+                                '<li class="'+note.step+'_checker">'+note.text+'</li>'+
+                            '</a>';
                 });
                 $(".notif_block").prepend(notifs);
             }

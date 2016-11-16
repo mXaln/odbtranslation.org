@@ -18,31 +18,30 @@ class TranslationsController extends Controller
     public function __construct()
     {
         parent::__construct();
-
-        if(Session::get("isDemo"))
-            Url::redirect('events/demo');
-
         $this->_model = new TranslationsModel();
-    }
 
-    public function index($lang = null, $bookProject = null, $bookCode = null)
-    {
         if (!Session::get('loggedin'))
         {
             Url::redirect('members/login');
         }
 
-        $data['menu'] = 3;
-
-        if(!Session::get('verified'))
+        if(!Session::get("verified"))
         {
-            $error[] = __('verification_error');
-
-            return View::make('Translations/Error')
-                ->shares("title", __("translations"))
-                ->shares("data", $data)
-                ->shares("data", @$error);
+            Url::redirect("members/error/verification");
         }
+
+        if(Session::get("isDemo"))
+            Url::redirect('events/demo');
+
+        if(empty(Session::get("profile")))
+        {
+            Url::redirect("members/profile");
+        }
+    }
+
+    public function index($lang = null, $bookProject = null, $bookCode = null)
+    {
+        $data['menu'] = 3;
 
         if($lang == null)
         {

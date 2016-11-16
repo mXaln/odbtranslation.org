@@ -130,6 +130,12 @@ $(document).ready(function() {
     // Apply for event as translator/checker
     // Start event
     $(".applyEvent").click(function(e) {
+        if($(this).hasClass("eventFull"))
+        {
+            renderPopup(Language.eventClosed);
+            return false;
+        }
+
         var eventID = $(this).attr("data");
         var bookName = $(this).attr("data2");
         var stage = $(this).attr("data3");
@@ -364,49 +370,76 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             $.ajax({
-                url: "/events/rpc/get_info_update/"+eventID,
+                url: "/events/information/"+eventID,
                 method: "get",
-                dataType: "html",
+                dataType: "json",
             })
                 .done(function(data) {
-                    switch (data)
+                    if(data.success)
                     {
-                        case "login":
-                            window.location.href = "/members/login";
-                            break;
+                        // Update overall progress value
+                        if(data.progress > 0) {
+                            $(".progress_all").removeClass("zero");
+                            $(".progress_all .progress-bar").css('width', Math.round(data.progress)+"%")
+                                .attr('aria-valuenow', data.progress)
+                                .text(data.progress+"%");
+                        }
 
-                        case "profile":
-                            window.location.href = "/members/profile";
-                            break;
+                        // Update members list
+                        $.each(data.members, function (memberID, userName) {
+                            if(memberID == "na") return true;
 
-                        case "not_verified":
-                        case "not_started":
-                        case "empty_no_permission":
-                            window.location.href = "/members";
-                            break;
+                            memberID = parseInt(memberID);
 
-                        default:
-                            var openedItems = [];
-                            $.each($(".section_header"), function () {
-                                var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
-                                if(!isCollapsed)
-                                    openedItems.push($(this).attr("data"));
-                            });
+                            if($(".members_list .member_item[data="+memberID+"]").length <= 0)
+                            {
+                                var memberItem = $("<div></div>").appendTo(".members_list")
+                                    .addClass("member_item")
+                                    .attr("data", memberID);
 
-                            $(".chapter_list").html(data);
+                                memberItem.append('<span class="online_indicator glyphicon glyphicon-record">&nbsp;</span>');
+                                memberItem.append('<span class="member_uname">'+userName+'</span> ');
+                                memberItem.append('<span class="member_admin">'+(data.admins.indexOf(memberID) > -1 ? "("+Language.facilitator+") " : "")+'</span>');
+                                memberItem.append('<span class="online_status">'+Language.statusOnline+'</span>');
+                                memberItem.append('<span class="offline_status">'+Language.statusOffline+'</span>');
+                            }
+                        });
 
-                            $.each(openedItems, function (i,v) {
-                                var section = $(".section_header[data="+v+"]");
-                                var content = section.next(".section_content");
-                                content.show(0);
-                                $(".section_arrow", section)
-                                    .removeClass("glyphicon-triangle-right")
-                                    .addClass("glyphicon-triangle-bottom");
-                                $(".section_title", section).css("font-weight", "bold");
+                        // Update chapters list
+                        var openedItems = [];
+                        $.each($(".section_header"), function () {
+                            var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+                            if(!isCollapsed)
+                                openedItems.push($(this).attr("data"));
+                        });
 
-                            });
-                            openedItems = [];
-                            break;
+                        $(".chapter_list").html(data.html);
+
+                        $.each(openedItems, function (i,v) {
+                            var section = $(".section_header[data="+v+"]");
+                            var content = section.next(".section_content");
+                            content.show(0);
+                            $(".section_arrow", section)
+                                .removeClass("glyphicon-triangle-right")
+                                .addClass("glyphicon-triangle-bottom");
+                            $(".section_title", section).css("font-weight", "bold");
+
+                        });
+                        openedItems = [];
+                    }
+                    else
+                    {
+                        switch (data.errorType)
+                        {
+                            case "logout":
+                                window.location.href = "/members/login";
+                                break;
+
+                            case "not_started":
+                            case "empty_no_permission":
+                                window.location.href = "/members";
+                                break;
+                        }
                     }
                 })
                 .always(function() {

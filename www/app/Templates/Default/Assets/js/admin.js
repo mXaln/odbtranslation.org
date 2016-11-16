@@ -11,33 +11,7 @@ $(function () {
         $("#gwProject").trigger("reset");
         $(".errors").html("");
         $(".main-content").css("left", 0);
-        $("#adminsSelect").empty().trigger("chosen:updated");
-        $("#gwLang").prop("disabled", false);
-        $("button[name=gwProject]").text(buttonCreate);
     });
-
-    if($().ajaxChosen)
-    {
-        $("#adminsSelect").ajaxChosen({
-                type: 'post',
-                url: '/admin/rpc/get_members',
-                dataType: 'json',
-                minTermLength: 1,
-                afterTypeDelay: 500,
-                jsonTermKey: "search",
-                lookingForMsg: "searching for"
-            },
-            function (data)
-            {
-                var terms = {};
-
-                $.each(data, function (i, val) {
-                    terms[i] = val;
-                });
-
-                return terms;
-            });
-    }
 
     $(".panel-close").click(function() {
         $(this).parents(".form-panel").css("left", "-9999px");
@@ -183,6 +157,32 @@ $(function () {
         step: 1,
         start: 1
     });
+
+    if($().ajaxChosen)
+    {
+        $("#adminsSelect").ajaxChosen({
+                type: 'post',
+                url: '/admin/rpc/get_members',
+                dataType: 'json',
+                minTermLength: 1,
+                afterTypeDelay: 500,
+                jsonTermKey: "search",
+                lookingForMsg: Language.searchingFor,
+            },
+            function (data)
+            {
+                var terms = {};
+
+                $.each(data, function (i, val) {
+                    terms[i] = val;
+                });
+
+                return terms;
+            },
+            {
+                no_results_text: Language.noResultText
+            });
+    }
 
     // Open event form
     $(".startEvnt").click(function() {
@@ -330,6 +330,7 @@ $(function () {
             dataType: "json",
             beforeSend: function() {
                 //$(".eventLoader").show();
+                $(".editEvnt").prop("disabled", true);
             }
         })
             .done(function(data) {
@@ -375,6 +376,7 @@ $(function () {
             })
             .always(function() {
                 //$(".eventLoader").hide();
+                $(".editEvnt").prop("disabled", false);
                 $("#adminsSelect").trigger("chosen:updated");
             });
     });

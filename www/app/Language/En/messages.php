@@ -21,7 +21,7 @@ return array (
 
     // Index method
     "members_title" => "Members",
-    "new_members_title" => "Non active members",
+    "new_members_title" => "Not verified members",
     "firstName" => "First name",
     "lastName" => "Last name",
     "password" => "Password",
@@ -54,7 +54,8 @@ return array (
     "wrong_activation_email" => "Wrong email for activation. The account with this email doesn't exist or already is activated",
 
     // Login method
-    "wrong_credentials_error" => "Wrong email/user name or password or account has not been activated yet",
+    "wrong_credentials_error" => "Wrong email/user name or password",
+    "not_activated_email" => "Account has not been activated yet. <a href='/members/activate/resend/{0}'>Send activation instructions</a> again.",
     "login" => "Log in",
     "signup" => "Sign up",
     "logout" => "Logout",
@@ -169,9 +170,10 @@ return array (
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
     "rsb" => "Russian Synodal Bible",
+    "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
-    "checker_apply" => "{0} is ready for checking ({1}) book of {2}, chapter {3} - {4} - {5}",
+    "checker_apply" => "<b>{0}</b> is ready for checking <b>({1})</b> book of <b>{2}</b>, chapter <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
     "apply_to_check" => "Apply to check",
     "notifications" => "Notifications",
     "see_all" => "See all",
@@ -412,6 +414,7 @@ return array (
 
     // Index method
     "verification_error" => "Your accout is not verified by our moderators. Please wait...",
+    "verification_error_title" => "Account is not verified",
     "chapter" => "Chapter {0}",
     "download_usfm" => "Download as USFM",
 );
