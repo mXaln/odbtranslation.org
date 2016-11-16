@@ -1336,6 +1336,8 @@ class EventsController extends Controller
         if(!isset($error))
         {
             $data["chapters"] = json_decode($data["event"][0]->chapters, true);
+            $members = [];
+            $overallProgress = 0;
 
             $chunks = $this->_translationModel->getTranslationByEventID($data["event"][0]->eventID);
             $memberSteps = [];
@@ -1350,6 +1352,7 @@ class EventsController extends Controller
                     $memberSteps[$chunk->memberID]["crCheck"] = $chunk->crCheck;
                     $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
                     $memberSteps[$chunk->memberID]["checkerID"] = $chunk->checkerID;
+                    $members[$chunk->memberID] = "";
                 }
 
                 if($chunk->chapter == null)
@@ -1357,9 +1360,6 @@ class EventsController extends Controller
 
                 $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
             }
-
-            $members = [];
-            $overallProgress = 0;
 
             foreach ($data["chapters"] as $key => $chapter) {
                 if(empty($chapter)) continue;
@@ -2295,7 +2295,7 @@ class EventsController extends Controller
     }
 
 
-    public function applyChecker($eventID, $memberID)
+    public function applyChecker($eventID, $memberID, $step)
     {
         $canApply = false;
 
@@ -2306,10 +2306,12 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications += $this->_notifications;
+        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
 
         foreach ($allNotifications as $notification) {
-            if($eventID == $notification->eventID && $memberID == $notification->memberID)
+            if($eventID == $notification->eventID
+                && $memberID == $notification->memberID
+                && $step == $notification->step)
             {
                 if($notification->checkerID == 0)
                 {

@@ -18,9 +18,9 @@ if(!isset($error)):
             <h3><?php echo __("progress_all") ?></h3>
             <div class="progress progress_all <?php echo $data["overall_progress"] <= 0 ? "zero" : ""?>">
                 <div class="progress-bar progress-bar-success" role="progressbar"
-                     aria-valuenow="<?php echo $data["overall_progress"] ?>"
-                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo round($data["overall_progress"])."%" ?>">
-                    <?php echo sprintf("%01.2f", $data["overall_progress"])."%" ?>
+                     aria-valuenow="<?php echo floor($data["overall_progress"]) ?>"
+                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["overall_progress"])."%" ?>">
+                    <?php echo floor($data["overall_progress"])."%" ?>
                 </div>
             </div>
         </div>
@@ -45,9 +45,9 @@ if(!isset($error)):
                             <div class="section_translator_progress_bar">
                                 <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
                                     <div class="progress-bar progress-bar-success" role="progressbar"
-                                         aria-valuenow="<?php echo $chapter["progress"] ?>" aria-valuemin="0"
-                                         aria-valuemax="100" style="min-width: 0em; width: <?php echo round($chapter["progress"])."%" ?>">
-                                        <?php echo sprintf("%01.2f", $chapter["progress"])."%" ?>
+                                         aria-valuenow="<?php echo floor($chapter["progress"]) ?>" aria-valuemin="0"
+                                         aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($chapter["progress"])."%" ?>">
+                                        <?php echo floor($chapter["progress"])."%" ?>
                                     </div>
                                 </div>
                                 <div class="<?php echo $chapter["progress"] >= 100 ? "glyphicon glyphicon-ok" : "" ?> finished_icon"></div>

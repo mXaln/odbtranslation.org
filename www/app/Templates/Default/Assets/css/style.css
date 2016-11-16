@@ -1853,9 +1853,16 @@ mark {
     width: 340px !important;
 }
 
+.progress-bar {
+    color: #444;
+    font-weight: bold;
+    padding-left: 5px;
+}
+
 .zero .progress-bar {
     color: #380000;
     margin-left: 5px;
+    padding-left: 0px;
 }
 
 .finished_icon {

@@ -380,9 +380,9 @@ $(document).ready(function() {
                         // Update overall progress value
                         if(data.progress > 0) {
                             $(".progress_all").removeClass("zero");
-                            $(".progress_all .progress-bar").css('width', Math.round(data.progress)+"%")
-                                .attr('aria-valuenow', data.progress)
-                                .text(data.progress+"%");
+                            $(".progress_all .progress-bar").css('width', Math.floor(data.progress)+"%")
+                                .attr('aria-valuenow', Math.floor(data.progress))
+                                .text(Math.floor(data.progress)+"%");
                         }
 
                         // Update members list
@@ -445,7 +445,7 @@ $(document).ready(function() {
                 .always(function() {
 
                 });
-        }, 60000);
+        }, 10000);
     }
 
 
@@ -687,18 +687,6 @@ $(document).ready(function() {
 
         renderConfirmPopup(Language.checkBookConfirmTitle, Language.checkBookConfirm, function () {
             $( this ).dialog( "close" );
-
-            var notifCount = parseInt($(".notif_count").text());
-            notifCount--;
-
-            $(".notif_count").text(notifCount);
-            if(notifCount <= 0)
-            {
-                $(".notif_count").remove();
-                $(".notif_block").html('<div class="no_notif">'+Language.noNotifsMsg+'</div>');
-            }
-
-            $this.remove();
             window.open($this.attr("href"),"_blank");
         }, function () {
             $( this ).dialog( "close" );
@@ -860,6 +848,7 @@ $(document).ready(function() {
     // Save keywords
     $("body").on("mouseup", "div[class^=kwverse]", function (e) {
         if(!isChecker) return false;
+        if(typeof isInfoPage != "undefined") return false;
         if(typeof step == "undefined"
             || step != EventSteps.KEYWORD_CHECK) return;
 
@@ -973,6 +962,8 @@ $(document).ready(function() {
 
     // Delete keyword
     $("body").on("click", ".chunk_verses b", function () {
+        if(typeof isInfoPage != "undefined") return false;
+
         if(isChecker && step == EventSteps.KEYWORD_CHECK)
         {
             var $this = $(this);

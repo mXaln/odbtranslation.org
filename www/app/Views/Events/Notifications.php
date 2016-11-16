@@ -28,7 +28,7 @@ use \Helpers\Constants\EventSteps;
                             <td><?php echo __($event->bookProject) ?></td>
                             <td><?php echo $event->translateDone ? __(EventSteps::FINISHED) : __($event->step)?></td>
                             <td><?php echo $event->userName ?></td>
-                            <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID; ?>/apply"
+                            <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID."/".$event->step; ?>/apply"
                                    data="check:<?php echo $event->eventID.":".$event->memberID ?>">
                                     <?php echo __("apply") ?>
                                 </a>
