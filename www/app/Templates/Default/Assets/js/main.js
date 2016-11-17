@@ -445,7 +445,7 @@ $(document).ready(function() {
                 .always(function() {
 
                 });
-        }, 10000);
+        }, 60000);
     }
 
 
@@ -1135,6 +1135,43 @@ $(document).ready(function() {
     // ---------------------  Verse markers setting end -------------------- //
 
     // Profile form
+
+    $(".avatar_btn").click(function () {
+        var gender = $(this).attr("id");
+        var current = $("input[name=avatar]").val();
+
+        if(gender == "avatarMales")
+        {
+            $(".genderMale").show();
+            $(".genderFemale").hide();
+        }
+        else
+        {
+            $(".genderMale").hide();
+            $(".genderFemale").show();
+        }
+
+        $(".avatar_block img").removeClass("active");
+        $("#"+current).addClass("active");
+        $(".avatar_container").css("left", 0);
+
+        return false;
+    });
+
+    $(".genderMale img, .genderFemale img").click(function () {
+        var id = $(this).attr("id");
+        var src = $(this).attr("src");
+
+        $("input[name=avatar]").val(id);
+        $(".avatar_control img").attr("src", src);
+
+        $(".avatar_container").css("left", "-9999px");
+    });
+
+    $(".avatar-close").click(function() {
+        $(".avatar_container").css("left", "-9999px");
+    });
+
     var langs = $(".langs option:selected");
     if(langs.length > 0)
         $(".langs").prop("disabled", false);

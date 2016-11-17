@@ -92,6 +92,7 @@ class MembersController extends Controller
         {
             $_POST = Gump::xss_clean($_POST);
 
+            $avatar = isset($_POST["avatar"]) && preg_match("/^([f|m][1-9]|[f|m]1[0-9]|[f|m]20)$/", $_POST["avatar"]) ? $_POST["avatar"] : "m1";
             $langs = isset($_POST["langs"]) && !empty($_POST["langs"]) ? (array)$_POST["langs"] : null;
             $bbl_trans_yrs = isset($_POST["bbl_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["bbl_trans_yrs"]) ? $_POST["bbl_trans_yrs"] : null;
             $othr_trans_yrs = isset($_POST["othr_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["othr_trans_yrs"]) ? $_POST["othr_trans_yrs"] : null;
@@ -233,6 +234,7 @@ class MembersController extends Controller
             {
                 $postdata = array(
                     "mID" => Session::get("memberID"),
+                    "avatar" => $avatar,
                     "bbl_trans_yrs" => $bbl_trans_yrs,
                     "othr_trans_yrs" => $othr_trans_yrs,
                     "bbl_knwlg_degr" => $bbl_knwlg_degr,
@@ -447,6 +449,7 @@ class MembersController extends Controller
                                 if($data[0]->pID != null)
                                 {
                                     $profile["pID"] = $data[0]->pID;
+                                    $profile["avatar"] = $data[0]->avatar;
                                     $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
                                     $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
                                     $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;

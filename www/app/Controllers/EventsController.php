@@ -124,7 +124,7 @@ class EventsController extends Controller
                     if(($turnSecret[0]->expire - time()) < 0)
                     {
                         $pass = $this->_membersModel->generateStrongPassword(22);
-                        if($this->_model->updateTurnSecret(["value" => $pass, "expire" => time() + (30*24*3600)])) // Update turn secret each month
+                        if($this->_membersModel->updateTurnSecret(["value" => $pass, "expire" => time() + (30*24*3600)])) // Update turn secret each month
                         {
                             $turnSecret[0]->value = $pass;
                         }

@@ -23,4 +23,25 @@ class EventSteps
     const CONTENT_REVIEW        = "content-review";
     const FINAL_REVIEW          = "final-review";
     const FINISHED              = "finished";
+
+    private static $enum = [
+        "none" => 0,
+        "pray" => 1,
+        "consume" => 2,
+        "verbalize" => 3,
+        "chunking" => 4,
+        "read-chunk" => 5,
+        "blind-draft" => 6,
+        "self-check" => 7,
+        "peer-review" => 8,
+        "keyword-check" => 9,
+        "content-review" => 10,
+        "final-review" => 12,
+        "finished" => 13,
+        ];
+
+    public static function enum($step)
+    {
+        return self::$enum[$step];
+    }
 }
