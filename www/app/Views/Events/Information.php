@@ -2,7 +2,6 @@
 use Helpers\Session;
 
 echo Error::display($error);
-
 if(!isset($error)):
     ?>
 
@@ -18,8 +17,10 @@ if(!isset($error)):
         <div class="overall_progress_bar">
             <h3><?php echo __("progress_all") ?></h3>
             <div class="progress progress_all <?php echo $data["overall_progress"] <= 0 ? "zero" : ""?>">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $data["overall_progress"] ?>" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo $data["overall_progress"]."%" ?>">
-                    <?php echo round($data["overall_progress"])."%" ?>
+                <div class="progress-bar progress-bar-success" role="progressbar"
+                     aria-valuenow="<?php echo floor($data["overall_progress"]) ?>"
+                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["overall_progress"])."%" ?>">
+                    <?php echo floor($data["overall_progress"])."%" ?>
                 </div>
             </div>
         </div>
@@ -31,20 +32,22 @@ if(!isset($error)):
             <?php foreach ($data["chapters"] as $key => $chapter):?>
                 <?php
                 if(empty($chapter)) {
-                    echo '<div class="chapter_item"><div class="chapter_number">'.__("chapter_number", array($key)).'</div></div>';
+                    echo '<div class="chapter_item"><div class="chapter_number">'.__("chapter_number", [$key]).'</div></div>';
                     continue;
                 }
                 ?>
                 <div class="chapter_item">
-                    <div class="chapter_number"><?php echo __("chapter_number", array($key)) ?></div>
+                    <div class="chapter_number"><?php echo __("chapter_number", [$key]) ?></div>
                     <div class="chapter_accordion">
                         <div class="section_header" data="<?php echo "sec_".$key?>">
                             <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
                             <div class="section_title">Draft 1 (Check level 1)</div>
                             <div class="section_translator_progress_bar">
                                 <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $chapter["progress"] ?>" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo $chapter["progress"]."%" ?>">
-                                        <?php echo round($chapter["progress"])."%" ?>
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         aria-valuenow="<?php echo floor($chapter["progress"]) ?>" aria-valuemin="0"
+                                         aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($chapter["progress"])."%" ?>">
+                                        <?php echo floor($chapter["progress"])."%" ?>
                                     </div>
                                 </div>
                                 <div class="<?php echo $chapter["progress"] >= 100 ? "glyphicon glyphicon-ok" : "" ?> finished_icon"></div>
@@ -63,7 +66,7 @@ if(!isset($error)):
                                     <span><?php echo isset($chapter["step"]) ? __($chapter["step"]) : "N/A"?></span>
                                 </div>
                                 <div class="section_translator_chunks">
-                                    <div style="font-weight: bold"><?php echo sizeof($chapter["chunks"]) > 0 ? __("chunks_number", array(sizeof($chapter["chunks"]))).":" : __("no_chunks_number") ?></div>
+                                    <div style="font-weight: bold"><?php echo sizeof($chapter["chunks"]) > 0 ? __("chunks_number", [sizeof($chapter["chunks"])]).":" : __("no_chunks_number") ?></div>
                                     <?php if(isset($chapter["chunks"])): ?>
                                         <?php foreach ($chapter["chunks"] as $index => $chunk):?>
                                             <div class="section_translator_chunk">
@@ -222,7 +225,7 @@ if(!isset($error)):
 
     <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
     <script src="<?php echo template_url("js/chat-plugin.js")?>"></script>
-    <script src="<?php echo \Helpers\Url::templatePath()?>js/socket.js"></script>
+    <script src="<?php echo template_url("js/socket.js")?>"></script>
 
     <?php
 endif;

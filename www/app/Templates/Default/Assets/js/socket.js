@@ -121,6 +121,7 @@ function OnSystemMessage(data)
 
         case "checkDone":
             if(typeof isChecker != "undefined" && isChecker) return;
+            if(typeof isInfoPage != "undefined") return;
 
             $(".alert.alert-danger, .alert.alert-success").remove();
             renderPopup(Language.checkerApproved);
@@ -209,7 +210,26 @@ function OnSystemMessage(data)
             break;
 
         case "keyword":
-            highlightKeyword(data.verseID, data.text, data.index, data.remove == "true");
+            if(typeof isInfoPage == "undefined" &&
+                (typeof step != "undefined" && step == EventSteps.KEYWORD_CHECK))
+                highlightKeyword(data.verseID, data.text, data.index, data.remove == "true");
+            break;
+
+        case "chkStarted":
+            var notif = $("a.notifa[data='"+data.id+"']");
+            if(notif.length > 0)
+            {
+                notif.remove();
+                var count = parseInt($(".notif_count").text());
+                count--;
+                $(".notif_count").text(Math.max(count, 0));
+
+                if(count <= 0)
+                {
+                    $(".notif_count").remove();
+                    $(".notif_block").html('<div class="no_notif">'+Language.noNotifsMsg+'</div>');
+                }
+            }
             break;
     }
 }
@@ -236,7 +256,9 @@ function OnCheckingRequest(data)
                 var notifs = "";
                 $.each(data.notifs, function(i, note) {
                     if($("a[data='"+note.anchor+"']").length <= 0)
-                        notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'"><li>'+note.text+'</li></a>';
+                        notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
+                                '<li class="'+note.step+'_checker">'+note.text+'</li>'+
+                            '</a>';
                 });
                 $(".notif_block").prepend(notifs);
             }

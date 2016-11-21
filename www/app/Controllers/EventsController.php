@@ -32,27 +32,40 @@ class EventsController extends Controller
         $this->_translationModel = new TranslationsModel();
         $this->_membersModel = new MembersModel();
 
-        if(Session::get("loggedin"))
-            $this->_notifications = $this->_model->getNotifications();
-    }
-
-    public function index()
-    {
         if (!Session::get('loggedin'))
         {
-            Url::redirect('members/login');
+            if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $response["errorType"] = "logout";
+                $response["error"] = __("not_loggedin_error");
+                echo json_encode($response);
+                exit;
+            }
+            else
+            {
+                Url::redirect('members/login');
+            }
+        }
+
+        if(!Session::get("verified"))
+        {
+            Url::redirect("members/error/verification");
         }
 
         if(Session::get("isDemo"))
         {
-            Url::redirect('events/demo');
+            if(!preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
+                Url::redirect('events/demo');
         }
-
-        if(empty(Session::get("profile")))
+        elseif(empty(Session::get("profile")))
         {
             Url::redirect("members/profile");
         }
 
+        $this->_notifications = $this->_model->getNotifications();
+    }
+
+    public function index()
+    {
         $data['menu'] = 4;
 
         $data["projects"] = $this->_model->getProjects(Session::get("memberID"), true);
@@ -65,22 +78,6 @@ class EventsController extends Controller
 
     public function project($projectID)
     {
-        if (!Session::get('loggedin'))
-        {
-            Session::set('redirect', 'admin');
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
         $data['menu'] = 4;
 
         $data["project"] = $this->_model->getProjects(Session::get("memberID"), true, $projectID);
@@ -99,21 +96,6 @@ class EventsController extends Controller
 
     public function translator($eventID)
     {
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
         $data['menu'] = 4;
         $data["notifications"] = $this->_notifications;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -142,7 +124,7 @@ class EventsController extends Controller
                     if(($turnSecret[0]->expire - time()) < 0)
                     {
                         $pass = $this->_membersModel->generateStrongPassword(22);
-                        if($this->_model->updateTurnSecret(["value" => $pass, "expire" => time() + (30*24*3600)])) // Update turn secret each month
+                        if($this->_membersModel->updateTurnSecret(["value" => $pass, "expire" => time() + (30*24*3600)])) // Update turn secret each month
                         {
                             $turnSecret[0]->value = $pass;
                         }
@@ -1072,26 +1054,6 @@ class EventsController extends Controller
     {
         $response = array("success" => false, "errors" => "");
 
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if (!Session::get('verified'))
-        {
-            $error[] = __("account_not_verirfied_error");
-        }
-
         $title = "";
 
         if(!isset($error))
@@ -1274,21 +1236,6 @@ class EventsController extends Controller
 
     public function checkerL2($eventID)
     {
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
         $data['menu'] = 4;
 
         echo $eventID;
@@ -1296,21 +1243,6 @@ class EventsController extends Controller
 
     public function checkerL3($eventID)
     {
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
         $data['menu'] = 4;
 
         echo $eventID;
@@ -1319,30 +1251,18 @@ class EventsController extends Controller
 
     public function information($eventID)
     {
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
-        if (!Session::get('verified'))
-        {
-            $error[] = __("account_not_verirfied_error");
-        }
-
         $data['menu'] = 4;
         $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
         $data["isAdmin"] = false;
         $canViewInfo = false;
+        $isAjax = false;
+
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+                && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+        {
+            $isAjax = true;
+            $response = ["success" => false];
+        }
 
         if(!empty($data["event"]))
         {
@@ -1358,12 +1278,26 @@ class EventsController extends Controller
 
                     if(!$data["isAdmin"])
                     {
-                        $error[] = __("empty_or_not_permitted_event_error");
+                        if(!$isAjax)
+                            $error[] = __("empty_or_not_permitted_event_error");
+                        else
+                        {
+                            $response["errorType"] = "empty_no_permission";
+                            echo json_encode($response);
+                            exit;
+                        }
                     }
                 }
                 else
                 {
-                    $error[] = __("empty_or_not_permitted_event_error");
+                    if(!$isAjax)
+                        $error[] = __("empty_or_not_permitted_event_error");
+                    else
+                    {
+                        $response["errorType"] = "empty_no_permission";
+                        echo json_encode($response);
+                        exit;
+                    }
                 }
             }
             else
@@ -1377,165 +1311,94 @@ class EventsController extends Controller
 
             if($data["event"][0]->state == "started" && $canViewInfo)
             {
-                $error[] = __("not_started_event_error", array($data["event"][0]->eventID));
+                if(!$isAjax)
+                    $error[] = __("not_started_event_error", array($data["event"][0]->eventID));
+                else
+                {
+                    $response["errorType"] = "not_started";
+                    echo json_encode($response);
+                    exit;
+                }
             }
         }
         else
         {
-            $error[] = __("empty_or_not_permitted_event_error");
+            if(!$isAjax)
+                $error[] = __("empty_or_not_permitted_event_error");
+            else
+            {
+                $response["errorType"] = "empty_no_permission";
+                echo json_encode($response);
+                exit;
+            }
         }
 
         if(!isset($error))
         {
             $data["chapters"] = json_decode($data["event"][0]->chapters, true);
+            $members = [];
+            $overallProgress = 0;
 
             $chunks = $this->_translationModel->getTranslationByEventID($data["event"][0]->eventID);
-            $members = [];
-
             $memberSteps = [];
-            $currentChecker = "na";
-            $currentCheckState = "not_started";
 
-            $i = 0;
             foreach ($chunks as $chunk) {
-                // If member hasn't started translating, show current step and checker
-                if($chunk->chapter === null)
+                if(!array_key_exists($chunk->memberID, $memberSteps))
                 {
-                    $memberSteps[$chunk->memberID] = $chunk->step;
-                    if($chunk->checkerID > 0)
-                    {
-                        $currentCheckState = "in_progress";
-                        $currentChecker = $chunk->checkerID;
-                        $members[$currentChecker] = "";
-                    }
-                    elseif ($chunk->verbCheck != "")
-                    {
-                        $verbCheck = (array)json_decode($chunk->verbCheck, true);
-                        if(array_key_exists($chunk->currentChapter, $verbCheck))
-                        {
-                            $currentCheckState = "finished";
-                            $currentChecker = $verbCheck[$chunk->currentChapter];
-                            $members[$currentChecker] = "";
-                        }
-                    }
+                    $memberSteps[$chunk->memberID]["step"] = $chunk->step;
+                    $memberSteps[$chunk->memberID]["verbCheck"] = $chunk->verbCheck;
+                    $memberSteps[$chunk->memberID]["peerCheck"] = $chunk->peerCheck;
+                    $memberSteps[$chunk->memberID]["kwCheck"] = $chunk->kwCheck;
+                    $memberSteps[$chunk->memberID]["crCheck"] = $chunk->crCheck;
+                    $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
+                    $memberSteps[$chunk->memberID]["checkerID"] = $chunk->checkerID;
+                    $members[$chunk->memberID] = "";
+                }
+
+                if($chunk->chapter == null)
                     continue;
-                }
-                else
-                {
-                    $memberSteps[$chunk->memberID] = $chunk->step;
-                }
-
-                if($i < $chunk->chapter)
-                {
-                    $chunk->verbCheck = (array)json_decode($chunk->verbCheck, true);
-                    $chunk->peerCheck = (array)json_decode($chunk->peerCheck, true);
-                    $chunk->kwCheck = (array)json_decode($chunk->kwCheck, true);
-                    $chunk->crCheck = (array)json_decode($chunk->crCheck, true);
-
-                    // Verbalize Check
-                    if(array_key_exists($chunk->chapter, $chunk->verbCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["verb"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["verb"]["checkerID"] = $chunk->verbCheck[$chunk->chapter];
-                        $members[$chunk->verbCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::VERBALIZE && $chunk->checkerID > 0)
-                            {
-                                $data["chapters"][$chunk->chapter]["verb"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["verb"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-                    // Peer Check
-                    if(array_key_exists($chunk->chapter, $chunk->peerCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["peer"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["peer"]["checkerID"] = $chunk->peerCheck[$chunk->chapter];
-                        $members[$chunk->peerCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::PEER_REVIEW && $chunk->checkerID > 0)
-                            {
-                                $data["chapters"][$chunk->chapter]["peer"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["peer"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-                    // Keyword Check
-                    if(array_key_exists($chunk->chapter, $chunk->kwCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["kwc"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["kwc"]["checkerID"] = $chunk->kwCheck[$chunk->chapter];
-                        $members[$chunk->kwCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::KEYWORD_CHECK && $chunk->checkerID > 0)
-                            {
-                                $data["chapters"][$chunk->chapter]["kwc"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["kwc"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-
-                    // Content Review (Verse by Verse) Check
-                    if(array_key_exists($chunk->chapter, $chunk->crCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["crc"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["crc"]["checkerID"] = $chunk->crCheck[$chunk->chapter];
-                        $data["chapters"][$chunk->chapter]["step"] = $chunk->chapter == $chunk->currentChapter
-                            ? $chunk->step : EventSteps::FINISHED;
-                        $members[$chunk->crCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::CONTENT_REVIEW && $chunk->checkerID > 0 &&
-                                $data["chapters"][$chunk->chapter]["kwc"]["state"] != "in_progress")
-                            {
-                                $data["chapters"][$chunk->chapter]["crc"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["crc"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-                    $i = $chunk->chapter;
-                }
 
                 $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
-                if(!isset($data["chapters"][$chunk->chapter]["step"]))
-                    $data["chapters"][$chunk->chapter]["step"] = $chunk->step;
             }
-
-            $overallProgress = 0;
 
             foreach ($data["chapters"] as $key => $chapter) {
                 if(empty($chapter)) continue;
 
+                $currentStep = EventSteps::PRAY;
+                $currentCheckState = "not_started";
+
+                $members[$chapter["memberID"]] = "";
                 $data["chapters"][$key]["progress"] = 0;
+
+                $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
+                $verbCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["verbCheck"], true);
+                $peerCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["peerCheck"], true);
+                $kwCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["kwCheck"], true);
+                $crCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["crCheck"], true);
+                $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
 
                 if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
                 {
-                    $data["chapters"][$key]["step"] = $memberSteps[$chapter["memberID"]];
+                    if($currentChapter == $key)
+                    {
+                        $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+                        if($currentChecker > 0)
+                        {
+                            $currentCheckState = "in_progress";
+                            $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
+                            $members[$currentChecker] = "";
+                        }
+                        elseif(array_key_exists($key, $verbCheck))
+                        {
+                            $currentCheckState = "finished";
+                            $currentChecker = $verbCheck[$key];
+                            $members[$currentChecker] = "";
+                        }
+                    }
+
+                    $data["chapters"][$key]["step"] = $currentStep;
                     $data["chapters"][$key]["verb"]["state"] = $currentCheckState;
-                    $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker;
+                    $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker > 0 ? $currentChecker : "na";
                     $data["chapters"][$key]["peer"]["state"] = "not_started";
                     $data["chapters"][$key]["peer"]["checkerID"] = "na";
                     $data["chapters"][$key]["kwc"]["state"] = "not_started";
@@ -1544,60 +1407,110 @@ class EventsController extends Controller
                     $data["chapters"][$key]["crc"]["checkerID"] = "na";
 
                     $data["chapters"][$key]["chunksData"] = [];
-                    $members[$chapter["memberID"]] = "";
                     continue;
                 }
 
-                $members[$chapter["memberID"]] = "";
+                $currentStep = $memberSteps[$chapter["memberID"]]["step"];
 
-                if(sizeof($chapter["chunks"]) > 0)
+
+                // Total translated chunks are 25% of all chapter progress
+                $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 25 / sizeof($chapter["chunks"]);
+                $data["chapters"][$key]["step"] = $currentChapter == $key ? $currentStep : EventSteps::FINISHED;
+
+                // Verbalize Check
+                if(array_key_exists($key, $verbCheck))
                 {
-                    // Total translated chunks are 25% of all chapter progress
-                    $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 25 / sizeof($chapter["chunks"]);
-                    if(!isset($data["chapters"][$key]["step"]))
-                        $data["chapters"][$key]["step"] = EventSteps::READ_CHUNK;
+                    $data["chapters"][$key]["verb"]["state"] = "finished";
+                    $data["chapters"][$key]["verb"]["checkerID"] = $verbCheck[$key];
+                    $members[$verbCheck[$key]] = "";
                 }
 
-                if(!array_key_exists("verb", $chapter))
+                // Peer Check
+                if(array_key_exists($key, $peerCheck))
                 {
-                    $data["chapters"][$key]["verb"]["state"] = "not_started";
-                    $data["chapters"][$key]["verb"]["checkerID"] = "na";
-                }
+                    $data["chapters"][$key]["peer"]["state"] = "finished";
+                    $data["chapters"][$key]["peer"]["checkerID"] = $peerCheck[$key];
+                    $members[$peerCheck[$key]] = "";
 
-                if(!array_key_exists("peer", $chapter))
-                {
-                    $data["chapters"][$key]["peer"]["state"] = "not_started";
-                    $data["chapters"][$key]["peer"]["checkerID"] = "na";
-                }
-                else
-                {
                     // Add 25% of progress when peer check done
-                    if(array_key_exists("state", $chapter["peer"]) && $data["chapters"][$key]["peer"]["state"] == "finished")
-                        $data["chapters"][$key]["progress"] += 25;
-                }
-
-                if(!array_key_exists("kwc", $chapter))
-                {
-                    $data["chapters"][$key]["kwc"]["state"] = "not_started";
-                    $data["chapters"][$key]["kwc"]["checkerID"] = "na";
+                    $data["chapters"][$key]["progress"] += 25;
                 }
                 else
                 {
+                    if($key == $currentChapter)
+                    {
+                        if($currentStep == EventSteps::PEER_REVIEW && $currentChecker > 0)
+                        {
+                            $data["chapters"][$key]["peer"]["state"] = "in_progress";
+                            $data["chapters"][$key]["peer"]["checkerID"] = $currentChecker;
+                            $members[$currentChecker] = "";
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["peer"]["state"] = "not_started";
+                            $data["chapters"][$key]["peer"]["checkerID"] = "na";
+                        }
+                    }
+                }
+
+
+                // Keyword Check
+                if(array_key_exists($key, $kwCheck))
+                {
+                    $data["chapters"][$key]["kwc"]["state"] = "finished";
+                    $data["chapters"][$key]["kwc"]["checkerID"] = $kwCheck[$key];
+                    $members[$kwCheck[$key]] = "";
+
                     // Add 25% of progress when keyword check done
-                    if(array_key_exists("state", $chapter["kwc"]) && $data["chapters"][$key]["kwc"]["state"] == "finished")
-                        $data["chapters"][$key]["progress"] += 25;
-                }
-
-                if(!array_key_exists("crc", $chapter))
-                {
-                    $data["chapters"][$key]["crc"]["state"] = "not_started";
-                    $data["chapters"][$key]["crc"]["checkerID"] = "na";
+                    $data["chapters"][$key]["progress"] += 25;
                 }
                 else
                 {
+                    if($key == $currentChapter)
+                    {
+                        if($currentStep == EventSteps::KEYWORD_CHECK && $currentChecker > 0)
+                        {
+                            $data["chapters"][$key]["kwc"]["state"] = "in_progress";
+                            $data["chapters"][$key]["kwc"]["checkerID"] = $currentChecker;
+                            $members[$currentChecker] = "";
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["kwc"]["state"] = "not_started";
+                            $data["chapters"][$key]["kwc"]["checkerID"] = "na";
+                        }
+                    }
+                }
+
+
+                // Content Review (Verse by Verse) Check
+                if(array_key_exists($key, $crCheck))
+                {
+                    $data["chapters"][$key]["crc"]["state"] = "finished";
+                    $data["chapters"][$key]["crc"]["checkerID"] = $crCheck[$key];
+                    $data["chapters"][$key]["step"] = $key == $currentChapter
+                        ? $currentStep : EventSteps::FINISHED;
+                    $members[$crCheck[$key]] = "";
+
                     // Add 25% of progress when verse by verse check done
-                    if(array_key_exists("state", $chapter["crc"]) && $data["chapters"][$key]["crc"]["state"] == "finished")
-                        $data["chapters"][$key]["progress"] += 25;
+                    $data["chapters"][$key]["progress"] += 25;
+                }
+                else
+                {
+                    if($key == $currentChapter)
+                    {
+                        if($currentStep == EventSteps::CONTENT_REVIEW && $currentChecker > 0)
+                        {
+                            $data["chapters"][$key]["crc"]["state"] = "in_progress";
+                            $data["chapters"][$key]["crc"]["checkerID"] = $currentChecker;
+                            $members[$currentChecker] = "";
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["crc"]["state"] = "not_started";
+                            $data["chapters"][$key]["crc"]["checkerID"] = "na";
+                        }
+                    }
                 }
 
                 $overallProgress += $data["chapters"][$key]["progress"];
@@ -1623,38 +1536,35 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
-        return View::make('Events/Information')
-            ->shares("title", __("event_info"))
-            ->shares("data", $data)
-            ->shares("error", @$error);
+
+        if(!$isAjax)
+        {
+            return View::make('Events/Information')
+                ->shares("title", __("event_info"))
+                ->shares("data", $data)
+                ->shares("error", @$error);
+        }
+        else
+        {
+            $this->layout = "dummy";
+            $response["success"] = true;
+            $response["progress"] = $data["overall_progress"];
+            $response["admins"] = $data["admins"];
+            $response["members"] = $data["members"];
+            $response["html"] = View::make("Events/GetInfo")
+                ->shares("data", $data)
+                ->renderContents();
+
+            echo json_encode($response);
+        }
     }
 
 
     public function manage($eventID)
     {
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            Url::redirect("members/profile");
-        }
-
         if (!Session::get('isAdmin'))
         {
             Url::redirect("members");
-        }
-
-        if (!Session::get('verified'))
-        {
-            $error[] = __("account_not_verirfied_error");
         }
 
         $data['menu'] = 4;
@@ -1693,21 +1603,6 @@ class EventsController extends Controller
 
     public function demo($page = null)
     {
-        if (!Session::get('loggedin'))
-        {
-            Url::redirect('members/login');
-        }
-
-        if(empty(Session::get("profile")) && !Session::get("isDemo"))
-        {
-            Url::redirect("members/profile");
-        }
-
-        if (!Session::get('verified'))
-        {
-            $error[] = __("account_not_verirfied_error");
-        }
-
         if(!isset($page))
             Url::redirect("events/demo/pray");
 
@@ -1821,6 +1716,11 @@ class EventsController extends Controller
                 $view->nest("page", "Events/Demo/FinalReview");
                 $data["step"] = EventSteps::FINAL_REVIEW;
                 break;
+
+            case "information":
+                return View::make("Events/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
         }
 
         return $view
@@ -1830,23 +1730,6 @@ class EventsController extends Controller
 
     public function applyEvent()
     {
-        if (!Session::get('loggedin'))
-        {
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $error[] = __("account_not_verirfied_error");
-            echo json_encode(array("error" => Error::display($error)));
-            return;
-        }
-
         $data["errors"] = array();
         $profile = Session::get("profile");
 
@@ -2076,27 +1959,6 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('loggedin'))
-        {
-            $response["errorType"] = "logout";
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["errorType"] = "verify";
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $eventID = isset($_POST["eventID"]) && is_numeric($_POST["eventID"]) ? $_POST["eventID"] : null;
@@ -2277,25 +2139,6 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
@@ -2359,25 +2202,6 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
@@ -2404,25 +2228,6 @@ class EventsController extends Controller
     public function saveKeyword()
     {
         $response = array("success" => false);
-
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
 
         $_POST = Gump::xss_clean($_POST);
 
@@ -2489,343 +2294,9 @@ class EventsController extends Controller
         echo json_encode($response);
     }
 
-    public function getInfoUpdate($eventID)
+
+    public function applyChecker($eventID, $memberID, $step)
     {
-        if (!Session::get('loggedin'))
-        {
-            echo "login";
-            exit;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            exit;
-        }
-
-        if(empty(Session::get("profile")))
-        {
-            echo "profile";
-            exit;
-        }
-
-        if (!Session::get('verified'))
-        {
-            echo "not_verified";
-            exit;
-        }
-
-        $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
-        $data["isAdmin"] = false;
-
-        $canViewInfo = false;
-
-        if(!empty($data["event"]))
-        {
-            $admins = (array)json_decode($data["event"][0]->admins, true);
-
-            if($data["event"][0]->translator === null && $data["event"][0]->checker === null
-                && $data["event"][0]->checker_l2 === null && $data["event"][0]->checker_l3 === null)
-            {
-                // If member is not a participant of the event, check if he is a facilitator
-                if(Session::get("isAdmin"))
-                {
-                    $data["isAdmin"] = $canViewInfo = in_array(Session::get("memberID"), $admins);
-
-                    if(!$data["isAdmin"])
-                    {
-                        echo "empty_no_permission";
-                        exit;
-                    }
-                }
-                else
-                {
-                    echo "empty_no_permission";
-                    exit;
-                }
-            }
-            else
-            {
-                $canViewInfo = true;
-                if(Session::get("isAdmin"))
-                    $data["isAdmin"] = in_array(Session::get("memberID"), $admins);
-            }
-
-            if($data["event"][0]->state == "started" && $canViewInfo)
-            {
-                echo "not_started";
-                exit;
-            }
-        }
-        else
-        {
-            echo "empty_no_permission";
-            exit;
-        }
-
-        if(!isset($error))
-        {
-            $data["chapters"] = json_decode($data["event"][0]->chapters, true);
-
-            $chunks = $this->_translationModel->getTranslationByEventID($data["event"][0]->eventID);
-            $members = [];
-
-			$memberSteps = [];
-            $currentChecker = "na";
-            $currentCheckState = "not_started";
-
-            $i = 0;
-            foreach ($chunks as $chunk) {
-                // If member hasn't started translating, show current step and checker
-                if($chunk->chapter === null)
-                {
-                    $memberSteps[$chunk->memberID] = $chunk->step;
-                    if($chunk->checkerID > 0)
-                    {
-                        $currentCheckState = "in_progress";
-                        $currentChecker = $chunk->checkerID;
-                        $members[$currentChecker] = "";
-                    }
-                    elseif ($chunk->verbCheck != "")
-                    {
-                        $verbCheck = (array)json_decode($chunk->verbCheck, true);
-                        if(array_key_exists($chunk->currentChapter, $verbCheck))
-                        {
-                            $currentCheckState = "finished";
-                            $currentChecker = $verbCheck[$chunk->currentChapter];
-                            $members[$currentChecker] = "";
-                        }
-                    }
-					continue;
-                }
-                else
-                {
-                    $memberSteps[$chunk->memberID] = $chunk->step;
-                }
-
-                if($i < $chunk->chapter)
-                {
-                    $chunk->verbCheck = (array)json_decode($chunk->verbCheck, true);
-                    $chunk->peerCheck = (array)json_decode($chunk->peerCheck, true);
-                    $chunk->kwCheck = (array)json_decode($chunk->kwCheck, true);
-                    $chunk->crCheck = (array)json_decode($chunk->crCheck, true);
-
-                    // Verbalize Check
-                    if(array_key_exists($chunk->chapter, $chunk->verbCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["verb"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["verb"]["checkerID"] = $chunk->verbCheck[$chunk->chapter];
-                        $members[$chunk->verbCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::VERBALIZE && $chunk->checkerID > 0)
-                            {
-                                $data["chapters"][$chunk->chapter]["verb"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["verb"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-                    // Peer Check
-                    if(array_key_exists($chunk->chapter, $chunk->peerCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["peer"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["peer"]["checkerID"] = $chunk->peerCheck[$chunk->chapter];
-                        $members[$chunk->peerCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::PEER_REVIEW && $chunk->checkerID > 0)
-                            {
-                                $data["chapters"][$chunk->chapter]["peer"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["peer"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-                    // Keyword Check
-                    if(array_key_exists($chunk->chapter, $chunk->kwCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["kwc"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["kwc"]["checkerID"] = $chunk->kwCheck[$chunk->chapter];
-                        $members[$chunk->kwCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::KEYWORD_CHECK && $chunk->checkerID > 0)
-                            {
-                                $data["chapters"][$chunk->chapter]["kwc"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["kwc"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-
-                    // Content Review (Verse by Verse) Check
-                    if(array_key_exists($chunk->chapter, $chunk->crCheck))
-                    {
-                        $data["chapters"][$chunk->chapter]["crc"]["state"] = "finished";
-                        $data["chapters"][$chunk->chapter]["crc"]["checkerID"] = $chunk->crCheck[$chunk->chapter];
-                        $data["chapters"][$chunk->chapter]["step"] = $chunk->chapter == $chunk->currentChapter
-                            ? $chunk->step : EventSteps::FINISHED;
-                        $members[$chunk->crCheck[$chunk->chapter]] = "";
-                    }
-                    else
-                    {
-                        if($chunk->chapter == $chunk->currentChapter)
-                        {
-                            if($chunk->step == EventSteps::CONTENT_REVIEW && $chunk->checkerID > 0 &&
-                                $data["chapters"][$chunk->chapter]["kwc"]["state"] != "in_progress")
-                            {
-                                $data["chapters"][$chunk->chapter]["crc"]["state"] = "in_progress";
-                                $data["chapters"][$chunk->chapter]["crc"]["checkerID"] = $chunk->checkerID;
-                                $members[$chunk->checkerID] = "";
-                            }
-                        }
-                    }
-
-                    $i = $chunk->chapter;
-                }
-
-                $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
-                if(!isset($data["chapters"][$chunk->chapter]["step"]))
-                    $data["chapters"][$chunk->chapter]["step"] = $chunk->step;
-            }
-
-            $overallProgress = 0;
-
-            foreach ($data["chapters"] as $key => $chapter) {
-                if(empty($chapter)) continue;
-
-                $data["chapters"][$key]["progress"] = 0;
-
-				if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
-                {
-                    $data["chapters"][$key]["step"] = $memberSteps[$chapter["memberID"]];
-                    $data["chapters"][$key]["verb"]["state"] = $currentCheckState;
-                    $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker;
-                    $data["chapters"][$key]["peer"]["state"] = "not_started";
-                    $data["chapters"][$key]["peer"]["checkerID"] = "na";
-                    $data["chapters"][$key]["kwc"]["state"] = "not_started";
-                    $data["chapters"][$key]["kwc"]["checkerID"] = "na";
-                    $data["chapters"][$key]["crc"]["state"] = "not_started";
-                    $data["chapters"][$key]["crc"]["checkerID"] = "na";
-
-                    $data["chapters"][$key]["chunksData"] = [];
-                    $members[$chapter["memberID"]] = "";
-                    continue;
-                }
-				
-				$members[$chapter["memberID"]] = "";
-				
-                if(sizeof($chapter["chunks"]) > 0)
-                {
-                    // Total translated chunks are 25% of all chapter progress
-                    $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 25 / sizeof($chapter["chunks"]);
-                    if(!isset($data["chapters"][$key]["step"]))
-                        $data["chapters"][$key]["step"] = EventSteps::READ_CHUNK;
-                }
-
-                if(!array_key_exists("verb", $chapter))
-                {
-                    $data["chapters"][$key]["verb"]["state"] = "not_started";
-                    $data["chapters"][$key]["verb"]["checkerID"] = "na";
-                }
-
-                if(!array_key_exists("peer", $chapter))
-                {
-                    $data["chapters"][$key]["peer"]["state"] = "not_started";
-                    $data["chapters"][$key]["peer"]["checkerID"] = "na";
-                }
-                else
-                {
-                    // Add 25% of progress when peer check done
-                    if(array_key_exists("state", $chapter["peer"]) && $data["chapters"][$key]["peer"]["state"] == "finished")
-                        $data["chapters"][$key]["progress"] += 25;
-                }
-
-                if(!array_key_exists("kwc", $chapter))
-                {
-                    $data["chapters"][$key]["kwc"]["state"] = "not_started";
-                    $data["chapters"][$key]["kwc"]["checkerID"] = "na";
-                }
-                else
-                {
-                    // Add 25% of progress when keyword check done
-                    if(array_key_exists("state", $chapter["kwc"]) && $data["chapters"][$key]["kwc"]["state"] == "finished")
-                        $data["chapters"][$key]["progress"] += 25;
-                }
-
-                if(!array_key_exists("crc", $chapter))
-                {
-                    $data["chapters"][$key]["crc"]["state"] = "not_started";
-                    $data["chapters"][$key]["crc"]["checkerID"] = "na";
-                }
-                else
-                {
-                    // Add 25% of progress when verse by verse check done
-                    if(array_key_exists("state", $chapter["crc"]) && $data["chapters"][$key]["crc"]["state"] == "finished")
-                        $data["chapters"][$key]["progress"] += 25;
-                }
-
-                $overallProgress += $data["chapters"][$key]["progress"];
-            }
-
-            $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
-
-            $empty = array_fill(0, sizeof($admins), "");
-            $adminsArr = array_combine($admins, $empty);
-
-            $members += $adminsArr;
-            $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
-
-            foreach ($membersArray as $member) {
-                $members[$member->memberID] = $member->userName;
-            }
-
-            $members["na"] = __("not_available");
-            $members = array_filter($members);
-
-            $data["admins"] = $admins;
-            $data["members"] = $members;
-        }
-
-        $data["notifications"] = $this->_notifications;
-
-        $this->layout = "dummy";
-        return View::make("Events/GetInfo")
-            ->shares("data", $data);
-    }
-
-    public function applyChecker($eventID, $memberID)
-    {
-        if (!Session::get('loggedin'))
-        {
-            Session::set('redirect', 'admin');
-            Url::redirect('members/login');
-        }
-
-        if (!Session::get('verified'))
-        {
-            $error[] = __("account_not_verirfied_error");
-            echo json_encode(array("error" => Error::display($error)));
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
         $canApply = false;
 
         $profile = Session::get("profile");
@@ -2835,10 +2306,12 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications += $this->_notifications;
+        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
 
         foreach ($allNotifications as $notification) {
-            if($eventID == $notification->eventID && $memberID == $notification->memberID)
+            if($eventID == $notification->eventID
+                && $memberID == $notification->memberID
+                && $step == $notification->step)
             {
                 if($notification->checkerID == 0)
                 {
@@ -2873,25 +2346,6 @@ class EventsController extends Controller
     public function getEventMembers()
     {
         $response = array("success" => false);
-
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
 
         if (!Session::get('isAdmin'))
         {
@@ -2947,25 +2401,6 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
@@ -2991,43 +2426,35 @@ class EventsController extends Controller
      */
     public function getNotifications()
     {
-        if(Session::get("isDemo"))
+        $data["notifs"] = array();
+
+        if(!empty($this->_notifications))
         {
-            echo '{}';
-            return;
+            foreach ($this->_notifications as $notification)
+            {
+                $text = __("checker_apply", [
+                    $notification->userName,
+                    __($notification->step),
+                    $notification->bookName,
+                    $notification->currentChapter,
+                    $notification->tLang,
+                    __($notification->bookProject)
+                ]);
+
+                $note["link"] = "/events/checker/".$notification->eventID."/".$notification->memberID."/apply";
+                $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
+                $note["text"] = $text;
+                $note["step"] = $notification->step;
+                $data["notifs"][] = $note;
+            }
+        }
+        else
+        {
+            $data["noNotifs"] = __("no_notifs_msg");
         }
 
-        if(Session::get("loggedin"))
-        {
-            $data["notifs"] = array();
-
-            if(!empty($this->_notifications))
-            {
-                foreach ($this->_notifications as $notification)
-                {
-                    $text = __("checker_apply", [
-                        $notification->userName,
-                        __($notification->step),
-                        $notification->bookName,
-                        $notification->currentChapter,
-                        $notification->tLang,
-                        __($notification->bookProject)
-                    ]);
-
-                    $note["link"] = "/events/checker/".$notification->eventID."/".$notification->memberID."/apply";
-                    $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
-                    $note["text"] = $text;
-                    $data["notifs"][] = $note;
-                }
-            }
-            else
-            {
-                $data["noNotifs"] = __("no_notifs_msg");
-            }
-
-            $data["success"] = true;
-            echo json_encode($data);
-        }
+        $data["success"] = true;
+        echo json_encode($data);
     }
 
 
@@ -3037,17 +2464,6 @@ class EventsController extends Controller
      */
     public function allNotifications()
     {
-        if (!Session::get('loggedin'))
-        {
-            Session::set('redirect', 'admin');
-            Url::redirect('members/login');
-        }
-
-        if(Session::get("isDemo"))
-        {
-            Url::redirect('events/demo');
-        }
-
         $data["notifications"] = $this->_notifications;
 
         $profile = Session::get("profile");
@@ -3071,25 +2487,6 @@ class EventsController extends Controller
     public function assignChapter()
     {
         $response = array("success" => false);
-
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
 
         if (!Session::get('isAdmin'))
         {
@@ -3243,25 +2640,6 @@ class EventsController extends Controller
     public function deleteEventMember()
     {
         $response = array("success" => false);
-
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = __("not_loggedin_error");
-            echo json_encode($response);
-            return;
-        }
-
-        if(Session::get("isDemo"))
-        {
-            return;
-        }
-
-        if (!Session::get('verified'))
-        {
-            $response["error"] = __("account_not_verirfied_error");
-            echo json_encode($response);
-            return;
-        }
 
         if (!Session::get('isAdmin'))
         {

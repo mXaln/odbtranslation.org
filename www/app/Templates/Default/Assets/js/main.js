@@ -130,6 +130,12 @@ $(document).ready(function() {
     // Apply for event as translator/checker
     // Start event
     $(".applyEvent").click(function(e) {
+        if($(this).hasClass("eventFull"))
+        {
+            renderPopup(Language.eventClosed);
+            return false;
+        }
+
         var eventID = $(this).attr("data");
         var bookName = $(this).attr("data2");
         var stage = $(this).attr("data3");
@@ -364,49 +370,76 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             $.ajax({
-                url: "/events/rpc/get_info_update/"+eventID,
+                url: "/events/information/"+eventID,
                 method: "get",
-                dataType: "html",
+                dataType: "json",
             })
                 .done(function(data) {
-                    switch (data)
+                    if(data.success)
                     {
-                        case "login":
-                            window.location.href = "/members/login";
-                            break;
+                        // Update overall progress value
+                        if(data.progress > 0) {
+                            $(".progress_all").removeClass("zero");
+                            $(".progress_all .progress-bar").css('width', Math.floor(data.progress)+"%")
+                                .attr('aria-valuenow', Math.floor(data.progress))
+                                .text(Math.floor(data.progress)+"%");
+                        }
 
-                        case "profile":
-                            window.location.href = "/members/profile";
-                            break;
+                        // Update members list
+                        $.each(data.members, function (memberID, userName) {
+                            if(memberID == "na") return true;
 
-                        case "not_verified":
-                        case "not_started":
-                        case "empty_no_permission":
-                            window.location.href = "/members";
-                            break;
+                            memberID = parseInt(memberID);
 
-                        default:
-                            var openedItems = [];
-                            $.each($(".section_header"), function () {
-                                var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
-                                if(!isCollapsed)
-                                    openedItems.push($(this).attr("data"));
-                            });
+                            if($(".members_list .member_item[data="+memberID+"]").length <= 0)
+                            {
+                                var memberItem = $("<div></div>").appendTo(".members_list")
+                                    .addClass("member_item")
+                                    .attr("data", memberID);
 
-                            $(".chapter_list").html(data);
+                                memberItem.append('<span class="online_indicator glyphicon glyphicon-record">&nbsp;</span>');
+                                memberItem.append('<span class="member_uname">'+userName+'</span> ');
+                                memberItem.append('<span class="member_admin">'+(data.admins.indexOf(memberID) > -1 ? "("+Language.facilitator+") " : "")+'</span>');
+                                memberItem.append('<span class="online_status">'+Language.statusOnline+'</span>');
+                                memberItem.append('<span class="offline_status">'+Language.statusOffline+'</span>');
+                            }
+                        });
 
-                            $.each(openedItems, function (i,v) {
-                                var section = $(".section_header[data="+v+"]");
-                                var content = section.next(".section_content");
-                                content.show(0);
-                                $(".section_arrow", section)
-                                    .removeClass("glyphicon-triangle-right")
-                                    .addClass("glyphicon-triangle-bottom");
-                                $(".section_title", section).css("font-weight", "bold");
+                        // Update chapters list
+                        var openedItems = [];
+                        $.each($(".section_header"), function () {
+                            var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+                            if(!isCollapsed)
+                                openedItems.push($(this).attr("data"));
+                        });
 
-                            });
-                            openedItems = [];
-                            break;
+                        $(".chapter_list").html(data.html);
+
+                        $.each(openedItems, function (i,v) {
+                            var section = $(".section_header[data="+v+"]");
+                            var content = section.next(".section_content");
+                            content.show(0);
+                            $(".section_arrow", section)
+                                .removeClass("glyphicon-triangle-right")
+                                .addClass("glyphicon-triangle-bottom");
+                            $(".section_title", section).css("font-weight", "bold");
+
+                        });
+                        openedItems = [];
+                    }
+                    else
+                    {
+                        switch (data.errorType)
+                        {
+                            case "logout":
+                                window.location.href = "/members/login";
+                                break;
+
+                            case "not_started":
+                            case "empty_no_permission":
+                                window.location.href = "/members";
+                                break;
+                        }
                     }
                 })
                 .always(function() {
@@ -654,18 +687,6 @@ $(document).ready(function() {
 
         renderConfirmPopup(Language.checkBookConfirmTitle, Language.checkBookConfirm, function () {
             $( this ).dialog( "close" );
-
-            var notifCount = parseInt($(".notif_count").text());
-            notifCount--;
-
-            $(".notif_count").text(notifCount);
-            if(notifCount <= 0)
-            {
-                $(".notif_count").remove();
-                $(".notif_block").html('<div class="no_notif">'+Language.noNotifsMsg+'</div>');
-            }
-
-            $this.remove();
             window.open($this.attr("href"),"_blank");
         }, function () {
             $( this ).dialog( "close" );
@@ -827,6 +848,7 @@ $(document).ready(function() {
     // Save keywords
     $("body").on("mouseup", "div[class^=kwverse]", function (e) {
         if(!isChecker) return false;
+        if(typeof isInfoPage != "undefined") return false;
         if(typeof step == "undefined"
             || step != EventSteps.KEYWORD_CHECK) return;
 
@@ -940,6 +962,8 @@ $(document).ready(function() {
 
     // Delete keyword
     $("body").on("click", ".chunk_verses b", function () {
+        if(typeof isInfoPage != "undefined") return false;
+
         if(isChecker && step == EventSteps.KEYWORD_CHECK)
         {
             var $this = $(this);
@@ -1111,6 +1135,43 @@ $(document).ready(function() {
     // ---------------------  Verse markers setting end -------------------- //
 
     // Profile form
+
+    $(".avatar_btn").click(function () {
+        var gender = $(this).attr("id");
+        var current = $("input[name=avatar]").val();
+
+        if(gender == "avatarMales")
+        {
+            $(".genderMale").show();
+            $(".genderFemale").hide();
+        }
+        else
+        {
+            $(".genderMale").hide();
+            $(".genderFemale").show();
+        }
+
+        $(".avatar_block img").removeClass("active");
+        $("#"+current).addClass("active");
+        $(".avatar_container").css("left", 0);
+
+        return false;
+    });
+
+    $(".genderMale img, .genderFemale img").click(function () {
+        var id = $(this).attr("id");
+        var src = $(this).attr("src");
+
+        $("input[name=avatar]").val(id);
+        $(".avatar_control img").attr("src", src);
+
+        $(".avatar_container").css("left", "-9999px");
+    });
+
+    $(".avatar-close").click(function() {
+        $(".avatar_container").css("left", "-9999px");
+    });
+
     var langs = $(".langs option:selected");
     if(langs.length > 0)
         $(".langs").prop("disabled", false);

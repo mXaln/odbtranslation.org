@@ -49,10 +49,11 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+"
             ]);
-    Router::any("checker/{eventID}/{memberID}/apply", "EventsController@applyChecker")
+    Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+"
+            "memberID" => "[0-9]+",
+            "step" => "[a-z\-]+"
         ]);
     Router::any("checker_l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
@@ -83,6 +84,7 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
     Router::any("signup", "MembersController@signup");
     Router::any("login", "MembersController@login");
     Router::any("logout", "MembersController@logout");
+    Router::any("error/verification", "MembersController@verificationError");
     Router::any("passwordreset", "MembersController@passwordReset");
     Router::any("resetpassword/{memberID}/{token}", "MembersController@resetPassword")
         ->where([

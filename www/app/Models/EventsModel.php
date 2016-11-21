@@ -416,7 +416,7 @@ class EventsModel extends Model
                 "OR trs.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l2 WHERE memberID = :memberID) ".
                 "OR trs.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l3 WHERE memberID = :memberID)) ".
             "AND trs.memberID != :memberID ".
-            "AND(trs.step IN ($stepsIn)) ".
+            "AND trs.step IN ($stepsIn) ".
             "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 
         return $this->db->select($sql, array(":memberID" => Session::get("memberID")));
@@ -446,7 +446,7 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
                 "WHERE (".PREFIX."projects.gwLang IN($langsIn) OR ".PREFIX."projects.targetLang IN($langsIn)) ".
                 "AND trs.memberID != :memberID ".
-                "AND(trs.step IN ($stepsIn)) ".
+                "AND trs.step IN ($stepsIn) ".
                 "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 
             return $this->db->select($sql, array(":memberID" => Session::get("memberID")));

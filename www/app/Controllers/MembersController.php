@@ -92,6 +92,7 @@ class MembersController extends Controller
         {
             $_POST = Gump::xss_clean($_POST);
 
+            $avatar = isset($_POST["avatar"]) && preg_match("/^([f|m][1-9]|[f|m]1[0-9]|[f|m]20)$/", $_POST["avatar"]) ? $_POST["avatar"] : "m1";
             $langs = isset($_POST["langs"]) && !empty($_POST["langs"]) ? (array)$_POST["langs"] : null;
             $bbl_trans_yrs = isset($_POST["bbl_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["bbl_trans_yrs"]) ? $_POST["bbl_trans_yrs"] : null;
             $othr_trans_yrs = isset($_POST["othr_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["othr_trans_yrs"]) ? $_POST["othr_trans_yrs"] : null;
@@ -233,6 +234,7 @@ class MembersController extends Controller
             {
                 $postdata = array(
                     "mID" => Session::get("memberID"),
+                    "avatar" => $avatar,
                     "bbl_trans_yrs" => $bbl_trans_yrs,
                     "othr_trans_yrs" => $othr_trans_yrs,
                     "bbl_knwlg_degr" => $bbl_knwlg_degr,
@@ -376,6 +378,9 @@ class MembersController extends Controller
                     ->subject(__('activate_account_title'));
             });
 
+            $activationToken = md5(uniqid(rand(), true));
+            $this->_model->updateMember(["activationToken" => $activationToken], ["email" => $email]);
+
             $msg = __('resend_activation_success_message');
             Session::set('success', $msg);
         }
@@ -429,71 +434,79 @@ class MembersController extends Controller
                 {
                     if (Password::verify($_POST['password'], $data[0]->password))
                     {
-                        $authToken = md5(uniqid(rand(), true));
-                        $updateData = [
-                            "authToken" => $authToken,
-                            "logins" => $data[0]->logins + 1
-                        ];
-                        $updated = $this->_model->updateMember($updateData, ['memberID' => $data[0]->memberID]);
-
-                        if($updated === 1)
+                        if($data[0]->active)
                         {
-                            $profile = array();
-                            if($data[0]->pID != null)
-                            {
-                                $profile["pID"] = $data[0]->pID;
-                                $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
-                                $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
-                                $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
-                                $profile["mast_evnts"] = $data[0]->mast_evnts;
-                                $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
-                                $profile["teamwork"] = $data[0]->teamwork;
-                                $profile["org"] = $data[0]->org;
-                                $profile["ref_person"] = $data[0]->ref_person;
-                                $profile["ref_email"] = $data[0]->ref_email;
-                                $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
-                                $profile["education"] = (array)json_decode($data[0]->education, true);
-                                $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
-                                $profile["ed_place"] = $data[0]->ed_place;
-                                $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
-                                $profile["greek_knwlg"] = $data[0]->greek_knwlg;
-                                $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+                            $authToken = md5(uniqid(rand(), true));
+                            $updateData = [
+                                "authToken" => $authToken,
+                                "logins" => $data[0]->logins + 1
+                            ];
+                            $updated = $this->_model->updateMember($updateData, ['memberID' => $data[0]->memberID]);
 
-                                $arr = (array)json_decode($data[0]->languages, true);
-                                $languages = array();
-                                foreach ($arr as $i => $item) {
-                                    $languages[$i]["lang_fluency"] = $item[0];
-                                    $languages[$i]["geo_lang_yrs"] = $item[1];
+                            if($updated === 1)
+                            {
+                                $profile = array();
+                                if($data[0]->pID != null)
+                                {
+                                    $profile["pID"] = $data[0]->pID;
+                                    $profile["avatar"] = $data[0]->avatar;
+                                    $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
+                                    $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
+                                    $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
+                                    $profile["mast_evnts"] = $data[0]->mast_evnts;
+                                    $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
+                                    $profile["teamwork"] = $data[0]->teamwork;
+                                    $profile["org"] = $data[0]->org;
+                                    $profile["ref_person"] = $data[0]->ref_person;
+                                    $profile["ref_email"] = $data[0]->ref_email;
+                                    $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
+                                    $profile["education"] = (array)json_decode($data[0]->education, true);
+                                    $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
+                                    $profile["ed_place"] = $data[0]->ed_place;
+                                    $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
+                                    $profile["greek_knwlg"] = $data[0]->greek_knwlg;
+                                    $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+
+                                    $arr = (array)json_decode($data[0]->languages, true);
+                                    $languages = array();
+                                    foreach ($arr as $i => $item) {
+                                        $languages[$i]["lang_fluency"] = $item[0];
+                                        $languages[$i]["geo_lang_yrs"] = $item[1];
+                                    }
+                                    $profile["languages"] = $languages;
                                 }
-                                $profile["languages"] = $languages;
-                            }
 
-                            Session::set('memberID', $data[0]->memberID);
-                            Session::set('userName', $data[0]->userName);
-                            Session::set('firstName', $data[0]->firstName);
-                            Session::set('lastName', $data[0]->lastName);
-                            Session::set('authToken', $authToken);
-                            Session::set('verified', $data[0]->verified);
-                            Session::set('isAdmin', $data[0]->isAdmin);
-                            Session::set('isSuperAdmin', $data[0]->isSuperAdmin);
-                            Session::set('isDemo', $data[0]->isDemo);
-                            Session::set('loggedin', true);
-                            Session::set("profile", $profile);
+                                Session::set('memberID', $data[0]->memberID);
+                                Session::set('userName', $data[0]->userName);
+                                Session::set('firstName', $data[0]->firstName);
+                                Session::set('lastName', $data[0]->lastName);
+                                Session::set('authToken', $authToken);
+                                Session::set('verified', $data[0]->verified);
+                                Session::set('isAdmin', $data[0]->isAdmin);
+                                Session::set('isSuperAdmin', $data[0]->isSuperAdmin);
+                                Session::set('isDemo', $data[0]->isDemo);
+                                Session::set('loggedin', true);
+                                Session::set("profile", $profile);
 
-                            Session::destroy('loginTry');
+                                Session::destroy('loginTry');
 
-                            if(Session::get('redirect') != null)
-                            {
-                                Url::redirect(Session::get('redirect'));
+                                if(Session::get('redirect') != null)
+                                {
+                                    Url::redirect(Session::get('redirect'));
+                                }
+                                else
+                                {
+                                    Url::redirect('members');
+                                }
                             }
                             else
                             {
-                                Url::redirect('members');
+                                $error[] = __('user_login_error');
                             }
                         }
                         else
                         {
-                            $error[] = __('user_login_error');
+                            $error[] = __('not_activated_email', [$data[0]->email]);
                         }
                     }
                     else
@@ -858,10 +871,15 @@ class MembersController extends Controller
 
     public function success()
     {
-        $data['title'] = __('success');
-
         return View::make('Members/Success')
             ->shares("title", __("success"));
+    }
+
+    public function verificationError()
+    {
+        return View::make('Members/Verify')
+            ->shares("title", __("verification_error_title"))
+            ->shares("error", __("verification_error"));
     }
 
     public function logout()

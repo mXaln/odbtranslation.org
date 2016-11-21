@@ -13,8 +13,10 @@
                 <div class="section_title">Draft 1 (Check level 1)</div>
                 <div class="section_translator_progress_bar">
                     <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $chapter["progress"] ?>" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo $chapter["progress"]."%" ?>">
-                            <?php echo round($chapter["progress"])."%" ?>
+                        <div class="progress-bar progress-bar-success" role="progressbar"
+                             aria-valuenow="<?php echo floor($chapter["progress"]) ?>" aria-valuemin="0" aria-valuemax="100"
+                             style="min-width: 0em; width: <?php echo floor($chapter["progress"])."%" ?>">
+                            <?php echo floor($chapter["progress"])."%" ?>
                         </div>
                     </div>
                     <div class="<?php echo $chapter["progress"] >= 100 ? "glyphicon glyphicon-ok" : "" ?> finished_icon"></div>

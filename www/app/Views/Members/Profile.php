@@ -16,12 +16,27 @@ $profile = $data["profile"];
 
     <h3><?php echo __('common_skills'); ?></h3>
 
+    <div class="form-group">
+        <label class="<?php echo isset($data["errors"]["avatar"]) ? "label_error" : "" ?>">
+            <?php echo __('avatar'); ?>:
+        </label>
+        <div class="form-control avatar_control">
+            <img src="<?php echo template_url("img/avatars/".(isset($_POST["avatar"]) ? $_POST["avatar"] : (isset($profile["avatar"]) ? $profile["avatar"] : "m1")).".png") ?>">
+            <div class="avatar_buttons">
+                <button class="btn btn-primary avatar_btn" id="avatarMales"><?php echo __('male'); ?></button>
+                <button class="btn btn-primary avatar_btn" id="avatarFemales"><?php echo __('female'); ?></button>
+            </div>
+            <input type="hidden" name="avatar" autocomplete="off"
+                   value="<?php echo isset($_POST["avatar"]) ? $_POST["avatar"] : (isset($profile["avatar"]) ? $profile["avatar"] : "m1") ?>">
+        </div>
+    </div>
+
     <label for="known_languages" class="<?php echo isset($data["errors"]["langs"]) ? "label_error" : "" ?>">
         <?php echo __('known_languages'); ?>:
     </label>
     <div class="form-group">
-        <div class="language_add glyphicon glyphicon-plus col-sm-1"></div>
-        <div class="col-sm-11">
+        <div class="language_add glyphicon glyphicon-plus"></div>
+        <div class="language_add_input">
             <select class="form-control langs" name="langs[]" multiple data-placeholder="<?php echo __("show_langs_window")?>" disabled >
                 <?php if(isset($_POST['langs'])): ?>
                     <?php foreach ($_POST['langs'] as $lang): ?>
@@ -35,6 +50,7 @@ $profile = $data["profile"];
                 <?php endif; ?>
             </select>
         </div>
+        <div class="clear"></div>
     </div>
 
     <div class="form-group">
@@ -338,6 +354,24 @@ $profile = $data["profile"];
         </div>
         <br>
         <button class="add_lang btn btn-primary" disabled><?php echo __("add_lang") ?></button>
+    </div>
+</div>
+
+<div class="avatar_container">
+    <div class="avatar_block">
+        <div class="avatar-close glyphicon glyphicon-remove"></div>
+
+        <div class="genderMale">
+            <?php for ($i=1; $i <=20; $i++): ?>
+            <img id="<?php echo "m".$i ?>" src="<?php echo template_url("img/avatars/m".$i.".png") ?>">
+            <?php endfor; ?>
+        </div>
+
+        <div class="genderFemale">
+            <?php for ($i=1; $i <=20; $i++): ?>
+                <img id="<?php echo "f".$i ?>" src="<?php echo template_url("img/avatars/f".$i.".png") ?>">
+            <?php endfor; ?>
+        </div>
     </div>
 </div>
 

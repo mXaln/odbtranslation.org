@@ -53,4 +53,10 @@ var Language = {
     "create"                    : "Создать",
     "edit"                      : "Изменить",
     "save"                      : "Сохранить",
+    "searchingFor"              : "ищем",
+    "noResultText"              : "не найдено",
+    "eventClosed"               : "Регистрация в событии закрыта!",
+    "facilitator"               : "Фасилитатор",
+    "statusOnline"              : "в сети",
+    "statusOffline"             : "не в сети",
 };

@@ -64,7 +64,7 @@
             <div class="event_info">
                 <div class="participant_info">
                     <div class="additional_info">
-                        <a href="#"><?php echo __("event_info") ?></a>
+                        <a href="/events/demo/information"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>
