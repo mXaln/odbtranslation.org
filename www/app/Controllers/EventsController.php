@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use Helpers\Constants\StepsStates;
 use View;
 use Cache;
 use Helpers\Tools;
@@ -1365,7 +1366,9 @@ class EventsController extends Controller
                 if(empty($chapter)) continue;
 
                 $currentStep = EventSteps::PRAY;
-                $currentCheckState = "not_started";
+                $verbCheckState = StepsStates::NOT_STARTED;
+                $consumeState = StepsStates::NOT_STARTED;
+                $chunkingState = StepsStates::NOT_STARTED;
 
                 $members[$chapter["memberID"]] = "";
                 $data["chapters"][$key]["progress"] = 0;
@@ -1377,6 +1380,22 @@ class EventsController extends Controller
                 $crCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["crCheck"], true);
                 $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
 
+                // Set default values
+                $data["chapters"][$key]["consume"]["state"] = $consumeState;
+                $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
+                $data["chapters"][$key]["verb"]["checkerID"] = "na";
+                $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
+                $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["peer"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["peer"]["checkerID"] = "na";
+                $data["chapters"][$key]["kwc"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["kwc"]["checkerID"] = "na";
+                $data["chapters"][$key]["crc"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["crc"]["checkerID"] = "na";
+                $data["chapters"][$key]["finalReview"]["state"] = StepsStates::NOT_STARTED;
+
+
                 if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
                 {
                     if($currentChapter == $key)
@@ -1384,27 +1403,47 @@ class EventsController extends Controller
                         $currentStep = $memberSteps[$chapter["memberID"]]["step"];
                         if($currentChecker > 0)
                         {
-                            $currentCheckState = "in_progress";
+                            $verbCheckState = StepsStates::IN_PROGRESS;
+                            $consumeState = StepsStates::FINISHED;
                             $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
                             $members[$currentChecker] = "";
                         }
                         elseif(array_key_exists($key, $verbCheck))
                         {
-                            $currentCheckState = "finished";
+                            $consumeState = StepsStates::FINISHED;
                             $currentChecker = $verbCheck[$key];
                             $members[$currentChecker] = "";
+
+                            if($currentStep == EventSteps::CHUNKING)
+                            {
+                                $verbCheckState = StepsStates::FINISHED;
+                                $chunkingState = StepsStates::IN_PROGRESS;
+                            }
+                            else
+                            {
+                                $verbCheckState = StepsStates::CHECKED;
+                            }
                         }
+                        elseif($currentStep == EventSteps::VERBALIZE)
+                        {
+                            $verbCheckState = StepsStates::WAITING;
+                            $consumeState = StepsStates::FINISHED;
+                        }
+                        elseif($currentStep == EventSteps::CONSUME)
+                        {
+                            $consumeState = StepsStates::IN_PROGRESS;
+                        }
+                    }
+                    else
+                    {
+                        $currentChecker = 0;
                     }
 
                     $data["chapters"][$key]["step"] = $currentStep;
-                    $data["chapters"][$key]["verb"]["state"] = $currentCheckState;
+                    $data["chapters"][$key]["consume"]["state"] = $consumeState;
+                    $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
                     $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker > 0 ? $currentChecker : "na";
-                    $data["chapters"][$key]["peer"]["state"] = "not_started";
-                    $data["chapters"][$key]["peer"]["checkerID"] = "na";
-                    $data["chapters"][$key]["kwc"]["state"] = "not_started";
-                    $data["chapters"][$key]["kwc"]["checkerID"] = "na";
-                    $data["chapters"][$key]["crc"]["state"] = "not_started";
-                    $data["chapters"][$key]["crc"]["checkerID"] = "na";
+                    $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
 
                     $data["chapters"][$key]["chunksData"] = [];
                     continue;
@@ -1412,15 +1451,19 @@ class EventsController extends Controller
 
                 $currentStep = $memberSteps[$chapter["memberID"]]["step"];
 
-
                 // Total translated chunks are 25% of all chapter progress
                 $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 25 / sizeof($chapter["chunks"]);
                 $data["chapters"][$key]["step"] = $currentChapter == $key ? $currentStep : EventSteps::FINISHED;
 
+                // These steps are finished here by default
+                $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
+
+
                 // Verbalize Check
                 if(array_key_exists($key, $verbCheck))
                 {
-                    $data["chapters"][$key]["verb"]["state"] = "finished";
+                    $data["chapters"][$key]["verb"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["verb"]["checkerID"] = $verbCheck[$key];
                     $members[$verbCheck[$key]] = "";
                 }
@@ -1428,7 +1471,14 @@ class EventsController extends Controller
                 // Peer Check
                 if(array_key_exists($key, $peerCheck))
                 {
-                    $data["chapters"][$key]["peer"]["state"] = "finished";
+                    // These steps are finished here by default
+                    $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                    if($currentStep == EventSteps::PEER_REVIEW)
+                        $data["chapters"][$key]["peer"]["state"] = StepsStates::CHECKED;
+                    else
+                        $data["chapters"][$key]["peer"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["peer"]["checkerID"] = $peerCheck[$key];
                     $members[$peerCheck[$key]] = "";
 
@@ -1439,16 +1489,35 @@ class EventsController extends Controller
                 {
                     if($key == $currentChapter)
                     {
-                        if($currentStep == EventSteps::PEER_REVIEW && $currentChecker > 0)
+                        if($currentStep == EventSteps::PEER_REVIEW)
                         {
-                            $data["chapters"][$key]["peer"]["state"] = "in_progress";
-                            $data["chapters"][$key]["peer"]["checkerID"] = $currentChecker;
-                            $members[$currentChecker] = "";
+                            // These steps are finished here by default
+                            $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                            if($currentChecker > 0)
+                            {
+                                $data["chapters"][$key]["peer"]["state"] = StepsStates::IN_PROGRESS;
+                                $data["chapters"][$key]["peer"]["checkerID"] = $currentChecker;
+                                $members[$currentChecker] = "";
+                            }
+                            else
+                            {
+                                $data["chapters"][$key]["peer"]["state"] = StepsStates::WAITING;
+                                $data["chapters"][$key]["peer"]["checkerID"] = "na";
+                            }
                         }
                         else
                         {
-                            $data["chapters"][$key]["peer"]["state"] = "not_started";
-                            $data["chapters"][$key]["peer"]["checkerID"] = "na";
+                            if($currentStep == EventSteps::SELF_CHECK)
+                            {
+                                $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::FINISHED;
+                                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
+                            }
+                            else
+                            {
+                                $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::IN_PROGRESS;
+                            }
                         }
                     }
                 }
@@ -1457,7 +1526,10 @@ class EventsController extends Controller
                 // Keyword Check
                 if(array_key_exists($key, $kwCheck))
                 {
-                    $data["chapters"][$key]["kwc"]["state"] = "finished";
+                    if($currentStep == EventSteps::KEYWORD_CHECK)
+                        $data["chapters"][$key]["kwc"]["state"] = StepsStates::CHECKED;
+                    else
+                        $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["kwc"]["checkerID"] = $kwCheck[$key];
                     $members[$kwCheck[$key]] = "";
 
@@ -1468,16 +1540,19 @@ class EventsController extends Controller
                 {
                     if($key == $currentChapter)
                     {
-                        if($currentStep == EventSteps::KEYWORD_CHECK && $currentChecker > 0)
+                        if($currentStep == EventSteps::KEYWORD_CHECK)
                         {
-                            $data["chapters"][$key]["kwc"]["state"] = "in_progress";
-                            $data["chapters"][$key]["kwc"]["checkerID"] = $currentChecker;
-                            $members[$currentChecker] = "";
-                        }
-                        else
-                        {
-                            $data["chapters"][$key]["kwc"]["state"] = "not_started";
-                            $data["chapters"][$key]["kwc"]["checkerID"] = "na";
+                            if($currentChecker > 0)
+                            {
+                                $data["chapters"][$key]["kwc"]["state"] = StepsStates::IN_PROGRESS;
+                                $data["chapters"][$key]["kwc"]["checkerID"] = $currentChecker;
+                                $members[$currentChecker] = "";
+                            }
+                            else
+                            {
+                                $data["chapters"][$key]["kwc"]["state"] = StepsStates::WAITING;
+                                $data["chapters"][$key]["kwc"]["checkerID"] = "na";
+                            }
                         }
                     }
                 }
@@ -1486,7 +1561,22 @@ class EventsController extends Controller
                 // Content Review (Verse by Verse) Check
                 if(array_key_exists($key, $crCheck))
                 {
-                    $data["chapters"][$key]["crc"]["state"] = "finished";
+                    if($key == $currentChapter)
+                    {
+                        if($currentStep == EventSteps::CONTENT_REVIEW)
+                            $data["chapters"][$key]["crc"]["state"] = StepsStates::CHECKED;
+                        else
+                        {
+                            $data["chapters"][$key]["crc"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["finalReview"]["state"] = StepsStates::IN_PROGRESS;
+                        }
+                    }
+                    else
+                    {
+                        $data["chapters"][$key]["crc"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["finalReview"]["state"] = StepsStates::FINISHED;
+                    }
+
                     $data["chapters"][$key]["crc"]["checkerID"] = $crCheck[$key];
                     $data["chapters"][$key]["step"] = $key == $currentChapter
                         ? $currentStep : EventSteps::FINISHED;
@@ -1499,16 +1589,19 @@ class EventsController extends Controller
                 {
                     if($key == $currentChapter)
                     {
-                        if($currentStep == EventSteps::CONTENT_REVIEW && $currentChecker > 0)
+                        if($currentStep == EventSteps::CONTENT_REVIEW)
                         {
-                            $data["chapters"][$key]["crc"]["state"] = "in_progress";
-                            $data["chapters"][$key]["crc"]["checkerID"] = $currentChecker;
-                            $members[$currentChecker] = "";
-                        }
-                        else
-                        {
-                            $data["chapters"][$key]["crc"]["state"] = "not_started";
-                            $data["chapters"][$key]["crc"]["checkerID"] = "na";
+                            if($currentChecker > 0)
+                            {
+                                $data["chapters"][$key]["crc"]["state"] = StepsStates::IN_PROGRESS;
+                                $data["chapters"][$key]["crc"]["checkerID"] = $currentChecker;
+                                $members[$currentChecker] = "";
+                            }
+                            else
+                            {
+                                $data["chapters"][$key]["crc"]["state"] = StepsStates::WAITING;
+                                $data["chapters"][$key]["crc"]["checkerID"] = "na";
+                            }
                         }
                     }
                 }
@@ -1525,7 +1618,8 @@ class EventsController extends Controller
             $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
-                $members[$member->memberID] = $member->userName;
+                $members[$member->memberID]["userName"] = $member->userName;
+                $members[$member->memberID]["avatar"] = $member->avatar;
             }
 
             $members["na"] = __("not_available");
