@@ -1,4 +1,4 @@
-<div class="members_login">
+<div class="members_login center-block" style="width:370px;">
     <h1><?php echo __('login_message'); ?></h1>
     <p><?php echo __('already_member'); ?> <a href='<?php echo SITEURL;?>members/login'><?php echo __('login'); ?></a>
 
@@ -6,35 +6,35 @@
     echo Error::display($error);
     ?>
 
-    <form action='' method='post' style="width: 500px">
+    <form action='' method='post'>
         <div class="form-group">
-            <label for="userName"><?php echo __('userName'); ?></label>
-            <input type="text" class="form-control" id="userName" name="userName" placeholder="<?php echo __('userName'); ?>" value="<?php if(!empty($error)){ echo $_POST['userName']; } ?>">
+            <label for="userName" class="sr-only"><?php echo __('userName'); ?></label>
+            <input type="text" class="form-control input-lg" id="userName" name="userName" placeholder="<?php echo __('userName'); ?>" value="<?php if(!empty($error)){ echo $_POST['userName']; } ?>">
         </div>
 
         <div class="form-group">
-            <label for="firstName"><?php echo __('firstName'); ?></label>
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="<?php echo __('firstName'); ?>" value="<?php if(!empty($error)){ echo $_POST['firstName']; } ?>">
+            <label for="firstName" class="sr-only"><?php echo __('firstName'); ?></label>
+            <input type="text" class="form-control input-lg" id="firstName" name="firstName" placeholder="<?php echo __('firstName'); ?>" value="<?php if(!empty($error)){ echo $_POST['firstName']; } ?>">
         </div>
 
         <div class="form-group">
-            <label for="lastName"><?php echo __('lastName'); ?></label>
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="<?php echo __('lastName'); ?>" value="<?php if(!empty($error)){ echo $_POST['lastName']; } ?>">
+            <label for="lastName" class="sr-only"><?php echo __('lastName'); ?></label>
+            <input type="text" class="form-control input-lg" id="lastName" name="lastName" placeholder="<?php echo __('lastName'); ?>" value="<?php if(!empty($error)){ echo $_POST['lastName']; } ?>">
         </div>
 
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php if(!empty($error)){ echo $_POST['email']; } ?>">
+            <label for="email" class="sr-only">Email</label>
+            <input type="text" class="form-control input-lg" id="email" name="email" placeholder="Email" value="<?php if(!empty($error)){ echo $_POST['email']; } ?>">
         </div>
 
         <div class="form-group">
-            <label for="password"><?php echo __('password'); ?></label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="<?php echo __('password'); ?>" value="">
+            <label for="password" class="sr-only"><?php echo __('password'); ?></label>
+            <input type="password" class="form-control input-lg" id="password" name="password" placeholder="<?php echo __('password'); ?>" value="">
         </div>
 
         <div class="form-group">
-            <label for="passwordConfirm"><?php echo __('confirm_password'); ?></label>
-            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
+            <label for="passwordConfirm" class="sr-only"><?php echo __('confirm_password'); ?></label>
+            <input type="password" class="form-control input-lg" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
         </div>
 
         <div class="form-group">
@@ -48,7 +48,7 @@
             <div class="g-recaptcha" data-sitekey="<?php echo ReCaptcha::getSiteKey() ?>"></div>
         </div>
 
-        <button type="submit" name="submit" class="btn btn-primary"><?php echo __('signup'); ?></button>
+        <button type="submit" name="submit" class="btn btn-primary btn-lg"><?php echo __('signup'); ?></button>
     </form>
 </div>
 
