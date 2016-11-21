@@ -448,6 +448,41 @@ $(document).ready(function() {
         }, 60000);
     }
 
+    var mouseTimeout;
+    $("body").on("mouseover", ".more_chunks", function (e) {
+        e.stopPropagation();
+
+        var blind = $(this).find(".chunks_blind");
+        var parent = $(this);
+
+        if(blind.length <= 0) return false;
+
+        if(typeof $(this).data("e") != "undefined"
+            && $(this).data("e").currentTarget == e.currentTarget)
+            clearTimeout(mouseTimeout);
+        parent.css("height", 140).css("overflow-y", "auto");
+        blind.css("background-image", "none")
+            .removeClass("glyphicon-triangle-bottom");
+
+        $(this).removeData("e");
+    });
+
+    $("body").on("mouseout", ".more_chunks", function (e) {
+        e.stopPropagation();
+
+        var blind = $(this).find(".chunks_blind");
+        var parent = $(this);
+
+        if(blind.length <= 0) return false;
+        $(this).data("e", e);
+
+        mouseTimeout = setTimeout(function () {
+            parent.css("height", 70).css("overflow", "hidden");
+            parent[0].scrollTop = 0;
+            blind.css("background-image", "linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0px, rgba(255, 255, 255, 0.9) 100%)")
+                .addClass("glyphicon-triangle-bottom");
+        }, 100);
+    });
 
     // Show/Hide Steps Panel
     $("#tr_steps_hide").click(function () {
@@ -1262,7 +1297,7 @@ $(document).ready(function() {
         }
         else
         {
-            $("input[name^='mast_role']").prop("disabled", true); //.prop("checked", false);
+            $("input[name^='mast_role']").prop("disabled", true);
         }
     });
 
@@ -1272,7 +1307,7 @@ $(document).ready(function() {
     }
     else
     {
-        $("input[name^='mast_role']").prop("disabled", true); //.prop("checked", false);
+        $("input[name^='mast_role']").prop("disabled", true);
     }
 
 
@@ -1286,9 +1321,9 @@ $(document).ready(function() {
         }
         else
         {
-            $("input[name=org]").prop("disabled", true); //.prop("checked", false);
-            $("input[name=ref_person]").prop("disabled", true); //.val("");
-            $("input[name=ref_email]").prop("disabled", true); //.val("");
+            $("input[name=org]").prop("disabled", true);
+            $("input[name=ref_person]").prop("disabled", true);
+            $("input[name=ref_email]").prop("disabled", true);
         }
     });
 
@@ -1300,15 +1335,16 @@ $(document).ready(function() {
     }
     else
     {
-        $("input[name=org]").prop("disabled", true); //.prop("checked", false);
-        $("input[name=ref_person]").prop("disabled", true); //.val("");
-        $("input[name=ref_email]").prop("disabled", true); //.val("");
+        $("input[name=org]").prop("disabled", true);
+        $("input[name=ref_person]").prop("disabled", true);
+        $("input[name=ref_email]").prop("disabled", true);
     }
 
     // Event information accordion
     $(document).on("click", ".section_header", function() {
         var content = $(this).next(".section_content");
         var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+        var opened = $(".chapter_list").data("opened") || 0;
 
         if(!isCollapsed)
         {
@@ -1316,7 +1352,12 @@ $(document).ready(function() {
             $(".section_arrow", $(this))
                 .removeClass("glyphicon-triangle-bottom")
                 .addClass("glyphicon-triangle-right");
-            $(".section_title", $(this)).css("font-weight", "normal");
+
+            $(".chapter_list").data("opened", opened - 1);
+
+            if($(".chapter_list").data("opened") <= 0)
+                $(".members_list").show(300);
+
         }
         else
         {
@@ -1324,7 +1365,10 @@ $(document).ready(function() {
             $(".section_arrow", $(this))
                 .removeClass("glyphicon-triangle-right")
                 .addClass("glyphicon-triangle-bottom");
-            $(".section_title", $(this)).css("font-weight", "bold");
+
+            $(".chapter_list").data("opened", opened + 1);
+
+            $(".members_list").hide();
         }
     });
 

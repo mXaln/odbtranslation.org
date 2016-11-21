@@ -47,7 +47,8 @@ class MembersModel extends Model {
 		if(is_array($memberIDs) && !empty($memberIDs))
 		{
             return $this->db->table("members")
-                ->select("memberID", "userName")
+                ->select("members.memberID", "members.userName", "profile.avatar")
+                ->leftJoin("profile", "members.memberID", "=", "profile.mID")
                 ->whereIn("memberID", $memberIDs)->get();
 		}
 	}
