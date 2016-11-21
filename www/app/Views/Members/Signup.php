@@ -9,37 +9,37 @@
     <form action='' method='post'>
         <div class="form-group">
             <label for="userName" class="sr-only"><?php echo __('userName'); ?></label>
-            <input type="text" class="form-control input-lg" id="userName" name="userName" placeholder="<?php echo __('userName'); ?>" value="<?php if(!empty($error)){ echo $_POST['userName']; } ?>">
+            <input type="text" data-type="login" data-custom-error="<?=__('userName_characters_error')?>" data-empty-error="<?=__('userName_length_error')?>" class="form-control input-lg" id="userName" name="userName" placeholder="<?php echo __('userName'); ?>" value="<?php if(!empty($error)){ echo $_POST['userName']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="firstName" class="sr-only"><?php echo __('firstName'); ?></label>
-            <input type="text" class="form-control input-lg" id="firstName" name="firstName" placeholder="<?php echo __('firstName'); ?>" value="<?php if(!empty($error)){ echo $_POST['firstName']; } ?>">
+            <input type="text" data-type="name" data-custom-error="<?=__('firstName_length_error')?>" data-empty-error="<?=__('firstName_length_error')?>" class="form-control input-lg" id="firstName" name="firstName" placeholder="<?php echo __('firstName'); ?>" value="<?php if(!empty($error)){ echo $_POST['firstName']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="lastName" class="sr-only"><?php echo __('lastName'); ?></label>
-            <input type="text" class="form-control input-lg" id="lastName" name="lastName" placeholder="<?php echo __('lastName'); ?>" value="<?php if(!empty($error)){ echo $_POST['lastName']; } ?>">
+            <input type="text" data-type="name" data-custom-error="<?=__('lastName_length_error')?>" data-empty-error="<?=__('lastName_length_error')?>" class="form-control input-lg" id="lastName" name="lastName" placeholder="<?php echo __('lastName'); ?>" value="<?php if(!empty($error)){ echo $_POST['lastName']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="email" class="sr-only">Email</label>
-            <input type="text" class="form-control input-lg" id="email" name="email" placeholder="Email" value="<?php if(!empty($error)){ echo $_POST['email']; } ?>">
+            <input type="text" data-type="email" data-custom-error="<?=__('enter_valid_email_error')?>" data-empty-error="<?=__('enter_valid_email_error')?>" class="form-control input-lg" id="email" name="email" placeholder="Email" value="<?php if(!empty($error)){ echo $_POST['email']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="password" class="sr-only"><?php echo __('password'); ?></label>
-            <input type="password" class="form-control input-lg" id="password" name="password" placeholder="<?php echo __('password'); ?>" value="">
+            <input type="password" data-type="password" data-custom-error="<?=__('password_short_error')?>" data-empty-error="<?=__('password_short_error')?>" class="form-control input-lg" id="password" name="password" placeholder="<?php echo __('password'); ?>" value="">
         </div>
 
         <div class="form-group">
             <label for="passwordConfirm" class="sr-only"><?php echo __('confirm_password'); ?></label>
-            <input type="password" class="form-control input-lg" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
+            <input type="password" data-type="confirm" data-custom-error="<?=__('passwords_notmatch_error')?>" data-empty-error="" class="form-control input-lg" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
         </div>
 
         <div class="form-group">
-            <label><input name="tou" id="tou" type="checkbox" value="1" /> <?php echo __('tou'); ?></label>
-            <label><input name="sof" id="sof" type="checkbox" value="1" /> <?php echo __('sof'); ?></label>
+            <label><input name="tou" data-type="checkbox" data-custom-error="<?=__('tou_accept_error')?>" id="tou" type="checkbox" value="1" /> <?php echo __('tou'); ?></label><br><br>
+            <label><input name="sof" data-type="checkbox" data-custom-error="<?=__('sof_accept_error')?>" id="sof" type="checkbox" value="1" /> <?php echo __('sof'); ?></label>
         </div>
 
         <input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>" />
@@ -53,16 +53,16 @@
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js?hl=<?php echo Language::code()?>" async defer></script>
-
-<div class="sof_block">
-    <div class="sof_content">
-        <header class="text-center">
-            <div class="entry-header-title">
-                <h1 itemprop="headline">Statement of Faith</h1>
-            </div>
-        </header>
-
-        <div class="page-content row">
+<!-- Modal -->
+<div class="modal fade" id="sof_modal" tabindex="-1" role="dialog" style="z-index: 9999;">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="modal-title">Statement of Faith</h1>
+      </div>
+      <div class="modal-body">
+              <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <p><em>The following statement of faith is subscribed to by all member
                         organizations of and contributors to the <a href="https://unfoldingword.org" target="_blank">unfoldingWord</a> project. It
@@ -111,27 +111,28 @@
                     Supper, the Rapture, etc.). We choose to agree to disagree agreeably on
                     these topics and press on together toward a common goal of making
                     disciples of every people group (Matthew 28:18-20).</p>
-
-                <input type="button" class="btn btn-success" id="sof_agree" value="<?php echo __('accept_btn'); ?>" />
-                <input type="button" class="btn btn-danger" id="sof_cancel" value="<?php echo __('deny_btn'); ?>" />
-
-                <br /><br />
+                <br />
             </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <input type="button" class="btn btn-success" id="sof_agree" value="<?php echo __('accept_btn'); ?>" />
+        <input type="button" class="btn btn-danger" id="sof_cancel" value="<?php echo __('deny_btn'); ?>" />
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="tou_block">
-    <div class="tou_content">
-        <header class="text-center">
-            <div class="entry-header-title">
-
-                <h1 itemprop="headline">Freedom</h1>
-
-            </div>
-        </header>
-
-        <div class="page-content row">
+<!-- Modal -->
+<div class="modal fade" id="tou_modal" tabindex="-1" role="dialog" style="z-index: 9999;">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="modal-title">Freedom</h1>
+      </div>
+      <div class="modal-body">
+              <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <p>All content in the unfoldingWord project is made available under a
                     <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 License</a>.</p>
@@ -163,12 +164,24 @@
                 <p>For release of existing content under CC BY-SA, use this form:</p>
 
                 <p><a class="btn btn-dark" href="https://unfoldingword.org/assets/docs/legal/unfoldingWord - License Release Form.pdf" target="_blank">Download License Release PDF</a></p>
-
-                <input type="button" class="btn btn-success" id="tou_agree" value="<?php echo __('accept_btn'); ?>" />
-                <input type="button" class="btn btn-danger" id="tou_cancel" value="<?php echo __('deny_btn'); ?>" />
-
-                <br /><br />
+                <br />
             </div>
         </div>
+      </div>
+      <div class="modal-footer">
+                <input type="button" class="btn btn-success" id="tou_agree" value="<?php echo __('accept_btn'); ?>" />
+                <input type="button" class="btn btn-danger" id="tou_cancel" value="<?php echo __('deny_btn'); ?>" />
+      </div>
     </div>
+  </div>
 </div>
+<style>
+.popover {
+  z-index:5;
+}</style>
+<?
+Assets::js([
+    template_url('js/formvalidation.js')
+]);
+echo isset($js) ? $js: '';
+?>
