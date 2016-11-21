@@ -1,40 +1,68 @@
 <div class="members_login center-block" style="width:370px;">
     <h1><?php echo __('login_message'); ?></h1>
     <p><?php echo __('already_member'); ?> <a href='<?php echo SITEURL;?>members/login'><?php echo __('login'); ?></a>
-
-    <?php
-    echo Error::display($error);
-    ?>
-
+    <?if (isset($error) AND is_array($error)):?>
+    <script>
+    $(function(){
+    <?foreach($error as $k=>$v):?>
+    <?if (in_array($k, array('tou', 'sof'))):?>
+      $("input[name=<?=$k?>]").parents("label").popover({
+              trigger: 'manual',
+              placement: 'right',
+              container: 'body',
+              delay: 0,
+              content:  "<?=$v?>"
+            }).popover('show');
+    <?elseif($k == 'recaptcha'):?>
+      $(".g-recaptcha").popover({
+              trigger: 'manual',
+              placement: 'right',
+              container: 'body',
+              delay: 0,
+              content:  "<?=$v?>"
+            }).popover('show');
+    <?else:?>
+      $("input[name=<?=$k?>]").popover({
+              trigger: 'manual',
+              placement: 'right',
+              container: 'body',
+              delay: 0,
+              content:  "<?=$v?>"
+            }).popover('show');
+    <?endif;?>
+    <?endforeach;?>
+    })
+    </script>
+    <?endif;?>
     <form action='' method='post'>
         <div class="form-group">
             <label for="userName" class="sr-only"><?php echo __('userName'); ?></label>
-            <input type="text" data-type="login" data-custom-error="<?=__('userName_characters_error')?>" data-empty-error="<?=__('userName_length_error')?>" class="form-control input-lg" id="userName" name="userName" placeholder="<?php echo __('userName'); ?>" value="<?php if(!empty($error)){ echo $_POST['userName']; } ?>">
+            <input type="text" data-type="login" required="" data-custom-error="<?=__('userName_characters_error')?>" data-empty-error="<?=__('userName_length_error')?>" class="form-control input-lg" id="userName" name="userName" placeholder="<?php echo __('userName'); ?>" value="<?php if(!empty($error)){ echo $_POST['userName']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="firstName" class="sr-only"><?php echo __('firstName'); ?></label>
-            <input type="text" data-type="name" data-custom-error="<?=__('firstName_length_error')?>" data-empty-error="<?=__('firstName_length_error')?>" class="form-control input-lg" id="firstName" name="firstName" placeholder="<?php echo __('firstName'); ?>" value="<?php if(!empty($error)){ echo $_POST['firstName']; } ?>">
+            <input type="text" data-type="name" required="" data-custom-error="<?=__('firstName_length_error')?>" data-empty-error="<?=__('firstName_length_error')?>" class="form-control input-lg" id="firstName" name="firstName" placeholder="<?php echo __('firstName'); ?>" value="<?php if(!empty($error)){ echo $_POST['firstName']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="lastName" class="sr-only"><?php echo __('lastName'); ?></label>
-            <input type="text" data-type="name" data-custom-error="<?=__('lastName_length_error')?>" data-empty-error="<?=__('lastName_length_error')?>" class="form-control input-lg" id="lastName" name="lastName" placeholder="<?php echo __('lastName'); ?>" value="<?php if(!empty($error)){ echo $_POST['lastName']; } ?>">
+            <input type="text" data-type="name" required="" data-custom-error="<?=__('lastName_length_error')?>" data-empty-error="<?=__('lastName_length_error')?>" class="form-control input-lg" id="lastName" name="lastName" placeholder="<?php echo __('lastName'); ?>" value="<?php if(!empty($error)){ echo $_POST['lastName']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="email" class="sr-only">Email</label>
-            <input type="text" data-type="email" data-custom-error="<?=__('enter_valid_email_error')?>" data-empty-error="<?=__('enter_valid_email_error')?>" class="form-control input-lg" id="email" name="email" placeholder="Email" value="<?php if(!empty($error)){ echo $_POST['email']; } ?>">
+            <input type="email" data-type="email" required="" data-custom-error="<?=__('enter_valid_email_error')?>" data-empty-error="<?=__('enter_valid_email_error')?>" class="form-control input-lg" id="email" name="email" placeholder="Email" value="<?php if(!empty($error)){ echo $_POST['email']; } ?>">
         </div>
 
         <div class="form-group">
             <label for="password" class="sr-only"><?php echo __('password'); ?></label>
-            <input type="password" data-type="password" data-custom-error="<?=__('password_short_error')?>" data-empty-error="<?=__('password_short_error')?>" class="form-control input-lg" id="password" name="password" placeholder="<?php echo __('password'); ?>" value="">
+            <input type="password" data-type="password" required="" data-custom-error="<?=__('password_short_error')?>" data-empty-error="<?=__('password_short_error')?>" class="form-control input-lg" id="password" name="password" placeholder="<?php echo __('password'); ?>" value="">
         </div>
 
         <div class="form-group">
             <label for="passwordConfirm" class="sr-only"><?php echo __('confirm_password'); ?></label>
-            <input type="password" data-type="confirm" data-custom-error="<?=__('passwords_notmatch_error')?>" data-empty-error="" class="form-control input-lg" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
+            <input type="password" data-type="confirm" required="" data-custom-error="<?=__('passwords_notmatch_error')?>" data-empty-error="<?=__('passwords_notmatch_error')?>" class="form-control input-lg" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
         </div>
 
         <div class="form-group">
