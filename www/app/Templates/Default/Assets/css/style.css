@@ -165,6 +165,16 @@ html, body, .container {
     height: 45px;
 }
 
+#avatarFemales {
+    background-image: linear-gradient(to bottom, #f699d7 0px, #d981d1 100%);
+    background-repeat: repeat-x;
+    border-color: #e948e2;
+}
+
+#avatarFemales:focus, #avatarFemales:hover {
+    background-color: #d981d1;
+}
+
 .genderFemale {
     display: none;
 }
@@ -1876,12 +1886,13 @@ mark {
 }
 
 .chapter_list {
-    margin-top: 30px;
+    margin: 30px 0 0 20px;
 }
 
 .chapter_number {
     font-size: 18px;
     font-weight: bold;
+    float: left;
 }
 
 .section_header {
@@ -1892,6 +1903,13 @@ mark {
 
 .section_arrow {
     float: left;
+    margin: 3px 5px 0 0;
+}
+
+.chapter_number.nofloat {
+    float: none;
+    margin: 0 0 0 20px;
+    color: #a09ea4;
 }
 
 .section_title {
@@ -1904,33 +1922,138 @@ mark {
 
 .section_content {
     display: none;
-}
-
-.section_content {
-    width: 600px;
-    margin: 10px;
+    margin: 10px 0 0 0;
 }
 
 .section_translator {
-    background-color: #e8ffe8;
-    padding: 10px;
-    border-radius: 5px;
 }
 
-.section_translator_chunks {
-    margin-top: 10px;
+.section_steps {
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+
+.section_step {
+    width: 125px;
+    height: 180px;
+    float: left;
+    border-right: 2px solid #ccc;
+    padding: 5px;
+}
+
+.section_step.finalReview {
+    border: none;
+}
+
+.section_step .step_status {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.section_step.finished .step_status {
+    color: #00b200;
+}
+
+.section_step.not_started .step_status {
+    color: #c0c0c0;
+}
+
+.section_step.in_progress .step_status, .section_step.checked .step_status {
+    color: #0085b2;
+}
+
+.section_step.waiting .step_status {
+    color: #d93600;
+}
+
+.section_step.waiting .step_name {
+    color: #d93600;
+}
+
+.img_waiting {
+    margin-top: 20px;
+}
+
+.section_step .step_light {
+    width: 60px;
+    margin: 0 auto;
+}
+
+.section_step.finished .step_light {
+    border-bottom: 5px solid #00b200;
+}
+
+.section_step.not_started .step_light {
+    border-bottom: 5px solid #c0c0c0;
+}
+
+.section_step.in_progress .step_light, .section_step.checked .step_light {
+    border-bottom: 5px solid #0085b2;
+}
+
+.section_step.waiting .step_light {
+    border-bottom: 5px solid #d93600;
+}
+
+.section_step .step_icon {
+    margin-top: 5px;
+}
+
+.section_step .step_name {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #4e4e4e;
+    font-size: 12px;
+    height: 30px;
+}
+
+.section_step .step_checker {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.section_step .step_checker .checked {
+    color: #249b45;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.section_step .step_chunks {
+    text-align: left;
+    overflow: hidden;
+    height: 70px;
+    position: relative;
+    background-color: #fff;
+}
+
+.section_translator_chunk {
+    padding: 0 0 0 25px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.chunks_blind {
+    /*background-color: rgba(255, 255, 255, 0.7);*/
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    top: 52px;
+    width: 100%;
+    text-align: right;
+    padding-top: 7px;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0px, rgba(255, 255, 255, 0.9) 100%);
+    background-repeat: repeat-x;
 }
 
 .section_translator_progress_bar {
     width: 200px;
     float: left;
-    margin-left: 10px;
-}
-
-.section_translator_chunk {
-    padding: 5px 0 0 10px;
-    font-weight: bold;
-    font-size: 13px;
+    margin: 3px 0 0 10px;
 }
 
 .progress {
@@ -2005,7 +2128,9 @@ mark {
 }
 
 .members_list {
-    margin-top: 30px;
+    position: absolute;
+    top: -130px;
+    right: 100px;
 }
 
 .member_item {
