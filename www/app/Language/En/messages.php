@@ -280,6 +280,7 @@ return array (
     "max_checkers_l2" => "The number of Level 2 checkers",
     "checkers_l3" => "Level 3 checkers",
     "max_checkers_l3" => "The number of Level 3 checkers",
+    "level" => "Level {0}",
     "cal_from" => "Event starts at:",
     "cal_to" => "Event finishes at:",
     "reset_chunks" => "Reset chunks",

@@ -782,7 +782,7 @@ html, body, .container {
     border-radius: 5px;
     width: 500px;
     left: calc(50% - 250px);
-    top: calc(50% - 350px);
+    top: calc(50% - 260px);
 }
 
 .create-event-content.wide_form {
@@ -808,6 +808,15 @@ html, body, .container {
 
 .startEventLoader {
     display: none;
+}
+
+.numbersGroup {
+    margin: 0 0 15px 0;
+}
+
+.participantsNum {
+    padding-left: 0;
+    margin-right: 22px;
 }
 
 .event-block {

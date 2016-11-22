@@ -1,6 +1,4 @@
-<?php
-use Helpers\Constants\EventStates;
-
+<?
 $language = Language::code();
 
 if(!empty($data["project"])):
@@ -54,7 +52,7 @@ if(!empty($data["project"])):
                             <td class="datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo != "" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td>
-                                <?php
+                                <?
                                 switch($event->state)
                                 {
                                     case null:
@@ -100,20 +98,24 @@ if(!empty($data["project"])):
             <div class="row">
                 <div class="col-sm-12">
                     <form action="/admin/rpc/create_event" method="post" id="startEvent">
-                        <div class="form-group">
-                            <label for="translators" style="width: 100%; display: block"><?php echo __('max_translators'); ?></label>
-                            <input type="text" class="form-control" id="translators" name="translators" size="10" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
+                        <div class="form-group row numbersGroup">
+                            <div class="col-sm-3 participantsNum">
+                                <label for="translators" style="width: 100%; display: block"><?php echo __('translators'); ?></label>
+                                <input type="text" class="form-control" id="translators" name="translators" size="3" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
+                                <img src="<?php echo template_url("img/note.png")?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('max_translators'); ?>">
+                            </div>
+                            <div class="col-sm-3 participantsNum">
+                                <label for="checkers_l2" style="width: 100%; display: block"><?php echo __('level', [2]); ?></label>
+                                <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" size="3" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
+                                <img src="<?php echo template_url("img/note.png")?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('max_checkers_l2'); ?>">
+                            </div>
+                            <div class="col-sm-3 participantsNum">
+                                <label for="checkers_l3" style="width: 100%; display: block"><?php echo __('level', [3]); ?></label>
+                                <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" size="3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
+                                <img src="<?php echo template_url("img/note.png")?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('max_checkers_l3'); ?>">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="checkers_l2" style="width: 100%; display: block"><?php echo __('max_checkers_l2'); ?></label>
-                            <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" size="10" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="checkers_l3" style="width: 100%; display: block"><?php echo __('max_checkers_l3'); ?></label>
-                            <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" size="10" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
-                        </div>
 
                         <div class="form-group">
                             <label for="cal_from" style="width: 100%; display: block"><?php echo __('time_start'); ?></label>

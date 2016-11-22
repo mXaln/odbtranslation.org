@@ -1366,9 +1366,10 @@ class EventsController extends Controller
                 if(empty($chapter)) continue;
 
                 $currentStep = EventSteps::PRAY;
-                $verbCheckState = StepsStates::NOT_STARTED;
                 $consumeState = StepsStates::NOT_STARTED;
+                $verbCheckState = StepsStates::NOT_STARTED;
                 $chunkingState = StepsStates::NOT_STARTED;
+                $blindDraftState = StepsStates::NOT_STARTED;
 
                 $members[$chapter["memberID"]] = "";
                 $data["chapters"][$key]["progress"] = 0;
@@ -1381,10 +1382,10 @@ class EventsController extends Controller
                 $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
 
                 // Set default values
-                $data["chapters"][$key]["consume"]["state"] = $consumeState;
-                $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
+                $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["verb"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["verb"]["checkerID"] = "na";
-                $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
+                $data["chapters"][$key]["chunking"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["peer"]["state"] = StepsStates::NOT_STARTED;
@@ -1394,7 +1395,6 @@ class EventsController extends Controller
                 $data["chapters"][$key]["crc"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["crc"]["checkerID"] = "na";
                 $data["chapters"][$key]["finalReview"]["state"] = StepsStates::NOT_STARTED;
-
 
                 if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
                 {
@@ -1418,6 +1418,12 @@ class EventsController extends Controller
                             {
                                 $verbCheckState = StepsStates::FINISHED;
                                 $chunkingState = StepsStates::IN_PROGRESS;
+                            }
+                            elseif($currentStep == EventSteps::READ_CHUNK || $currentStep == EventSteps::BLIND_DRAFT)
+                            {
+                                $verbCheckState = StepsStates::FINISHED;
+                                $chunkingState = StepsStates::FINISHED;
+                                $blindDraftState = StepsStates::IN_PROGRESS;
                             }
                             else
                             {
@@ -1444,6 +1450,17 @@ class EventsController extends Controller
                     $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
                     $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker > 0 ? $currentChecker : "na";
                     $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
+                    $data["chapters"][$key]["blindDraft"]["state"] = $blindDraftState;
+
+                    // Pregress checks
+                    if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 11;
+                    if($data["chapters"][$key]["verb"]["state"] == StepsStates::CHECKED)
+                        $data["chapters"][$key]["progress"] += 6;
+                    if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 11;
+                    if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 11;
 
                     $data["chapters"][$key]["chunksData"] = [];
                     continue;
@@ -1452,7 +1469,7 @@ class EventsController extends Controller
                 $currentStep = $memberSteps[$chapter["memberID"]]["step"];
 
                 // Total translated chunks are 25% of all chapter progress
-                $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 25 / sizeof($chapter["chunks"]);
+                $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 11 / sizeof($chapter["chunks"]);
                 $data["chapters"][$key]["step"] = $currentChapter == $key ? $currentStep : EventSteps::FINISHED;
 
                 // These steps are finished here by default
@@ -1475,15 +1492,16 @@ class EventsController extends Controller
                     $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
 
-                    if($currentStep == EventSteps::PEER_REVIEW)
+                    if($key == $currentChapter && $currentStep == EventSteps::PEER_REVIEW)
                         $data["chapters"][$key]["peer"]["state"] = StepsStates::CHECKED;
                     else
                         $data["chapters"][$key]["peer"]["state"] = StepsStates::FINISHED;
+
                     $data["chapters"][$key]["peer"]["checkerID"] = $peerCheck[$key];
                     $members[$peerCheck[$key]] = "";
 
                     // Add 25% of progress when peer check done
-                    $data["chapters"][$key]["progress"] += 25;
+                    //$data["chapters"][$key]["progress"] += 25;
                 }
                 else
                 {
@@ -1526,15 +1544,16 @@ class EventsController extends Controller
                 // Keyword Check
                 if(array_key_exists($key, $kwCheck))
                 {
-                    if($currentStep == EventSteps::KEYWORD_CHECK)
+                    if($key == $currentChapter && $currentStep == EventSteps::KEYWORD_CHECK)
                         $data["chapters"][$key]["kwc"]["state"] = StepsStates::CHECKED;
                     else
                         $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
+
                     $data["chapters"][$key]["kwc"]["checkerID"] = $kwCheck[$key];
                     $members[$kwCheck[$key]] = "";
 
                     // Add 25% of progress when keyword check done
-                    $data["chapters"][$key]["progress"] += 25;
+                    //$data["chapters"][$key]["progress"] += 25;
                 }
                 else
                 {
@@ -1583,7 +1602,7 @@ class EventsController extends Controller
                     $members[$crCheck[$key]] = "";
 
                     // Add 25% of progress when verse by verse check done
-                    $data["chapters"][$key]["progress"] += 25;
+                    //$data["chapters"][$key]["progress"] += 25;
                 }
                 else
                 {
@@ -1605,6 +1624,30 @@ class EventsController extends Controller
                         }
                     }
                 }
+
+                // Pregress checks
+                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["peer"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 6;
+                if($data["chapters"][$key]["peer"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 6;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["crc"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 6;
+                if($data["chapters"][$key]["crc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["finalReview"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12;
 
                 $overallProgress += $data["chapters"][$key]["progress"];
             }

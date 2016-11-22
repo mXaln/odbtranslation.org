@@ -211,5 +211,4 @@
 Assets::js([
     template_url('js/formvalidation.js')
 ]);
-echo isset($js) ? $js: '';
 ?>
