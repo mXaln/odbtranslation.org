@@ -62,7 +62,7 @@ return array (
     "login_message" => "Sign Up",
     "already_member" => "Already a member?",
     "dont_have_account" => "Don't have an account?",
-    "login_title" => "Authorization",
+    "login_title" => "Log in",
     "forgot_password" => "Forgot password?",
     "profile_message" => "Profile",
     "common_skills" => "Common",

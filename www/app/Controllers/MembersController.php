@@ -562,27 +562,27 @@ class MembersController extends Controller
 
             if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
             {
-                $error[] = __('userName_characters_error');
+                $error['userName'] = __('userName_characters_error');
             }
 
             if (strlen($userName) < 5 || strlen($userName) > 20)
             {
-                $error[] = __('userName_length_error');
+                $error['userName'] = __('userName_length_error');
             }
 
             if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
             {
-                $error[] = __('firstName_length_error');
+                $error['firstName'] = __('firstName_length_error');
             }
 
             if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
             {
-                $error[] = __('lastName_length_error');
+                $error['lastName'] = __('lastName_length_error');
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL))
             {
-                $error[] = __('enter_valid_email_error');
+                $error['email'] = __('enter_valid_email_error');
             }
             else
             {
@@ -595,37 +595,37 @@ class MembersController extends Controller
                 foreach ($check as $item) {
                     if (strtolower($item->email) == strtolower($email))
                     {
-                        $error[] = __('email_taken_error');
+                        $error['email'] = __('email_taken_error');
                     }
                     if (strtolower($item->userName) == strtolower($userName))
                     {
-                        $error[] = __('username_taken_error');
+                        $error['email'] = __('username_taken_error');
                     }
                 }
             }
 
             if (strlen($password) < 5)
             {
-                $error[] = __('password_short_error');
+                $error['password'] = __('password_short_error');
             }
             elseif ($password != $passwordConfirm)
             {
-                $error[] = __('passwords_notmatch_error');
+                $error['confirm'] = __('passwords_notmatch_error');
             }
 
             if (!ReCaptcha::check())
             {
-                $error[] = __('captcha_wrong');
+                $error['recaptcha'] = __('captcha_wrong');
             }
 
             if(!$tou)
             {
-                $error[] = __('tou_accept_error');
+                $error['tou'] = __('tou_accept_error');
             }
 
             if(!$sof)
             {
-                $error[] = __('sof_accept_error');
+                $error['sof'] = __('sof_accept_error');
             }
 
             if (!isset($error))

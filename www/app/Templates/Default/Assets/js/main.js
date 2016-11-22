@@ -70,34 +70,36 @@ $(document).ready(function() {
 
     // Statement of faith block
     $("#sof").click(function() {
-        $(".sof_block").show();
+        $('#sof_modal').modal('show');
         return false;
     });
 
     $("#sof_agree").click(function() {
         $("#sof").prop('checked', true);
-        $(".sof_block").hide();
+        $('#sof_modal').modal('hide');
+        $("#sof").parents("label").popover('destroy');
     });
 
     $("#sof_cancel").click(function() {
         $("#sof").prop('checked', false);
-        $(".sof_block").hide();
+        $('#sof_modal').modal('hide');
     });
 
     // Terms of use block
     $("#tou").click(function() {
-        $(".tou_block").show();
+        $('#tou_modal').modal('show');
         return false;
     });
 
     $("#tou_agree").click(function() {
         $("#tou").prop('checked', true);
-        $(".tou_block").hide();
+        $("#tou").parents("label").popover('destroy');
+        $('#tou_modal').modal('hide');
     });
 
     $("#tou_cancel").click(function() {
         $("#tou").prop('checked', false);
-        $(".tou_block").hide();
+        $('#tou_modal').modal('hide');
     });
 
     // Old/New Testament Tabs
