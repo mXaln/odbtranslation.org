@@ -13,6 +13,7 @@ class EventStates
 {
     const STARTED       = "started";
     const TRANSLATING   = "translating";
+    const TRANSLATED    = "translated";
     const L2_RECRUIT    = "l2_recruit";
     const L2_CHECK      = "l2_check";
     const L3_RECRUIT    = "l3_recruit";

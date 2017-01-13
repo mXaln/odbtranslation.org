@@ -5,7 +5,6 @@ namespace Database\Query;
 use Database\Query\Builder;
 use Database\Grammar as BaseGrammar;
 
-
 class Grammar extends BaseGrammar
 {
     /**
@@ -141,7 +140,10 @@ class Grammar extends BaseGrammar
             $type = $join->type;
 
             //
-            $sql[] = "$type join $table on $clauses";
+            if($type != "cross")
+                $sql[] = "$type join $table on $clauses";
+            else
+                $sql[] = "$type join $table";
         }
 
         return implode(' ', $sql);

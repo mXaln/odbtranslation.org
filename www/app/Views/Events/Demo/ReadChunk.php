@@ -2,20 +2,18 @@
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [4]) . ": "   . __("read-chunk")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
+        <div class="demo_sep"> | </div>
+        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-7</span></h4>
+                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-3</span></h4>
 
                 <p><strong><sup>1</sup></strong> You therefore, my child, be strengthened in the grace that is in Christ Jesus.</p>
                 <p><strong><sup>2</sup></strong> And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</p>
                 <p><strong><sup>3</sup></strong> Suffer hardship with me, as a good soldier of Christ Jesus.</p>
-                <p><strong><sup>4</sup></strong> No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</p>
-                <p><strong><sup>5</sup></strong> Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</p>
-                <p><strong><sup>6</sup></strong> It is necessary that the hardworking farmer receive his share of the crops first.</p>
-                <p><strong><sup>7</sup></strong> Think about what I am saying, for the Lord will give you understanding in everything.</p>
             </div>
 
             <div class="main_content_footer row">
@@ -38,7 +36,8 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("read-chunk")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("read-chunk_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("read-chunk_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

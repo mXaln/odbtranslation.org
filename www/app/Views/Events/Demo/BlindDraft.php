@@ -2,6 +2,8 @@
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [4]) . ": " . __("blind-draft")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
+        <div class="demo_sep"> | </div>
+        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
     </div>
 
     <div class="row">
@@ -9,7 +11,7 @@
             <form action="" method="post" id="main_form">
                 <div class="main_content_text">
                     <div class="row">
-                        <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-7</span></h4>
+                        <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-3</span></h4>
                     </div>
 
                     <div class="row">
@@ -38,7 +40,8 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("blind-draft")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("blind-draft_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("blind-draft_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

@@ -97,7 +97,7 @@ class UsfmParser
                     $vText = preg_replace("/\\\\it (.*)\\\\it\\*/", "<em>$1</em>", $vText);
 
                     // Footnotes
-                    $replacement = "<note data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"glyphicon glyphicon-file\"></note>";
+                    $replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"booknote glyphicon glyphicon-file\"></span>";
                     $vText = preg_replace("/\\\\f \\+ \\\\ft (.*) \\\\f\\*/u", $replacement, $vText);
 
                     // Remove all other usfm tags

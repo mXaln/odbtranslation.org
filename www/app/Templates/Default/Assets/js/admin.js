@@ -96,7 +96,9 @@ $(function () {
                     location.reload();
 
                 $.each(data.targetLangs, function (i, v) {
-                    tlOptions += '<option value="'+ v.langID+'">'+ v.langName+'</option>';
+                    tlOptions += '<option value="'+ v.langID+'">'+
+                        '['+v.langID+'] '+v.langName+(v.langName != v.angName ? ' ( '+v.angName+' )' : '')+
+                    '</option>';
                 });
                 $("#targetLangs").html(tlOptions);
                 $("#project select").trigger("chosen:updated");
@@ -193,7 +195,10 @@ $(function () {
         var bookProject = $("#bookProject").val();
 
         $("button[name=startEvent]").text(Language.create);
+        $("button[name=deleteEvent]").hide();
+        $(".delinput").hide();
         $("#startEvent").trigger("reset");
+        $("#eventAction").val("create");
         $(".errors").html("");
         $(".bookName").text(bookName);
         $("#bookCode").val(bookCode);
@@ -262,7 +267,7 @@ $(function () {
         $( "#cal_from" ).datetimepicker({
             timeFormat: timeFormat,
             timezoneList: timezoneList,
-            minDate: new Date(),
+            //minDate: new Date(),
             onClose: function( selectedDate ) {
                 if(selectedDate != "")
                     $( "#cal_to" ).datepicker( "option", "minDate", selectedDate );
@@ -273,7 +278,7 @@ $(function () {
             //defaultDate: "+1w",
             timeFormat: timeFormat,
             timezoneList: timezoneList,
-            minDate: new Date(),
+            //minDate: new Date(),
             onClose: function( selectedDate ) {
                 if(selectedDate != "")
                     $( "#cal_from" ).datepicker( "option", "maxDate", selectedDate );
@@ -322,6 +327,7 @@ $(function () {
         $("#eventAction").val("edit");
         $("#adminsSelect").empty();
         $("#bookCode").val(bookCode);
+        $("button[name=deleteEvent]").show();
 
         $.ajax({
             url: "/admin/rpc/get_event",
@@ -329,7 +335,6 @@ $(function () {
             data: {eventID: eventID},
             dataType: "json",
             beforeSend: function() {
-                //$(".eventLoader").show();
                 $(".editEvnt").prop("disabled", true);
             }
         })
@@ -342,8 +347,16 @@ $(function () {
                     $("#checkers_l2").val(data.event.l2CheckersNum);
                     $("#checkers_l3").val(data.event.l3CheckersNum);
 
-                    $('#cal_from').datepicker('setDate', new Date(data.event.dateFrom + " UTC"));
-                    $('#cal_to').datepicker('setDate', new Date(data.event.dateTo + " UTC"));
+                    var dateFrom = data.event.dateFrom.replace(/(\d{4})-(\d{1,2})-(\d{1,2})(.*)/, function(match,y,m,d,t) {
+                        return m + '/' + d + '/' + y + " " + t;
+                    });
+
+                    var dateTo = data.event.dateTo.replace(/(\d{4})-(\d{1,2})-(\d{1,2})(.*)/, function(match,y,m,d,t) {
+                        return m + '/' + d + '/' + y + " " + t;
+                    });
+
+                    $('#cal_from').datetimepicker('setDate', new Date(dateFrom + " UTC"));
+                    $('#cal_to').datetimepicker('setDate', new Date(dateTo + " UTC"));
 
                     $(".bookName").text(data.event.name);
                     $(".book_info_content").html(
@@ -375,11 +388,101 @@ $(function () {
                 }
             })
             .always(function() {
-                //$(".eventLoader").hide();
                 $(".editEvnt").prop("disabled", false);
                 $("#adminsSelect").trigger("chosen:updated");
             });
     });
+
+
+    $("button[name=deleteEvent]").click(function (e) {
+        var bookName = $(".bookName").text();
+        var delName = $("#delevnt").val();
+        var delinput = $(".delinput");
+
+        if(delinput.is(":visible") && bookName == delName)
+        {
+            $("#eventAction").val("delete");
+        }
+        else
+        {
+            delinput.show();
+            e.preventDefault();
+        }
+    });
+
+    // Show event contributors
+    $(".showContributors").click(function () {
+        var eventID = $(this).attr("data");
+
+        $.ajax({
+            url: "/admin/rpc/get_event_contributors",
+            method: "post",
+            data: {eventID: eventID},
+            dataType: "json",
+            beforeSend: function() {
+                $(".showContributors").prop("disabled", true);
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    var html = "";
+
+                    // Render facilitators
+                    html += "<div class='admins_list'>" +
+                        "<div class='contrib_title'>"+Language.facilitators+":</div>";
+                    $.each(data.admins, function (i,v) {
+                        html += "<div>" +
+                            "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
+                            "</div>";
+                    });
+                    html += "</div>";
+
+                    // Render translators
+                    html += "<div class='translators_list'>" +
+                        "<div class='contrib_title'>"+Language.translators+":</div>";
+                    $.each(data.translators, function (i,v) {
+                        html += "<div>" +
+                            "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
+                            "</div>";
+                    });
+                    html += "</div>";
+
+                    // Render checkers
+                    html += "<div class='checkers_list'>" +
+                        "<div class='contrib_title'>"+Language.checkers+":</div>";
+                    $.each(data.checkers, function (i,v) {
+                        html += "<div>" +
+                            "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
+                            "</div>";
+                    });
+                    html += "</div>";
+
+                    $(".contributors_content").html(html);
+                    $(".contributors_container").css("left", 0);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        if(data.error == "login" || data.error == "admin")
+                            window.location.href = "/members/login";
+                        else
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                }
+            })
+            .always(function() {
+                $(".showContributors").prop("disabled", false);
+            });
+    });
+
+    $(".contributors-close").click(function () {
+        $(".contributors_container").css("left", -9999);
+    });
+
 
     // Activate/Verify member
     $(".verifyMember").click(function (e) {
@@ -388,13 +491,6 @@ $(function () {
         var memberID = $(this).attr("data");
         var parent = $(this).parents("tr");
         var activated = $(".activateMember", parent).is(":checked");
-        var verify = $(this).is(":checked");
-
-        if(!verify)
-        {
-            window.location.reload();
-            return false;
-        }
 
         var msg = "";
         if(!activated)
@@ -435,6 +531,173 @@ $(function () {
                     //$(".commentEditorLoader").hide();
                 });
         });
+
+        return false;
+    });
+
+    // Members tabs switch
+    $(".mems_tab").click(function () {
+        var id = $(this).attr("id");
+
+        $(".members_content").removeClass("shown");
+        $(".mems_tab").removeClass("active");
+
+        $(this).addClass("active");
+        $("#"+id+"_content").addClass("shown");
+
+        if(id == "all_members")
+            $("select.mems_language").chosen();
+
+        return false;
+    });
+
+    // Submit Filter form
+    $(".filter_apply button").click(function () {
+        var button = $(this);
+        button.prop("disabled", true);
+        $(".filter_page").val(1);
+
+        $.ajax({
+            url: "/admin/rpc/search_members",
+            method: "post",
+            data: $("#membersFilter").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".filter_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    if(data.members.length > 0)
+                    {
+                        $("#all_members_table").show();
+                        $(".filter_page").val(1);
+
+                        // if it has more results to show draw "more" button
+                        if(data.members.length < parseInt(data.count))
+                        {
+                            if($("#search_more").length <= 0)
+                            {
+                                $('<div id="search_more"></div>').appendTo("#all_members_content")
+                                    .text(Language.searchMore);
+                            }
+                            $(".filter_page").val(2);
+                        }
+                        else
+                        {
+                            $("#search_more").remove();
+                        }
+
+                        $("#search_empty").remove();
+                    }
+                    else
+                    {
+                        $("#all_members_table").hide();
+                        if($("#search_empty").length <= 0)
+                            $('<div id="search_empty"></div>').appendTo("#all_members_content")
+                                .text(Language.searchEmpty);
+                        $('#search_more').remove();
+                    }
+
+                    $("#all_members_table tbody").html("");
+                    $.each(data.members, function (i, v) {
+                        var row = "<tr>" +
+                            "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
+                            "<td>"+v.firstName+" "+v.lastName+"</td>" +
+                            "<td>"+v.email+"</td>" +
+                            "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
+                                ? JSON.parse(v.prefered_roles).map(function(role) {
+                                        return " "+Language[role];
+                                    })
+                                : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
+                            "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                            "</tr>";
+                        $("#all_members_table tbody").append(row);
+                    });
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".filter_loader").hide();
+                button.prop("disabled", false);
+            });
+
+        return false;
+    });
+
+    $(document).on("click", "#search_more", function () {
+        var button = $(this);
+
+        if(button.hasClass("disabled")) return false;
+
+        button.addClass("disabled");
+        var page = parseInt($(".filter_page").val());
+
+        $.ajax({
+            url: "/admin/rpc/search_members",
+            method: "post",
+            data: $("#membersFilter").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".filter_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    if(data.members.length > 0)
+                    {
+                        $(".filter_page").val(page+1);
+                        $.each(data.members, function (i, v) {
+                            var row = "<tr>" +
+                                "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
+                                "<td>"+v.firstName+" "+v.lastName+"</td>" +
+                                "<td>"+v.email+"</td>" +
+                                "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
+                                    ? JSON.parse(v.prefered_roles).map(function(role) {
+                                    return " "+Language[role];
+                                })
+                                    : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
+                                "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                                "</tr>";
+                            $("#all_members_table tbody").append(row);
+                        });
+
+                        var results = parseInt($("#all_members_table tbody tr").length);
+                        if(results >= parseInt(data.count))
+                            $('#search_more').remove();
+                    }
+                    else
+                    {
+                        $('#search_more').remove();
+                    }
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".filter_loader").hide();
+                button.removeClass("disabled");
+            });
+    });
+
+    // Clear members filter
+    $(".filter_clear").click(function () {
+        $("#membersFilter")[0].reset();
+        $(".mems_language").val('').trigger("chosen:updated");
+        return false;
     });
 });
 

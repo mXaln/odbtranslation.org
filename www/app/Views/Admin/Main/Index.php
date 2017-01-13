@@ -49,7 +49,9 @@
                     <select class="form-control" id="gwLang" name="gwLang" data-placeholder="<?php echo __("choose_gw_lang") ?>">
                         <option value=""></option>
                         <?php foreach ($data["gwLangs"] as $targetLang):?>
-                        <option value="<?php echo $targetLang->langID; ?>"><?php echo $targetLang->langName; ?></option>
+                        <option value="<?php echo $targetLang->langID; ?>">
+                            <?php echo "[".$targetLang->langID."] " . $targetLang->langName . ($targetLang->langName != $targetLang->angName ? " ( ".$targetLang->angName." )" : ""); ?>
+                        </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -119,9 +121,11 @@
                     <label for="subGwLangs"><?php echo __('gw_language'); ?></label>
                     <select class="form-control" id="subGwLangs" name="subGwLangs" data-placeholder="<?php echo __('choose_gw_lang'); ?>">
                         <option value=""></option>
-                        <?php foreach ($data["memberGwLangs"] as $gwLang):?>
+                        <?php foreach ($data["gwLangs"] as $gwLang):?>
                             <?php if(!isset($gwLang->gwProjectID)) continue; ?>
-                            <option value="<?php echo $gwLang->langID ."|".$gwLang->gwProjectID ?>"><?php echo $gwLang->langName; ?></option>
+                            <option value="<?php echo $gwLang->langID ."|".$gwLang->gwProjectID ?>">
+                                <?php echo "[".$gwLang->langID."] " . $gwLang->langName . ($gwLang->langName != $gwLang->angName ? " ( ".$gwLang->angName." )" : ""); ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                     <img class="subGwLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
@@ -139,7 +143,9 @@
                     <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
                         <option value=""></option>
                         <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
-                            <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>"><?php echo $sourceTranslation->langName . " - " . __($sourceTranslation->bookProject) ?></option>
+                            <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>">
+                                <?php echo $sourceTranslation->langName . " - " . __($sourceTranslation->bookProject) ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>

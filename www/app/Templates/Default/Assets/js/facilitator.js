@@ -192,6 +192,159 @@ $(function () {
         renderPopup($(".create_info_tip span").text());
         return false;
     });
+
+    // Members search
+    // Submit Filter form
+    $(".filter_apply button").click(function () {
+        var button = $(this);
+        button.prop("disabled", true);
+        $(".filter_page").val(1);
+
+        if(/\/admin\/members/.test(window.location.pathname))
+            return false;
+
+        $.ajax({
+            url: "/members/search",
+            method: "post",
+            data: $("#membersFilter").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".filter_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    if(data.members.length > 0)
+                    {
+                        $("#all_members_table").show();
+                        $(".filter_page").val(1);
+
+                        // if it has more results to show draw "more" button
+                        if(data.members.length < parseInt(data.count))
+                        {
+                            if($("#search_more").length <= 0)
+                            {
+                                $('<div id="search_more"></div>').appendTo("#all_members_content")
+                                    .text(Language.searchMore);
+                            }
+                            $(".filter_page").val(2);
+                        }
+                        else
+                        {
+                            $("#search_more").remove();
+                        }
+
+                        $("#search_empty").remove();
+                    }
+                    else
+                    {
+                        $("#all_members_table").hide();
+                        if($("#search_empty").length <= 0)
+                            $('<div id="search_empty"></div>').appendTo("#all_members_content")
+                                .text(Language.searchEmpty);
+                        $('#search_more').remove();
+                    }
+
+                    $("#all_members_table tbody").html("");
+                    $.each(data.members, function (i, v) {
+                        var row = "<tr>" +
+                            "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
+                            "<td>"+v.firstName+" "+v.lastName+"</td>" +
+                            "<td>"+v.email+"</td>" +
+                            "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
+                                ? JSON.parse(v.prefered_roles).map(function(role) {
+                                return " "+Language[role];
+                            })
+                                : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
+                            "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                            "</tr>";
+                        $("#all_members_table tbody").append(row);
+                    });
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".filter_loader").hide();
+                button.prop("disabled", false);
+            });
+
+        return false;
+    });
+
+    $(document).on("click", "#search_more", function () {
+        var button = $(this);
+
+        if(button.hasClass("disabled")) return false;
+
+        button.addClass("disabled");
+        var page = parseInt($(".filter_page").val());
+
+        $.ajax({
+            url: "/members/search",
+            method: "post",
+            data: $("#membersFilter").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".filter_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    if(data.members.length > 0)
+                    {
+                        $(".filter_page").val(page+1);
+                        $.each(data.members, function (i, v) {
+                            var row = "<tr>" +
+                                "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
+                                "<td>"+v.firstName+" "+v.lastName+"</td>" +
+                                "<td>"+v.email+"</td>" +
+                                "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
+                                    ? JSON.parse(v.prefered_roles).map(function(role) {
+                                    return " "+Language[role];
+                                })
+                                    : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
+                                "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                                "</tr>";
+                            $("#all_members_table tbody").append(row);
+                        });
+
+                        var results = parseInt($("#all_members_table tbody tr").length);
+                        if(results >= parseInt(data.count))
+                            $('#search_more').remove();
+                    }
+                    else
+                    {
+                        $('#search_more').remove();
+                    }
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".filter_loader").hide();
+                button.removeClass("disabled");
+            });
+    });
+
+    // Clear members filter
+    $(".filter_clear").click(function () {
+        $("#membersFilter")[0].reset();
+        $(".mems_language").val('').trigger("chosen:updated");
+        return false;
+    });
 });
 
 

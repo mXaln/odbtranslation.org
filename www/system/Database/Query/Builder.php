@@ -388,6 +388,24 @@ class Builder
     }
 
     /**
+     * Add a "cross join" clause to the query.
+     *
+     * @param  string  $table
+     * @param  string  $first
+     * @param  string  $operator
+     * @param  string  $second
+     * @return \Database\Query\Builder|static
+     */
+    public function crossJoin($table, $first = null, $operator = null, $second = null)
+    {
+        $join = new JoinClause('cross', $table);
+
+        $this->joins[] = $join->on($first, $operator, $second, 'and');
+
+        return $this;
+    }
+
+    /**
      * Add a basic where clause to the query.
      *
      * @param  string  $column

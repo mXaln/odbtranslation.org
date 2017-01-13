@@ -2,6 +2,8 @@
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("pray")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
+        <div class="demo_sep"> | </div>
+        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
     </div>
 
     <div class="row">
@@ -55,5 +57,9 @@
             window.location.href = '/events/demo/consume';
             return false;
         });
+
+        var ref = '<?php echo $_SERVER["HTTP_REFERER"] ?>';
+        if(!/demo/.test(ref))
+            $(".video_container").show();
     });
 </script>

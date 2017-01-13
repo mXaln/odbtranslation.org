@@ -2,6 +2,8 @@
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [3]) . ": "   . __("chunking")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
+        <div class="demo_sep"> | </div>
+        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
     </div>
 
     <div class="row">
@@ -164,7 +166,8 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [3])?>:</span> <?php echo __("chunking")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("chunking_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("chunking_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

@@ -22,7 +22,7 @@ class MembersModel extends Model {
      * @param array $where Single/Multidimentional array with where params (field, operator, value, logical)
      * @return array|static[]
      */
-	public function getMember(array $select, array $where)
+	public function getMember(array $select, array $where, $getProfile = false)
     {
         $builder = $this->db->table("members");
 
@@ -38,16 +38,27 @@ class MembersModel extends Model {
             }
         }
 
+        if($getProfile)
+        {
+            $select[] = "profile.*";
+            $builder->leftJoin("profile", "members.memberID", "=", "profile.mID");
+        }
+
         return $builder
             ->select($select)->get();
     }
 
-	public function getMembers($memberIDs = array())
+	public function getMembers($memberIDs = array(), $more = false)
 	{
 		if(is_array($memberIDs) && !empty($memberIDs))
 		{
+            $select = ["members.memberID", "members.userName", "profile.avatar"];
+
+            if($more)
+                $select = array_merge($select, ["members.firstName", "members.lastName", "members.email"]);
+
             return $this->db->table("members")
-                ->select("members.memberID", "members.userName", "profile.avatar")
+                ->select($select)
                 ->leftJoin("profile", "members.memberID", "=", "profile.mID")
                 ->whereIn("memberID", $memberIDs)->get();
 		}
@@ -55,15 +66,17 @@ class MembersModel extends Model {
 
 
 	/** Get member data
-	 * @param $email
+	 * @param $emailOrUnameOrId
 	 * @return array
 	 */
-	public function getMemberWithProfile($email)
+	public function getMemberWithProfile($emailOrUnameOrId)
 	{
         return $this->db->table("members")
             ->leftJoin("profile", "members.memberID", "=", "profile.mID")
-            ->where("members.userName", $email)
-            ->orWhere("members.email", $email)->get();
+            ->where("members.userName", $emailOrUnameOrId)
+            ->orWhere("members.email", $emailOrUnameOrId)
+            ->orWhere("members.memberID", $emailOrUnameOrId)
+            ->get();
 	}
 
 	/**
@@ -87,6 +100,91 @@ class MembersModel extends Model {
             ->where("verified", true)
             ->where("userName", "LIKE", "%$search%")->get();
 	}
+
+    /**
+     * Search members by filters
+     * @param $name
+     * @param $role
+     * @param $languages
+     * @param bool $count return total rows
+     * @param int $page page number
+     * @param int $take items per page
+     * @return array|int|static[]
+     */
+	public function searchMembers($name, $role, $languages, $count = false, $page = 1, $take = 50)
+    {
+        $skip = ($page-1) * $take; // Skip 50 (default) rows every page
+
+        $builder = $this->db->table("members")
+            ->leftJoin("profile", "members.memberID", "=", "profile.mID")
+            ->where("members.isDemo", "=", false) // exclude demo accounts
+            ->distinct();
+
+        if(!$count)
+        {
+            $builder->select([
+                "members.memberID",
+                "members.userName",
+                "members.email",
+                "members.firstName",
+                "members.lastName",
+                "members.isAdmin",
+                "profile.prefered_roles"
+            ])
+                ->skip($skip)->take($take) // limit to 50 (default) rows per page
+                ->orderBy("members.userName");
+        }
+
+        if($name)
+            $builder->where(function($query) use ($name) {
+                $query->where("members.userName", "LIKE", "%$name%") // search in usernames
+                    ->orWhere("members.firstName", "LIKE", "%$name%") // search in first names
+                    ->orWhere("members.lastName", "LIKE", "%$name%"); // search in last names
+            });
+
+        if($role == "translators")
+            $builder->where("members.isAdmin", false); // exclude facilitators (admins) when searching just translators
+        elseif ($role == "facilitators")
+            $builder->where("members.isAdmin", true); // facilitators (admins)
+
+        // search facilitators in events they are assigned to
+        if(($role == "facilitators" || $role == "all") && $languages)
+        {
+            $builder->crossJoin("projects")
+                ->leftJoin("events", "events.projectID", "=", "projects.projectID")
+                ->where(function($query) use ($languages) {
+                    $query->where(function($query) use ($languages) {
+                        $query->whereIn("projects.gwLang", $languages)
+                            ->orWhereIn("projects.targetLang", $languages);
+                    })
+                        ->whereRaw("`".PREFIX."events`.`admins` LIKE CONCAT('%\"', `".PREFIX."members`.`memberID`, '\"%')");
+                });
+        }
+
+        // search by language
+        if($languages)
+        {
+            // search translators by language in their profiles
+            if($role == "translators")
+                $builder->where(function($query) use ($languages) {
+                    foreach ($languages as $language)
+                        $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
+                });
+            elseif($role == "all")
+                $builder->orWhere(function ($query) use ($languages) {
+                    $query->where(function($query) use ($languages) {
+                        foreach ($languages as $language)
+                            $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
+                    })
+                        ->where("members.isAdmin", false);
+                });
+        }
+
+        if(!$count)
+            return $builder->get();
+        else
+            return $builder->count("memberID");
+    }
 
     /**
      * Create new member

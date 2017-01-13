@@ -429,7 +429,7 @@
                     {
                         skip = true;
                         msgObj = {};
-                        continue;
+
                     }
                 }
                 else

@@ -107,6 +107,6 @@
     checkConfirmPassword: function(valueConfirm, valuePass) {
       return (valuePass == valueConfirm);
     },
-  }
+  };
   app.initialize();
 }());

@@ -16,8 +16,8 @@ use Helpers\Constants\StepsStates;
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">
-            <div style="min-width: 0em; width: 19%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="18.75" role="progressbar" class="progress-bar progress-bar-success">
-                20%
+            <div style="min-width: 0em; width: 28%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="27.5" role="progressbar" class="progress-bar progress-bar-success">
+                28%
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@ use Helpers\Constants\StepsStates;
                     <div class="chapter_number section_title"><?php echo __("chapter_number", [1]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 75%">75%</div>
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 77%">77%</div>
                         </div>
                         <div class=" finished_icon"></div>
                         <div class="clear"></div>
@@ -150,7 +150,7 @@ use Helpers\Constants\StepsStates;
                     <div class="chapter_number section_title"><?php echo __("chapter_number", [2]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="6" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 6%">6%</div>
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 33%">33%</div>
                         </div>
                         <div class=" finished_icon"></div>
                         <div class="clear"></div>

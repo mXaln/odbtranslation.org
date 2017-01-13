@@ -5,6 +5,7 @@ namespace App\Modules\Alma\Models;
 use App\Modules\Alma\Models\Antonym;
 use App\Modules\Alma\Models\Synonym;
 use App\Modules\Alma\Models\Translation;
+use App\Modules\Alma\Models\Vote;
 use Database\ORM\Model;
 
 /**
@@ -42,5 +43,10 @@ class Word extends Model
     public function translations()
     {
         return $this->hasMany(Translation::class);
+    }
+    
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'votable');
     }
 }

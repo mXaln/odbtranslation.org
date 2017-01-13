@@ -31,11 +31,15 @@ class MembersController extends Controller
             $this->_notifications = $this->_eventModel->getNotifications();
     }
 
+    /**
+     * Show member's dashboard view
+     * @return mixed
+     */
     public function index()
     {
         $data["menu"] = 1;
 
-        if (Session::get('loggedin') !== true)
+        if (!Session::get('loggedin'))
         {
             Url::redirect("members/login");
         }
@@ -50,25 +54,13 @@ class MembersController extends Controller
             Url::redirect("members/profile");
         }
 
-        if(Session::get("isAdmin"))
-            $data["myFacilitatorEvents"] = $this->_eventModel->getMemberEventsForAdmin(Session::get("memberID"));
-
-        $myLangs = array_keys(Session::get("profile")["languages"]);
-
-        $data["myTranslatorEvents"] = $this->_eventModel->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false);
-        $data["newEvents"] = $this->_eventModel->getNewEvents($myLangs, Session::get("memberID"));
-        $data["myCheckerL1Events"] = $this->_eventModel->getMemberEventsForChecker(Session::get("memberID"));
-        $data["myCheckerL2Events"] = $this->_eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
-        $data["myCheckerL3Events"] = $this->_eventModel->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
-
-        $data["notifications"] = $this->_notifications;
-
-        return View::make('Members/Index')
-            ->shares("title", __("welcome_title"))
-            ->shares("data", $data);
+        Url::redirect("events");
     }
 
-
+    /**
+     * Show profile view with form
+     * @return mixed
+     */
     public function profile()
     {
         if (!Session::get('loggedin'))
@@ -93,6 +85,7 @@ class MembersController extends Controller
             $_POST = Gump::xss_clean($_POST);
 
             $avatar = isset($_POST["avatar"]) && preg_match("/^([f|m][1-9]|[f|m]1[0-9]|[f|m]20)$/", $_POST["avatar"]) ? $_POST["avatar"] : "m1";
+            $prefered_roles = isset($_POST["prefered_roles"]) && !empty($_POST["prefered_roles"]) ? (array)$_POST["prefered_roles"] : null;
             $langs = isset($_POST["langs"]) && !empty($_POST["langs"]) ? (array)$_POST["langs"] : null;
             $bbl_trans_yrs = isset($_POST["bbl_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["bbl_trans_yrs"]) ? $_POST["bbl_trans_yrs"] : null;
             $othr_trans_yrs = isset($_POST["othr_trans_yrs"]) && preg_match("/^[1-4]{1}$/", $_POST["othr_trans_yrs"]) ? $_POST["othr_trans_yrs"] : null;
@@ -112,6 +105,11 @@ class MembersController extends Controller
             $education = isset($_POST["education"]) && !empty($_POST["education"]) ? (array)$_POST["education"] : array();
             $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : array();
             $ed_place = isset($_POST["ed_place"]) && trim($_POST["ed_place"]) != "" ? trim($_POST["ed_place"]) : "";
+
+            if($prefered_roles == null)
+            {
+                $data["errors"]["prefered_roles"] = true;
+            }
 
             if($langs !== null)
             {
@@ -235,10 +233,11 @@ class MembersController extends Controller
                 $postdata = array(
                     "mID" => Session::get("memberID"),
                     "avatar" => $avatar,
+                    "prefered_roles" => json_encode($prefered_roles),
+                    "languages" => json_encode($languages),
                     "bbl_trans_yrs" => $bbl_trans_yrs,
                     "othr_trans_yrs" => $othr_trans_yrs,
                     "bbl_knwlg_degr" => $bbl_knwlg_degr,
-                    "languages" => json_encode($languages),
                     "mast_evnts" => $mast_evnts,
                     "mast_role" => json_encode($mast_role),
                     "teamwork" => $teamwork,
@@ -263,12 +262,14 @@ class MembersController extends Controller
                     {
                         $postdata["pID"] = $pID;
                         $postdata["languages"] = $langArr;
+                        $postdata["prefered_roles"] = $prefered_roles;
                         $postdata["mast_role"] = $mast_role;
                         $postdata["education"] = $education;
                         $postdata["ed_area"] = $ed_area;
                         $postdata["church_role"] = $church_role;
 
                         $profile = $postdata;
+                        $profile["rating"] = $this->calculateMemberRating($profile);
 
                         Session::set("profile", $profile);
                         Session::set("success", __("update_profile_success"));
@@ -287,12 +288,14 @@ class MembersController extends Controller
 
                     $postdata["pID"] = $profile["pID"];
                     $postdata["languages"] = $langArr;
+                    $postdata["prefered_roles"] = $prefered_roles;
                     $postdata["mast_role"] = $mast_role;
                     $postdata["education"] = $education;
                     $postdata["ed_area"] = $ed_area;
                     $postdata["church_role"] = $church_role;
 
                     $profile = $postdata;
+                    $profile["rating"] = $this->calculateMemberRating($profile);
 
                     Session::set("profile", $profile);
                     Session::set("success", __("update_profile_success"));
@@ -314,7 +317,195 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
+    /**
+     * Show public profile view
+     * @return mixed
+     */
+    public function publicProfile($memberID)
+    {
+        if (!Session::get('loggedin'))
+        {
+            Url::redirect('members/login');
+        }
 
+        if(Session::get("isDemo"))
+        {
+            Url::redirect('events/demo');
+        }
+
+        if(!Session::get("isAdmin") && !Session::get("isSuperAdmin"))
+        {
+            Url::redirect('events');
+        }
+
+        $data["menu"] = 1;
+        $data["errors"] = array();
+        $memberProfile = $this->_model->getMemberWithProfile($memberID);
+
+        $profile = array();
+        if(!empty($memberProfile) && $memberProfile[0]->pID != null)
+        {
+            $profile["pID"] = $memberProfile[0]->pID;
+            $profile["memberID"] = $memberProfile[0]->mID;
+            $profile["avatar"] = $memberProfile[0]->avatar;
+            $profile["username"] = $memberProfile[0]->userName;
+            $profile["fullname"] = $memberProfile[0]->firstName." ".$memberProfile[0]->lastName;
+            $profile["prefered_roles"] = (array)json_decode($memberProfile[0]->prefered_roles, true);
+            $profile["bbl_trans_yrs"] = $memberProfile[0]->bbl_trans_yrs;
+            $profile["othr_trans_yrs"] = $memberProfile[0]->othr_trans_yrs;
+            $profile["bbl_knwlg_degr"] = $memberProfile[0]->bbl_knwlg_degr;
+            $profile["mast_evnts"] = $memberProfile[0]->mast_evnts;
+            $profile["mast_role"] = (array)json_decode($memberProfile[0]->mast_role, true);
+            $profile["teamwork"] = $memberProfile[0]->teamwork;
+            $profile["org"] = $memberProfile[0]->org;
+            $profile["ref_person"] = $memberProfile[0]->ref_person;
+            $profile["ref_email"] = $memberProfile[0]->ref_email;
+            $profile["mast_facilitator"] = $memberProfile[0]->mast_facilitator == 1;
+            $profile["education"] = (array)json_decode($memberProfile[0]->education, true);
+            $profile["ed_area"] = (array)json_decode($memberProfile[0]->ed_area, true);
+            $profile["ed_place"] = $memberProfile[0]->ed_place;
+            $profile["hebrew_knwlg"] = $memberProfile[0]->hebrew_knwlg;
+            $profile["greek_knwlg"] = $memberProfile[0]->greek_knwlg;
+            $profile["church_role"] = (array)json_decode($memberProfile[0]->church_role, true);
+
+            $arr = (array)json_decode($memberProfile[0]->languages, true);
+            $languages = array();
+            foreach ($arr as $i => $item) {
+                $languages[$i]["lang_fluency"] = $item[0];
+                $languages[$i]["geo_lang_yrs"] = $item[1];
+            }
+            $profile["languages"] = $languages;
+            $profile["rating"] = $this->calculateMemberRating($profile);
+
+            $data["profile"] = $profile;
+
+            $langs = $this->_eventModel->getAllLanguages(null, array_keys($languages));
+            $data["languages"] = [];
+            foreach ($langs as $lang) {
+                $data["languages"][$lang->langID]["langName"] = $lang->langName;
+                $data["languages"][$lang->langID]["angName"] = $lang->angName;
+            }
+
+            $data["facilitation_activities"] = $this->_eventModel->getMemberEventsForAdmin($memberID);
+            $data["translation_activities"] = $this->_eventModel->getMemberEvents($memberID, EventMembers::TRANSLATOR, null, false);
+        }
+        else
+        {
+            $error[] = __("empty_profile_error");
+        }
+
+        return View::make('Members/PublicProfile')
+            ->shares("title", __("member_profile_message"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
+    }
+
+
+    public function search()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Url::redirect('members/login');
+        }
+
+        if(Session::get("isDemo"))
+        {
+            Url::redirect('events/demo');
+        }
+
+        if(Session::get("isSuperAdmin"))
+        {
+            Url::redirect('admin/members');
+        }
+
+        if(!Session::get("isAdmin"))
+        {
+            Url::redirect('events');
+        }
+
+        $data["menu"] = 4;
+
+        $arr = $this->_eventModel->getAdminLanguages(Session::get("memberID"));
+        $admLangs = [];
+        foreach ($arr as $item) {
+            $admLangs[] = $item->gwLang;
+            $admLangs[] = $item->targetLang;
+        }
+        $admLangs = array_unique($admLangs);
+
+        if(!empty($_POST))
+        {
+            $response = ["success" => false];
+
+            if(empty($admLangs))
+            {
+                $response["error"] = __("not_enough_rights_error");
+                echo json_encode($response);
+                exit;
+            }
+
+            $_POST = Gump::xss_clean($_POST);
+
+            $name = isset($_POST["name"]) && $_POST["name"] != "" ? $_POST["name"] : false;
+            $role = isset($_POST["role"]) && preg_match("/^(translators|facilitators|all)$/", $_POST["role"]) ? $_POST["role"] : "all";
+            $language = isset($_POST["language"]) && $_POST["language"] != "" ? $_POST["language"] : false;
+            $page = isset($_POST["page"]) ? (integer)$_POST["page"] : 1;
+
+            if($name || $role || $language)
+            {
+                $count = 0;
+                $members = [];
+
+                if($language)
+                {
+                    if(in_array($language, $admLangs))
+                    {
+                        $count = $this->_model->searchMembers($name, $role, [$language], true);
+                        $members = $this->_model->searchMembers($name, $role, [$language], false, $page);
+                    }
+                }
+                else
+                {
+                    $count = $this->_model->searchMembers($name, $role, $admLangs, true);
+                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, $page);
+                }
+
+                $response["success"] = true;
+                $response["count"] = $count;
+                $response["members"] = $members;
+            }
+            else
+            {
+                $response["error"] = __("choose_filter_option");
+            }
+
+            echo json_encode($response);
+            exit;
+        }
+        else
+        {
+            if(empty($admLangs))
+            {
+                Url::redirect('events');
+            }
+        }
+
+        $data["languages"] = $this->_eventModel->getAllLanguages(null, $admLangs);
+
+        $data["count"] = $this->_model->searchMembers(null, "all", $admLangs, true);
+        $data["members"] = $this->_model->searchMembers(null, "all", $admLangs, false);
+
+        return View::make('Members/Search')
+            ->shares("title", __("admin_members_title"))
+            ->shares("data", $data);
+    }
+
+    /**
+     * Show activation view
+     * @param $memberID
+     * @param $activationToken
+     * @return mixed
+     */
     public function activate($memberID, $activationToken)
     {
         if (Session::get('loggedin'))
@@ -362,6 +553,11 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
+    /**
+     * Show resend activation instructions view with form
+     * @param $email
+     * @return mixed
+     */
     public function resendActivation($email)
     {
         $data = $this->_model->getMember(array("memberID", "email", "activationToken", "userName"),
@@ -395,6 +591,10 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
+    /**
+     * Show login view with form
+     * @return mixed
+     */
     public function login()
     {
         if (Session::get('loggedin'))
@@ -474,12 +674,14 @@ class MembersController extends Controller
                                         $languages[$i]["geo_lang_yrs"] = $item[1];
                                     }
                                     $profile["languages"] = $languages;
+                                    $profile["rating"] = $this->calculateMemberRating($profile);
                                 }
 
                                 Session::set('memberID', $data[0]->memberID);
                                 Session::set('userName', $data[0]->userName);
                                 Session::set('firstName', $data[0]->firstName);
                                 Session::set('lastName', $data[0]->lastName);
+                                Session::set('email', $data[0]->email);
                                 Session::set('authToken', $authToken);
                                 Session::set('verified', $data[0]->verified);
                                 Session::set('isAdmin', $data[0]->isAdmin);
@@ -529,27 +731,30 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
-
+    /**
+     * Show signup view with form
+     * @return mixed
+     */
     public function signup()
     {
         // Registration
         $data["menu"] = 1;
 
-        if (Session::get('loggedin') == true) {
-            Url::redirect("members");
+        if (Session::get('loggedin')) {
+            Url::redirect("events");
         }
 
         if (isset($_POST['submit']))
         {
             $_POST = Gump::xss_clean($_POST);
 
-            $_POST = Gump::filter_input($_POST, array(
+            $_POST = Gump::filter_input($_POST, [
                 'userName' => 'trim',
                 'firstName' => 'trim',
                 'lastName' => 'trim',
                 'email' => 'trim',
                 'password' => 'trim'
-            ));
+            ]);
 
             $userName = $_POST['userName'];
             $firstName = $_POST['firstName'];
@@ -673,6 +878,10 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
+    /**
+     * Show password reset view with email form
+     * @return mixed
+     */
     public function passwordReset()
     {
         if (Session::get('loggedin'))
@@ -734,6 +943,12 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
+    /**
+     * Show password reset view with new password form
+     * @param $memberID
+     * @param $resetToken
+     * @return mixed
+     */
     public function resetPassword($memberID, $resetToken)
     {
         if (Session::get('loggedin'))
@@ -826,11 +1041,12 @@ class MembersController extends Controller
 
         if(!empty($event))
         {
-            $member = $this->_model->getMember(array("memberID", "userName", "firstName", "lastName", "verified", "isAdmin"),
-                array(
-                    array("memberID", $memberID),
-                    array("authToken", $authToken)
-            ));
+            $member = $this->_model->getMember(
+                ["memberID", "userName", "firstName", "lastName", "verified", "isAdmin"],
+                [
+                    ["memberID", $memberID],
+                    ["authToken", $authToken]
+            ]);
 
             $isAdmin = false;
 
@@ -869,12 +1085,98 @@ class MembersController extends Controller
         }
     }
 
+
+    public function sendMessage()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $response["errorType"] = "logout";
+        }
+
+        if(Session::get("isDemo"))
+        {
+            $response["errorType"] = "demo";
+        }
+
+        if(empty(Session::get("profile")))
+        {
+            $response["errorType"] = "profile";
+        }
+
+        if(!empty($_POST))
+        {
+            $_POST =  Gump::xss_clean($_POST);
+
+            $adminID = isset($_POST["adminID"]) && $_POST["adminID"] != "" ? (integer)$_POST["adminID"] : null;
+            $subject = isset($_POST["subject"]) && $_POST["subject"] != "" ? $_POST["subject"] : null;
+            $message = isset($_POST["message"]) && $_POST["message"] != "" ? $_POST["message"] : null;
+
+            if($adminID != null && $subject != null && $message != null)
+            {
+                $admin = $this->_model->getMember(
+                    ["memberID", "userName", "firstName", "lastName", "email", "isAdmin"],
+                    ["memberID", $adminID]);
+
+                if(!empty($admin) && $admin[0]->isAdmin)
+                {
+                    if($admin[0]->memberID != Session::get("memberID"))
+                    {
+                        $data["fUserName"] = $admin[0]->userName;
+                        $data["fName"] = $admin[0]->firstName . " " . $admin[0]->lastName;
+                        $data["fEmail"] = $admin[0]->email;
+                        $data["tMemberID"] = Session::get("memberID");
+                        $data["tUserName"] = Session::get("userName");
+                        $data["tName"] = Session::get("firstName") . " " . Session::get("lastName");
+                        $data["tEmail"] = Session::get("email");
+                        $data["subject"] = $subject;
+                        $data["message"] = $message;
+
+                        Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
+                        {
+                            $message->to($data["fEmail"], $data["fName"])
+                                ->subject("[V-MAST ".__("message_content")."]: " . $data["subject"]);
+                        });
+
+                        $response["success"] = true;
+                    }
+                    else
+                    {
+                        $response["errorType"] = "data";
+                        $response["error"] = __("facilitator_yourself_error");
+                    }
+                }
+                else
+                {
+                    $response["errorType"] = "data";
+                    $response["error"] = __("not_facilitator_error");
+                }
+            }
+            else
+            {
+                $response["errorType"] = "data";
+                $response["error"] = __("required_fields_empty_error");
+            }
+        }
+
+        echo json_encode($response);
+    }
+
+    /**
+     * Show success veiw
+     * @return mixed
+     */
     public function success()
     {
         return View::make('Members/Success')
             ->shares("title", __("success"));
     }
 
+    /**
+     * Show verification error view
+     * @return mixed
+     */
     public function verificationError()
     {
         return View::make('Members/Verify')
@@ -882,9 +1184,46 @@ class MembersController extends Controller
             ->shares("error", __("verification_error"));
     }
 
+    /**
+     * Logout of site
+     */
     public function logout()
     {
         Session::destroy();
         Url::redirect('/', true);
+    }
+
+    /**
+     * Calculates average member rating based on one's profile
+     * @param $profile
+     * @return array
+     */
+    private function calculateMemberRating($profile)
+    {
+        $rating = 0;
+        if($profile != null && !empty($profile))
+        {
+            $rating += $profile["bbl_trans_yrs"];
+            $rating += $profile["othr_trans_yrs"];
+            $rating += $profile["bbl_knwlg_degr"];
+            $rating += $profile["mast_evnts"];
+            $rating += $profile["teamwork"];
+            $rating += in_array("translator", $profile["mast_role"]) ? 4 : 1;
+
+            $langRate = 0;
+            foreach ($profile["languages"] as $language => $data) {
+                $lang = $data["lang_fluency"];
+                $lang += $data["geo_lang_yrs"];
+                $langRate += $lang/2;
+            }
+
+            if(sizeof($profile["languages"]) > 0)
+                $rating += $langRate / sizeof($profile["languages"]);
+
+            // Average value
+            $rating = sprintf("%1.2f", $rating / 7);
+        }
+
+        return $rating;
     }
 }

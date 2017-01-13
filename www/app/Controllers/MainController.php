@@ -37,7 +37,7 @@ class MainController extends Controller
                 Url::redirect("members/profile");
             }
 
-            Url::redirect("members");
+            Url::redirect("events");
         }
 
         $data['menu'] = 1;

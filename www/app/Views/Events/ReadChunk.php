@@ -39,7 +39,8 @@ if(isset($data["error"])) return;
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [4])?>: </span> <?php echo __("read-chunk")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("read-chunk_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("read-chunk_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

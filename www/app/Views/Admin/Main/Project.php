@@ -1,4 +1,6 @@
 <?
+use Helpers\Constants\EventStates;
+
 $language = Language::code();
 
 if(!empty($data["project"])):
@@ -33,11 +35,12 @@ if(!empty($data["project"])):
                     <tr>
                         <th><?php echo __("book") ?></th>
                         <th><?php echo __("translators") ?></th>
-                        <th><?php echo __("checkers_l2") ?></th>
-                        <th><?php echo __("checkers_l3") ?></th>
+                        <th><?php echo __('level', [2]); ?></th>
+                        <th><?php echo __('level', [3]); ?></th>
                         <th><?php echo __("time_start") ?></th>
                         <th><?php echo __("time_end") ?></th>
                         <th><?php echo __("state") ?></th>
+                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -51,6 +54,11 @@ if(!empty($data["project"])):
                             <td class="datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom != "" ? $event->dateFrom . " UTC" : "" ?></td>
                             <td class="datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo != "" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
+                            <td>
+                                <?php if($event->state == EventStates::TRANSLATED): ?>
+                                <button class="btn btn-warning showContributors" data="<? echo $event->eventID?>"><?php echo __("contributors") ?></button>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <?
                                 switch($event->state)
@@ -128,10 +136,15 @@ if(!empty($data["project"])):
                         </div>
 
                         <div class="form-group" style="width: 350px;">
-                            <label for="gwLang" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
+                            <label for="adminsSelect" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
                             <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo __("add_admins_by_username") ?>">
                                 <option></option>
                             </select>
+                        </div>
+
+                        <div class="form-group delinput" style="width: 350px; display: none">
+                            <label for="delevnt" style="width: 100%; display: block; color: #f00;"><?php echo __('delete_warning'); ?></label>
+                            <input class="form-control" type="text" id="delevnt" autocomplete="off">
                         </div>
 
                         <input type="hidden" name="act" id="eventAction" value="create">
@@ -143,11 +156,20 @@ if(!empty($data["project"])):
                         <br><br>
 
                         <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create"); ?></button>
+                        <button type="submit" name="deleteEvent" class="btn btn-danger"><?php echo __("delete"); ?></button>
                         <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="contributors_container">
+    <div class="contributors_block">
+        <div class="contributors-close glyphicon glyphicon-remove"></div>
+        <div class="contributors_title"><?php echo __("event_contributors") ?></div>
+        <div class="contributors_content"></div>
     </div>
 </div>
 <?php else: ?>

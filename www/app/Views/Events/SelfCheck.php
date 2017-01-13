@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [5]). ": " . __("self-check-full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [5]). ": " . __("self-check")?></div>
     </div>
 
     <div class="row">
@@ -104,9 +104,10 @@ if(isset($data["error"])) return;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [5])?>:</span> <?php echo __("self-check-full")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [5])?>:</span> <?php echo __("self-check")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("keyword-check_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("self-check_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 
@@ -134,8 +135,8 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("self-check-full")?></h3>
-            <ul><?php echo __("self-check-full_desc")?></ul>
+            <h3><?php echo __("self-check")?></h3>
+            <ul><?php echo __("self-check_desc")?></ul>
         </div>
     </div>
 </div>

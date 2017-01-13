@@ -81,6 +81,9 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
 Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function() {
     Router::any("", "MembersController@index");
     Router::any("profile", "MembersController@profile");
+    Router::any("profile/{memberID}", "MembersController@publicProfile")
+        ->where(["memberID" => "[0-9]+"]);
+    Router::any("search", "MembersController@search");
     Router::any("signup", "MembersController@signup");
     Router::any("login", "MembersController@login");
     Router::any("logout", "MembersController@logout");
@@ -104,6 +107,8 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
             "eventID" => "[a-z0-9]+",
             "authToken" => "[a-z0-9]+"
         ]);
+    Router::any("rpc/search_members", "MembersController@searchMembers");
+    Router::any("rpc/send_message", "MembersController@sendMessage");
 });
 
 
@@ -117,8 +122,10 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("members", "AdminController@members");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
     Router::any("rpc/get_event", "AdminController@getEvent");
+    Router::any("rpc/get_event_contributors", "AdminController@getEventContributors");
     Router::any("rpc/create_project", "AdminController@createProject");
     Router::any("rpc/get_members", "AdminController@getMembers");
+    Router::any("rpc/search_members", "AdminController@searchMembers");
     Router::any("rpc/get_target_languages", "AdminController@getTargetLanguagesByGwLanguage");
     Router::any("rpc/create_event", "AdminController@createEvent");
     Router::any("rpc/get_source", "AdminController@getSource");

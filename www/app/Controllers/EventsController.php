@@ -1,23 +1,21 @@
 <?php
 namespace App\Controllers;
 
-use App\Core\Controller;
-use Helpers\Constants\StepsStates;
+use Support\Facades\Cache;
 use View;
-use Cache;
-use Helpers\Tools;
-use Helpers\UsfmParser;
+use App\Core\Controller;
+use App\Models\EventsModel;
+use App\Models\MembersModel;
+use App\Models\TranslationsModel;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
+use Helpers\Constants\StepsStates;
 use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
-use Shared\Legacy\Error;
-use App\Models\EventsModel;
-use App\Models\MembersModel;
-use App\Models\TranslationsModel;
+use Helpers\UsfmParser;
 
 class EventsController extends Controller
 {
@@ -65,21 +63,80 @@ class EventsController extends Controller
         $this->_notifications = $this->_model->getNotifications();
     }
 
+    /**
+     * Show member's dashboard view
+     * @return mixed
+     */
     public function index()
     {
-        $data['menu'] = 4;
+        $data["menu"] = 1;
 
-        $data["projects"] = $this->_model->getProjects(Session::get("memberID"), true);
+        if (Session::get('loggedin') !== true)
+        {
+            Url::redirect("members/login");
+        }
+
+        if(Session::get("isDemo"))
+        {
+            Url::redirect('events/demo');
+        }
+
+        if(empty(Session::get("profile")))
+        {
+            Url::redirect("members/profile");
+        }
+
+        if(Session::get("isAdmin"))
+            $data["myFacilitatorEvents"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"));
+
+        $myLangs = array_keys(Session::get("profile")["languages"]);
+
+        $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false);
+        $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
+        $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
+        $data["myCheckerL2Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
+        $data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
+
+        // Extract facilitators from events
+        $admins = [];
+        foreach ($data["myTranslatorEvents"] as $event) {
+            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+        }
+        foreach ($data["newEvents"] as $event) {
+            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+        }
+        foreach ($data["myCheckerL1Events"] as $event) {
+            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+        }
+        foreach ($data["myCheckerL2Events"] as $event) {
+            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+        }
+        foreach ($data["myCheckerL3Events"] as $event) {
+            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+        }
+
+        $admins = array_unique($admins);
+        $admins = (array)$this->_membersModel->getMembers(array_filter(array_values($admins)), true);
+
+        $adminData = [];
+        foreach ($admins as $member) {
+            $adminData[$member->memberID]["userName"] = $member->userName;
+            $adminData[$member->memberID]["avatar"] = $member->avatar;
+            $adminData[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+            $adminData[$member->memberID]["email"] = $member->email;
+        }
+
+        $data["admins"] = $adminData;
         $data["notifications"] = $this->_notifications;
 
         return View::make('Events/Index')
-            ->shares("title", __("events_title"))
+            ->shares("title", __("welcome_title"))
             ->shares("data", $data);
     }
 
     public function project($projectID)
     {
-        $data['menu'] = 4;
+        $data["menu"] = 1;
 
         $data["project"] = $this->_model->getProjects(Session::get("memberID"), true, $projectID);
         $data["events"] = array();
@@ -97,7 +154,7 @@ class EventsController extends Controller
 
     public function translator($eventID)
     {
-        $data['menu'] = 4;
+        $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
 
@@ -111,7 +168,7 @@ class EventsController extends Controller
         {
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
-            if($data["event"][0]->state == EventStates::TRANSLATING)
+            if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
                 if($data["event"][0]->step == EventSteps::NONE)
                     Url::redirect("events/information/".$eventID);
@@ -974,7 +1031,15 @@ class EventsController extends Controller
                                             $this->_translationModel->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
                                         }
 
+                                        // Update event chapters
+                                        $chapters[$data["event"][0]->currentChapter]["done"] = true;
+                                        $evntData["chapters"] = json_encode($chapters);
+                                        if($this->checkBookFinished($chapters))
+                                            $evntData["state"] = EventStates::TRANSLATED;
+                                        $this->_model->updateEvent($evntData, ["eventID" => $data["event"][0]->eventID]);
+
                                         // Check if the member has another chapter to translate
+                                        // then redirect him to preparation page
                                         $nextChapter = 0;
                                         foreach ($sourceText["chapters"] as $key => $chapter)
                                         {
@@ -1076,7 +1141,7 @@ class EventsController extends Controller
                             if(($turnSecret[0]->expire - time()) < 0)
                             {
                                 $pass = $this->_membersModel->generateStrongPassword(22);
-                                if($this->_model->updateTurnSecret(array("value" => $pass, "expire" => time() + (30*24*3600)))) // Update turn secret each month
+                                if($this->_membersModel->updateTurnSecret(array("value" => $pass, "expire" => time() + (30*24*3600)))) // Update turn secret each month
                                 {
                                     $turnSecret[0]->value = $pass;
                                 }
@@ -1178,7 +1243,7 @@ class EventsController extends Controller
             }
         }
 
-        $data['menu'] = 4;
+        $data["menu"] = 1;
         $data["isCheckerPage"] = true;
         $data["notifications"] = $this->_notifications;
 
@@ -1237,14 +1302,14 @@ class EventsController extends Controller
 
     public function checkerL2($eventID)
     {
-        $data['menu'] = 4;
+        $data["menu"] = 1;
 
         echo $eventID;
     }
 
     public function checkerL3($eventID)
     {
-        $data['menu'] = 4;
+        $data["menu"] = 1;
 
         echo $eventID;
     }
@@ -1252,7 +1317,7 @@ class EventsController extends Controller
 
     public function information($eventID)
     {
-        $data['menu'] = 4;
+        $data["menu"] = 1;
         $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
         $data["isAdmin"] = false;
         $canViewInfo = false;
@@ -1701,10 +1766,10 @@ class EventsController extends Controller
     {
         if (!Session::get('isAdmin'))
         {
-            Url::redirect("members");
+            Url::redirect("events");
         }
 
-        $data['menu'] = 4;
+        $data["menu"] = 1;
         $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID);
 
         if(!empty($data["event"]))
@@ -1768,7 +1833,7 @@ class EventsController extends Controller
 
         $data["notifications"] = $notifications;
         $data["isDemo"] = true;
-        $data['menu'] = 4;
+        $data["menu"] = 1;
 
         $view = View::make("Events/Demo/DemoHeader");
         $data["step"] = "";
@@ -2470,7 +2535,7 @@ class EventsController extends Controller
             $error[] = __("cannot_apply_checker");
         }
 
-        $data["menu"] = 4;
+        $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
 
         return View::make("Events/CheckerApply")
@@ -2657,7 +2722,8 @@ class EventsController extends Controller
                             $chapters[$chapter] = [
                                 "trID" => $data["event"][0]->trID,
                                 "memberID" => $data["event"][0]->myMemberID,
-                                "chunks" => array()
+                                "chunks" => array(),
+                                "done" => false
                             ];
 
                             $updateEvent = $this->_model->updateEvent(["chapters" => json_encode($chapters)], ["eventID" => $eventID]);
@@ -2839,6 +2905,116 @@ class EventsController extends Controller
     }
 
     //-------------------- Private functions --------------------------//
+
+    public function checkBookFinished($chapters)
+    {
+        if(isset($chapters) && is_array($chapters) && !empty($chapters))
+        {
+            $chaptersDone = 0;
+            foreach ($chapters as $chapter) {
+                if(!empty($chapter) && $chapter["done"])
+                    $chaptersDone++;
+            }
+
+            if(sizeof($chapters) == $chaptersDone)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Manually check and set status of event
+     * Do not use it without understanding
+     */
+    private function setUpEventStatus()
+    {
+        exit;
+
+        $trans = $this->_translationModel->getAllTranslations();
+
+        $prevEvent = 0;
+        $currentEvent = 0;
+        $prevChapter = 0;
+        $currentChapter = 0;
+        $currentChunk = 0;
+        $events = [];
+        $chapters = [];
+        $currentChapterDone = true;
+        foreach ($trans as $tran) {
+            if($tran->state == EventStates::STARTED
+                || $tran->translateDone === null) continue;
+
+            if($tran->eventID > $currentEvent)
+            {
+                if($prevEvent > 0)
+                {
+                    if($prevChapter > 0)
+                    {
+                        if($currentChapterDone && sizeof($chapters[$prevChapter]["chunks"]) == $currentChunk)
+                        {
+                            $chapters[$prevChapter]["done"] = true;
+                        }
+                    }
+                    $events[$prevEvent] = $chapters;
+                }
+
+                $prevEvent = $tran->eventID;
+                $currentEvent = $tran->eventID;
+                $prevChapter = 0;
+                $currentChapter = 0;
+                $currentChapterDone = false;
+                $chapters = (array)json_decode($tran->chapters, true);
+
+                foreach ($chapters as $key => $chapter) {
+                    if(empty($chapter)) continue;
+                    $chapters[$key]["done"] = false;
+                }
+            }
+
+            if($tran->chapter != $currentChapter)
+            {
+                if($prevChapter > 0)
+                {
+                    if($currentChapterDone && sizeof($chapters[$prevChapter]["chunks"]) == $currentChunk)
+                    {
+                        $chapters[$prevChapter]["done"] = true;
+                    }
+                }
+
+                $currentChunk = 0;
+                $prevChapter = $tran->chapter;
+                $currentChapter = $tran->chapter;
+                $currentChapterDone = true;
+            }
+
+            $currentChunk++;
+
+            if(!$tran->translateDone)
+                $currentChapterDone = false;
+        }
+
+        $bookDone = true;
+        foreach ($events as $eventID => $chapters) {
+            foreach ($chapters as $chapter) {
+                if(empty($chapter) || !$chapter["done"])
+                    $bookDone = false;
+            }
+
+            $postdata = [];
+            $postdata["chapters"] = json_encode($chapters);
+            if($bookDone)
+            {
+                echo $eventID." ";
+                $postdata["state"] = EventStates::TRANSLATED;
+            }
+
+            $this->_model->updateEvent($postdata, ["eventID" => $eventID]);
+
+            $bookDone = true;
+        }
+    }
+
 
     /**
      * Get source text for chapter or chunk from USFM format

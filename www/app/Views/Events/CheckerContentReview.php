@@ -168,7 +168,8 @@ if(empty($error) && empty($data["success"])):
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [8])?>: </span> <?php echo __("content-review")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("content-review_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("content-review_checker_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

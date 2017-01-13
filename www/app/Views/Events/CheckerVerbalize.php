@@ -38,7 +38,7 @@ if(empty($error) && empty($data["success"])):
                         ."<span class='book_name'>".$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                 <div class="col-sm-12 one_side_content">
-                    <?php echo __("verbalize_checker_hint"); ?>
+                    <img src="<?php echo template_url("img/steps/big/verbalize.png") ?>">
                 </div>
             </div>
 
@@ -64,7 +64,8 @@ if(empty($error) && empty($data["success"])):
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [2])?>: </span> <?php echo __("verbalize")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("verbalize_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("verbalize_checker_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

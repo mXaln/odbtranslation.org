@@ -203,7 +203,7 @@ $(document).ready(function() {
                 {
                     $(".panel-close").click();
                     renderPopup(data.success, function () {
-                        window.location = "/members";
+                        window.location = "/events";
                     });
                 }
                 else
@@ -342,7 +342,7 @@ $(document).ready(function() {
                                             break;
 
                                         case "verify":
-                                            window.location.href = "/members";
+                                            window.location.href = "/";
                                             break;
 
                                         case "noChange":
@@ -439,7 +439,7 @@ $(document).ready(function() {
 
                             case "not_started":
                             case "empty_no_permission":
-                                window.location.href = "/members";
+                                window.location.href = "/";
                                 break;
                         }
                     }
@@ -559,7 +559,7 @@ $(document).ready(function() {
                         chkMemberID: chkMemberID,
                     };
                     socket.emit("system message", data);
-                    window.location = "/members";
+                    window.location = "/events";
                 }
                 else
                 {
@@ -649,7 +649,7 @@ $(document).ready(function() {
         chunks = [];
         currentChunk = -1;
         firstVerse = 0;
-        lastVerse = 0
+        lastVerse = 0;
 
         $(this).hide();
         $(".create_chunk").hide();
@@ -864,6 +864,18 @@ $(document).ready(function() {
         }
     });
 
+
+    // Show/Hide Video popup
+    $(".video-close").click(function() {
+        $(".video_container").hide();
+        $(".video_container video")[0].pause();
+    });
+
+    $(".demo_video a").click(function () {
+        $(".video_container").show();
+        return false;
+    });
+
     $("#finalReview").submit(function () {
 
         $(".vnote").each(function () {
@@ -939,7 +951,7 @@ $(document).ready(function() {
                             var diff = wText.length - sel.anchorNode.textContent.length;
 
                             // Find all occurenses of text in the verse
-                            var regex = new RegExp("("+text+")", "gm");
+                            var regex = new RegExp("("+text+")", "gmi");
                             var search = [];
                             while (regex.exec(wText) !== null) {
                                 search.push(regex.lastIndex);
@@ -952,10 +964,10 @@ $(document).ready(function() {
                                 var index = search.indexOf(offset + diff);
 
                                 sel.removeAllRanges();
-                                renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
-                                    $(this).dialog("close");
+                                //renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
+                                //    $(this).dialog("close");
                                     saveOrRemoveKeyword(verseID, text, index, false);
-                                });
+                                //});
                             }
                             else
                             {
@@ -1029,7 +1041,7 @@ $(document).ready(function() {
             && step != EventSteps.FINAL_REVIEW)) return;
 
         $("div[class^=kwverse]").html(function() {
-            return $(this).text();
+            //return $(this).text();
         });
 
         $.ajax({
@@ -1079,7 +1091,7 @@ $(document).ready(function() {
             $("body").data("bubble", $(e.target));
             $("body").data("focused", $(".textWithBubbles", parent));
         });
-    }
+    };
 
     $('.textWithBubbles').keydown(function (e) {
         e.preventDefault();
@@ -1207,6 +1219,42 @@ $(document).ready(function() {
 
     $(".avatar-close").click(function() {
         $(".avatar_container").css("left", "-9999px");
+    });
+
+
+    $("input[name^=prefered_roles]").change(function () {
+        var role = $(this).val();
+        var thisChecked = $(this).is(":checked");
+        var trChecked = $(".tr_role").is(":checked");
+        var fcChecked = $(".fc_role").is(":checked");
+        var chChecked = $(".ch_role").is(":checked");
+
+        if(thisChecked)
+        {
+            if(role == "facilitator")
+            {
+                $(".facilitator_section").show();
+                $(".checker_section").show();
+            }
+            else
+            {
+                $(".checker_section").show();
+            }
+        }
+        else
+        {
+            if(role == "facilitator")
+            {
+                $(".facilitator_section").hide();
+                if(!trChecked && !fcChecked)
+                    $(".checker_section").hide();
+            }
+            else
+            {
+                if(!trChecked && !fcChecked && !chChecked)
+                    $(".checker_section").hide();
+            }
+        }
     });
 
     var langs = $(".langs option:selected");
@@ -1350,7 +1398,7 @@ $(document).ready(function() {
 
         if(!isCollapsed)
         {
-            content.hide(300);
+            content.hide("blind", {direction: "vertical"}, 300);
             $(".section_arrow", $(this))
                 .removeClass("glyphicon-triangle-bottom")
                 .addClass("glyphicon-triangle-right");
@@ -1358,19 +1406,19 @@ $(document).ready(function() {
             $(".chapter_list").data("opened", opened - 1);
 
             if($(".chapter_list").data("opened") <= 0)
-                $(".members_list").show(300);
+                $(".members_list").show("blind", {direction: "right"}, 300);
 
         }
         else
         {
-            content.show(300);
+            content.show("blind", {direction: "vertical"}, 300);
             $(".section_arrow", $(this))
                 .removeClass("glyphicon-triangle-right")
                 .addClass("glyphicon-triangle-bottom");
 
             $(".chapter_list").data("opened", opened + 1);
 
-            $(".members_list").hide();
+            $(".members_list").hide("blind", {direction: "right"}, 300);
         }
     });
 
@@ -1451,6 +1499,78 @@ $(document).ready(function() {
 
     if(!$(".my_content:first").hasClass("shown"))
         $(".my_content:first").addClass("shown");
+
+
+    // Show contact facilitator form
+    $(".facil_names a").click(function() {
+        var adminID = $(this).attr("data");
+        var adminName = $(this).text();
+
+        $(".mailer_name span").text(adminName);
+        $(".adm_id").val(adminID);
+        $(".mailer_container").css("left", 0);
+        $(".mailer_form")[0].reset();
+
+        return false;
+    });
+
+    $(".mailer-close").click(function() {
+        $(".mailer_container").css("left", "-9999px");
+    });
+
+    $(".mailer_form").submit(function () {
+        var form = $(this);
+
+        $.ajax({
+            url: "/members/rpc/send_message",
+            method: "post",
+            data: form.serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".mailer_button button")
+                    .text(Language.sending)
+                    .prop("disabled", true);
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $(".mailer_container").css("left", "-9999px");
+                    renderPopup(Language.messageSendSuccess);
+                }
+                else
+                {
+                    if(typeof data.errorType != "undefined")
+                    {
+                        switch (data.errorType)
+                        {
+                            case "logout":
+                            case "demo":
+                            case "profile":
+                                window.location.reload();
+                                break;
+                        }
+
+                        if(typeof data.error != "undefined")
+                            renderPopup(data.error);
+                    }
+                    else
+                    {
+                        $(".mailer_container").css("left", "-9999px");
+                    }
+                }
+            })
+            .error(function(xhr, status, error ) {
+                renderPopup(status + ": " + error);
+            })
+            .always(function() {
+                $(".mailer_button button")
+                    .text(Language.send)
+                    .prop("disabled", false);
+            });
+
+        return false;
+    });
 });
 
 function animateIntro() {
@@ -1731,7 +1851,7 @@ function highlightKeyword(verseID, text, index, remove) {
     else
     {
         var verseText = verseEl.html();
-        var regex = new RegExp("("+text+")", "gm");
+        var regex = new RegExp("("+text+")", "gmi");
 
         var nth = -1;
         var html = verseText.replace(regex, function(match, i, orig) {

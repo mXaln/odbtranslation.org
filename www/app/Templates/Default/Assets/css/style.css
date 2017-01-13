@@ -166,8 +166,9 @@ html, body, .container {
 }
 
 #avatarFemales {
-    background-image: linear-gradient(to bottom, #f699d7 0px, #d981d1 100%);
-    background-repeat: repeat-x;
+    /*background-image: linear-gradient(to bottom, #f699d7 0px, #d981d1 100%);
+    background-repeat: repeat-x;*/
+    background-color: #f699d7;
     border-color: #e948e2;
 }
 
@@ -231,6 +232,51 @@ html, body, .container {
 .genderMale img.active, .genderFemale img.active {
     border-color: #222;
     background-color: #fff8f1;
+}
+
+.mailer_container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9999px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+.mailer_block {
+    position: absolute;
+    top: calc(50% - 250px);
+    left: calc(50% - 300px);
+    background-color: #ffffff;
+    z-index: 99;
+    cursor: auto;
+    width: 600px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.mailer-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.mailer_name span {
+    color: #4596cc;
+}
+
+.mailer_container input, .mailer_container textarea {
+    font-weight: normal;
+}
+
+.mailer_form {
+    margin-top: 20px;
 }
 
 .video_chat_container {
@@ -344,7 +390,7 @@ html, body, .container {
     left: -52px;
     background-color: dodgerblue;
     padding: 15px;
-    border-radius: 20px;
+    border-radius: 7px;
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     cursor: pointer;
@@ -961,6 +1007,8 @@ div.ui-datepicker {
 
 .help_descr_steps ul {
     padding-left: 15px;
+    max-height: 240px;
+    overflow: hidden;
 }
 
 .help_descr_steps ol {
@@ -1056,6 +1104,7 @@ div.ui-datepicker {
 .main_content_footer {
     height: 100px;
     margin-top: 20px;
+    margin-left: 0px;
 }
 
 .main_content_confirm_desc {
@@ -1199,8 +1248,8 @@ div.ui-datepicker {
     background-image: -o-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
     background-image: linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
     background-size: 100% 31px;
-    border: 1px solid #ccc;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #4596cc;
+    box-shadow: inset 0 1px 2px rgba(66, 156, 241, 0.88);
     line-height: 31px;
     padding: 8px;
 }
@@ -1299,7 +1348,7 @@ div.ui-datepicker {
 
 .create_chunk {
     position: absolute;
-    bottom: -30px; right: 10px;
+    top: -50px; right: 10px;
     background-color: #e17009;
     text-align: center;
     padding: 15px;
@@ -1330,7 +1379,7 @@ div.ui-datepicker {
 
 .chunks_reset {
     position: absolute;
-    top: -25px; right: 0;
+    top: -25px; right: -240px;
     background-color: #e10500;
     text-align: center;
     padding: 15px 5px;
@@ -1415,7 +1464,7 @@ mark {
     background-color: #fff;
     border: 1px solid #4596cc;
     /*border-bottom: none;*/
-    z-index: 99;
+    z-index: 101;
     list-style: none;
     padding: 0px;
     overflow-y: auto;
@@ -1582,18 +1631,20 @@ mark {
     position: absolute;
     top: 0px; right: -42px;
     z-index: 10;
+    width: 20px;
+    height: 25px;
+    background-image: url("/templates/default/assets/img/note_empty.png");
 }
 
 .hasComment {
-    background-color: #ffd800;
+    /*background-color: #ffd800;
     border: 1px solid #d58512;
-    border-radius: 10px;
-    width: 20px;
-    height: 20px;
+    border-radius: 10px;*/
     text-align: center;
     font-weight: bold;
-    padding: 0 0 2px 0;
-    color: #5d5d5d;
+    /*padding: 0 0 2px 0;*/
+    color: #fff;
+    background-image: url("/templates/default/assets/img/note_has.png");
 }
 
 .commentAltText {
@@ -1765,10 +1816,50 @@ mark {
     color: #337ab7;
     font-weight: bold;
     text-decoration: underline;
+    margin: -10px 0 0 15px;
 }
 
 .show_tutorial_popup:hover {
     color: #23527c;
+}
+
+.video_container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 101;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+    display: none;
+}
+
+.video_popup {
+    position: absolute;
+    top: calc(50% - 280px);
+    left: calc(50% - 450px);
+    background-color: #ffffff;
+    z-index: 99;
+    cursor: auto;
+}
+
+.video-close {
+    background-color: #0f86fe;
+    color: #ffffff;
+    font-size: 22px;
+    height: 30px;
+    padding: 4px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    text-align: center;
+    width: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 101;
 }
 
 .language_container {
@@ -2174,7 +2265,7 @@ mark {
 }
 
 .back_link {
-    font-size: 18px;
+    font-size: 30px;
     margin: 10px 0;
 }
 
@@ -2187,18 +2278,62 @@ mark {
 .comments {
     display: none;
 }
+
+.demo_h {
+    font-size: 25px;
+    color: #555;
+}
+
 .demo_title {
     float: right;
-    font-size: 30px;
-    color: #ff0000;
+    font-size: 25px;
+    color: #e5001d;
+    margin-top: 10px;
+}
+
+.demo_video {
+    float: right;
+    font-size: 25px;
+    margin-top: 10px;
+}
+
+.demo_sep {
+    float: right;
+    font-size: 25px;
+    margin: 10px 10px 0 10px;
+    color: #337ab7;
 }
 
 .demo_link {
-    float: right;text-decoration: underline;
+    text-decoration: underline;
+}
+
+.demo_title.events_index {
+    margin-top: -60px;
+}
+
+.demo_title span {
+    background-color: #e5001d;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    height: 22px;
+    padding: 2px 0 0 3px;
+    width: 22px;
+}
+
+.back_link span {
+    background-color: #337ab7;
+    border-radius: 18px;
+    color: #fff;
+    font-size: 22px;
+    height: 28px;
+    padding: 2px 0 0 3px;
+    width: 28px;
 }
 
 a.demo_link, a.demo_link:hover {
-    color: #ff0000;
+    color: #e5001d;
 }
 
 .book_name {
@@ -2441,12 +2576,11 @@ div[class^="member_usname mid"] {
 
 .event_state {
     font-size: 22px;
-    background-color: #ff8400;
     font-weight: bold;
     border-radius: 5px;
     text-align: center;
     height: 40px;
-    color: #fff;
+    color: #ff8400;
     padding-top: 5px;
 }
 
@@ -2651,9 +2785,21 @@ div[class^="member_usname mid"] {
     font-weight: bold;
 }
 
-.facil_name {
+.facil_names {
     color: #218eaf;
+    width: 240px;
+    overflow: auto;
+    height: 76px;
+}
+
+.facil_names a {
     text-decoration: underline;
+    border: 1px solid #218eaf;
+    padding: 5px;
+    border-radius: 5px;
+    display: block;
+    float: left;
+    margin: 5px 5px 0 0;
 }
 
 .facil_contact a {
@@ -2954,4 +3100,232 @@ button.startEvnt, button.editEvnt {
     background-color: #B1B5B5 !important;
     background-image: linear-gradient(to bottom, #d0d6d7 0px, #959996 100%) !important;
     background-position: 0 0 !important;
+}
+
+.public_profile {
+    width: 900px;
+    margin-left: 20px;
+}
+
+.public_profile h3 {
+    color: #249b45;
+}
+
+.public_avatar {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    float: left;
+}
+
+.public_uname {
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.public_name {
+    margin-left: 10px;
+    float: left;
+    padding-top: 10px;
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.public_rating {
+    float: left;
+    margin-left: 30px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.public_rating img {
+    margin-top: -20px;
+}
+
+.public_rating_score {
+    border: 1px solid #ff8100;
+    padding: 5px;
+    border-radius: 5px;
+    width: 70px;
+    margin: 0 auto;
+}
+
+.avatar_control_public {
+    height: 112px;
+    width: 500px;
+}
+
+.public_uname {
+    color: #ff8100;
+    font-size: 18px;
+}
+
+.public_fname {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.public_item {
+    margin-top: 10px;
+}
+
+.languages_public_list {
+    margin-left: 20px;
+}
+
+.languages_public_lang {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.languages_public_fluency {
+    margin-left: 20px;
+}
+
+.languages_public_years {
+    margin-left: 20px;
+}
+
+.languages_public_list label {
+    font-weight: bold;
+}
+
+.orig_lang {
+    margin-left: 20px;
+}
+
+.mems_tab, .mems_tab > a {
+    color: #222;
+}
+
+.mems_tab.active, .mems_tab.active > a {
+    font-weight: bold;
+    color: #4596cc !important;
+}
+
+.members_content {
+    display: none;
+    margin: 20px 0 0 0;
+}
+
+.members_content.shown {
+    display: block;
+}
+
+.members_filter {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.mems_language {
+    width: 300px;
+}
+
+.mems_filter_item {
+    float: left;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.filter_roles {
+    margin-top: -10px;
+}
+
+.filter_title {
+    margin-top: 10px;
+}
+
+.filter_title {
+    font-weight: bold;
+}
+
+.filter_loader {
+    display: none;
+}
+
+#all_members_table.hidden {
+    display: none;
+}
+
+#search_empty {
+    margin: 20px 0 0 10px;
+    font-size: 18px;
+}
+
+#search_more {
+    font-size: 18px;
+    margin: 20px auto 0 auto;
+    cursor: pointer;
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    color: #4596cc;
+}
+
+#search_more.disabled {
+    cursor: not-allowed;
+}
+
+.facilitator_section, .checker_section {
+    display: none;
+}
+
+.facilitator_section.shown, .checker_section.shown {
+    display: block;
+}
+
+.contributors_container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9999px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+.contributors_block {
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 250px);
+    background-color: #ffffff;
+    z-index: 99;
+    cursor: auto;
+    width: 500px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.contributors-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.contributors_content {
+    max-height: 500px;
+    overflow: auto;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.contrib_title {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.contributors_title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: -10px;
 }

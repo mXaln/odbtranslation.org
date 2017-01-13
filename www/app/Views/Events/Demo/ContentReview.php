@@ -14,6 +14,8 @@
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [8]), ": " . __("content-review")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
+        <div class="demo_sep"> | </div>
+        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
     </div>
 
     <div class="row">
@@ -25,7 +27,7 @@
                     <div class="col-sm-12">
                         <div class="chunk_verse editor_area">
                             <div class="vnote">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
                                 <div class="comments_number hasComment">1</div>
 
@@ -42,7 +44,24 @@
                         <div class="clear"></div>
                         <div class="chunk_verse editor_area">
                             <div class="vnote">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+
+                                <div class="comments_number hasComment">1</div>
+
+                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
+
+                                <div class="comments">
+                                    <div class="my_comment">This is translator's comment on this chunk</div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="chunk_divider col-sm-12"></div>
+                        <div class="clear"></div>
+                        <div class="chunk_verse editor_area">
+                            <div class="vnote">
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
                                 <div class="comments_number ">
                                 </div>
@@ -59,7 +78,7 @@
                         <div class="clear"></div>
                         <div class="chunk_verse editor_area">
                             <div class="vnote">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
                                 <div class="comments_number ">
                                 </div>
@@ -76,7 +95,7 @@
                         <div class="clear"></div>
                         <div class="chunk_verse editor_area">
                             <div class="vnote">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
                                 <div class="comments_number ">
                                 </div>
@@ -84,6 +103,60 @@
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
 
                                 <div class="comments">
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="chunk_divider col-sm-12"></div>
+                        <div class="clear"></div>
+
+                        <div class="chunk_verse editor_area">
+                            <div class="vnote">
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+
+                                <div class="comments_number hasComment">1</div>
+
+                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
+
+                                <div class="comments">
+                                    <div class="my_comment">This is translator's comment on this chunk</div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="chunk_divider col-sm-12"></div>
+                        <div class="clear"></div>
+
+                        <div class="chunk_verse editor_area">
+                            <div class="vnote">
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+
+                                <div class="comments_number hasComment">1</div>
+
+                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
+
+                                <div class="comments">
+                                    <div class="my_comment">This is translator's comment on this chunk</div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="chunk_divider col-sm-12"></div>
+                        <div class="clear"></div>
+
+                        <div class="chunk_verse editor_area">
+                            <div class="vnote">
+                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+
+                                <div class="comments_number hasComment">1</div>
+
+                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
+
+                                <div class="comments">
+                                    <div class="my_comment">This is translator's comment on this chunk</div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -118,7 +191,8 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [8])?>:</span> <?php echo __("content-review")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("content-review_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("content-review_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

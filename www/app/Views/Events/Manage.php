@@ -5,17 +5,17 @@ if(!isset($error)):
 ?>
 <div class="manage_container row">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <div class="book_title" style="padding-left: 15px"><?php echo $data["event"][0]->name ?></div>
             <div class="project_title" style="padding-left: 15px"><?php echo __($data["event"][0]->bookProject)." - ".$data["event"][0]->langName ?></div>
         </div>
-        <div class="col-sm-3 start_translation">
+        <div class="col-sm-4 start_translation">
             <?php if($data["event"][0]->state == "started"): ?>
                 <form action="" method="post">
                     <button type="submit" name="submit" class="btn btn-warning" id="startTranslation" style="width: 150px; height: 50px;"><?php echo __("start_translation")?></button>
                 </form>
             <?php else: ?>
-                <div class="event_state"><?php echo __("state_".$data["event"][0]->state) ?></div>
+                <div class="event_state"><?php echo __("event_status").": ".__("state_".$data["event"][0]->state) ?></div>
             <?php endif; ?>
         </div>
     </div>

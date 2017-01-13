@@ -15,6 +15,8 @@
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("verbalize")?></div>
         <div class="demo_title"><?php echo __("demo") ?></div>
+        <div class="demo_sep"> | </div>
+        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
     </div>
 
     <div class="row">
@@ -25,7 +27,7 @@
                 <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-26</span></h4>
 
                 <div class="col-sm-12">
-                    <?php echo __("verbalize_checker_hint"); ?>
+                    <img src="<?php echo template_url("img/steps/big/verbalize.png") ?>">
                 </div>
             </div>
 
@@ -36,7 +38,7 @@
                         <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
                     </div>
 
-                    <button id="next_step" class="btn btn-primary" disabled=""><?php echo __("next_step")?></button>
+                    <button id="next_step" class="btn btn-primary" disabled=""><?php echo __("continue")?></button>
                 </form>
             </div>
         </div>
@@ -49,7 +51,8 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [2])?>:</span> <?php echo __("verbalize")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo mb_substr(__("verbalize" . "_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
+                    <ul><?php echo __("verbalize" . "_checker_desc")?></ul>
+                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 

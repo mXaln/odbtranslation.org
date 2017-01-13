@@ -9,7 +9,8 @@ if(!isset($error)):
 
     <div class="back_link">
         <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
-        <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
         <?php endif; ?>
     </div>
 

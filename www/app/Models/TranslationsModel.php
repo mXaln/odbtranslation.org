@@ -120,6 +120,28 @@ class TranslationsModel extends Model
         return $builder->get();
     }
 
+    /** Get all translations with event
+     * @return array|static[]
+     */
+    public function getAllTranslations()
+    {
+        return $this->db->table("events")
+            ->select([
+                "events.eventID",
+                "events.chapters",
+                "translations.translateDone",
+                "translations.abbrID",
+                "translations.chapter",
+                "translations.chunk",
+                "events.state"])
+            ->leftJoin("translations", "translations.eventID", "=", "events.eventID")
+            ->orderBy("events.eventID")
+            ->orderBy("translations.abbrID")
+            ->orderBy("translations.chapter")
+            ->orderBy("translations.chunk")
+            ->get();
+    }
+
     /**
      * Get source translations
      * @return array

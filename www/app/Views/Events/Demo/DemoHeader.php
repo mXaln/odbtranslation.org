@@ -68,6 +68,19 @@ $isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
 
 </div>
 
+<div class="video_container">
+    <div class="video_popup">
+        <div class="video-close glyphicon glyphicon-remove"></div>
+
+        <video width="900" controls buffered preload="metadata">
+            <source type='video/ogg; codecs="theora, vorbis"' src="<?php echo template_url("video/demo.ogv") ?>"/>
+            <source type="video/webm" src="<?php echo template_url("video/demo.webm") ?>"/>
+            <source type="video/mp4" src="<?php echo template_url("video/demo.mp4") ?>"/>
+            <p>Video is not visible, most likely your browser does not support HTML5 video</p>
+        </video>
+    </div>
+</div>
+
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
     <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("chat") ?></div>
