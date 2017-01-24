@@ -535,6 +535,58 @@ $(function () {
         return false;
     });
 
+
+    // Block/Unblock member
+    $(document).on("click", ".blockMember", function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var memberID = $this.attr("data");
+
+        $.ajax({
+            url: "/admin/rpc/block_member",
+            method: "post",
+            data: {
+                memberID: memberID,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                //$(".commentEditorLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    if(data.blocked)
+                    {
+                        renderPopup(Language.blockedSuccess);
+                        $this.removeClass("btn-danger")
+                            .addClass("btn-primary")
+                            .text(Language.unblock);
+                    }
+                    else
+                    {
+                        renderPopup(Language.unblockedSuccess);
+                        $this.removeClass("btn-primary")
+                            .addClass("btn-danger")
+                            .text(Language.block);
+                    }
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error, function () {
+                            window.location.reload(true);
+                        });
+                    }
+                }
+            })
+            .always(function() {
+                //$(".commentEditorLoader").hide();
+            });
+    });
+
     // Members tabs switch
     $(".mems_tab").click(function () {
         var id = $(this).attr("id");
@@ -612,6 +664,8 @@ $(function () {
                                     })
                                 : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
                             "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                            "<td><button class='blockMember btn "+(v.blocked == 1 ? "btn-primary" : "btn-danger")+"' data='"+v.memberID+"'>" +
+                                (v.blocked == 1 ? Language.unblock : Language.block)+"</button></td>" +
                             "</tr>";
                         $("#all_members_table tbody").append(row);
                     });

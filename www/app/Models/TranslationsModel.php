@@ -79,8 +79,8 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translators");
 
         $builder->select("translations.chapter", "translations.chunk", "translations.translateDone",
-                "translations.firstvs", "translators.memberID", "translators.step", "translators.verbCheck",
-                "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
+                "translations.firstvs", "translations.dateUpdate", "translators.memberID", "translators.step",
+                "translators.verbCheck", "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
                 "translators.currentChapter", "translators.checkerID")
             ->leftJoin("translations", "translators.trID", "=", "translations.trID")
             ->where("translators.eventID", $eventID)

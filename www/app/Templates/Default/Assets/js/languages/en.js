@@ -71,4 +71,8 @@ var Language = {
     "translators"               : "Translators",
     "facilitators"              : "Facilitators",
     "checkers"                  : "Checkers",
+    "blockedSuccess"            : "Member is blocked",
+    "unblockedSuccess"          : "Member is unblocked",
+    "block"                     : "Block",
+    "unblock"                   : "Unblock",
 };

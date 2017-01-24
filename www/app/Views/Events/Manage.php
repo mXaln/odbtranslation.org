@@ -30,6 +30,7 @@ if(!isset($error)):
                     $userName = "unknown";
                     $key = array_search($chapData["memberID"], array_column($data["members"], 'memberID'));
                     $userName = $data["members"][$key]["userName"];
+                    $name = $data["members"][$key]["firstName"] . " " . mb_substr($data["members"][$key]["lastName"], 0, 1).".";
                     $data["members"][$key]["assignedChapters"][] = $chapter;
                 }
                 ?>
@@ -43,7 +44,7 @@ if(!isset($error)):
                             <?php echo __("add_person") ?>
                         </button>
                         <div class="manage_username" <?php echo !empty($chapData) ? 'style="display: block"' : '' ?>>
-                            <div class="uname"><?php echo !empty($chapData) ? $userName : '' ?></div>
+                            <div class="uname"><?php echo !empty($chapData) ? '<a href="/members/profile/'.$chapData["memberID"].'" target="_blank">'.$name.'</a>' : '' ?></div>
                             <div class="uname_delete glyphicon glyphicon-remove" data="<?php echo !empty($chapData) ? $chapData["memberID"] : '' ?>"></div>
                             <div class="clear"></div>
                         </div>
@@ -59,7 +60,8 @@ if(!isset($error)):
             <?php foreach ($data["members"] as $member):?>
                 <li>
                     <div class="member_usname" data="<?php echo $member["memberID"] ?>">
-                        <?php echo $member["userName"]; ?> (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
+                        <a href="/members/profile/<?php echo $member["memberID"] ?>" target="_blank"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></a>
+                        (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                         <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
                     </div>
                     <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
@@ -89,7 +91,7 @@ if(!isset($error)):
             <?php foreach ($data["members"] as $member): ?>
             <li>
                 <div class="member_usname userlist chapter_ver">
-                    <div class="divname"><?php echo $member["userName"]; ?></div>
+                    <div class="divname"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></div>
                     <div class="divvalue">(<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)</div>
                 </div>
                 <button class="btn btn-success assign_chapter" data="<?php echo $member["memberID"] ?>"><?php echo __("assign") ?></button>

@@ -1,17 +1,27 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("pray")?></div>
-        <div class="demo_title"><?php echo __("demo") ?></div>
-        <div class="demo_sep"> | </div>
-        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
+        <div class="main_content_title">
+            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div><?php echo __("pray")?></div>
+        </div>
+        <div class="demo_video">
+            <span class="glyphicon glyphicon-play"></span>
+            <a href="#"><?php echo __("demo_video"); ?></a>
+        </div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <img src="<?php echo template_url("img/steps/big/pray.png") ?>">
-                <br>
-                <div><?php echo __("pray_text")?></div>
+                <div class="pray_left">
+                    <img src="<?php echo template_url("img/steps/icons/pray.png") ?>" width="80">
+                    <br><br>
+                    <img src="<?php echo template_url("img/steps/big/pray.png") ?>" width="300">
+                </div>
+                <div class="pray_right">
+                    <?php echo __("pray_text")?>
+                </div>
+                <div class="clear"></div>
             </div>
 
             <div class="main_content_footer row">

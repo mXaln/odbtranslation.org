@@ -32,7 +32,7 @@ $stepsNum = [
     <?php if(Session::get("isAdmin")): ?>
         <li role="presentation" id="my_facilitation" class="active my_tab">
             <a href="#"><?php echo __("facilitator_events") ?>
-                <span>(<?php echo sizeof($data["myFacilitatorEvents"]) ?>)</span>
+                <span>(<?php echo sizeof($data["myFacilitatorEventsInProgress"]) ?>)</span>
             </a>
         </li>
     <?php endif ?>
@@ -71,7 +71,13 @@ $stepsNum = [
 
         <div class="clear"></div>
 
-        <?php foreach($data["myFacilitatorEvents"] as $key => $event): ?>
+
+
+        <?php if(sizeof($data["myFacilitatorEventsInProgress"]) > 0): ?>
+        <div class="events_separator"><?php echo __("events_in_progress") ?></div>
+        <?php endif; ?>
+
+        <?php foreach($data["myFacilitatorEventsInProgress"] as $key => $event): ?>
             <?php
             switch ($event->state)
             {
@@ -161,7 +167,103 @@ $stepsNum = [
             </div>
         <?php endforeach; ?>
 
-        <?php if(sizeof($data["myFacilitatorEvents"]) <= 0): ?>
+
+
+        <?php if(sizeof($data["myFacilitatorEventsFinished"]) > 0): ?>
+            <div class="events_separator"><?php echo __("events_finished") ?></div>
+        <?php endif; ?>
+
+        <?php foreach($data["myFacilitatorEventsFinished"] as $key => $event): ?>
+            <?php
+            switch ($event->state)
+            {
+                case EventStates::L2_RECRUIT:
+                    $eventType = __("l2_3_events", array(2));
+                    $eventImg = template_url("img/steps/big/l2_check.png");
+                    $logoBorderClass = "checkingl2";
+                    $bgColor = "purple-marked";
+                    $currentMembers = $event->chl2Cnt;
+                    $totalMembers = $event->l2CheckersNum;
+                    $members = __("checkers");
+                    $manageLink = "#";
+                    $progressLink = "#";
+                    break;
+
+                case EventStates::L3_RECRUIT:
+                    $eventType = __("l2_3_events", array(3));
+                    $eventImg = template_url("img/steps/big/l2_check.png");
+                    $logoBorderClass = "checkingl3";
+                    $bgColor = "purple-marked";
+                    $currentMembers = $event->chl3Cnt;
+                    $totalMembers = $event->l3CheckersNum;
+                    $members = __("checkers");
+                    $manageLink = "#";
+                    $progressLink = "#";
+                    break;
+
+                default:
+                    $eventType = __("8steps_vmast");
+                    $eventImg = template_url("img/steps/big/peer-review.png");
+                    $logoBorderClass = "translation";
+                    $bgColor = "purple-marked";
+                    $currentMembers = $event->trsCnt;
+                    $totalMembers = $event->translatorsNum;
+                    $members = __("translators");
+                    $manageLink = "/events/manage/".$event->eventID;
+                    $progressLink = "/events/information/".$event->eventID;
+                    break;
+            }
+            ?>
+
+            <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
+                <div class="event_logo <?php echo $logoBorderClass ?>">
+                    <div class="event_type"><?php echo __($eventType) ?></div>
+                    <div class="event_img">
+                        <img width="146" src="<?php echo $eventImg ?>">
+                    </div>
+                </div>
+                <div class="event_project">
+                    <div class="event_book"><?php echo $event->name ?></div>
+                    <div class="event_proj">
+                        <div><?php echo __($event->bookProject) ?></div>
+                        <div><?php echo $event->langName . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
+                    </div>
+                    <div class="event_facilitator">
+
+                    </div>
+                </div>
+                <div class="event_time">
+                    <div class="event_time_start">
+                        <div class="event_time_title"><?php echo __("time_start") ?></div>
+                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
+                        <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                    </div>
+                    <div class="event_time_end">
+                        <div class="event_time_title"><?php echo __("time_end") ?></div>
+                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
+                        <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                    </div>
+                </div>
+                <div class="event_current_pos">
+                    <div class="event_current_title"><?php echo __("state") ?></div>
+                    <div class="event_curr_step">
+                        <?php echo __("state_".$event->state) ?>
+                    </div>
+                </div>
+                <div class="event_action">
+                    <div class="event_manage_link"><a href="<?php echo $manageLink ?>"><?php echo __("manage") ?></a></div>
+                    <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
+                    <div class="event_members">
+                        <div><?php echo $members ?></div>
+                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        <?php endforeach; ?>
+
+        <?php if(sizeof($data["myFacilitatorEventsInProgress"]) <= 0 && sizeof($data["myFacilitatorEventsFinished"]) <= 0): ?>
             <div class="no_events_message"><?php echo __("no_events_message") ?></div>
         <?php endif; ?>
     </div>

@@ -27,13 +27,21 @@ foreach ($data["chapters"] as $key => $chapter):?>
                     <div class="<?php echo $chapter["progress"] >= 100 ? "glyphicon glyphicon-ok" : "" ?> finished_icon"></div>
                     <div class="clear"></div>
                 </div>
+                <div>
+                    <?php if(isset($chapter["lastEdit"])): ?>
+                        <span style="font-weight: bold;"><?php echo __("last_edit") .": " ?></span>
+                        <span class="datetime" data="<?php echo isset($chapter["lastEdit"]) ? date(DATE_RFC2822, strtotime($chapter["lastEdit"])) : "" ?>">
+                                    <?php echo $chapter["lastEdit"] ?>
+                                </span>
+                    <?php endif; ?>
+                </div>
                 <div class="clear"></div>
             </div>
             <div class="section_content">
                 <div class="section_translator">
                     <div class="section_translator_name">
                         <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["memberID"]]["avatar"].".png") ?>">
-                        <span><b><?php echo $data["members"][$chapter["memberID"]]["userName"] ?></b></span>
+                        <span><b><?php echo $data["members"][$chapter["memberID"]]["name"] ?></b></span>
                     </div>
                 </div>
                 <div class="section_steps">
@@ -55,7 +63,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <?php if($chapter["verb"]["checkerID"] != "na"): ?>
                             <div class="step_checker">
                                 <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["verb"]["checkerID"]]["avatar"].".png") ?>">
-                                <div><?php echo $data["members"][$chapter["verb"]["checkerID"]]["userName"] ?></div>
+                                <div><?php echo $data["members"][$chapter["verb"]["checkerID"]]["name"] ?></div>
                                 <?php if($chapter["verb"]["state"] == StepsStates::CHECKED || $chapter["verb"]["state"] == StepsStates::FINISHED): ?>
                                     <span class="glyphicon glyphicon-ok checked"></span>
                                 <?php endif; ?>
@@ -112,7 +120,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <?php if($chapter["peer"]["checkerID"] != "na"): ?>
                             <div class="step_checker">
                                 <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["peer"]["checkerID"]]["avatar"].".png") ?>">
-                                <div><?php echo $data["members"][$chapter["peer"]["checkerID"]]["userName"] ?></div>
+                                <div><?php echo $data["members"][$chapter["peer"]["checkerID"]]["name"] ?></div>
                                 <?php if($chapter["peer"]["state"] == StepsStates::CHECKED || $chapter["peer"]["state"] == StepsStates::FINISHED): ?>
                                     <span class="glyphicon glyphicon-ok checked"></span>
                                 <?php endif; ?>
@@ -133,7 +141,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <?php if($chapter["kwc"]["checkerID"] != "na"): ?>
                             <div class="step_checker">
                                 <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["kwc"]["checkerID"]]["avatar"].".png") ?>">
-                                <div><?php echo $data["members"][$chapter["kwc"]["checkerID"]]["userName"] ?></div>
+                                <div><?php echo $data["members"][$chapter["kwc"]["checkerID"]]["name"] ?></div>
                                 <?php if($chapter["kwc"]["state"] == StepsStates::CHECKED || $chapter["kwc"]["state"] == StepsStates::FINISHED): ?>
                                     <span class="glyphicon glyphicon-ok checked"></span>
                                 <?php endif; ?>
@@ -154,7 +162,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <?php if($chapter["crc"]["checkerID"] != "na"): ?>
                             <div class="step_checker">
                                 <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["crc"]["checkerID"]]["avatar"].".png") ?>">
-                                <div><?php echo $data["members"][$chapter["crc"]["checkerID"]]["userName"] ?></div>
+                                <div><?php echo $data["members"][$chapter["crc"]["checkerID"]]["name"] ?></div>
                                 <?php if($chapter["crc"]["state"] == StepsStates::CHECKED || $chapter["crc"]["state"] == StepsStates::FINISHED): ?>
                                     <span class="glyphicon glyphicon-ok checked"></span>
                                 <?php endif; ?>

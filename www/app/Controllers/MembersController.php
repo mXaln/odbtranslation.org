@@ -632,6 +632,8 @@ class MembersController extends Controller
 
                 if(!empty($data))
                 {
+                    if($data[0]->blocked) Url::redirect('members/login');
+
                     if (Password::verify($_POST['password'], $data[0]->password))
                     {
                         if($data[0]->active)

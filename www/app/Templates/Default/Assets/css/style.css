@@ -573,17 +573,17 @@ html, body, .container {
 }
 
 .sof_block {
-     display: none;
-     width: 100%;
-     height: 100%;
-     position: fixed;
-     top: 0; bottom: 0;
-     left:0; right:0;
-     background: rgba(0,0,0,0.7);
-     z-index: 99;
-     overflow-y: auto;
-     overflow-x: hidden;
- }
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
 .sof_block > .sof_content {
     padding: 20px;
@@ -1099,6 +1099,7 @@ div.ui-datepicker {
 #translator_contents {
     position: relative;
     margin: 0;
+    padding-top: 0px;
 }
 
 .main_content_footer {
@@ -1998,7 +1999,7 @@ mark {
 .section_header {
     margin-top: 10px;
     cursor: pointer;
-    width: 500px;
+    width: 700px;
 }
 
 .section_arrow {
@@ -2285,23 +2286,18 @@ mark {
 }
 
 .demo_title {
-    float: right;
     font-size: 25px;
     color: #e5001d;
-    margin-top: 10px;
 }
 
 .demo_video {
     float: right;
-    font-size: 25px;
-    margin-top: 10px;
+    font-size: 20px;
+    margin-top: 20px;
 }
 
-.demo_sep {
-    float: right;
-    font-size: 25px;
-    margin: 10px 10px 0 10px;
-    color: #337ab7;
+.demo_video a {
+    text-decoration: underline;
 }
 
 .demo_link {
@@ -2310,6 +2306,7 @@ mark {
 
 .demo_title.events_index {
     margin-top: -60px;
+    float: right;
 }
 
 .demo_title span {
@@ -2334,6 +2331,16 @@ mark {
 
 a.demo_link, a.demo_link:hover {
     color: #e5001d;
+}
+
+.demo_video span {
+    background-color: #337ab7;
+    border-radius: 18px;
+    color: #fff;
+    font-size: 20px;
+    height: 28px;
+    padding: 3px 0 0 5px;
+    width: 28px;
 }
 
 .book_name {
@@ -3328,4 +3335,42 @@ button.startEvnt, button.editEvnt {
     font-weight: bold;
     font-size: 18px;
     margin-top: -10px;
+}
+
+.events_separator {
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+    font-size: 22px;
+    margin: 10px 0;
+    color: #4596cc;
+}
+
+.blockMember {
+    min-width: 100px;
+}
+
+.pray_left {
+    float: left;
+    text-align: center;
+    width: 320px;
+}
+
+.pray_right {
+    float: right;
+    width: 500px;
+    font-size: 22px;
+    padding: 20px;
+}
+
+.noscript {
+    background-color: #e2a200;
+    font-size: 18px;
+    font-weight: bold;
+    height: 50px;
+    margin: 0 auto;
+    padding-top: 12px;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }

@@ -87,7 +87,18 @@ class EventsController extends Controller
         }
 
         if(Session::get("isAdmin"))
-            $data["myFacilitatorEvents"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"));
+        {
+            $myFacilitatorEvents = $this->_model->getMemberEventsForAdmin(Session::get("memberID"));
+            $data["myFacilitatorEventsInProgress"] = [];
+            $data["myFacilitatorEventsFinished"] = [];
+
+            foreach ($myFacilitatorEvents as $myFacilitatorEvent) {
+                if($myFacilitatorEvent->state == EventStates::TRANSLATED)
+                    $data["myFacilitatorEventsFinished"][] = $myFacilitatorEvent;
+                else
+                    $data["myFacilitatorEventsInProgress"][] = $myFacilitatorEvent;
+            }
+        }
 
         $myLangs = array_keys(Session::get("profile")["languages"]);
 
@@ -1406,6 +1417,7 @@ class EventsController extends Controller
             $overallProgress = 0;
 
             $chunks = $this->_translationModel->getTranslationByEventID($data["event"][0]->eventID);
+
             $memberSteps = [];
 
             foreach ($chunks as $chunk) {
@@ -1425,6 +1437,17 @@ class EventsController extends Controller
                     continue;
 
                 $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
+
+                if(!isset($data["chapters"][$chunk->chapter]["lastEdit"]))
+                {
+                    $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+                }
+                else
+                {
+                    $prevDate = strtotime($data["chapters"][$chunk->chapter]["lastEdit"]);
+                    if($prevDate < strtotime($chunk->dateUpdate))
+                        $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+                }
             }
 
             foreach ($data["chapters"] as $key => $chapter) {
@@ -1727,6 +1750,7 @@ class EventsController extends Controller
 
             foreach ($membersArray as $member) {
                 $members[$member->memberID]["userName"] = $member->userName;
+                $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
             }
 
@@ -2573,6 +2597,8 @@ class EventsController extends Controller
                 {
                     $members = $this->_model->getMembersForEvent($eventID);
                     foreach ($members as $key => $member) {
+                        $members[$key]["name"] = $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1).".";
+
                         if(in_array($member["memberID"], $memberIDs))
                             unset($members[$key]);
                     }

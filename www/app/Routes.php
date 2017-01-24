@@ -130,6 +130,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/create_event", "AdminController@createEvent");
     Router::any("rpc/get_source", "AdminController@getSource");
     Router::any("rpc/verify_member", "AdminController@verifyMember");
+    Router::any("rpc/block_member", "AdminController@blockMember");
 });
 
 /** End default Routes */

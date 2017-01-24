@@ -501,6 +501,59 @@ class AdminController extends Controller {
         }
     }
 
+    public function blockMember()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = "not_loggedin";
+            echo json_encode($response);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $response["error"] = "not_allowed";
+            echo json_encode($response);
+            exit;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $memberID = isset($_POST["memberID"]) ? (integer)$_POST["memberID"] : null;
+
+        if($memberID)
+        {
+            $member = $this->_membersModel->getMember(
+                ["blocked"],
+                ["memberID", $memberID]
+            );
+
+            if(!empty($member))
+            {
+                $this->_membersModel->updateMember(
+                    ["blocked" => !$member[0]->blocked],
+                    ["memberID" => $memberID]);
+
+                $response["success"] = true;
+                $response["blocked"] = !$member[0]->blocked;
+                echo json_encode($response);
+            }
+            else
+            {
+                $response["error"] = "no_member";
+                echo json_encode($response);
+                exit;
+            }
+        }
+        else
+        {
+            $response["error"] = "wrong_parameters";
+            echo json_encode($response);
+        }
+    }
+
     public function getTargetLanguagesByGwLanguage()
     {
         if (!Session::get('loggedin'))

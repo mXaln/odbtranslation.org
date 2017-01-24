@@ -52,7 +52,7 @@ class MembersModel extends Model {
 	{
 		if(is_array($memberIDs) && !empty($memberIDs))
 		{
-            $select = ["members.memberID", "members.userName", "profile.avatar"];
+            $select = ["members.memberID", "members.userName", "members.firstName", "members.lastName", "profile.avatar"];
 
             if($more)
                 $select = array_merge($select, ["members.firstName", "members.lastName", "members.email"]);
@@ -129,7 +129,8 @@ class MembersModel extends Model {
                 "members.firstName",
                 "members.lastName",
                 "members.isAdmin",
-                "profile.prefered_roles"
+                "profile.prefered_roles",
+                "blocked"
             ])
                 ->skip($skip)->take($take) // limit to 50 (default) rows per page
                 ->orderBy("members.userName");

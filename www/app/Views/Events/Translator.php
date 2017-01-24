@@ -10,6 +10,12 @@ if(isset($data["success"]))
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
 ?>
 
+<noscript>
+    <div class="noscript">
+        <?php echo __("noscript_message") ?>
+    </div>
+</noscript>
+
 <div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
     <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
 
@@ -86,9 +92,10 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                 <div id="chk" class="col-sm-4 chat_tab">
                     <div class="chk_title">
                         <?php
-                        echo isset($data["event"][0]->checkerName) && $data["event"][0]->checkerName !== null ?
-                            $data["event"][0]->checkerName : (isset($data["event"][0]->userName) && $data["event"][0]->userName !== null ?
-                                $data["event"][0]->userName : __("not_available"))
+                        echo isset($data["event"][0]->checkerFName) && $data["event"][0]->checkerFName !== null ?
+                            $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." :
+                                (isset($data["event"][0]->firstName) && $data["event"][0]->firstName !== null ?
+                                    $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." : __("not_available"))
                         ?>
                     </div>
                     <div class="missed"></div>
@@ -161,7 +168,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 </audio>
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
-<script src="<?php echo template_url("js/chat-plugin.js")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?2")?>"></script>
 <script src="<?php echo template_url("js/socket.js")?>"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="<?php echo template_url("js/video-chat.js")?>"></script>

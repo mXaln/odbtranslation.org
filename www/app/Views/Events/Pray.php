@@ -9,9 +9,15 @@ if(isset($data["error"])) return;
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <img src="<?php echo template_url("img/steps/big/".(!$data["event"][0]->justStarted ? "guys" : "pray").".png") ?>">
-                <br>
-                <div><?php echo __((!$data["event"][0]->justStarted ? "prep_" : "")."pray_text")?></div>
+                <div class="pray_left">
+                    <img src="<?php echo template_url("img/steps/icons/pray.png") ?>" width="80">
+                    <br><br>
+                    <img src="<?php echo template_url("img/steps/big/".(!$data["event"][0]->justStarted ? "guys" : "pray").".png") ?>" width="300">
+                </div>
+                <div class="pray_right">
+                    <?php echo __((!$data["event"][0]->justStarted ? "prep_" : "")."pray_text")?>
+                </div>
+                <div class="clear"></div>
             </div>
 
             <div class="main_content_footer row">

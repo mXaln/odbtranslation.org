@@ -35,7 +35,7 @@ return array (
     "sof" => "Statement of faith",
     "welcome_title" => "Welcome",
     "translator" => "Translator",
-    "checker" => "Checker",
+    "checker" => "L2/L3 Checker",
     "facilitator" => "Facilitator",
     "facilitators" => "Facilitators",
     "l2_checker" => "Level 2 Checking",
@@ -369,6 +369,12 @@ return array (
     "event_status" => "Event status",
     "contributors" => "Contributors",
     "event_contributors" => "Event contributors",
+    "events_in_progress" => "Current Events",
+    "events_finished" => "Completed events",
+    "block" => "Block",
+    "unblock" => "Unblock",
+    "last_edit" => "Last edit",
+    "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
 
     // Steps
     "pray" => "Preparation: Prayer",

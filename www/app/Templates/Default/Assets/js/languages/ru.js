@@ -70,4 +70,8 @@ var Language = {
     "translators"               : "Переводчики",
     "facilitators"              : "Фасилитаторы",
     "checkers"                  : "Проверяющие",
+    "blockedSuccess"            : "Пользователь заблокирован",
+    "unblockedSuccess"          : "Пользователь разблокирован",
+    "block"                     : "Заблокировать",
+    "unblock"                   : "Разблокировать",
 };

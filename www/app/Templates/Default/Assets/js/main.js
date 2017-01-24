@@ -388,7 +388,7 @@ $(document).ready(function() {
                         }
 
                         // Update members list
-                        $.each(data.members, function (memberID, userName) {
+                        $.each(data.members, function (memberID, member) {
                             if(memberID == "na") return true;
 
                             memberID = parseInt(memberID);
@@ -400,7 +400,7 @@ $(document).ready(function() {
                                     .attr("data", memberID);
 
                                 memberItem.append('<span class="online_indicator glyphicon glyphicon-record">&nbsp;</span>');
-                                memberItem.append('<span class="member_uname">'+userName+'</span> ');
+                                memberItem.append('<span class="member_uname">'+member.name+'</span> ');
                                 memberItem.append('<span class="member_admin">'+(data.admins.indexOf(memberID) > -1 ? "("+Language.facilitator+") " : "")+'</span>');
                                 memberItem.append('<span class="online_status">'+Language.statusOnline+'</span>');
                                 memberItem.append('<span class="offline_status">'+Language.statusOffline+'</span>');
@@ -428,6 +428,8 @@ $(document).ready(function() {
 
                         });
                         openedItems = [];
+
+                        localizeDate();
                     }
                     else
                     {
@@ -1450,36 +1452,40 @@ $(document).ready(function() {
         }, 60000);
     }
 
-    $.each($(".datetime"), function () {
-        var dateStr = $(this).attr("data");
-        if(dateStr == "") return true;
+    function localizeDate() {
+        $.each($(".datetime"), function () {
+            var dateStr = $(this).attr("data");
+            if(dateStr == "") return true;
 
-        var date_options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            weekday: 'short',
-            timezone: 'UTC',
-        };
+            var date_options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'short',
+                timezone: 'UTC',
+            };
 
-        var time_options = {
-            hour: 'numeric',
-            minute: 'numeric',
-            timezone: 'UTC',
-        };
+            var time_options = {
+                hour: 'numeric',
+                minute: 'numeric',
+                timezone: 'UTC',
+            };
 
-        if($(".event_time_time").length <= 0) // Combine date and time options for full result
-        {
-            date_options.hour = 'numeric';
-            date_options.minute = 'numeric';
-        }
+            if($(".event_time_time").length <= 0) // Combine date and time options for full result
+            {
+                date_options.hour = 'numeric';
+                date_options.minute = 'numeric';
+            }
 
-        var lang = getCookie("lang") != "undefined" ? getCookie("lang") : "en";
+            var lang = getCookie("lang") != "undefined" ? getCookie("lang") : "en";
 
-        var date = new Date(dateStr + " UTC");
-        $(this).text(date.toLocaleString(lang, date_options));
-        $(this).next(".event_time_time").text(date.toLocaleString(lang, time_options));
-    });
+            var date = new Date(dateStr + " UTC");
+            $(this).text(date.toLocaleString(lang, date_options));
+            $(this).next(".event_time_time").text(date.toLocaleString(lang, time_options));
+        });
+    }
+
+    localizeDate();
 
     // Dashboard tabs switch
     $(".my_tab").click(function () {

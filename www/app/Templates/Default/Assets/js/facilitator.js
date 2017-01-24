@@ -134,7 +134,7 @@ $(function () {
                     $.each(data.members, function(index, value) {
                         var hiddenListLi = '<li>'+
                         '   <div class="member_usname userlist chapter_ver">'+
-                        '       <div class="divname">'+value.userName+'</div>'+
+                        '       <div class="divname">'+value.name+'</div>'+
                         '       <div class="divvalue">(<span>0</span>)</div>'+
                         '   </div>'+
                         '   <button class="btn btn-success assign_chapter" data="'+value.memberID+'">'+Language.assign+'</button>'+
@@ -144,7 +144,7 @@ $(function () {
 
                         var shownListLi = '<li>'+
                         '   <div class="member_usname" data="'+value.memberID+'">'+
-                                value.userName+' (<span>0</span>)'+
+                                value.name+' (<span>0</span>)'+
                         '   <div class="glyphicon glyphicon-remove delete_user" title="'+Language.removeFromEvent+'"></div>'+
                         '   </div>'+
                         '   <div class="member_chapters">'+
@@ -153,7 +153,7 @@ $(function () {
                         '</li>';
                         $(".manage_members ul").append(shownListLi);
 
-                        newUsers.push(value.userName);
+                        newUsers.push(value.name);
                     });
 
                     if(newUsers.length > 0)

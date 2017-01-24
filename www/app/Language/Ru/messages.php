@@ -367,6 +367,12 @@ return array (
     "event_status" => "Статус события",
     "contributors" => "Участники",
     "event_contributors" => "Участники события",
+    "events_in_progress" => "Текущие события",
+    "events_finished" => "Завершенные события",
+    "block" => "Заблокировать",
+    "unblock" => "Разблокировать",
+    "last_edit" => "Последнее редактирование",
+    "noscript_message" => "Javascript выключен! Пожалуйста включите его, чтобы задействовать все функции v-mast.",
 
     // Steps
     "pray" => "Подготовка: Молитва",

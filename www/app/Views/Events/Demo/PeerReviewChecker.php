@@ -13,10 +13,14 @@
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [6]) . ": " . __("peer-review")?></div>
-        <div class="demo_title"><?php echo __("demo") ?></div>
-        <div class="demo_sep"> | </div>
-        <div class="demo_video"><a href="#"><?php echo __("demo_video"); ?></a></div>
+        <div class="main_content_title">
+            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div><?php echo __("step_num", [6]) . ": " . __("peer-review")?></div>
+        </div>
+        <div class="demo_video">
+            <span class="glyphicon glyphicon-play"></span>
+            <a href="#"><?php echo __("demo_video"); ?></a>
+        </div>
     </div>
 
     <div class="row">

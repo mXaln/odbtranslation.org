@@ -221,7 +221,7 @@ class EventsModel extends Model
                 .PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, "
                 .PREFIX."translators.translateDone, ".PREFIX."translators.verbCheck, "
-                ."mems.userName AS checkerName, "
+                ."mems.userName AS checkerName, mems.firstName AS checkerFName, mems.lastName AS checkerLName, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, ": "")
             ."evnt.eventID, evnt.state, evnt.bookCode, evnt.chapters, evnt.dateFrom, "
             ."evnt.dateTo, evnt.translatorsNum, evnt.admins, "
@@ -282,7 +282,7 @@ class EventsModel extends Model
         if($trMemberID)
             $prepare[":trMemberID"] = $trMemberID;
 
-        $sql = "SELECT trs.*, ".PREFIX."members.userName, evnt.bookCode, evnt.chapters, evnt.admins, ".
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, evnt.bookCode, evnt.chapters, evnt.admins, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
                 PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".
                 "t_lang.direction as tLangDir, s_lang.direction as sLangDir ".
@@ -377,7 +377,7 @@ class EventsModel extends Model
     {
         $this->db->setFetchMode(PDO::FETCH_ASSOC);
         $res = $this->db->table("translators")
-            ->select("translators.*", "members.userName")
+            ->select("translators.*", "members.userName", "members.firstName", "members.lastName")
             ->leftJoin("members", "translators.memberID", "=", "members.memberID")
             ->where("translators.eventID", $eventID)
             ->orderBy("members.userName")->get();
