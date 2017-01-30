@@ -26,7 +26,10 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [2]). ": " . __("verbalize")?></div>
+        <div class="main_content_title">
+            <div><?php echo __("step_num", [2]). ": " . __("verbalize")?></div>
+            <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
+        </div>
     </div>
 
     <div class="row">
@@ -73,7 +76,7 @@ if(empty($error) && empty($data["success"])):
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_translator") ?>:</span>
-                        <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
+                        <span><?php echo $data["event"][0]->userName ?></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>

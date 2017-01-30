@@ -1,4 +1,6 @@
 <?php
+use \Helpers\Constants\EventSteps;
+
 echo Error::display($error);
 
 if(!isset($error)):
@@ -67,6 +69,27 @@ if(!isset($error)):
                     <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
                         <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
                     </div>
+                    <div class="step_selector_block">
+                        <?php
+                        $s_disabled = EventSteps::enum($member["step"]) < 2;
+                        ?>
+                        <label><?php echo __("current_step") ?>:</label>
+                        <select class="step_selector form-control" <?php echo $s_disabled ? "disabled" : "" ?> data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>">
+                            <?php foreach (EventSteps::enumArray() as $step => $i): ?>
+                                <?php
+                                if($step == EventSteps::NONE) continue;
+
+                                $selected = $step == $member["step"];
+                                $o_disabled = EventSteps::enum($member["step"]) < $i ||
+                                    (EventSteps::enum($member["step"]) - $i) > 1;
+                                ?>
+
+                                <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
+                                    <?php echo EventSteps::enum($step) == 5 ? __("read-chunk-alt") : __($step) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -105,4 +128,15 @@ if(!isset($error)):
 
 <script>
     isManagePage = true;
+
+    $(document).ready(function () {
+        $('.step_selector').each(function () {
+            $('option', this).each(function () {
+                if (this.defaultSelected) {
+                    this.selected = true;
+                    return false;
+                }
+            });
+        });
+    });
 </script>

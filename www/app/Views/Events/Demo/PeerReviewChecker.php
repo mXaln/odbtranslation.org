@@ -16,6 +16,7 @@
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") ?></div>
             <div><?php echo __("step_num", [6]) . ": " . __("peer-review")?></div>
+            <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -45,7 +46,7 @@
                                 <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                                 <div class="comments">
-                                    <div class="other_comments"><span>mpat1977:</span> This is translator's comment on this chunk</div>
+                                    <div class="other_comments"><span>Mark P.:</span> This is translator's comment on this chunk</div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -67,7 +68,7 @@
                                 <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                                 <div class="comments">
-                                    <div class="other_comments"><span>mpat1977:</span> This is translator's comment on this chunk</div>
+                                    <div class="other_comments"><span>Mark P.:</span> This is translator's comment on this chunk</div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -227,7 +228,7 @@
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_translator") ?>:</span>
-                        <span>mpat1977</span>
+                        <span>Mark P.</span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/demo/information"><?php echo __("event_info") ?></a>
@@ -264,10 +265,23 @@
 <script>
     $(document).ready(function () {
         $("#next_step").click(function (e) {
-            e.preventDefault();
+            renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
+                function () {
+                    deleteCookie("temp_tutorial");
+                    window.location.href = '/events/demo/keyword_check';
+                },
+                function () {
+                    $("#confirm_step").prop("checked", false);
+                    $("#next_step").prop("disabled", true);
+                    $( this ).dialog("close");
+                },
+                function () {
+                    $("#confirm_step").prop("checked", false);
+                    $("#next_step").prop("disabled", true);
+                    $( this ).dialog("close");
+                });
 
-            deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/keyword_check';
+            e.preventDefault();
 
             return false;
         });

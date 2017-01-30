@@ -278,6 +278,7 @@ $(function () {
         return false;
     });
 
+    // Show more search members results
     $(document).on("click", "#search_more", function () {
         var button = $(this);
 
@@ -345,6 +346,110 @@ $(function () {
         $(".mems_language").val('').trigger("chosen:updated");
         return false;
     });
+
+    // Moving transators step back
+    $(".step_selector").change(function () {
+        var event_member = $(this).attr("data").split(":");
+        var eventID = event_member[0];
+        var memberID = event_member[1];
+        var to_step = $(this).val();
+
+        var $this = $(this);
+
+        if(to_step == EventSteps.VERBALIZE || to_step == EventSteps.PEER_REVIEW
+            || to_step == EventSteps.KEYWORD_CHECK || to_step == EventSteps.CONTENT_REVIEW)
+        {
+            renderConfirmPopup(Language.attention, Language.removeCheckerConfirm,
+                function () {
+                    moveStepBack($this, eventID, memberID, to_step, true);
+                    $( this ).dialog( "close" );
+                },
+                function () {
+                    moveStepBack($this, eventID, memberID, to_step);
+                    $( this ).dialog( "close" );
+                },
+                function () {
+                    $('option', $this).each(function () {
+                        if (this.defaultSelected) {
+                            this.selected = true;
+                            return false;
+                        }
+                    });
+                }
+            );
+        }
+        else
+        {
+            moveStepBack($this, eventID, memberID, to_step);
+        }
+    });
+
+
+    function moveStepBack(selector, eventID, memberID, to_step, confirm) {
+        confirm = confirm || false;
+
+        $.ajax({
+            url: "/events/rpc/move_step_back",
+            method: "post",
+            data: {
+                eventID : eventID,
+                memberID : memberID,
+                to_step: to_step,
+                confirm: confirm
+            },
+            dataType: "json",
+            beforeSend: function() {
+                //$(".filter_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(data.message,
+                        function () {
+                            $( this ).dialog( "close" );
+                        },
+                        function () {
+                            window.location.reload();
+                        });
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error,
+                            function () {
+                                $( this ).dialog( "close" );
+                            },
+                            function () {
+                                window.location.reload();
+                            });
+                    }
+
+                    if(typeof data.confirm != "undefined")
+                    {
+                        renderConfirmPopup(Language.attention, data.message,
+                            function () {
+                                moveStepBack(selector, eventID, memberID, to_step, true);
+                            },
+                            function () {
+                                $( this ).dialog( "close" );
+                            },
+                            function () {
+                                $('option', selector).each(function () {
+                                    if (this.defaultSelected) {
+                                        this.selected = true;
+                                        return false;
+                                    }
+                                });
+                            });
+                    }
+                }
+            })
+            .always(function() {
+                //$(".filter_loader").hide();
+            });
+    }
 });
 
 

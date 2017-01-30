@@ -74,6 +74,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/delete_event_member", "EventsController@deleteEventMember");
     Router::any("rpc/get_info_update/{eventID}", "EventsController@getInfoUpdate")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("rpc/move_step_back", "EventsController@moveStepBack");
 });
 
 
@@ -108,7 +109,7 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
             "authToken" => "[a-z0-9]+"
         ]);
     Router::any("rpc/search_members", "MembersController@searchMembers");
-    Router::any("rpc/send_message", "MembersController@sendMessage");
+    Router::any("rpc/send_message", "MembersController@sendMessageToAdmin");
 });
 
 

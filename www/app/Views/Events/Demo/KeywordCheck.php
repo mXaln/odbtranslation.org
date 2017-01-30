@@ -15,6 +15,7 @@
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") ?></div>
             <div><?php echo __("step_num", [7]) . ": " . __("keyword-check")?></div>
+            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -235,7 +236,7 @@
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span">mSimpson</span>
+                        <span class="checker_name_span">Marge S.</span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/demo/information"><?php echo __("event_info") ?></a>

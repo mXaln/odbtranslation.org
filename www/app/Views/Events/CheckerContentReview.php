@@ -25,7 +25,10 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [8]). ": " . __("content-review")?></div>
+        <div class="main_content_title">
+            <div><?php echo __("step_num", [8]). ": " . __("content-review")?></div>
+            <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
+        </div>
     </div>
 
     <div class="row">
@@ -209,6 +212,27 @@ if(empty($error) && empty($data["success"])):
 
 <script>
     isChecker = true;
+
+    $(document).ready(function() {
+        $("#next_step").click(function (e) {
+            renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
+                function () {
+                    $("#checker_submit").submit();
+                },
+                function () {
+                    $("#confirm_step").prop("checked", false);
+                    $("#next_step").prop("disabled", true);
+                    $( this ).dialog("close");
+                },
+                function () {
+                    $("#confirm_step").prop("checked", false);
+                    $("#next_step").prop("disabled", true);
+                    $( this ).dialog("close");
+                });
+
+            e.preventDefault();
+        });
+    });
 </script>
 <?php endif; ?>
 

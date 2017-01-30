@@ -3,7 +3,10 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("verbalize")?></div>
+        <div class="main_content_title">
+            <div><?php echo __("step_num", [2]) . ": " . __("verbalize")?></div>
+            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
+        </div>
     </div>
 
     <div class="row">

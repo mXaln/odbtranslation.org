@@ -307,7 +307,8 @@ function manageMic() {
 function gotStream(stream)
 {
     console.log('Adding local stream.');
-    localVideo.src = window.URL.createObjectURL(stream);
+    //localVideo.src = window.URL.createObjectURL(stream);
+    localVideo.srcObject = stream;
     localStream = stream;
 
     if(!isInitiator)
@@ -441,7 +442,8 @@ function handleIceCandidate(event) {
 
 function handleRemoteStreamAdded(event) {
     console.log('Remote stream added.');
-    remoteVideo.src = window.URL.createObjectURL(event.stream);
+    //remoteVideo.src = window.URL.createObjectURL(event.stream);
+    remoteVideo.srcObject = event.stream;
     remoteStream = event.stream;
 
     $("#answerButton").hide().prop("disabled", true);

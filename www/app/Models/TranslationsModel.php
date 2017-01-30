@@ -100,22 +100,30 @@ class TranslationsModel extends Model
      * @param int $trID
      * @param int $tID
      * @param int $chapter
+     * @param int $chunk
      * @return array
      */
-    public function getEventTranslation($trID, $tID = null, $chapter = null)
+    public function getEventTranslation($trID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("translations")
             ->where("trID", $trID);
 
-        if($tID) {
-            $builder->where("tID", $tID);
-        }
-        else
-        {
-            if($chapter) {
-                $builder->where("chapter", $chapter);
+        if($chapter) {
+            $builder->where("chapter", $chapter);
+            if($chunk) {
+                $builder->where("chunk", $chunk);
             }
         }
+
+        return $builder->get();
+    }
+
+    public function getLastEventTranslation($trID)
+    {
+        $builder = $this->db->table("translations")
+            ->where("trID", $trID)
+            ->orderBy("tID", "desc")
+            ->limit(1);
 
         return $builder->get();
     }
@@ -202,6 +210,18 @@ class TranslationsModel extends Model
             ->update($data);
     }
 
+    /**
+     * Delete translation/s
+     * @param $where
+     * @return int
+     */
+    public function deleteTranslation($where)
+    {
+        return $this->db->table("translations")
+            ->where($where)
+            ->delete();
+    }
+
     public function getComment($eventID, $chapter, $chunk, $memberID)
     {
         return $this->db->table("comments")
@@ -225,6 +245,18 @@ class TranslationsModel extends Model
             $builder->where("comments.chapter", $chapter);
 
         return $builder->get();
+    }
+
+    public function deleteCommentsByEvent($eventID, $chapter = null)
+    {
+        $builder = $this->db->table("comments");
+
+        $builder->where("eventID", $eventID);
+        if($chapter != null)
+            $builder->where("chapter", $chapter);
+
+        return $builder->delete();
+
     }
 
     public function getKeywords($where)

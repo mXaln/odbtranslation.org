@@ -72,12 +72,21 @@ $isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
     <div class="video_popup">
         <div class="video-close glyphicon glyphicon-remove"></div>
 
-        <video width="900" controls buffered preload="metadata">
-            <source type='video/ogg; codecs="theora, vorbis"' src="<?php echo template_url("video/demo.ogv") ?>"/>
-            <source type="video/webm" src="<?php echo template_url("video/demo.webm") ?>"/>
-            <source type="video/mp4" src="<?php echo template_url("video/demo.mp4") ?>"/>
-            <p>Video is not visible, most likely your browser does not support HTML5 video</p>
-        </video>
+        <iframe id="demo-player" width="900" height="450"
+                src="https://www.youtube.com/embed/t9cKHe5li_E?rel=0&enablejsapi=1&origin=https://v-mast.mvc" frameborder="0" allowfullscreen></iframe>
+
+        <script>
+            var tag = document.createElement('script');
+            tag.id = 'iframe-demo';
+            tag.src = 'https://www.youtube.com/iframe_api';
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('demo-player');
+            }
+        </script>
     </div>
 </div>
 
@@ -89,7 +98,7 @@ $isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
         <div class="chat_tabs panel-heading">
             <div class="row">
                 <div id="chk" class="col-sm-4 chat_tab">
-                    <div>mSimpson</div>
+                    <div>Marge S.</div>
                     <div class="missed"></div>
                 </div>
                 <div id="evnt" class="col-sm-4 chat_tab active">
@@ -112,7 +121,7 @@ $isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
         </ul>
         <ul id="evnt_messages" class="chat_msgs">
             <li class="message msg_other" data="16">
-                <div class="msg_name">mSimpson</div>
+                <div class="msg_name">Marge S.</div>
                 <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message</div>
             </li>
             <li class="message msg_my" data="7">
@@ -130,7 +139,7 @@ $isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
 
     <div class="members_online panel panel-info">
         <div class="panel-heading"><?php echo __("members_online_title") ?></div>
-        <ul id="online" class="panel-body"><li>Gen2Pet</li><li>mpat1977</li><li class="mine">mSimpson (facilitator)</li></ul>
+        <ul id="online" class="panel-body"><li>Genry M.</li><li>Mark P.</li><li class="mine">Marge S. (facilitator)</li></ul>
     </div>
 
     <div class="clear"></div>

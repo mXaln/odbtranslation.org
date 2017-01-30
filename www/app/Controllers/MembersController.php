@@ -864,6 +864,12 @@ class MembersController extends Controller
                         ->subject(__('activate_account_title'));
                 });
 
+                Mailer::send('Emails/Common/NotifyRegistration', ["userName" => $userName, "name" => $firstName." ".$lastName, "id" => $id], function($message)
+                {
+                    $message->to("vmastteam@gmail.com")
+                        ->subject($this->_model->translate("new_account_title", "en"));
+                });
+
                 $msg = __('registration_success_message');
                 Session::set("success", $msg);
                 Session::set("activation_email", $email);
@@ -1088,7 +1094,7 @@ class MembersController extends Controller
     }
 
 
-    public function sendMessage()
+    public function sendMessageToAdmin()
     {
         $response = ["success" => false];
 
@@ -1119,7 +1125,8 @@ class MembersController extends Controller
             {
                 $admin = $this->_model->getMember(
                     ["memberID", "userName", "firstName", "lastName", "email", "isAdmin"],
-                    ["memberID", $adminID]);
+                    ["memberID", $adminID],
+                    true);
 
                 if(!empty($admin) && $admin[0]->isAdmin)
                 {
@@ -1135,10 +1142,20 @@ class MembersController extends Controller
                         $data["subject"] = $subject;
                         $data["message"] = $message;
 
+                        $firstLang = "en";
+                        $languages = json_decode($admin[0]->languages, true);
+                        if(is_array($languages) && !empty($languages))
+                        {
+                            $keys = array_keys($languages);
+                            $firstLang = $keys[0];
+                        }
+
+                        $data["lang"] = $firstLang;
+
                         Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
                         {
                             $message->to($data["fEmail"], $data["fName"])
-                                ->subject("[V-MAST ".__("message_content")."]: " . $data["subject"]);
+                                ->subject("[V-MAST ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
                         });
 
                         $response["success"] = true;

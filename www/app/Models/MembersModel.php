@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Model;
 use Helpers\Data;
 use DB;
+use Support\Facades\Language;
 
 class MembersModel extends Model {
 
@@ -246,6 +247,12 @@ class MembersModel extends Model {
         $this->db->setTablePrefix("vm_");
 
         return $upd;
+    }
+
+    public function translate($value, $code = "en", $params = [])
+    {
+        Language::instance('app')->load("messages", $code);
+        return Language::instance('app')->get($value, $code, $params);
     }
 
     public function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')

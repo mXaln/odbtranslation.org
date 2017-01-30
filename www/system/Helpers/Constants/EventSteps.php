@@ -36,12 +36,17 @@ class EventSteps
         "peer-review" => 8,
         "keyword-check" => 9,
         "content-review" => 10,
-        "final-review" => 12,
-        "finished" => 13,
+        "final-review" => 11,
+        "finished" => 12,
         ];
 
     public static function enum($step)
     {
         return self::$enum[$step];
+    }
+
+    public static function enumArray()
+    {
+        return self::$enum;
     }
 }

@@ -221,6 +221,7 @@ class EventsModel extends Model
                 .PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, "
                 .PREFIX."translators.translateDone, ".PREFIX."translators.verbCheck, "
+                .PREFIX."translators.peerCheck, ".PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, mems.lastName AS checkerLName, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, ": "")
             ."evnt.eventID, evnt.state, evnt.bookCode, evnt.chapters, evnt.dateFrom, "
@@ -415,7 +416,8 @@ class EventsModel extends Model
             EventSteps::CONTENT_REVIEW,
         ]);
 
-        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
+                PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".

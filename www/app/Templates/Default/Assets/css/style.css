@@ -1050,6 +1050,27 @@ div.ui-datepicker {
     color: #4596cc;
     font-size: 30px;
     float: left;
+    position: relative;
+}
+
+.action_type {
+    position: absolute;
+    top: -10px;
+    left: 380px;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    width: 400px;
+    height: 50px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.action_type.type_translation {
+    background-color: #4596cc;
+}
+
+.action_type.type_checking {
+    background-color: #ffa500;
 }
 
 .main_information {
@@ -2453,6 +2474,19 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     height: 32px;
     color: #0481ff;
     font-size: 18px;
+}
+
+.step_selector_block {
+    margin: 5px 0 20px 0;
+    width: 220px;
+}
+
+.step_selector option:checked {
+    font-weight: bold;
+}
+
+.step_selector option:not(:checked):not(:disabled) {
+    font-weight: bold;
 }
 
 .delete_user {

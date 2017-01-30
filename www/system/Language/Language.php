@@ -249,14 +249,26 @@ class Language
      *
      * @return string
      */
-    public function get($value, $code = null)
+    public function get($value, $code = null, $params = [])
     {
         $code = $code ?: $this->getLocale();
 
         $messages = isset($this->legacyMessages[$code]) ? $this->legacyMessages[$code] : array();
 
         if (isset($messages[$value]) && ! empty($messages[$value])) {
-            return $messages[$value];
+            $message = $messages[$value];
+
+            if (empty($params)) {
+                return $message;
+            }
+
+            $languages = $this->manager->getLanguages();
+            $info = $languages[$code];
+            $locale = $info['locale'];
+
+            // Standard Message formatting, using the standard PHP Intl and its MessageFormatter.
+            // The message string should be formatted using the standard ICU commands.
+            return MessageFormatter::formatMessage($locale, $message, $params);
         }
 
         return $value;

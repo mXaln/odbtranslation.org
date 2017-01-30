@@ -25,7 +25,9 @@ var EventSteps = {
 
 $(document).ready(function() {
 
-    $('[data-toggle="tooltip"]').tooltip();
+    setTimeout(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    }, 1000);
 
     animateIntro();
 
@@ -589,61 +591,112 @@ $(document).ready(function() {
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
         var p = $(this).parent().parent();
-        var createChunkBtn = $(".create_chunk");
+        var createChunkBtn = $(".create_chunk").clone();
 
-        //var verses = $(this).val().split("-");
         var verses = parseCombinedVerses($(this).val());
 
-        for(var i=0; i<verses.length; i++)
+        if($(this).is(":checked")) // Select verse
         {
-            var verse = verses[i];
-
-            if((verse > 1 && chunks.length <= 0) ||
-                !$(this).is(":checked") ||
-                verse > (lastVerse + 1))
+            for(var i=0; i<verses.length; i++)
             {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
+                var verse = verses[i];
+
+                // Do not check if there is no checked verses and one checks any verse after first
+                // Do not check if one skips verse(s)
+                if((verse > 1 && chunks.length <= 0) ||
+                    verse > (lastVerse + 1))
+                {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+
+                if(currentChunk < 0) // Create first chunk
+                {
+                    chunks[0] = [];
+                    chunks[0].push(verse);
+                    currentChunk = 0;
+                    firstVerse = verse;
+
+                    $(".chunks_reset").show();
+                }
+                else
+                {
+                    if(typeof chunks[currentChunk] == "undefined")
+                    {
+                        chunks[currentChunk] = [];
+                        firstVerse = verse;
+                    }
+                    chunks[currentChunk].push(verse);
+                }
+
+                lastVerse = verse;
             }
 
-            if(currentChunk < 0)
-            {
-                chunks[0] = [];
-                chunks[0].push(verse);
-                currentChunk = 0;
-                firstVerse = verse;
+            $(".verse_p .create_chunk").remove();
+            p.append(createChunkBtn);
+        }
+        else                     // Deselect verse from the end
+        {
+            var prep_p = p.prev(".verse_p");
 
-                $(".chunks_reset").show();
-            }
-            else
+            for(var i=verses.length - 1; i>=0; i--)
             {
+                var verse = verses[i];
+
+                if(verse != lastVerse)
+                {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+
                 if(typeof chunks[currentChunk] == "undefined")
                 {
-                    chunks[currentChunk] = [];
-                    firstVerse = verse;
+                    $(".chunk_divider:last").remove();
+                    if(typeof chunks[currentChunk-1] != "undefined")
+                        firstVerse = chunks[currentChunk-1][0];
+                    currentChunk--;
                 }
-                chunks[currentChunk].push(verse);
+
+                var chunk = typeof chunks[currentChunk] != "undefined" ? currentChunk : currentChunk-1;
+                var vIndex = chunks[chunk].indexOf(verse);
+                chunks[chunk].splice(vIndex, 1);
+
+                lastVerse = verse-1;
+
+                if(chunks[chunk].length <= 0)
+                {
+                    chunks.splice(chunk, 1);
+                }
+
+                if(chunks.length <= 0)
+                {
+                    firstVerse = 0;
+                    $(".chunks_reset").hide();
+                }
             }
 
-            lastVerse = verse;
+            $(".verse_p .create_chunk").remove();
+
+            if(prep_p.length > 0)
+            {
+                prep_p.append(createChunkBtn);
+            }
         }
 
         $("#chunks_array").val(JSON.stringify(chunks));
 
-        $(".verse_p .create_chunk").remove();
-        p.append(createChunkBtn);
-
         fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
-        lv = verse < 10 ? "0"+verse : verse;
+        lv = lastVerse < 10 ? "0"+lastVerse : lastVerse;
         $(".verse_p .create_chunk").text(Language.makeChunk+" "+fv+"-"+lv).show();
     });
 
     // Start new chunk
     $(document).on("click", ".verse_p .create_chunk", function() {
         currentChunk++;
-        $(".verse_p .create_chunk").hide();
         $(".verse_p .create_chunk").parent().after('<div class="chunk_divider col-sm-12"></div>');
+        $(".verse_p .create_chunk").remove();
     });
 
     // Reset chunks
@@ -654,7 +707,7 @@ $(document).ready(function() {
         lastVerse = 0;
 
         $(this).hide();
-        $(".create_chunk").hide();
+        $(".verse_p .create_chunk").remove();
         $(".chunk_divider").remove();
         $(".verse_number").prop("checked", false);
         $("#chunks_array").val("[]");
@@ -725,6 +778,19 @@ $(document).ready(function() {
         var $this = $(this);
 
         renderConfirmPopup(Language.checkBookConfirmTitle, Language.checkBookConfirm, function () {
+            $this.remove();
+            var notifs = parseInt($(".notif_count").text());
+            notifs--;
+            if(notifs <= 0)
+            {
+                $(".notif_count").remove();
+                $(".notif_block").html('<div class="no_notif">'+data.noNotifs+'</div>');
+            }
+            else
+            {
+                $(".notif_count").text(notifs);
+            }
+
             $( this ).dialog( "close" );
             window.open($this.attr("href"),"_blank");
         }, function () {
@@ -870,7 +936,11 @@ $(document).ready(function() {
     // Show/Hide Video popup
     $(".video-close").click(function() {
         $(".video_container").hide();
-        $(".video_container video")[0].pause();
+        if(player != "undefined")
+        {
+            player.pauseVideo();
+            player.seekTo(0);
+        }
     });
 
     $(".demo_video a").click(function () {
@@ -1043,7 +1113,7 @@ $(document).ready(function() {
             && step != EventSteps.FINAL_REVIEW)) return;
 
         $("div[class^=kwverse]").html(function() {
-            //return $(this).text();
+            return $(this).text();
         });
 
         $.ajax({
@@ -1712,10 +1782,15 @@ function unEscapeStr(string) {
  * @param onOK Ok button callback
  * @returns {boolean}
  */
-function renderPopup(message, onOK) {
+function renderPopup(message, onOK, onClose) {
     onOK = typeof onOK != "undefined" ? onOK : function(){
         $( this ).dialog( "close" );
     };
+
+    onClose = typeof onClose != "undefined" ? onClose : function(){
+            $( this ).dialog( "close" );
+            return false;
+        };
 
     $(".alert_message").html(message);
     $( "#dialog-message" ).dialog({
@@ -1725,20 +1800,22 @@ function renderPopup(message, onOK) {
         width: 500,
         buttons: {
             Ok: onOK
-        }
+        },
+        close: onClose,
     });
 
     return true;
 }
 
 /**
- * Renders and shows confirm dialog window
+ * Renders and shows confirm dialog popup
  * @param title
  * @param message
  * @param onAnswerYes positive answer callback
  * @param onAnswerNo Negative answer callback
+ * @param onClose close dialog callback
  */
-function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
+function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo, onClose) {
     onAnswerYes = typeof onAnswerYes != "undefined" ? onAnswerYes : function(){
         $( this ).dialog( "close" );
         return true;
@@ -1747,6 +1824,10 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
         $( this ).dialog( "close" );
         return false;
     };
+    onClose = typeof onClose != "undefined" ? onClose : function(){
+            $( this ).dialog( "close" );
+            return false;
+        };
 
     var yes = Language.yes;
     var no = Language.no;
@@ -1764,6 +1845,7 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo) {
         width: 500,
         modal: true,
         buttons: btns,
+        close: onClose,
     });
 }
 

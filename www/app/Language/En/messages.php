@@ -58,6 +58,9 @@ return array (
     "activate_account_title" => "Activate Account",
     "resend_activation_code" => "Haven't got email? Send it again.",
     "wrong_activation_email" => "Wrong email for activation. The account with this email doesn't exist or already is activated",
+    "new_account_title" => "New member joined V-Mast",
+    "new_account_message" => "<strong>Name:</strong> {0}, <strong>Username:</strong> {1}",
+    "members_area" => "Go to members area",
 
     // Login method
     "wrong_credentials_error" => "Wrong email/user name or password",
@@ -375,6 +378,8 @@ return array (
     "unblock" => "Unblock",
     "last_edit" => "Last edit",
     "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
+    "type_translation" => "Translation Mode",
+    "type_checking" => "Checking Mode",
 
     // Steps
     "pray" => "Preparation: Prayer",
@@ -389,6 +394,7 @@ return array (
     "chunking" => "Chunk",
     "chunking_desc" => "<li><b>PURPOSE:</b> to divide the text into manageable portions for translation</li><li>Click on 2-5 verses and then “make chunk” for grouping into chunks to prepare for blind draft.</li><li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li><li>Spend no more than 5 minutes on this exercise</li>",
     "read-chunk" => "Blind Draft",
+    "read-chunk-alt" => "Read Chunk",
     "read-chunk_desc" => "<li><b>PURPOSE:</b> to review the chunk to prepare for the blind draft</li><li>Read and absorb this chunk of text, with the context of the larger chapter in mind, asking the help of the Holy Spirit to understand the text</li><li>Spend no more than 5 minutes per chunk</li>",
     "blind-draft" => "Blind Draft",
     "blind-draft_desc" => "<li><b>PURPOSE:</b> to translate the source text as naturally as possible in the target language.</li><li>Without looking at the source text, type your translation of the chunk as the best you can remember it, in a natural way, using words that are clear and understandable</li><li>Do not refer to the source text. Just translate what you remember.</li><li>Do not be concerned about marking verses. This will be done in the final step</li><li>One of the foundational characteristics of good translation is the naturalness of language. The blind draft captures this and allows the brain/short term memory to push forward into pushing the most natural text out quickly. This is not meant to be perfectly accurate text (the next four steps will work toward that), this is meant to put the foundation of naturalness, which if absent, leads to extended error and long periods of foundational error correction.</li><li>Spend no more than 10-12 minutes on this exercise per chunk</li>",
@@ -447,6 +453,8 @@ return array (
     "event_already_exists" => "Event has been already created",
     "event_not_exists_error" => "Event has not been created yet",
     "gw_project_exists_error" => "This gateway project has been already created",
+    "not_allowed_action" => "An error occurred. Please try again.",
+    "wrong_parameters" => "Wrong parameters. Please try again.",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",
@@ -458,6 +466,7 @@ return array (
     "successfully_created" => "Successfully created!",
     "successfully_updated" => "Successfully updated!",
     "successfully_deleted" => "Successfully deleted!",
+    "moved_back_success" => "Translator has successfully moved one step back!",
 
     // Other messages
     "alert_message" => "Message",
@@ -466,6 +475,7 @@ return array (
     "goto_event_info" => "Go to event information page",
     "event_info" => "Event Information",
     "manage_event" => "Manage Event",
+    "chapter_has_translation" => "Attention! This chapter has some blind draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
 
     // -------------- Translation Controller ----------------- //
 
