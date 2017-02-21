@@ -3019,8 +3019,6 @@ class EventsController extends Controller
         echo json_encode($response);
     }
 
-    //-------------------- Private functions --------------------------//
-
     public function checkBookFinished($chapters)
     {
         if(isset($chapters) && is_array($chapters) && !empty($chapters))
@@ -3037,6 +3035,13 @@ class EventsController extends Controller
 
         return false;
     }
+
+    public function checkInternet()
+    {
+        return time();
+    }
+
+    //-------------------- Private functions --------------------------//
 
     /**
      * Manually check and set status of event

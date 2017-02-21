@@ -67,7 +67,7 @@ var Language = {
     "emptyProfileError"         : "Profile is not completed",
     "translator"                : "Translator",
     "facilitator"               : "Facilitator",
-    "checker"                   : "Checker",
+    "checker"                   : "L2/L3 Checker",
     "translators"               : "Translators",
     "facilitators"              : "Facilitators",
     "checkers"                  : "Checkers",
@@ -79,4 +79,6 @@ var Language = {
     "checkerConfirm"            : "Make sure that you have finished checking and connected with your translator. Translator has to make changes to their text. After you confirm this chapter checked, translator won't be able to edit their text on this step. Confirm check?",
     "attention"                 : "Attention",
     "removeCheckerConfirm"      : "Do you also want to remove the checker assigned to this chapter? If you click \"No\", translator will go to previous checking step and their checker will remain.",
+    "connectionLostMessage"     : "Internet connection lost. You can't leave this page until connection is up.",
+    "commonError"               : "An error occurred. It could be due to the server error or lost internet connection. Please, try again later."
 };

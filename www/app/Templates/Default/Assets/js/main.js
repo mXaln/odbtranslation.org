@@ -25,6 +25,34 @@ var EventSteps = {
 
 $(document).ready(function() {
 
+    Offline.options = {
+        checks: {
+            xhr: {
+                url: "/events/rpc/check_internet"
+            }
+        }
+    }
+
+    Offline.on("confirmed-up", function () {
+        console.log("internet is up");
+    });
+
+    Offline.on("confirmed-down", function () {
+        console.log("internet is down");
+    });
+
+    $(window).bind('beforeunload', function(e){
+        //return 'Are you sure you want to leave?';
+    });
+
+    $("a, button").click(function (e) {
+        if(Offline.state == "up")
+            return true;
+
+        renderPopup(Language.connectionLostMessage);
+        return false;
+    });
+
     setTimeout(function () {
         $('[data-toggle="tooltip"]').tooltip();
     }, 1000);
@@ -312,6 +340,18 @@ $(document).ready(function() {
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW)
         {
+            var saved = localStorage.getItem("event"+eventID);
+            if(saved)
+            {
+                $.each(saved.split('&'), function (index, elem) {
+                    var vals = elem.split('=');
+                    $("#main_form [name='" + vals[0] + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+                });
+
+                localStorage.removeItem("event"+eventID);
+                hasChangesOnPage = true;
+            }
+
             autosaveTimer = setInterval(function() {
                 if(hasChangesOnPage)
                 {
@@ -360,6 +400,12 @@ $(document).ready(function() {
                                 }
                                 console.log(data.error);
                             }
+                        })
+                        .error(function (xhr, status, error) {
+                            debug(status);
+                            debug(error);
+                            localStorage.setItem("event"+eventID, $("#main_form").serialize());
+                            hasChangesOnPage = false;
                         })
                         .always(function() {
 
@@ -771,7 +817,6 @@ $(document).ready(function() {
         $(".notif_block").hide();
     });
 
-
     $(document).on("click", ".notifa", function(e) {
         e.preventDefault();
 
@@ -888,6 +933,9 @@ $(document).ready(function() {
                             });
                         }
                     }
+                })
+                .error(function (xhr, status, error) {
+                    renderPopup(Language.commonError);
                 })
                 .always(function() {
                     $(".commentEditorLoader").hide();
@@ -1981,3 +2029,35 @@ function debug(obj, stop) {
     if(stop)
         throw new Error("debug stop!");
 }
+
+jQuery.fn.deserialize = function (data) {
+    var f = this,
+        map = {},
+        find = function (selector) { return f.is("form") ? f.find(selector) : f.filter(selector); };
+    //Get map of values
+    jQuery.each(data.split("&"), function () {
+        var nv = this.split("="),
+            n = decodeURIComponent(nv[0]),
+            v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
+        if (!(n in map)) {
+            map[n] = [];
+        }
+        map[n].push(v);
+    })
+    //Set values for all form elements in the data
+    jQuery.each(map, function (n, v) {
+        find("[name='" + n + "']").val(v);
+    })
+    //Clear all form elements not in form data
+    find("input:text,select,textarea").each(function () {
+        if (!(jQuery(this).attr("name") in map)) {
+            jQuery(this).val("");
+        }
+    })
+    find("input:checkbox:checked,input:radio:checked").each(function () {
+        if (!(jQuery(this).attr("name") in map)) {
+            this.checked = false;
+        }
+    })
+    return this;
+};
