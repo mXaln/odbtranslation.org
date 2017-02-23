@@ -1,7 +1,3 @@
-<h2>
-    Послание к Ефесянам 2
-</h2>
-
 <div class="content"  ng-app="Alma" ng-controller="textRangeController">
     <div class="row">
         
@@ -26,9 +22,12 @@
 
             <div class="panel" ng-class="(chosen === undefined) ? 'panel-default' : 'panel-info'" id="word_block">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <span ng-if="chosen === undefined">Слово</span>
-                        <span ng-if="chosen !== undefined" ng-bind="chosen.title" class="bold"></span>
+                    <h4 class="panel-title row">
+                        <span ng-if="chosen === undefined" class="col-md-12">Слово</span>
+                        <span ng-if="chosen !== undefined" ng-bind="chosen.title" class="bold col-md-10"></span>
+                        <a ng-click="wordCancel()" ng-if="chosen !== undefined" class="text-mute text-right col-md-2" href="#" title="Закрыть слово" onclick="return false">
+                            <span class="glyphicon glyphicon-remove text-mute"></span>
+                        </a>
                     </h4>
                 </div>
                 <div ng-if="chosen === undefined" class="panel-body">
@@ -36,11 +35,11 @@
                 </div>
                 
                 <div ng-if="chosen != undefined" class="panel-body">
-<!--                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#translations_{{ chosen.id }}">Переводы</a></li>
-                        <li><a data-toggle="tab" href="#synonyms_{{ chosen.id }}">Синонимы</a></li>
+                        <!--<li><a data-toggle="tab" href="#synonyms_{{ chosen.id }}">Синонимы</a></li>-->
                         <li><a data-toggle="tab" href="#variants_{{ chosen.id }}">Варианты</a></li>
-                    </ul>-->
+                    </ul>
 
                     <div class="tab-content">
                         
@@ -52,19 +51,58 @@
                                             <th>Перевод</th>
                                             <th>Голосов</th>
                                             <th></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr ng-repeat="translation in chosen.translations">
-                                            <td ng-bind="translation.title"></td>
+                                    <tbody ng-repeat="translation in chosen.translations">
+                                        <tr ng-class="{'bg-info' : translation.is_approved == 1}">
+                                            <td>
+												<a ng-bind="translation.title" data-toggle="collapse" data-target="#comment_{{ translation.id }}"></a>
+                                            </td>
                                             <td ng-bind="translation.votes || 0"></td>
                                             <td>
-                                                <a ng-click="vote(translation.id)" href="#" title="Отдать голос" onclick="return false">+</a>
+                                                <a ng-click="vote(translation.id, 'vote')" href="#" title="Отдать голос" onclick="return false">
+                                                    <span class="glyphicon glyphicon-plus text-primary"></span>
+                                                </a>
                                             </td>
+                                            <td>
+                                                <a ng-click="vote(translation.id, 'vote_back')" href="#" title="Отозвать голос" onclick="return false">
+                                                    <span class="glyphicon glyphicon-minus text-primary"></span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a ng-click="vote(translation.id, 'approve')" ng-if="translation.is_approved == 0" href="#" title="Утвердить перевод" onclick="return false">
+                                                    <span class="glyphicon glyphicon-ok text-primary"></span>
+                                                </a>
+                                                <a ng-click="vote(translation.id, 'approve_back')" ng-if="translation.is_approved == 1" href="#" title="Отменить утверждение" onclick="return false">
+                                                    <span class="glyphicon glyphicon-remove text-primary"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+											<td colspan="5" style="padding:0;">
+												<div id="comment_{{ translation.id }}" class="collapse" style="padding:8px;">
+													<h6>коммент:</h6>
+													<div ng-bind="translation.comment" style="margin-bottom:5px;"></div>
+													<div class="text-right small">
+														<a ng-if="translation.comment != ''" data-toggle="collapse" data-target="#comment_edit_{{ translation.id }}">редактировать</a>
+														<a ng-if="translation.comment == ''" data-toggle="collapse" data-target="#comment_edit_{{ translation.id }}">добавить</a>
+													</div>
+													<div id="comment_edit_{{ translation.id }}" class="collapse" style="padding:8px;">
+														<form ng-submit="saveComment(translation)">
+															<div class="form-group">
+																<textarea ng-model="translation.comment" class="form-control" rows="2"></textarea>
+															</div>
+															<button class="btn btn-info">Сохранить</button>
+														</form>
+													</div>
+												</div>
+											</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <span get-term-form type="translation"></span>
+                                <span get-term-form type="translation" placeholder="Перевод"></span>
                             </div>
                         </div>
 
@@ -75,9 +113,9 @@
                                         <span ng-bind="synonym.title"></span>
                                     </li>
                                 </ul>
-                                <span get-term-form type="synonym"></span>
+                                <span get-term-form type="synonym" placeholder="Синоним"></span>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div id="variants_{{ chosen.id }}" class="tab-pane fade">
                             <div class="panel-body">
@@ -86,9 +124,9 @@
                                         <span ng-bind="variant.title"></span>
                                     </li>
                                 </ul>
-                                <span get-term-form type="variant"></span>
+                                <span get-term-form type="variant" placeholder="Вариант"></span>
                             </div>
-                        </div>-->
+                        </div>
                         
                     </div>
                 </div>

@@ -21,6 +21,9 @@ use Helpers\Session;
 use Redirect;
 use Response;
 use Helpers\Data;
+use App\Models\EventsModel;
+use Support\Facades\Cache;
+use Helpers\UsfmParser;
 
 
 class AlmaController extends Controller
@@ -33,46 +36,28 @@ class AlmaController extends Controller
                 ;
     }
     
-    public function getMainText()
-    {
-        $text = $this->example_text;
-        
-        
-        $words = Word::with('translations')
-                ->where('parent_id', null)
-                ->orderBy('title')
-                ->get();
-        
-        foreach ($words as $word) {
-            $id   = empty($word->parent_id) ? $word->id : $word->parent_id; 
-            $text = str_replace(
-                    $word->title,
-                    '<span class="btn-warning" ng-click="wordClick('. $id .')">'. $word->title .'</span>',
-                    $text
-                );
-        }
-        
-        return "<div>$text</div>";
-    }
-    
+    public $signs = [' ', ',', '.', '?', '!', ':', ';', '"'];
     public function postMainText()
     {
-        $text = $this->example_text;
+        $text = $this->getBook("ulb", 39, "mal", "ru"); // Get book of Malachi RSB
+        //$text = $this->example_text;
         
         
         $words = Word::with('translations')
-                ->where('parent_id', null)
                 ->orderBy('title')
                 ->get();
         
         foreach ($words as $word) {
             $id   = empty($word->parent_id) ? $word->id : $word->parent_id; 
-            $text = str_replace(
-                    $word->title,
-                    '<span class="btn-warning" ng-click="wordClick('. $id .')">'. $word->title .'</span>',
-                    $text
-                );
+            foreach ($this->signs as $sign) {
+                $text = str_replace(
+                        $word->title . $sign,
+                        '<span class="btn-warning" ng-click="wordClick('. $id .')">'. $word->title .'</span> ',
+                        $text
+                    );
+            }
         }
+        
         
         return Response::json([
             'mainText' => $text
@@ -81,7 +66,7 @@ class AlmaController extends Controller
     
     public function listWords()
     {
-        $words = Word::with('translations')
+        $words = Word::with('translations', 'variants')
                 ->where('parent_id', null)
                 ->orderBy('title')
                 ->get();
@@ -141,7 +126,7 @@ class AlmaController extends Controller
                 if (empty($word)) {
                     $term->locale = 'ru';
                 } else {
-                    $term->parent_id = $term->id;
+                    $term->parent_id = $word->id;
                 }
                 
                 break;
@@ -193,18 +178,21 @@ class AlmaController extends Controller
         ]);
     }
 
-    
-    public function vote($term_id)
+
+    private function getMember()
     {
-        $no_member = false;
         if (Session::get('loggedin')) {
             $member = DB::table('members')->where('memberID', Session::get('memberID'))->first();
-            if (empty($member)) $no_member = true;
-        } else {
-            $no_member = true;
         }
+
+        return isset($member) ? $member : null;
+    }
+
+    public function vote($term_id)
+    {
+        $member = $this->getMember();
         
-        if ($no_member) return Response::json([
+        if (empty($member)) return Response::json([
             'error'   => true,
             'type'    => 'user',
             'message' => 'Ошибка: авторизуйтесь, пожалуйста.'
@@ -227,25 +215,141 @@ class AlmaController extends Controller
         $word = Word::find($term->word_id);
         $vote = $word->votes()->where('user_id', $member->memberID)->first();
 
-        if (!empty($vote)) return Response::json([
-            'error'   => true,
-            'type'    => 'vote',
-            'message' => 'Ошибка: Вы уже проголосовали.'
-        ]);
+        if (Input::get('action_type') == 'vote_back') {
+            if (empty($vote)) return Response::json([
+                'error'   => true,
+                'type'    => 'vote',
+                'message' => 'Ошибка: Вы еще не проголосовали.'
+            ]);
+
+            $vote->delete();
+            $term->votes = --$term->votes;
+        } else {
+            if (!empty($vote)) return Response::json([
+                'error'   => true,
+                'type'    => 'vote',
+                'message' => 'Ошибка: Вы уже проголосовали.'
+            ]);
+
+            $vote = new Vote();
+            $vote->user_id = $member->memberID;
+            $word->votes()->save($vote);
+            $term->votes = ++$term->votes;
+        }
         
-        $vote = new Vote();
-        $vote->user_id = $member->memberID;
-        $word->votes()->save($vote);
-        
-        $term->votes = $word->votes()->count();
         $term->save();
         
+        $word = Word::with('translations', 'variants')
+                ->where('id', $word->id)
+                ->first();
+        
         return Response::json([
-            'term' => $term,
             'word' => $word
         ]);
     }
 
+    public function approve($term_id)
+    {
+        $member = $this->getMember();
+        
+        if (empty($member)) return Response::json([
+            'error'   => true,
+            'type'    => 'user',
+            'message' => 'Ошибка: авторизуйтесь, пожалуйста.'
+        ]);
+        
+        if ($term_id <= 0) return Response::json([
+            'error'   => true,
+            'type'    => 'type',
+            'message' => 'Ошибка: неизвестный тип данных.'
+        ]);
+        
+        $term = Translation::find($term_id);
+        
+        if (empty($term)) return Response::json([
+            'error'   => true,
+            'type'    => 'term',
+            'message' => 'Ошибка: термин не найден.'
+        ]);
+        
+        $is_approved = Translation::where('word_id', $term->word_id)->where('is_approved', 1)->count();
+        
+        if ($is_approved > 0 && Input::get('action_type') != 'approve_back') return Response::json([
+            'error'   => true,
+            'type'    => 'term',
+            'message' => 'Ошибка: перевод уже утвержден.'
+        ]);
+        
+        $term->is_approved = (Input::get('action_type') == 'approve_back') ? 0 : 1;
+        
+        $term->save();
+        
+        $word = Word::with('translations', 'variants')
+                ->where('id', $term->word_id)
+                ->first();
+        
+        return Response::json([
+            'word' => $word
+        ]);
+    }
     
-    public $example_text = '<ol><li value="1">Павел, волею Божиею Апостол Иисуса Христа, находящимся в Ефесе святым и верным во Христе Иисусе: </li><li value="2">благодать вам и мир от Бога Отца нашего и Господа Иисуса Христа. </li><li value="3">Благословен Бог и Отец Господа нашего Иисуса Христа, благословивший нас во Христе всяким духовным благословением в небесах, </li><li value="4">так как Он избрал нас в Нем прежде создания мира, чтобы мы были святы и непорочны пред Ним в любви, </li><li value="5">предопределив усыновить нас Себе чрез Иисуса Христа, по благоволению воли Своей, </li><li value="6">в похвалу славы благодати Своей, которою Он облагодатствовал нас в Возлюбленном, </li><li value="7">в Котором мы имеем искупление Кровию Его, прощение грехов, по богатству благодати Его, </li><li value="8">каковую Он в преизбытке даровал нам во всякой премудрости и разумении, </li><li value="9">открыв нам тайну Своей воли по Своему благоволению, которое Он прежде положил в Нем, </li><li value="10">в устроении полноты времен, дабы все небесное и земное соединить под главою Христом. </li><li value="11">В Нем мы и сделались наследниками, быв предназначены к тому по определению Совершающего все по изволению воли Своей, </li><li value="12">дабы послужить к похвале славы Его нам, которые ранее уповали на Христа. </li><li value="13">В Нем и вы, услышав слово истины, благовествование вашего спасения, и уверовав в Него, запечатлены обетованным Святым Духом, </li><li value="14">Который есть залог наследия нашего, для искупления удела Его, в похвалу славы Его. </li><li value="15">Посему и я, услышав о вашей вере во Христа Иисуса и о любви ко всем святым, </li><li value="16">непрестанно благодарю за вас Бога, вспоминая о вас в молитвах моих, </li><li value="17">чтобы Бог Господа нашего Иисуса Христа, Отец славы, дал вам Духа премудрости и откровения к познанию Его, </li><li value="18">и просветил очи сердца вашего, дабы вы познали, в чем состоит надежда призвания Его, и какое богатство славного наследия Его для святых, </li><li value="19">и как безмерно величие могущества Его в нас, верующих по действию державной силы Его, </li><li value="20">которою Он воздействовал во Христе, воскресив Его из мертвых и посадив одесную Себя на небесах, </li><li value="21">превыше всякого Начальства, и Власти, и Силы, и Господства, и всякого имени, именуемого не только в сем веке, но и в будущем, </li><li value="22">и все покорил под ноги Его, и поставил Его выше всего, главою Церкви, </li><li value="23">которая есть Тело Его, полнота Наполняющего все во всем. </li></ol>';
+    public function addComment()
+    {
+		$input = Input::only('id', 'comment');
+		
+		$term = Translation::find($input['id']);
+		
+		if (empty($term)) return Response::json([
+            'error'   => true,
+            'type'    => 'term',
+            'message' => 'Ошибка: термин не найден.'
+        ]);
+        
+        $term->comment = trim( strip_tags( $input['comment'] ) );
+        $term->save();
+        
+        return Response::json([
+            'term' => $term
+        ]);
+	}
+
+    private function getBook($bookProject, $bookNum, $bookCode, $sourceLang)
+    {
+        $eventsModel = new EventsModel();
+        $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
+        $bookText = "Нет исходного текста";
+
+        if(Cache::has($cache_keyword))
+        {
+            $source = Cache::get($cache_keyword);
+            $usfm = UsfmParser::parse($source);
+        }
+        else
+        {
+            $source = $eventsModel->getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode, $sourceLang);
+            $usfm = UsfmParser::parse($source);
+
+            if(!empty($usfm))
+                Cache::add($cache_keyword, $source, 60*24*7);
+        }
+
+        if(!empty($usfm) && !empty($usfm["chapters"]))
+        {
+            $bookText = '<h2>'.$usfm["toc1"].'</h2>';
+            foreach ($usfm["chapters"] as $chapter => $chunks) {
+                $bookText .= '<h3>Глава '.$chapter.'</h3><ol>';
+                foreach ($chunks as $verses) {
+                    foreach ($verses as $verse => $text) {
+                        $bookText .= '<li value="'.$verse.'">'.$text.'</li>';
+                    }
+                }
+                $bookText .= "</ol>";
+            }
+        }
+
+        return $bookText;
+    }
+
+
+    //public $example_text = '<ol><li value="1">И вас, мертвых по преступлениям и грехам вашим, </li><li value="2">в которых вы некогда жили, по обычаю мира сего, по воле князя, господствующего в воздухе, духа, действующего ныне в сынах противления, </li><li value="3">между которыми и мы все жили некогда по нашим плотским похотям, исполняя желания плоти и помыслов, и были по природе чадами гнева, как и прочие, </li><li value="4">Бог, богатый милостью, по Своей великой любви, которою возлюбил нас, </li><li value="5">и нас, мертвых по преступлениям, оживотворил со Христом, — благодатью вы спасены, — </li><li value="6">и воскресил с Ним, и посадил на небесах во Христе Иисусе, </li><li value="7">дабы явить в грядущих веках преизобильное богатство благодати Своей в благости к нам во Христе Иисусе. </li><li value="8">Ибо благодатью вы спасены через веру, и сие не от вас, Божий дар:</li><li value="9">не от дел, чтобы никто не хвалился. </li><li value="10">Ибо мы — Его творение, созданы во Христе Иисусе на добрые дела, которые Бог предназначил нам исполнять. </li><li value="11">Итак помните, что вы, некогда язычники по плоти, которых называли необрезанными так называемые обрезанные плотским обрезанием, совершаемым руками, </li><li value="12">что вы были в то время без Христа, отчуждены от общества Израильского, чужды заветов обетования, не имели надежды и были безбожники в мире. </li><li value="13">А теперь во Христе Иисусе вы, бывшие некогда далеко, стали близки Кровию Христовою. </li><li value="14">Ибо Он есть мир наш, соделавший из обоих одно и разрушивший стоявшую посреди преграду, </li><li value="15">упразднив вражду Плотию Своею, а закон заповедей учением, дабы из двух создать в Себе Самом одного нового человека, устрояя мир, </li><li value="16">и в одном теле примирить обоих с Богом посредством креста, убив вражду на нем. </li><li value="17">И, придя, благовествовал мир вам, дальним и близким, </li><li value="18">потому что через Него и те и другие имеем доступ к Отцу, в одном Духе. </li><li value="19">Итак вы уже не чужие и не пришельцы, но сограждане святым и свои Богу, </li><li value="20">быв утверждены на основании Апостолов и пророков, имея Самого Иисуса Христа краеугольным камнем, </li><li value="21">на котором все здание, слагаясь стройно, возрастает в святый храм в Господе, </li><li value="22">на котором и вы устрояетесь в жилище Божие Духом. </li></ol>';
 }

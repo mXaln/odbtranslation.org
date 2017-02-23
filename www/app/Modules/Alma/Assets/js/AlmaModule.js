@@ -42,6 +42,9 @@ angular.module('Alma', ['ngSanitize'])
         var word = $scope.findWord(word_id);
         $scope.chosen = word;
     };
+    $scope.wordCancel = function(){
+        $scope.chosen = undefined;
+    };
     
     $scope.getText = function(){
         var txt = '';
@@ -69,48 +72,54 @@ angular.module('Alma', ['ngSanitize'])
             
             if (data.error) {
                 renderPopup(data.message);
+                if (type == 'word' && data.type == 'exists') {
+                    setTimeout(function(){
+                        $scope.wordClick(data.term.id);
+                    }, 1);
+                }
                 console.log(data.type, data.message);
             } else {
                 switch (type) {
                     case 'word':
                         $scope.words.push(data.term);
+                        
+                        if (data.term !== undefined) {
+                            setTimeout(function(){
+                                $scope.wordClick(data.term.id);
+                            }, 1);
+                        }
                         break;
 
                     case 'translation':
-                        $.each($scope.words, function(key, word) {
-                            if (word.id === data.term.word_id) {
-                                if (word.translations === undefined) word.translations = {};
-                                word.translations[word.translations.length] = data.term;
+                        angular.forEach($scope.words, function(word, key) {
+                            if (word.id == data.term.word_id) {
+                                if (word.translations === undefined) word.translations = [];
+                                word.translations.push(data.term);
                             }
                         });
                         break;
 
-    //                case 'variant':
-    //                    $.each($scope.words, function(key, word) {
-    //                        if (word.id === data.term.word_id) {
-    //                            word.variants['new_' + data.term.id] = data.term;
-    //                        }
-    //                    });
-    //                    break;
-    //            
-    //                case 'synonym':
-    //                    $.each($scope.words, function(key, word) {
-    //                        if (word.id === data.term.word_id) {
-    //                            word.synonyms['new_' + data.term.id] = data.term;
-    //                        }
-    //                    });
-    //                    break;
-
+                    case 'variant':
+                        angular.forEach($scope.words, function(word, key) {
+                            if (word.id == data.term.parent_id) {
+                                if (word.variants === undefined) word.variants = [];
+                                word.variants.push(data.term);
+                            }
+                        });
+                        break;
+                
+//                    case 'synonym':
+//                        angular.forEach($scope.words, function(word, key) {
+//                            if (word.id == data.term.word_id) {
+//                                if (word.synonyms === undefined) word.synonyms = [];
+//                                word.synonyms.push(data.term);
+//                            }
+//                        });
+//                        break;
                 }
 
                 $scope.text = '';
                 $scope.term = '';
-            }
-            
-            if (type === 'word' && data.term !== undefined) {
-                setTimeout(function(){
-                    $scope.wordClick(data.term.id);
-                }, 1);
             }
             
             $scope.triggerTextRefresh();
@@ -122,8 +131,18 @@ angular.module('Alma', ['ngSanitize'])
     };
     
     
-    $scope.vote = function(word_id){
-        $http.post('alma/vote/' + word_id)
+    $scope.vote = function(term_id, action_type = null){
+        switch(action_type) {
+            case 'approve':
+            case 'approve_back':
+                var path = 'alma/approve/'
+                break;
+            default:
+                var path = 'alma/vote/';
+                break;
+        }
+        
+        $http.post(path + term_id, {action_type : action_type})
         .success(function(data) {
             if (data.error) {
                 renderPopup(data.message);
@@ -131,11 +150,8 @@ angular.module('Alma', ['ngSanitize'])
             } else {
                 angular.forEach($scope.words, function(word, key){
                     if (word.id == data.word.id) {
-                        angular.forEach(word.translations, function(translation, key){
-                            if (translation.id == data.term.id) {
-                                word.translations[key] = data.term;
-                            }
-                        });
+                        $scope.words[key] = data.word;
+                        $scope.chosen     = data.word;
                     }
                 });
             }
@@ -145,25 +161,40 @@ angular.module('Alma', ['ngSanitize'])
         })
         .finally(function() {});
     };
+    
+    $scope.saveComment = function(translation){
+		$http.post('alma/add-comment', translation)
+        .success(function(data) {
+            if (data.error) {
+                renderPopup(data.message);
+                console.log(data.type, data.message);
+            }
+        })
+        .error(function() {
+            console.log('не удалось получить данные');
+        })
+        .finally(function() {});
+	};
+    
 })
 .directive('getMainText', function($rootScope, $http, $compile) {
     return {
         link : function($scope, element, attrs) {
-			var triggerReload = function() {
-				$http.post('alma/get-main-text')
-				.success(function(data) {
-					if (data.error) {
-						console.log('не удалось получить данные');
-					} else {
-						var linkFn = $compile(data.mainText);
-						var html   = linkFn($scope);
-						
-						element.html(html);
-					}
-				})
-				.error(function(){
-					console.log('не удалось получить данные');
-				});
+            var triggerReload = function() {
+                $http.post('alma/main-text')
+                .success(function(data) {
+                        if (data.error) {
+                            console.log('не удалось получить данные');
+                        } else {
+                            var linkFn = $compile(data.mainText);
+                            var html   = linkFn($scope);
+
+                            element.html(html);
+                        }
+                })
+                .error(function(){
+                        console.log('не удалось получить данные');
+                });
             };
             
             triggerReload();                
@@ -173,10 +204,14 @@ angular.module('Alma', ['ngSanitize'])
 })
 .directive('getTermForm', function() {
     return {
-        template : '<form ng-submit="addTerm(\'translation\', chosen.id, term); term = \'\';">\n\
-                        <input ng-model="term" placeholder="{{ forms[form].placeholder }}">\n\
-                        <button class="btn btn-info">Добавить</button>\n\
-                    </form>'
+        template : function (element, attrs) {
+            var type = (attrs.type === undefined) ? '' : attrs.type;
+            var placeholder = (attrs.placeholder === undefined) ? '' : attrs.placeholder;
+            return '<form ng-submit="addTerm(\'' + type + '\', chosen.id, term); term = \'\';">\n\
+                <input ng-model="term" placeholder="' + placeholder + '">\n\
+                <button class="btn btn-info">Добавить</button>\n\
+            </form>'
+        }
     };
 });
 
