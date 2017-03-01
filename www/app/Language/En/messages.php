@@ -317,6 +317,7 @@ return array (
     "pairs_number" => "Pairs (<span>{0}</span>)",
     "pair_number" => "Pair {0}",
     "add_person" => "Assign chapter",
+    "add_translator" => "Add translators",
     "assign_chapter_title" => "Assign chapter",
     "assign_pair_title" => "Create pair",
     "reset_pair_title" => "Reset pair",

@@ -23,6 +23,12 @@ var EventSteps = {
     FINISHED: "finished",
 };
 
+var EventMembers = {
+    TRANSLATOR: "translator",
+    L2_CHECKER: "checker_l2",
+    L3_CHECKER: "checker_l3",
+};
+
 $(document).ready(function() {
 
     Offline.options = {

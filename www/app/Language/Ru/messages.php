@@ -314,6 +314,7 @@ return array (
     "pairs_number" => "Пары (<span>{0}</span>)",
     "pair_number" => "Пара {0}",
     "add_person" => "Назначить главу",
+    "add_translator" => "Добавить переводчиков",
     "assign_chapter_title" => "Назначить главу",
     "assign_pair_title" => "Назначить пару",
     "reset_pair_title" => "Удалить пару",

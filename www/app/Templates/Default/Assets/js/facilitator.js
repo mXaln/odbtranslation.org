@@ -44,6 +44,123 @@ $(function () {
         assignChapter(data, "add");
     });
 
+    // Show "add translator" dialog
+    $("#openMembersSearch").click(function() {
+        $(".user_translators").html("");
+        $("#user_translator").val("");
+
+        $(".members_search_dialog").show();
+
+        $('html, body').css({
+            'overflow': 'hidden',
+            'height': '100%'
+        });
+    });
+
+
+    // Close "add translator" dialog
+    $(".members-search-dialog-close").click(function() {
+        $(".user_translators").html("");
+        $("#user_translator").val("");
+
+        $(".members_search_dialog").hide();
+
+        $('html, body').css({
+            'overflow': 'auto',
+            'height': 'auto'
+        });
+    });
+
+    var searchTimeout;
+    $("#user_translator").keyup(function (event) {
+        $this = $(this);
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function () {
+            var name = $this.val();
+            if(name.trim() == "")
+            {
+                $(".user_translators").html("");
+                return;
+            }
+
+            $.ajax({
+                url: "/members/search",
+                method: "post",
+                data: {
+                    name: name,
+                    ext: true
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $(".openMembersSearch.dialog_f").show();
+                }
+            })
+                .done(function(data) {
+                    $(".user_translators").html("");
+                    if(data.success)
+                    {
+                        $.each(data.members, function () {
+                            var exist = $(".assign_chapter[data="+this.memberID+"]");
+                            if(exist.length > 0) return true;
+
+                            var li = '<li>' +
+                                        '<label>' +
+                                            '<div class="tr_member">'+ this.firstName + ' ' + this.lastName +'</div>' +
+                                            '<div class="form-group tr_member_add">' +
+                                                '<button class="btn btn-primary add_translator" data="'+this.memberID+'">'+Language.add+'</button>' +
+                                            '</div>' +
+                                        '</label>' +
+                                    '</li>';
+
+                            $(".user_translators").append(li);
+                        });
+                    }
+                    else
+                    {
+                        debug(data.error);
+                    }
+                })
+                .always(function () {
+                    $(".openMembersSearch.dialog_f").hide();
+                });
+        }, 500);
+    });
+
+    $(document).on("click", ".add_translator", function () {
+        var $this = $(this);
+        var memberID = $(this).attr("data");
+        var eventID = $("#eventID").val();
+        var userType = EventMembers.TRANSLATOR;
+
+        $.ajax({
+            url: "/events/rpc/apply_event",
+            method: "post",
+            data: {
+                memberID: memberID,
+                eventID: eventID,
+                userType: userType
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $(".openMembersSearch.dialog_f").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $this.parents("li").remove();
+                    getNewMembersList();
+                }
+                else
+                {
+                    renderPopup(data.error);
+                }
+            })
+            .always(function () {
+                $(".openMembersSearch.dialog_f").hide();
+            });
+    });
+
     $(document).on("click", ".member_chapters span b", function() {
         var chapter = $(this).text();
         $(".chapter_"+chapter+" .uname_delete").trigger("click");
@@ -111,6 +228,10 @@ $(function () {
 
     // Start interval to check new applied translators
     var getMembersInterval = setInterval(function() {
+        getNewMembersList();
+    }, 30000);
+
+    function getNewMembersList() {
         var eventID = $("#eventID").val();
         var ids = [];
 
@@ -133,24 +254,24 @@ $(function () {
                     var newUsers = [];
                     $.each(data.members, function(index, value) {
                         var hiddenListLi = '<li>'+
-                        '   <div class="member_usname userlist chapter_ver">'+
-                        '       <div class="divname">'+value.name+'</div>'+
-                        '       <div class="divvalue">(<span>0</span>)</div>'+
-                        '   </div>'+
-                        '   <button class="btn btn-success assign_chapter" data="'+value.memberID+'">'+Language.assign+'</button>'+
-                        '   <div class="clear"></div>'+
-                        '</li>';
+                            '   <div class="member_usname userlist chapter_ver">'+
+                            '       <div class="divname">'+value.name+'</div>'+
+                            '       <div class="divvalue">(<span>0</span>)</div>'+
+                            '   </div>'+
+                            '   <button class="btn btn-success assign_chapter" data="'+value.memberID+'">'+Language.assign+'</button>'+
+                            '   <div class="clear"></div>'+
+                            '</li>';
                         $(".chapter_members_div ul").append(hiddenListLi);
 
                         var shownListLi = '<li>'+
-                        '   <div class="member_usname" data="'+value.memberID+'">'+
-                                value.name+' (<span>0</span>)'+
-                        '   <div class="glyphicon glyphicon-remove delete_user" title="'+Language.removeFromEvent+'"></div>'+
-                        '   </div>'+
-                        '   <div class="member_chapters">'+
-                                Language.chapters+': <span></span>'+
-                        '   </div>'+
-                        '</li>';
+                            '   <div class="member_usname" data="'+value.memberID+'">'+
+                            value.name+' (<span>0</span>)'+
+                            '   <div class="glyphicon glyphicon-remove delete_user" title="'+Language.removeFromEvent+'"></div>'+
+                            '   </div>'+
+                            '   <div class="member_chapters">'+
+                            Language.chapters+': <span></span>'+
+                            '   </div>'+
+                            '</li>';
                         $(".manage_members ul").append(shownListLi);
 
                         newUsers.push(value.name);
@@ -170,8 +291,7 @@ $(function () {
                     console.log(data.error);
                 }
             });
-
-    }, 30000);
+    }
 
     $("#startTranslation").click(function (e) {
         var $this = $(this);

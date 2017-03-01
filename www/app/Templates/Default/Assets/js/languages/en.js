@@ -16,7 +16,7 @@ var Language = {
     "checkerApproved"           : "Checker has approved this step!",
     "assign"                    : "Assign",
     "chapters"                  : "Chapters",
-    "newUsersApplyed"           : "These new users have just applied",
+    "newUsersApplyed"           : "Members have been applied",
     "deleteChapterConfirm"      : "Remove this chapter from translator?",
     "deleteChapterConfirmTitle" : "Remove chapter",
     "resetPairConfirm"          : "Do you want to reset this pair?",
@@ -80,5 +80,7 @@ var Language = {
     "attention"                 : "Attention",
     "removeCheckerConfirm"      : "Do you also want to remove the checker assigned to this chapter? If you click \"No\", translator will go to previous checking step and their checker will remain.",
     "connectionLostMessage"     : "Internet connection lost. You can't leave this page until connection is up.",
-    "commonError"               : "An error occurred. It could be due to the server error or lost internet connection. Please, try again later."
+    "commonError"               : "An error occurred. It could be due to the server error or lost internet connection. Please, try again later.",
+    "add"                       : "Add",
+    "addedSuccess"              : "The member has been successfully added to the event!"
 };

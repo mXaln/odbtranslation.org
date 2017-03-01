@@ -2056,6 +2056,12 @@ class EventsController extends Controller
 
         $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? $_POST['eventID'] : null;
         $userType = isset($_POST['userType']) && $_POST['userType'] != "" ? $_POST['userType'] : null;
+        $memberID = Session::get("memberID");
+
+        if(Session::get("isAdmin"))
+        {
+            $memberID = isset($_POST['memberID']) && $_POST['memberID'] != "" ? $_POST['memberID'] : $memberID;
+        }
 
         $education = isset($_POST["education"]) && !empty($_POST["education"]) ? (array)$_POST["education"] : null;
         $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : array();
@@ -2141,7 +2147,7 @@ class EventsController extends Controller
                 return;
             }
 
-            $exists = $this->_model->getEventMember($event[0]->eventID, Session::get("memberID"));
+            $exists = $this->_model->getEventMember($event[0]->eventID, $memberID);
 
             //Data::pr($exists);
 
@@ -2166,7 +2172,7 @@ class EventsController extends Controller
                                 $exists[0]->checker_l2 == null && $exists[0]->checker_l3 == null)   // can apply as translator only if not checker l2, l3
                             {
                                 $trData = array(
-                                    "memberID" => Session::get("memberID"),
+                                    "memberID" => $memberID,
                                     "eventID" => $event[0]->eventID
                                 );
                                 $trID = $this->_model->addTranslator($trData);
@@ -2203,7 +2209,7 @@ class EventsController extends Controller
                             $exists[0]->checker_l2 == null && $exists[0]->checker_l3 == null)   // can apply as checker L2 only if not translator or checker 7/8
                         {
                             $l2Data = array(
-                                "memberID" => Session::get("memberID"),
+                                "memberID" => $memberID,
                                 "eventID" => $event[0]->eventID
                             );
                             $l2ID = $this->_model->addL2Checker($l2Data, $checkerData);
@@ -2235,7 +2241,7 @@ class EventsController extends Controller
                             $exists[0]->checker_l2 == null && $exists[0]->checker_l3 == null)   // can apply as checker L3 only if not translator or checker 7/8
                         {
                             $l3Data = array(
-                                "memberID" => Session::get("memberID"),
+                                "memberID" => $memberID,
                                 "eventID" => $event[0]->eventID
                             );
                             $l3ID = $this->_model->addL3Checker($l3Data, $checkerData);
@@ -2672,9 +2678,9 @@ class EventsController extends Controller
         $_POST = Gump::xss_clean($_POST);
 
         $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
-        $memberIDs = isset($_POST["memberIDs"]) && $_POST["memberIDs"] != "" ? (array)$_POST["memberIDs"] : null;
+        $memberIDs = isset($_POST["memberIDs"]) && $_POST["memberIDs"] != "" ? (array)$_POST["memberIDs"] : [];
 
-        if($eventID !== null && $memberIDs != null)
+        if($eventID !== null && $memberIDs !== null)
         {
             $event = $this->_model->getEvent($eventID);
 
@@ -2697,17 +2703,17 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    $response["error"] = __("error_ocured", array("wrong parameters"));
+                    $response["error"] = __("error_ocured", array("wrong parameters1"));
                 }
             }
             else
             {
-                $response["error"] = __("error_ocured", array("wrong parameters"));
+                $response["error"] = __("error_ocured", array("wrong parameters2"));
             }
         }
         else
         {
-            $response["error"] = __("error_ocured", array("wrong parameters"));
+            $response["error"] = __("error_ocured", array("wrong parameters3"));
         }
 
         echo json_encode($response);

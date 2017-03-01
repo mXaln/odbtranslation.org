@@ -2540,6 +2540,80 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     margin-top: 10px;
 }
 
+.members_search_dialog {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.members_search_dialog_div {
+    margin: 0px auto;
+    position: fixed;
+    width: 450px;
+    left: calc(50% - 250px);
+    top: calc(50% - 220px);
+}
+
+.members-search-dialog-content {
+    padding: 10px;
+}
+
+.members-search-dialog-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.openMembersSearch.dialog_f {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    width: 100%;
+    height: calc(100% - 40px);
+    z-index: 99;
+}
+
+.openMembersSearch.dialog_f img {
+    margin-top: 180px;
+}
+
+.user_translators {
+    list-style-type: none;
+    margin: 0 0 0 0px;
+    padding: 0;
+    height: 350px;
+    overflow-y: auto;
+}
+
+.user_translators li {
+    border: 1px solid #ccc;
+    padding: 5px 5px 0 5px;
+    margin-bottom: 5px;
+}
+
+.user_translators label {
+    width: 100%;
+}
+
+.user_translators .tr_member {
+    float: left;
+}
+
+.user_translators .tr_member_add {
+    margin-bottom: 0;
+    float: right;
+}
+
 .userlist {
     float: left;
     width: 260px;

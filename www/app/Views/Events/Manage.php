@@ -57,7 +57,10 @@ if(!isset($error)):
     </div>
 
     <div class="manage_members col-sm-6">
-        <h3><?php echo __("people_number", array(sizeof($data["members"]), $data["event"][0]->translatorsNum)) ?></h3>
+        <h3>
+            <?php echo __("people_number", array(sizeof($data["members"]), $data["event"][0]->translatorsNum)) ?>
+            <button class="btn btn-primary" id="openMembersSearch"><?php echo __("add_translator") ?></button>
+        </h3>
         <ul>
             <?php foreach ($data["members"] as $member):?>
                 <li>
@@ -122,6 +125,26 @@ if(!isset($error)):
             </li>
             <?php endforeach; ?>
         </ul>
+    </div>
+</div>
+
+<div class="members_search_dialog">
+    <div class="members_search_dialog_div panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("add_translator")?> <span></span></h1>
+            <span class="members-search-dialog-close glyphicon glyphicon-remove-sign"></span>
+        </div>
+        <div class="openMembersSearch dialog_f">
+            <img src="<?php echo template_url("img/loader.gif") ?>">
+        </div>
+        <div class="members-search-dialog-content">
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" id="user_translator" placeholder="Enter a name" required="">
+            </div>
+            <ul class="user_translators">
+
+            </ul>
+        </div>
     </div>
 </div>
 <?php endif; ?>

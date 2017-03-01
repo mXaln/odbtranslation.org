@@ -450,6 +450,7 @@ class MembersController extends Controller
             $role = isset($_POST["role"]) && preg_match("/^(translators|facilitators|all)$/", $_POST["role"]) ? $_POST["role"] : "all";
             $language = isset($_POST["language"]) && $_POST["language"] != "" ? $_POST["language"] : false;
             $page = isset($_POST["page"]) ? (integer)$_POST["page"] : 1;
+            $searchExt = isset($_POST["ext"]) ? $_POST["ext"] : false;
 
             if($name || $role || $language)
             {
@@ -466,6 +467,7 @@ class MembersController extends Controller
                 }
                 else
                 {
+                    if($searchExt) $admLangs = [];
                     $count = $this->_model->searchMembers($name, $role, $admLangs, true);
                     $members = $this->_model->searchMembers($name, $role, $admLangs, false, $page);
                 }
