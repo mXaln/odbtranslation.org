@@ -14,6 +14,9 @@ use Helpers\Session;
 use Helpers\Url;
 use App\Models\EventsModel;
 use App\Models\MembersModel;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 class MembersController extends Controller
 {
@@ -735,6 +738,126 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
+    public function loginDesktop()
+    {
+        $response = ["success" => false];
+
+        $email = isset($_POST["email"]) ? $_POST["email"] : "";
+        $password = isset($_POST["password"]) ? $_POST["password"] : "";
+
+        $data = $this->_model->getMemberWithProfile($email);
+
+        if(!empty($data))
+        {
+            if($data[0]->blocked)
+            {
+                $response["reason"] = "user_blocked_error";
+                echo "{//prefix".json_encode($response);
+                exit;
+            }
+
+            if (Password::verify($password, $data[0]->password))
+            {
+                if($data[0]->active)
+                {
+                    $authToken = md5(uniqid(rand(), true));
+                    $updateData = [
+                        "authToken" => $authToken,
+                        "logins" => $data[0]->logins + 1
+                    ];
+                    $updated = $this->_model->updateMember($updateData, ['memberID' => $data[0]->memberID]);
+
+                    if($updated === 1)
+                    {
+                        $profile = array();
+                        if($data[0]->pID != null)
+                        {
+                            $profile["pID"] = $data[0]->pID;
+                            $profile["avatar"] = $data[0]->avatar;
+                            $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
+                            $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
+                            $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
+                            $profile["mast_evnts"] = $data[0]->mast_evnts;
+                            $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
+                            $profile["teamwork"] = $data[0]->teamwork;
+                            $profile["org"] = $data[0]->org;
+                            $profile["ref_person"] = $data[0]->ref_person;
+                            $profile["ref_email"] = $data[0]->ref_email;
+                            $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
+                            $profile["education"] = (array)json_decode($data[0]->education, true);
+                            $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
+                            $profile["ed_place"] = $data[0]->ed_place;
+                            $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
+                            $profile["greek_knwlg"] = $data[0]->greek_knwlg;
+                            $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+
+                            $arr = (array)json_decode($data[0]->languages, true);
+                            $languages = array();
+                            foreach ($arr as $i => $item) {
+                                $languages[$i]["lang_fluency"] = $item[0];
+                                $languages[$i]["geo_lang_yrs"] = $item[1];
+                            }
+                            $profile["languages"] = $languages;
+                            $profile["rating"] = $this->calculateMemberRating($profile);
+                        }
+
+                        $signer = new Sha256();
+
+                        $token = (new Builder())->setIssuer('https://v-mast.com')
+                            ->setAudience('https://v-mast.com')
+                            ->setId('7m8u22c80db', true)
+                            ->setIssuedAt(time())
+                            ->setNotBefore(time())
+                            ->setExpiration(time() + 3600)
+                            ->set('memberID', $data[0]->memberID)
+                            ->set('userName', $data[0]->userName)
+                            ->set('firstName', $data[0]->firstName)
+                            ->set('lastName', $data[0]->lastName)
+                            ->set('email', $data[0]->email)
+                            ->set('authToken', $data[0]->authToken)
+                            ->set('verified', $data[0]->verified)
+                            ->set('isAdmin', $data[0]->isAdmin)
+                            ->set('isSuperAdmin', $data[0]->isSuperAdmin)
+                            ->set('isDemo', $data[0]->isDemo)
+                            ->set('loggedin', 1)
+                            ->set('profile', json_encode($profile))
+                            ->sign($signer, 'Gsg-4hssh-hnjks-35')
+                            ->getToken();
+
+                        $response["success"] = true;
+                        $response["token"] = (string)$token;
+                        echo "{//prefix".json_encode($response);
+                        exit;
+                    }
+                    else
+                    {
+                        $response["reason"] = "user_login_error";
+                        echo "{//prefix".json_encode($response);
+                        exit;
+                    }
+                }
+                else
+                {
+                    $response["reason"] = "not_activated_email";
+                    echo "{//prefix".json_encode($response);
+                    exit;
+                }
+            }
+            else
+            {
+                $response["reason"] = "wrong_credentials_error";
+                echo "{//prefix".json_encode($response);
+                exit;
+            }
+        }
+        else
+        {
+            $response["reason"] = "wrong_credentials_error";
+            echo "{//prefix".json_encode($response);
+            exit;
+        }
+    }
+
     /**
      * Show signup view with form
      * @return mixed
@@ -886,6 +1009,141 @@ class MembersController extends Controller
             ->shares("title", __("signup"))
             ->shares("data", $data)
             ->shares("error", @$error);
+    }
+
+    /**
+     * Show signup view with form
+     * @return mixed
+     */
+    public function signupDesktop()
+    {
+        $response = ["success" => false];
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $_POST = Gump::filter_input($_POST, [
+            'userName' => 'trim',
+            'firstName' => 'trim',
+            'lastName' => 'trim',
+            'email' => 'trim',
+            'password' => 'trim'
+        ]);
+
+        $userName = $_POST['userName'];
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $passwordConfirm = $_POST['passwordConfirm'];
+        $tou = isset($_POST['tou']) ? (int)$_POST['tou'] == "on" : false;
+        $sof = isset($_POST['sof']) ? (int)$_POST['sof'] == "on" : false;
+
+        if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
+        {
+            $error['userName'] = "userName_characters_error";
+        }
+
+        if (strlen($userName) < 5 || strlen($userName) > 20)
+        {
+            $error['userName'] = "userName_length_error";
+        }
+
+        if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
+        {
+            $error['firstName'] = "firstName_length_error";
+        }
+
+        if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
+        {
+            $error['lastName'] = "lastName_length_error";
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            $error['email'] = "enter_valid_email_error";
+        }
+        else
+        {
+            $check = $this->_model->getMember(array("memberID", "userName", "email"),
+                array(
+                    array("email", $email),
+                    array("userName", $userName, "=", "OR")
+                ));
+
+            foreach ($check as $item) {
+                if (strtolower($item->email) == strtolower($email))
+                {
+                    $error['email'] = "email_taken_error";
+                }
+                if (strtolower($item->userName) == strtolower($userName))
+                {
+                    $error['email'] = "username_taken_error";
+                }
+            }
+        }
+
+        if (strlen($password) < 5)
+        {
+            $error['password'] = "password_short_error";
+        }
+        elseif ($password != $passwordConfirm)
+        {
+            $error['confirm'] = "passwords_notmatch_error";
+        }
+
+        if(!$tou)
+        {
+            $error['tou'] = "tou_accept_error";
+        }
+
+        if(!$sof)
+        {
+            $error['sof'] = "sof_accept_error";
+        }
+
+        if (!isset($error))
+        {
+            $activationToken = md5(uniqid(rand(), true));
+
+            $hash = Password::make($password);
+
+            //insert
+            $postdata = array(
+                "userName" => $userName,
+                "firstName" => $firstName,
+                "lastName" => $lastName,
+                "email" => $email,
+                "password" => $hash,
+                "activationToken" => $activationToken,
+            );
+
+            $data = [
+                "userName" => $userName,
+                "email" => $email
+            ];
+
+            $id = $this->_model->createMember($postdata);
+
+            Mailer::send('Emails/Auth/Activate', ["memberID" => $id, "token" => $activationToken], function($message) use($data)
+            {
+                $message->to($data["email"], $data["userName"])
+                    ->subject(__('activate_account_title'));
+            });
+
+            Mailer::send('Emails/Common/NotifyRegistration', ["userName" => $userName, "name" => $firstName." ".$lastName, "id" => $id], function($message)
+            {
+                $message->to("vmastteam@gmail.com")
+                    ->subject($this->_model->translate("new_account_title", "en"));
+            });
+
+            $response["success"] = true;
+        }
+        else
+        {
+            $response["error"] = $error;
+        }
+
+        echo "{//prefix".json_encode($response);
     }
 
     /**

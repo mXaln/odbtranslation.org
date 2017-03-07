@@ -87,7 +87,9 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
         ->where(["memberID" => "[0-9]+"]);
     Router::any("search", "MembersController@search");
     Router::any("signup", "MembersController@signup");
+    Router::any("signup_desktop", "MembersController@signupDesktop");
     Router::any("login", "MembersController@login");
+    Router::any("login_desktop", "MembersController@loginDesktop");
     Router::any("logout", "MembersController@logout");
     Router::any("error/verification", "MembersController@verificationError");
     Router::any("passwordreset", "MembersController@passwordReset");
