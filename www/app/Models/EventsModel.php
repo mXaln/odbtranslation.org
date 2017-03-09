@@ -614,6 +614,10 @@ class EventsModel extends Model
                 //curl_setopt($ch, CURLOPT_URL, template_url("tmp/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
                 break;
 
+            case "ceb":
+                curl_setopt($ch, CURLOPT_URL, template_url("tmp/ulb-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
+                break;
+
             default:
                 curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/".$bookProject."/txt/1/".$bookProject."-en/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
                 break;

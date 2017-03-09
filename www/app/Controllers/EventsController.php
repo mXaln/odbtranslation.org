@@ -1298,6 +1298,9 @@ class EventsController extends Controller
 
                         $data = $sourceText;
                         $data["translation"] = $translation;
+
+                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK)
+                            $data["keywords"] = $this->getUwKeyWords($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->currentChapter, $data["totalVerses"]);
                     } else {
                         $error[] = $sourceText["error"];
                     }
@@ -3329,7 +3332,6 @@ class EventsController extends Controller
 
         if(!empty($cat_json) && !empty($tw_json))
         {
-            $i=0;
             foreach ($cat_json["chapters"][$chapter - 1]["frames"] as $key => $frame) {
                 $result[$key]["id"] = (integer)$frame["id"];
                 $result[$key]["terms"] = array();
@@ -3337,11 +3339,14 @@ class EventsController extends Controller
                 if(isset($result[$key-1]))
                     $result[$key-1]["id"] .= "-".((integer)$frame["id"] - 1);
 
+                $i=0;
                 foreach ($frame["items"] as $item) {
                     $term_index = array_search($item["id"], array_column($tw_json, "id"));
                     if($term_index)
                     {
-                        $result[$key]["terms"][] = $tw_json[$term_index]["term"];
+                        $result[$key]["terms"][$i]["word"] = $tw_json[$term_index]["term"];
+                        $result[$key]["terms"][$i]["def"] = $tw_json[$term_index]["def"];
+                        $i++;
                     }
                 }
             }

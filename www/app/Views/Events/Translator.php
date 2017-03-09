@@ -73,8 +73,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var step = '<?php echo $data["event"][0]->step; ?>';
     var isAdmin = false;
     var disableChat = false;
-    var turnUsername = '<?php echo $data["turn"][0] ?>';
-    var turnPassword = '<?php echo $data["turn"][1] ?>';
+    var turnUsername = '<?php echo isset($data["turn"]) ? $data["turn"][0] : "" ?>';
+    var turnPassword = '<?php echo isset($data["turn"]) ? $data["turn"][1] : "" ?>';
 
 </script>
 

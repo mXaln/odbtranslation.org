@@ -567,6 +567,24 @@ $(document).ready(function() {
         }
     });
 
+    // Show/Hide Keyword Definition
+    $(".word_term").click(function () {
+        var word = $(this).text();
+        var def = $(this).next(".word_def").html();
+
+        $(".word_def_title").text(word);
+        $(".word_def_content").html(def);
+
+        $(".labels_list").children().hide();
+        $(".word_def_popup", ".keywords_list").show("slide", {direction: "left"}, 300);
+    });
+
+    $(".word_def-close").click(function() {
+        $(".labels_list").children().show();
+
+        $(".word_def_content", ".keywords_list")[0].scrollTop = 0;
+        $(".word_def_popup", ".keywords_list").hide("slide", {direction: "right"}, 300);
+    });
 
     // Confirm to go to the next step
     $("#confirm_step").change(function() {

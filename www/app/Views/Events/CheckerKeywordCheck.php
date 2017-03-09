@@ -105,6 +105,34 @@ if(empty($error) && empty($data["success"])):
         </div>
 
         <div class="content_help col-sm-3">
+            <?php if($data["event"][0]->sourceBible == "ulb"): ?>
+                <div class="keywords_list">
+                    <h3><?php echo __("show_keywords") ?></h3>
+                    <div class="labels_list">
+                        <?php if(isset($data["keywords"])): ?>
+                            <?php foreach ($data["keywords"] as $keyword): ?>
+                                <label><?php echo __("verses")." ".$keyword["id"]?>
+                                    <ul>
+                                        <?php foreach ($keyword["terms"] as $term):?>
+                                            <li>
+                                                <div class="word_term"><?php echo $term["word"]; ?></div>
+                                                <div class="word_def"><?php echo $term["def"]; ?></div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </label>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="word_def_popup">
+                        <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                        <div class="word_def_title"></div>
+                        <div class="word_def_content"></div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <div class="help_info_steps <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 

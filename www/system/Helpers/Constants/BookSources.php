@@ -18,5 +18,6 @@ class BookSources
         //"hwc" => array("hce"),
         //"hu" => array("kar"),
         //"sr-Latn" => array("dkl"),
+        "ceb" => array("ulb")
     );
 }
