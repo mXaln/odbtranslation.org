@@ -1378,13 +1378,20 @@ class EventsController extends Controller
 
                     if(!$data["isAdmin"])
                     {
-                        if(!$isAjax)
-                            $error[] = __("empty_or_not_permitted_event_error");
+                        if(Session::get("isSuperAdmin")) // Or superadmin
+                        {
+                            $data["isAdmin"] = $canViewInfo = true;
+                        }
                         else
                         {
-                            $response["errorType"] = "empty_no_permission";
-                            echo json_encode($response);
-                            exit;
+                            if(!$isAjax)
+                                $error[] = __("empty_or_not_permitted_event_error");
+                            else
+                            {
+                                $response["errorType"] = "empty_no_permission";
+                                echo json_encode($response);
+                                exit;
+                            }
                         }
                     }
                 }
@@ -1811,13 +1818,13 @@ class EventsController extends Controller
 
     public function manage($eventID)
     {
-        if (!Session::get('isAdmin'))
+        if (!Session::get('isAdmin') && !Session::get("isSuperAdmin"))
         {
             Url::redirect("events");
         }
 
         $data["menu"] = 1;
-        $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID);
+        $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID, Session::get("isSuperAdmin"));
 
         if(!empty($data["event"]))
         {
@@ -1854,7 +1861,7 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('isAdmin'))
+        if (!Session::get('isAdmin') && !Session::get('isSuperAdmin'))
         {
             $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
@@ -2671,7 +2678,7 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('isAdmin'))
+        if (!Session::get('isAdmin') && !Session::get('isSuperAdmin'))
         {
             $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
@@ -2691,7 +2698,7 @@ class EventsController extends Controller
             {
                 $admins = (array)json_decode($event[0]->admins, true);
 
-                if(in_array(Session::get("memberID"), $admins))
+                if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $members = $this->_model->getMembersForEvent($eventID);
                     foreach ($members as $key => $member) {
@@ -2706,17 +2713,17 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    $response["error"] = __("error_ocured", array("wrong parameters1"));
+                    $response["error"] = __("error_ocured", array("wrong parameters"));
                 }
             }
             else
             {
-                $response["error"] = __("error_ocured", array("wrong parameters2"));
+                $response["error"] = __("error_ocured", array("wrong parameters"));
             }
         }
         else
         {
-            $response["error"] = __("error_ocured", array("wrong parameters3"));
+            $response["error"] = __("error_ocured", array("wrong parameters"));
         }
 
         echo json_encode($response);
@@ -2767,7 +2774,7 @@ class EventsController extends Controller
                     __($notification->bookProject)
                 ]);
 
-                $note["link"] = "/events/checker/".$notification->eventID."/".$notification->memberID."/apply";
+                $note["link"] = "/events/checker/".$notification->eventID."/".$notification->memberID."/".$notification->step."/apply";
                 $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
                 $note["text"] = $text;
                 $note["step"] = $notification->step;
@@ -2814,7 +2821,7 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('isAdmin'))
+        if (!Session::get('isAdmin') && !Session::get('isSuperAdmin'))
         {
             $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
@@ -2836,7 +2843,7 @@ class EventsController extends Controller
             {
                 $admins = (array)json_decode($data["event"][0]->admins, true);
 
-                if(in_array(Session::get("memberID"), $admins))
+                if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $chapters = json_decode($data["event"][0]->chapters, true);
                     if(isset($chapters[$chapter]) && empty($chapters[$chapter]))
@@ -2968,7 +2975,7 @@ class EventsController extends Controller
     {
         $response = array("success" => false);
 
-        if (!Session::get('isAdmin'))
+        if (!Session::get('isAdmin') && !Session::get('isSuperAdmin'))
         {
             $response["error"] = __("not_enough_rights_error");
             echo json_encode($response);
@@ -2987,7 +2994,7 @@ class EventsController extends Controller
             {
                 $admins = (array)json_decode($event[0]->admins, true);
 
-                if(in_array(Session::get("memberID"), $admins))
+                if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $hasChapter = false;
                     $chapters = json_decode($event[0]->chapters, true);
@@ -3296,8 +3303,13 @@ class EventsController extends Controller
     {
         $result = array();
 
+        $cat_lang = $lang;
+
+        if($lang == "ceb")
+            $cat_lang = "en";
+
         // Get catalog
-        $cat_cache_keyword = "catalog_".$book."_".$lang;
+        $cat_cache_keyword = "catalog_".$book."_".$cat_lang;
 
         if(Cache::has($cat_cache_keyword))
         {
@@ -3306,7 +3318,7 @@ class EventsController extends Controller
         }
         else
         {
-            $cat_source = $this->_model->getTWcatalog($book, $lang);
+            $cat_source = $this->_model->getTWcatalog($book, $cat_lang);
             $cat_json = json_decode($cat_source, true);
 
             if(!empty($cat_json))

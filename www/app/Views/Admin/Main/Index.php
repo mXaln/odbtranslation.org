@@ -121,8 +121,7 @@
                     <label for="subGwLangs"><?php echo __('gw_language'); ?></label>
                     <select class="form-control" id="subGwLangs" name="subGwLangs" data-placeholder="<?php echo __('choose_gw_lang'); ?>">
                         <option value=""></option>
-                        <?php foreach ($data["gwLangs"] as $gwLang):?>
-                            <?php if(!isset($gwLang->gwProjectID)) continue; ?>
+                        <?php foreach ($data["gwProjects"] as $gwLang): ?>
                             <option value="<?php echo $gwLang->langID ."|".$gwLang->gwProjectID ?>">
                                 <?php echo "[".$gwLang->langID."] " . $gwLang->langName . ($gwLang->langName != $gwLang->angName ? " ( ".$gwLang->angName." )" : ""); ?>
                             </option>

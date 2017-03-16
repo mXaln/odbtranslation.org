@@ -53,6 +53,7 @@ class EventsModel extends Model
 
         return $builder
             ->leftJoin("languages", "gateway_projects.gwLang", "=", "languages.langID")
+            ->orderBy("langName")
             ->select($select)->get();
     }
 
@@ -308,7 +309,7 @@ class EventsModel extends Model
      * @param $eventID
      * @return array
      */
-    public function getMemberEventsForAdmin($memberID, $eventID = null)
+    public function getMemberEventsForAdmin($memberID, $eventID = null, $isSuperAdmin = false)
     {
         $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.abbrID, abbr.name, ".
             "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
@@ -319,11 +320,13 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
             "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
             "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
-            "WHERE evnt.admins LIKE :memberID ".
-            ($eventID ? "AND evnt.eventID = :eventID " : "").
+            (!$isSuperAdmin ? "WHERE evnt.admins LIKE :memberID " : "").
+            ($isSuperAdmin && $eventID ? "WHERE " : (!$isSuperAdmin && $eventID ? "AND " : "")).
+            ($eventID ? "evnt.eventID = :eventID " : "").
             "ORDER BY evnt.state, tLang.langName, proj.sourceBible, abbr.abbrID";
 
-        $prepare = array(":memberID" => '%\"'.$memberID.'"%');
+        $prepare = [];
+        if(!$isSuperAdmin) $prepare[":memberID"] = '%\"'.$memberID.'"%';
         if($eventID) $prepare[":eventID"] = $eventID;
 
         return $this->db->select($sql, $prepare);
@@ -512,7 +515,7 @@ class EventsModel extends Model
         $builder = $this->db->table("languages, gateway_projects")
             ->where("languages.gwLang", function ($query ) use ($gwLang)
             {
-                $query->select("gwLang")->from("languages")
+                $query->select("langName")->from("languages")
                     ->where("langID", $gwLang);
             })
             ->where("gateway_projects.gwLang", $gwLang)
@@ -611,11 +614,11 @@ class EventsModel extends Model
                 break;
 
             case "hwc":
-                //curl_setopt($ch, CURLOPT_URL, template_url("tmp/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
+                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
                 break;
 
             case "ceb":
-                curl_setopt($ch, CURLOPT_URL, template_url("tmp/ulb-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
+                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
                 break;
 
             default:
@@ -645,7 +648,18 @@ class EventsModel extends Model
     public function getTWords($lang = "en")
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/bible/".$lang."/terms.json");
+
+        switch ($lang)
+        {
+            case "ceb":
+                curl_setopt($ch, CURLOPT_URL, template_url("tmp/ulb-ceb/terms.json"));
+                break;
+
+            default:
+                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/bible/".$lang."/terms.json");
+                break;
+        }
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $cat = curl_exec($ch);

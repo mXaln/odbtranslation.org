@@ -403,7 +403,7 @@
 
             for(var rm in roomMates)
             {
-                var memberLi = $('<li>'+ roomMates[rm].name + (roomMates[rm].isAdmin ? " (facilitator)" : "")+'</li>').appendTo("#online");
+                var memberLi = $('<li>'+ roomMates[rm].name + (roomMates[rm].isAdmin ? " ("+Language.facilitator+")" : (roomMates[rm].isSuperAdmin ? " (admin)" : ""))+'</li>').appendTo("#online");
 
                 if(roomMates[rm].memberID == settings.memberID)
                     memberLi.addClass("mine");

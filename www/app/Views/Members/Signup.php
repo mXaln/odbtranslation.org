@@ -13,7 +13,7 @@
               delay: 0,
               content:  "<?=$v?>"
             }).popover('show');
-    <?elseif($k == 'recaptcha'):?>
+    <?elseif($k == 'recaptcha' && Config::get("app.type") == "remote"):?>
       $(".g-recaptcha").popover({
               trigger: 'manual',
               placement: 'right',
@@ -72,15 +72,20 @@
 
         <input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>" />
 
+        <?php if(Config::get("app.type") == "remote"): ?>
         <div class="form-group">
             <div class="g-recaptcha" data-sitekey="<?php echo ReCaptcha::getSiteKey() ?>"></div>
         </div>
+        <?php endif; ?>
 
         <button type="submit" name="submit" class="btn btn-primary btn-lg"><?php echo __('signup'); ?></button>
     </form>
 </div>
 
+<?php if(Config::get("app.type") == "remote"): ?>
 <script src="https://www.google.com/recaptcha/api.js?hl=<?php echo Language::code()?>" async defer></script>
+<?php endif; ?>
+
 <!-- Modal -->
 <div class="modal fade" id="sof_modal" tabindex="-1" role="dialog" style="z-index: 9999;">
   <div class="modal-dialog modal-lg" role="document">

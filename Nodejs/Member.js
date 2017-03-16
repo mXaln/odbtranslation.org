@@ -24,6 +24,7 @@ var Member = function() {
 	var firstName;
 	var lastName;
 	var isAdmin;
+	var isSuperAdmin;
 	var userType;
 	var authToken;
 	var events;
@@ -35,6 +36,7 @@ var Member = function() {
 		firstName: firstName,
 		lastName: lastName,
 		isAdmin: isAdmin,
+        isSuperAdmin: isSuperAdmin,
 		userType: userType,
 		authToken: authToken,
 		events: [],

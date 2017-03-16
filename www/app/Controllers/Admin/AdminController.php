@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers\Admin;
 
+use Support\Facades\Cache;
 use App\Core\Controller;
 use App\Models\TranslationsModel;
 use Shared\Legacy\Error;
@@ -40,16 +41,12 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
-
         $data['menu'] = 1;
 
-        if(Session::get("isSuperAdmin"))
-        {
-            $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
-            $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
-            $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"));
-            $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
-        }
+        $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
+        $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
+        $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"));
+        $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
 
         return View::make('Admin/Main/Index')
             ->shares("title", __("admin_project_title"))
@@ -499,6 +496,40 @@ class AdminController extends Controller {
             $response["error"] = "wrong_parameters";
             echo json_encode($response);
         }
+    }
+
+    public function clearCache()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = "not_loggedin";
+            echo json_encode($response);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $response["error"] = "not_allowed";
+            echo json_encode($response);
+            exit;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $bookCode = isset($_POST["bookCode"]) ? $_POST["bookCode"] : null;
+        $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
+        $bookProject = isset($_POST["bookProject"]) ? $_POST["bookProject"] : null;
+
+        $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject."_usfm";
+        if(Cache::has($cache_keyword))
+        {
+            Cache::forget($cache_keyword);
+            $response["success"] = true;
+        }
+
+        echo json_encode($response);
     }
 
     public function blockMember()

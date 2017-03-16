@@ -6,6 +6,7 @@ use Helpers\Session;
 	
 	<?php
 	echo Error::display($error);
+    echo Session::message();
 	?>
 
 	<form action='' method='post' style="width: 500px">
@@ -21,7 +22,7 @@ use Helpers\Session;
 
 		<input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>" />
 
-		<?php if(Session::get('loginTry')>=3):?>
+		<?php if(Config::get("app.type") == "remote" && Session::get('loginTry')>=3):?>
 			<div class="form-group">
 				<div class="g-recaptcha" data-sitekey="<?php echo ReCaptcha::getSiteKey() ?>"></div>
 			</div>
@@ -38,4 +39,6 @@ use Helpers\Session;
 	</form>
 </div>
 
+<?php if(Config::get("app.type") == "remote"): ?>
 <script src="https://www.google.com/recaptcha/api.js?hl=<?php echo Language::code()?>" async defer></script>
+<?php endif; ?>

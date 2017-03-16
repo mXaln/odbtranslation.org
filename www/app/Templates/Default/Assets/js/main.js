@@ -1007,11 +1007,12 @@ $(document).ready(function() {
 
     // Show/Hide Video popup
     $(".video-close").click(function() {
+        $("body").css("overflow", "auto");
         $(".video_container").hide();
         if(player != "undefined")
         {
-            player.pauseVideo();
             player.seekTo(0);
+            player.pauseVideo();
         }
     });
 

@@ -135,6 +135,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/get_source", "AdminController@getSource");
     Router::any("rpc/verify_member", "AdminController@verifyMember");
     Router::any("rpc/block_member", "AdminController@blockMember");
+    Router::any("rpc/clear_cache", "AdminController@clearCache");
 });
 
 /** End default Routes */

@@ -88,7 +88,7 @@ $(function () {
                 method: "post",
                 data: {
                     name: name,
-                    ext: true
+                    ext: true,
                 },
                 dataType: "json",
                 beforeSend: function() {
@@ -102,6 +102,7 @@ $(function () {
                         $.each(data.members, function () {
                             var exist = $(".assign_chapter[data="+this.memberID+"]");
                             if(exist.length > 0) return true;
+                            if(this.blocked == "1") return true;
 
                             var li = '<li>' +
                                         '<label>' +
@@ -400,6 +401,7 @@ $(function () {
 
     // Show more search members results
     $(document).on("click", "#search_more", function () {
+        if(typeof isSuperAdmin != "undefined") return false;
         var button = $(this);
 
         if(button.hasClass("disabled")) return false;

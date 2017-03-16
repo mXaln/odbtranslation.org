@@ -321,13 +321,19 @@ $(function () {
     $(".editEvnt").click(function () {
         var bookCode = $(this).attr("data");
         var eventID = $(this).attr("data2");
+        var hasCache = $(this).attr("data3");
 
+        $("#eID").val(eventID);
         $("#startEvent").trigger("reset");
         $(".errors").html("");
         $("#eventAction").val("edit");
         $("#adminsSelect").empty();
         $("#bookCode").val(bookCode);
         $("button[name=deleteEvent]").show();
+        $(".delinput").hide();
+
+        $("button[name=clearCache]").prop("disabled", false);
+        if(!hasCache) $("button[name=clearCache]").prop("disabled", true);
 
         $.ajax({
             url: "/admin/rpc/get_event",
@@ -408,6 +414,56 @@ $(function () {
             delinput.show();
             e.preventDefault();
         }
+    });
+
+    $("button[name=progressEvent]").click(function (e) {
+        var eventID = $("#eID").val();
+        window.location = "/events/information/"+eventID;
+        e.preventDefault();
+    });
+
+    $("button[name=manageEvent]").click(function (e) {
+        var eventID = $("#eID").val();
+        window.location = "/events/manage/"+eventID;
+        e.preventDefault();
+    });
+
+    $("button[name=clearCache]").click(function (e) {
+        var $this = $(this);
+        var bookCode = $("#bookCode").val();
+        var sourceLangID = $("#sourceLangID").val();
+        var bookProject = $("#bookProject").val();
+
+        $.ajax({
+            url: "/admin/rpc/clear_cache",
+            method: "post",
+            data: {
+                bookCode: bookCode,
+                sourceLangID: sourceLangID,
+                bookProject: bookProject
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $(".startEventLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $this.prop("disabled", true);
+                    $("button[data="+bookCode+"]").attr("data3", "");
+                }
+                else
+                    renderPopup(Language.commonError, function () {
+                        window.location.reload();
+                    }, function () {
+                        window.location.reload();
+                    });
+            })
+            .always(function() {
+                $(".startEventLoader").hide();
+            });
+        e.preventDefault();
     });
 
     // Show event contributors
@@ -720,6 +776,8 @@ $(function () {
                                 })
                                     : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
                                 "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                                "<td><button class='blockMember btn "+(v.blocked == 1 ? "btn-primary" : "btn-danger")+"' data='"+v.memberID+"'>" +
+                                    (v.blocked == 1 ? Language.unblock : Language.block)+"</button></td>" +
                                 "</tr>";
                             $("#all_members_table tbody").append(row);
                         });

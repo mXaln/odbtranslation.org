@@ -165,3 +165,7 @@
 
 <link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />
 <script src="<?php echo template_url("js/chosen.jquery.min.js")?>"></script>
+
+<script>
+    var isSuperAdmin = true;
+</script>

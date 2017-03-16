@@ -181,7 +181,8 @@ return array (
     "account_activated_success" => "Your account is now active you may now <a href=\"{0}\">Login</a>",
     "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",
     "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {0}",
-    "registration_success_message" => "Registration Successfull! Please check your email to complete registration. If it's not there, check spam/junk folders",
+    "registration_success_message" => "Registration successfull! Please check your email to complete registration. If it's not there, check spam/junk folders",
+    "registration_local_success_message" => "Registration successfull!",
 
     // Error messages
     "userName_characters_error" => "User name should contain only latin letters and numbers and start with letters",
@@ -208,6 +209,7 @@ return array (
     "not_facilitator_error" => "You can only send messages to facilitators",
     "facilitator_yourself_error" => "You cannot send messages to yourself",
     "delete_warning" => "Type the name of the book and click \"Delete\" button again to delete the event",
+    "local_use_restriction" => "This feature is not available on local server.",
 
     // ------------ Events Controller ------------- //
 
@@ -381,6 +383,8 @@ return array (
     "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
+    "clear_cache" => "Clear Cache",
+    "clear_cache_info" => "Remove source text from the cache. \nIt will be updated when translator will open 8-steps page again.",
 
     // Steps
     "pray" => "Preparation: Prayer",

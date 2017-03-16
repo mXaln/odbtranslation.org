@@ -17,6 +17,7 @@ use App\Models\MembersModel;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Config\Config;
 
 class MembersController extends Controller
 {
@@ -123,7 +124,7 @@ class MembersController extends Controller
 
                     if(sizeof($arr) != 3) continue;
 
-                    $langID = preg_match("/^[a-z-]{2,12}$/", $arr[0]) ? $arr[0] : null;
+                    $langID = preg_match("/^[a-z-]{2,22}$/", $arr[0]) ? $arr[0] : null;
 
                     if($langID === null || (integer)$arr[1] == 0 || (integer)$arr[2] == 0) continue;
                     if((integer)$arr[1] > 5 || (integer)$arr[2] > 4) continue;
@@ -440,13 +441,6 @@ class MembersController extends Controller
         {
             $response = ["success" => false];
 
-            if(empty($admLangs))
-            {
-                $response["error"] = __("not_enough_rights_error");
-                echo json_encode($response);
-                exit;
-            }
-
             $_POST = Gump::xss_clean($_POST);
 
             $name = isset($_POST["name"]) && $_POST["name"] != "" ? $_POST["name"] : false;
@@ -454,6 +448,13 @@ class MembersController extends Controller
             $language = isset($_POST["language"]) && $_POST["language"] != "" ? $_POST["language"] : false;
             $page = isset($_POST["page"]) ? (integer)$_POST["page"] : 1;
             $searchExt = isset($_POST["ext"]) ? $_POST["ext"] : false;
+
+            if(empty($admLangs) && !$searchExt)
+            {
+                $response["error"] = __("not_enough_rights_error");
+                echo json_encode($response);
+                exit;
+            }
 
             if($name || $role || $language)
             {
@@ -614,19 +615,22 @@ class MembersController extends Controller
                 Url::redirect('members/login');
             }
 
-            $loginTry = Session::get('loginTry');
-            if($loginTry == null) $loginTry = 0;
-            $loginTry++;
-
-            Session::set('loginTry', $loginTry);
-
-            if($loginTry >= 3)
+            if(Config::get("app.type") == "remote")
             {
-                if($loginTry > 3)
+                $loginTry = Session::get('loginTry');
+                if($loginTry == null) $loginTry = 0;
+                $loginTry++;
+
+                Session::set('loginTry', $loginTry);
+
+                if($loginTry >= 3)
                 {
-                    if (!ReCaptcha::check())
+                    if($loginTry > 3)
                     {
-                        $error[] = __('captcha_wrong');
+                        if (!ReCaptcha::check())
+                        {
+                            $error[] = __('captcha_wrong');
+                        }
                     }
                 }
             }
@@ -945,9 +949,12 @@ class MembersController extends Controller
                 $error['confirm'] = __('passwords_notmatch_error');
             }
 
-            if (!ReCaptcha::check())
+            if(Config::get("app.type") == "remote")
             {
-                $error['recaptcha'] = __('captcha_wrong');
+                if (!ReCaptcha::check())
+                {
+                    $error['recaptcha'] = __('captcha_wrong');
+                }
             }
 
             if(!$tou)
@@ -976,6 +983,12 @@ class MembersController extends Controller
                     "activationToken" => $activationToken,
                 );
 
+                if(Config::get("app.type") == "remote")
+                {
+                    $postdata["active"] = true;
+                    $postdata["verified"] = true;
+                }
+
                 $data = [
                     "userName" => $userName,
                     "email" => $email
@@ -983,23 +996,30 @@ class MembersController extends Controller
 
                 $id = $this->_model->createMember($postdata);
 
-                Mailer::send('Emails/Auth/Activate', ["memberID" => $id, "token" => $activationToken], function($message) use($data)
+                if(Config::get("app.type") == "remote")
                 {
-                    $message->to($data["email"], $data["userName"])
-                        ->subject(__('activate_account_title'));
-                });
+                    Mailer::send('Emails/Auth/Activate', ["memberID" => $id, "token" => $activationToken], function($message) use($data)
+                    {
+                        $message->to($data["email"], $data["userName"])
+                            ->subject(__('activate_account_title'));
+                    });
 
-                Mailer::send('Emails/Common/NotifyRegistration', ["userName" => $userName, "name" => $firstName." ".$lastName, "id" => $id], function($message)
+                    Mailer::send('Emails/Common/NotifyRegistration', ["userName" => $userName, "name" => $firstName." ".$lastName, "id" => $id], function($message)
+                    {
+                        $message->to("vmastteam@gmail.com")
+                            ->subject($this->_model->translate("new_account_title", "en"));
+                    });
+
+                    Session::set("success", __('registration_success_message'));
+                    Session::set("activation_email", $email);
+
+                    Url::redirect('members/success');
+                }
+                else
                 {
-                    $message->to("vmastteam@gmail.com")
-                        ->subject($this->_model->translate("new_account_title", "en"));
-                });
-
-                $msg = __('registration_success_message');
-                Session::set("success", $msg);
-                Session::set("activation_email", $email);
-
-                Url::redirect('members/success');
+                    Session::set("success", __('registration_local_success_message'));
+                    Url::redirect('members/login');
+                }
             }
         }
 
@@ -1166,9 +1186,12 @@ class MembersController extends Controller
 
             $email = $_POST['email'];
 
-            if (!ReCaptcha::check())
+            if(Config::get("app.type") == "remote")
             {
-                $error[] = __('captcha_wrong');
+                if (!ReCaptcha::check())
+                {
+                    $error[] = __('captcha_wrong');
+                }
             }
 
             if(!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -1185,13 +1208,20 @@ class MembersController extends Controller
                     $postdata = array('resetToken' => $resetToken, 'resetDate' => date('Y-m-d H:i:s',time()));
                     $this->_model->updateMember($postdata, array('email' => $email));
 
-                    Mailer::send('Emails/Auth/PasswordReset', ["memberID" => $data[0]->memberID, "token" => $resetToken], function($message) use($data)
+                    if(Config::get("app.type") == "remote")
                     {
-                        $message->to($data[0]->email, $data[0]->userName)
-                            ->subject(__('passwordreset_title'));
-                    });
+                        Mailer::send('Emails/Auth/PasswordReset', ["memberID" => $data[0]->memberID, "token" => $resetToken], function($message) use($data)
+                        {
+                            $message->to($data[0]->email, $data[0]->userName)
+                                ->subject(__('passwordreset_title'));
+                        });
+                        $msg = __('pwresettoken_send_success');
+                    }
+                    else
+                    {
+                        $msg = __("passwordreset_link_message", '<a href="'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'">'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'</a>');
+                    }
 
-                    $msg = __('pwresettoken_send_success');
                     Session::set('success', $msg);
 
                     Url::redirect('members/success');
@@ -1310,13 +1340,14 @@ class MembersController extends Controller
         if(!empty($event))
         {
             $member = $this->_model->getMember(
-                ["memberID", "userName", "firstName", "lastName", "verified", "isAdmin"],
+                ["memberID", "userName", "firstName", "lastName", "verified", "isAdmin", "isSuperAdmin"],
                 [
                     ["memberID", $memberID],
                     ["authToken", $authToken]
             ]);
 
             $isAdmin = false;
+            $isSuperAdmin = false;
 
             if(!empty($member))
             {
@@ -1327,8 +1358,10 @@ class MembersController extends Controller
                 {
                     if($member[0]->isAdmin)
                         $isAdmin = in_array($member[0]->memberID, $admins);
+                    if ($member[0]->isSuperAdmin)
+                        $isSuperAdmin = true;
 
-                    if(!$isAdmin)
+                    if(!$isAdmin && !$isSuperAdmin)
                     {
                         echo json_encode(array());
                         return;
@@ -1340,6 +1373,7 @@ class MembersController extends Controller
                     $isAdmin = in_array($member[0]->memberID, $admins);
 
                 $member[0]->isAdmin = $isAdmin;
+                $member[0]->isSuperAdmin = $isSuperAdmin;
                 echo json_encode($member[0]);
             }
             else
@@ -1371,6 +1405,14 @@ class MembersController extends Controller
         if(empty(Session::get("profile")))
         {
             $response["errorType"] = "profile";
+        }
+
+        if(Config::get("app.type") != "remote")
+        {
+            $response["errorType"] = "local";
+            $response["error"] = __("local_use_restriction");
+            echo json_encode($response);
+            exit;
         }
 
         if(!empty($_POST))

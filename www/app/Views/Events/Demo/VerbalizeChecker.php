@@ -27,8 +27,6 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text row">
-                <div class="keywords_show" style=""><?php echo __("show_keywords"); ?></div>
-
                 <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-26</span></h4>
 
                 <div class="col-sm-12">

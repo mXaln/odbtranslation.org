@@ -1,5 +1,6 @@
 <?
 use Helpers\Constants\EventStates;
+use Support\Facades\Cache;
 
 $language = Language::code();
 
@@ -68,7 +69,7 @@ if(!empty($data["project"])):
                                         break;
 
                                     default:
-                                        echo '<button data="'.$event->code.'" data2="'.$event->eventID.'" class="btn btn-success editEvnt">'.__("edit").'</button>';
+                                        echo '<button data="'.$event->code.'" data2="'.$event->eventID.'" data3="'.(Cache::has($event->code."_".$data["project"][0]->sourceLangID."_".$data["project"][0]->bookProject."_usfm")).'" class="btn btn-success editEvnt">'.__("edit").'</button>';
                                 }
                                 ?>
                             </td>
@@ -147,6 +148,7 @@ if(!empty($data["project"])):
                             <input class="form-control" type="text" id="delevnt" autocomplete="off">
                         </div>
 
+                        <input type="hidden" name="eID" id="eID" value="">
                         <input type="hidden" name="act" id="eventAction" value="create">
                         <input type="hidden" name="book_code" id="bookCode" value="" />
                         <input type="hidden" name="projectID" id="projectID" value="<?php echo $data["project"][0]->projectID?>" />
@@ -157,6 +159,12 @@ if(!empty($data["project"])):
 
                         <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create"); ?></button>
                         <button type="submit" name="deleteEvent" class="btn btn-danger"><?php echo __("delete"); ?></button>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button name="progressEvent" class="btn btn-success"><?php echo __("progress"); ?></button>
+                        <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
+                        &nbsp;&nbsp;
+                        <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
                         <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>
