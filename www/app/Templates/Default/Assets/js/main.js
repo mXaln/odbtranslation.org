@@ -327,9 +327,10 @@ $(document).ready(function() {
 
     if(typeof step != "undefined")
     {
+        var stepl = ""; //step;
         var role = $("#hide_tutorial").attr("data2");
         var tutorialCookie = typeof role != "undefined" && role == "checker" ?
-            getCookie(step + "_checker_tutorial") : getCookie(step + "_tutorial");
+            getCookie(stepl + "_checker_tutorial") : getCookie(stepl + "_tutorial");
 
         if(typeof tutorialCookie == "undefined")
         {
@@ -346,7 +347,10 @@ $(document).ready(function() {
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW)
         {
-            var saved = localStorage.getItem("event"+eventID);
+            var item = step == EventSteps.BLIND_DRAFT ?
+                "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk :
+                "event"+eventID;
+            var saved = localStorage.getItem(item);
             if(saved)
             {
                 $.each(saved.split('&'), function (index, elem) {
@@ -354,7 +358,7 @@ $(document).ready(function() {
                     $("#main_form [name='" + vals[0] + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
                 });
 
-                localStorage.removeItem("event"+eventID);
+                localStorage.removeItem(item);
                 hasChangesOnPage = true;
             }
 
@@ -378,6 +382,7 @@ $(document).ready(function() {
                             {
                                 $(".unsaved_alert").hide();
                                 hasChangesOnPage = false;
+                                localStorage.removeItem(item);
                             }
                             else
                             {
@@ -410,7 +415,7 @@ $(document).ready(function() {
                         .error(function (xhr, status, error) {
                             debug(status);
                             debug(error);
-                            localStorage.setItem("event"+eventID, $("#main_form").serialize());
+                            localStorage.setItem(item, $("#main_form").serialize());
                             hasChangesOnPage = false;
                         })
                         .always(function() {
@@ -616,6 +621,10 @@ $(document).ready(function() {
     });
 
     $("#checker_submit").submit(function() {
+        if(typeof window.opener != "undefined")
+            window.opener.$(".check1 .event_link a[data="+eventID+"]")
+                .parents(".event_block").remove();
+
         $.ajax({
             method: "post",
             data: $("#checker_submit").serialize(),
@@ -633,7 +642,8 @@ $(document).ready(function() {
                         chkMemberID: chkMemberID,
                     };
                     socket.emit("system message", data);
-                    window.location = "/events";
+                    window.opener.$(".check1 .event_link a[data="+eventID+"]").parent(".event_block").remove();
+                    window.close();
                 }
                 else
                 {
@@ -861,10 +871,15 @@ $(document).ready(function() {
             }
 
             $( this ).dialog( "close" );
-            window.open($this.attr("href"),"_blank");
+            window.open($this.attr("href"));
         }, function () {
             $( this ).dialog( "close" );
         });
+    });
+
+    $(".check1 .event_link a").click(function (e) {
+        window.open($(this).attr("href"));
+        e.preventDefault();
     });
 
     // Show/Hide Comment Textarea
@@ -981,6 +996,7 @@ $(document).ready(function() {
         $(".tutorial_container").show();
         $("body").css("overflow", "hidden");
 
+        var step = ""; //step;
         var role = $("#hide_tutorial").attr("data2");
 
         var cookie = typeof role != "undefined" && role == "checker" ?
@@ -993,7 +1009,7 @@ $(document).ready(function() {
     });
 
     $("#hide_tutorial").change(function() {
-        var step = $(this).attr("data");
+        var step = ""; //$(this).attr("data");
         if($(this).is(":checked"))
         {
             setCookie(step + "_tutorial", true, {expires: 365*24*60*60, path: "/"});
@@ -1719,6 +1735,13 @@ $(document).ready(function() {
             });
 
         return false;
+    });
+
+    $(window).scroll(function () {
+        if($(this).scrollTop() > 70)
+            $(".save_profile_container").removeClass("unlinked");
+        else
+            $(".save_profile_container").addClass("unlinked");
     });
 });
 

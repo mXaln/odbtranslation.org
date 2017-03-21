@@ -322,12 +322,14 @@ $(function () {
         var bookCode = $(this).attr("data");
         var eventID = $(this).attr("data2");
         var hasCache = $(this).attr("data3");
+        var abbrID = $(this).attr("data4");
 
         $("#eID").val(eventID);
         $("#startEvent").trigger("reset");
         $(".errors").html("");
         $("#eventAction").val("edit");
         $("#adminsSelect").empty();
+        $("#abbrID").val(abbrID);
         $("#bookCode").val(bookCode);
         $("button[name=deleteEvent]").show();
         $(".delinput").hide();
@@ -430,6 +432,7 @@ $(function () {
 
     $("button[name=clearCache]").click(function (e) {
         var $this = $(this);
+        var abbrID = $("#abbrID").val();
         var bookCode = $("#bookCode").val();
         var sourceLangID = $("#sourceLangID").val();
         var bookProject = $("#bookProject").val();
@@ -438,6 +441,7 @@ $(function () {
             url: "/admin/rpc/clear_cache",
             method: "post",
             data: {
+                abbrID: abbrID,
                 bookCode: bookCode,
                 sourceLangID: sourceLangID,
                 bookProject: bookProject

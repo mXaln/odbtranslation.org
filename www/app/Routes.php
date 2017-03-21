@@ -20,13 +20,13 @@ Router::any("contact", "App\Controllers\MainController@contactUs");
 Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], function() {
     Router::any("{lang?}/{bookProject?}/{bookCode?}", "TranslationsController@index")
         ->where([
-            "lang" => "[a-z0-9]+",
+            "lang" => "[a-z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang}/{bookProject}/{bookCode}/usfm", "TranslationsController@getUsfm")
         ->where([
-            "lang" => "[a-z0-9]+",
+            "lang" => "[a-z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
@@ -36,8 +36,6 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
 // EVENTS
 Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function() {
     Router::any("", "EventsController@index");
-    Router::any("project/{projectID}", "EventsController@project")
-        ->where(["projectID" => "[0-9]+"]);
     Router::any("translator/{eventID}", "EventsController@translator")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information/{eventID}", "EventsController@information")

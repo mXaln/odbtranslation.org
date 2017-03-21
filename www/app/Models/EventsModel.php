@@ -85,30 +85,21 @@ class EventsModel extends Model
             ->select($select)->get();
     }
 
-    public function getProjects($memberID, $isSuperAdmin, $projectID = null)
+    public function getProjects($memberID, $projectID = null)
     {
         $sql = "SELECT ".PREFIX."projects.*, tLang.gwLang, tLang.langName as tLang, sLang.langName as sLang ".
             "FROM ".PREFIX."projects ".
             "LEFT JOIN ".PREFIX."languages AS tLang ON ".PREFIX."projects.targetLang = tLang.langID ".
-            "LEFT JOIN ".PREFIX."languages AS sLang ON ".PREFIX."projects.sourceLangID = sLang.langID ";
-
-        $where = !$isSuperAdmin || $projectID != null ? "WHERE " : "";
-
-        $sql .= $where;
+            "LEFT JOIN ".PREFIX."languages AS sLang ON ".PREFIX."projects.sourceLangID = sLang.langID ".
+            "WHERE ".PREFIX."projects.gwProjectID IN ".
+                "(SELECT gwProjectID FROM ".PREFIX."gateway_projects WHERE admins LIKE :memberID) ";
 
         $prepare = array();
-
-        if(!$isSuperAdmin)
-        {
-            $sql .= PREFIX."projects.gwProjectID IN ".
-                "(SELECT gwProjectID FROM ".PREFIX."gateway_projects WHERE admins LIKE :memberID) ";
-            $prepare[":memberID"] = '%"'.$memberID.'"%';
-        }
+        $prepare[":memberID"] = '%"'.$memberID.'"%';
 
         if($projectID != null)
         {
-            $sql .= !$isSuperAdmin ? " AND " : " ";
-            $sql .= PREFIX."projects.projectID=:projectID";
+            $sql .= " AND ".PREFIX."projects.projectID=:projectID";
             $prepare[":projectID"] = $projectID;
         }
 
@@ -128,7 +119,7 @@ class EventsModel extends Model
     public function getEvent($eventID, $projectID = null, $bookCode = null, $countMembers = false)
     {
         $builder = $this->db->table("events");
-        $select = ["events.*", "abbr.*"];
+        $select = ["events.*", "abbr.*", "gateway_projects.admins as superadmins"];
         if($countMembers)
         {
             $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators");
@@ -141,7 +132,9 @@ class EventsModel extends Model
                 ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID");
         }
 
-        $builder->leftJoin("abbr", "events.bookCode", "=", "abbr.code");
+        $builder->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+            ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
+            ->leftJoin("gateway_projects", "projects.gwProjectID", "=", "gateway_projects.gwProjectID");
 
         if($eventID)
             $builder->where("events.eventID", $eventID);
@@ -314,9 +307,11 @@ class EventsModel extends Model
         $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.abbrID, abbr.name, ".
             "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
-            "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt ".
+            "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt, ".
+            "gwproj.admins AS superadmins ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."gateway_projects AS gwproj ON proj.gwProjectID = gwproj.gwProjectID ".
             "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
             "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
             "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
@@ -458,7 +453,8 @@ class EventsModel extends Model
                 EventSteps::CONTENT_REVIEW,
             ]);
 
-            $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
+            $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, "
+                .PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
                 "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".

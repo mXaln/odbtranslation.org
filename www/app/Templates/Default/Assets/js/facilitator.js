@@ -106,7 +106,7 @@ $(function () {
 
                             var li = '<li>' +
                                         '<label>' +
-                                            '<div class="tr_member">'+ this.firstName + ' ' + this.lastName +'</div>' +
+                                            '<div class="tr_member">'+ this.firstName + ' ' + this.lastName +' ('+this.userName+')</div>' +
                                             '<div class="form-group tr_member_add">' +
                                                 '<button class="btn btn-primary add_translator" data="'+this.memberID+'">'+Language.add+'</button>' +
                                             '</div>' +

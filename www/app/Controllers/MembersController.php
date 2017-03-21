@@ -421,7 +421,6 @@ class MembersController extends Controller
         {
             Url::redirect('admin/members');
         }
-
         if(!Session::get("isAdmin"))
         {
             Url::redirect('events');
@@ -661,6 +660,7 @@ class MembersController extends Controller
                                 {
                                     $profile["pID"] = $data[0]->pID;
                                     $profile["avatar"] = $data[0]->avatar;
+                                    $profile["prefered_roles"] = json_decode($data[0]->prefered_roles, true);
                                     $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
                                     $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
                                     $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
@@ -778,6 +778,7 @@ class MembersController extends Controller
                         {
                             $profile["pID"] = $data[0]->pID;
                             $profile["avatar"] = $data[0]->avatar;
+                            $profile["prefered_roles"] = json_decode($data[0]->prefered_roles, true);
                             $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
                             $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
                             $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
@@ -983,7 +984,7 @@ class MembersController extends Controller
                     "activationToken" => $activationToken,
                 );
 
-                if(Config::get("app.type") == "remote")
+                if(Config::get("app.type") == "local")
                 {
                     $postdata["active"] = true;
                     $postdata["verified"] = true;

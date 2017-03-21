@@ -9,10 +9,12 @@ $profile = $data["profile"];
 ?>
 
 <form action='' method='post' style="width: 900px" class="form-horizontal profile_form">
-    <?php
-    echo Error::display($error);
-    echo Session::message();
-    ?>
+    <div class="profile_messages">
+        <?php
+        echo Error::display($error);
+        echo Session::message();
+        ?>
+    </div>
 
     <h3><?php echo __('common_skills'); ?></h3>
 
@@ -340,7 +342,9 @@ $profile = $data["profile"];
 
     <input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>" />
 
-    <button type="submit" name="submit" class="btn btn-primary"><?php echo __('save'); ?></button>
+    <div class="save_profile_container unlinked">
+        <button type="submit" name="submit" id="save_profile" class="btn btn-primary"><?php echo __('save'); ?></button>
+    </div>
 </form>
 
 <div class="language_container">

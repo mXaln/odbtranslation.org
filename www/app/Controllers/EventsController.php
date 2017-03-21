@@ -145,24 +145,6 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
-    public function project($projectID)
-    {
-        $data["menu"] = 1;
-
-        $data["project"] = $this->_model->getProjects(Session::get("memberID"), true, $projectID);
-        $data["events"] = array();
-        if(!empty($data["project"]))
-        {
-            $data["events"] = $this->_model->getEventsByProject($projectID);
-        }
-
-        $data["notifications"] = $this->_notifications;
-
-        return View::make('Events/Project')
-            ->shares("title", $data["project"][0]->tLang . " [".__($data["project"][0]->bookProject)."]")
-            ->shares("data", $data);
-    }
-
     public function translator($eventID)
     {
         $data["menu"] = 1;
@@ -480,6 +462,8 @@ class EventsController extends Controller
                             {
                                 if(trim($_POST["draft"]) != "")
                                 {
+                                    $_POST["draft"] = preg_replace("/[\\r\\n]/", " ", $_POST["draft"]);
+
                                     $translationVerses = [
                                         EventMembers::TRANSLATOR => [
                                             "blind" => trim($_POST["draft"]),
@@ -1828,6 +1812,10 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            $superadmins = (array)json_decode($data["event"][0]->superadmins, true);
+            if(Session::get("isSuperAdmin") && !in_array(Session::get("memberID"), $superadmins))
+                Url::redirect("events");
+
             $data["chapters"] = json_decode($data["event"][0]->chapters, true);
             $data["members"] = $this->_model->getMembersForEvent($data["event"][0]->eventID);
 
@@ -2317,6 +2305,8 @@ class EventsController extends Controller
                 {
                     case EventSteps::BLIND_DRAFT:
                         if(trim($post["draft"]) != "") {
+                            $post["draft"] = preg_replace("/[\\r\\n]/", " ", $post["draft"]);
+
                             $translationData = $this->_translationModel->getLastEventTranslation($event[0]->trID);
 
                             if(!empty($translationData))
@@ -2362,6 +2352,8 @@ class EventsController extends Controller
                                 $tID = $this->_translationModel->createTranslation($trData);
 
                                 if ($tID) {
+                                    $response["chapter"] = $event[0]->currentChapter;
+                                    $response["chunk"] = $event[0]->currentChunk;
                                     $response["success"] = true;
                                 }
                             }

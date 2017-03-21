@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers\Admin;
 
+use Helpers\UsfmParser;
 use Support\Facades\Cache;
 use App\Core\Controller;
 use App\Models\TranslationsModel;
@@ -45,7 +46,7 @@ class AdminController extends Controller {
 
         $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
-        $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"));
+        $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));
         $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
 
         return View::make('Admin/Main/Index')
@@ -67,7 +68,7 @@ class AdminController extends Controller {
         }
 
         $data['menu'] = 1;
-        $data["project"] = $this->_eventsModel->getProjects(Session::get("memberID"), Session::get("isSuperAdmin"), $projectID);
+        $data["project"] = $this->_eventsModel->getProjects(Session::get("memberID"), $projectID);
         $data["events"] = array();
         if(!empty($data["project"]))
         {
@@ -518,17 +519,55 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
+        $abbrID = isset($_POST["abbrID"]) ? $_POST["abbrID"] : null;
         $bookCode = isset($_POST["bookCode"]) ? $_POST["bookCode"] : null;
         $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
         $bookProject = isset($_POST["bookProject"]) ? $_POST["bookProject"] : null;
 
+        // Book source
         $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject."_usfm";
         if(Cache::has($cache_keyword))
         {
             Cache::forget($cache_keyword);
-            $response["success"] = true;
+
+            $source = $this->_eventsModel->getSourceBookFromApiUSFM($bookProject, $abbrID, $bookCode, $sourceLangID);
+            $usfm = UsfmParser::parse($source);
+
+            if(!empty($usfm))
+                Cache::add($cache_keyword, $source, 60*24*7);
+
         }
 
+        // Words source
+        $cat_lang = $sourceLangID;
+        if($sourceLangID == "ceb")
+            $cat_lang = "en";
+
+        // Get catalog
+        $cat_cache_keyword = "catalog_".$bookCode."_".$cat_lang;
+        if(Cache::has($cat_cache_keyword))
+        {
+            Cache::forget($cat_cache_keyword);
+            $cat_source = $this->_model->getTWcatalog($bookCode, $cat_lang);
+            $cat_json = json_decode($cat_source, true);
+
+            if(!empty($cat_json))
+                Cache::add($cat_cache_keyword, $cat_source, 60*24*7);
+        }
+
+        // Get keywords
+        $tw_cache_keyword = "tw_".$sourceLangID;
+        if(Cache::has($tw_cache_keyword))
+        {
+            Cache::forget($tw_cache_keyword);
+            $tw_source = $this->_model->getTWords($sourceLangID);
+            $tw_json = json_decode($tw_source, true);
+
+            if(!empty($tw_json))
+                Cache::add($tw_cache_keyword, $tw_source, 60*24*7);
+        }
+
+        $response["success"] = true;
         echo json_encode($response);
     }
 
@@ -734,6 +773,14 @@ class AdminController extends Controller {
                         return;
                     }
 
+                    $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                    if(!in_array(Session::get("memberID"), $superadmins))
+                    {
+                        $error[] = __("wrong_project_id");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
                     $oldAmins = (array)json_decode($exist[0]->admins, true);
                     $deletedAdmins = array_diff($oldAmins, $admins);
                     $addedAdmins = array_diff($admins, $oldAmins);
@@ -758,6 +805,14 @@ class AdminController extends Controller {
                     if(empty($exist))
                     {
                         $error[] = __("event_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                    if(!in_array(Session::get("memberID"), $superadmins))
+                    {
+                        $error[] = __("wrong_project_id");
                         echo json_encode(array("error" => Error::display($error)));
                         return;
                     }

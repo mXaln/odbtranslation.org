@@ -27,7 +27,7 @@ use \Helpers\Constants\EventSteps;
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo __($event->bookProject) ?></td>
                             <td><?php echo $event->translateDone ? __(EventSteps::FINISHED) : __($event->step)?></td>
-                            <td><a href="/members/profile/<?php echo $event->memberID ?>"><?php echo $event->userName ?></a></td>
+                            <td><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></td>
                             <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID."/".$event->step; ?>/apply"
                                    data="check:<?php echo $event->eventID.":".$event->memberID ?>">
                                     <?php echo __("apply") ?>

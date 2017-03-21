@@ -382,7 +382,7 @@ $stepsNum = [
                 </div>
             </div>
             <div class="event_action check1">
-                <div class="event_link"><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID ?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link"><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID ?>" data="<?php echo $event->eventID?>"><?php echo __("continue_alt") ?></a></div>
             </div>
 
             <div class="clear"></div>
