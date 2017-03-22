@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return array (
 
     // -------------- Main Controller ------------------ //
 
@@ -57,11 +57,9 @@ return array(
     // Activate method
     "activate_account_title" => "Activate Account",
     "resend_activation_code" => "Wala ba nimo nakuha ang mensahe? Ipadala ini pag-usab",
-
     "wrong_activation_email" => "Sayop nga mensahe alang sa pagpaaktibo. Ang naggamit niini nga account dili tinuod o aduna nay laing naggamit niini",
     "new_account_title" => "Bag-ong miyembro ang niapil sa V-MAST",
     "new_account_message" => "<strong>Pangalan:</strong> {0}, <strong>Alyas:</strong> {1}",
-
     "members_area" => "Adto sa dapit sa mga miyembro",
 
     // Login method
@@ -321,6 +319,7 @@ return array(
     "pairs_number" => "Mga Kapares",
     "pair_number" => "Pares",
     "add_person" => "Ipabuhat nga Kapitulo",
+    "add_translator" => "Add translators",
     "assign_chapter_title" => "Ipabuhat nga Kapitulo",
     "assign_pair_title" => "Magbuhat og Pares",
     "reset_pair_title" => "Pag-usab sa Pares",
@@ -403,6 +402,7 @@ return array(
     "read-chunk-alt" => "Basaha ang mga Bahin",
     "read-chunk_desc" => "<li><b>KATUYOUAN:</b> Aron mabasa pag-usab ang mga bahin aron maandam alang sa pagsulat. </li><li>Basaha ug sabta kini nga bahin, apan dili angay kalimtan ang kinatibuk-ang konteksto sa hunahuna, ug pangyo usab og giya saBalaang Espiritu aron masabtan ang teksto. </li><li>Kinahanglan dili ka molapas og 5 ka minute matag bahin.</li>",
     "blind-draft" => "Pagsulat",
+    "blind-draft_previous" => "Pagsulat - Previous chunk",
     "blind-draft_desc" => "<li><b>KATUYOUAN:</b> Aron mas natural ang paghubad ngadto sa kaugalingong pinulongan. </li><li>Kutob sa imong mahinumdoman, isulat ang imong hinubad niana nga bahin ug dili ka mahimong maglantaw sa gigikanan nga teksto, sa natural nga paagi ginamit ang mga pulong nga klaro ug masabtan. </li><li>Ayaw paglantaw sa gigikanan nga teksto. Isulat kung unsa lang ang imong nahinumdoman. </li><li>Ayaw hunahunaa ang pagbutang sa mga bersikulo. Buhaton kini sa kataposan na nga bahin sa lakang. </li><li>Ang usa sa pundasyon sa kinaiyahan sa maayo nga hinubad mao ang pagkanatural sa pinulongan. Ang pagsulat nga dili maglantaw sa gigikanan nga pinulongan ang makabuhat niini ug ang short-term nga hunahuna ang magpugos nga mogawas sa hunahuna ang pinakanatural nga paagi sa paghubad. Dili kini kinahanglan nga mahimong perpekto nga teksto (ang mosunod nga upat ka mga lakang ang magbuhat niini), gituyo kini aron mahimong mas natural kay kung dili natural ang hinubad, moabot kini sa mas daghan nga sayop ug taas nga trabahoon sa pagtul-id sa mga sayop. </li><li>Kinahanglan dili ka molapas sa 10-12 ka minute niini nga lakang.</li>",
     "self-check" => "Kaugalingong Pagsusi",
     "self-check_desc" => "<li><b>KATUYOUAN:</b> Aron masusi ang gisulat ug masusi ang haom nga mga kahulogan sa gigikanan nga teksto samatang dili kalimtan ang porma ug pagkahan-ay sa gigikanan nga teksto. </li><li>Tan-awa ang mga sayop nga spelling, panuldok ug dagan sa pagkanatural sa pinulongan. </li><li>Tan-awa kung nay nawala nga mga bahin sa teksto, mga nawala o nadugang nga kahulogan o panghitabo. </li><li>Ayaw palabii, ipasimple o dugangi ang teksto aron mas maklaro. Bisan unsa nga sa imong paminaw kinahanglan sa teksto kinahanglan nga isulat kasayoran sa sakto nga bersikulo ug padayon na. </li><li>Kinahanglan dili ka molapas sa 15-20 ka minute niini na lakang.</li>",
@@ -477,7 +477,7 @@ return array(
     // Other messages
     "alert_message" => "Mensahe",
     "no_events_message" => "Walay trabaho niini nga kategorya",
-    "create_event_tip" => "What instructions?? Nobody told me about instructions. Ask Dima!",
+    "create_event_tip" => "No instructions for a while.",
     "goto_event_info" => "Adto sa pahibalo sa mga trabaho",
     "event_info" => "Impormasyon sa Trabaho",
     "manage_event" => "Pagdumala sa Trabaho",
@@ -489,5 +489,5 @@ return array(
     "verification_error" => "Wala pa gidawat sa among moderator ang imong account. Palihog hulat…",
     "verification_error_title" => "Wala napamatud-an ang account",
     "chapter" => "Kapitulo {0}",
-    "download_usfm" => "Download isip"
+    "download_usfm" => "Download isip USFM"
 );

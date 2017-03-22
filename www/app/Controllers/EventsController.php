@@ -1861,6 +1861,7 @@ class EventsController extends Controller
         $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
         $memberID = isset($_POST["memberID"]) && $_POST["memberID"] != "" ? (integer)$_POST["memberID"] : null;
         $to_step = isset($_POST["to_step"]) && $_POST["to_step"] != "" ? $_POST["to_step"] : null;
+        $prev_chunk = isset($_POST["prev_chunk"]) && $_POST["prev_chunk"] != "" ? filter_var($_POST["prev_chunk"], FILTER_VALIDATE_BOOLEAN) : false;
         $confirm = isset($_POST["confirm"]) && $_POST["confirm"] != "" ? filter_var($_POST["confirm"], FILTER_VALIDATE_BOOLEAN) : false;
 
         if($eventID !== null && $memberID !== null &&
@@ -1870,7 +1871,7 @@ class EventsController extends Controller
 
             if(!empty($member))
             {
-                $postData = $this->moveMemberStepBack($member[0], $to_step, $confirm);
+                $postData = $this->moveMemberStepBack($member[0], $to_step, $confirm, $prev_chunk);
 
                 if(!empty($postData))
                 {
@@ -2567,49 +2568,65 @@ class EventsController extends Controller
         {
             $memberInfo = (array)$this->_model->getEventMemberInfo($eventID, $memberID);
 
-            if(!empty($memberInfo) && $memberInfo[0]->checker == $memberID && $memberInfo[0]->checkerStep == EventSteps::KEYWORD_CHECK)
+            if(!empty($memberInfo) && $memberInfo[0]->checker == $memberID)
             {
-                $keyword = $this->_translationModel->getKeywords([
-                    "eventID" => $eventID,
-                    "chapter" => $chapter,
-                    "chunk" => $chunk,
-                    "verse" => $verse,
-                    "indexOrder" => $index,
-                    "text" => $text
-                ]);
-
-                if(!empty($keyword))
-                {
-                    if($remove)
+                $canKeyword = false;
+                $checkerChapter = -1;
+                foreach ($memberInfo as $item) {
+                    if($item->checkerStep == EventSteps::KEYWORD_CHECK)
                     {
-                        $result = $this->_translationModel->deleteKeyword($keyword[0]->kID);
-                    }
-                    else
-                    {
-                        $response["error"] = __("keyword_exists_error");
-                        echo json_encode($response);
-                        return;
+                        if($chapter == $item->chkChapter)
+                            $canKeyword = true;
+                        break;
                     }
                 }
-                else
+
+                if($canKeyword)
                 {
-                    $postdata = [
+                    $keyword = $this->_translationModel->getKeywords([
                         "eventID" => $eventID,
                         "chapter" => $chapter,
                         "chunk" => $chunk,
                         "verse" => $verse,
                         "indexOrder" => $index,
-                        "text" => $text,
-                        "memberID" => Session::get("memberID")
-                    ];
+                        "text" => $text
+                    ]);
 
-                    $result = $this->_translationModel->createKeyword($postdata);
-                }
+                    if(!empty($keyword))
+                    {
+                        if($remove)
+                        {
+                            $response["type"] = "remove";
+                            $result = $this->_translationModel->deleteKeyword($keyword[0]->kID);
+                        }
+                        else
+                        {
+                            $response["error"] = __("keyword_exists_error");
+                            echo json_encode($response);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        $postdata = [
+                            "eventID" => $eventID,
+                            "chapter" => $chapter,
+                            "chunk" => $chunk,
+                            "verse" => $verse,
+                            "indexOrder" => $index,
+                            "text" => $text,
+                            "memberID" => Session::get("memberID")
+                        ];
 
-                if($result)
-                {
-                    $response["success"] = true;
-                    $response["text"] = $text;
+                        $response["type"] = "add";
+                        $result = $this->_translationModel->createKeyword($postdata);
+                    }
+
+                    if($result)
+                    {
+                        $response["success"] = true;
+                        $response["text"] = $text;
+                    }
                 }
             }
         }
@@ -3361,7 +3378,7 @@ class EventsController extends Controller
         return $result;
     }
 
-    private function moveMemberStepBack($member, $toStep, $confirm)
+    private function moveMemberStepBack($member, $toStep, $confirm, $prevChunk = false)
     {
         // do not allow move from "none" and "preparation" steps
         if(EventSteps::enum($member->step) < 2)
@@ -3371,8 +3388,9 @@ class EventsController extends Controller
         if((EventSteps::enum($member->step) - EventSteps::enum($toStep)) > 1)
             return [];
 
-        // Do not allow to move forward
-        if(EventSteps::enum($toStep) >= EventSteps::enum($member->step))
+        // Do not allow to move forward, exclusion from READ_CHUNK to BLIND_DRAFT of previous chunk
+        if(EventSteps::enum($toStep) >= EventSteps::enum($member->step)
+            && ($toStep == EventSteps::BLIND_DRAFT && !$prevChunk))
             return [];
 
         $postData = [];
@@ -3438,6 +3456,11 @@ class EventsController extends Controller
 
             case EventSteps::BLIND_DRAFT:
                 $postData["step"] = EventSteps::BLIND_DRAFT;
+                if($prevChunk)
+                {
+                    $chunk = $member->currentChunk-1;
+                    $postData["currentChunk"] = max(0, $chunk);
+                }
                 break;
 
             case EventSteps::SELF_CHECK:

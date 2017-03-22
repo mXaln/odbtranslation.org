@@ -28,6 +28,7 @@ var Language = {
     "startTranslationConfirm"   : "Are you sure you want to start the event?",
     "makeChunk"                 : "Make chunk",
     "noNotifsMsg"               : "No notifications",
+    "seeAll"                    : "See all",
     "calling"                   : "Calling...",
     "incommingCall"             : "Incomming call from",
     "callTimeout"               : "No answer from user",

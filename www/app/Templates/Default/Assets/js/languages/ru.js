@@ -28,6 +28,7 @@ var Language = {
     "startTranslationConfirm"   : "Вы действительно хотите начать перевод?",
     "makeChunk"                 : "Создать отрывок",
     "noNotifsMsg"               : "Нет уведомлений",
+    "seeAll"                    : "Смотреть все",
     "calling"                   : "Звоним...",
     "incommingCall"             : "Входящий звонок от",
     "callTimeout"               : "Нет ответа от пользователя",

@@ -28,6 +28,7 @@ var Language = {
     "startTranslationConfirm"   : "Sigurado ka nga magsugod ka sa bag-o nga paghubad?",
     "makeChunk"                 : "Pagbuhat ug chunk",
     "noNotifsMsg"               : "Walay notifications",
+    "seeAll"                    : "Tan-awa tanan",
     "calling"                   : "Motawag",
     "incommingCall"             : "Moabot nga tawag gikan kang",
     "callTimeout"               : "Walay tubag gikan sa user",

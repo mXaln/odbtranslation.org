@@ -402,6 +402,7 @@ return array (
     "read-chunk-alt" => "Read Chunk",
     "read-chunk_desc" => "<li><b>PURPOSE:</b> to review the chunk to prepare for the blind draft</li><li>Read and absorb this chunk of text, with the context of the larger chapter in mind, asking the help of the Holy Spirit to understand the text</li><li>Spend no more than 5 minutes per chunk</li>",
     "blind-draft" => "Blind Draft",
+    "blind-draft_previous" => "Blind Draft - Previous chunk",
     "blind-draft_desc" => "<li><b>PURPOSE:</b> to translate the source text as naturally as possible in the target language.</li><li>Without looking at the source text, type your translation of the chunk as the best you can remember it, in a natural way, using words that are clear and understandable</li><li>Do not refer to the source text. Just translate what you remember.</li><li>Do not be concerned about marking verses. This will be done in the final step</li><li>One of the foundational characteristics of good translation is the naturalness of language. The blind draft captures this and allows the brain/short term memory to push forward into pushing the most natural text out quickly. This is not meant to be perfectly accurate text (the next four steps will work toward that), this is meant to put the foundation of naturalness, which if absent, leads to extended error and long periods of foundational error correction.</li><li>Spend no more than 10-12 minutes on this exercise per chunk</li>",
     "self-check" => "Self-Edit",
     "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text accurately while maintaining the form and structure of the source.</li><li>Look for spelling, punctuation, flow/naturalness errors.</li><li>Look for any missing portions of text or missing or added facts.</li><li>Do not exaggerate, simplify, or add text to clarify. Anything that you think requires such should be recorded in a note on the appropriate verse, and move on.</li><li>Spend no more than 15-20 minutes on this exercise.</li>",
@@ -476,7 +477,7 @@ return array (
     // Other messages
     "alert_message" => "Message",
     "no_events_message" => "No events in this category",
-    "create_event_tip" => "What instructions?? Nobody told me about instructions. Ask Dima!",
+    "create_event_tip" => "No instructions for a while.",
     "goto_event_info" => "Go to event information page",
     "event_info" => "Event Information",
     "manage_event" => "Manage Event",

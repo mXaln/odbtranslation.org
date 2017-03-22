@@ -621,9 +621,11 @@ $(document).ready(function() {
     });
 
     $("#checker_submit").submit(function() {
-        if(typeof window.opener != "undefined")
-            window.opener.$(".check1 .event_link a[data="+eventID+"]")
+        if(window.opener != null)
+        {
+            window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]")
                 .parents(".event_block").remove();
+        }
 
         $.ajax({
             method: "post",
@@ -642,8 +644,16 @@ $(document).ready(function() {
                         chkMemberID: chkMemberID,
                     };
                     socket.emit("system message", data);
-                    window.opener.$(".check1 .event_link a[data="+eventID+"]").parent(".event_block").remove();
-                    window.close();
+
+                    if(window.opener != null)
+                    {
+                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                        window.close();
+                    }
+                    else
+                    {
+                        window.location = "/events";
+                    }
                 }
                 else
                 {
@@ -863,7 +873,12 @@ $(document).ready(function() {
             if(notifs <= 0)
             {
                 $(".notif_count").remove();
-                $(".notif_block").html('<div class="no_notif">'+data.noNotifs+'</div>');
+                var notifBlock = '' +
+                    '<div class="no_notif">'+Language.noNotifsMsg+'</div>' +
+                    '<div class="all_notifs">' +
+                        '<a href="/events/notifications">'+Language.seeAll+'</a>' +
+                    '</div>';
+                $(".notif_block").html(notifBlock);
             }
             else
             {
@@ -1974,7 +1989,8 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         },
         dataType: "json",
         beforeSend: function() {
-            $(".commentEditorLoader").show();
+            $(".chunk_verses").css("cursor", "wait");
+            $(".chunk_verses b").css("cursor", "wait");
         }
     })
         .done(function(data) {
@@ -2004,7 +2020,8 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
             }
         })
         .always(function() {
-            $(".commentEditorLoader").hide();
+            $(".chunk_verses").css("cursor", "auto");
+            $(".chunk_verses b").css("cursor", "auto");
         });
 }
 

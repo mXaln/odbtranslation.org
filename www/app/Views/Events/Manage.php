@@ -87,6 +87,17 @@ if(!isset($error)):
                                     (EventSteps::enum($member["step"]) - $i) > 1;
                                 ?>
 
+                                <?php if($step == EventSteps::READ_CHUNK):
+                                    $ch_disabled = $member["currentChunk"] <= 0 ||
+                                        EventSteps::enum($member["step"]) >= EventSteps::enum(EventSteps::BLIND_DRAFT);
+                                    ?>
+                                    <option <?php echo ($ch_disabled ? "disabled" : "") ?>
+                                            value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>"
+                                    style="padding-left: 20px">
+                                        <?php echo __(EventSteps::BLIND_DRAFT."_previous").($member["currentChunk"] > 0 ? " ".$member["currentChunk"] : "") ?>
+                                    </option>
+                                <?php endif; ?>
+
                                 <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
                                     <?php echo EventSteps::enum($step) == 5 ? __("read-chunk-alt") : __($step) ?>
                                 </option>

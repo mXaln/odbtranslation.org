@@ -555,7 +555,8 @@ class EventsModel extends Model
 
     public function getEventMemberInfo($eventID, $memberID)
     {
-        $sql = "SELECT trs.memberID AS translator, chk.step AS checkerStep, chk.checkerID AS checker, l2.memberID AS l2checker, l3.memberID AS l3checker ".
+        $sql = "SELECT trs.memberID AS translator, chk.currentChapter AS chkChapter, ".
+            "chk.step AS checkerStep, chk.checkerID AS checker, l2.memberID AS l2checker, l3.memberID AS l3checker ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."translators AS trs ON evnt.eventID = trs.eventID AND trs.memberID = :memberID ".
             "LEFT JOIN ".PREFIX."translators AS chk ON evnt.eventID = chk.eventID AND chk.checkerID = :memberID ".

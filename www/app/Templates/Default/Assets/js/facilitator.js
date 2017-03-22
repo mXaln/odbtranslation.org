@@ -476,6 +476,9 @@ $(function () {
         var memberID = event_member[1];
         var to_step = $(this).val();
 
+        var prev_chunk = /_prev$/.test(to_step);
+        to_step = to_step.replace(/_prev$/, "");
+
         var $this = $(this);
 
         if(to_step == EventSteps.VERBALIZE || to_step == EventSteps.PEER_REVIEW
@@ -502,13 +505,14 @@ $(function () {
         }
         else
         {
-            moveStepBack($this, eventID, memberID, to_step);
+            moveStepBack($this, eventID, memberID, to_step, true, prev_chunk);
         }
     });
 
 
-    function moveStepBack(selector, eventID, memberID, to_step, confirm) {
+    function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk) {
         confirm = confirm || false;
+        prev_chunk = prev_chunk || false;
 
         $.ajax({
             url: "/events/rpc/move_step_back",
@@ -517,7 +521,8 @@ $(function () {
                 eventID : eventID,
                 memberID : memberID,
                 to_step: to_step,
-                confirm: confirm
+                confirm: confirm,
+                prev_chunk: prev_chunk
             },
             dataType: "json",
             beforeSend: function() {
