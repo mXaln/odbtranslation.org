@@ -42,8 +42,9 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
+		
         $data['menu'] = 1;
-
+		
         $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
         $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));

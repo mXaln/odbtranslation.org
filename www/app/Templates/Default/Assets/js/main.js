@@ -347,21 +347,24 @@ $(document).ready(function() {
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW)
         {
-            var item = step == EventSteps.BLIND_DRAFT ?
+            if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
+			{
+				var item = step == EventSteps.BLIND_DRAFT ?
                 "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk :
                 "event"+eventID;
-            var saved = localStorage.getItem(item);
-            if(saved)
-            {
-                $.each(saved.split('&'), function (index, elem) {
-                    var vals = elem.split('=');
-                    $("#main_form [name='" + vals[0] + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
-                });
+				var saved = localStorage.getItem(item);
+				if(saved)
+				{
+					$.each(saved.split('&'), function (index, elem) {
+						var vals = elem.split('=');
+						$("#main_form [name='" + vals[0] + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+					});
 
-                localStorage.removeItem(item);
-                hasChangesOnPage = true;
-            }
-
+					localStorage.removeItem(item);
+					hasChangesOnPage = true;
+				}
+			}
+			
             autosaveTimer = setInterval(function() {
                 if(hasChangesOnPage)
                 {
@@ -591,6 +594,9 @@ $(document).ready(function() {
         $(".word_def_popup", ".keywords_list").hide("slide", {direction: "right"}, 300);
     });
 
+	$("form #confirm_step").prop("checked", false);
+	$("form #next_step").prop("disabled", true);
+	
     // Confirm to go to the next step
     $("#confirm_step").change(function() {
         if($(this).is(":checked"))

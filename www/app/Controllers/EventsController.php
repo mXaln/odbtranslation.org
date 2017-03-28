@@ -355,7 +355,8 @@ class EventsController extends Controller
 
                                 $_POST = Gump::xss_clean($_POST);
 
-                                $chunks = (array)json_decode(isset($_POST["chunks_array"]) ? $_POST["chunks_array"] : "");
+								$chunks = isset($_POST["chunks_array"]) ? $_POST["chunks_array"] : "";
+                                $chunks = (array)json_decode($chunks);
                                 if($this->testChunks($chunks, $sourceText["totalVerses"]))
                                 {
                                     $chapters = json_decode($data["event"][0]->chapters, true);
@@ -457,16 +458,18 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST))
                         {
                             $_POST = Gump::xss_clean($_POST);
+							$draft = isset($_POST["draft"]) ? $_POST["draft"] : "";
+							$confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
 
                             if (isset($_POST["confirm_step"]))
                             {
-                                if(trim($_POST["draft"]) != "")
+                                if(trim($draft) != "")
                                 {
-                                    $_POST["draft"] = preg_replace("/[\\r\\n]/", " ", $_POST["draft"]);
+                                    $draft = preg_replace("/[\\r\\n]/", " ", $draft);
 
                                     $translationVerses = [
                                         EventMembers::TRANSLATOR => [
-                                            "blind" => trim($_POST["draft"]),
+                                            "blind" => trim($draft),
                                             "verses" => array()
                                         ],
                                         EventMembers::L2_CHECKER => [
@@ -518,7 +521,7 @@ class EventsController extends Controller
                                         }
 
                                         setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                        $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]); Data::pr($upd);
+                                        $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                         Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                     }
                                     else
@@ -579,12 +582,13 @@ class EventsController extends Controller
 
                             if(isset($_POST["save"]))
                             {
-                                $_POST["chunks"] = array_map("trim", $_POST["chunks"]);
-                                $_POST["chunks"] = array_filter($_POST["chunks"], function($v) {
+								$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                $chunks = array_map("trim", $chunks);
+                                $chunks = array_filter($chunks, function($v) {
                                     return !empty($v);
                                 });
 
-                                if(sizeof($_POST["chunks"]) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
+                                if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
                                     $error[] = __("empty_verses_error");
 
                                 if(!isset($error))
@@ -594,10 +598,10 @@ class EventsController extends Controller
                                         foreach ($translation as $key => $chunk)
                                         {
                                             $shouldUpdate = false;
-                                            if($chunk[EventMembers::TRANSLATOR]["blind"] != $_POST["chunks"][$key])
+                                            if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
                                                 $shouldUpdate = true;
 
-                                            $translation[$key][EventMembers::TRANSLATOR]["blind"] = $_POST["chunks"][$key];
+                                            $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
 
                                             if($shouldUpdate)
                                             {
@@ -674,12 +678,13 @@ class EventsController extends Controller
                             {
                                 if(!$data["event"][0]->checkDone)
                                 {
-                                    $_POST["chunks"] = array_map("trim", $_POST["chunks"]);
-                                    $_POST["chunks"] = array_filter($_POST["chunks"], function($v) {
+									$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                    $chunks = array_map("trim", $chunks);
+                                    $chunks = array_filter($chunks, function($v) {
                                         return !empty($v);
                                     });
 
-                                    if(sizeof($_POST["chunks"]) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
+                                    if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
                                         $error[] = __("empty_verses_error");
 
                                     if(!isset($error))
@@ -689,10 +694,10 @@ class EventsController extends Controller
                                             foreach ($translation as $key => $chunk)
                                             {
                                                 $shouldUpdate = false;
-                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $_POST["chunks"][$key])
+                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
                                                     $shouldUpdate = true;
 
-                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $_POST["chunks"][$key];
+                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
 
                                                 if($shouldUpdate)
                                                 {
@@ -783,14 +788,15 @@ class EventsController extends Controller
                             {
                                 if(!$data["event"][0]->checkDone)
                                 {
-                                    $_POST["chunks"] = array_map("trim", $_POST["chunks"]);
-                                    $_POST["chunks"] = array_filter($_POST["chunks"], function($v) {
+									$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                    $chunks = array_map("trim", $chunks);
+                                    $chunks = array_filter($chunks, function($v) {
                                         return !empty($v);
                                     });
 
                                     $chapters = json_decode($data["event"][0]->chapters, true);
 
-                                    if(sizeof($_POST["chunks"]) < sizeof($chapters[$data["event"][0]->currentChapter]["chunks"]))
+                                    if(sizeof($chunks) < sizeof($chapters[$data["event"][0]->currentChapter]["chunks"]))
                                         $error[] = __("empty_verses_error");
 
                                     if(!isset($error))
@@ -800,10 +806,10 @@ class EventsController extends Controller
                                             foreach ($translation as $key => $chunk)
                                             {
                                                 $shouldUpdate = false;
-                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $_POST["chunks"][$key])
+                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
                                                     $shouldUpdate = true;
 
-                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $_POST["chunks"][$key];
+                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
 
                                                 if($shouldUpdate)
                                                 {
@@ -895,14 +901,15 @@ class EventsController extends Controller
                             {
                                 if(!$data["event"][0]->checkDone)
                                 {
-                                    $_POST["chunks"] = array_map("trim", $_POST["chunks"]);
-                                    $_POST["chunks"] = array_filter($_POST["chunks"], function($v) {
+									$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                    $chunks = array_map("trim", $chunks);
+                                    $chunks = array_filter($chunks, function($v) {
                                         return !empty($v);
                                     });
 
                                     $chapters = json_decode($data["event"][0]->chapters, true);
 
-                                    if(sizeof($_POST["chunks"]) < sizeof($chapters[$data["event"][0]->currentChapter]["chunks"]))
+                                    if(sizeof($chunks) < sizeof($chapters[$data["event"][0]->currentChapter]["chunks"]))
                                         $error[] = __("empty_verses_error");
 
                                     if(!isset($error))
@@ -912,10 +919,10 @@ class EventsController extends Controller
                                             foreach ($translation as $key => $chunk)
                                             {
                                                 $shouldUpdate = false;
-                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $_POST["chunks"][$key])
+                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
                                                     $shouldUpdate = true;
 
-                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $_POST["chunks"][$key];
+                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
 
                                                 if($shouldUpdate)
                                                 {
@@ -1004,20 +1011,21 @@ class EventsController extends Controller
 
                             if (isset($_POST["confirm_step"]))
                             {
-                                $_POST["chunks"] = array_map("trim", $_POST["chunks"]);
-                                $_POST["chunks"] = array_filter($_POST["chunks"], function($v) {
+								$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                $chunks = array_map("trim", $chunks);
+                                $chunks = array_filter($chunks, function($v) {
                                     return !empty($v);
                                 });
 
                                 $chapters = json_decode($data["event"][0]->chapters, true);
 
-                                if(sizeof($_POST["chunks"]) < sizeof($chapters[$data["event"][0]->currentChapter]["chunks"]))
+                                if(sizeof($chunks) < sizeof($chapters[$data["event"][0]->currentChapter]["chunks"]))
                                     $error[] = __("empty_verses_error");
 
                                 if(!isset($error))
                                 {
                                     $versesCombined = [];
-                                    foreach ($_POST["chunks"] as $key => $chunk)
+                                    foreach ($chunks as $key => $chunk)
                                     {
                                         $verses = preg_split("/\|([0-9]+)\|/", $chunk, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -3296,6 +3304,7 @@ class EventsController extends Controller
             // Test if first verse is 1
             if($lastVerse == 0 && $chunk[0] != 1) return false;
 
+			// Test if all verses are in right order
             foreach ($chunk as $verse) {
                 if((integer)$verse > ($lastVerse+1)) return false;
                 $lastVerse++;
