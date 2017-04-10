@@ -30,7 +30,7 @@ var Language = {
     "noNotifsMsg"               : "No notifications",
     "seeAll"                    : "See all",
     "calling"                   : "Calling...",
-    "incommingCall"             : "Incomming call from",
+    "incommingCall"             : "In coming call from",
     "callTimeout"               : "No answer from user",
     "audioChatWith"             : "Audio chat with",
     "chapters"                  : "Chapters",

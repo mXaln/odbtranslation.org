@@ -79,10 +79,6 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 </script>
 
-<div style="position: fixed; right: 0;">
-
-</div>
-
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
     <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("chat") ?></div>
@@ -170,7 +166,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?2")?>"></script>
-<script src="<?php echo template_url("js/socket.js")?>"></script>
+<script src="<?php echo template_url("js/socket.js?1")?>"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

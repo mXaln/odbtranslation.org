@@ -3601,3 +3601,60 @@ button.startEvnt, button.editEvnt {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
+.checkers-search {
+    position: relative;
+}
+
+.user_checkers {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    border: 1px solid #ccc;
+    background-color: white;
+    list-style-type: none;
+    padding: 0;
+    width: 295px;
+    max-height: 350px;
+    overflow-y: auto;
+    display: none;
+    z-index: 101;
+}
+
+.user_checkers li, .user_checkers label, .user_checkers div {
+    cursor: pointer;
+    width: 100%;
+}
+
+.user_checkers label {
+    margin: 0;
+}
+
+.user_checkers li {
+    padding: 5px;
+}
+
+.user_checkers li:hover {
+    background-color: #4596cc;
+    color: #ffffff;
+}
+
+.membersSearch {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 310px;
+}
+
+.add_cheker .chklabel, .add_cheker button {
+    display: block;
+    float: left;
+}
+
+.add_cheker .chklabel {
+    margin-right: 10px;
+}
+
+.add_cheker input {
+    height: 34px;
+}

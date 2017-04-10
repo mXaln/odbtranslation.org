@@ -74,6 +74,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("rpc/move_step_back", "EventsController@moveStepBack");
     Router::any("rpc/check_internet", "EventsController@checkInternet");
+    Router::any("rpc/apply_verb_checker", "EventsController@applyVerbChecker");
 });
 
 

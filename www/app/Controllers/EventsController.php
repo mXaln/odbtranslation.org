@@ -296,6 +296,20 @@ class EventsController extends Controller
                             Url::redirect('events/translator/' . $data["event"][0]->eventID);
                         }
 
+                        $data["event"][0]->checkerName = null;
+                        $verbCheck = (array)json_decode($data["event"][0]->verbCheck, true);
+                        if(array_key_exists($data["event"][0]->currentChapter, $verbCheck))
+                        {
+                            if(!is_numeric($verbCheck[$data["event"][0]->currentChapter]))
+                            {
+                                $data["event"][0]->checkerName = $verbCheck[$data["event"][0]->currentChapter];
+                            }
+                            else
+                            {
+                                $data["event"][0]->checkerName = $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1).".";
+                            }
+                        }
+
                         if (isset($_POST) && !empty($_POST))
                         {
                             if (isset($_POST["confirm_step"]))
@@ -314,7 +328,7 @@ class EventsController extends Controller
                                 }
                                 else
                                 {
-                                    $error[] = __("checker_not_ready_error");
+                                    $error[] = __("verb_checker_not_ready_error");
                                 }
                             }
                         }
@@ -1153,7 +1167,7 @@ class EventsController extends Controller
             {
                 if($data["event"][0]->step != EventSteps::FINISHED && !$data["event"][0]->translateDone)
                 {
-                    if(in_array($data["event"][0]->step, [EventSteps::VERBALIZE, EventSteps::PEER_REVIEW, EventSteps::KEYWORD_CHECK, EventSteps::CONTENT_REVIEW]))
+                    if(in_array($data["event"][0]->step, [EventSteps::PEER_REVIEW, EventSteps::KEYWORD_CHECK, EventSteps::CONTENT_REVIEW]))
                     {
                         $turnSecret = $this->_membersModel->getTurnSecret();
                         $turnUsername = (time() + 3600) . ":vmast";
@@ -1184,16 +1198,7 @@ class EventsController extends Controller
                             if (isset($_POST["confirm_step"])) {
                                 $postdata = array("checkDone" => true);
 
-                                if($data["event"][0]->step == EventSteps::VERBALIZE)
-                                {
-                                    $verbCheck = (array)json_decode($data["event"][0]->verbCheck, true);
-                                    if(!array_key_exists($data["event"][0]->currentChapter, $verbCheck))
-                                    {
-                                        $verbCheck[$data["event"][0]->currentChapter] = Session::get("memberID");
-                                        $postdata["verbCheck"] = json_encode($verbCheck);
-                                    }
-                                }
-                                elseif($data["event"][0]->step == EventSteps::PEER_REVIEW)
+                                if($data["event"][0]->step == EventSteps::PEER_REVIEW)
                                 {
                                     $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
                                     if(!array_key_exists($data["event"][0]->currentChapter, $peerCheck))
@@ -1522,7 +1527,16 @@ class EventsController extends Controller
                         {
                             $consumeState = StepsStates::FINISHED;
                             $currentChecker = $verbCheck[$key];
-                            $members[$currentChecker] = "";
+                            if(is_numeric($currentChecker))
+                            {
+                                $members[$currentChecker] = "";
+                            }
+                            else
+                            {
+                                $uniqID = uniqid("chk");
+                                $members[$uniqID] = $currentChecker;
+                                $verbCheck[$key] = $currentChecker = $uniqID;
+                            }
 
                             if($currentStep == EventSteps::CHUNKING)
                             {
@@ -1558,7 +1572,7 @@ class EventsController extends Controller
                     $data["chapters"][$key]["step"] = $currentStep;
                     $data["chapters"][$key]["consume"]["state"] = $consumeState;
                     $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
-                    $data["chapters"][$key]["verb"]["checkerID"] = $currentChecker > 0 ? $currentChecker : "na";
+                    $data["chapters"][$key]["verb"]["checkerID"] = !is_numeric($currentChecker) ? $currentChecker : ($currentChecker > 0 ? $currentChecker : "na");
                     $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
                     $data["chapters"][$key]["blindDraft"]["state"] = $blindDraftState;
 
@@ -1585,7 +1599,6 @@ class EventsController extends Controller
                 // These steps are finished here by default
                 $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
                 $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
-
 
                 // Verbalize Check
                 if(array_key_exists($key, $verbCheck))
@@ -1774,6 +1787,17 @@ class EventsController extends Controller
                 $members[$member->memberID]["userName"] = $member->userName;
                 $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
+            }
+
+            foreach ($members as $key => $member) {
+                if(!is_numeric($key) && $key != "na")
+                {
+                    $name = $members[$key];
+                    $members[$key] = [];
+                    $members[$key]["userName"] = $key;
+                    $members[$key]["name"] = $name;
+                    $members[$key]["avatar"] = "n1";
+                }
             }
 
             $members["na"] = __("not_available");
@@ -2690,6 +2714,73 @@ class EventsController extends Controller
             ->shares("error", @$error);
     }
 
+    public function applyVerbChecker()
+    {
+        $response = array("success" => false);
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $eventID = isset($_POST["eventID"]) && $_POST["eventID"] != "" ? (integer)$_POST["eventID"] : null;
+        $chkID = isset($_POST["chkID"]) && $_POST["chkID"] != "" ? (integer)$_POST["chkID"] : null;
+        $chkName = isset($_POST["chkName"]) && preg_match("/^[^0-9!@#\$%\^&\*\(\)_\-\+=\.,\?\/\\\[\]\{\}\|\"]+$/", $_POST["chkName"]) ? trim($_POST["chkName"]) : null;
+        $memberID = Session::get("memberID");
+
+        if($eventID !== null && ($chkID != null || $chkName != null))
+        {
+            $event = $this->_model->getMemberEvents($memberID, EventMembers::TRANSLATOR, $eventID);
+            if($chkID != null)
+            {
+                $chkMember = $this->_membersModel->getMembers([$chkID]);
+                if(!empty($chkMember))
+                    $chkName = $chkMember[0]->firstName . " " . mb_substr($chkMember[0]->lastName, 0, 1).".";
+                else
+                {
+                    $chkID = null;
+                    $chkName = null;
+                }
+            }
+
+            if(!empty($event) && $chkName != null)
+            {
+                $verbCheck = (array)json_decode($event[0]->verbCheck, true);
+                $checker = $chkID != null ? $chkID : $chkName;
+
+                if($event[0]->step == EventSteps::VERBALIZE && $event[0]->checkDone == false
+                    && !array_key_exists($event[0]->currentChapter, $verbCheck))
+                {
+                    $verbCheck[$event[0]->currentChapter] = $checker;
+                    $postdata["verbCheck"] = json_encode($verbCheck);
+                    $postdata["checkerID"] = $chkID;
+                    $postdata["checkDone"] = true;
+
+                    $upd = $this->_model->updateTranslator($postdata, array("eventID" => $eventID, "memberID" => $memberID));
+                    if($upd)
+                    {
+                        $response["success"] = true;
+                        $response["chkName"] = $chkName;
+                    }
+                    else
+                    {
+                        $response["error"] = "not_saved";
+                    }
+                }
+                else
+                {
+                    $response["error"] = "wrong_step";
+                }
+            }
+            else
+            {
+                $response["error"] = "wrong_event_or_member";
+            }
+        }
+        else
+        {
+            $response["error"] = "forbidden_name_format";
+        }
+
+        echo json_encode($response);
+    }
 
     public function getEventMembers()
     {

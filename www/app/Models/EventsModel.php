@@ -408,7 +408,6 @@ class EventsModel extends Model
     public function getNotifications()
     {
         $stepsIn = $this->db->quoteArray([
-            EventSteps::VERBALIZE,
             EventSteps::PEER_REVIEW,
             EventSteps::KEYWORD_CHECK,
             EventSteps::CONTENT_REVIEW,
@@ -447,7 +446,6 @@ class EventsModel extends Model
         {
             $langsIn = $this->db->quoteArray($langs);
             $stepsIn = $this->db->quoteArray([
-                EventSteps::VERBALIZE,
                 EventSteps::PEER_REVIEW,
                 EventSteps::KEYWORD_CHECK,
                 EventSteps::CONTENT_REVIEW,
@@ -616,6 +614,10 @@ class EventsModel extends Model
 
             case "ceb":
                 curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
+                break;
+
+            case "id":
+                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
                 break;
 
             default:
