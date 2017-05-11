@@ -1,3 +1,7 @@
+<?php
+use Shared\Legacy\Error;
+?>
+
 <div class="members_login">
     <h1><?php echo __('passwordreset_title'); ?></h1>
 

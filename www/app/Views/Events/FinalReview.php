@@ -31,7 +31,7 @@ if(isset($data["error"])) return;
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                     <div class="col-sm-12">
-                        <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
+                        <?php foreach($data["chunks"] as $key => $chunk) : ?>
                             <div class="row chunk_block">
                                 <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $firstVerse = 0; ?>
@@ -59,16 +59,17 @@ if(isset($data["error"])) return;
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"];?>
                                     <div class="vnote">
                                         <div class="markerBubbles noselect">
-                                            <?php foreach ($chunk as $verse): ?>
-                                                <?php
+                                            <?php
+                                            foreach ($chunk as $verse)
+                                            {
                                                 if(!empty($_POST) && isset($_POST["chunks"][$key]))
                                                 {
                                                     if(preg_match("/\|".$verse."\|/", $_POST["chunks"][$key]))
                                                         continue;
                                                 }
-                                                ?>
-                                                <div class="bubble"><?php echo $verse ?></div>
-                                            <?php endforeach; ?>
+                                                echo '<div class="bubble">'.$verse.'</div>';
+                                            }
+                                            ?>
                                         </div>
 
                                         <?php
@@ -114,6 +115,7 @@ if(isset($data["error"])) return;
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>
+
                                         <div class="clear"></div>
                                     </div>
                                 </div>

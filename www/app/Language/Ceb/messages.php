@@ -320,6 +320,7 @@ return array (
     "pair_number" => "Pares",
     "add_person" => "Ipabuhat nga Kapitulo",
     "add_translator" => "Add translators",
+    "add_checker" => "Add checker",
     "assign_chapter_title" => "Ipabuhat nga Kapitulo",
     "assign_pair_title" => "Magbuhat og Pares",
     "reset_pair_title" => "Pag-usab sa Pares",
@@ -422,6 +423,7 @@ return array (
     // Errors
     "checker_translator_not_ready_error" => "Dili pa andam ang tighubad niini nga lakang, palihog hulat. Mobalik ra ang teksto kung andam na ang tighubad.",
     "checker_not_ready_error" => "Kini nga lakang wala pa giaprobahan sa tigsusi. Palihog hulat",
+    "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
     "checker_translator_finished_error" => "Human na ang pagsusi niini nga kasamtangang kapitulo.",
     "empty_or_not_permitted_event_error" => "Wala kay katungod nga motan-aw niini nga trabaho.",
     "not_started_event_error" => "Wala pa nasugdan ang paghubad. Mahimo kang mopadayon. Mahimo nga maodto ka <a href=\"/events/manage/{0}\">Patan-aw sa Ginabuhat</a>sa ge-assign sa tighubad sa kapitulo sa maong libro.",

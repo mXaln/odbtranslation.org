@@ -1,5 +1,6 @@
 <?php
 use \Helpers\Constants\EventSteps;
+use Shared\Legacy\Error;
 
 echo Error::display($error);
 

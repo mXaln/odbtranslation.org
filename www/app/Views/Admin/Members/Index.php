@@ -18,6 +18,11 @@
             <span></span>
         </a>
     </li>
+    <li role="presentation" id="all_books" class="mems_tab">
+        <a href="#"><?php echo __("All Books") ?>
+            <span></span>
+        </a>
+    </li>
 </ul>
 
 <div class="members_content shown" id="verify_members_content">
@@ -161,6 +166,32 @@
     <?php if($data["count"] > sizeof($data["members"])): ?>
         <div id="search_more"><?php echo __("search_more"); ?></div>
     <?php endif; ?>
+</div>
+
+<div class="members_content" id="all_books_content">
+    <?php
+    foreach($data["books"] as $username => $member)
+    {
+        echo "<div>";
+        echo "<div>{$member["firstName"]} {$member["lastName"]} ($username)</div>";
+        echo "<ul>";
+        foreach($member["books"] as $book)
+        {
+            echo "<li>";
+            echo $book["name"]." (Chapters: ";
+            $chapters = "";
+            foreach($book["chapters"] as $chapter => $done)
+            {
+                $chapters .= "<span style=\"font-weight:bold; color:".($done ? "green" : "red")."\">$chapter</span>, ";
+            }
+            $chapters = preg_replace("/, $/", "", $chapters);
+            echo $chapters;
+            echo ")</li>";
+        }
+        echo "</ul>";
+        echo "</div>";
+    }
+    ?>
 </div>
 
 <link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />

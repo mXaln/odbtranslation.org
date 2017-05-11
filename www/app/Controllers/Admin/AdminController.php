@@ -13,6 +13,7 @@ use Helpers\Session;
 use Helpers\Url;
 use App\Models\EventsModel;
 use App\Models\MembersModel;
+use Helpers\Password;
 
 class AdminController extends Controller {
 
@@ -49,7 +50,7 @@ class AdminController extends Controller {
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
         $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));
         $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
-
+		
         return View::make('Admin/Main/Index')
             ->shares("title", __("admin_project_title"))
             ->shares("data", $data);
@@ -93,17 +94,58 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
-
+		
         $data['menu'] = 2;
         $data["languages"] = $this->_eventsModel->getAllLanguages();
 
+        // New members
         $data["newMembers"] = $this->_membersModel->getMember(["*"], [
             ["active", false],
             ["verified", false, "=", "OR"]
         ], true);
 
+        // All members
         $data["count"] = $this->_membersModel->searchMembers(null, "all", null, true);
         $data["members"] = $this->_membersModel->searchMembers(null, "all", null, false);
+
+        // All books
+        $data["books"] = [];
+        $list = $this->_eventsModel->getBooksOfTranslators();
+        foreach($list as $item)
+        {
+            if(!isset($data["books"][$item->userName]))
+            {
+                $tmp = [];
+                $tmp["firstName"] = $item->firstName;
+                $tmp["lastName"] = $item->lastName;
+                $data["books"][$item->userName] = $tmp;
+            }
+
+            if(!isset($members[$item->userName]["books"]))
+            {
+                $tmp = [];
+                $tmp["name"] = $item->name;
+                $tmp["chapters"] = [];
+                $data["books"][$item->userName]["books"][$item->code] = $tmp;
+            }
+
+            if(!isset($members[$item->userName]["books"][$item->code]))
+            {
+                $tmp = [];
+                $tmp["name"] = $item->name;
+                $tmp["chapters"] = [];
+                $data["books"][$item->userName]["books"][$item->code] = $tmp;
+            }
+
+            if(!isset($data["books"][$item->userName]["books"][$item->code]["chapters"]))
+            {
+                $data["books"][$item->userName]["books"][$item->code]["chapters"][$item->chapter] = $item->done;
+            }
+            else
+            {
+                $data["books"][$item->userName]["books"][$item->code]["chapters"][$item->chapter] = $item->done;
+            }
+        }
 
         return View::make('Admin/Members/Index')
             ->shares("title", __("admin_members_title"))
@@ -213,9 +255,28 @@ class AdminController extends Controller {
 
                 // Translators
                 $translatorsArr = [];
-                $chapters = (array)json_decode($event[0]->chapters);
+
+                // Chapters
+                $data["chapters"] = [];
+                for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                {
+                    $data["chapters"][$i] = [];
+                }
+
+                $chapters = $this->_eventsModel->getChapters($event[0]->eventID);
+
                 foreach ($chapters as $chapter) {
-                    $translatorsArr[] = $chapter->memberID;
+                    $tmp["trID"] = $chapter["trID"];
+                    $tmp["memberID"] = $chapter["memberID"];
+                    $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                    $tmp["done"] = $chapter["done"];
+
+                    $data["chapters"][$chapter["chapter"]] = $tmp;
+                }
+
+                foreach ($data["chapters"] as $chapter) {
+                    if(!empty($chapter))
+						$translatorsArr[] = $chapter["memberID"];
                 }
                 $translatorsArr = array_unique($translatorsArr);
 
@@ -527,6 +588,7 @@ class AdminController extends Controller {
 
         // Book source
         $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject."_usfm";
+
         if(Cache::has($cache_keyword))
         {
             Cache::forget($cache_keyword);
@@ -535,7 +597,7 @@ class AdminController extends Controller {
             $usfm = UsfmParser::parse($source);
 
             if(!empty($usfm))
-                Cache::add($cache_keyword, $source, 60*24*7);
+                Cache::add($cache_keyword, json_encode($source), 60*24*7);
 
         }
 
@@ -748,12 +810,6 @@ class AdminController extends Controller {
                             $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
                         }
 
-                        $chapters = array();
-
-                        for($i=1; $i<=$bookInfo[0]->chaptersNum; $i++)
-                            $chapters[$i] = array();
-
-                        $postdata["chapters"] = json_encode($chapters);
                         $eventID = $this->_eventsModel->createEvent($postdata);
 
                         if($eventID)
@@ -875,5 +931,50 @@ class AdminController extends Controller {
         }
 
         echo json_encode($response);
+    }
+
+    // ----------------- Migration functions -------------------- //
+
+    /**
+     * Move chapters from "events" table to "chapters" chapters
+     * @return mixed
+     */
+    public function migrateChapters()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            return;
+        }
+
+        $events = $this->_eventsModel->getEvents();
+
+        foreach ($events as $event) {
+            $chapters = (array)json_decode($event->chapters, true);
+
+            foreach ($chapters as $key => $chapter) {
+                if(!empty($chapter))
+                {
+                    $postdata = [
+                        "eventID" => $event->eventID,
+                        "trID" => $chapter["trID"],
+                        "memberID" => $chapter["memberID"],
+                        "chunks" => json_encode($chapter["chunks"]),
+                        "chapter" => $key,
+                        "done" => isset($chapter["done"]) ? $chapter["done"] : false
+                    ];
+
+                    $this->_eventsModel->assignChapter($postdata);
+                }
+            }
+        }
+
+        echo "<h2>Done</h2>";
+        echo "<a href='/admin'>Go Back</a>";
     }
 }

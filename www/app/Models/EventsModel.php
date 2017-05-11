@@ -109,6 +109,16 @@ class EventsModel extends Model
     }
 
     /**
+     * Get all events
+     * @return array|static[]
+     */
+    public function getEvents()
+    {
+        return $this->db->table("events")
+            ->get();
+    }
+
+    /**
      * Get Event Data by eventID OR by projectID and bookCode
      * @param $eventID
      * @param $projectID
@@ -180,8 +190,8 @@ class EventsModel extends Model
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
             .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID "
             .($getInfo ?
-                ", evnt.eventID, evnt.state, evnt.bookCode, evnt.chapters, "
-                ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID " : "")
+                ", evnt.eventID, evnt.state, evnt.bookCode, "
+                ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".PREFIX."abbr.chaptersNum " : "")
             ."FROM ".PREFIX."events AS evnt "
             ."LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID = evnt.eventID AND ".PREFIX."translators.memberID = :memberID "
             ."LEFT JOIN ".PREFIX."translators AS checkers ON checkers.eventID = evnt.eventID AND checkers.checkerID = :memberID "
@@ -217,12 +227,13 @@ class EventsModel extends Model
                 .PREFIX."translators.translateDone, ".PREFIX."translators.verbCheck, "
                 .PREFIX."translators.peerCheck, ".PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, mems.lastName AS checkerLName, "
+                ."chapters.chunks, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, ": "")
-            ."evnt.eventID, evnt.state, evnt.bookCode, evnt.chapters, evnt.dateFrom, "
+            ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, "
             ."evnt.dateTo, evnt.translatorsNum, evnt.admins, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, "
             .PREFIX."projects.sourceBible, t_lang.langName as tLang, t_lang.direction as tLangDir, "
-            ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID FROM ";
+            ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".PREFIX."abbr.chaptersNum FROM ";
         $mainTable = "";
 
         switch($memberType)
@@ -242,7 +253,8 @@ class EventsModel extends Model
 
         $sql .= $mainTable.
             ($memberType == EventMembers::TRANSLATOR ?
-                "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = ".PREFIX."translators.checkerID " : "").
+                "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = ".PREFIX."translators.checkerID ".
+                "LEFT JOIN ".PREFIX."chapters AS chapters ON ".PREFIX."translators.eventID = chapters.eventID AND ".PREFIX."translators.currentChapter = chapters.chapter " : "").
             "LEFT JOIN ".PREFIX."events AS evnt ON ".$mainTable.".eventID = evnt.eventID ".
             "LEFT JOIN ".PREFIX."projects ON evnt.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -277,11 +289,12 @@ class EventsModel extends Model
         if($trMemberID)
             $prepare[":trMemberID"] = $trMemberID;
 
-        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, evnt.bookCode, evnt.chapters, evnt.admins, ".
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, evnt.bookCode, evnt.admins, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, ".
                 PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".
-                "t_lang.direction as tLangDir, s_lang.direction as sLangDir ".
+                "t_lang.direction as tLangDir, s_lang.direction as sLangDir, ".PREFIX."chapters.chunks ".
             "FROM ".PREFIX."translators AS trs ".
+                "LEFT JOIN ".PREFIX."chapters ON trs.eventID = ".PREFIX."chapters.eventID AND trs.currentChapter = ".PREFIX."chapters.chapter ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
                 "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
@@ -304,7 +317,8 @@ class EventsModel extends Model
      */
     public function getMemberEventsForAdmin($memberID, $eventID = null, $isSuperAdmin = false)
     {
-        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, abbr.abbrID, abbr.name, ".
+        $sql = "SELECT evnt.*, proj.bookProject, proj.sourceBible, proj.sourceLangID, tLang.langName, sLang.langName AS sLang, ".
+            "abbr.abbrID, abbr.name, abbr.chaptersNum, ".
             "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt, ".
@@ -391,11 +405,13 @@ class EventsModel extends Model
     {
         return $this->db->table("events")
             ->select([
-                "events.eventID","events.chapters","events.admins",
+                "events.eventID","events.admins",
                 "translators.verbCheck","translators.peerCheck",
-                "translators.kwCheck","translators.crCheck"
+                "translators.kwCheck","translators.crCheck",
+                "abbr.chaptersNum"
             ])
             ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
+            ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
             ->where("events.eventID", $eventID)
             ->get();
 
@@ -408,7 +424,6 @@ class EventsModel extends Model
     public function getNotifications()
     {
         $stepsIn = $this->db->quoteArray([
-            EventSteps::VERBALIZE,
             EventSteps::PEER_REVIEW,
             EventSteps::KEYWORD_CHECK,
             EventSteps::CONTENT_REVIEW,
@@ -447,7 +462,6 @@ class EventsModel extends Model
         {
             $langsIn = $this->db->quoteArray($langs);
             $stepsIn = $this->db->quoteArray([
-                EventSteps::VERBALIZE,
                 EventSteps::PEER_REVIEW,
                 EventSteps::KEYWORD_CHECK,
                 EventSteps::CONTENT_REVIEW,
@@ -552,6 +566,20 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+	
+	public function getBooksOfTranslators()
+	{
+		return $this->db->table("chapters")
+			->select(["members.userName", "members.firstName", "members.lastName",
+                "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
+                "projects.bookProject", "projects.targetLang"])
+			->leftJoin("members", "chapters.memberID", "=", "members.memberID")
+			->leftJoin("events", "chapters.eventID", "=", "events.eventID")
+            ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
+			->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+			->orderBy("members.userName")
+			->get();
+	}
 
     public function getEventMemberInfo($eventID, $memberID)
     {
@@ -616,6 +644,10 @@ class EventsModel extends Model
 
             case "ceb":
                 curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
+                break;
+
+            case "id":
+                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
                 break;
 
             default:
@@ -860,5 +892,80 @@ class EventsModel extends Model
         return $this->db->table("translators")
             ->where($where)
             ->delete();
+    }
+
+    /**
+     * Assign chapter to translator's queue
+     * @param $data
+     * @return int
+     */
+    public function assignChapter($data)
+    {
+        return $this->db->table("chapters")
+            ->insertGetId($data);
+    }
+
+    /**
+     * Remove chapter from translator's queue
+     * @param $where
+     * @return int
+     */
+    public function removeChapter($where)
+    {
+        return $this->db->table("chapters")
+            ->where($where)
+            ->delete();
+    }
+
+    /**
+     * Get all assigned chapters of event of a translator
+     * @param $eventID
+     * @param $memberID
+     * @return array|static[]
+     */
+    public function getChapters($eventID, $memberID = null)
+    {
+        $this->db->setFetchMode(PDO::FETCH_ASSOC);
+
+        $builder = $this->db->table("chapters")
+            ->where(["eventID" => $eventID])
+            ->orderBy("chapter");
+
+        if($memberID)
+            $builder->where(["memberID" => $memberID]);
+
+        $res = $builder->get();
+
+        $this->db->setFetchMode(PDO::FETCH_CLASS);
+
+        return $res;
+    }
+
+    /**
+     * Get next chapter to translate
+     * @param $eventID
+     * @return array|static[]
+     */
+    public function getNextChapter($eventID, $memberID)
+    {
+        return $this->db->table("chapters")
+            ->where(["eventID" => $eventID])
+            ->where(["memberID" => $memberID])
+            ->where("done", "!=", true)
+            ->orderBy("chapter")
+            ->get();
+    }
+
+    /**
+     * Update chapter
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateChapter($data, $where)
+    {
+        return $this->db->table("chapters")
+            ->where($where)
+            ->update($data);
     }
 }

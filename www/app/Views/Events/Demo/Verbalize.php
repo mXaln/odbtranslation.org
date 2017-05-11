@@ -3,7 +3,6 @@
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") ?></div>
             <div><?php echo __("step_num", [2]) . ": "  . __("verbalize")?></div>
-            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -14,6 +13,23 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
+                <div class="add_cheker">
+                    <div class="checkers-search">
+                        <div class="form-group">
+                            <label class="chklabel"><input type="text" class="form-control input-sm" id="add_checker" placeholder="Enter a name" required=""></label>
+                            <button class="btn btn-primary add_checker_btn"><?php echo __("add_checker") ?></button>
+                            <input type="hidden" id="checker_value" value="">
+                            <div class="clear"></div>
+                        </div>
+                        <div class="membersSearch">
+                            <img src="<?php echo template_url("img/loader.gif") ?>" width="32">
+                        </div>
+                        <ul class="user_checkers">
+
+                        </ul>
+                    </div>
+                </div>
+
                 <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <p><strong><sup>1</sup></strong> You therefore, my child, be strengthened in the grace that is in Christ Jesus.</p>
@@ -73,16 +89,12 @@
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
-                        <span>Marge S.</span>
+                        <span class="checker_name_span"></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/demo/information"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
-            </div>
-
-            <div class="checker_view">
-                <a href="<?php echo SITEURL ?>events/demo/verbalize_checker"><?php echo __("checker_view") ?></a>
             </div>
         </div>
     </div>

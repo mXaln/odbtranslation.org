@@ -392,6 +392,16 @@ class MembersController extends Controller
 
             $data["facilitation_activities"] = $this->_eventModel->getMemberEventsForAdmin($memberID);
             $data["translation_activities"] = $this->_eventModel->getMemberEvents($memberID, EventMembers::TRANSLATOR, null, false);
+
+            foreach ($data["translation_activities"] as $translation_activity) {
+                $chapters = $this->_eventModel->getChapters($translation_activity->eventID, $memberProfile[0]->mID);
+
+                $arr = [];
+                foreach ($chapters as $chapter) {
+                    $arr[] = $chapter["chapter"];
+                }
+                $translation_activity->chapters = join(", ", array_values($arr));
+            }
         }
         else
         {
@@ -421,7 +431,7 @@ class MembersController extends Controller
         {
             Url::redirect('admin/members');
         }
-        if(!Session::get("isSuperAdmin") && !Session::get("isAdmin"))
+        if(!Session::get("isSuperAdmin") && !Session::get("isAdmin") && !isset($_POST["ext"]))
         {
             Url::redirect('events');
         }
@@ -1542,8 +1552,10 @@ class MembersController extends Controller
             if(sizeof($profile["languages"]) > 0)
                 $rating += $langRate / sizeof($profile["languages"]);
 
+            $rating = min($rating / 7, 4);
+
             // Average value
-            $rating = sprintf("%1.2f", $rating / 7);
+            $rating = sprintf("%1.2f", $rating);
         }
 
         return $rating;

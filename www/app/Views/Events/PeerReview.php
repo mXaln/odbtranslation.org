@@ -38,7 +38,7 @@ if(isset($data["error"])) return;
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                     <div class="col-sm-12">
-                        <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
+                        <?php foreach($data["chunks"] as $key => $chunk) : ?>
                             <div class="row chunk_block">
                                 <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $firstVerse = 0; ?>

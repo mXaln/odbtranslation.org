@@ -1,3 +1,7 @@
+<?php 
+use Shared\Legacy\Error;
+?>
+
 <div class="members_login center-block" style="width:370px;">
     <h1><?php echo __('login_message'); ?></h1>
     <p><?php echo __('already_member'); ?> <a href='<?php echo SITEURL;?>members/login'><?php echo __('login'); ?></a>

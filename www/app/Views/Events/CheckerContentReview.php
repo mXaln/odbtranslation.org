@@ -46,7 +46,7 @@ if(empty($error) && empty($data["success"])):
                 </div>
 
                 <div class="col-sm-12 side_by_side_content">
-                    <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
+                    <?php foreach($data["chunks"] as $key => $chunk) : ?>
                         <div class="row chunk_block">
                             <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                 <?php $firstVerse = 0; ?>
@@ -101,7 +101,7 @@ if(empty($error) && empty($data["success"])):
                 </div>
 
                 <div class="col-sm-12 one_side_content" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                    <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
+                    <?php foreach($data["chunks"] as $key => $chunk) : ?>
                         <div class="chunk_block">
                             <div style="padding-right: 15px" class="chunk_verses">
                                 <?php $firstVerse = 0; ?>

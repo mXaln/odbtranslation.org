@@ -5,15 +5,29 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <div><?php echo __("step_num", [2]) . ": " . __("verbalize")?></div>
-            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <?php if($data["event"][0]->checkerID == 0): ?>
-                    <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
+                <?php if($data["event"][0]->checkerName == null): ?>
+                <div class="add_cheker">
+                    <div class="checkers-search">
+                        <div class="form-group">
+                            <label class="chklabel"><input type="text" class="form-control input-sm" id="add_checker" placeholder="Enter a name" required=""></label>
+                            <button class="btn btn-primary add_checker_btn"><?php echo __("add_checker") ?></button>
+                            <input type="hidden" id="checker_value" value="">
+                            <div class="clear"></div>
+                        </div>
+                        <div class="membersSearch">
+                            <img src="<?php echo template_url("img/loader.gif") ?>" width="32">
+                        </div>
+                        <ul class="user_checkers">
+
+                        </ul>
+                    </div>
+                </div>
                 <?php endif; ?>
 
                 <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
@@ -55,7 +69,7 @@ if(isset($data["error"])) return;
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>
+                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerName !== null ? $data["event"][0]->checkerName : __("not_available") ?></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>

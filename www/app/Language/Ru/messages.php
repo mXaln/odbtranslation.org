@@ -317,6 +317,7 @@ return array (
     "pair_number" => "Пара {0}",
     "add_person" => "Назначить главу",
     "add_translator" => "Добавить переводчиков",
+    "add_checker" => "Добавить проверяющего",
     "assign_chapter_title" => "Назначить главу",
     "assign_pair_title" => "Назначить пару",
     "reset_pair_title" => "Удалить пару",
@@ -420,6 +421,7 @@ return array (
     // Errors
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Проверяющий ещё не утвердил этот шаг. Пожалуйста ждите.",
+    "verb_checker_not_ready_error" => "Добавьте проверяющего, чтобы прейти к следующему шагу.",
     "checker_translator_finished_error" => "Проверка уже закончена для данной главы.",
     "empty_or_not_permitted_event_error" => "У вас недостаточно прав, чтобы просматривать информацию об этом событии.",
     "not_started_event_error" => "Перевод еще не начался. Вы можете перейти на <a href=\"/events/manage/{0}\">страницу управления событием</a> для распределения переводчиков и глав книги.",

@@ -85,8 +85,6 @@ function OnSystemMessage(data)
             this.emit('step enter', data);
             break;
 
-        case "verbalizeEnter":
-            msg = Language.partnerJoinedVerbalize;
         case "peerEnter":
             msg = Language.partnerJoinedPeerEdit;
         case "checkEnter":

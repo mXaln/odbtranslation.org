@@ -173,7 +173,7 @@ if(!empty($data["project"])):
                         <button name="progressEvent" class="btn btn-success"><?php echo __("progress"); ?></button>
                         <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
                         &nbsp;&nbsp;
-                        <button name="" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
+                        <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
                         <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>

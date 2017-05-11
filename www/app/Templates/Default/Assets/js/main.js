@@ -451,7 +451,7 @@ $(document).ready(function() {
 
                         // Update members list
                         $.each(data.members, function (memberID, member) {
-                            if(memberID == "na") return true;
+                            if(isNaN(parseInt(memberID))) return true;
 
                             memberID = parseInt(memberID);
 
@@ -639,6 +639,11 @@ $(document).ready(function() {
             dataType: "json",
             beforeSend: function() {
 
+		if($(".checkerLoader").length <= 0)
+		    $(".ui-dialog-buttonset")
+			.prepend('<img src="/templates/default/assets/img/loader.gif" style="margin-right:10px" width="32" class="checkerLoader">');
+		$(".checkerLoader").show();
+		$(".ui-dialog-buttonset button").prop("disabled", true);
             }
         })
             .done(function(data) {
@@ -667,7 +672,8 @@ $(document).ready(function() {
                 }
             })
             .always(function() {
-
+		$(".checkerLoader").hide();
+		$(".ui-dialog-buttonset button").prop("disabled", false);
             });
 
         return false;
@@ -1464,7 +1470,7 @@ $(document).ready(function() {
     $(".language_add").click(function() {
         $(".language_container").css("left", 0);
 
-        $(".language").val("");
+        $(".language").val("").trigger('chosen:updated');
         $(".fluency").prop("checked", false).prop("disabled", true);
         $(".geo_years").prop("checked", false).prop("disabled", true);
         $(".fluency, .geo_years").trigger("change");
@@ -1602,6 +1608,115 @@ $(document).ready(function() {
 
             $(".members_list").hide("blind", {direction: "right"}, 300);
         }
+    });
+
+    var searchTimeout;
+    $("#add_checker").keyup(function (event) {
+        $this = $(this);
+        $("#checker_value").val("");
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function () {
+            var name = $this.val();
+            if(name.trim() == "")
+            {
+                $(".user_checkers").html("");
+                return;
+            }
+
+            $.ajax({
+                url: "/members/search",
+                method: "post",
+                data: {
+                    name: name,
+                    ext: true,
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $(".membersSearch").show();
+                }
+            })
+                .done(function(data) {
+                    $(".user_checkers").html("");
+                    if(data.success)
+                    {
+                        if(data.count > 0)
+                            $(".user_checkers").show();
+                        else
+                            $(".user_checkers").hide();
+
+                        $.each(data.members, function () {
+                            if(this.blocked == "1") return true;
+
+                            var li = '<li>' +
+                                '<label>' +
+                                '<div class="chk_member" data="'+this.memberID+'">'+ this.firstName + ' ' + this.lastName +' ('+this.userName+')</div>' +
+                                '</label>' +
+                                '</li>';
+
+                            $(".user_checkers").append(li);
+                        });
+                    }
+                    else
+                    {
+                        debug(data.error);
+                    }
+                })
+                .always(function () {
+                    $(".membersSearch").hide();
+                });
+        }, 500);
+    });
+
+    $(document).on("click", ".chk_member", function () {
+        var memberID = $(this).attr("data");
+        $("#checker_value").val(memberID);
+        $("#add_checker").val($(this).text());
+        $(".user_checkers").hide();
+    });
+
+    $(".add_checker_btn").click(function () {
+        var memberID = $("#checker_value").val();
+        var chkName = $("#add_checker").val();
+
+        if(chkName.trim() == "") return false;
+
+        $.ajax({
+            url: "/events/rpc/apply_verb_checker",
+            method: "post",
+            data: {
+                eventID: eventID,
+                chkName: chkName,
+                chkID: memberID,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $(".membersSearch").show();
+            }
+        })
+            .done(function(data) {
+                $(".user_checkers").html("");
+                if(data.success)
+                {
+                    $(".checker_name_span").text(data.chkName);
+                    $(".add_cheker").remove();
+                }
+                else
+                {
+                    if(isDemo)
+                    {
+                        $(".checker_name_span").text(chkName.replace(/\(.*\)/, ""));
+                        $(".add_cheker").remove();
+                    }
+                    else
+                    {
+                        debug(data.error);
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function () {
+                $(".membersSearch").hide();
+            });
     });
 
     // Check if event has been started
@@ -2027,7 +2142,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         })
         .always(function() {
             $(".chunk_verses").css("cursor", "auto");
-            $(".chunk_verses b").css("cursor", "auto");
+            $(".chunk_verses b").css("cursor", "pointer");
         });
 }
 
@@ -2041,6 +2156,8 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
 function highlightKeyword(verseID, text, index, remove) {
     remove = remove || false;
     var verseEl = $("."+verseID);
+
+    text = unEscapeStr(text);
 
     if(remove)
     {

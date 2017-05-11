@@ -1,4 +1,8 @@
-<?php echo Error::display($error);?>
+<?php 
+use Shared\Legacy\Error;
+
+echo Error::display($error);
+?>
 
 <?php if(!isset($error)): ?>
 
@@ -206,23 +210,12 @@ $numValues = [
     <h3><?php echo __('translator_activities'); ?></h3>
     <?php if(!empty($data["translation_activities"])): ?>
         <?php foreach ($data["translation_activities"] as $t_acts): ?>
-            <?php
-            $chaptersArr = (array)json_decode($t_acts->chapters, true);
-            $chapters = [];
-            foreach ($chaptersArr as $chap => $chData)
-            {
-                if(empty($chData)) continue;
-                if($chData["memberID"] == $profile["memberID"])
-                    $chapters[] = $chap;
-            }
-            if(empty($chapters)) continue 1;
-            ?>
             <div>
                 <?php
                 echo $t_acts->tLang . " - "
                     . __($t_acts->sourceBible) . " - "
                     . $t_acts->name . " "
-                    . "(" . __("chapters") . ": " . join(", ", array_values($chapters)) . ")"
+                    . "(" . __("chapters") . ": " . $t_acts->chapters . ")"
                 ?>
             </div>
         <?php endforeach; ?>

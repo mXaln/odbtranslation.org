@@ -1,4 +1,6 @@
 <?php
+use Shared\Legacy\Error;
+
 echo \Helpers\Session::message();
 echo Error::display($error);
 ?>

@@ -50,8 +50,7 @@ use Helpers\Constants\EventSteps;
 </div>
 
 <?php
-$isCheckPage = $data["step"] == EventSteps::VERBALIZE ||
-    $data["step"] == EventSteps::PEER_REVIEW ||
+$isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     $data["step"] == EventSteps::KEYWORD_CHECK ||
     $data["step"] == EventSteps::CONTENT_REVIEW;
 ?>

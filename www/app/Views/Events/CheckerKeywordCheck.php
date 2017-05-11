@@ -42,7 +42,7 @@ if(empty($error) && empty($data["success"])):
                         ."<span class='book_name'>".$data["event"][0]->bookName." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                 <div class="col-sm-12 one_side_content">
-                    <?php foreach($data["chapters"][$data["currentChapter"]]["chunks"] as $key => $chunk) : ?>
+                    <?php foreach($data["chunks"] as $key => $chunk) : ?>
                         <div class="chunk_block">
                             <div style="padding-right: 15px" class="chunk_verses" >
                                 <?php $firstVerse = 0; ?>

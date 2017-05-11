@@ -33,7 +33,6 @@ var Language = {
     "incommingCall"             : "Входящий звонок от",
     "callTimeout"               : "Нет ответа от пользователя",
     "audioChatWith"             : "Аудио чат с",
-    "chapters"                  : "Главы",
     "chaptersNum"               : "Количество глав",
     "applyForEventConfirm"      : "Вы действительно хотите учавствовать в этом событии?",
     "applyForEventConfirmTitle" : "Участие в событии",

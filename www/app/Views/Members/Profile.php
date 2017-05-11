@@ -1,5 +1,6 @@
 <?php
 use Helpers\Session;
+use Shared\Legacy\Error;
 ?>
 
 <h1><?php echo __('profile_message'); ?></h1>

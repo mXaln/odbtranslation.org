@@ -2,6 +2,7 @@
 use Helpers\Session;
 use Helpers\Constants\EventSteps;
 use Helpers\Constants\StepsStates;
+use Shared\Legacy\Error;
 
 echo Error::display($error);
 if(!isset($error)):
@@ -220,7 +221,7 @@ if(!isset($error)):
         <div class="members_list">
             <div class="members_title"><?php echo __("event_participants") ?>:</div>
             <?php foreach ($data["members"] as $id => $member): ?>
-                <?php if($id == "na") continue; ?>
+                <?php if(!is_numeric($id)) continue; ?>
                 <div class="member_item" data="<?php echo $id ?>">
                     <span class="online_indicator glyphicon glyphicon-record">&nbsp;</span>
                     <span class="member_uname"><a target="_blank" href="/members/profile/<?php echo $id ?>"><?php echo $member["name"] ?></a></span>

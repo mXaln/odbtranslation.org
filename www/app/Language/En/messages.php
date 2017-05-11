@@ -320,6 +320,7 @@ return array (
     "pair_number" => "Pair {0}",
     "add_person" => "Assign chapter",
     "add_translator" => "Add translators",
+    "add_checker" => "Add checker",
     "assign_chapter_title" => "Assign chapter",
     "assign_pair_title" => "Create pair",
     "reset_pair_title" => "Reset pair",
@@ -422,6 +423,7 @@ return array (
     // Errors
     "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is be ready.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Checker has not yet approved this step. Please wait.",
+    "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
     "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
     "not_started_event_error" => "Translation is not yet started. You can go to <a href=\"/events/manage/{0}\">Manage Event</a> page to assign translators and chapters of the book.",

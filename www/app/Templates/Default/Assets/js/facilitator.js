@@ -481,7 +481,7 @@ $(function () {
 
         var $this = $(this);
 
-        if(to_step == EventSteps.VERBALIZE || to_step == EventSteps.PEER_REVIEW
+        if(to_step == EventSteps.PEER_REVIEW
             || to_step == EventSteps.KEYWORD_CHECK || to_step == EventSteps.CONTENT_REVIEW)
         {
             renderConfirmPopup(Language.attention, Language.removeCheckerConfirm,
@@ -505,7 +505,8 @@ $(function () {
         }
         else
         {
-            moveStepBack($this, eventID, memberID, to_step, true, prev_chunk);
+            var confirm = to_step != EventSteps.CHUNKING;
+            moveStepBack($this, eventID, memberID, to_step, confirm, prev_chunk);
         }
     });
 
@@ -558,6 +559,7 @@ $(function () {
                         renderConfirmPopup(Language.attention, data.message,
                             function () {
                                 moveStepBack(selector, eventID, memberID, to_step, true);
+                                $( this ).dialog( "close" );
                             },
                             function () {
                                 $( this ).dialog( "close" );

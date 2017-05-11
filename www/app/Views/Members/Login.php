@@ -1,5 +1,6 @@
 <?php
 use Helpers\Session;
+use Shared\Legacy\Error;
 ?>
 <div class="members_login center-block"><br />
 	<h1><?php echo __('login_title'); ?></h1>

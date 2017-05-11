@@ -1,6 +1,7 @@
 <?php
 use Helpers\Constants\EventSteps;
 use Helpers\Session;
+use Shared\Legacy\Error;
 
 echo Error::display($error);
 
@@ -78,10 +79,6 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var turnPassword = '<?php echo isset($data["turn"]) ? $data["turn"][1] : "" ?>';
 
 </script>
-
-<div style="position: fixed; right: 0;">
-
-</div>
 
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
@@ -170,8 +167,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?2")?>"></script>
-<script src="<?php echo template_url("js/socket.js")?>"></script>
-<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="<?php echo template_url("js/socket.js?1")?>"></script>
+<script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 
 <?php else:?>
