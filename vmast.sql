@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.2.12deb2+deb8u2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 28, 2017 at 12:59 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.21
+-- Host: localhost
+-- Generation Time: May 12, 2017 at 01:37 PM
+-- Server version: 5.5.54-0+deb8u1
+-- PHP Version: 5.6.30-0+deb8u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `vmast`
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin_user`
 --
 
-CREATE TABLE `admin_user` (
+CREATE TABLE IF NOT EXISTS `admin_user` (
   `name` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(250) COLLATE utf8_unicode_ci NOT NULL
@@ -45,7 +45,7 @@ INSERT INTO `admin_user` (`name`, `realm`, `password`) VALUES
 -- Table structure for table `allowed_peer_ip`
 --
 
-CREATE TABLE `allowed_peer_ip` (
+CREATE TABLE IF NOT EXISTS `allowed_peer_ip` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `ip_range` char(40) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -56,7 +56,7 @@ CREATE TABLE `allowed_peer_ip` (
 -- Table structure for table `denied_peer_ip`
 --
 
-CREATE TABLE `denied_peer_ip` (
+CREATE TABLE IF NOT EXISTS `denied_peer_ip` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `ip_range` char(40) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -67,7 +67,7 @@ CREATE TABLE `denied_peer_ip` (
 -- Table structure for table `oauth_key`
 --
 
-CREATE TABLE `oauth_key` (
+CREATE TABLE IF NOT EXISTS `oauth_key` (
   `kid` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `ikm_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `timestamp` int(11) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `oauth_key` (
 -- Table structure for table `turnusers_lt`
 --
 
-CREATE TABLE `turnusers_lt` (
+CREATE TABLE IF NOT EXISTS `turnusers_lt` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `name` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `hmackey` char(40) COLLATE utf8_unicode_ci NOT NULL
@@ -101,7 +101,7 @@ INSERT INTO `turnusers_lt` (`realm`, `name`, `hmackey`) VALUES
 -- Table structure for table `turn_origin_to_realm`
 --
 
-CREATE TABLE `turn_origin_to_realm` (
+CREATE TABLE IF NOT EXISTS `turn_origin_to_realm` (
   `origin` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -112,7 +112,7 @@ CREATE TABLE `turn_origin_to_realm` (
 -- Table structure for table `turn_realm_option`
 --
 
-CREATE TABLE `turn_realm_option` (
+CREATE TABLE IF NOT EXISTS `turn_realm_option` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `opt` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `value` char(40) COLLATE utf8_unicode_ci NOT NULL
@@ -124,19 +124,19 @@ CREATE TABLE `turn_realm_option` (
 -- Table structure for table `turn_secret`
 --
 
-CREATE TABLE `turn_secret` (
-  `id` tinyint(3) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `turn_secret` (
+`id` tinyint(3) unsigned NOT NULL,
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `value` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `expire` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `turn_secret`
 --
 
 INSERT INTO `turn_secret` (`id`, `realm`, `value`, `expire`) VALUES
-(1, 'v-mast.com', 'EV*YcaB$X@EgGWbNqA6MY#', 1491474325);
+(1, 'v-mast.com', '6DmRgJ7w-4%45DdyAevMzd', 1496841564);
 
 -- --------------------------------------------------------
 
@@ -144,13 +144,13 @@ INSERT INTO `turn_secret` (`id`, `realm`, `value`, `expire`) VALUES
 -- Table structure for table `vm_abbr`
 --
 
-CREATE TABLE `vm_abbr` (
-  `abbrID` tinyint(3) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_abbr` (
+`abbrID` tinyint(3) unsigned NOT NULL,
   `code` char(3) COLLATE utf8_unicode_ci NOT NULL,
   `name` char(50) COLLATE utf8_unicode_ci NOT NULL,
-  `chaptersNum` tinyint(3) UNSIGNED NOT NULL,
+  `chaptersNum` tinyint(3) unsigned NOT NULL,
   `difficulty` enum('1','2','3','4') COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `vm_abbr`
@@ -227,14 +227,33 @@ INSERT INTO `vm_abbr` (`abbrID`, `code`, `name`, `chaptersNum`, `difficulty`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vm_chapters`
+--
+
+CREATE TABLE IF NOT EXISTS `vm_chapters` (
+`chapterID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL DEFAULT '0',
+  `memberID` int(10) unsigned NOT NULL DEFAULT '0',
+  `trID` int(10) unsigned NOT NULL DEFAULT '0',
+  `chapter` tinyint(3) unsigned NOT NULL,
+  `chunks` text COLLATE utf8_unicode_ci NOT NULL,
+  `done` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vm_checkers_l2`
 --
 
-CREATE TABLE `vm_checkers_l2` (
-  `l2chID` int(10) UNSIGNED NOT NULL,
-  `memberID` int(10) UNSIGNED NOT NULL,
-  `eventID` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `vm_checkers_l2` (
+`l2chID` int(10) unsigned NOT NULL,
+  `memberID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -242,11 +261,12 @@ CREATE TABLE `vm_checkers_l2` (
 -- Table structure for table `vm_checkers_l3`
 --
 
-CREATE TABLE `vm_checkers_l3` (
-  `l3chID` int(10) UNSIGNED NOT NULL,
-  `memberID` int(10) UNSIGNED NOT NULL,
-  `eventID` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `vm_checkers_l3` (
+`l3chID` int(10) unsigned NOT NULL,
+  `memberID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -254,15 +274,16 @@ CREATE TABLE `vm_checkers_l3` (
 -- Table structure for table `vm_comments`
 --
 
-CREATE TABLE `vm_comments` (
-  `cID` int(10) UNSIGNED NOT NULL,
-  `memberID` int(10) UNSIGNED NOT NULL,
-  `eventID` int(10) UNSIGNED NOT NULL,
-  `chapter` tinyint(3) UNSIGNED NOT NULL,
-  `chunk` tinyint(3) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_comments` (
+`cID` int(10) unsigned NOT NULL,
+  `memberID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL,
+  `chapter` tinyint(3) unsigned NOT NULL,
+  `chunk` tinyint(3) unsigned NOT NULL,
   `text` varchar(500) NOT NULL,
-  `level` tinyint(3) UNSIGNED NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `level` tinyint(3) unsigned NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -270,10 +291,10 @@ CREATE TABLE `vm_comments` (
 -- Table structure for table `vm_events`
 --
 
-CREATE TABLE `vm_events` (
-  `eventID` int(10) UNSIGNED NOT NULL,
-  `projectID` int(10) UNSIGNED NOT NULL,
-  `adminID` int(10) UNSIGNED NOT NULL COMMENT 'Creator of event',
+CREATE TABLE IF NOT EXISTS `vm_events` (
+`eventID` int(10) unsigned NOT NULL,
+  `projectID` int(10) unsigned NOT NULL,
+  `adminID` int(10) unsigned NOT NULL COMMENT 'Creator of event',
   `bookCode` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `translatorsNum` tinyint(4) NOT NULL,
   `l2CheckersNum` tinyint(4) NOT NULL,
@@ -281,10 +302,12 @@ CREATE TABLE `vm_events` (
   `dateFrom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dateTo` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `state` enum('started','translating','translated','l2_recruit','l2_check','l3_recruit','l3_check','complete') COLLATE utf8_unicode_ci DEFAULT 'started',
-  `lastTrID` int(10) UNSIGNED NOT NULL,
-  `chapters` text COLLATE utf8_unicode_ci NOT NULL,
+  `lastTrID` int(10) unsigned NOT NULL,
+  `chaptersToDelete` text COLLATE utf8_unicode_ci NOT NULL,
   `admins` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'facilitators'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 -- --------------------------------------------------------
 
@@ -292,11 +315,12 @@ CREATE TABLE `vm_events` (
 -- Table structure for table `vm_gateway_projects`
 --
 
-CREATE TABLE `vm_gateway_projects` (
-  `gwProjectID` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_gateway_projects` (
+`gwProjectID` int(10) unsigned NOT NULL,
   `gwLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `admins` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 -- --------------------------------------------------------
 
@@ -304,16 +328,18 @@ CREATE TABLE `vm_gateway_projects` (
 -- Table structure for table `vm_keywords`
 --
 
-CREATE TABLE `vm_keywords` (
-  `kID` int(10) UNSIGNED NOT NULL,
-  `memberID` int(10) UNSIGNED NOT NULL,
-  `eventID` int(10) UNSIGNED NOT NULL,
-  `chapter` tinyint(3) UNSIGNED NOT NULL,
-  `chunk` tinyint(3) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_keywords` (
+`kID` int(10) unsigned NOT NULL,
+  `memberID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL,
+  `chapter` tinyint(3) unsigned NOT NULL,
+  `chunk` tinyint(3) unsigned NOT NULL,
   `verse` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `indexOrder` tinyint(3) UNSIGNED NOT NULL,
+  `indexOrder` tinyint(3) unsigned NOT NULL,
   `text` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 -- --------------------------------------------------------
 
@@ -321,7 +347,7 @@ CREATE TABLE `vm_keywords` (
 -- Table structure for table `vm_languages`
 --
 
-CREATE TABLE `vm_languages` (
+CREATE TABLE IF NOT EXISTS `vm_languages` (
   `langID` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `langName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `angName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1133,7 +1159,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('bms', 'Bilma Kanuri', 'Kanuri, Bilma', 0, 'français, langue française', 'ltr'),
 ('bmt', 'Biao Mon', 'Biao Mon', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('bmu', 'Somba-Siawari', 'Somba-Siawari', 0, 'Tok Pisin', 'ltr'),
-('bmv', 'Bum', 'Bum', 0, 'français, langue française', 'ltr'),
+('bmv', 'Bum', 'Bum', 0, 'français, langue française', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('bmw', 'Bomwali', 'Bomwali', 0, 'français, langue française', 'ltr'),
 ('bmx', 'Baimak', 'Baimak', 0, 'Tok Pisin', 'ltr'),
 ('bmz', 'Baramu', 'Baramu', 0, 'Tok Pisin', 'ltr'),
@@ -1180,8 +1207,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('boq', 'Bogaya', 'Bogaya', 0, 'Tok Pisin', 'ltr'),
 ('bor', 'Borôro', 'Borôro', 0, 'português', 'ltr'),
 ('bot', 'Bongo', 'Bongo', 0, 'العربية', 'ltr'),
-('bou', 'Bondei', 'Bondei', 0, 'Kiswahili', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('bou', 'Bondei', 'Bondei', 0, 'Kiswahili', 'ltr'),
 ('bov', 'Tuwuli', 'Tuwuli', 0, 'English', 'ltr'),
 ('bow', 'Rema', 'Rema', 0, 'Tok Pisin', 'ltr'),
 ('box', 'Buamu', 'Buamu', 0, 'français, langue française', 'ltr'),
@@ -1912,7 +1938,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('dmv', 'Dumpas', 'Dumpas', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('dmw', 'Mudburra', 'Mudburra', 0, 'English', 'ltr'),
 ('dmx', 'Dema', 'Dema', 0, 'português', 'ltr'),
-('dmy', 'Demta', 'Sowari', 0, 'Bahasa Indonesia', 'ltr'),
+('dmy', 'Demta', 'Sowari', 0, 'Bahasa Indonesia', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('dna', 'Upper Grand Valley Dani', 'Dani, Upper Grand Valley', 0, 'Bahasa Indonesia', 'ltr'),
 ('dnd', 'Daonda', 'Daonda', 0, 'Tok Pisin', 'ltr'),
 ('dne', 'Ndendeule', 'Ndendeule', 0, 'Kiswahili', 'ltr'),
@@ -2002,8 +2029,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('dup', 'Duano', 'Duano', 0, 'Bahasa Indonesia', 'ltr'),
 ('duq', 'Dusun Malang', 'Dusun Malang', 0, 'Bahasa Indonesia', 'ltr'),
 ('dur', 'Dii', 'Dii', 0, 'français, langue française', 'ltr'),
-('dus', 'Dumi', 'Dumi', 0, 'नेपाली', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('dus', 'Dumi', 'Dumi', 0, 'नेपाली', 'ltr'),
 ('duu', 'Drung', 'Drung', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('duv', 'Duvle', 'Duvle', 0, 'Bahasa Indonesia', 'ltr'),
 ('duw', 'Dusun Witu', 'Dusun Witu', 0, 'Bahasa Indonesia', 'ltr'),
@@ -2712,7 +2738,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('hu', 'magyar', 'Hungarian', 0, 'English', 'ltr'),
 ('hub', 'Huambisa', 'Huambisa', 0, 'Español Latin America', 'ltr'),
 ('huc', '=/Hua', '‡Hua', 0, 'English', 'ltr'),
-('hud', 'Huaulu', 'Huaulu', 0, 'Bahasa Indonesia', 'ltr'),
+('hud', 'Huaulu', 'Huaulu', 0, 'Bahasa Indonesia', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('hue', 'San Francisco Del Mar Huave', 'Huave, San Francisco del Mar', 0, 'Español Latin America', 'ltr'),
 ('huf', 'Humene', 'Humene', 0, 'Tok Pisin', 'ltr'),
 ('hug', 'Huachipaeri', 'Huachipaeri', 0, 'Español Latin America', 'ltr'),
@@ -2820,7 +2847,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ili', 'Ili Turki', 'Ili Turki', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('ilk', 'Ilongot', 'Ilongot', 0, 'Iloko', 'ltr'),
 ('ill', 'Iranun', 'Iranun', 0, 'English', 'ltr'),
-('ilo', 'Iloko', 'Ilocano', 1, 'Iloko', 'ltr'),
+('ilo', 'Iloko', 'Ilocano', 0, 'Iloko', 'ltr'),
 ('ils', 'International Sign', 'International Sign', 0, 'English', 'ltr'),
 ('ilu', 'Ili''uun', 'Ili’uun', 0, 'Bahasa Indonesia', 'ltr'),
 ('ilv', 'Ilue', 'Ilue', 0, 'English', 'ltr'),
@@ -2858,8 +2885,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('irk', 'Iraqw', 'Iraqw', 0, 'Kiswahili', 'ltr'),
 ('irn', 'Irántxe', 'Irántxe', 0, 'português', 'ltr'),
 ('irr', 'Ir', 'Ir', 0, 'ພາສາລາວ ', 'ltr'),
-('iru', 'Irula', 'Irula', 0, 'हिन्दी, हिंदी', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('iru', 'Irula', 'Irula', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('irx', 'Kamberau', 'Kamberau', 0, 'Bahasa Indonesia', 'ltr'),
 ('iry', 'Iraya', 'Iraya', 0, 'Iloko', 'ltr'),
 ('is', 'Íslenska', 'Icelandic', 0, 'English', 'ltr'),
@@ -3535,7 +3561,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ktw', 'Kato', 'Kato', 0, 'English', 'ltr'),
 ('ktx', 'Kaxararí', 'Kaxararí', 0, 'português', 'ltr'),
 ('kty', 'Kango (Bas-Uélé District)', 'Kango', 0, 'français, langue française', 'ltr'),
-('ktz', 'Ju/''hoan', 'Ju|’hoan', 0, 'English', 'ltr'),
+('ktz', 'Ju/''hoan', 'Ju|’hoan', 0, 'English', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('ku', 'Kurdî, كوردی‎', 'Kurdish', 0, '', 'rtl'),
 ('kub', 'Kutep', 'Kutep', 0, 'English', 'ltr'),
 ('kuc', 'Kwinsu', 'Kwinsu', 0, 'Bahasa Indonesia', 'ltr'),
@@ -3737,8 +3764,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lcd', 'Lola', 'Lola', 0, 'Bahasa Indonesia', 'ltr'),
 ('lce', 'Loncong', 'Sekak', 0, 'Bahasa Indonesia', 'ltr'),
 ('lcf', 'Lubu', 'Lubu', 0, 'Bahasa Indonesia', 'ltr'),
-('lch', 'Luchazi', 'Lucazi', 0, 'português', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('lch', 'Luchazi', 'Lucazi', 0, 'português', 'ltr'),
 ('lcl', 'Lisela', 'Lisela', 0, 'Bahasa Indonesia', 'ltr'),
 ('lcm', 'Tungag', 'Tungag', 0, 'Tok Pisin', 'ltr'),
 ('lcp', 'Western Lawa', 'Lawa, Western', 0, 'ไทย', 'ltr'),
@@ -4333,7 +4359,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mmy', 'Migaama', 'Migaama', 0, 'العربية', 'ltr'),
 ('mmz', 'Mabaale', 'Mabaale', 0, 'français, langue française', 'ltr'),
 ('mn', 'Монгол хэл', 'Mongolian', 1, 'Монгол хэл', 'ltr'),
-('mna', 'Mbula', 'Mbula', 0, 'Tok Pisin', 'ltr'),
+('mna', 'Mbula', 'Mbula', 0, 'Tok Pisin', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('mnb', 'Muna', 'Muna', 0, 'Bahasa Indonesia', 'ltr'),
 ('mnc', 'Manchu', 'Manchu', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('mnd', 'Mondé', 'Mondé', 0, 'português', 'ltr'),
@@ -4575,8 +4602,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mws', 'Mwimbi-Muthambi', 'Mwimbi-Muthambi', 0, 'Kiswahili', 'ltr'),
 ('mwt', 'Moken', 'Moken', 0, 'ဗမာစာ', 'ltr'),
 ('mwv', 'Mentawai', 'Mentawai', 0, 'Bahasa Indonesia', 'ltr'),
-('mww', 'Hmong Daw', 'Hmong Daw', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('mww', 'Hmong Daw', 'Hmong Daw', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('mwx', 'Mediak', 'Mediak', 0, 'Kiswahili', 'ltr'),
 ('mwz', 'Moingi', 'Moingi', 0, 'français, langue française', 'ltr'),
 ('mxa', 'Northwest Oaxaca Mixtec', 'Mixtec, Northwest Oaxaca', 0, 'Español Latin America', 'ltr'),
@@ -5120,7 +5146,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nzs', 'New Zealand Sign Language', 'New Zealand Sign Language', 0, 'English', 'ltr'),
 ('nzu', 'Teke-Nzikou', 'Teke-Nzikou', 0, 'français, langue française', 'ltr'),
 ('nzy', 'Nzakambay', 'Nzakambay', 0, 'العربية', 'ltr'),
-('nzz', 'Nanga Dama Dogon', 'Dogon, Nanga Dama', 0, 'français, langue française', 'ltr'),
+('nzz', 'Nanga Dama Dogon', 'Dogon, Nanga Dama', 0, 'français, langue française', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('oaa', 'Orok', 'Orok', 0, 'Русский', 'ltr'),
 ('oac', 'Oroch', 'Oroch', 0, 'Русский', 'ltr'),
 ('oar', 'Old Aramaic (up to 700 BCE)', '', 0, '', 'ltr'),
@@ -5429,8 +5456,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('pl', 'język polski, polszczyzna', 'Polish', 0, 'English', 'ltr'),
 ('pla', 'Miani', 'Miani', 0, 'Tok Pisin', 'ltr'),
 ('plb', 'Polonombauk', 'Polonombauk', 0, 'français, langue française', 'ltr'),
-('plc', 'Central Palawano', 'Palawano, Central', 0, 'English', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('plc', 'Central Palawano', 'Palawano, Central', 0, 'English', 'ltr'),
 ('pld', 'Polari', 'Polari', 0, 'English', 'ltr'),
 ('ple', 'Palu''e', 'Palu’e', 0, 'Bahasa Indonesia', 'ltr'),
 ('plg', 'Pilagá', 'Pilagá', 0, 'Español Latin America', 'ltr'),
@@ -5912,7 +5938,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('sdz', 'Sallands', 'Sallands', 0, 'Nederlands, Vlaams', 'ltr'),
 ('se', 'Davvisámegiella', 'Northern Sami', 0, 'English', 'ltr'),
 ('sea', 'Semai', 'Semai', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
-('seb', 'Shempire Senoufo', 'Sénoufo, Shempire', 0, 'français, langue française', 'ltr'),
+('seb', 'Shempire Senoufo', 'Sénoufo, Shempire', 0, 'français, langue française', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('sec', 'Sechelt', 'Sechelt', 0, 'English', 'ltr'),
 ('sed', 'Sedang', 'Sedang', 0, 'Tiếng Việt', 'ltr'),
 ('see', 'Seneca', 'Seneca', 0, 'English', 'ltr'),
@@ -6255,8 +6282,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('suq', 'Suri', 'Suri', 0, 'አማርኛ', 'ltr'),
 ('sur', 'Mwaghavul', 'Mwaghavul', 0, 'English', 'ltr'),
 ('sus', 'Susu', 'Susu', 0, 'français, langue française', 'ltr'),
-('sut', 'Subtiaba', 'Subtiaba', 0, 'Español Latin America', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('sut', 'Subtiaba', 'Subtiaba', 0, 'Español Latin America', 'ltr'),
 ('suv', 'Puroik', 'Puroik', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('suw', 'Sumbwa', 'Sumbwa', 0, 'Kiswahili', 'ltr'),
 ('sux', 'Sumerian', '', 0, '', 'ltr'),
@@ -6709,7 +6735,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tsp', 'Northern Toussian', 'Toussian, Northern', 0, 'français, langue française', 'ltr'),
 ('tsq', 'Thai Sign Language', 'Thai Sign Language', 0, 'ไทย', 'ltr'),
 ('tsr', 'Akei', 'Akei', 0, 'français, langue française', 'ltr'),
-('tss', 'Taiwan Sign Language', 'Taiwan Sign Language', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
+('tss', 'Taiwan Sign Language', 'Taiwan Sign Language', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('tst', 'Tondi Songway Kiini', 'Tondi Songway Kiini', 0, 'français, langue française', 'ltr'),
 ('tsu', 'Tsou', 'Tsou', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('tsv', 'Tsogo', 'Tsogo', 0, 'français, langue française', 'ltr'),
@@ -7112,8 +7139,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('wig', 'Wik-Ngathana', 'Wik-Ngathana', 0, 'English', 'ltr'),
 ('wih', 'Wik-Me''anha', 'Wik-Me’anha', 0, 'English', 'ltr'),
 ('wii', 'Minidien', 'Minidien', 0, 'Tok Pisin', 'ltr'),
-('wij', 'Wik-Iiyanh', 'Wik-Iiyanh', 0, 'English', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('wij', 'Wik-Iiyanh', 'Wik-Iiyanh', 0, 'English', 'ltr'),
 ('wik', 'Wikalkan', 'Wikalkan', 0, 'English', 'ltr'),
 ('wim', 'Wik-Mungkan', 'Wik-Mungkan', 0, 'English', 'ltr'),
 ('win', 'Ho-Chunk', 'Ho-Chunk', 0, 'English', 'ltr'),
@@ -7569,7 +7595,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('yiq', 'Miqie', 'Miqie', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yir', 'North Awyu', 'Awyu, North', 0, 'Bahasa Indonesia', 'ltr'),
 ('yis', 'Yis', 'Yis', 0, 'Tok Pisin', 'ltr'),
-('yit', 'Eastern Lalu', 'Lalu, Eastern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
+('yit', 'Eastern Lalu', 'Lalu, Eastern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('yiu', 'Awu', 'Awu', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yiv', 'Northern Nisu', 'Nisu, Northern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yix', 'Axi Yi', 'Axi', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
@@ -7886,8 +7913,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 -- Table structure for table `vm_members`
 --
 
-CREATE TABLE `vm_members` (
-  `memberID` int(11) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_members` (
+`memberID` int(11) unsigned NOT NULL,
   `userName` char(20) NOT NULL,
   `firstName` varchar(255) DEFAULT NULL,
   `lastName` varchar(255) DEFAULT NULL,
@@ -7904,7 +7931,8 @@ CREATE TABLE `vm_members` (
   `isSuperAdmin` tinyint(1) NOT NULL DEFAULT '0',
   `isDemo` tinyint(1) NOT NULL DEFAULT '0',
   `logins` smallint(6) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -7912,9 +7940,9 @@ CREATE TABLE `vm_members` (
 -- Table structure for table `vm_profile`
 --
 
-CREATE TABLE `vm_profile` (
-  `pID` int(10) UNSIGNED NOT NULL,
-  `mID` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_profile` (
+`pID` int(10) unsigned NOT NULL,
+  `mID` int(10) unsigned NOT NULL,
   `avatar` char(3) NOT NULL DEFAULT 'm1',
   `prefered_roles` varchar(50) NOT NULL,
   `bbl_trans_yrs` enum('1','2','3','4') NOT NULL DEFAULT '1' COMMENT '0, 1, 2, 3',
@@ -7934,7 +7962,8 @@ CREATE TABLE `vm_profile` (
   `hebrew_knwlg` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '1 - limited, 2 - moderate, 3 - strong, 4 expert',
   `greek_knwlg` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '1 - limited, 2 - moderate, 3 - strong, 4 expert',
   `church_role` char(160) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -7942,15 +7971,16 @@ CREATE TABLE `vm_profile` (
 -- Table structure for table `vm_projects`
 --
 
-CREATE TABLE `vm_projects` (
-  `projectID` int(10) UNSIGNED NOT NULL,
-  `gwProjectID` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_projects` (
+`projectID` int(10) unsigned NOT NULL,
+  `gwProjectID` int(10) unsigned NOT NULL,
   `gwLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `targetLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bookProject` enum('udb','ulb','rsb','avd') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
   `sourceLangID` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sourceBible` enum('udb','ulb','rsb') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 -- --------------------------------------------------------
 
@@ -7958,25 +7988,26 @@ CREATE TABLE `vm_projects` (
 -- Table structure for table `vm_translations`
 --
 
-CREATE TABLE `vm_translations` (
-  `tID` int(10) UNSIGNED NOT NULL,
-  `projectID` int(10) UNSIGNED NOT NULL,
-  `eventID` int(10) UNSIGNED NOT NULL,
-  `trID` int(10) UNSIGNED NOT NULL,
-  `l2chID` int(10) UNSIGNED NOT NULL,
-  `l3chID` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_translations` (
+`tID` int(10) unsigned NOT NULL,
+  `projectID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL,
+  `trID` int(10) unsigned NOT NULL,
+  `l2chID` int(10) unsigned NOT NULL,
+  `l3chID` int(10) unsigned NOT NULL,
   `targetLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bookProject` enum('udb','ulb') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
   `abbrID` tinyint(3) NOT NULL,
   `bookCode` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `chapter` tinyint(4) NOT NULL,
-  `chunk` tinyint(3) UNSIGNED NOT NULL,
+  `chunk` tinyint(3) unsigned NOT NULL,
   `firstvs` tinyint(4) NOT NULL,
   `translatedVerses` text COLLATE utf8_unicode_ci NOT NULL,
   `translateDone` tinyint(4) NOT NULL DEFAULT '0',
   `dateCreate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `dateUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 -- --------------------------------------------------------
 
@@ -7984,14 +8015,14 @@ CREATE TABLE `vm_translations` (
 -- Table structure for table `vm_translators`
 --
 
-CREATE TABLE `vm_translators` (
-  `trID` int(10) UNSIGNED NOT NULL,
-  `memberID` int(10) UNSIGNED NOT NULL,
-  `eventID` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `vm_translators` (
+`trID` int(10) unsigned NOT NULL,
+  `memberID` int(10) unsigned NOT NULL,
+  `eventID` int(10) unsigned NOT NULL,
   `step` enum('none','pray','consume','verbalize','chunking','read-chunk','blind-draft','self-check','peer-review','keyword-check','content-review','final-review','finished') NOT NULL DEFAULT 'pray',
-  `currentChapter` tinyint(3) UNSIGNED NOT NULL,
-  `currentChunk` tinyint(3) UNSIGNED NOT NULL,
-  `checkerID` int(10) UNSIGNED NOT NULL,
+  `currentChapter` tinyint(3) unsigned NOT NULL,
+  `currentChunk` tinyint(3) unsigned NOT NULL,
+  `checkerID` int(10) unsigned NOT NULL,
   `checkDone` tinyint(1) NOT NULL DEFAULT '0',
   `hideChkNotif` tinyint(1) NOT NULL DEFAULT '1',
   `translateDone` tinyint(1) NOT NULL DEFAULT '0',
@@ -7999,7 +8030,8 @@ CREATE TABLE `vm_translators` (
   `peerCheck` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'peer checkers (chapter:memberID)',
   `kwCheck` text NOT NULL COMMENT 'keyword check checkers (chapter:memberID)',
   `crCheck` text NOT NULL COMMENT 'content review checkers (chapter:memberID)'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 --
 -- Indexes for dumped tables
@@ -8009,107 +8041,91 @@ CREATE TABLE `vm_translators` (
 -- Indexes for table `turn_secret`
 --
 ALTER TABLE `turn_secret`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `vm_abbr`
 --
 ALTER TABLE `vm_abbr`
-  ADD PRIMARY KEY (`abbrID`),
-  ADD UNIQUE KEY `code` (`code`);
+ ADD PRIMARY KEY (`abbrID`), ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Indexes for table `vm_chapters`
+--
+ALTER TABLE `vm_chapters`
+ ADD PRIMARY KEY (`chapterID`), ADD UNIQUE KEY `Unique` (`eventID`,`memberID`,`chapter`) USING BTREE, ADD KEY `eventID` (`eventID`);
 
 --
 -- Indexes for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
-  ADD PRIMARY KEY (`l2chID`),
-  ADD UNIQUE KEY `memberID` (`memberID`,`eventID`),
-  ADD KEY `event` (`eventID`),
-  ADD KEY `member` (`memberID`);
+ ADD PRIMARY KEY (`l2chID`), ADD UNIQUE KEY `memberID` (`memberID`,`eventID`), ADD KEY `event` (`eventID`), ADD KEY `member` (`memberID`);
 
 --
 -- Indexes for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
-  ADD PRIMARY KEY (`l3chID`),
-  ADD UNIQUE KEY `memberID` (`memberID`,`eventID`),
-  ADD KEY `event` (`eventID`),
-  ADD KEY `member` (`memberID`);
+ ADD PRIMARY KEY (`l3chID`), ADD UNIQUE KEY `memberID` (`memberID`,`eventID`), ADD KEY `event` (`eventID`), ADD KEY `member` (`memberID`);
 
 --
 -- Indexes for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
-  ADD PRIMARY KEY (`cID`),
-  ADD KEY `memberID` (`memberID`),
-  ADD KEY `eventID` (`eventID`),
-  ADD KEY `chapter` (`chapter`);
+ ADD PRIMARY KEY (`cID`), ADD KEY `memberID` (`memberID`), ADD KEY `eventID` (`eventID`), ADD KEY `chapter` (`chapter`);
 
 --
 -- Indexes for table `vm_events`
 --
 ALTER TABLE `vm_events`
-  ADD PRIMARY KEY (`eventID`),
-  ADD UNIQUE KEY `pair` (`projectID`,`bookCode`);
+ ADD PRIMARY KEY (`eventID`), ADD UNIQUE KEY `pair` (`projectID`,`bookCode`);
 
 --
 -- Indexes for table `vm_gateway_projects`
 --
 ALTER TABLE `vm_gateway_projects`
-  ADD PRIMARY KEY (`gwProjectID`);
+ ADD PRIMARY KEY (`gwProjectID`);
 
 --
 -- Indexes for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
-  ADD PRIMARY KEY (`kID`),
-  ADD KEY `memberID` (`memberID`),
-  ADD KEY `eventID` (`eventID`),
-  ADD KEY `chapter` (`chapter`);
+ ADD PRIMARY KEY (`kID`), ADD KEY `memberID` (`memberID`), ADD KEY `eventID` (`eventID`), ADD KEY `chapter` (`chapter`);
 
 --
 -- Indexes for table `vm_languages`
 --
 ALTER TABLE `vm_languages`
-  ADD PRIMARY KEY (`langID`);
+ ADD PRIMARY KEY (`langID`);
 
 --
 -- Indexes for table `vm_members`
 --
 ALTER TABLE `vm_members`
-  ADD PRIMARY KEY (`memberID`);
+ ADD PRIMARY KEY (`memberID`);
 
 --
 -- Indexes for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
-  ADD PRIMARY KEY (`pID`),
-  ADD UNIQUE KEY `pid` (`pID`),
-  ADD UNIQUE KEY `mID` (`mID`);
+ ADD PRIMARY KEY (`pID`), ADD UNIQUE KEY `pid` (`pID`), ADD UNIQUE KEY `mID` (`mID`);
 
 --
 -- Indexes for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
-  ADD PRIMARY KEY (`projectID`),
-  ADD KEY `gwProjectID` (`gwProjectID`);
+ ADD PRIMARY KEY (`projectID`), ADD KEY `gwProjectID` (`gwProjectID`);
 
 --
 -- Indexes for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
-  ADD PRIMARY KEY (`tID`),
-  ADD UNIQUE KEY `projectID` (`projectID`,`eventID`,`chapter`,`firstvs`),
-  ADD KEY `event_cscd` (`eventID`);
+ ADD PRIMARY KEY (`tID`), ADD UNIQUE KEY `projectID` (`projectID`,`eventID`,`chapter`,`firstvs`), ADD KEY `event_cscd` (`eventID`);
 
 --
 -- Indexes for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-  ADD PRIMARY KEY (`trID`),
-  ADD UNIQUE KEY `memberID` (`memberID`,`eventID`),
-  ADD KEY `event` (`eventID`),
-  ADD KEY `member` (`memberID`);
+ ADD PRIMARY KEY (`trID`), ADD UNIQUE KEY `memberID` (`memberID`,`eventID`), ADD KEY `event` (`eventID`), ADD KEY `member` (`memberID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -8119,127 +8135,138 @@ ALTER TABLE `vm_translators`
 -- AUTO_INCREMENT for table `turn_secret`
 --
 ALTER TABLE `turn_secret`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+MODIFY `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `vm_abbr`
 --
 ALTER TABLE `vm_abbr`
-  MODIFY `abbrID` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+MODIFY `abbrID` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
+--
+-- AUTO_INCREMENT for table `vm_chapters`
+--
+ALTER TABLE `vm_chapters`
+MODIFY `chapterID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
-  MODIFY `l2chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `l2chID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
-  MODIFY `l3chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `l3chID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
-  MODIFY `cID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `cID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_events`
 --
 ALTER TABLE `vm_events`
-  MODIFY `eventID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `eventID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_gateway_projects`
 --
 ALTER TABLE `vm_gateway_projects`
-  MODIFY `gwProjectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `gwProjectID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
-  MODIFY `kID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `kID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_members`
 --
 ALTER TABLE `vm_members`
-  MODIFY `memberID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `memberID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
-  MODIFY `pID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `pID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
-  MODIFY `projectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `projectID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
-  MODIFY `tID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `tID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-  MODIFY `trID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+MODIFY `trID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `vm_chapters`
+--
+ALTER TABLE `vm_chapters`
+ADD CONSTRAINT `event_chapter_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
-  ADD CONSTRAINT `event_l2_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `member_l2_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+ADD CONSTRAINT `event_l2_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
+ADD CONSTRAINT `member_l2_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
-  ADD CONSTRAINT `event_l3_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `member_l3_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+ADD CONSTRAINT `event_l3_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
+ADD CONSTRAINT `member_l3_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
-  ADD CONSTRAINT `event_comm_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+ADD CONSTRAINT `event_comm_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_events`
 --
 ALTER TABLE `vm_events`
-  ADD CONSTRAINT `prjct_event_cscd` FOREIGN KEY (`projectID`) REFERENCES `vm_projects` (`projectID`) ON DELETE CASCADE;
+ADD CONSTRAINT `prjct_event_cscd` FOREIGN KEY (`projectID`) REFERENCES `vm_projects` (`projectID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
-  ADD CONSTRAINT `event_kw_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+ADD CONSTRAINT `event_kw_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
-  ADD CONSTRAINT `members_profile_cscd` FOREIGN KEY (`mID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+ADD CONSTRAINT `members_profile_cscd` FOREIGN KEY (`mID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
-  ADD CONSTRAINT `gwproj_proj_cscd` FOREIGN KEY (`gwProjectID`) REFERENCES `vm_gateway_projects` (`gwProjectID`) ON DELETE CASCADE;
+ADD CONSTRAINT `gwproj_proj_cscd` FOREIGN KEY (`gwProjectID`) REFERENCES `vm_gateway_projects` (`gwProjectID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
-  ADD CONSTRAINT `event_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+ADD CONSTRAINT `event_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-  ADD CONSTRAINT `event_trans_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `member_trans_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+ADD CONSTRAINT `event_trans_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
+ADD CONSTRAINT `member_trans_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
