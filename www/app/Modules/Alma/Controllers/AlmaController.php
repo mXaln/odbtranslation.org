@@ -39,7 +39,7 @@ class AlmaController extends Controller
     public $signs = [' ', ',', '.', '?', '!', ':', ';', '"'];
     public function postMainText()
     {
-        $text = $this->getBook("ulb", 39, "mal", "ru"); // Get book of Malachi RSB
+        $text = $this->getBook("ulb", 1, "gen", "ru"); // Get book of Genesis RSB
         //$text = $this->example_text;
         
         
@@ -319,10 +319,11 @@ class AlmaController extends Controller
         $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
         $bookText = "Нет исходного текста";
 
-        if(Cache::has($cache_keyword))
+		
+		if(Cache::has($cache_keyword))
         {
             $source = Cache::get($cache_keyword);
-            $usfm = UsfmParser::parse($source);
+            $usfm = json_decode($source, true);
         }
         else
         {
@@ -330,9 +331,9 @@ class AlmaController extends Controller
             $usfm = UsfmParser::parse($source);
 
             if(!empty($usfm))
-                Cache::add($cache_keyword, $source, 60*24*7);
+                Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
         }
-
+		
         if(!empty($usfm) && !empty($usfm["chapters"]))
         {
             $bookText = '<h2>'.$usfm["toc1"].'</h2>';

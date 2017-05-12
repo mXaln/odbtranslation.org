@@ -141,6 +141,66 @@ INSERT INTO `turn_secret` (`id`, `realm`, `value`, `expire`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vm_alma_words`
+--
+
+CREATE TABLE IF NOT EXISTS `vm_alma_words` (
+`id` int(11) NOT NULL,
+  `locale` varchar(10) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+--
+-- Table structure for table `vm_alma_synonyms`
+--
+
+CREATE TABLE IF NOT EXISTS `vm_alma_synonyms` (
+`id` int(11) NOT NULL,
+  `word_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `vm_alma_translations`
+--
+
+CREATE TABLE IF NOT EXISTS `vm_alma_translations` (
+`id` int(11) unsigned NOT NULL,
+  `word_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `votes` int(11) unsigned NOT NULL DEFAULT '0',
+  `is_approved` int(1) NOT NULL DEFAULT '0',
+  `comment` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `vm_alma_votes_track`
+--
+
+CREATE TABLE IF NOT EXISTS `vm_alma_votes_track` (
+`id` int(11) NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `votable_type` varchar(255) NOT NULL,
+  `votable_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vm_abbr`
 --
 
@@ -8042,7 +8102,31 @@ CREATE TABLE IF NOT EXISTS `vm_translators` (
 --
 ALTER TABLE `turn_secret`
  ADD PRIMARY KEY (`id`);
+ 
+--
+-- Indexes for table `vm_alma_words`
+--
+ALTER TABLE `vm_alma_words`
+ ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`);
+ 
+--
+-- Indexes for table `vm_alma_synonyms`
+--
+ALTER TABLE `vm_alma_synonyms`
+ ADD PRIMARY KEY (`id`), ADD KEY `word_id` (`word_id`);
 
+--
+-- Indexes for table `vm_alma_translations`
+--
+ALTER TABLE `vm_alma_translations`
+ ADD PRIMARY KEY (`id`), ADD KEY `word_id` (`word_id`);
+ 
+--
+-- Indexes for table `vm_alma_votes_track`
+--
+ALTER TABLE `vm_alma_votes_track`
+ ADD PRIMARY KEY (`id`), ADD KEY `votable_id` (`votable_id`);
+ 
 --
 -- Indexes for table `vm_abbr`
 --
@@ -8137,6 +8221,26 @@ ALTER TABLE `vm_translators`
 ALTER TABLE `turn_secret`
 MODIFY `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `vm_alma_words`
+--
+ALTER TABLE `vm_alma_words`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `vm_alma_synonyms`
+--
+ALTER TABLE `vm_alma_synonyms`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vm_alma_translations`
+--
+ALTER TABLE `vm_alma_translations`
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `vm_alma_votes_track`
+--
+ALTER TABLE `vm_alma_votes_track`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
 -- AUTO_INCREMENT for table `vm_abbr`
 --
 ALTER TABLE `vm_abbr`
@@ -8205,6 +8309,26 @@ MODIFY `trID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 -- Constraints for dumped tables
 --
 
+--
+-- Constraints for table `vm_alma_words`
+--
+ALTER TABLE `vm_alma_words`
+ADD CONSTRAINT `foreign_word_variaty` FOREIGN KEY (`parent_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+--
+-- Constraints for table `vm_alma_synonyms`
+--
+ALTER TABLE `vm_alma_synonyms`
+ADD CONSTRAINT `vm_alma_synonyms_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+--
+-- Constraints for table `vm_alma_translations`
+--
+ALTER TABLE `vm_alma_translations`
+ADD CONSTRAINT `vm_alma_translations_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+--
+-- Constraints for table `vm_alma_votes_track`
+--
+ALTER TABLE `vm_alma_votes_track`
+ADD CONSTRAINT `foreign_words_votes` FOREIGN KEY (`votable_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 --
 -- Constraints for table `vm_chapters`
 --
