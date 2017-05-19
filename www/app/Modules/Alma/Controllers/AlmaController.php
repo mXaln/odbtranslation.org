@@ -9,6 +9,7 @@ namespace App\Modules\Alma\Controllers;
  */
 
 use App\Core\Controller;
+use App\Models\TranslationsModel;
 use App\Models\User;
 use App\Modules\Alma\Models\Synonym;
 use App\Modules\Alma\Models\Translation;
@@ -28,25 +29,39 @@ use Helpers\UsfmParser;
 
 class AlmaController extends Controller
 {
-    public function index()
+    private $translationModel;
+    private $eventsModel;
+
+    public function __construct()
     {
+        parent::__construct();
+        $this->translationModel = new TranslationsModel();
+        $this->eventsModel = new EventsModel();
+    }
+
+    public function index($bookCode = null)
+    {
+        $books = $this->translationModel->getBooksList();
+
         return $this
                 ->getView()
                 ->shares('title', 'Alma Module')
+                ->shares("bookCode", $bookCode)
+                ->shares("books", $books)
                 ;
     }
     
     public $signs = [' ', ',', '.', '?', '!', ':', ';', '"'];
-    public function postMainText()
+    public function postMainText($bookCode)
     {
-        $text = $this->getBook("ulb", 1, "gen", "ru"); // Get book of Genesis RSB
-        //$text = $this->example_text;
-        
-        
+        $bookInfo = $this->translationModel->getBookInfo($bookCode);
+
+        $text = $this->getBook("ulb", $bookInfo[0]->abbrID, $bookInfo[0]->code, "ru");
+
         $words = Word::with('translations')
                 ->orderBy('title')
                 ->get();
-        
+
         foreach ($words as $word) {
             $id   = empty($word->parent_id) ? $word->id : $word->parent_id; 
             foreach ($this->signs as $sign) {
@@ -57,7 +72,6 @@ class AlmaController extends Controller
                     );
             }
         }
-        
         
         return Response::json([
             'mainText' => $text
@@ -315,11 +329,9 @@ class AlmaController extends Controller
 
     private function getBook($bookProject, $bookNum, $bookCode, $sourceLang)
     {
-        $eventsModel = new EventsModel();
         $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
         $bookText = "Нет исходного текста";
 
-		
 		if(Cache::has($cache_keyword))
         {
             $source = Cache::get($cache_keyword);
@@ -327,13 +339,13 @@ class AlmaController extends Controller
         }
         else
         {
-            $source = $eventsModel->getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode, $sourceLang);
+            $source = $this->eventsModel->getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode, $sourceLang);
             $usfm = UsfmParser::parse($source);
 
             if(!empty($usfm))
                 Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
         }
-		
+
         if(!empty($usfm) && !empty($usfm["chapters"]))
         {
             $bookText = '<h2>'.$usfm["toc1"].'</h2>';
@@ -350,7 +362,4 @@ class AlmaController extends Controller
 
         return $bookText;
     }
-
-
-    //public $example_text = '<ol><li value="1">И вас, мертвых по преступлениям и грехам вашим, </li><li value="2">в которых вы некогда жили, по обычаю мира сего, по воле князя, господствующего в воздухе, духа, действующего ныне в сынах противления, </li><li value="3">между которыми и мы все жили некогда по нашим плотским похотям, исполняя желания плоти и помыслов, и были по природе чадами гнева, как и прочие, </li><li value="4">Бог, богатый милостью, по Своей великой любви, которою возлюбил нас, </li><li value="5">и нас, мертвых по преступлениям, оживотворил со Христом, — благодатью вы спасены, — </li><li value="6">и воскресил с Ним, и посадил на небесах во Христе Иисусе, </li><li value="7">дабы явить в грядущих веках преизобильное богатство благодати Своей в благости к нам во Христе Иисусе. </li><li value="8">Ибо благодатью вы спасены через веру, и сие не от вас, Божий дар:</li><li value="9">не от дел, чтобы никто не хвалился. </li><li value="10">Ибо мы — Его творение, созданы во Христе Иисусе на добрые дела, которые Бог предназначил нам исполнять. </li><li value="11">Итак помните, что вы, некогда язычники по плоти, которых называли необрезанными так называемые обрезанные плотским обрезанием, совершаемым руками, </li><li value="12">что вы были в то время без Христа, отчуждены от общества Израильского, чужды заветов обетования, не имели надежды и были безбожники в мире. </li><li value="13">А теперь во Христе Иисусе вы, бывшие некогда далеко, стали близки Кровию Христовою. </li><li value="14">Ибо Он есть мир наш, соделавший из обоих одно и разрушивший стоявшую посреди преграду, </li><li value="15">упразднив вражду Плотию Своею, а закон заповедей учением, дабы из двух создать в Себе Самом одного нового человека, устрояя мир, </li><li value="16">и в одном теле примирить обоих с Богом посредством креста, убив вражду на нем. </li><li value="17">И, придя, благовествовал мир вам, дальним и близким, </li><li value="18">потому что через Него и те и другие имеем доступ к Отцу, в одном Духе. </li><li value="19">Итак вы уже не чужие и не пришельцы, но сограждане святым и свои Богу, </li><li value="20">быв утверждены на основании Апостолов и пророков, имея Самого Иисуса Христа краеугольным камнем, </li><li value="21">на котором все здание, слагаясь стройно, возрастает в святый храм в Господе, </li><li value="22">на котором и вы устрояетесь в жилище Божие Духом. </li></ol>';
 }

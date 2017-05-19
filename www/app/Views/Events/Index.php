@@ -139,13 +139,17 @@ $stepsNum = [
                 <div class="event_time">
                     <div class="event_time_start">
                         <div class="event_time_title"><?php echo __("time_start") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
-                        <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
+                            <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
+                        <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
                     </div>
                     <div class="event_time_end">
                         <div class="event_time_title"><?php echo __("time_end") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
-                        <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
+                            <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
+                        <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
                     </div>
                 </div>
                 <div class="event_current_pos">
@@ -235,13 +239,17 @@ $stepsNum = [
                 <div class="event_time">
                     <div class="event_time_start">
                         <div class="event_time_title"><?php echo __("time_start") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
-                        <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
+                            <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
+                        <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
                     </div>
                     <div class="event_time_end">
                         <div class="event_time_title"><?php echo __("time_end") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
-                        <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
+                            <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
+                        <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
                     </div>
                 </div>
                 <div class="event_current_pos">
@@ -296,13 +304,17 @@ $stepsNum = [
             <div class="event_time">
                 <div class="event_time_start">
                     <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
+                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
                 </div>
                 <div class="event_time_end">
                     <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
+                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
                 </div>
             </div>
             <div class="event_current_pos">
@@ -415,13 +427,17 @@ $stepsNum = [
             <div class="event_time">
                 <div class="event_time_start">
                     <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
+                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
                 </div>
                 <div class="event_time_end">
                     <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
+                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
                 </div>
             </div>
             <div class="event_current_pos">
@@ -460,13 +476,17 @@ $stepsNum = [
             <div class="event_time">
                 <div class="event_time_start">
                     <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
+                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
                 </div>
                 <div class="event_time_end">
                     <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
+                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
                 </div>
             </div>
             <div class="event_current_pos">
@@ -551,13 +571,17 @@ $stepsNum = [
             <div class="event_time">
                 <div class="event_time_start">
                     <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
+                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
                 </div>
                 <div class="event_time_end">
                     <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo ?></div>
+                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
+                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
+                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
                 </div>
             </div>
             <div class="event_current_pos">

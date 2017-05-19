@@ -1,7 +1,9 @@
 <div class="content"  ng-app="Alma" ng-controller="textRangeController">
     <div class="row">
-        
-        
+
+        <?php if($bookCode != null): ?>
+        <div class="col-md-12" style="font-size: 18px;"><a href="/alma">К списку</a></div>
+
         <div class="col-md-8" ng-mouseup="getText()">
 			<div get-main-text="textRefreshEvent"></div>
         </div>
@@ -131,10 +133,28 @@
                     </div>
                 </div>
             </div>
-            
         </div>
+        <?php else: ?>
+        <div class="col-md-12">
+            <div style="float: left; width: 400px;">
+                <h3>Ветхий Завет</h3>
+            <?php foreach ($books as $book): ?>
+            <div class="book_link"><a href="/alma/<?php echo $book->code ?>"><?php echo __($book->code) ?></a></div>
+                <?php if($book->code == "mal"): ?>
+            </div>
+            <div style="float: left; width: 400px;">
+                <h3>Новый Завет</h3>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
+
+<script>
+    var bookCode = '<?php echo $bookCode ?>';
+</script>
 
 <?php
 \Helpers\Assets::js([

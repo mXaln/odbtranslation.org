@@ -140,3 +140,9 @@ if(isset($data["error"])) return;
         </div>
     </div>
 </div>
+
+<?php if(isset($data["words"])): ?>
+<script>
+var almaWords = '<?php echo $data["words"] ?>';
+</script>
+<?php endif; ?>

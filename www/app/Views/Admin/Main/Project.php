@@ -52,8 +52,12 @@ if(!empty($data["project"])):
                             <td><?php echo $event->translators . "/" . (integer)$event->translatorsNum ?></td>
                             <td><?php echo $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum ?></td>
                             <td><?php echo $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum ?></td>
-                            <td class="datetime" data="<?php echo $event->dateFrom != "" ? date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>"><?php echo $event->dateFrom != "" ? $event->dateFrom . " UTC" : "" ?></td>
-                            <td class="datetime" data="<?php echo $event->dateTo != "" ? date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>"><?php echo $event->dateTo != "" ? $event->dateTo . " UTC" : "" ?></td>
+                            <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                                date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>">
+                                <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom . " UTC" : "" ?></td>
+                            <td class="datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                                date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>">
+                                <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td>
                                 <?php if($event->state == EventStates::TRANSLATED): ?>
@@ -133,7 +137,7 @@ if(!empty($data["project"])):
                             </div>
                         </div>
 
-
+                        <!--
                         <div class="form-group">
                             <label for="cal_from" style="width: 100%; display: block"><?php echo __('time_start'); ?></label>
                             <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
@@ -143,6 +147,7 @@ if(!empty($data["project"])):
                             <label for="cal_to" style="width: 100%; display: block"><?php echo __('time_end'); ?></label>
                             <input type="text" class="form-control" id="cal_to" name="cal_to" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
                         </div>
+                        -->
 
                         <div class="form-group" style="width: 350px;">
                             <label for="adminsSelect" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
@@ -173,7 +178,7 @@ if(!empty($data["project"])):
                         <button name="progressEvent" class="btn btn-success"><?php echo __("progress"); ?></button>
                         <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
                         &nbsp;&nbsp;
-                        <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
+                        <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>" disabled><?php echo __("clear_cache"); ?></button>
                         <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>

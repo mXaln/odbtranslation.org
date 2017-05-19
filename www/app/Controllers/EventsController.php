@@ -5,6 +5,7 @@
 
 namespace App\Controllers;
 
+use App\Modules\Alma\Models\Word;
 use Support\Facades\Cache;
 use View;
 use App\Core\Controller;
@@ -579,6 +580,15 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                if($data["event"][0]->sourceBible == "rsb")
+                                {
+                                    $words = Word::with('translations')
+                                        ->orderBy('title')
+                                        ->get();
+
+                                    $data["words"] = $words;
+                                }
                             }
                             else
                             {
@@ -1089,13 +1099,17 @@ class EventsController extends Controller
 
                                         $chapters[$data["event"][0]->currentChapter]["done"] = true;
 
-                                        if($this->checkBookFinished($chapters))
-                                            $this->_model->updateEvent(["state" => EventStates::TRANSLATED], ["eventID" => $data["event"][0]->eventID]);
+                                        // Check if whole book is finished
+                                        if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum))
+                                            $this->_model->updateEvent([
+                                                "state" => EventStates::TRANSLATED,
+                                                "dateTo" => date("Y-m-d H:i:s", time())],
+                                                ["eventID" => $data["event"][0]->eventID]);
 
                                         $this->_model->updateChapter(["done" => true], ["eventID" => $data["event"][0]->eventID, "chapter" => $data["event"][0]->currentChapter]);
 
                                         // Check if the member has another chapter to translate
-                                        // then redirect him to preparation page
+                                        // then redirect to preparation page
                                         $nextChapter = 0;
                                         $nextChapterDB = $this->_model->getNextChapter($data["event"][0]->eventID, Session::get("memberID"));
                                         if(!empty($nextChapterDB))
@@ -1909,7 +1923,11 @@ class EventsController extends Controller
             if (isset($_POST) && !empty($_POST)) {
                 if(!empty(array_filter($data["chapters"])))
                 {
-                    $updated = $this->_model->updateEvent(array("state" => EventStates::TRANSLATING), array("eventID" => $eventID));
+                    $updated = $this->_model->updateEvent(
+                        array(
+                            "state" => EventStates::TRANSLATING,
+                            "dateFrom" => date("Y-m-d H:i:s", time())),
+                            array("eventID" => $eventID));
                     if($updated)
                         Url::redirect("events/manage/".$eventID);
                 }
@@ -3214,7 +3232,7 @@ class EventsController extends Controller
         echo json_encode($response);
     }
 
-    public function checkBookFinished($chapters)
+    public function checkBookFinished($chapters, $chaptersNum)
     {
         if(isset($chapters) && is_array($chapters) && !empty($chapters))
         {
@@ -3224,7 +3242,7 @@ class EventsController extends Controller
                     $chaptersDone++;
             }
 
-            if(sizeof($chapters) == $chaptersDone)
+            if($chaptersNum == $chaptersDone)
                 return true;
         }
 

@@ -597,7 +597,7 @@ class AdminController extends Controller {
             $usfm = UsfmParser::parse($source);
 
             if(!empty($usfm))
-                Cache::add($cache_keyword, json_encode($source), 60*24*7);
+                Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
 
         }
 
@@ -731,8 +731,8 @@ class AdminController extends Controller {
         $translators = isset($_POST['translators']) && $_POST['translators'] != "" ? (integer)$_POST['translators'] : null;
         $checkers_l2 = isset($_POST['checkers_l2']) && $_POST['checkers_l2'] != "" ? (integer)$_POST['checkers_l2'] : null;
         $checkers_l3 = isset($_POST['checkers_l3']) && $_POST['checkers_l3'] != "" ? (integer)$_POST['checkers_l3'] : null;
-        $dateFrom = isset($_POST['cal_from']) && $_POST['cal_from'] != "" ? $_POST['cal_from'] : null;
-        $dateTo = isset($_POST['cal_to']) && $_POST['cal_to'] != "" ? $_POST['cal_to'] : null;
+        //$dateFrom = isset($_POST['cal_from']) && $_POST['cal_from'] != "" ? $_POST['cal_from'] : null;
+        //$dateTo = isset($_POST['cal_to']) && $_POST['cal_to'] != "" ? $_POST['cal_to'] : null;
         $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : [];
         $act = isset($_POST['act']) && preg_match("/^(create|edit|delete)$/", $_POST['act']) ? $_POST['act'] : "create";
 
@@ -761,7 +761,7 @@ class AdminController extends Controller {
             $error[] = __('enter_checkers_l3');
         }
 
-        if($dateFrom == null || $dateFrom === false)
+        /*if($dateFrom == null || $dateFrom === false)
         {
             $error[] = __('wrong_date_from');
         }
@@ -769,7 +769,7 @@ class AdminController extends Controller {
         if($dateTo == null || $dateTo === false)
         {
             $error[] = __('wrong_date_to');
-        }
+        }*/
 
         if(empty($admins))
         {
@@ -784,8 +784,8 @@ class AdminController extends Controller {
                 "translatorsNum" => $translators,
                 "l2CheckersNum" => $checkers_l2,
                 "l3CheckersNum" => $checkers_l3,
-                "dateFrom" => date("Y-m-d H:i:s", strtotime($dateFrom)),
-                "dateTo" => date("Y-m-d H:i:s", strtotime($dateTo)),
+                "dateFrom" => date("Y-m-d H:i:s", strtotime("0000-00-00")),
+                "dateTo" => date("Y-m-d H:i:s", strtotime("0000-00-00")),
                 "admins" => json_encode($admins),
             ];
 

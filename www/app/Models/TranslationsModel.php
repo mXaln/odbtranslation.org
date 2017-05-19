@@ -187,6 +187,12 @@ class TranslationsModel extends Model
             ->where("code", $bookCode)->get();
     }
 
+    public function getBooksList()
+    {
+        return $this->db->table("abbr")
+            ->orderBy("abbrID")->get();
+    }
+
     /**
      * Create translation record
      * @param array $data

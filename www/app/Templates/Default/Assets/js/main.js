@@ -337,8 +337,8 @@ $(document).ready(function() {
             var tempTutorialCookie = getCookie("temp_tutorial");
             if(typeof tempTutorialCookie == "undefined")
             {
-                $(".tutorial_container").show();
-                $("body").css("overflow", "hidden");
+                //$(".tutorial_container").show();
+                //$("body").css("overflow", "hidden");
                 setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"});
             }
         }
@@ -426,6 +426,38 @@ $(document).ready(function() {
                         });
                 }
             }, 3000);
+        }
+
+        if(step == EventSteps.SELF_CHECK)
+        {
+            if(typeof almaWords != "undefined" && almaWords != '')
+            {
+                var almaTranslations = [];
+                $.each(JSON.parse(almaWords), function (i, word) {
+                    var id = word.parent_id == null ? word.id : word.parent_id;
+                    var translation = "";
+                    $.each(word.translations, function (j, trans) {
+                        if(trans.is_approved == 1)
+                        {
+                            translation = trans.title;
+                            almaTranslations[id] = translation;
+                        }
+                    });
+
+                    $.each($(".chunk_verses"), function (k, chunk) {
+                        var text = $(chunk).html().replace(word.title, '<span class="btn-warning almaWord" data-toggle="tooltip" data-placement="auto" title="" data="'+id+'">'+word.title+'</span> ');
+                        $(chunk).html(text);
+                    });
+                });
+
+                $.each($(".almaWord"), function () {
+                    var id = $(this).attr("data");
+                    if(typeof almaTranslations != "undefined" && typeof almaTranslations[id] != "undefined")
+                    {
+                        $(this).attr("title", almaTranslations[id]);
+                    }
+                });
+            }
         }
     }
 
@@ -1750,7 +1782,7 @@ $(document).ready(function() {
     function localizeDate() {
         $.each($(".datetime"), function () {
             var dateStr = $(this).attr("data");
-            if(dateStr == "") return true;
+            if(dateStr == "" || dateStr == "----/--/--" || dateStr == "--:--") return true;
 
             var date_options = {
                 year: 'numeric',

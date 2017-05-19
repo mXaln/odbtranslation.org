@@ -9,7 +9,7 @@ angular.module('Alma', ['ngSanitize'])
     };
     
     $scope.getWords = function(){
-        $http.post('alma/list-words')
+        $http.post('list-words')
         .success(function(data) {
             $.each(data, function(key, word) {
                 $scope.words.push(word);
@@ -23,7 +23,9 @@ angular.module('Alma', ['ngSanitize'])
         });
 
     };
-    $scope.getWords();
+
+    if(bookCode != "")
+        $scope.getWords();
     
     $scope.findWord = function(word_id){
 		for (var i = 0, len = $scope.words.length; i < len; i++) {
@@ -61,13 +63,13 @@ angular.module('Alma', ['ngSanitize'])
         $('#add-new-word').focus();
     };
     
-    $scope.addTerm = function(type, word_id = null, term = ''){
+    $scope.addTerm = function(type, word_id , term){
         var new_term = {
             title   : type === 'word' ? $scope.text : term,
             word_id : word_id
         };
 
-        $http.post('alma/add/' + type, new_term)
+        $http.post('add/' + type, new_term)
         .success(function(data) {
             
             if (data.error) {
@@ -131,14 +133,14 @@ angular.module('Alma', ['ngSanitize'])
     };
     
     
-    $scope.vote = function(term_id, action_type = null){
+    $scope.vote = function(term_id, action_type){
         switch(action_type) {
             case 'approve':
             case 'approve_back':
-                var path = 'alma/approve/'
+                var path = 'approve/'
                 break;
             default:
-                var path = 'alma/vote/';
+                var path = 'vote/';
                 break;
         }
         
@@ -163,7 +165,7 @@ angular.module('Alma', ['ngSanitize'])
     };
     
     $scope.saveComment = function(translation){
-		$http.post('alma/add-comment', translation)
+		$http.post('add-comment', translation)
         .success(function(data) {
             if (data.error) {
                 renderPopup(data.message);
@@ -178,10 +180,11 @@ angular.module('Alma', ['ngSanitize'])
     
 })
 .directive('getMainText', function($rootScope, $http, $compile) {
+    if(bookCode == "") return;
     return {
         link : function($scope, element, attrs) {
             var triggerReload = function() {
-                $http.post('alma/main-text')
+                $http.post('main-text/' + bookCode)
                 .success(function(data) {
                         if (data.error) {
                             console.log('не удалось получить данные');
