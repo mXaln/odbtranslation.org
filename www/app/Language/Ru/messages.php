@@ -493,6 +493,37 @@ return array (
     "chapter" => "Глава {0}",
     "download_usfm" => "Скачать в формате USFM",
 
+    // Alma keyword plugin
+    "to_list" => "К списку",
+    "word_translations" => "Переводы слов",
+    "add_word" => "Добавить слово",
+    "word" => "Слово",
+    "close_word" => "Закрыть слово",
+    "delete_word" => "Удалить слово",
+    "delete_translation" => "Удалить перевод",
+    "delete_variation" => "Удалить вариант",
+    "choose_word" => "выберите слово",
+    "variations" => "Варианты",
+    "variation" => "Вариант",
+    "translation" => "Перевод",
+    "votes" => "Голосов",
+    "vote" => "Отдать голос",
+    "unvote" => "Отозвать голос",
+    "confirm_translation" => "Утвердить перевод",
+    "cancel_confirmation" => "Отменить утверждение",
+    "comment" => "коммент",
+    "add" => "Добавить",
+    // Errors
+    "word_not_found_error" => "Ошибка: термин не найден.",
+    "translation_approved_error" => "Ошибка: перевод уже утвержден.",
+    "unknown_datatype_error" => "Ошибка: неизвестный тип данных.",
+    "auth_error" => "Ошибка: авторизуйтесь, пожалуйста.",
+    "already_voted_error" => "Ошибка: вы уже проголосовали.",
+    "not_voted_error" => "Ошибка: вы еще не проголосовали.",
+    "word_exist_error" => "Такой термин уже существует",
+    "word_not_specified_error" => "Ошибка: не указано слово",
+
+
     // -------------- Bible books names ----------------- //
     "gen" => "Бытие",
     "exo" => "Исход",
