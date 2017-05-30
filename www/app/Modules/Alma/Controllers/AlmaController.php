@@ -56,9 +56,10 @@ class AlmaController extends Controller
                 ;
     }
     
-    public $signs = [' ', ',', '.', '?', '!', ':', ';', '"'];
+    public $signs = [' ', ',', '\.', '\?', '!', ':', ';', '"'];
     public function postMainText($bookCode)
     {
+		setlocale(LC_ALL, 'bg_BG.UTF-8');  
         $bookInfo = $this->translationModel->getBookInfo($bookCode);
 
         $text = $this->getBook("ulb", $bookInfo[0]->abbrID, $bookInfo[0]->code, "ru");
@@ -69,13 +70,20 @@ class AlmaController extends Controller
 
         foreach ($words as $word) {
             $id   = empty($word->parent_id) ? $word->id : $word->parent_id; 
-            foreach ($this->signs as $sign) {
+            $text = preg_replace(
+					"/\b" . "(" . $word->title . ")" . "\b/iu",
+					'<span class="btn-warning" ng-click="wordClick('. $id .')">$1</span>',
+					$text);
+			
+			
+			/*foreach ($this->signs as $sign) {
                 $text = str_replace(
                         $word->title . $sign,
                         '<span class="btn-warning" ng-click="wordClick('. $id .')">'. $word->title .'</span> ',
                         $text
                     );
             }
+			*/
         }
         
         return Response::json([
