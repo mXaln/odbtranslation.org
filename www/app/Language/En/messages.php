@@ -386,7 +386,8 @@ return array (
     "type_checking" => "Checking Mode",
     "clear_cache" => "Clear Cache",
     "clear_cache_info" => "Remove source text from the cache. \nIt will be updated when translator will open 8-steps page again.",
-
+    "remove_checker" => "Remove checker",
+    
     // Steps
     "pray" => "Preparation: Prayer",
     "pray_desc" => "<li><b>PURPOSE:</b> to ask God to help you in your translation work.</li><li>Pray as long as you feel necessary for this step, but try to spend at least 5-10 minutes.</li><li>This step is as important as any of the others.</li>",
@@ -475,6 +476,7 @@ return array (
     "successfully_updated" => "Successfully updated!",
     "successfully_deleted" => "Successfully deleted!",
     "moved_back_success" => "Translator has successfully moved one step back!",
+    "checker_removed_success" => "Checker has been successfully removed!",
 
     // Other messages
     "alert_message" => "Message",

@@ -2622,7 +2622,7 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
 
 .step_selector_block {
     margin: 5px 0 20px 0;
-    width: 220px;
+    /*width: 220px;*/
 }
 
 .step_selector option:checked {

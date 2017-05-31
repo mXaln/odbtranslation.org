@@ -21,7 +21,6 @@ use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
 use Helpers\UsfmParser;
-use Helpers\Password;
 
 class EventsController extends Controller
 {
@@ -1998,7 +1997,8 @@ class EventsController extends Controller
                     $this->_model->updateTranslator($postData, ["trID" => $member[0]->trID]);
 
                     $response["success"] = true;
-                    $response["message"] = __("moved_back_success");
+                    $response["message"] = $member[0]->step != $to_step 
+                            ? __("moved_back_success") : __("checker_removed_success");
                 }
                 else
                 {

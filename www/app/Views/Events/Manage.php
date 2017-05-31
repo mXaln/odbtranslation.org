@@ -73,37 +73,87 @@ if(!isset($error)):
                     <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
                         <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
                     </div>
-                    <div class="step_selector_block">
-                        <?php
-                        $s_disabled = EventSteps::enum($member["step"]) < 2;
-                        ?>
-                        <label><?php echo __("current_step") ?>:</label>
-                        <select class="step_selector form-control" <?php echo $s_disabled ? "disabled" : "" ?> data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>">
-                            <?php foreach (EventSteps::enumArray() as $step => $i): ?>
-                                <?php
-                                if($step == EventSteps::NONE) continue;
+                    <div class="step_selector_block row">
+                        <div class="col-sm-6">
+                            <?php
+                            $s_disabled = EventSteps::enum($member["step"]) < 2;
+                            ?>
+                            <label><?php echo __("current_step") ?>:</label>
+                            <select class="step_selector form-control" <?php echo $s_disabled ? "disabled" : "" ?> data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>">
+                                <?php foreach (EventSteps::enumArray() as $step => $i): ?>
+                                    <?php
+                                    if($step == EventSteps::NONE) continue;
 
-                                $selected = $step == $member["step"];
-                                $o_disabled = EventSteps::enum($member["step"]) < $i ||
-                                    (EventSteps::enum($member["step"]) - $i) > 1;
-                                ?>
-
-                                <?php if($step == EventSteps::READ_CHUNK):
-                                    $ch_disabled = $member["currentChunk"] <= 0 ||
-                                        EventSteps::enum($member["step"]) >= EventSteps::enum(EventSteps::BLIND_DRAFT);
+                                    $selected = $step == $member["step"];
+                                    $o_disabled = EventSteps::enum($member["step"]) < $i ||
+                                        (EventSteps::enum($member["step"]) - $i) > 1;
                                     ?>
-                                    <option <?php echo ($ch_disabled ? "disabled" : "") ?>
-                                            value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>"
-                                    style="padding-left: 20px">
-                                        <?php echo __(EventSteps::BLIND_DRAFT."_previous").($member["currentChunk"] > 0 ? " ".$member["currentChunk"] : "") ?>
-                                    </option>
-                                <?php endif; ?>
 
-                                <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
-                                    <?php echo EventSteps::enum($step) == 5 ? __("read-chunk-alt") : __($step) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                                    <?php if($step == EventSteps::READ_CHUNK):
+                                        $ch_disabled = $member["currentChunk"] <= 0 ||
+                                            EventSteps::enum($member["step"]) >= EventSteps::enum(EventSteps::BLIND_DRAFT);
+                                        ?>
+                                        <option <?php echo ($ch_disabled ? "disabled" : "") ?>
+                                                value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>"
+                                        style="padding-left: 20px">
+                                            <?php echo __(EventSteps::BLIND_DRAFT."_previous").($member["currentChunk"] > 0 ? " ".$member["currentChunk"] : "") ?>
+                                        </option>
+                                    <?php endif; ?>
+
+                                    <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
+                                        <?php echo EventSteps::enum($step) == 5 ? __("read-chunk-alt") : __($step) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <?php 
+                            $showButton = false;
+                            if($member["step"] == EventSteps::VERBALIZE || 
+                                    $member["step"] == EventSteps::PEER_REVIEW || 
+                                    $member["step"] == EventSteps::KEYWORD_CHECK || 
+                                    $member["step"] == EventSteps::CONTENT_REVIEW) 
+                            {
+                                if($member["checkerID"] > 0)
+                                    $showButton = true;
+                                else
+                                {
+                                    if($member["step"] == EventSteps::VERBALIZE)
+                                    {
+                                        $verbCheck = (array)json_decode($member["verbCheck"], true);
+                                        if(array_key_exists($member["currentChapter"], $verbCheck))
+                                            $showButton = true;
+                                    }
+                                    if($member["step"] == EventSteps::PEER_REVIEW)
+                                    {
+                                        $peerCheck = (array)json_decode($member["peerCheck"], true);
+                                        if(array_key_exists($member["currentChapter"], $peerCheck))
+                                            $showButton = true;
+                                    }
+                                    if($member["step"] == EventSteps::KEYWORD_CHECK)
+                                    {
+                                        $kwCheck = (array)json_decode($member["kwCheck"], true);
+                                        if(array_key_exists($member["currentChapter"], $kwCheck))
+                                            $showButton = true;
+                                    }
+                                    if($member["step"] == EventSteps::CONTENT_REVIEW)
+                                    {
+                                        $crCheck = (array)json_decode($member["crCheck"], true);
+                                        if(array_key_exists($member["currentChapter"], $crCheck))
+                                            $showButton = true;
+                                    }
+                                }
+                            }
+                            
+                            if($showButton):
+                            ?>
+                            <button class="remove_checker btn btn-danger" style="margin-top: 22px;" 
+                                    data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>" 
+                                    data2="<?php echo $member["step"] ?>">
+                                <?php echo __("remove_checker") ?>
+                            </button>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </li>
             <?php endforeach; ?>

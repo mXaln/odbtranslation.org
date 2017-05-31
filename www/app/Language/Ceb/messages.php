@@ -386,7 +386,8 @@ return array (
     "type_checking" => "Checking Mode",
     "clear_cache" => "Clear Cache",
     "clear_cache_info" => "Remove source text from the cache. \nIt will be updated when translator will open 8-steps page again.",
-
+    "remove_checker" => "Remove checker",
+    
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",
     "pray_desc" => "<li><b>KATUYOUAN:</b> Pangayoa sa Dios nga tabangan ka niya sa imong paghubad.</li><li>Pag-ampo hangtod nakita nimo nga gikinahanglan kini niini nga lakang, apan kung mahimo mga 5-10 minuto ang imong kadugayon niini.</li><li>Kini lakang sama ka importante sa uban.</li>",
@@ -475,6 +476,7 @@ return array (
     "successfully_updated" => "Malamposon ang pag-usab",
     "successfully_deleted" => "Malamposon ang pagwala",
     "moved_back_success" => "Malamposon ang pag-atras sa tighubad",
+    "checker_removed_success" => "Checker has been successfully removed!",
 
     // Other messages
     "alert_message" => "Mensahe",

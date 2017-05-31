@@ -510,6 +510,14 @@ $(function () {
         }
     });
 
+    $(".remove_checker").click(function() {
+        var event_member = $(this).attr("data").split(":");
+        var eventID = event_member[0];
+        var memberID = event_member[1];
+        var to_step = $(this).attr("data2");
+        
+        moveStepBack(null, eventID, memberID, to_step, true, false);
+    });
 
     function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk) {
         confirm = confirm || false;

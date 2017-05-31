@@ -384,7 +384,8 @@ return array (
     "type_checking" => "Mode Pengecekan",
     "clear_cache" => "Bersihkan Cache",
     "clear_cache_info" => "Keluarkan teks sumber dari cache. \nIt akan diperbaharui ketika penerjemah akan membuka halaman 8-langkah lagi.",
-
+    "remove_checker" => "Remove checker",
+    
     // Steps
     "pray" => "Persiapan: Berdoa",
     "pray_desc" => "<li><b>KEGUNAAN:</b> meminta Allah membantu Anda dalam pekerjaan terjemahan Anda.</li><li>Berdoalah sepanjang yang Anda rasa perlu untuk langkah ini, tapi coba ambil setidaknya 5-10 menit.</li><li>Langkah ini sama pentingnya dengan yang lain.</li>",
@@ -473,6 +474,7 @@ return array (
     "successfully_updated" => "Berhasil diperbaharui!",
     "successfully_deleted" => "Berhasil dihapus!",
     "moved_back_success" => "Penerjemah berhasil dipindahkan satu langkah ke belakang!",
+    "checker_removed_success" => "Checker has been successfully removed!",
 
     // Other messages
     "alert_message" => "Pesan",
