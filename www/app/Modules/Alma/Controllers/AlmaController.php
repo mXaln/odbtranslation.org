@@ -15,16 +15,15 @@ use App\Modules\Alma\Models\Synonym;
 use App\Modules\Alma\Models\Translation;
 use App\Modules\Alma\Models\Vote;
 use App\Modules\Alma\Models\Word;
-use Auth;
 use Input;
 use Support\Facades\DB;
 use Helpers\Session;
 use Redirect;
 use Response;
-use Helpers\Data;
 use App\Models\EventsModel;
 use Support\Facades\Cache;
 use Helpers\UsfmParser;
+use Helpers\Url;
 
 
 class AlmaController extends Controller
@@ -41,6 +40,12 @@ class AlmaController extends Controller
 
     public function index($bookCode = null)
     {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'alma');
+            Url::redirect('members/login');
+        }
+
         $books = $this->translationModel->getBooksList();
 
         return $this
@@ -51,9 +56,10 @@ class AlmaController extends Controller
                 ;
     }
     
-    public $signs = [' ', ',', '.', '?', '!', ':', ';', '"'];
+    public $signs = [' ', ',', '\.', '\?', '!', ':', ';', '"'];
     public function postMainText($bookCode)
     {
+		setlocale(LC_ALL, 'bg_BG.UTF-8');  
         $bookInfo = $this->translationModel->getBookInfo($bookCode);
 
         $text = $this->getBook("ulb", $bookInfo[0]->abbrID, $bookInfo[0]->code, "ru");
@@ -64,13 +70,20 @@ class AlmaController extends Controller
 
         foreach ($words as $word) {
             $id   = empty($word->parent_id) ? $word->id : $word->parent_id; 
-            foreach ($this->signs as $sign) {
+            $text = preg_replace(
+					"/\b" . "(" . $word->title . ")" . "\b/iu",
+					'<span class="btn-warning" ng-click="wordClick('. $id .')">$1</span>',
+					$text);
+			
+			
+			/*foreach ($this->signs as $sign) {
                 $text = str_replace(
                         $word->title . $sign,
                         '<span class="btn-warning" ng-click="wordClick('. $id .')">'. $word->title .'</span> ',
                         $text
                     );
             }
+			*/
         }
         
         return Response::json([
@@ -100,7 +113,7 @@ class AlmaController extends Controller
         if (empty($input['title'])) return Response::json([
             'error'   => true,
             'type'    => 'empty',
-            'message' => 'Ошибка: не указано слово'
+            'message' => __("word_not_specified_error")
         ]);
         
         
@@ -110,7 +123,7 @@ class AlmaController extends Controller
                 return Response::json([
                     'error'   => true,
                     'type'    => 'unknown_word',
-                    'message' => 'Не указано основное слово для термина.',
+                    'message' => __("word_not_specified_error"),
                     'term'    => $input['title']
                 ]);
             } else {
@@ -119,7 +132,7 @@ class AlmaController extends Controller
                 if (empty($word)) return Response::json([
                     'error'   => true,
                     'type'    => 'unknown_word',
-                    'message' => 'Указанное основное слово для термина не найдено.',
+                    'message' => __("word_not_found_error"),
                     'term'    => $input['title']
                 ]);
             }
@@ -142,7 +155,6 @@ class AlmaController extends Controller
                 } else {
                     $term->parent_id = $word->id;
                 }
-                
                 break;
             
             case 'synonym':
@@ -171,7 +183,7 @@ class AlmaController extends Controller
                 return Response::json([
                     'error'   => true,
                     'type'    => 'type',
-                    'message' => 'Ошибка: неизвестный тип данных'
+                    'message' => __("unknown_datatype_error")
                 ]);
                 break;
         }
@@ -179,17 +191,69 @@ class AlmaController extends Controller
         if ($term_exists) return Response::json([
             'error'   => true,
             'type'    => 'exists',
-            'message' => 'Такой термин уже существует',
+            'message' => __("word_exist_error"),
             'term'    => (empty($term->parent_id) ? $term : $term->parent)
         ]);
         
         $term->title = $input['title'];
         $term->save();
-        
-        
+
         return Response::json([
             'term' => $term
         ]);
+    }
+
+
+    public function deleteTerm($type)
+    {
+        $input = Input::only('id');
+
+        foreach ($input as $key => $value) {
+            $input[$key] = trim( strip_tags( $value ) );
+        }
+
+        if (empty($input['id'])) return Response::json([
+            'error'   => true,
+            'type'    => 'empty',
+            'message' => __("word_not_specified_error")
+        ]);
+
+        if ($type == "word")
+        {
+            $word = Word::find($input['id']);
+
+            if (empty($word)) return Response::json([
+                'error'   => true,
+                'type'    => 'unknown_word',
+                'message' => __("word_not_found_error"),
+                'term'    => "word"
+            ]);
+
+            $word->delete();
+
+            return Response::json([
+                'term' => $word,
+                'id' => $word->id
+            ]);
+        }
+        else
+        {
+            $translation = Translation::find($input['id']);
+            if (empty($translation)) return Response::json([
+                'error'   => true,
+                'type'    => 'unknown_word',
+                'message' => __("word_not_found_error"),
+                'term'    => "translation"
+            ]);
+
+            $word = Word::find($translation->word_id);
+            $translation->delete();
+
+            return Response::json([
+                'term' => $word,
+                'id' => $translation->id
+            ]);
+        }
     }
 
 
@@ -209,13 +273,13 @@ class AlmaController extends Controller
         if (empty($member)) return Response::json([
             'error'   => true,
             'type'    => 'user',
-            'message' => 'Ошибка: авторизуйтесь, пожалуйста.'
+            'message' => __("auth_error")
         ]);
         
         if ($term_id <= 0) return Response::json([
             'error'   => true,
             'type'    => 'type',
-            'message' => 'Ошибка: неизвестный тип данных.'
+            'message' => __("unknown_datatype_error")
         ]);
         
         $term = Translation::find($term_id);
@@ -223,7 +287,7 @@ class AlmaController extends Controller
         if (empty($term)) return Response::json([
             'error'   => true,
             'type'    => 'term',
-            'message' => 'Ошибка: термин не найден.'
+            'message' => __("word_not_found_error")
         ]);
         
         $word = Word::find($term->word_id);
@@ -233,7 +297,7 @@ class AlmaController extends Controller
             if (empty($vote)) return Response::json([
                 'error'   => true,
                 'type'    => 'vote',
-                'message' => 'Ошибка: Вы еще не проголосовали.'
+                'message' => __("not_voted_error")
             ]);
 
             $vote->delete();
@@ -242,7 +306,7 @@ class AlmaController extends Controller
             if (!empty($vote)) return Response::json([
                 'error'   => true,
                 'type'    => 'vote',
-                'message' => 'Ошибка: Вы уже проголосовали.'
+                'message' => __("already_voted_error")
             ]);
 
             $vote = new Vote();
@@ -269,13 +333,13 @@ class AlmaController extends Controller
         if (empty($member)) return Response::json([
             'error'   => true,
             'type'    => 'user',
-            'message' => 'Ошибка: авторизуйтесь, пожалуйста.'
+            'message' => __("auth_error")
         ]);
         
         if ($term_id <= 0) return Response::json([
             'error'   => true,
             'type'    => 'type',
-            'message' => 'Ошибка: неизвестный тип данных.'
+            'message' => __("unknown_datatype_error")
         ]);
         
         $term = Translation::find($term_id);
@@ -283,7 +347,7 @@ class AlmaController extends Controller
         if (empty($term)) return Response::json([
             'error'   => true,
             'type'    => 'term',
-            'message' => 'Ошибка: термин не найден.'
+            'message' => __("word_not_found_error")
         ]);
         
         $is_approved = Translation::where('word_id', $term->word_id)->where('is_approved', 1)->count();
@@ -291,7 +355,7 @@ class AlmaController extends Controller
         if ($is_approved > 0 && Input::get('action_type') != 'approve_back') return Response::json([
             'error'   => true,
             'type'    => 'term',
-            'message' => 'Ошибка: перевод уже утвержден.'
+            'message' => __("translation_approved_error")
         ]);
         
         $term->is_approved = (Input::get('action_type') == 'approve_back') ? 0 : 1;
@@ -316,7 +380,7 @@ class AlmaController extends Controller
 		if (empty($term)) return Response::json([
             'error'   => true,
             'type'    => 'term',
-            'message' => 'Ошибка: термин не найден.'
+            'message' => __("word_not_found_error")
         ]);
         
         $term->comment = trim( strip_tags( $input['comment'] ) );
@@ -330,7 +394,7 @@ class AlmaController extends Controller
     private function getBook($bookProject, $bookNum, $bookCode, $sourceLang)
     {
         $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
-        $bookText = "Нет исходного текста";
+        $bookText = __("no_source_error");
 
 		if(Cache::has($cache_keyword))
         {
@@ -350,7 +414,7 @@ class AlmaController extends Controller
         {
             $bookText = '<h2>'.$usfm["toc1"].'</h2>';
             foreach ($usfm["chapters"] as $chapter => $chunks) {
-                $bookText .= '<h3>Глава '.$chapter.'</h3><ol>';
+                $bookText .= '<h3>'.__("chapter", $chapter).'</h3><ol>';
                 foreach ($chunks as $verses) {
                     foreach ($verses as $verse => $text) {
                         $bookText .= '<li value="'.$verse.'">'.$text.'</li>';

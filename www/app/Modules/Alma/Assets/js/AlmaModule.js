@@ -47,6 +47,60 @@ angular.module('Alma', ['ngSanitize'])
     $scope.wordCancel = function(){
         $scope.chosen = undefined;
     };
+    $scope.termDelete = function(id, type){
+        if(id != "undefined")
+        {
+            $http.post('delete/' + type, {id: id})
+                .success(function(data) {
+                    if(type == "word")
+                    {
+                        if(data.term.parent_id != null)
+                        {
+                            angular.forEach($scope.words, function(word, i) {
+                                if (word.id == data.term.parent_id) {
+                                    angular.forEach(word.variants, function (variant, k) {
+                                        if(variant.id == data.id)
+                                        {
+                                            word.variants.splice(k, 1);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else
+                        {
+                            angular.forEach($scope.words, function(word, i) {
+                                if (word.id == data.term.id) {
+                                    $scope.words.splice(i, 1);
+                                }
+                            });
+                        }
+                    }
+                    else
+                    {
+                        angular.forEach($scope.words, function(word, i) {
+                            if (word.id == data.term.id) {
+                                angular.forEach(word.translations, function (trans, k) {
+                                    if(trans.id == data.id)
+                                    {
+                                        word.translations.splice(k, 1);
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    $scope.text = '';
+                    $scope.term = '';
+                    $scope.triggerTextRefresh();
+                    $scope.chosen = undefined;
+                })
+                .error(function() {
+                    console.log('не удалось получить данные');
+                })
+                .finally(function() {});
+        }
+    };
     
     $scope.getText = function(){
         var txt = '';
@@ -212,7 +266,7 @@ angular.module('Alma', ['ngSanitize'])
             var placeholder = (attrs.placeholder === undefined) ? '' : attrs.placeholder;
             return '<form ng-submit="addTerm(\'' + type + '\', chosen.id, term); term = \'\';">\n\
                 <input ng-model="term" placeholder="' + placeholder + '">\n\
-                <button class="btn btn-info">Добавить</button>\n\
+                <button class="btn btn-info">'+Language.add+'</button>\n\
             </form>'
         }
     };
