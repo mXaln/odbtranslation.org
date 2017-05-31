@@ -1,4 +1,4 @@
-<?
+<?php
 use Helpers\Constants\EventStates;
 use Support\Facades\Cache;
 
@@ -65,7 +65,7 @@ if(!empty($data["project"])):
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?
+                                <?php
                                 switch($event->state)
                                 {
                                     case null:
@@ -98,7 +98,7 @@ if(!empty($data["project"])):
                 </div>
             </div>
             <?php endif; ?>
-        <?php endforeach ?>
+        <?php endforeach; ?>
     </div>
 </div>
 

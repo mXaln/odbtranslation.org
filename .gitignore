@@ -6,3 +6,4 @@ www/errorlog.html
 /www/app/Storage/Logs/error.log
 /www/app/Templates/Default/Assets/tmp
 /.project
+nbproject
