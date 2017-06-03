@@ -98,7 +98,7 @@
       return (value.length>1 && value.length<21);
     },
     checkLogin: function(value) {
-      var regex = /^[a-z]+[a-z0-9]*$/;
+      var regex = /^[a-z]+[a-z0-9]*$/i;
       return regex.test(value);
     },
     checkPassword: function(value) {
