@@ -1734,7 +1734,7 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    if(isDemo)
+                    if(typeof isDemo != "undefined" && isDemo)
                     {
                         $(".checker_name_span").text(chkName.replace(/\(.*\)/, ""));
                         $(".add_cheker").remove();
