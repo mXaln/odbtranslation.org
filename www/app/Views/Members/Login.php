@@ -12,8 +12,8 @@ use Shared\Legacy\Error;
 
 	<form action='' method='post' style="width: 500px">
 		<div class="form-group">
-			<label for="email" class="sr-only">Email / <?php echo __('userName'); ?></label>
-			<input type="text" class="form-control input-lg" id="email" name="email" placeholder="Email" required="" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ""?>">
+			<label for="email" class="sr-only">Email / <?php echo __('userNameOrEmail'); ?></label>
+			<input type="text" class="form-control input-lg" id="email" name="email" placeholder="<?php echo __('userNameOrEmail'); ?>" required="" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ""?>">
 		</div>
 
 		<div class="form-group">

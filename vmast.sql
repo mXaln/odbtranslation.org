@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.12deb2+deb8u2
+-- version 4.5.4.1deb2ubuntu2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 12, 2017 at 01:37 PM
--- Server version: 5.5.54-0+deb8u1
--- PHP Version: 5.6.30-0+deb8u1
+-- Generation Time: Jun 04, 2017 at 09:32 AM
+-- Server version: 5.7.18-0ubuntu0.16.04.1
+-- PHP Version: 7.0.18-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `vmast`
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin_user`
 --
 
-CREATE TABLE IF NOT EXISTS `admin_user` (
+CREATE TABLE `admin_user` (
   `name` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(250) COLLATE utf8_unicode_ci NOT NULL
@@ -45,7 +45,7 @@ INSERT INTO `admin_user` (`name`, `realm`, `password`) VALUES
 -- Table structure for table `allowed_peer_ip`
 --
 
-CREATE TABLE IF NOT EXISTS `allowed_peer_ip` (
+CREATE TABLE `allowed_peer_ip` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `ip_range` char(40) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `allowed_peer_ip` (
 -- Table structure for table `denied_peer_ip`
 --
 
-CREATE TABLE IF NOT EXISTS `denied_peer_ip` (
+CREATE TABLE `denied_peer_ip` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `ip_range` char(40) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `denied_peer_ip` (
 -- Table structure for table `oauth_key`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_key` (
+CREATE TABLE `oauth_key` (
   `kid` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `ikm_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `timestamp` int(11) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `oauth_key` (
 -- Table structure for table `turnusers_lt`
 --
 
-CREATE TABLE IF NOT EXISTS `turnusers_lt` (
+CREATE TABLE `turnusers_lt` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `name` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `hmackey` char(40) COLLATE utf8_unicode_ci NOT NULL
@@ -101,7 +101,7 @@ INSERT INTO `turnusers_lt` (`realm`, `name`, `hmackey`) VALUES
 -- Table structure for table `turn_origin_to_realm`
 --
 
-CREATE TABLE IF NOT EXISTS `turn_origin_to_realm` (
+CREATE TABLE `turn_origin_to_realm` (
   `origin` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `turn_origin_to_realm` (
 -- Table structure for table `turn_realm_option`
 --
 
-CREATE TABLE IF NOT EXISTS `turn_realm_option` (
+CREATE TABLE `turn_realm_option` (
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `opt` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `value` char(40) COLLATE utf8_unicode_ci NOT NULL
@@ -124,12 +124,12 @@ CREATE TABLE IF NOT EXISTS `turn_realm_option` (
 -- Table structure for table `turn_secret`
 --
 
-CREATE TABLE IF NOT EXISTS `turn_secret` (
-`id` tinyint(3) unsigned NOT NULL,
+CREATE TABLE `turn_secret` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
   `realm` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `value` char(40) COLLATE utf8_unicode_ci NOT NULL,
   `expire` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `turn_secret`
@@ -141,76 +141,16 @@ INSERT INTO `turn_secret` (`id`, `realm`, `value`, `expire`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vm_alma_words`
---
-
-CREATE TABLE IF NOT EXISTS `vm_alma_words` (
-`id` int(11) NOT NULL,
-  `locale` varchar(10) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-
---
--- Table structure for table `vm_alma_synonyms`
---
-
-CREATE TABLE IF NOT EXISTS `vm_alma_synonyms` (
-`id` int(11) NOT NULL,
-  `word_id` int(11) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `vm_alma_translations`
---
-
-CREATE TABLE IF NOT EXISTS `vm_alma_translations` (
-`id` int(11) unsigned NOT NULL,
-  `word_id` int(11) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `votes` int(11) unsigned NOT NULL DEFAULT '0',
-  `is_approved` int(1) NOT NULL DEFAULT '0',
-  `comment` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `vm_alma_votes_track`
---
-
-CREATE TABLE IF NOT EXISTS `vm_alma_votes_track` (
-`id` int(11) NOT NULL,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  `votable_type` varchar(255) NOT NULL,
-  `votable_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `vm_abbr`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_abbr` (
-`abbrID` tinyint(3) unsigned NOT NULL,
+CREATE TABLE `vm_abbr` (
+  `abbrID` tinyint(3) UNSIGNED NOT NULL,
   `code` char(3) COLLATE utf8_unicode_ci NOT NULL,
   `name` char(50) COLLATE utf8_unicode_ci NOT NULL,
-  `chaptersNum` tinyint(3) unsigned NOT NULL,
+  `chaptersNum` tinyint(3) UNSIGNED NOT NULL,
   `difficulty` enum('1','2','3','4') COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `vm_abbr`
@@ -287,20 +227,83 @@ INSERT INTO `vm_abbr` (`abbrID`, `code`, `name`, `chaptersNum`, `difficulty`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vm_alma_synonyms`
+--
+
+CREATE TABLE `vm_alma_synonyms` (
+  `id` int(11) NOT NULL,
+  `word_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vm_alma_translations`
+--
+
+CREATE TABLE `vm_alma_translations` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `word_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `votes` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `is_approved` int(1) NOT NULL DEFAULT '0',
+  `comment` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vm_alma_votes_track`
+--
+
+CREATE TABLE `vm_alma_votes_track` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `votable_type` varchar(255) NOT NULL,
+  `votable_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vm_alma_words`
+--
+
+CREATE TABLE `vm_alma_words` (
+  `id` int(11) NOT NULL,
+  `locale` varchar(10) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vm_chapters`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_chapters` (
-`chapterID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL DEFAULT '0',
-  `memberID` int(10) unsigned NOT NULL DEFAULT '0',
-  `trID` int(10) unsigned NOT NULL DEFAULT '0',
-  `chapter` tinyint(3) unsigned NOT NULL,
+CREATE TABLE `vm_chapters` (
+  `chapterID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `memberID` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `trID` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `chapter` tinyint(3) UNSIGNED NOT NULL,
   `chunks` text COLLATE utf8_unicode_ci NOT NULL,
   `done` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -308,12 +311,11 @@ CREATE TABLE IF NOT EXISTS `vm_chapters` (
 -- Table structure for table `vm_checkers_l2`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_checkers_l2` (
-`l2chID` int(10) unsigned NOT NULL,
-  `memberID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+CREATE TABLE `vm_checkers_l2` (
+  `l2chID` int(10) UNSIGNED NOT NULL,
+  `memberID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -321,12 +323,11 @@ CREATE TABLE IF NOT EXISTS `vm_checkers_l2` (
 -- Table structure for table `vm_checkers_l3`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_checkers_l3` (
-`l3chID` int(10) unsigned NOT NULL,
-  `memberID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+CREATE TABLE `vm_checkers_l3` (
+  `l3chID` int(10) UNSIGNED NOT NULL,
+  `memberID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -334,16 +335,15 @@ CREATE TABLE IF NOT EXISTS `vm_checkers_l3` (
 -- Table structure for table `vm_comments`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_comments` (
-`cID` int(10) unsigned NOT NULL,
-  `memberID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL,
-  `chapter` tinyint(3) unsigned NOT NULL,
-  `chunk` tinyint(3) unsigned NOT NULL,
+CREATE TABLE `vm_comments` (
+  `cID` int(10) UNSIGNED NOT NULL,
+  `memberID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL,
+  `chapter` tinyint(3) UNSIGNED NOT NULL,
+  `chunk` tinyint(3) UNSIGNED NOT NULL,
   `text` varchar(500) NOT NULL,
-  `level` tinyint(3) unsigned NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+  `level` tinyint(3) UNSIGNED NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -351,10 +351,10 @@ CREATE TABLE IF NOT EXISTS `vm_comments` (
 -- Table structure for table `vm_events`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_events` (
-`eventID` int(10) unsigned NOT NULL,
-  `projectID` int(10) unsigned NOT NULL,
-  `adminID` int(10) unsigned NOT NULL COMMENT 'Creator of event',
+CREATE TABLE `vm_events` (
+  `eventID` int(10) UNSIGNED NOT NULL,
+  `projectID` int(10) UNSIGNED NOT NULL,
+  `adminID` int(10) UNSIGNED NOT NULL COMMENT 'Creator of event',
   `bookCode` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `translatorsNum` tinyint(4) NOT NULL,
   `l2CheckersNum` tinyint(4) NOT NULL,
@@ -362,12 +362,10 @@ CREATE TABLE IF NOT EXISTS `vm_events` (
   `dateFrom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dateTo` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `state` enum('started','translating','translated','l2_recruit','l2_check','l3_recruit','l3_check','complete') COLLATE utf8_unicode_ci DEFAULT 'started',
-  `lastTrID` int(10) unsigned NOT NULL,
+  `lastTrID` int(10) UNSIGNED NOT NULL,
   `chaptersToDelete` text COLLATE utf8_unicode_ci NOT NULL,
   `admins` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'facilitators'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -375,12 +373,11 @@ CREATE TABLE IF NOT EXISTS `vm_events` (
 -- Table structure for table `vm_gateway_projects`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_gateway_projects` (
-`gwProjectID` int(10) unsigned NOT NULL,
+CREATE TABLE `vm_gateway_projects` (
+  `gwProjectID` int(10) UNSIGNED NOT NULL,
   `gwLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `admins` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -388,18 +385,16 @@ CREATE TABLE IF NOT EXISTS `vm_gateway_projects` (
 -- Table structure for table `vm_keywords`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_keywords` (
-`kID` int(10) unsigned NOT NULL,
-  `memberID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL,
-  `chapter` tinyint(3) unsigned NOT NULL,
-  `chunk` tinyint(3) unsigned NOT NULL,
+CREATE TABLE `vm_keywords` (
+  `kID` int(10) UNSIGNED NOT NULL,
+  `memberID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL,
+  `chapter` tinyint(3) UNSIGNED NOT NULL,
+  `chunk` tinyint(3) UNSIGNED NOT NULL,
   `verse` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `indexOrder` tinyint(3) unsigned NOT NULL,
+  `indexOrder` tinyint(3) UNSIGNED NOT NULL,
   `text` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -407,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `vm_keywords` (
 -- Table structure for table `vm_languages`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_languages` (
+CREATE TABLE `vm_languages` (
   `langID` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `langName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `angName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -429,7 +424,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('aae', 'Arbëreshë Albanian', 'Albanian, Arbëreshë', 0, 'English', 'ltr'),
 ('aaf', 'Aranadan', 'Aranadan', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('aag', 'Ambrak', 'Ambrak', 0, 'Tok Pisin', 'ltr'),
-('aah', 'Abu'' Arapesh', 'Arapesh, Abu’', 0, 'Tok Pisin', 'ltr'),
+('aah', 'Abu\' Arapesh', 'Arapesh, Abu’', 0, 'Tok Pisin', 'ltr'),
 ('aai', 'Arifama-Miniafia', 'Miniafia Oyan', 0, 'Tok Pisin', 'ltr'),
 ('aak', 'Ankave', 'Ankave', 0, 'Tok Pisin', 'ltr'),
 ('aal', 'Afade', 'Afade', 0, 'français, langue française', 'ltr'),
@@ -477,7 +472,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('acm', 'Mesopotamian Arabic', 'Arabic, Mesopotamian Spoken', 0, 'العربية', 'ltr'),
 ('acn', 'Achang', 'Achang', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('acp', 'Eastern Acipa', 'Acipa, Eastern', 0, 'English', 'ltr'),
-('acq', 'Ta''izzi-Adeni Arabic', 'Arabic, Ta’izzi-Adeni Spoken', 0, 'العربية', 'ltr'),
+('acq', 'Ta\'izzi-Adeni Arabic', 'Arabic, Ta’izzi-Adeni Spoken', 0, 'العربية', 'ltr'),
 ('acr', 'Achi', 'Achi', 0, 'Español Latin America', 'ltr'),
 ('act', 'Achterhoeks', 'Achterhoeks', 0, 'Nederlands, Vlaams', 'ltr'),
 ('acu', 'Achuar-Shiwiar', 'Achuar-Shiwiar', 0, 'Español Latin America', 'ltr'),
@@ -644,7 +639,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('alr', 'Alutor', 'Alutor', 0, 'Русский', 'ltr'),
 ('als', 'Tosk Albanian', 'Albanian, Tosk', 0, 'English', 'ltr'),
 ('alt', 'Southern Altai', 'Altai, Southern', 0, 'Русский', 'ltr'),
-('alu', '''Are''are', '’Are’are', 0, 'Pijin', 'ltr'),
+('alu', '\'Are\'are', '’Are’are', 0, 'Pijin', 'ltr'),
 ('alw', 'Alaba-K’abeena', 'Alaba-K’abeena', 0, 'አማርኛ', 'ltr'),
 ('alx', 'Amol', 'Amol', 0, 'Tok Pisin', 'ltr'),
 ('aly', 'Alyawarr', 'Alyawarr', 0, 'English', 'ltr'),
@@ -653,7 +648,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ama', 'Amanayé', 'Amanayé', 0, 'português', 'ltr'),
 ('amb', 'Ambo', 'Ambo', 0, 'English', 'ltr'),
 ('amc', 'Amahuaca', 'Amahuaca', 0, 'Español Latin America', 'ltr'),
-('ame', 'Yanesha''', 'Yanesha’', 0, 'Español Latin America', 'ltr'),
+('ame', 'Yanesha\'', 'Yanesha’', 0, 'Español Latin America', 'ltr'),
 ('amf', 'Hamer-Banna', 'Hamer-Banna', 0, 'አማርኛ', 'ltr'),
 ('amg', 'Amurdak', 'Amurdak', 0, 'English', 'ltr'),
 ('ami', 'Amis', 'Amis', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
@@ -713,10 +708,10 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('aon', 'Bumbita Arapesh', 'Arapesh, Bumbita', 0, 'Tok Pisin', 'ltr'),
 ('aos', 'Taikat', 'Taikat', 0, 'Bahasa Indonesia', 'ltr'),
 ('aot', 'Atong (India)', 'Atong', 0, 'हिन्दी, हिंदी', 'ltr'),
-('aou', 'A''ou', 'A’ou', 0, '', 'ltr'),
+('aou', 'A\'ou', 'A’ou', 0, '', 'ltr'),
 ('aox', 'Atorada', 'Atorada', 0, 'Español Latin America', 'ltr'),
 ('aoz', 'Uab Meto', 'Uab Meto', 0, 'Bahasa Indonesia', 'ltr'),
-('apb', 'Sa''a', 'Sa’a', 0, 'Pijin', 'ltr'),
+('apb', 'Sa\'a', 'Sa’a', 0, 'Pijin', 'ltr'),
 ('apc', 'North Levantine Arabic', 'Arabic, North Levantine Spoken', 0, 'العربية', 'ltr'),
 ('apd', 'Sudanese Arabic', 'Arabic, Sudanese Spoken', 0, 'العربية', 'ltr'),
 ('ape', 'Bukiyip', 'Bukiyip', 0, 'Tok Pisin', 'ltr'),
@@ -934,7 +929,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('bbg', 'Barama', 'Barama', 0, 'français, langue française', 'ltr'),
 ('bbh', 'Bugan', 'Bugan', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('bbi', 'Barombi', 'Barombi', 0, 'français, langue française', 'ltr'),
-('bbj', 'Ghomálá''', 'Ghomálá’', 0, 'français, langue française', 'ltr'),
+('bbj', 'Ghomálá\'', 'Ghomálá’', 0, 'français, langue française', 'ltr'),
 ('bbk', 'Babanki', 'Babanki', 0, 'français, langue française', 'ltr'),
 ('bbl', 'Bats', 'Bats', 0, 'Русский', 'ltr'),
 ('bbm', 'Babango', 'Babango', 0, 'français, langue française', 'ltr'),
@@ -1011,7 +1006,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('bef', 'Benabena', 'Benabena', 0, 'Tok Pisin', 'ltr'),
 ('beg', 'Belait', 'Belait', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('beh', 'Biali', 'Biali', 0, 'français, langue française', 'ltr'),
-('bei', 'Bekati''', 'Bakati’', 0, 'Bahasa Indonesia', 'ltr'),
+('bei', 'Bekati\'', 'Bakati’', 0, 'Bahasa Indonesia', 'ltr'),
 ('bej', 'Beja', 'Bedawiyet', 0, 'العربية', 'ltr'),
 ('bek', 'Bebeli', 'Bebeli', 0, 'Tok Pisin', 'ltr'),
 ('bem', 'Bemba (Zambia)', 'Bemba', 0, 'English', 'ltr'),
@@ -1161,7 +1156,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('bkl', 'Berik', 'Berik', 0, 'Bahasa Indonesia', 'ltr'),
 ('bkm', 'Kom (Cameroon)', 'Kom', 0, 'français, langue française', 'ltr'),
 ('bkn', 'Bukitan', 'Bukitan', 0, 'Bahasa Indonesia', 'ltr'),
-('bko', 'Kwa''', 'Kwa’', 0, 'français, langue française', 'ltr'),
+('bko', 'Kwa\'', 'Kwa’', 0, 'français, langue française', 'ltr'),
 ('bkp', 'Boko (Democratic Republic of Congo)', 'Boko', 0, 'français, langue française', 'ltr'),
 ('bkq', 'Bakairí', 'Bakairí', 0, 'português', 'ltr'),
 ('bkr', 'Bakumpai', 'Bakumpai', 0, 'Bahasa Indonesia', 'ltr'),
@@ -1183,7 +1178,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('blh', 'Kuwaa', 'Kuwaa', 0, 'English', 'ltr'),
 ('bli', 'Bolia', 'Bolia', 0, 'français, langue française', 'ltr'),
 ('blj', 'Bolongan', 'Bolongan', 0, 'Bahasa Indonesia', 'ltr'),
-('blk', 'Pa''o Karen', 'Pa’o', 0, 'ဗမာစာ', 'ltr'),
+('blk', 'Pa\'o Karen', 'Pa’o', 0, 'ဗမာစာ', 'ltr'),
 ('bll', 'Biloxi', '', 0, '', 'ltr'),
 ('blm', 'Beli (Sudan)', 'Beli', 0, 'العربية', 'ltr'),
 ('bln', 'Southern Catanduanes Bikol', 'Bikol, Southern Catanduanes', 0, 'English', 'ltr'),
@@ -1219,8 +1214,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('bms', 'Bilma Kanuri', 'Kanuri, Bilma', 0, 'français, langue française', 'ltr'),
 ('bmt', 'Biao Mon', 'Biao Mon', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('bmu', 'Somba-Siawari', 'Somba-Siawari', 0, 'Tok Pisin', 'ltr'),
-('bmv', 'Bum', 'Bum', 0, 'français, langue française', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('bmv', 'Bum', 'Bum', 0, 'français, langue française', 'ltr'),
 ('bmw', 'Bomwali', 'Bomwali', 0, 'français, langue française', 'ltr'),
 ('bmx', 'Baimak', 'Baimak', 0, 'Tok Pisin', 'ltr'),
 ('bmz', 'Baramu', 'Baramu', 0, 'Tok Pisin', 'ltr'),
@@ -1267,7 +1261,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('boq', 'Bogaya', 'Bogaya', 0, 'Tok Pisin', 'ltr'),
 ('bor', 'Borôro', 'Borôro', 0, 'português', 'ltr'),
 ('bot', 'Bongo', 'Bongo', 0, 'العربية', 'ltr'),
-('bou', 'Bondei', 'Bondei', 0, 'Kiswahili', 'ltr'),
+('bou', 'Bondei', 'Bondei', 0, 'Kiswahili', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('bov', 'Tuwuli', 'Tuwuli', 0, 'English', 'ltr'),
 ('bow', 'Rema', 'Rema', 0, 'Tok Pisin', 'ltr'),
 ('box', 'Buamu', 'Buamu', 0, 'français, langue française', 'ltr'),
@@ -1484,7 +1479,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('bxz', 'Binahari', 'Binahari', 0, 'Tok Pisin', 'ltr'),
 ('bya', 'Batak', 'Batak', 0, 'English', 'ltr'),
 ('byc', 'Ubaghara', 'Ubaghara', 0, 'English', 'ltr'),
-('byd', 'Benyadu''', 'Benyadu’', 0, 'Bahasa Indonesia', 'ltr'),
+('byd', 'Benyadu\'', 'Benyadu’', 0, 'Bahasa Indonesia', 'ltr'),
 ('bye', 'Pouye', 'Pouye', 0, 'Tok Pisin', 'ltr'),
 ('byf', 'Bete', 'Bete', 0, 'English', 'ltr'),
 ('byg', 'Baygo', 'Baygo', 0, 'العربية', 'ltr'),
@@ -1744,7 +1739,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('cra', 'Chara', 'Chara', 0, 'አማርኛ', 'ltr'),
 ('crb', 'Island Carib', '', 0, '', 'ltr'),
 ('crc', 'Lonwolwol', 'Lonwolwol', 0, 'français, langue française', 'ltr'),
-('crd', 'Coeur d''Alene', 'Coeur d’Alene', 0, 'English', 'ltr'),
+('crd', 'Coeur d\'Alene', 'Coeur d’Alene', 0, 'English', 'ltr'),
 ('crg', 'Michif', 'Michif', 0, 'English', 'ltr'),
 ('crh', 'Crimean Tatar', 'Crimean Tatar', 0, 'English', 'ltr'),
 ('cri', 'Sãotomense', 'Sãotomense', 0, 'português', 'ltr'),
@@ -1754,10 +1749,10 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('crm', 'Moose Cree', 'Cree, Moose', 0, 'English', 'ltr'),
 ('crn', 'El Nayar Cora', 'Cora, El Nayar', 0, 'Español Latin America', 'ltr'),
 ('cro', 'Crow', 'Crow', 0, 'English', 'ltr'),
-('crq', 'Iyo''wujwa Chorote', 'Chorote, Iyo’wujwa', 0, 'Español Latin America', 'ltr'),
+('crq', 'Iyo\'wujwa Chorote', 'Chorote, Iyo’wujwa', 0, 'Español Latin America', 'ltr'),
 ('crr', 'Carolina Algonquian', '', 0, '', 'ltr'),
 ('crs', 'Seselwa Creole French', 'Seselwa Creole French', 0, 'français, langue française', 'ltr'),
-('crt', 'Iyojwa''ja Chorote', 'Chorote, Iyojwa’ja', 0, 'Español Latin America', 'ltr'),
+('crt', 'Iyojwa\'ja Chorote', 'Chorote, Iyojwa’ja', 0, 'Español Latin America', 'ltr'),
 ('crv', 'Chaura', 'Chaura', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('crw', 'Chrau', 'Chrau', 0, 'Tiếng Việt', 'ltr'),
 ('crx', 'Carrier', 'Carrier', 0, 'English', 'ltr'),
@@ -1867,7 +1862,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('dbf', 'Edopi', 'Edopi', 0, 'Bahasa Indonesia', 'ltr'),
 ('dbg', 'Dogul Dom Dogon', 'Dogon, Dogul Dom', 0, 'français, langue française', 'ltr'),
 ('dbi', 'Doka', 'Doka', 0, 'English', 'ltr'),
-('dbj', 'Ida''an', 'Ida’an', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
+('dbj', 'Ida\'an', 'Ida’an', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('dbl', 'Dyirbal', 'Dyirbal', 0, 'English', 'ltr'),
 ('dbm', 'Duguri', 'Duguri', 0, 'English', 'ltr'),
 ('dbn', 'Duriankere', 'Duriankere', 0, 'Bahasa Indonesia', 'ltr'),
@@ -1998,8 +1993,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('dmv', 'Dumpas', 'Dumpas', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('dmw', 'Mudburra', 'Mudburra', 0, 'English', 'ltr'),
 ('dmx', 'Dema', 'Dema', 0, 'português', 'ltr'),
-('dmy', 'Demta', 'Sowari', 0, 'Bahasa Indonesia', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('dmy', 'Demta', 'Sowari', 0, 'Bahasa Indonesia', 'ltr'),
 ('dna', 'Upper Grand Valley Dani', 'Dani, Upper Grand Valley', 0, 'Bahasa Indonesia', 'ltr'),
 ('dnd', 'Daonda', 'Daonda', 0, 'Tok Pisin', 'ltr'),
 ('dne', 'Ndendeule', 'Ndendeule', 0, 'Kiswahili', 'ltr'),
@@ -2027,7 +2021,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('doo', 'Dongo', 'Dongo', 0, 'français, langue française', 'ltr'),
 ('dop', 'Lukpa', 'Lukpa', 0, 'français, langue française', 'ltr'),
 ('doq', 'Dominican Sign Language', 'Dominican Sign Language', 0, 'Español Latin America', 'ltr'),
-('dor', 'Dori''o', 'Dori’o', 0, 'Pijin', 'ltr'),
+('dor', 'Dori\'o', 'Dori’o', 0, 'Pijin', 'ltr'),
 ('dos', 'Dogosé', 'Dogosé', 0, 'français, langue française', 'ltr'),
 ('dot', 'Dass', 'Dass', 0, 'English', 'ltr'),
 ('dov', 'Dombe', 'Dombe', 0, 'English', 'ltr'),
@@ -2041,7 +2035,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('drd', 'Darmiya', 'Darmiya', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('dre', 'Dolpo', 'Dolpo', 0, 'नेपाली', 'ltr'),
 ('drg', 'Rungus', 'Rungus', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
-('dri', 'C''lela', 'C’Lela', 0, 'English', 'ltr'),
+('dri', 'C\'lela', 'C’Lela', 0, 'English', 'ltr'),
 ('drl', 'Paakantyi', 'Paakantyi', 0, 'English', 'ltr'),
 ('drn', 'West Damar', 'Damar, West', 0, 'Bahasa Indonesia', 'ltr'),
 ('dro', 'Daro-Matu Melanau', 'Melanau, Daro-Matu', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
@@ -2089,7 +2083,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('dup', 'Duano', 'Duano', 0, 'Bahasa Indonesia', 'ltr'),
 ('duq', 'Dusun Malang', 'Dusun Malang', 0, 'Bahasa Indonesia', 'ltr'),
 ('dur', 'Dii', 'Dii', 0, 'français, langue française', 'ltr'),
-('dus', 'Dumi', 'Dumi', 0, 'नेपाली', 'ltr'),
+('dus', 'Dumi', 'Dumi', 0, 'नेपाली', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('duu', 'Drung', 'Drung', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('duv', 'Duvle', 'Duvle', 0, 'Bahasa Indonesia', 'ltr'),
 ('duw', 'Dusun Witu', 'Dusun Witu', 0, 'Bahasa Indonesia', 'ltr'),
@@ -2188,7 +2183,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('enw', 'Enwan (Akwa Ibom State)', 'Enwan', 0, 'English', 'ltr'),
 ('enx', 'Enxet', 'Enxet', 0, 'Español Latin America', 'ltr'),
 ('eo', 'Esperanto', 'Esperanto', 0, 'English', 'ltr'),
-('eot', 'Beti (Côte d''Ivoire)', 'Beti', 0, 'français, langue française', 'ltr'),
+('eot', 'Beti (Côte d\'Ivoire)', 'Beti', 0, 'français, langue française', 'ltr'),
 ('epi', 'Epie', 'Epie', 0, 'English', 'ltr'),
 ('era', 'Eravallan', 'Eravallan', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('erg', 'Sie', 'Sie', 0, 'français, langue française', 'ltr'),
@@ -2237,7 +2232,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('eze', 'Uzekwe', 'Uzekwe', 0, 'English', 'ltr'),
 ('fa', 'فارسی', 'Persian (Farsi)', 1, 'فارسی', 'rtl'),
 ('faa', 'Fasu', 'Fasu', 0, 'Tok Pisin', 'ltr'),
-('fab', 'Fa d''Ambu', 'Fa d’Ambu', 0, 'español', 'ltr'),
+('fab', 'Fa d\'Ambu', 'Fa d’Ambu', 0, 'español', 'ltr'),
 ('fad', 'Wagi', 'Wagi', 0, 'Tok Pisin', 'ltr'),
 ('faf', 'Fagani', 'Fagani', 0, 'Pijin', 'ltr'),
 ('fag', 'Finongan', 'Finongan', 0, 'Tok Pisin', 'ltr'),
@@ -2273,13 +2268,13 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('fj', 'vosa Vakaviti', 'Fijian', 0, 'English', 'ltr'),
 ('fkk', 'Kirya-Konzəl', 'Kirya-Konzel', 0, 'English', 'ltr'),
 ('fkv', 'Kven Finnish', 'Finnish, Kven', 0, 'English', 'ltr'),
-('fla', 'Kalispel-Pend d''Oreille', 'Kalispel-Pend d’Oreille', 0, 'English', 'ltr'),
+('fla', 'Kalispel-Pend d\'Oreille', 'Kalispel-Pend d’Oreille', 0, 'English', 'ltr'),
 ('flh', 'Foau', 'Foau', 0, 'Bahasa Indonesia', 'ltr'),
 ('fli', 'Fali', 'Fali', 0, 'English', 'ltr'),
 ('fll', 'North Fali', 'Fali, North', 0, 'français, langue française', 'ltr'),
 ('flr', 'Fuliiru', 'Fuliiru', 0, 'français, langue française', 'ltr'),
 ('fly', 'Flaaitaal', 'Flaaitaal', 0, 'English', 'ltr'),
-('fmp', 'Fe''fe''', 'Fe’fe’', 0, 'français, langue française', 'ltr'),
+('fmp', 'Fe\'fe\'', 'Fe’fe’', 0, 'français, langue française', 'ltr'),
 ('fmu', 'Far Western Muria', 'Muria, Far Western', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('fng', 'Fanagalo', 'Pidgin Bantu', 0, 'English', 'ltr'),
 ('fni', 'Fania', 'Fania', 0, 'العربية', 'ltr'),
@@ -2347,7 +2342,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('gan', 'Gan Chinese', 'Chinese, Gan', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('gao', 'Gants', 'Gants', 0, 'Tok Pisin', 'ltr'),
 ('gap', 'Gal', 'Gal', 0, 'Tok Pisin', 'ltr'),
-('gaq', 'Gata''', 'Gata’', 0, 'हिन्दी, हिंदी', 'ltr'),
+('gaq', 'Gata\'', 'Gata’', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('gar', 'Galeya', 'Galeya', 0, 'Tok Pisin', 'ltr'),
 ('gas', 'Adiwasi Garasia', 'Garasia, Adiwasi', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('gat', 'Kenati', 'Kenati', 0, 'Tok Pisin', 'ltr'),
@@ -2368,7 +2363,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('gbk', 'Gaddi', 'Gaddi', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('gbl', 'Gamit', 'Gamit', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('gbm', 'Garhwali', 'Garhwali', 0, 'हिन्दी, हिंदी', 'ltr'),
-('gbn', 'Mo''da', 'Mo’da', 0, 'العربية', 'ltr'),
+('gbn', 'Mo\'da', 'Mo’da', 0, 'العربية', 'ltr'),
 ('gbo', 'Northern Grebo', 'Grebo, Northern', 0, 'English', 'ltr'),
 ('gbp', 'Gbaya-Bossangoa', 'Gbaya-Bossangoa', 0, 'français, langue française', 'ltr'),
 ('gbq', 'Gbaya-Bozoum', 'Gbaya-Bozoum', 0, 'français, langue française', 'ltr'),
@@ -2394,7 +2389,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('gdd', 'Gedaged', 'Gedaged', 0, 'Tok Pisin', 'ltr'),
 ('gde', 'Gude', 'Gude', 0, 'English', 'ltr'),
 ('gdf', 'Guduf-Gava', 'Guduf-Gava', 0, 'English', 'ltr'),
-('gdg', 'Ga''dang', 'Ga’dang', 0, 'Iloko', 'ltr'),
+('gdg', 'Ga\'dang', 'Ga’dang', 0, 'Iloko', 'ltr'),
 ('gdh', 'Gadjerawang', 'Gadjerawang', 0, 'English', 'ltr'),
 ('gdi', 'Gundi', 'Gundi', 0, 'français, langue française', 'ltr'),
 ('gdj', 'Gurdjar', 'Gurdjar', 0, 'English', 'ltr'),
@@ -2417,7 +2412,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('gei', 'Gebe', 'Gebe', 0, 'Bahasa Indonesia', 'ltr'),
 ('gej', 'Gen', 'Gen', 0, 'français, langue française', 'ltr'),
 ('gek', 'Yiwom', 'Ywom', 0, 'English', 'ltr'),
-('gel', 'ut-Ma''in', 'ut-Ma’in', 0, 'English', 'ltr'),
+('gel', 'ut-Ma\'in', 'ut-Ma’in', 0, 'English', 'ltr'),
 ('geq', 'Geme', 'Geme', 0, 'français, langue française', 'ltr'),
 ('ges', 'Geser-Gorom', 'Geser-Gorom', 0, 'Bahasa Indonesia', 'ltr'),
 ('gev', 'Eviya', 'Eviya', 0, 'français, langue française', 'ltr'),
@@ -2486,7 +2481,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('glu', 'Gula (Chad)', 'Gula', 0, 'العربية', 'ltr'),
 ('glw', 'Glavda', 'Glavda', 0, 'English', 'ltr'),
 ('gly', 'Gule', 'Gule', 0, 'العربية', 'ltr'),
-('gmb', 'Gula''alaa', 'Gula’alaa', 0, 'Pijin', 'ltr'),
+('gmb', 'Gula\'alaa', 'Gula’alaa', 0, 'Pijin', 'ltr'),
 ('gmd', 'Mághdì', 'Mághdì', 0, 'English', 'ltr'),
 ('gmg', 'Magɨyi', 'Magiyi', 0, 'Tok Pisin', 'ltr'),
 ('gmh', 'Middle High German (ca. 1050-1500)', '', 0, '', 'ltr'),
@@ -2498,7 +2493,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('gmx', 'Magoma', 'Magoma', 0, 'Kiswahili', 'ltr'),
 ('gmy', 'Mycenaean Greek', '', 0, '', 'ltr'),
 ('gmz', 'Mgbolizhia', 'Mgbolizhia', 0, 'English', 'ltr'),
-('gn', 'Avañe''ẽ', 'Guaraní', 0, '', 'ltr'),
+('gn', 'Avañe\'ẽ', 'Guaraní', 0, '', 'ltr'),
 ('gna', 'Kaansa', 'Kaansa', 0, 'français, langue française', 'ltr'),
 ('gnb', 'Gangte', 'Gangte', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('gnc', 'Guanche', '', 0, '', 'ltr'),
@@ -2545,7 +2540,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('gpa', 'Gupa-Abawa', 'Gupa-Abawa', 0, 'English', 'ltr'),
 ('gpe', 'Ghanaian Pidgin English', 'Ghanaian Pidgin English', 0, 'English', 'ltr'),
 ('gpn', 'Taiap', 'Taiap', 0, 'Tok Pisin', 'ltr'),
-('gqa', 'Ga''anda', 'Ga’anda', 0, 'English', 'ltr'),
+('gqa', 'Ga\'anda', 'Ga’anda', 0, 'English', 'ltr'),
 ('gqi', 'Guiqiong', 'Guiqiong', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('gqn', 'Guana (Brazil)', 'Guana', 0, 'português', 'ltr'),
 ('gqr', 'Gor', 'Gor', 0, 'العربية', 'ltr'),
@@ -2772,7 +2767,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('hoy', 'Holiya', 'Holiya', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('hoz', 'Hozo', 'Hozo', 0, 'አማርኛ', 'ltr'),
 ('hpo', 'Hpon', 'Hpon', 0, 'ဗမာစာ', 'ltr'),
-('hps', 'Hawai''i Sign Language (HSL)', 'Hawaii Sign Language', 0, 'English', 'ltr'),
+('hps', 'Hawai\'i Sign Language (HSL)', 'Hawaii Sign Language', 0, 'English', 'ltr'),
 ('hr', 'hrvatski jezik', 'Croatian', 0, 'English', 'ltr'),
 ('hra', 'Hrangkhol', 'Hrangkhol', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('hrc', 'Niwer Mil', 'Niwer Mil', 0, 'Tok Pisin', 'ltr'),
@@ -2798,8 +2793,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('hu', 'magyar', 'Hungarian', 0, 'English', 'ltr'),
 ('hub', 'Huambisa', 'Huambisa', 0, 'Español Latin America', 'ltr'),
 ('huc', '=/Hua', '‡Hua', 0, 'English', 'ltr'),
-('hud', 'Huaulu', 'Huaulu', 0, 'Bahasa Indonesia', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('hud', 'Huaulu', 'Huaulu', 0, 'Bahasa Indonesia', 'ltr'),
 ('hue', 'San Francisco Del Mar Huave', 'Huave, San Francisco del Mar', 0, 'Español Latin America', 'ltr'),
 ('huf', 'Humene', 'Humene', 0, 'Tok Pisin', 'ltr'),
 ('hug', 'Huachipaeri', 'Huachipaeri', 0, 'Español Latin America', 'ltr'),
@@ -2825,7 +2819,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('hvn', 'Sabu', 'Hawu', 0, 'Bahasa Indonesia', 'ltr'),
 ('hvv', 'Santa María Del Mar Huave', 'Huave, Santa María del Mar', 0, 'Español Latin America', 'ltr'),
 ('hwa', 'Wané', 'Wané', 0, 'français, langue française', 'ltr'),
-('hwc', 'Hawai''i Creole English', 'Hawai’i Pidgin', 0, 'English', 'ltr'),
+('hwc', 'Hawai\'i Creole English', 'Hawai’i Pidgin', 0, 'English', 'ltr'),
 ('hwo', 'Hwana', 'Hwana', 0, 'English', 'ltr'),
 ('hy', 'Հայերեն', 'Armenian', 0, 'Русский', 'ltr'),
 ('hya', 'Hya', 'Hya', 0, 'français, langue française', 'ltr'),
@@ -2909,7 +2903,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ill', 'Iranun', 'Iranun', 0, 'English', 'ltr'),
 ('ilo', 'Iloko', 'Ilocano', 0, 'Iloko', 'ltr'),
 ('ils', 'International Sign', 'International Sign', 0, 'English', 'ltr'),
-('ilu', 'Ili''uun', 'Ili’uun', 0, 'Bahasa Indonesia', 'ltr'),
+('ilu', 'Ili\'uun', 'Ili’uun', 0, 'Bahasa Indonesia', 'ltr'),
 ('ilv', 'Ilue', 'Ilue', 0, 'English', 'ltr'),
 ('ima', 'Mala Malasar', 'Mala Malasar', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('imi', 'Anamgura', 'Anamgura', 0, 'Tok Pisin', 'ltr'),
@@ -2920,7 +2914,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ims', 'Marsian', '', 0, '', 'ltr'),
 ('imy', 'Milyan', '', 0, '', 'ltr'),
 ('inb', 'Inga', 'Inga', 0, 'Español Latin America', 'ltr'),
-('ing', 'Degexit''an', 'Degexit’an', 0, 'English', 'ltr'),
+('ing', 'Degexit\'an', 'Degexit’an', 0, 'English', 'ltr'),
 ('inh', 'Ingush', 'Ingush', 0, 'Русский', 'ltr'),
 ('inj', 'Jungle Inga', 'Inga, Jungle', 0, 'Español Latin America', 'ltr'),
 ('inl', 'Indonesian Sign Language', 'Indonesian Sign Language', 0, 'Bahasa Indonesia', 'ltr'),
@@ -2945,7 +2939,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('irk', 'Iraqw', 'Iraqw', 0, 'Kiswahili', 'ltr'),
 ('irn', 'Irántxe', 'Irántxe', 0, 'português', 'ltr'),
 ('irr', 'Ir', 'Ir', 0, 'ພາສາລາວ ', 'ltr'),
-('iru', 'Irula', 'Irula', 0, 'हिन्दी, हिंदी', 'ltr'),
+('iru', 'Irula', 'Irula', 0, 'हिन्दी, हिंदी', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('irx', 'Kamberau', 'Kamberau', 0, 'Bahasa Indonesia', 'ltr'),
 ('iry', 'Iraya', 'Iraya', 0, 'Iloko', 'ltr'),
 ('is', 'Íslenska', 'Icelandic', 0, 'English', 'ltr'),
@@ -2998,7 +2993,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ja', '日本語 (にほんご)', 'Japanese', 0, '', 'ltr'),
 ('jaa', 'Jamamadí', 'Jamamadí', 0, 'português', 'ltr'),
 ('jab', 'Hyam', 'Hyam', 0, 'English', 'ltr'),
-('jac', 'Popti''', 'Jakalteko', 0, 'Español Latin America', 'ltr'),
+('jac', 'Popti\'', 'Jakalteko', 0, 'Español Latin America', 'ltr'),
 ('jad', 'Jahanka', 'Jahanka', 0, 'français, langue française', 'ltr'),
 ('jae', 'Yabem', 'Yabem', 0, 'Tok Pisin', 'ltr'),
 ('jaf', 'Jara', 'Jara', 0, 'English', 'ltr'),
@@ -3257,7 +3252,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('kfl', 'Kung', 'Kung', 0, 'français, langue française', 'ltr'),
 ('kfm', 'Khunsari', 'Khunsari', 0, 'فارسی', 'ltr'),
 ('kfn', 'Kuk', 'Kuk', 0, 'français, langue française', 'ltr'),
-('kfo', 'Koro (Côte d''Ivoire)', 'Koro', 0, 'français, langue française', 'ltr'),
+('kfo', 'Koro (Côte d\'Ivoire)', 'Koro', 0, 'français, langue française', 'ltr'),
 ('kfp', 'Korwa', 'Korwa', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('kfq', 'Korku', 'Korku', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('kfr', 'Kachchi', 'Kachchi', 0, 'हिन्दी, हिंदी', 'ltr'),
@@ -3342,7 +3337,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('kiz', 'Kisi', 'Kisi', 0, 'Kiswahili', 'ltr'),
 ('kj', 'Kuanyama', 'Kwanyama, Kuanyama', 0, 'português', 'ltr'),
 ('kja', 'Mlap', 'Mlap', 0, 'Bahasa Indonesia', 'ltr'),
-('kjb', 'Q''anjob''al', 'Q’anjob’al', 0, 'Español Latin America', 'ltr'),
+('kjb', 'Q\'anjob\'al', 'Q’anjob’al', 0, 'Español Latin America', 'ltr'),
 ('kjc', 'Coastal Konjo', 'Konjo, Coastal', 0, 'Bahasa Indonesia', 'ltr'),
 ('kjd', 'Southern Kiwai', 'Kiwai, Southern', 0, 'Tok Pisin', 'ltr'),
 ('kje', 'Kisar', 'Kisar', 0, 'Bahasa Indonesia', 'ltr'),
@@ -3562,7 +3557,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('krm', 'Krim', 'Krim', 0, 'English', 'ltr'),
 ('krn', 'Sapo', 'Sapo', 0, 'English', 'ltr'),
 ('krp', 'Korop', 'Korop', 0, 'English', 'ltr'),
-('krr', 'Kru''ng 2', 'Kru’ng 2', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
+('krr', 'Kru\'ng 2', 'Kru’ng 2', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
 ('krs', 'Gbaya (Sudan)', 'Gbaya', 0, 'العربية', 'ltr'),
 ('krt', 'Tumari Kanuri', 'Kanuri, Tumari', 0, 'français, langue française', 'ltr'),
 ('kru', 'Kurukh', 'Kurux', 0, 'हिन्दी, हिंदी', 'ltr'),
@@ -3595,7 +3590,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('kst', 'Winyé', 'Winyé', 0, 'français, langue française', 'ltr'),
 ('ksu', 'Khamyang', 'Khamyang', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('ksv', 'Kusu', 'Kusu', 0, 'français, langue française', 'ltr'),
-('ksw', 'S''gaw Karen', 'Karen, S’gaw', 0, 'ဗမာစာ', 'ltr'),
+('ksw', 'S\'gaw Karen', 'Karen, S’gaw', 0, 'ဗမာစာ', 'ltr'),
 ('ksx', 'Kedang', 'Kedang', 0, 'Bahasa Indonesia', 'ltr'),
 ('ksy', 'Kharia Thar', 'Kharia Thar', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('ksz', 'Kodaku', 'Kodaku', 0, 'हिन्दी, हिंदी', 'ltr'),
@@ -3621,19 +3616,18 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ktw', 'Kato', 'Kato', 0, 'English', 'ltr'),
 ('ktx', 'Kaxararí', 'Kaxararí', 0, 'português', 'ltr'),
 ('kty', 'Kango (Bas-Uélé District)', 'Kango', 0, 'français, langue française', 'ltr'),
-('ktz', 'Ju/''hoan', 'Ju|’hoan', 0, 'English', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('ktz', 'Ju/\'hoan', 'Ju|’hoan', 0, 'English', 'ltr'),
 ('ku', 'Kurdî, كوردی‎', 'Kurdish', 0, '', 'rtl'),
 ('kub', 'Kutep', 'Kutep', 0, 'English', 'ltr'),
 ('kuc', 'Kwinsu', 'Kwinsu', 0, 'Bahasa Indonesia', 'ltr'),
-('kud', '''Auhelawa', '’Auhelawa', 0, 'Tok Pisin', 'ltr'),
+('kud', '\'Auhelawa', '’Auhelawa', 0, 'Tok Pisin', 'ltr'),
 ('kue', 'Kuman (Papua New Guinea)', 'Kuman', 0, 'Tok Pisin', 'ltr'),
 ('kuf', 'Western Katu', 'Katu, Western', 0, 'ພາສາລາວ ', 'ltr'),
 ('kug', 'Kupa', 'Kupa', 0, 'English', 'ltr'),
 ('kuh', 'Kushi', 'Kushi', 0, 'English', 'ltr'),
 ('kui', 'Kuikúro-Kalapálo', 'Kuikúro-Kalapálo', 0, 'português', 'ltr'),
 ('kuj', 'Kuria', 'Kuria', 0, 'Kiswahili', 'ltr'),
-('kuk', 'Kepo''', 'Kepo’', 0, 'Bahasa Indonesia', 'ltr'),
+('kuk', 'Kepo\'', 'Kepo’', 0, 'Bahasa Indonesia', 'ltr'),
 ('kul', 'Kulere', 'Kulere', 0, 'English', 'ltr'),
 ('kum', 'Kumyk', 'Kumyk', 0, 'Русский', 'ltr'),
 ('kun', 'Kunama', 'Kunama', 0, 'العربية', 'ltr'),
@@ -3646,7 +3640,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('kuv', 'Kur', 'Kur', 0, 'Bahasa Indonesia', 'ltr'),
 ('kuw', 'Kpagua', 'Kpagua', 0, 'français, langue française', 'ltr'),
 ('kux', 'Kukatja', 'Kukatja', 0, 'English', 'ltr'),
-('kuy', 'Kuuku-Ya''u', 'Kuuku-Ya’u', 0, 'English', 'ltr'),
+('kuy', 'Kuuku-Ya\'u', 'Kuuku-Ya’u', 0, 'English', 'ltr'),
 ('kuz', 'Kunza', 'Kunza', 0, 'Español Latin America', 'ltr'),
 ('kv', 'коми кыв', 'Komi', 0, '', 'ltr'),
 ('kva', 'Bagvalal', 'Bagvalal', 0, 'Русский', 'ltr'),
@@ -3681,7 +3675,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('kwc', 'Likwala', 'Likwala', 0, 'français, langue française', 'ltr'),
 ('kwd', 'Kwaio', 'Kwaio', 0, 'Pijin', 'ltr'),
 ('kwe', 'Kwerba', 'Kwerba', 0, 'Bahasa Indonesia', 'ltr'),
-('kwf', 'Kwara''ae', 'Kwara’ae', 0, 'Pijin', 'ltr'),
+('kwf', 'Kwara\'ae', 'Kwara’ae', 0, 'Pijin', 'ltr'),
 ('kwg', 'Sara Kaba Deme', 'Kaba Démé, Sara', 0, 'العربية', 'ltr'),
 ('kwh', 'Kowiai', 'Kowiai', 0, 'Bahasa Indonesia', 'ltr'),
 ('kwi', 'Awa-Cuaiquer', 'Awa-Cuaiquer', 0, 'Español Latin America', 'ltr'),
@@ -3755,7 +3749,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('kzc', 'Bondoukou Kulango', 'Kulango, Bondoukou', 0, 'français, langue française', 'ltr'),
 ('kzd', 'Kadai', 'Kadai', 0, 'Bahasa Indonesia', 'ltr'),
 ('kze', 'Kosena', 'Kosena', 0, 'Tok Pisin', 'ltr'),
-('kzf', 'Da''a Kaili', 'Kaili, Da’a', 0, 'Bahasa Indonesia', 'ltr'),
+('kzf', 'Da\'a Kaili', 'Kaili, Da’a', 0, 'Bahasa Indonesia', 'ltr'),
 ('kzg', 'Kikai', 'Kikai', 0, '日本語 (にほんご)', 'ltr'),
 ('kzi', 'Kelabit', 'Kelabit', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('kzj', 'Coastal Kadazan', 'Kadazan, Coastal', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
@@ -3803,7 +3797,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lbe', 'Lak', 'Lak', 0, 'Русский', 'ltr'),
 ('lbf', 'Tinani', 'Tinani', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('lbg', 'Laopang', 'Laopang', 0, 'ພາສາລາວ ', 'ltr'),
-('lbi', 'La''bi', 'La’bi', 0, 'français, langue française', 'ltr'),
+('lbi', 'La\'bi', 'La’bi', 0, 'français, langue française', 'ltr'),
 ('lbj', 'Ladakhi', 'Ladakhi', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('lbk', 'Central Bontok', 'Bontok, Central', 0, 'Iloko', 'ltr'),
 ('lbl', 'Libon Bikol', 'Bikol, Libon', 0, 'English', 'ltr'),
@@ -3824,7 +3818,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lcd', 'Lola', 'Lola', 0, 'Bahasa Indonesia', 'ltr'),
 ('lce', 'Loncong', 'Sekak', 0, 'Bahasa Indonesia', 'ltr'),
 ('lcf', 'Lubu', 'Lubu', 0, 'Bahasa Indonesia', 'ltr'),
-('lch', 'Luchazi', 'Lucazi', 0, 'português', 'ltr'),
+('lch', 'Luchazi', 'Lucazi', 0, 'português', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('lcl', 'Lisela', 'Lisela', 0, 'Bahasa Indonesia', 'ltr'),
 ('lcm', 'Tungag', 'Tungag', 0, 'Tok Pisin', 'ltr'),
 ('lcp', 'Western Lawa', 'Lawa, Western', 0, 'ไทย', 'ltr'),
@@ -3919,7 +3914,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('liz', 'Libinza', 'Libinza', 0, 'français, langue française', 'ltr'),
 ('lje', 'Rampi', 'Rampi', 0, 'Bahasa Indonesia', 'ltr'),
 ('lji', 'Laiyolo', 'Laiyolo', 0, 'Bahasa Indonesia', 'ltr'),
-('ljl', 'Li''o', 'Li’o', 0, 'Bahasa Indonesia', 'ltr'),
+('ljl', 'Li\'o', 'Li’o', 0, 'Bahasa Indonesia', 'ltr'),
 ('ljp', 'Lampung Api', 'Lampung Api', 0, 'Bahasa Indonesia', 'ltr'),
 ('ljw', 'Yirandali', 'Yirandali', 0, 'English', 'ltr'),
 ('lka', 'Lakalei', 'Lakalei', 0, 'português', 'ltr'),
@@ -3982,12 +3977,12 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lnd', 'Lundayeh', 'Lun Bawang', 0, 'Bahasa Indonesia', 'ltr'),
 ('lng', 'Langobardic', '', 0, '', 'ltr'),
 ('lnh', 'Lanoh', 'Lanoh', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
-('lni', 'Daantanai''', 'Daantanai’', 0, 'Tok Pisin', 'ltr'),
+('lni', 'Daantanai\'', 'Daantanai’', 0, 'Tok Pisin', 'ltr'),
 ('lnl', 'South Central Banda', 'Banda, South Central', 0, 'français, langue française', 'ltr'),
 ('lnm', 'Langam', 'Langam', 0, 'Tok Pisin', 'ltr'),
 ('lnn', 'Lorediakarkar', 'Lorediakarkar', 0, 'français, langue française', 'ltr'),
 ('lno', 'Lango (Sudan)', 'Lango', 0, 'العربية', 'ltr'),
-('lns', 'Lamnso''', 'Lamnso’', 0, 'français, langue française', 'ltr'),
+('lns', 'Lamnso\'', 'Lamnso’', 0, 'français, langue française', 'ltr'),
 ('lnu', 'Longuda', 'Longuda', 0, 'English', 'ltr'),
 ('lnz', 'Lonzo', 'Lonzo', 0, 'français, langue française', 'ltr'),
 ('lo', 'ພາສາລາວ ', 'Laotian', 1, 'ພາສາລາວ ', 'ltr'),
@@ -3998,7 +3993,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lof', 'Logol', 'Logol', 0, 'العربية', 'ltr'),
 ('log', 'Logo', 'Logo', 0, 'français, langue française', 'ltr'),
 ('loh', 'Narim', 'Narim', 0, 'العربية', 'ltr'),
-('loi', 'Loma (Côte d''Ivoire)', 'Loma', 0, 'français, langue française', 'ltr'),
+('loi', 'Loma (Côte d\'Ivoire)', 'Loma', 0, 'français, langue française', 'ltr'),
 ('loj', 'Lou', 'Lou', 0, 'Tok Pisin', 'ltr'),
 ('lok', 'Loko', 'Loko', 0, 'English', 'ltr'),
 ('lol', 'Mongo', 'Mongo-Nkundu', 0, 'français, langue française', 'ltr'),
@@ -4020,7 +4015,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lpn', 'Long Phuri Naga', 'Naga, Long Phuri', 0, 'ဗမာစာ', 'ltr'),
 ('lpo', 'Lipo', 'Lipo', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('lpx', 'Lopit', 'Lopit', 0, 'English', 'ltr'),
-('lra', 'Rara Bakati''', 'Bakati’, Rara', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
+('lra', 'Rara Bakati\'', 'Bakati’, Rara', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('lrc', 'Northern Luri', 'Luri, Northern', 0, 'فارسی', 'rtl'),
 ('lre', 'Laurentian', '', 0, '', 'ltr'),
 ('lrg', 'Laragia', 'Laragia', 0, 'English', 'ltr'),
@@ -4064,7 +4059,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('lui', 'Luiseno', 'Luiseño', 0, 'English', 'ltr'),
 ('luj', 'Luna', 'Luna', 0, 'français, langue française', 'ltr'),
 ('luk', 'Lunanakha', 'Lunanakha', 0, 'རྫོང་ཁ', 'ltr'),
-('lul', 'Olu''bo', 'Olu’bo', 0, 'العربية', 'ltr'),
+('lul', 'Olu\'bo', 'Olu’bo', 0, 'العربية', 'ltr'),
 ('lum', 'Luimbi', 'Luimbi', 0, 'português', 'ltr'),
 ('lun', 'Lunda', 'Lunda', 0, 'English', 'ltr'),
 ('luo', 'Luo (Kenya and Tanzania)', 'Dholuo', 0, 'Kiswahili', 'ltr'),
@@ -4079,7 +4074,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('luy', 'Luyia', '', 0, '', 'ltr'),
 ('luz', 'Southern Luri', 'Luri, Southern', 0, 'فارسی', 'ltr'),
 ('lv', 'latviešu valoda', 'Latvian', 0, '', 'ltr'),
-('lva', 'Maku''a', 'Makuva', 0, 'português', 'ltr'),
+('lva', 'Maku\'a', 'Makuva', 0, 'português', 'ltr'),
 ('lvk', 'Lavukaleve', 'Lavukaleve', 0, 'Pijin', 'ltr'),
 ('lvs', 'Standard Latvian', 'Latvian, Standard', 0, 'English', 'ltr'),
 ('lvu', 'Levuka', 'Levuka', 0, 'Bahasa Indonesia', 'ltr'),
@@ -4261,7 +4256,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mgl', 'Maleu-Kilenge', 'Maleu-Kilenge', 1, 'Tok Pisin', 'ltr'),
 ('mgm', 'Mambae', 'Mambae', 0, 'português', 'ltr'),
 ('mgn', 'Mbangi', 'Mbangi', 0, 'français, langue française', 'ltr'),
-('mgo', 'Meta''', 'Meta’', 0, 'français, langue française', 'ltr'),
+('mgo', 'Meta\'', 'Meta’', 0, 'français, langue française', 'ltr'),
 ('mgp', 'Eastern Magar', 'Magar, Eastern', 0, 'नेपाली', 'ltr'),
 ('mgq', 'Malila', 'Malila', 0, 'Kiswahili', 'ltr'),
 ('mgr', 'Mambwe-Lungu', 'Mambwe-Lungu', 0, 'English', 'ltr'),
@@ -4280,7 +4275,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mhe', 'Besisi', 'Mah Meri', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('mhf', 'Mamaa', 'Mamaa', 0, 'Tok Pisin', 'ltr'),
 ('mhg', 'Margu', 'Margu', 0, 'English', 'ltr'),
-('mhi', 'Ma''di', 'Ma’di', 0, 'English', 'ltr'),
+('mhi', 'Ma\'di', 'Ma’di', 0, 'English', 'ltr'),
 ('mhj', 'Mogholi', 'Mogholi', 0, 'پښتو', 'ltr'),
 ('mhk', 'Mungaka', 'Mungaka', 0, 'français, langue française', 'ltr'),
 ('mhl', 'Mauwake', 'Mauwake', 0, 'Tok Pisin', 'ltr'),
@@ -4295,12 +4290,12 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mhu', 'Digaro-Mishmi', 'Digaro-Mishmi', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('mhw', 'Mbukushu', 'Mbukushu', 0, 'English', 'ltr'),
 ('mhx', 'Maru', 'Lhao Vo', 0, 'ဗမာစာ', 'ltr'),
-('mhy', 'Ma''anyan', 'Ma’anyan', 0, 'Bahasa Indonesia', 'ltr'),
+('mhy', 'Ma\'anyan', 'Ma’anyan', 0, 'Bahasa Indonesia', 'ltr'),
 ('mhz', 'Mor (Mor Islands)', 'Mor', 0, 'Bahasa Indonesia', 'ltr'),
 ('mi', 'te reo Māori', 'Māori', 0, 'English', 'ltr'),
 ('mia', 'Miami', 'Miami', 0, 'English', 'ltr'),
 ('mib', 'Atatláhuca Mixtec', 'Mixtec, Atatláhuca', 0, 'Español Latin America', 'ltr'),
-('mic', 'Mi''kmaq', 'Micmac', 0, 'English', 'ltr'),
+('mic', 'Mi\'kmaq', 'Micmac', 0, 'English', 'ltr'),
 ('mid', 'Mandaic', 'Mandaic', 0, 'العربية', 'ltr'),
 ('mie', 'Ocotepec Mixtec', 'Mixtec, Ocotepec', 0, 'Español Latin America', 'ltr'),
 ('mif', 'Mofu-Gudur', 'Mofu-Gudur', 0, 'français, langue française', 'ltr'),
@@ -4388,7 +4383,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mlq', 'Western Maninkakan', 'Maninkakan, Western', 0, 'français, langue française', 'ltr'),
 ('mlr', 'Vame', 'Vame', 0, 'français, langue française', 'ltr'),
 ('mls', 'Masalit', 'Masalit', 0, 'العربية', 'ltr'),
-('mlu', 'To''abaita', 'To’abaita', 0, 'Pijin', 'ltr'),
+('mlu', 'To\'abaita', 'To’abaita', 0, 'Pijin', 'ltr'),
 ('mlv', 'Motlav', 'Mwotlap', 0, 'français, langue française', 'ltr'),
 ('mlw', 'Moloko', 'Moloko', 0, 'français, langue française', 'ltr'),
 ('mlx', 'Malfaxal', 'Na’ahai', 0, 'français, langue française', 'ltr'),
@@ -4419,8 +4414,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mmy', 'Migaama', 'Migaama', 0, 'العربية', 'ltr'),
 ('mmz', 'Mabaale', 'Mabaale', 0, 'français, langue française', 'ltr'),
 ('mn', 'Монгол хэл', 'Mongolian', 1, 'Монгол хэл', 'ltr'),
-('mna', 'Mbula', 'Mbula', 0, 'Tok Pisin', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('mna', 'Mbula', 'Mbula', 0, 'Tok Pisin', 'ltr'),
 ('mnb', 'Muna', 'Muna', 0, 'Bahasa Indonesia', 'ltr'),
 ('mnc', 'Manchu', 'Manchu', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('mnd', 'Mondé', 'Mondé', 0, 'português', 'ltr'),
@@ -4520,7 +4514,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mrb', 'Marino', 'Marino', 0, 'français, langue française', 'ltr'),
 ('mrc', 'Maricopa', 'Maricopa', 0, 'English', 'ltr'),
 ('mrd', 'Western Magar', 'Magar, Western', 0, 'नेपाली', 'ltr'),
-('mre', 'Martha''s Vineyard Sign Language', '', 0, '', 'ltr'),
+('mre', 'Martha\'s Vineyard Sign Language', '', 0, '', 'ltr'),
 ('mrf', 'Elseng', 'Elseng', 0, 'Bahasa Indonesia', 'ltr'),
 ('mrg', 'Mising', 'Mising', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('mrh', 'Mara Chin', 'Chin, Mara', 0, 'हिन्दी, हिंदी', 'ltr'),
@@ -4582,7 +4576,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mth', 'Munggui', 'Munggui', 0, 'Bahasa Indonesia', 'ltr'),
 ('mti', 'Maiwa (Papua New Guinea)', 'Maiwa', 0, 'Tok Pisin', 'ltr'),
 ('mtj', 'Moskona', 'Moskona', 0, 'Bahasa Indonesia', 'ltr'),
-('mtk', 'Mbe''', 'Mbo’', 0, 'français, langue française', 'ltr'),
+('mtk', 'Mbe\'', 'Mbo’', 0, 'français, langue française', 'ltr'),
 ('mtl', 'Montol', 'Montol', 0, 'English', 'ltr'),
 ('mtm', 'Mator', '', 0, '', 'ltr'),
 ('mtn', 'Matagalpa', 'Matagalpa', 0, 'Español Latin America', 'ltr'),
@@ -4593,7 +4587,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mts', 'Yora', 'Yora', 0, 'Español Latin America', 'ltr'),
 ('mtt', 'Mota', 'Mota', 0, 'français, langue française', 'ltr'),
 ('mtu', 'Tututepec Mixtec', 'Mixtec, Tututepec', 0, 'Español Latin America', 'ltr'),
-('mtv', 'Asaro''o', 'Asaro’o', 0, 'Tok Pisin', 'ltr'),
+('mtv', 'Asaro\'o', 'Asaro’o', 0, 'Tok Pisin', 'ltr'),
 ('mtw', 'Southern Binukidnon', 'Binukidnon, Southern', 0, 'English', 'ltr'),
 ('mtx', 'Tidaá Mixtec', 'Mixtec, Tidaá', 0, 'Español Latin America', 'ltr'),
 ('mty', 'Nabi', 'Nabi', 0, 'Tok Pisin', 'ltr'),
@@ -4662,7 +4656,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('mws', 'Mwimbi-Muthambi', 'Mwimbi-Muthambi', 0, 'Kiswahili', 'ltr'),
 ('mwt', 'Moken', 'Moken', 0, 'ဗမာစာ', 'ltr'),
 ('mwv', 'Mentawai', 'Mentawai', 0, 'Bahasa Indonesia', 'ltr'),
-('mww', 'Hmong Daw', 'Hmong Daw', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
+('mww', 'Hmong Daw', 'Hmong Daw', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('mwx', 'Mediak', 'Mediak', 0, 'Kiswahili', 'ltr'),
 ('mwz', 'Moingi', 'Moingi', 0, 'français, langue française', 'ltr'),
 ('mxa', 'Northwest Oaxaca Mixtec', 'Mixtec, Northwest Oaxaca', 0, 'Español Latin America', 'ltr'),
@@ -4703,7 +4698,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('myj', 'Mangayat', 'Mangayat', 0, 'العربية', 'ltr'),
 ('myk', 'Mamara Senoufo', 'Sénoufo, Mamara', 0, 'français, langue française', 'ltr'),
 ('myl', 'Moma', 'Moma', 0, 'Bahasa Indonesia', 'ltr'),
-('mym', 'Me''en', 'Me’en', 0, 'አማርኛ', 'ltr'),
+('mym', 'Me\'en', 'Me’en', 0, 'አማርኛ', 'ltr'),
 ('myo', 'Anfillo', 'Anfillo', 0, 'አማርኛ', 'ltr'),
 ('myp', 'Pirahã', 'Pirahã', 0, 'português', 'ltr'),
 ('myr', 'Muniche', 'Muniche', 0, 'Español Latin America', 'ltr'),
@@ -4748,7 +4743,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('naj', 'Nalu', 'Nalu', 0, 'français, langue française', 'ltr'),
 ('nak', 'Nakanai', 'Nakanai', 0, 'Tok Pisin', 'ltr'),
 ('nal', 'Nalik', 'Nalik', 0, 'Tok Pisin', 'ltr'),
-('nam', 'Ngan''gityemerri', 'Ngan’gityemerri', 0, 'English', 'ltr'),
+('nam', 'Ngan\'gityemerri', 'Ngan’gityemerri', 0, 'English', 'ltr'),
 ('nan', 'Min Nan Chinese', 'Chinese, Min Nan', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('nao', 'Naaba', 'Naaba', 0, 'नेपाली', 'ltr'),
 ('nap', 'Neapolitan', 'Napoletano-Calabrese', 0, 'English', 'ltr'),
@@ -4770,7 +4765,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nbi', 'Mao Naga', 'Naga, Mao', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('nbj', 'Ngarinman', 'Ngarinman', 0, 'English', 'ltr'),
 ('nbk', 'Nake', 'Nake', 0, 'Tok Pisin', 'ltr'),
-('nbm', 'Ngbaka Ma''bo', 'Ngbaka Ma’bo', 0, 'français, langue française', 'ltr'),
+('nbm', 'Ngbaka Ma\'bo', 'Ngbaka Ma’bo', 0, 'français, langue française', 'ltr'),
 ('nbn', 'Kuri', 'Kuri', 0, 'Bahasa Indonesia', 'ltr'),
 ('nbo', 'Nkukoli', 'Nkukoli', 0, 'English', 'ltr'),
 ('nbp', 'Nnam', 'Nnam', 0, 'English', 'ltr'),
@@ -4788,7 +4783,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ncd', 'Nachering', 'Nachering', 0, 'नेपाली', 'ltr'),
 ('nce', 'Yale', 'Yale', 0, 'Tok Pisin', 'ltr'),
 ('ncf', 'Notsi', 'Notsi', 0, 'Tok Pisin', 'ltr'),
-('ncg', 'Nisga''a', 'Nisga’a', 0, 'English', 'ltr'),
+('ncg', 'Nisga\'a', 'Nisga’a', 0, 'English', 'ltr'),
 ('nch', 'Central Huasteca Nahuatl', 'Nahuatl, Central Huasteca', 0, 'Español Latin America', 'ltr'),
 ('nci', 'Classical Nahuatl', '', 0, '', 'ltr'),
 ('ncj', 'Northern Puebla Nahuatl', 'Nahuatl, Northern Puebla', 0, 'Español Latin America', 'ltr'),
@@ -4830,8 +4825,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ndy', 'Lutos', 'Lutos', 0, 'français, langue française', 'ltr'),
 ('ndz', 'Ndogo', 'Ndogo', 0, 'العربية', 'ltr'),
 ('ne', 'नेपाली', 'Nepali', 1, 'नेपाली', 'ltr'),
-('nea', 'Eastern Ngad''a', 'Ngad’a, Eastern', 0, 'Bahasa Indonesia', 'ltr'),
-('neb', 'Toura (Côte d''Ivoire)', 'Toura', 0, 'français, langue française', 'ltr'),
+('nea', 'Eastern Ngad\'a', 'Ngad’a, Eastern', 0, 'Bahasa Indonesia', 'ltr'),
+('neb', 'Toura (Côte d\'Ivoire)', 'Toura', 0, 'français, langue française', 'ltr'),
 ('nec', 'Nedebang', 'Nedebang', 0, 'Bahasa Indonesia', 'ltr'),
 ('ned', 'Nde-Gbite', 'Nde-Gbite', 0, 'English', 'ltr'),
 ('nee', 'Nêlêmwa-Nixumwak', 'Nêlêmwa-Nixumwak', 0, 'English', 'ltr'),
@@ -4871,7 +4866,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ngj', 'Ngie', 'Ngie', 0, 'français, langue française', 'ltr'),
 ('ngk', 'Dalabon', 'Dalabon', 0, 'English', 'ltr'),
 ('ngl', 'Lomwe', 'Lomwe', 0, 'português', 'ltr'),
-('ngm', 'Ngatik Men''s Creole', 'Ngatik Men’s Creole', 0, 'English', 'ltr'),
+('ngm', 'Ngatik Men\'s Creole', 'Ngatik Men’s Creole', 0, 'English', 'ltr'),
 ('ngn', 'Ngwo', 'Ngwo', 0, 'français, langue française', 'ltr'),
 ('ngo', 'Ngoni', 'Ngoni', 0, 'Kiswahili', 'ltr'),
 ('ngp', 'Ngulu', 'Ngulu', 0, 'Kiswahili', 'ltr'),
@@ -4908,6 +4903,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nhy', 'Northern Oaxaca Nahuatl', 'Nahuatl, Northern Oaxaca', 0, 'Español Latin America', 'ltr'),
 ('nhz', 'Santa María La Alta Nahuatl', 'Nahuatl, Santa María la Alta', 0, 'Español Latin America', 'ltr'),
 ('nia', 'Nias', 'Nias', 0, 'Bahasa Indonesia', 'ltr'),
+('nia-x-telo', 'Telo', 'Telo', 0, 'Bahasa Indonesia', 'ltr'),
+('nia-x-telukdalam', 'Teluk Dalam', 'Teluk Dalam', 0, 'Bahasa Indonesia', 'ltr'),
 ('nib', 'Nakame', 'Nakame', 0, 'Tok Pisin', 'ltr'),
 ('nid', 'Ngandi', 'Ngandi', 0, 'English', 'ltr'),
 ('nie', 'Niellim', 'Niellim', 0, 'العربية', 'ltr'),
@@ -5031,7 +5028,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nnt', 'Nanticoke', 'Nanticoke', 0, 'English', 'ltr'),
 ('nnu', 'Dwang', 'Dwang', 0, 'English', 'ltr'),
 ('nnw', 'Southern Nuni', 'Nuni, Southern', 0, 'français, langue française', 'ltr'),
-('nnz', 'Nda''nda''', 'Nda’nda’', 0, 'français, langue française', 'ltr'),
+('nnz', 'Nda\'nda\'', 'Nda’nda’', 0, 'français, langue française', 'ltr'),
 ('no', 'Norsk', 'Norwegian', 0, 'English', 'ltr'),
 ('noa', 'Woun Meu', 'Woun Meu', 0, 'Español Latin America', 'ltr'),
 ('noc', 'Nuk', 'Nuk', 0, 'Tok Pisin', 'ltr'),
@@ -5070,7 +5067,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nqk', 'Kura Ede Nago', 'Ede Nago, Kura', 0, 'français, langue française', 'ltr'),
 ('nqm', 'Ndom', 'Ndom', 0, 'Bahasa Indonesia', 'ltr'),
 ('nqn', 'Nen', 'Nen', 0, 'Tok Pisin', 'ltr'),
-('nqo', 'N''Ko', 'N’ko', 0, 'français, langue française', 'ltr'),
+('nqo', 'N\'Ko', 'N’ko', 0, 'français, langue française', 'ltr'),
 ('nqq', 'Kyan-Karyaw Naga', 'Naga, Kyan-Karyaw', 0, 'ဗမာစာ', 'ltr'),
 ('nqy', 'Akyaung Ari Naga', 'Naga, Akyaung Ari', 0, 'ဗမာစာ', 'ltr'),
 ('nr', 'isiNdebele', 'Southern Ndebele', 0, 'English', 'ltr'),
@@ -5136,7 +5133,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nuj', 'Nyole', 'Nyole', 0, 'English', 'ltr'),
 ('nuk', 'Nuu-chah-nulth', 'Nuu-chah-nulth', 0, 'English', 'ltr'),
 ('nul', 'Nusa Laut', 'Nusa Laut', 0, 'Bahasa Indonesia', 'ltr'),
-('num', 'Niuafo''ou', 'Niuafo’ou', 0, 'English', 'ltr'),
+('num', 'Niuafo\'ou', 'Niuafo’ou', 0, 'English', 'ltr'),
 ('nun', 'Anong', 'Anong', 0, 'ဗမာစာ', 'ltr'),
 ('nuo', 'Nguôn', 'Nguôn', 0, 'Tiếng Việt', 'ltr'),
 ('nup', 'Nupe-Nupe-Tako', 'Nupe-Nupe-Tako', 0, 'English', 'ltr'),
@@ -5166,7 +5163,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nxa', 'Nauete', 'Nauete', 0, 'português', 'ltr'),
 ('nxd', 'Ngando (Democratic Republic of Congo)', 'Ngando', 0, 'français, langue française', 'ltr'),
 ('nxe', 'Nage', 'Nage', 0, 'Bahasa Indonesia', 'ltr'),
-('nxg', 'Ngad''a', 'Ngad’a', 0, 'Bahasa Indonesia', 'ltr'),
+('nxg', 'Ngad\'a', 'Ngad’a', 0, 'Bahasa Indonesia', 'ltr'),
 ('nxi', 'Nindi', 'Nindi', 0, 'Kiswahili', 'ltr'),
 ('nxk', 'Koki Naga', 'Naga, Koki', 0, 'ဗမာစာ', 'ltr'),
 ('nxl', 'South Nuaulu', 'Nuaulu, South', 0, 'Bahasa Indonesia', 'ltr'),
@@ -5191,7 +5188,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nym', 'Nyamwezi', 'Nyamwezi', 0, 'Kiswahili', 'ltr'),
 ('nyn', 'Nyankole', 'Nyankore', 0, 'English', 'ltr'),
 ('nyo', 'Nyoro', 'Nyoro', 0, 'English', 'ltr'),
-('nyp', 'Nyang''i', 'Nyang’i', 0, 'English', 'ltr'),
+('nyp', 'Nyang\'i', 'Nyang’i', 0, 'English', 'ltr'),
 ('nyq', 'Nayini', 'Nayini', 0, 'فارسی', 'ltr'),
 ('nyr', 'Nyiha (Malawi)', 'Nyiha, Malawi', 0, 'English', 'ltr'),
 ('nys', 'Nyunga', 'Nyunga', 0, 'English', 'ltr'),
@@ -5206,8 +5203,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('nzs', 'New Zealand Sign Language', 'New Zealand Sign Language', 0, 'English', 'ltr'),
 ('nzu', 'Teke-Nzikou', 'Teke-Nzikou', 0, 'français, langue française', 'ltr'),
 ('nzy', 'Nzakambay', 'Nzakambay', 0, 'العربية', 'ltr'),
-('nzz', 'Nanga Dama Dogon', 'Dogon, Nanga Dama', 0, 'français, langue française', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('nzz', 'Nanga Dama Dogon', 'Dogon, Nanga Dama', 0, 'français, langue française', 'ltr'),
 ('oaa', 'Orok', 'Orok', 0, 'Русский', 'ltr'),
 ('oac', 'Oroch', 'Oroch', 0, 'Русский', 'ltr'),
 ('oar', 'Old Aramaic (up to 700 BCE)', '', 0, '', 'ltr'),
@@ -5220,7 +5216,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('obr', 'Old Burmese', '', 0, '', 'ltr'),
 ('obt', 'Old Breton', '', 0, '', 'ltr'),
 ('obu', 'Obulom', 'Obulom', 0, 'English', 'ltr'),
-('oc', 'occitan, lenga d''òc', 'Occitan', 0, 'français, langue française', 'ltr'),
+('oc', 'occitan, lenga d\'òc', 'Occitan', 0, 'français, langue française', 'ltr'),
 ('oca', 'Ocaina', 'Ocaina', 0, 'Español Latin America', 'ltr'),
 ('och', 'Old Chinese', '', 0, '', 'ltr'),
 ('oco', 'Old Cornish', '', 0, '', 'ltr'),
@@ -5304,7 +5300,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('onu', 'Unua', 'Unua', 0, 'français, langue française', 'ltr'),
 ('onw', 'Old Nubian', '', 0, '', 'ltr'),
 ('onx', 'Onin Based Pidgin', 'Onin Based Pidgin', 0, 'Bahasa Indonesia', 'ltr'),
-('ood', 'Tohono O''odham', 'Tohono O’odham', 0, 'English', 'ltr'),
+('ood', 'Tohono O\'odham', 'Tohono O’odham', 0, 'English', 'ltr'),
 ('oog', 'Ong', 'Ong', 0, 'ພາສາລາວ ', 'ltr'),
 ('oon', 'Önge', 'Öñge', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('oor', 'Oorlams', 'Oorlams', 0, 'English', 'ltr'),
@@ -5365,7 +5361,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('oyb', 'Oy', 'Oy', 0, 'ພາສາລາວ ', 'ltr'),
 ('oyd', 'Oyda', 'Oyda', 0, 'አማርኛ', 'ltr'),
 ('oym', 'Wayampi', 'Wayampi', 0, 'português', 'ltr'),
-('oyy', 'Oya''oya', 'Oya’oya', 0, 'Tok Pisin', 'ltr'),
+('oyy', 'Oya\'oya', 'Oya’oya', 0, 'Tok Pisin', 'ltr'),
 ('ozm', 'Koonzime', 'Koonzime', 0, 'français, langue française', 'ltr'),
 ('pa', 'ਪੰਜਾਬੀ, پنجابی‎', 'Panjabi, Punjabi', 1, 'ਪੰਜਾਬੀ, پنجابی‎', 'ltr'),
 ('pab', 'Parecís', 'Parecís', 0, 'português', 'ltr'),
@@ -5396,7 +5392,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('pbe', 'Mezontla Popoloca', 'Popoloca, Mezontla', 0, 'Español Latin America', 'ltr'),
 ('pbf', 'Coyotepec Popoloca', 'Popoloca, Coyotepec', 0, 'Español Latin America', 'ltr'),
 ('pbg', 'Paraujano', 'Paraujano', 0, 'Español Latin America', 'ltr'),
-('pbh', 'E''ñapa Woromaipu', 'E’ñapa Woromaipu', 0, 'Español Latin America', 'ltr'),
+('pbh', 'E\'ñapa Woromaipu', 'E’ñapa Woromaipu', 0, 'Español Latin America', 'ltr'),
 ('pbi', 'Parkwa', 'Parkwa', 0, 'français, langue française', 'ltr'),
 ('pbl', 'Mak (Nigeria)', 'Mak', 0, 'English', 'ltr'),
 ('pbn', 'Kpasam', 'Kpasham', 0, 'English', 'ltr'),
@@ -5471,7 +5467,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('phm', 'Phimbi', 'Phimbi', 0, 'português', 'ltr'),
 ('phn', 'Phoenician', '', 0, '', 'ltr'),
 ('pho', 'Phunoi', 'Phunoi', 0, 'ພາສາລາວ ', 'ltr'),
-('phq', 'Phana''', 'Phana’', 0, 'ພາສາລາວ ', 'ltr'),
+('phq', 'Phana\'', 'Phana’', 0, 'ພາສາລາວ ', 'ltr'),
 ('phr', 'Pahari-Potwari', 'Pahari-Potwari', 0, 'اردو', 'ltr'),
 ('pht', 'Phu Thai', 'Phu Thai', 0, 'ไทย', 'ltr'),
 ('phu', 'Phuan', 'Phuan', 0, 'ไทย', 'ltr'),
@@ -5514,11 +5510,12 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('pkt', 'Maleng', 'Maleng', 0, 'ພາສາລາວ ', 'ltr'),
 ('pku', 'Paku', 'Paku', 0, 'Bahasa Indonesia', 'ltr'),
 ('pl', 'język polski, polszczyzna', 'Polish', 0, 'English', 'ltr'),
-('pla', 'Miani', 'Miani', 0, 'Tok Pisin', 'ltr'),
+('pla', 'Miani', 'Miani', 0, 'Tok Pisin', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('plb', 'Polonombauk', 'Polonombauk', 0, 'français, langue française', 'ltr'),
 ('plc', 'Central Palawano', 'Palawano, Central', 0, 'English', 'ltr'),
 ('pld', 'Polari', 'Polari', 0, 'English', 'ltr'),
-('ple', 'Palu''e', 'Palu’e', 0, 'Bahasa Indonesia', 'ltr'),
+('ple', 'Palu\'e', 'Palu’e', 0, 'Bahasa Indonesia', 'ltr'),
 ('plg', 'Pilagá', 'Pilagá', 0, 'Español Latin America', 'ltr'),
 ('plh', 'Paulohi', 'Paulohi', 0, 'Bahasa Indonesia', 'ltr'),
 ('plj', 'Polci', 'Polci', 0, 'English', 'ltr'),
@@ -5532,7 +5529,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('plt', 'Plateau Malagasy', 'Malagasy, Plateau', 0, 'français, langue française', 'ltr'),
 ('plu', 'Palikúr', 'Palikúr', 0, 'português', 'ltr'),
 ('plv', 'Southwest Palawano', 'Palawano, Southwest', 0, 'English', 'ltr'),
-('plw', 'Brooke''s Point Palawano', 'Palawano, Brooke’s Point', 0, 'English', 'ltr'),
+('plw', 'Brooke\'s Point Palawano', 'Palawano, Brooke’s Point', 0, 'English', 'ltr'),
 ('ply', 'Bolyu', 'Bolyu', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('plz', 'Paluan', 'Paluan', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('pma', 'Paama', 'Paama', 0, 'français, langue française', 'ltr'),
@@ -5579,7 +5576,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('poe', 'San Juan Atzingo Popoloca', 'Popoloca, San Juan Atzingo', 0, 'Español Latin America', 'ltr'),
 ('pof', 'Poke', 'Poke', 0, 'français, langue française', 'ltr'),
 ('pog', 'Potiguára', 'Potiguára', 0, 'português', 'ltr'),
-('poh', 'Poqomchi''', 'Poqomchi’', 0, 'Español Latin America', 'ltr'),
+('poh', 'Poqomchi\'', 'Poqomchi’', 0, 'Español Latin America', 'ltr'),
 ('poi', 'Highland Popoluca', 'Popoluca, Highland', 0, 'Español Latin America', 'ltr'),
 ('pok', 'Pokangá', 'Pokangá', 0, 'português', 'ltr'),
 ('pom', 'Southeastern Pomo', 'Pomo, Southeastern', 0, 'English', 'ltr'),
@@ -5605,9 +5602,9 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ppq', 'Pei', 'Pei', 0, 'Tok Pisin', 'ltr'),
 ('pps', 'San Luís Temalacayuca Popoloca', 'Popoloca, San Luís Temalacayuca', 0, 'Español Latin America', 'ltr'),
 ('ppt', 'Pare', 'Pare', 0, 'Tok Pisin', 'ltr'),
-('pqa', 'Pa''a', 'Pa’a', 0, 'English', 'ltr'),
+('pqa', 'Pa\'a', 'Pa’a', 0, 'English', 'ltr'),
 ('pqm', 'Malecite-Passamaquoddy', 'Malecite-Passamaquoddy', 0, 'English', 'ltr'),
-('prb', 'Lua''', 'Lua’', 0, 'ไทย', 'ltr'),
+('prb', 'Lua\'', 'Lua’', 0, 'ไทย', 'ltr'),
 ('prc', 'Parachi', 'Parachi', 0, 'پښتو', 'ltr'),
 ('prd', 'Parsi-Dari', 'Parsi-Dari', 0, 'فارسی', 'ltr'),
 ('pre', 'Principense', 'Principense', 0, 'português', 'ltr'),
@@ -5654,7 +5651,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('pth', 'Pataxó Hã-Ha-Hãe', 'Pataxó Hã-Ha-Hãe', 0, 'português', 'ltr'),
 ('pti', 'Pintiini', 'Pintiini', 0, 'English', 'ltr'),
 ('ptn', 'Patani', 'Patani', 0, 'Bahasa Indonesia', 'ltr'),
-('pto', 'Zo''é', 'Zo’é', 0, 'português', 'ltr'),
+('pto', 'Zo\'é', 'Zo’é', 0, 'português', 'ltr'),
 ('ptp', 'Patep', 'Patep', 0, 'Tok Pisin', 'ltr'),
 ('ptq', 'Pattapu', '', 0, '', 'ltr'),
 ('ptr', 'Piamatsina', 'Piamatsina', 0, 'français, langue française', 'ltr'),
@@ -5704,7 +5701,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('qu', 'Runa Simi, Kichwa', 'Quechua', 0, '', 'ltr'),
 ('qua', 'Quapaw', 'Quapaw', 0, 'English', 'ltr'),
 ('qub', 'Huallaga Huánuco Quechua', 'Quechua, Huallaga Huánuco', 0, 'Español Latin America', 'ltr'),
-('quc', 'K''iche''', 'K’iche’', 0, 'Español Latin America', 'ltr'),
+('quc', 'K\'iche\'', 'K’iche’', 0, 'Español Latin America', 'ltr'),
 ('qud', 'Calderón Highland Quichua', 'Quichua, Calderón Highland', 0, 'Español Latin America', 'ltr'),
 ('quf', 'Lambayeque Quechua', 'Quechua, Lambayeque', 0, 'Español Latin America', 'ltr'),
 ('qug', 'Chimborazo Highland Quichua', 'Quichua, Chimborazo Highland', 0, 'Español Latin America', 'ltr'),
@@ -5751,7 +5748,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('qxn', 'Northern Conchucos Ancash Quechua', 'Quechua, Northern Conchucos Ancash', 0, 'Español Latin America', 'ltr'),
 ('qxo', 'Southern Conchucos Ancash Quechua', 'Quechua, Southern Conchucos Ancash', 0, 'Español Latin America', 'ltr'),
 ('qxp', 'Puno Quechua', 'Quechua, Puno', 0, 'Español Latin America', 'ltr'),
-('qxq', 'Qashqa''i', 'Kashkay', 0, 'فارسی', 'rtl'),
+('qxq', 'Qashqa\'i', 'Kashkay', 0, 'فارسی', 'rtl'),
 ('qxr', 'Cañar Highland Quichua', 'Quichua, Cañar Highland', 0, 'Español Latin America', 'ltr'),
 ('qxs', 'Southern Qiang', 'Qiang, Southern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('qxt', 'Santa Ana de Tusi Pasco Quechua', 'Quechua, Santa Ana de Tusi Pasco', 0, 'Español Latin America', 'ltr'),
@@ -5860,7 +5857,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('rnp', 'Rongpo', 'Rongpo', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('rnw', 'Rungwa', 'Rungwa', 0, 'Kiswahili', 'ltr'),
 ('ro', 'limba română', 'Romanian', 0, 'English', 'ltr'),
-('rob', 'Tae''', 'Tae’', 0, 'Bahasa Indonesia', 'ltr'),
+('rob', 'Tae\'', 'Tae’', 0, 'Bahasa Indonesia', 'ltr'),
 ('roc', 'Cacgia Roglai', 'Roglai, Cacgia', 0, 'Tiếng Việt', 'ltr'),
 ('rod', 'Rogo', 'Rogo', 0, 'English', 'ltr'),
 ('roe', 'Ronji', 'Ronji', 0, 'Tok Pisin', 'ltr'),
@@ -5971,14 +5968,14 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('scn', 'Sicilian', 'Sicilian', 0, 'English', 'ltr'),
 ('sco', 'Scots', 'Scots', 0, 'English', 'ltr'),
 ('scp', 'Helambu Sherpa', 'Helambu Sherpa', 0, 'नेपाली', 'ltr'),
-('scq', 'Sa''och', 'Sa’och', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
+('scq', 'Sa\'och', 'Sa’och', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
 ('scs', 'North Slavey', 'Slavey, North', 0, 'English', 'ltr'),
 ('scu', 'Shumcho', 'Shumcho', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('scv', 'Sheni', 'Sheni', 0, 'English', 'ltr'),
 ('scw', 'Sha', 'Sha', 0, 'English', 'ltr'),
 ('scx', 'Sicel', '', 0, '', 'ltr'),
 ('sd', 'सिन्धी, سنڌي، سندھی‎', 'Sindhi', 0, 'اردو', 'ltr'),
-('sda', 'Toraja-Sa''dan', 'Toraja-Sa’dan', 1, 'Bahasa Indonesia', 'ltr'),
+('sda', 'Toraja-Sa\'dan', 'Toraja-Sa’dan', 1, 'Bahasa Indonesia', 'ltr'),
 ('sdb', 'Shabak', 'Shabak', 0, 'العربية', 'ltr'),
 ('sdc', 'Sassarese Sardinian', 'Sardinian, Sassarese', 0, 'English', 'ltr'),
 ('sde', 'Surubu', 'Surubu', 0, 'English', 'ltr'),
@@ -5998,8 +5995,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('sdz', 'Sallands', 'Sallands', 0, 'Nederlands, Vlaams', 'ltr'),
 ('se', 'Davvisámegiella', 'Northern Sami', 0, 'English', 'ltr'),
 ('sea', 'Semai', 'Semai', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
-('seb', 'Shempire Senoufo', 'Sénoufo, Shempire', 0, 'français, langue française', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('seb', 'Shempire Senoufo', 'Sénoufo, Shempire', 0, 'français, langue française', 'ltr'),
 ('sec', 'Sechelt', 'Sechelt', 0, 'English', 'ltr'),
 ('sed', 'Sedang', 'Sedang', 0, 'Tiếng Việt', 'ltr'),
 ('see', 'Seneca', 'Seneca', 0, 'English', 'ltr'),
@@ -6156,8 +6152,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('slw', 'Sialum', 'Sialum', 0, 'Tok Pisin', 'ltr'),
 ('slx', 'Salampasu', 'Salampasu', 0, 'français, langue française', 'ltr'),
 ('sly', 'Selayar', 'Selayar', 0, 'Bahasa Indonesia', 'ltr'),
-('slz', 'Ma''ya', 'Ma’ya', 0, 'Bahasa Indonesia', 'ltr'),
-('sm', 'gagana fa''a Samoa', 'Samoan', 0, 'English', 'ltr'),
+('slz', 'Ma\'ya', 'Ma’ya', 0, 'Bahasa Indonesia', 'ltr'),
+('sm', 'gagana fa\'a Samoa', 'Samoan', 0, 'English', 'ltr'),
 ('sma', 'Southern Sami', 'Saami, South', 0, 'English', 'ltr'),
 ('smb', 'Simbari', 'Simbari', 0, 'Tok Pisin', 'ltr'),
 ('smc', 'Som', 'Som', 0, 'Tok Pisin', 'ltr'),
@@ -6191,7 +6187,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('snj', 'Riverain Sango', 'Sango, Riverain', 0, 'français, langue française', 'ltr'),
 ('snk', 'Soninke', 'Soninke', 0, 'français, langue française', 'ltr'),
 ('snl', 'Sangil', 'Sangil', 0, 'Cebuano', 'ltr'),
-('snm', 'Southern Ma''di', 'Ma’di, Southern', 0, 'English', 'ltr'),
+('snm', 'Southern Ma\'di', 'Ma’di, Southern', 0, 'English', 'ltr'),
 ('snn', 'Siona', 'Siona', 0, 'Español Latin America', 'ltr'),
 ('sno', 'Snohomish', 'Snohomish', 0, 'English', 'ltr'),
 ('snp', 'Siane', 'Siane', 0, 'Tok Pisin', 'ltr'),
@@ -6199,7 +6195,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('snr', 'Sihan', 'Sihan', 0, 'Tok Pisin', 'ltr'),
 ('sns', 'South West Bay', 'Nahavaq', 0, 'français, langue française', 'ltr'),
 ('snu', 'Senggi', 'Viid', 0, 'Bahasa Indonesia', 'ltr'),
-('snv', 'Sa''ban', 'Sa’ban', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
+('snv', 'Sa\'ban', 'Sa’ban', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('snw', 'Selee', 'Selee', 0, 'English', 'ltr'),
 ('snx', 'Sam', 'Sam', 0, 'Tok Pisin', 'ltr'),
 ('sny', 'Saniyo-Hiyewe', 'Saniyo-Hiyewe', 0, 'Tok Pisin', 'ltr'),
@@ -6297,7 +6293,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ssn', 'Waata', 'Waata', 0, 'Kiswahili', 'ltr'),
 ('sso', 'Sissano', 'Sissano', 0, 'Tok Pisin', 'ltr'),
 ('ssp', 'Spanish Sign Language', 'Spanish Sign Language', 0, 'español', 'ltr'),
-('ssq', 'So''a', 'So’a', 0, 'Bahasa Indonesia', 'ltr'),
+('ssq', 'So\'a', 'So’a', 0, 'Bahasa Indonesia', 'ltr'),
 ('ssr', 'Swiss-French Sign Language', 'Swiss-French Sign Language', 0, 'English', 'ltr'),
 ('sss', 'Sô', 'Sô', 0, 'ພາສາລາວ ', 'ltr'),
 ('sst', 'Sinasina', 'Sinasina', 0, 'Tok Pisin', 'ltr'),
@@ -6327,7 +6323,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('sts', 'Shumashti', 'Shumashti', 0, 'پښتو', 'ltr'),
 ('stt', 'Budeh Stieng', 'Stieng, Budeh', 0, 'Tiếng Việt', 'ltr'),
 ('stu', 'Samtao', 'Samtao', 0, 'ဗမာစာ', 'ltr'),
-('stv', 'Silt''e', 'Silt’e', 0, 'አማርኛ', 'ltr'),
+('stv', 'Silt\'e', 'Silt’e', 0, 'አማርኛ', 'ltr'),
 ('stw', 'Satawalese', 'Satawalese', 0, 'English', 'ltr'),
 ('sty', 'Siberian Tatar', 'Tatar, Siberian', 0, 'Русский', 'ltr'),
 ('su', 'Basa Sunda', 'Sundanese', 0, 'Bahasa Indonesia', 'ltr'),
@@ -6340,7 +6336,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('suj', 'Shubi', 'Shubi', 0, 'Kiswahili', 'ltr'),
 ('suk', 'Sukuma', 'Sukuma', 0, 'Kiswahili', 'ltr'),
 ('suq', 'Suri', 'Suri', 0, 'አማርኛ', 'ltr'),
-('sur', 'Mwaghavul', 'Mwaghavul', 0, 'English', 'ltr'),
+('sur', 'Mwaghavul', 'Mwaghavul', 0, 'English', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
 ('sus', 'Susu', 'Susu', 0, 'français, langue française', 'ltr'),
 ('sut', 'Subtiaba', 'Subtiaba', 0, 'Español Latin America', 'ltr'),
 ('suv', 'Puroik', 'Puroik', 0, 'हिन्दी, हिंदी', 'ltr'),
@@ -6467,7 +6464,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tcc', 'Datooga', 'Datooga', 0, 'Kiswahili', 'ltr'),
 ('tcd', 'Tafi', 'Tafi', 0, 'English', 'ltr'),
 ('tce', 'Southern Tutchone', 'Tutchone, Southern', 0, 'English', 'ltr'),
-('tcf', 'Malinaltepec Me''phaa', 'Me’phaa, Malinaltepec', 0, 'Español Latin America', 'ltr'),
+('tcf', 'Malinaltepec Me\'phaa', 'Me’phaa, Malinaltepec', 0, 'Español Latin America', 'ltr'),
 ('tcg', 'Tamagario', 'Tamagario', 0, 'Bahasa Indonesia', 'ltr'),
 ('tch', 'Turks And Caicos Creole English', 'Turks and Caicos Creole English', 0, 'English', 'ltr'),
 ('tci', 'Wára', 'Wára', 0, 'Tok Pisin', 'ltr'),
@@ -6479,7 +6476,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tcp', 'Tawr Chin', 'Chin, Tawr', 0, 'ဗမာစာ', 'ltr'),
 ('tcq', 'Kaiy', 'Kaiy', 0, 'Bahasa Indonesia', 'ltr'),
 ('tcs', 'Torres Strait Creole', 'Torres Strait Creole', 0, 'English', 'ltr'),
-('tct', 'T''en', 'T’en', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
+('tct', 'T\'en', 'T’en', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('tcu', 'Southeastern Tarahumara', 'Tarahumara, Southeastern', 0, 'Español Latin America', 'ltr'),
 ('tcw', 'Tecpatlán Totonac', 'Totonac, Tecpatlán', 0, 'Español Latin America', 'ltr'),
 ('tcx', 'Toda', 'Toda', 0, 'हिन्दी, हिंदी', 'ltr'),
@@ -6640,7 +6637,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tlk', 'Taloki', 'Taloki', 0, 'Bahasa Indonesia', 'ltr'),
 ('tll', 'Tetela', 'Tetela', 0, 'français, langue française', 'ltr'),
 ('tlm', 'Tolomako', 'Tolomako', 0, 'français, langue française', 'ltr'),
-('tln', 'Talondo''', 'Talondo’', 0, 'Bahasa Indonesia', 'ltr'),
+('tln', 'Talondo\'', 'Talondo’', 0, 'Bahasa Indonesia', 'ltr'),
 ('tlo', 'Talodi', 'Talodi', 0, 'العربية', 'ltr'),
 ('tlp', 'Filomena Mata-Coahuitlán Totonac', 'Totonac, Filomena Mata-Coahuitlán', 0, 'Español Latin America', 'ltr'),
 ('tlq', 'Tai Loi', 'Tai Loi', 0, 'ဗမာစာ', 'ltr'),
@@ -6722,14 +6719,14 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('toy', 'Topoiyo', 'Topoiyo', 0, 'Bahasa Indonesia', 'ltr'),
 ('toz', 'To', 'To', 0, 'français, langue française', 'ltr'),
 ('tpa', 'Taupota', 'Taupota', 0, 'Tok Pisin', 'ltr'),
-('tpc', 'Azoyú Me''phaa', 'Me’phaa, Azoyú', 0, 'Español Latin America', 'ltr'),
+('tpc', 'Azoyú Me\'phaa', 'Me’phaa, Azoyú', 0, 'Español Latin America', 'ltr'),
 ('tpe', 'Tippera', 'Tippera', 0, 'বাংলা', 'ltr'),
 ('tpf', 'Tarpia', 'Tarpia', 0, 'Bahasa Indonesia', 'ltr'),
 ('tpg', 'Kula', 'Kula', 0, 'Bahasa Indonesia', 'ltr'),
 ('tpi', 'Tok Pisin', 'Tok Pisin', 1, 'Tok Pisin', 'ltr'),
 ('tpj', 'Tapieté', 'Ñandeva', 0, 'Español Latin America', 'ltr'),
 ('tpk', 'Tupinikin', 'Tupinikin', 0, 'português', 'ltr'),
-('tpl', 'Tlacoapa Me''phaa', 'Me’phaa, Tlacoapa', 0, 'Español Latin America', 'ltr'),
+('tpl', 'Tlacoapa Me\'phaa', 'Me’phaa, Tlacoapa', 0, 'Español Latin America', 'ltr'),
 ('tpm', 'Tampulma', 'Tampulma', 0, 'English', 'ltr'),
 ('tpn', 'Tupinambá', '', 0, '', 'ltr'),
 ('tpo', 'Tai Pao', 'Tai Pao', 0, 'ພາສາລາວ ', 'ltr'),
@@ -6740,7 +6737,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tpu', 'Tampuan', 'Tampuan', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
 ('tpv', 'Tanapag', 'Tanapag', 0, 'English', 'ltr'),
 ('tpw', 'Tupí', '', 0, '', 'ltr'),
-('tpx', 'Acatepec Me''phaa', 'Me’phaa, Acatepec', 0, 'Español Latin America', 'ltr'),
+('tpx', 'Acatepec Me\'phaa', 'Me’phaa, Acatepec', 0, 'Español Latin America', 'ltr'),
 ('tpy', 'Trumai', 'Trumai', 0, 'português', 'ltr'),
 ('tpz', 'Tinputz', 'Tinputz', 0, 'Tok Pisin', 'ltr'),
 ('tqb', 'Tembé', 'Tembé', 0, 'português', 'ltr'),
@@ -6790,13 +6787,12 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tsi', 'Tsimshian', 'Tsimshian', 0, 'English', 'ltr'),
 ('tsj', 'Tshangla', 'Tshangla', 0, 'རྫོང་ཁ', 'ltr'),
 ('tsk', 'Tseku', 'Tseku', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
-('tsl', 'Ts''ün-Lao', 'Ts’ün-Lao', 0, 'Tiếng Việt', 'ltr'),
+('tsl', 'Ts\'ün-Lao', 'Ts’ün-Lao', 0, 'Tiếng Việt', 'ltr'),
 ('tsm', 'Turkish Sign Language', 'Turkish Sign Language', 0, 'Türkçe', 'ltr'),
 ('tsp', 'Northern Toussian', 'Toussian, Northern', 0, 'français, langue française', 'ltr'),
 ('tsq', 'Thai Sign Language', 'Thai Sign Language', 0, 'ไทย', 'ltr'),
 ('tsr', 'Akei', 'Akei', 0, 'français, langue française', 'ltr'),
-('tss', 'Taiwan Sign Language', 'Taiwan Sign Language', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('tss', 'Taiwan Sign Language', 'Taiwan Sign Language', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('tst', 'Tondi Songway Kiini', 'Tondi Songway Kiini', 0, 'français, langue française', 'ltr'),
 ('tsu', 'Tsou', 'Tsou', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('tsv', 'Tsogo', 'Tsogo', 0, 'français, langue française', 'ltr'),
@@ -6812,14 +6808,14 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tte', 'Bwanabwana', 'Bwanabwana', 0, 'Tok Pisin', 'ltr'),
 ('ttf', 'Tuotomb', 'Tuotomb', 0, 'français, langue française', 'ltr'),
 ('ttg', 'Tutong', 'Tutong', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
-('tth', 'Upper Ta''oih', 'Ta’oih, Upper', 0, 'ພາສາລາວ ', 'ltr'),
+('tth', 'Upper Ta\'oih', 'Ta’oih, Upper', 0, 'ພາສາລາວ ', 'ltr'),
 ('tti', 'Tobati', 'Tobati', 0, 'Bahasa Indonesia', 'ltr'),
 ('ttj', 'Tooro', 'Tooro', 0, 'English', 'ltr'),
 ('ttk', 'Totoro', 'Totoro', 0, 'Español Latin America', 'ltr'),
 ('ttl', 'Totela', 'Totela', 0, 'English', 'ltr'),
 ('ttm', 'Northern Tutchone', 'Tutchone, Northern', 0, 'English', 'ltr'),
 ('ttn', 'Towei', 'Towei', 0, 'Bahasa Indonesia', 'ltr'),
-('tto', 'Lower Ta''oih', 'Ta’oih, Lower', 0, 'ພາສາລາວ ', 'ltr'),
+('tto', 'Lower Ta\'oih', 'Ta’oih, Lower', 0, 'ພາສາລາວ ', 'ltr'),
 ('ttp', 'Tombelala', 'Tombelala', 0, 'Bahasa Indonesia', 'ltr'),
 ('ttq', 'Tawallammat Tamajaq', 'Tamajaq, Tawallammat', 0, 'français, langue française', 'ltr'),
 ('ttr', 'Tera', 'Tera', 0, 'English', 'ltr'),
@@ -6904,7 +6900,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ty', 'Reo Tahiti', 'Tahitian', 0, 'français, langue française', 'ltr'),
 ('tya', 'Tauya', 'Tauya', 0, 'Tok Pisin', 'ltr'),
 ('tye', 'Kyanga', 'Kyanga', 0, 'English', 'ltr'),
-('tyh', 'O''du', 'O’du', 0, 'Tiếng Việt', 'ltr'),
+('tyh', 'O\'du', 'O’du', 0, 'Tiếng Việt', 'ltr'),
 ('tyi', 'Teke-Tsaayi', 'Teke-Tsaayi', 0, 'français, langue française', 'ltr'),
 ('tyj', 'Tai Do', 'Tai Do', 0, 'Tiếng Việt', 'ltr'),
 ('tyl', 'Thu Lao', 'Thu Lao', 0, 'Tiếng Việt', 'ltr'),
@@ -6918,7 +6914,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('tyz', 'Tày', 'Tày', 0, 'Tiếng Việt', 'ltr'),
 ('tza', 'Tanzanian Sign Language', 'Tanzanian Sign Language', 0, 'Kiswahili', 'ltr'),
 ('tzh', 'Tzeltal', 'Tzeltal', 0, 'Español Latin America', 'ltr'),
-('tzj', 'Tz''utujil', 'Tz’utujil', 0, 'Español Latin America', 'ltr'),
+('tzj', 'Tz\'utujil', 'Tz’utujil', 0, 'Español Latin America', 'ltr'),
 ('tzl', 'Talossan', '', 0, '', 'ltr'),
 ('tzm', 'Central Atlas Tamazight', 'Tamazight, Central Atlas', 0, 'العربية', 'ltr'),
 ('tzn', 'Tugun', 'Tugun', 0, 'Bahasa Indonesia', 'ltr'),
@@ -6929,7 +6925,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('uar', 'Tairuma', 'Tairuma', 0, 'Tok Pisin', 'ltr'),
 ('uba', 'Ubang', 'Ubang', 0, 'English', 'ltr'),
 ('ubi', 'Ubi', 'Ubi', 0, 'العربية', 'ltr'),
-('ubl', 'Buhi''non Bikol', 'Bikol, Buhi’non', 0, 'English', 'ltr'),
+('ubl', 'Buhi\'non Bikol', 'Bikol, Buhi’non', 0, 'English', 'ltr'),
 ('ubr', 'Ubir', 'Ubir', 0, 'Tok Pisin', 'ltr'),
 ('ubu', 'Umbu-Ungu', 'Umbu-Ungu', 0, 'Tok Pisin', 'ltr'),
 ('uda', 'Uda', 'Uda', 0, 'English', 'ltr'),
@@ -6971,9 +6967,9 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('uli', 'Ulithian', 'Ulithian', 0, 'English', 'ltr'),
 ('ulk', 'Meriam', 'Meriam', 0, 'English', 'ltr'),
 ('ull', 'Ullatan', 'Ullatan', 0, 'हिन्दी, हिंदी', 'ltr'),
-('ulm', 'Ulumanda''', 'Ulumanda’', 0, 'Bahasa Indonesia', 'ltr'),
+('ulm', 'Ulumanda\'', 'Ulumanda’', 0, 'Bahasa Indonesia', 'ltr'),
 ('uln', 'Unserdeutsch', 'Unserdeutsch', 0, 'Tok Pisin', 'ltr'),
-('ulu', 'Uma'' Lung', 'Uma’ Lung', 0, 'Bahasa Indonesia', 'ltr'),
+('ulu', 'Uma\' Lung', 'Uma’ Lung', 0, 'Bahasa Indonesia', 'ltr'),
 ('ulw', 'Ulwa', 'Ulwa', 0, 'Español Latin America', 'ltr'),
 ('uma', 'Umatilla', 'Umatilla', 0, 'English', 'ltr'),
 ('umb', 'Umbundu', 'Umbundu', 0, 'português', 'ltr'),
@@ -7007,7 +7003,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('urg', 'Urigina', 'Urigina', 0, 'Tok Pisin', 'ltr'),
 ('urh', 'Urhobo', 'Urhobo', 0, 'English', 'ltr'),
 ('uri', 'Urim', 'Urim', 0, 'Tok Pisin', 'ltr'),
-('urk', 'Urak Lawoi''', 'Urak Lawoi’', 0, 'ไทย', 'ltr'),
+('urk', 'Urak Lawoi\'', 'Urak Lawoi’', 0, 'ไทย', 'ltr'),
 ('url', 'Urali', 'Urali', 0, 'हिन्दी, हिंदी', 'ltr'),
 ('urm', 'Urapmin', 'Urapmin', 0, 'Tok Pisin', 'ltr'),
 ('urn', 'Uruangnirin', 'Uruangnirin', 0, 'Bahasa Indonesia', 'ltr'),
@@ -7112,7 +7108,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('vo', 'Volapük', 'Volapük', 0, '', 'ltr'),
 ('vor', 'Voro', 'Voro', 0, 'English', 'ltr'),
 ('vot', 'Votic', 'Vod', 0, 'Русский', 'ltr'),
-('vra', 'Vera''a', 'Vera’a', 0, 'français, langue française', 'ltr'),
+('vra', 'Vera\'a', 'Vera’a', 0, 'français, langue française', 'ltr'),
 ('vro', 'Võro', 'Võro', 0, 'English', 'ltr'),
 ('vrs', 'Varisi', 'Varisi', 0, 'Pijin', 'ltr'),
 ('vrt', 'Burmbar', 'Banam Bay', 0, 'français, langue française', 'ltr'),
@@ -7131,7 +7127,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('wad', 'Wandamen', 'Wandamen', 0, 'Bahasa Indonesia', 'ltr'),
 ('wae', 'Walser', 'Walser', 0, 'English', 'ltr'),
 ('waf', 'Wakoná', 'Wakoná', 0, 'português', 'ltr'),
-('wag', 'Wa''ema', 'Wa’ema', 0, 'Tok Pisin', 'ltr'),
+('wag', 'Wa\'ema', 'Wa’ema', 0, 'Tok Pisin', 'ltr'),
 ('wah', 'Watubela', 'Watubela', 0, 'Bahasa Indonesia', 'ltr'),
 ('wai', 'Wares', 'Wares', 0, 'Bahasa Indonesia', 'ltr'),
 ('waj', 'Waffa', 'Waffa', 0, 'Tok Pisin', 'ltr'),
@@ -7196,8 +7192,9 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('whu', 'Wahau Kayan', 'Kayan, Wahau', 0, 'Bahasa Indonesia', 'ltr'),
 ('wib', 'Southern Toussian', 'Toussian, Southern', 0, 'français, langue française', 'ltr'),
 ('wic', 'Wichita', 'Wichita', 0, 'English', 'ltr'),
-('wig', 'Wik-Ngathana', 'Wik-Ngathana', 0, 'English', 'ltr'),
-('wih', 'Wik-Me''anha', 'Wik-Me’anha', 0, 'English', 'ltr'),
+('wig', 'Wik-Ngathana', 'Wik-Ngathana', 0, 'English', 'ltr');
+INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('wih', 'Wik-Me\'anha', 'Wik-Me’anha', 0, 'English', 'ltr'),
 ('wii', 'Minidien', 'Minidien', 0, 'Tok Pisin', 'ltr'),
 ('wij', 'Wik-Iiyanh', 'Wik-Iiyanh', 0, 'English', 'ltr'),
 ('wik', 'Wikalkan', 'Wikalkan', 0, 'English', 'ltr'),
@@ -7230,7 +7227,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('wmc', 'Wamas', 'Wamas', 0, 'Tok Pisin', 'ltr'),
 ('wmd', 'Mamaindé', 'Mamaindé', 0, 'português', 'ltr'),
 ('wme', 'Wambule', 'Wambule', 0, 'नेपाली', 'ltr'),
-('wmh', 'Waima''a', 'Waima’a', 0, 'português', 'ltr'),
+('wmh', 'Waima\'a', 'Waima’a', 0, 'português', 'ltr'),
 ('wmm', 'Maiwa (Indonesia)', 'Maiwa', 0, 'Bahasa Indonesia', 'ltr'),
 ('wmo', 'Wom (Papua New Guinea)', 'Wom', 0, 'Tok Pisin', 'ltr'),
 ('wms', 'Wambon', 'Wambon', 0, 'Bahasa Indonesia', 'ltr'),
@@ -7394,7 +7391,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('xiy', 'Xipaya', 'Xipaya', 0, 'português', 'ltr'),
 ('xka', 'Kalkoti', 'Kalkoti', 0, 'اردو', 'ltr'),
 ('xkb', 'Northern Nago', 'Nago, Northern', 0, 'français, langue française', 'ltr'),
-('xkc', 'Kho''ini', 'Kho’ini', 0, 'فارسی', 'ltr'),
+('xkc', 'Kho\'ini', 'Kho’ini', 0, 'فارسی', 'ltr'),
 ('xkd', 'Mendalam Kayan', 'Kayan, Mendalam', 0, 'Bahasa Indonesia', 'ltr'),
 ('xke', 'Kereho', 'Kereho', 0, 'Bahasa Indonesia', 'ltr'),
 ('xkf', 'Khengkha', 'Khengkha', 0, 'རྫོང་ཁ', 'ltr'),
@@ -7402,7 +7399,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('xkh', 'Karahawyana', 'Karahawyana', 0, 'português', 'ltr'),
 ('xki', 'Kenyan Sign Language', 'Kenyan Sign Language', 0, 'Kiswahili', 'ltr'),
 ('xkj', 'Kajali', 'Kajali', 0, 'فارسی', 'ltr'),
-('xkk', 'Kaco''', 'Kaco’', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
+('xkk', 'Kaco\'', 'Kaco’', 0, 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'ltr'),
 ('xkl', 'Mainstream Kenyah', 'Kenyah, Mainstream', 0, 'Bahasa Indonesia', 'ltr'),
 ('xkn', 'Kayan River Kayan', 'Kayan, Kayan River', 0, 'Bahasa Indonesia', 'ltr'),
 ('xko', 'Kiorr', 'Kiorr', 0, 'ພາສາລາວ ', 'ltr'),
@@ -7415,7 +7412,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('xkv', 'Kgalagadi', 'Kgalagadi', 0, 'English', 'ltr'),
 ('xkw', 'Kembra', 'Kembra', 0, 'Bahasa Indonesia', 'ltr'),
 ('xkx', 'Karore', 'Karore', 0, 'Tok Pisin', 'ltr'),
-('xky', 'Uma'' Lasan', 'Uma’ Lasan', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
+('xky', 'Uma\' Lasan', 'Uma’ Lasan', 0, 'bahasa Melayu, بهاس ملايو‎', 'ltr'),
 ('xkz', 'Kurtokha', 'Kurtokha', 0, 'རྫོང་ཁ', 'ltr'),
 ('xla', 'Kamula', 'Kamula', 0, 'Tok Pisin', 'ltr'),
 ('xlb', 'Loup B', '', 0, '', 'ltr'),
@@ -7563,7 +7560,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('xwo', 'Written Oirat', '', 0, '', 'ltr'),
 ('xwr', 'Kwerba Mamberamo', 'Kwerba Mamberamo', 0, 'Bahasa Indonesia', 'ltr'),
 ('xxb', 'Boro (Ghana)', '', 0, '', 'ltr'),
-('xxk', 'Ke''o', 'Ke’o', 0, 'Bahasa Indonesia', 'ltr'),
+('xxk', 'Ke\'o', 'Ke’o', 0, 'Bahasa Indonesia', 'ltr'),
 ('xxm', 'Minkin', '', 0, '', 'ltr'),
 ('xxt', 'Tambora', '', 0, '', 'ltr'),
 ('xyl', 'Yalakalore', '', 0, '', 'ltr'),
@@ -7655,8 +7652,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('yiq', 'Miqie', 'Miqie', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yir', 'North Awyu', 'Awyu, North', 0, 'Bahasa Indonesia', 'ltr'),
 ('yis', 'Yis', 'Yis', 0, 'Tok Pisin', 'ltr'),
-('yit', 'Eastern Lalu', 'Lalu, Eastern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr');
-INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `direction`) VALUES
+('yit', 'Eastern Lalu', 'Lalu, Eastern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yiu', 'Awu', 'Awu', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yiv', 'Northern Nisu', 'Nisu, Northern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yix', 'Axi Yi', 'Axi', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
@@ -7702,7 +7698,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('ymx', 'Northern Muji', 'Muji, Northern', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('ymz', 'Muzi', 'Muzi', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yna', 'Aluo', 'Aluo', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
-('yne', 'Lang''e', 'Lang’e', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
+('yne', 'Lang\'e', 'Lang’e', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yng', 'Yango', 'Yango', 0, 'français, langue française', 'ltr'),
 ('ynk', 'Naukan Yupik', 'Yupik, Naukan', 0, 'Русский', 'ltr'),
 ('ynl', 'Yangulam', 'Yangulam', 0, 'Tok Pisin', 'ltr'),
@@ -7791,7 +7787,7 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 ('yyr', 'Yir Yoront', '', 0, '', 'ltr'),
 ('yyu', 'Yau (Sandaun Province)', 'Yau', 0, 'Tok Pisin', 'ltr'),
 ('yyz', 'Ayizi', 'Ayizi', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
-('yzg', 'E''ma Buyang', 'Buyang, E’ma', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
+('yzg', 'E\'ma Buyang', 'Buyang, E’ma', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('yzk', 'Zokhuo', 'Zokhuo', 0, '中文 (Zhōngwén), 汉语, 漢語', 'ltr'),
 ('za', 'Saɯ cueŋƅ, Saw cuengh', 'Zhuang, Chuang', 0, '', 'ltr'),
 ('zaa', 'Sierra de Juárez Zapotec', 'Zapotec, Sierra de Juárez', 0, 'Español Latin America', 'ltr'),
@@ -7973,8 +7969,8 @@ INSERT INTO `vm_languages` (`langID`, `langName`, `angName`, `isGW`, `gwLang`, `
 -- Table structure for table `vm_members`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_members` (
-`memberID` int(11) unsigned NOT NULL,
+CREATE TABLE `vm_members` (
+  `memberID` int(11) UNSIGNED NOT NULL,
   `userName` char(20) NOT NULL,
   `firstName` varchar(255) DEFAULT NULL,
   `lastName` varchar(255) DEFAULT NULL,
@@ -7991,8 +7987,7 @@ CREATE TABLE IF NOT EXISTS `vm_members` (
   `isSuperAdmin` tinyint(1) NOT NULL DEFAULT '0',
   `isDemo` tinyint(1) NOT NULL DEFAULT '0',
   `logins` smallint(6) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -8000,9 +7995,9 @@ CREATE TABLE IF NOT EXISTS `vm_members` (
 -- Table structure for table `vm_profile`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_profile` (
-`pID` int(10) unsigned NOT NULL,
-  `mID` int(10) unsigned NOT NULL,
+CREATE TABLE `vm_profile` (
+  `pID` int(10) UNSIGNED NOT NULL,
+  `mID` int(10) UNSIGNED NOT NULL,
   `avatar` char(3) NOT NULL DEFAULT 'm1',
   `prefered_roles` varchar(50) NOT NULL,
   `bbl_trans_yrs` enum('1','2','3','4') NOT NULL DEFAULT '1' COMMENT '0, 1, 2, 3',
@@ -8022,8 +8017,7 @@ CREATE TABLE IF NOT EXISTS `vm_profile` (
   `hebrew_knwlg` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '1 - limited, 2 - moderate, 3 - strong, 4 expert',
   `greek_knwlg` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '1 - limited, 2 - moderate, 3 - strong, 4 expert',
   `church_role` char(160) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -8031,16 +8025,15 @@ CREATE TABLE IF NOT EXISTS `vm_profile` (
 -- Table structure for table `vm_projects`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_projects` (
-`projectID` int(10) unsigned NOT NULL,
-  `gwProjectID` int(10) unsigned NOT NULL,
+CREATE TABLE `vm_projects` (
+  `projectID` int(10) UNSIGNED NOT NULL,
+  `gwProjectID` int(10) UNSIGNED NOT NULL,
   `gwLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `targetLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bookProject` enum('udb','ulb','rsb','avd') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
   `sourceLangID` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sourceBible` enum('udb','ulb','rsb') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -8048,26 +8041,25 @@ CREATE TABLE IF NOT EXISTS `vm_projects` (
 -- Table structure for table `vm_translations`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_translations` (
-`tID` int(10) unsigned NOT NULL,
-  `projectID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL,
-  `trID` int(10) unsigned NOT NULL,
-  `l2chID` int(10) unsigned NOT NULL,
-  `l3chID` int(10) unsigned NOT NULL,
+CREATE TABLE `vm_translations` (
+  `tID` int(10) UNSIGNED NOT NULL,
+  `projectID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL,
+  `trID` int(10) UNSIGNED NOT NULL,
+  `l2chID` int(10) UNSIGNED NOT NULL,
+  `l3chID` int(10) UNSIGNED NOT NULL,
   `targetLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bookProject` enum('udb','ulb') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
   `abbrID` tinyint(3) NOT NULL,
   `bookCode` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `chapter` tinyint(4) NOT NULL,
-  `chunk` tinyint(3) unsigned NOT NULL,
+  `chunk` tinyint(3) UNSIGNED NOT NULL,
   `firstvs` tinyint(4) NOT NULL,
   `translatedVerses` text COLLATE utf8_unicode_ci NOT NULL,
   `translateDone` tinyint(4) NOT NULL DEFAULT '0',
   `dateCreate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `dateUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -8075,14 +8067,14 @@ CREATE TABLE IF NOT EXISTS `vm_translations` (
 -- Table structure for table `vm_translators`
 --
 
-CREATE TABLE IF NOT EXISTS `vm_translators` (
-`trID` int(10) unsigned NOT NULL,
-  `memberID` int(10) unsigned NOT NULL,
-  `eventID` int(10) unsigned NOT NULL,
+CREATE TABLE `vm_translators` (
+  `trID` int(10) UNSIGNED NOT NULL,
+  `memberID` int(10) UNSIGNED NOT NULL,
+  `eventID` int(10) UNSIGNED NOT NULL,
   `step` enum('none','pray','consume','verbalize','chunking','read-chunk','blind-draft','self-check','peer-review','keyword-check','content-review','final-review','finished') NOT NULL DEFAULT 'pray',
-  `currentChapter` tinyint(3) unsigned NOT NULL,
-  `currentChunk` tinyint(3) unsigned NOT NULL,
-  `checkerID` int(10) unsigned NOT NULL,
+  `currentChapter` tinyint(3) UNSIGNED NOT NULL,
+  `currentChunk` tinyint(3) UNSIGNED NOT NULL,
+  `checkerID` int(10) UNSIGNED NOT NULL,
   `checkDone` tinyint(1) NOT NULL DEFAULT '0',
   `hideChkNotif` tinyint(1) NOT NULL DEFAULT '1',
   `translateDone` tinyint(1) NOT NULL DEFAULT '0',
@@ -8090,8 +8082,7 @@ CREATE TABLE IF NOT EXISTS `vm_translators` (
   `peerCheck` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'peer checkers (chapter:memberID)',
   `kwCheck` text NOT NULL COMMENT 'keyword check checkers (chapter:memberID)',
   `crCheck` text NOT NULL COMMENT 'content review checkers (chapter:memberID)'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -8101,115 +8092,143 @@ CREATE TABLE IF NOT EXISTS `vm_translators` (
 -- Indexes for table `turn_secret`
 --
 ALTER TABLE `turn_secret`
- ADD PRIMARY KEY (`id`);
- 
+  ADD PRIMARY KEY (`id`);
+
 --
--- Indexes for table `vm_alma_words`
+-- Indexes for table `vm_abbr`
 --
-ALTER TABLE `vm_alma_words`
- ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`);
- 
+ALTER TABLE `vm_abbr`
+  ADD PRIMARY KEY (`abbrID`),
+  ADD UNIQUE KEY `code` (`code`);
+
 --
 -- Indexes for table `vm_alma_synonyms`
 --
 ALTER TABLE `vm_alma_synonyms`
- ADD PRIMARY KEY (`id`), ADD KEY `word_id` (`word_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `word_id` (`word_id`);
 
 --
 -- Indexes for table `vm_alma_translations`
 --
 ALTER TABLE `vm_alma_translations`
- ADD PRIMARY KEY (`id`), ADD KEY `word_id` (`word_id`);
- 
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `word_id` (`word_id`);
+
 --
 -- Indexes for table `vm_alma_votes_track`
 --
 ALTER TABLE `vm_alma_votes_track`
- ADD PRIMARY KEY (`id`), ADD KEY `votable_id` (`votable_id`);
- 
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `votable_id` (`votable_id`);
+
 --
--- Indexes for table `vm_abbr`
+-- Indexes for table `vm_alma_words`
 --
-ALTER TABLE `vm_abbr`
- ADD PRIMARY KEY (`abbrID`), ADD UNIQUE KEY `code` (`code`);
+ALTER TABLE `vm_alma_words`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indexes for table `vm_chapters`
 --
 ALTER TABLE `vm_chapters`
- ADD PRIMARY KEY (`chapterID`), ADD UNIQUE KEY `Unique` (`eventID`,`memberID`,`chapter`) USING BTREE, ADD KEY `eventID` (`eventID`);
+  ADD PRIMARY KEY (`chapterID`),
+  ADD UNIQUE KEY `Unique` (`eventID`,`memberID`,`chapter`) USING BTREE,
+  ADD KEY `eventID` (`eventID`);
 
 --
 -- Indexes for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
- ADD PRIMARY KEY (`l2chID`), ADD UNIQUE KEY `memberID` (`memberID`,`eventID`), ADD KEY `event` (`eventID`), ADD KEY `member` (`memberID`);
+  ADD PRIMARY KEY (`l2chID`),
+  ADD UNIQUE KEY `memberID` (`memberID`,`eventID`),
+  ADD KEY `event` (`eventID`),
+  ADD KEY `member` (`memberID`);
 
 --
 -- Indexes for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
- ADD PRIMARY KEY (`l3chID`), ADD UNIQUE KEY `memberID` (`memberID`,`eventID`), ADD KEY `event` (`eventID`), ADD KEY `member` (`memberID`);
+  ADD PRIMARY KEY (`l3chID`),
+  ADD UNIQUE KEY `memberID` (`memberID`,`eventID`),
+  ADD KEY `event` (`eventID`),
+  ADD KEY `member` (`memberID`);
 
 --
 -- Indexes for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
- ADD PRIMARY KEY (`cID`), ADD KEY `memberID` (`memberID`), ADD KEY `eventID` (`eventID`), ADD KEY `chapter` (`chapter`);
+  ADD PRIMARY KEY (`cID`),
+  ADD KEY `memberID` (`memberID`),
+  ADD KEY `eventID` (`eventID`),
+  ADD KEY `chapter` (`chapter`);
 
 --
 -- Indexes for table `vm_events`
 --
 ALTER TABLE `vm_events`
- ADD PRIMARY KEY (`eventID`), ADD UNIQUE KEY `pair` (`projectID`,`bookCode`);
+  ADD PRIMARY KEY (`eventID`),
+  ADD UNIQUE KEY `pair` (`projectID`,`bookCode`);
 
 --
 -- Indexes for table `vm_gateway_projects`
 --
 ALTER TABLE `vm_gateway_projects`
- ADD PRIMARY KEY (`gwProjectID`);
+  ADD PRIMARY KEY (`gwProjectID`);
 
 --
 -- Indexes for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
- ADD PRIMARY KEY (`kID`), ADD KEY `memberID` (`memberID`), ADD KEY `eventID` (`eventID`), ADD KEY `chapter` (`chapter`);
+  ADD PRIMARY KEY (`kID`),
+  ADD KEY `memberID` (`memberID`),
+  ADD KEY `eventID` (`eventID`),
+  ADD KEY `chapter` (`chapter`);
 
 --
 -- Indexes for table `vm_languages`
 --
 ALTER TABLE `vm_languages`
- ADD PRIMARY KEY (`langID`);
+  ADD PRIMARY KEY (`langID`);
 
 --
 -- Indexes for table `vm_members`
 --
 ALTER TABLE `vm_members`
- ADD PRIMARY KEY (`memberID`);
+  ADD PRIMARY KEY (`memberID`);
 
 --
 -- Indexes for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
- ADD PRIMARY KEY (`pID`), ADD UNIQUE KEY `pid` (`pID`), ADD UNIQUE KEY `mID` (`mID`);
+  ADD PRIMARY KEY (`pID`),
+  ADD UNIQUE KEY `pid` (`pID`),
+  ADD UNIQUE KEY `mID` (`mID`);
 
 --
 -- Indexes for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
- ADD PRIMARY KEY (`projectID`), ADD KEY `gwProjectID` (`gwProjectID`);
+  ADD PRIMARY KEY (`projectID`),
+  ADD KEY `gwProjectID` (`gwProjectID`);
 
 --
 -- Indexes for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
- ADD PRIMARY KEY (`tID`), ADD UNIQUE KEY `projectID` (`projectID`,`eventID`,`chapter`,`firstvs`), ADD KEY `event_cscd` (`eventID`);
+  ADD PRIMARY KEY (`tID`),
+  ADD UNIQUE KEY `projectID` (`projectID`,`eventID`,`chapter`,`firstvs`),
+  ADD KEY `event_cscd` (`eventID`);
 
 --
 -- Indexes for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
- ADD PRIMARY KEY (`trID`), ADD UNIQUE KEY `memberID` (`memberID`,`eventID`), ADD KEY `event` (`eventID`), ADD KEY `member` (`memberID`);
+  ADD PRIMARY KEY (`trID`),
+  ADD UNIQUE KEY `memberID` (`memberID`,`eventID`),
+  ADD KEY `event` (`eventID`),
+  ADD KEY `member` (`memberID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -8219,178 +8238,182 @@ ALTER TABLE `vm_translators`
 -- AUTO_INCREMENT for table `turn_secret`
 --
 ALTER TABLE `turn_secret`
-MODIFY `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vm_alma_words`
---
-ALTER TABLE `vm_alma_words`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT for table `vm_alma_synonyms`
---
-ALTER TABLE `vm_alma_synonyms`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vm_alma_translations`
---
-ALTER TABLE `vm_alma_translations`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT for table `vm_alma_votes_track`
---
-ALTER TABLE `vm_alma_votes_track`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `vm_abbr`
 --
 ALTER TABLE `vm_abbr`
-MODIFY `abbrID` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
+  MODIFY `abbrID` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+--
+-- AUTO_INCREMENT for table `vm_alma_synonyms`
+--
+ALTER TABLE `vm_alma_synonyms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vm_alma_translations`
+--
+ALTER TABLE `vm_alma_translations`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vm_alma_votes_track`
+--
+ALTER TABLE `vm_alma_votes_track`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vm_alma_words`
+--
+ALTER TABLE `vm_alma_words`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_chapters`
 --
 ALTER TABLE `vm_chapters`
-MODIFY `chapterID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `chapterID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
-MODIFY `l2chID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `l2chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
-MODIFY `l3chID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `l3chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
-MODIFY `cID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `cID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_events`
 --
 ALTER TABLE `vm_events`
-MODIFY `eventID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `eventID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_gateway_projects`
 --
 ALTER TABLE `vm_gateway_projects`
-MODIFY `gwProjectID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `gwProjectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
-MODIFY `kID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `kID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_members`
 --
 ALTER TABLE `vm_members`
-MODIFY `memberID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `memberID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
-MODIFY `pID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `pID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
-MODIFY `projectID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `projectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
-MODIFY `tID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `tID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-MODIFY `trID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+  MODIFY `trID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `vm_alma_words`
---
-ALTER TABLE `vm_alma_words`
-ADD CONSTRAINT `foreign_word_variaty` FOREIGN KEY (`parent_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
---
 -- Constraints for table `vm_alma_synonyms`
 --
 ALTER TABLE `vm_alma_synonyms`
-ADD CONSTRAINT `vm_alma_synonyms_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `vm_alma_synonyms_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
 --
 -- Constraints for table `vm_alma_translations`
 --
 ALTER TABLE `vm_alma_translations`
-ADD CONSTRAINT `vm_alma_translations_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `vm_alma_translations_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
 --
 -- Constraints for table `vm_alma_votes_track`
 --
 ALTER TABLE `vm_alma_votes_track`
-ADD CONSTRAINT `foreign_words_votes` FOREIGN KEY (`votable_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `foreign_words_votes` FOREIGN KEY (`votable_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `vm_alma_words`
+--
+ALTER TABLE `vm_alma_words`
+  ADD CONSTRAINT `foreign_word_variaty` FOREIGN KEY (`parent_id`) REFERENCES `vm_alma_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
 --
 -- Constraints for table `vm_chapters`
 --
 ALTER TABLE `vm_chapters`
-ADD CONSTRAINT `event_chapter_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_chapter_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
-ADD CONSTRAINT `event_l2_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-ADD CONSTRAINT `member_l2_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_l2_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `member_l2_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
-ADD CONSTRAINT `event_l3_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-ADD CONSTRAINT `member_l3_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_l3_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `member_l3_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
-ADD CONSTRAINT `event_comm_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_comm_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_events`
 --
 ALTER TABLE `vm_events`
-ADD CONSTRAINT `prjct_event_cscd` FOREIGN KEY (`projectID`) REFERENCES `vm_projects` (`projectID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `prjct_event_cscd` FOREIGN KEY (`projectID`) REFERENCES `vm_projects` (`projectID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
-ADD CONSTRAINT `event_kw_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_kw_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
-ADD CONSTRAINT `members_profile_cscd` FOREIGN KEY (`mID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `members_profile_cscd` FOREIGN KEY (`mID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
-ADD CONSTRAINT `gwproj_proj_cscd` FOREIGN KEY (`gwProjectID`) REFERENCES `vm_gateway_projects` (`gwProjectID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `gwproj_proj_cscd` FOREIGN KEY (`gwProjectID`) REFERENCES `vm_gateway_projects` (`gwProjectID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
-ADD CONSTRAINT `event_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-ADD CONSTRAINT `event_trans_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-ADD CONSTRAINT `member_trans_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `event_trans_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `member_trans_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

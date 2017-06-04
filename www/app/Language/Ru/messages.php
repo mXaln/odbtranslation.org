@@ -25,6 +25,7 @@ return array (
     "confirm_password" => "Подтверждение пароля",
     "enter_new_password" => "Введите новый пароль",
     "userName" => "Имя пользователя",
+    "userNameOrEmail" => "Имя пользователя или Email",
     "name" => "Имя",
     "accept_btn" => "Принять",
     "deny_btn" => "Отмена",

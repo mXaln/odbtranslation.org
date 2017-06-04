@@ -28,6 +28,7 @@ return array (
     "confirm_password" => "Pastikan Password",
     "enter_new_password" => "Masukkan Password baru",
     "userName" => "User name",
+    "userNameOrEmail" => "User Name atau Email",
     "name" => "Nama",
     "accept_btn" => "Terima",
     "deny_btn" => "Batal",

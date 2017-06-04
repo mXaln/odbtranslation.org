@@ -28,6 +28,7 @@ return array (
     "confirm_password" => "Confirm Password",
     "enter_new_password" => "Enter new password",
     "userName" => "User name",
+    "userNameOrEmail" => "User Name or Email",
     "name" => "Name",
     "accept_btn" => "Accept",
     "deny_btn" => "Cancel",

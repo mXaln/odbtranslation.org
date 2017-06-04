@@ -28,6 +28,7 @@ return array (
     "confirm_password" => "Isulat pagbalik ang Password",
     "enter_new_password" => "Isulat ang Bag-ong Password",
     "userName" => "Alyas nga Ngalan",
+    "userNameOrEmail" => "Alyas nga Ngalan o Email",
     "name" => "Ngalan",
     "accept_btn" => "Dawata",
     "deny_btn" => "Dili Idayon",

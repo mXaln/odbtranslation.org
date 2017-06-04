@@ -1028,6 +1028,14 @@ class MembersController extends Controller
                 }
                 else
                 {
+                    $profiledata = array(
+                        "mID" => $id,
+                        "prefered_roles" => json_encode(["translator"]),
+                        "languages" => '{"en":[3,3]}',
+                    );
+
+                    $this->_model->createProfile($profiledata);
+                    
                     Session::set("success", __('registration_local_success_message'));
                     Url::redirect('members/login');
                 }
