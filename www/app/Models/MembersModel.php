@@ -61,7 +61,8 @@ class MembersModel extends Model {
             return $this->db->table("members")
                 ->select($select)
                 ->leftJoin("profile", "members.memberID", "=", "profile.mID")
-                ->whereIn("memberID", $memberIDs)->get();
+                ->whereIn("memberID", $memberIDs)
+                ->orderBy("firstName")->get();
 		}
 	}
 
@@ -99,7 +100,9 @@ class MembersModel extends Model {
         return $this->db->table("members")
             //->where("isSuperAdmin", false)
             ->where("verified", true)
-            ->where("userName", "LIKE", "%$search%")->get();
+            ->where("userName", "LIKE", "%$search%")
+            ->orWhere("firstName", "LIKE", "%$search%")
+            ->orWhere("lastName", "LIKE", "%$search%")->get();
 	}
 
     /**

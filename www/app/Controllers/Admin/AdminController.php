@@ -186,7 +186,9 @@ class AdminController extends Controller {
             $membersArray = (array)$this->_membersModel->getMembers(json_decode($event[0]->admins));
 
             foreach ($membersArray as $member) {
-                $members[$member->memberID] = $member->userName;
+                $members[$member->memberID] = "{$member->firstName} "
+                    .mb_substr($member->lastName, 0, 1)
+                    .". ({$member->userName})";
             }
 
             $event[0]->admins = $members;
@@ -479,7 +481,9 @@ class AdminController extends Controller {
             foreach ($admins as $admin) {
                 $tmp = array();
                 $tmp["value"] = $admin->memberID;
-                $tmp["text"] = $admin->userName;
+                $tmp["text"] = "{$admin->firstName} "
+                    .mb_substr($admin->lastName, 0, 1)
+                    .". ({$admin->userName})";
 
                 $arr[] = $tmp;
             }

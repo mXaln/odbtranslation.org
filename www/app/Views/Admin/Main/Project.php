@@ -149,7 +149,7 @@ if(!empty($data["project"])):
                         </div>
                         -->
 
-                        <div class="form-group" style="width: 350px;">
+                        <div class="form-group" style="width: 450px;">
                             <label for="adminsSelect" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
                             <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo __("add_admins_by_username") ?>">
                                 <option></option>
