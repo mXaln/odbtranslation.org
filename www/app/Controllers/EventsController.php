@@ -586,7 +586,7 @@ class EventsController extends Controller
                                         ->orderBy('title')
                                         ->get();
 
-                                    $data["words"] = $words;
+                                    $data["words"] = json_encode($words->toArray());
                                 }
                             }
                             else

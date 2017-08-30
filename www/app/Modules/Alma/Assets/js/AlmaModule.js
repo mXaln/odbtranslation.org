@@ -238,6 +238,7 @@ angular.module('Alma', ['ngSanitize'])
     return {
         link : function($scope, element, attrs) {
             var triggerReload = function() {
+                $(".alma_loader img").show()
                 $http.post('main-text/' + bookCode)
                 .success(function(data) {
                         if (data.error) {
@@ -250,7 +251,10 @@ angular.module('Alma', ['ngSanitize'])
                         }
                 })
                 .error(function(){
-                        console.log('не удалось получить данные');
+                    console.log('не удалось получить данные');
+                })
+                .finally(function() {
+                    $(".alma_loader img").hide()
                 });
             };
             

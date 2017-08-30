@@ -163,3 +163,66 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
 </script>
 
 <?php echo isset($page) ? $page : "" ?>
+
+
+<?php if($isCheckPage || $data["step"] == EventSteps::SELF_CHECK): ?>
+<style>
+    .buttons_spec {
+        position: absolute;
+        top: 97px;
+        left: 930px;
+        text-align: center;
+        border: 1px solid #ccc;
+        background-color: white;
+        padding: 5px 10px;
+        z-index: 102;
+    }
+    
+    .buttons_spec.unlinked {
+        position: fixed;
+        left: calc(50% + 345px);
+        top: 20px;
+    }
+</style>
+
+<div class="buttons_spec">
+    <button class="spec_char" data="D̃">D̃</button>
+    <button class="spec_char" data="d̃">d̃</button>&nbsp;&nbsp;
+    <button class="spec_char" data="Õ">Õ</button>
+    <button class="spec_char" data="õ">õ</button>&nbsp;&nbsp;
+    <button class="spec_char" data="T̃">T̃</button>
+    <button class="spec_char" data="t̃">t̃</button><br>
+    <button class="spec_char" data="Ṽ">Ṽ</button>
+    <button class="spec_char" data="ṽ">ṽ</button>&nbsp;&nbsp;
+    <button class="spec_char" data="W̃">W̃</button>
+    <button class="spec_char" data="w̃">w̃</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var focused;
+        
+        $("textarea").focus(function() {
+            focused = $(this);
+        });
+        
+        $(".spec_char").click(function(e) {
+            e.preventDefault();
+            var char = $(this).attr("data");
+            if(typeof focused != "undefined")
+            {
+                var caretPos = focused[0].selectionStart;
+                var textAreaTxt = focused.val();
+                focused.val(textAreaTxt.substring(0, caretPos) + char + textAreaTxt.substring(caretPos));
+            }
+        });
+        
+        $(window).scroll(function () {
+            if($(this).scrollTop() > 150)
+                $(".buttons_spec").addClass("unlinked");
+            else
+                $(".buttons_spec").removeClass("unlinked");
+        });
+    });
+</script>
+<?php endif; ?>

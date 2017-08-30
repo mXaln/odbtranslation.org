@@ -433,7 +433,7 @@ $(document).ready(function() {
             if(typeof almaWords != "undefined" && almaWords != '')
             {
                 var almaTranslations = [];
-                $.each(JSON.parse(almaWords), function (i, word) {
+                $.each(almaWords, function (i, word) {
                     var id = word.parent_id == null ? word.id : word.parent_id;
                     var translation = "";
                     $.each(word.translations, function (j, trans) {
@@ -445,7 +445,8 @@ $(document).ready(function() {
                     });
 
                     $.each($(".chunk_verses"), function (k, chunk) {
-                        var text = $(chunk).html().replace(word.title, '<span class="btn-warning almaWord" data-toggle="tooltip" data-placement="auto" title="" data="'+id+'">'+word.title+'</span> ');
+                        var re = new RegExp("([\\s,.:;!?'\"])("+word.title+")([\\s,.:;!?'\"])", "gi");
+                        var text = $(chunk).html().replace(re, '$1<span class="btn-warning almaWord" data-toggle="tooltip" data-placement="auto" title="" data="'+id+'">$2</span>$3');
                         $(chunk).html(text);
                     });
                 });

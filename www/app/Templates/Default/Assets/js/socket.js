@@ -259,6 +259,8 @@ function OnCheckingRequest(data)
                             '</a>';
                 });
                 $(".notif_block").prepend(notifs);
+                var notifSound = document.getElementById('notif');
+                notifSound.play();
             }
             else
             {

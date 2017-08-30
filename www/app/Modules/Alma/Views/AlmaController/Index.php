@@ -46,7 +46,7 @@
                         <li><a data-toggle="tab" href="#variants_{{ chosen.id }}"><?php echo __("variations") ?></a></li>
                     </ul>
 
-                    <div class="tab-content">
+                    <div class="tab-content" style="overflow-y: auto; height: 350px;">
                         
                         <div id="translations_{{ chosen.id }}" class="tab-pane fade in active">
                             <div class="panel-body">
@@ -170,6 +170,9 @@
 
 <div class="alma_top">
     <img src="<?php echo template_url("img/top.png") ?>" width="50">
+</div>
+<div class="alma_loader">
+    <img src="<?php echo template_url("img/loader.gif") ?>">
 </div>
 
 <script>

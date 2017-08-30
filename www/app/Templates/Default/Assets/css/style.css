@@ -3683,3 +3683,14 @@ button.startEvnt, button.editEvnt {
 .add_cheker input {
     height: 34px;
 }
+
+.alma_loader {
+    position: absolute;
+    top: 200px;
+    left: calc(40% - 50px);
+    width: 100px
+}
+
+.alma_loader img {
+    display: none
+}

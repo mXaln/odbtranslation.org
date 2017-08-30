@@ -16,6 +16,18 @@
                 <div class="main_content_text">
                     <div class="row">
                         <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-3</span></h4>
+                        
+                        &nbsp;&nbsp;&nbsp;
+                        <button class="spec_char" data="D̃">D̃</button>
+                        <button class="spec_char" data="d̃">d̃</button>&nbsp;&nbsp;
+                        <button class="spec_char" data="Õ">Õ</button>
+                        <button class="spec_char" data="õ">õ</button>&nbsp;&nbsp;
+                        <button class="spec_char" data="T̃">T̃</button>
+                        <button class="spec_char" data="t̃">t̃</button>&nbsp;&nbsp;
+                        <button class="spec_char" data="Ṽ">Ṽ</button>
+                        <button class="spec_char" data="ṽ">ṽ</button>&nbsp;&nbsp;
+                        <button class="spec_char" data="W̃">W̃</button>
+                        <button class="spec_char" data="w̃">w̃</button>
                     </div>
 
                     <div class="row">
@@ -88,6 +100,16 @@
             window.location.href = '/events/demo/self_check';
 
             return false;
+        });
+        
+        $(".spec_char").click(function(e) {
+            e.preventDefault();
+            var char = $(this).attr("data");
+            
+            var textArea = $("textarea[name=draft]");
+	    var caretPos = textArea[0].selectionStart;
+            var textAreaTxt = textArea.val();
+            textArea.val(textAreaTxt.substring(0, caretPos) + char + textAreaTxt.substring(caretPos));
         });
     });
 </script>
