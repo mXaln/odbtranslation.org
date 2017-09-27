@@ -87,10 +87,12 @@ class EventsModel extends Model
 
     public function getProjects($memberID, $projectID = null)
     {
-        $sql = "SELECT ".PREFIX."projects.*, tLang.gwLang, tLang.langName as tLang, sLang.langName as sLang ".
+        $sql = "SELECT ".PREFIX."projects.*, ".
+            "tLang.langName as tLang, tLang.angName as tAng, ".
+            "sLang.langName as sLang, sLang.angName as sAng ".
             "FROM ".PREFIX."projects ".
             "LEFT JOIN ".PREFIX."languages AS tLang ON ".PREFIX."projects.targetLang = tLang.langID ".
-            "LEFT JOIN ".PREFIX."languages AS sLang ON ".PREFIX."projects.sourceLangID = sLang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS sLang ON ".PREFIX."projects.gwLang = sLang.langID ".
             "WHERE ".PREFIX."projects.gwProjectID IN ".
                 "(SELECT gwProjectID FROM ".PREFIX."gateway_projects WHERE admins LIKE :memberID) ";
 

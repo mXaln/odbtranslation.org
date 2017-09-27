@@ -201,6 +201,7 @@
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </div>
             </form>
+            <div class="step_right alt"><?php echo __("step_num", [5])?></div>
         </div>
 
         <div class="content_help col-sm-3">

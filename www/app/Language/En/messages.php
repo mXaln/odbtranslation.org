@@ -186,7 +186,7 @@ return array (
     "registration_local_success_message" => "Registration successfull!",
 
     // Error messages
-    "userName_characters_error" => "User name should contain only latin letters and numbers and start with letters",
+    "userName_characters_error" => "User name should contain only small latin letters and numbers and start with letters",
     "userName_length_error" => "User name should be of length between 5 and 20",
     "firstName_length_error" => "First name should be of length between 2 and 20",
     "lastName_length_error" => "Last name should be of length between 2 and 20",
@@ -418,8 +418,8 @@ return array (
     "content-review" => "Verse-by-Verse Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language</li><li>Contact your partner on Skype, Hangout, V-MAST chat, phone, etc…</li><li>The review can be done in two ways: <ol><li>If the checker knows only the source, the check must be done by back translation. In this case, you will read the translated text chunk by chunk, then you or a second person will back translate into the source, and the checker will compare what they hear to the source text they are reading.</li><li>If the checker is fluent in both languages, they can elect to use method one, or review your translation side by side with the source text.</li></ol></li><li>In either case, your checker will then ask questions about anything that doesn’t seem to transfer accurately or completely. Make appropriate adjustments to your translation.</li><li>Make sure that the words used match the chosen literary level.</li><li>Spend no more than 30 minutes on this exercise. Do not waste time on disagreements. In such cases, leave the translated text as is, record a note on the appropriate verse, and move on.</li>",
     "content-review_checker_desc" => "<li><b>PURPOSE:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language.</li><li>As the checker your screen instructions will be in orange.</li><li>Contact your partner on Skype, Hangout, V-MAST chat, phone, etc…</li><li>The review can be done in two ways. The default view assumes the first method.<ol><li>If you know only the source language, the check must be done by back translation. In this case, the translator will read the translated text verse by verse, then they or a second person will back translate into the source, and you will compare what you hear to the source text they are reading.</li><li>If you are fluent in both languages, you can either use method one, or choose instead to review the translation side by side with the source. In this case, press the “Side by Side” toggle button to switch views. You then compare the two yourself.</li></ol></li><li>In either case, you should ask questions about anything that doesn’t seem to transfer accurately or completely to the target language.</li><li>Spend no more than 30 minutes on this exercise. Do not waste time on disagreements. In such cases, leave the translated text as is, record a note on the appropriate chunk, and move on.</li>",
-    "final-review" => "Final Review",
-    "final-review_desc" => "<li><b>PURPOSE:</b> this is a final review and where you will add verse markers to the translated text.</li><li>Read through translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li><li>Spend no more than 10 minutes on this exercise.</li>",
+    "final-review" => "Verse Markers",
+    "final-review_desc" => "<li><b>PURPOSE:</b> this is where you will add verse markers to the translated text.</li><li>Read through translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li><li>Spend no more than 10 minutes on this exercise.</li>",
     "finished" => "Finished",
 
     // Errors

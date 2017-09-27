@@ -5,7 +5,15 @@ use Shared\Legacy\Error;
 echo Error::display($error);
 
 if(!isset($error)):
-?>
+?> 
+
+<div class="back_link">
+    <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
+    <?php endif; ?>
+</div>
+
 <div class="manage_container row">
     <div class="row">
         <div class="col-sm-8">

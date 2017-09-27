@@ -44,7 +44,7 @@ use Helpers\Constants\StepsStates;
                     <div class="section_translator">
                         <div class="section_translator_name">
                             <img width="50" src="<?php echo template_url("img/avatars/f9.png") ?>">
-                            <span><b>mSimpson</b></span>
+                            <span><b>Marge S.</b></span>
                         </div>
                     </div>
                     <div class="section_steps">
@@ -63,7 +63,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_name">2. <?php echo __(EventSteps::VERBALIZE) ?></div>
                             <div class="step_checker">
                                 <img width="50" src="<?php echo template_url("img/avatars/m1.png") ?>">
-                                <div>mpat1977</div>
+                                <div>Mark P.</div>
                                 <span class="glyphicon glyphicon-ok checked"></span>
                             </div>
                         </div>
@@ -106,8 +106,8 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/peer-review.png") ?>"></div>
                             <div class="step_name">6. <?php echo __(EventSteps::PEER_REVIEW) ?></div>
                             <div class="step_checker">
-                                <img width="50" src="<?php echo template_url("img/avatars/m1.png") ?>">
-                                <div>mpat1977</div>
+                                <img width="50" src="<?php echo template_url("img/avatars/m5.png") ?>">
+                                <div>Paul G.</div>
                                 <span class="glyphicon glyphicon-ok checked"></span>
                             </div>
                         </div>
@@ -118,8 +118,8 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>"></div>
                             <div class="step_name">7. <?php echo __(EventSteps::KEYWORD_CHECK) ?></div>
                             <div class="step_checker">
-                                <img width="50" src="<?php echo template_url("img/avatars/m1.png") ?>">
-                                <div>mpat1977</div>
+                                <img width="50" src="<?php echo template_url("img/avatars/m2.png") ?>">
+                                <div>John B.</div>
                                 <span class="glyphicon glyphicon-ok checked"></span>
                             </div>
                         </div>
@@ -161,7 +161,7 @@ use Helpers\Constants\StepsStates;
                     <div class="section_translator">
                         <div class="section_translator_name">
                             <img width="50" src="<?php echo template_url("img/avatars/m1.png") ?>">
-                            <span><b>mpat1977</b></span>
+                            <span><b>Mark P.</b></span>
                         </div>
                     </div>
                     <div class="section_steps">
@@ -180,7 +180,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_name">2. <?php echo __(EventSteps::VERBALIZE) ?></div>
                             <div class="step_checker">
                                 <img width="50" src="<?php echo template_url("img/avatars/f9.png") ?>">
-                                <div>mSimpson</div>
+                                <div>Marge S.</div>
                                 <span class="glyphicon glyphicon-ok checked"></span>
                             </div>
                         </div>

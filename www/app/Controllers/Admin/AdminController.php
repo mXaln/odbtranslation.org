@@ -50,7 +50,7 @@ class AdminController extends Controller {
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
         $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));
         $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
-		
+        
         return View::make('Admin/Main/Index')
             ->shares("title", __("admin_project_title"))
             ->shares("data", $data);

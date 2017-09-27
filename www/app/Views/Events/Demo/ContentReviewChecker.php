@@ -355,6 +355,7 @@
 
                     <button id="next_step" class="btn btn-primary" disabled=""><?php echo __("continue")?></button>
                 </form>
+                <div class="step_right chk"><?php echo __("step_num", [8])?></div>
             </div>
         </div>
 

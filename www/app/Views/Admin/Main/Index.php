@@ -23,7 +23,11 @@
                     <tbody>
                     <?php foreach($data["gwProjects"] as $gwProject):?>
                         <tr>
-                            <td><?php echo $gwProject->langName ?></td>
+                            <td><?php echo "[" . $gwProject->langID . "] " 
+                                . $gwProject->langName 
+                                . ($gwProject->angName != $gwProject->langName 
+                                    ? " (" . $gwProject->angName . ")"
+                                    : "") ?></td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -93,8 +97,18 @@
                     <tbody>
                     <?php foreach($data["projects"] as $project):?>
                         <tr>
-                            <td><a href="/admin/project/<?php echo $project->projectID ?>"><?php echo $project->tLang ?></a></td>
-                            <td><?php echo $project->gwLang ?></td>
+                            <td>
+                                <a href="/admin/project/<?php echo $project->projectID ?>">
+                                    <?php echo "[" . $project->targetLang . "] " . 
+                                        $project->tLang . 
+                                        ($project->tLang != $project->tAng 
+                                            ? " (" . $project->tAng . ")" : "") ?>
+                                </a>
+                            </td> 
+                            <td><?php echo "[" . $project->gwLang . "] " . 
+                                $project->sLang . 
+                                ($project->sLang != $project->sAng 
+                                ? " (" . $project->sAng . ")" : "") ?></td>
                             <td><?php echo __($project->bookProject) ?></td>
                             <td><?php echo __($project->sourceBible). " (".$project->sourceLangID.")"  ?></td>
                         </tr>

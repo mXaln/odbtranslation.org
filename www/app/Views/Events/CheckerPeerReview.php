@@ -106,6 +106,7 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
+                <div class="step_right chk"><?php echo __("step_num", [6])?></div>
             </div>
             <?php //endif; ?>
         </div>

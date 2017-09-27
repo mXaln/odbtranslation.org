@@ -159,6 +159,7 @@
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
+                <div class="step_right"><?php echo __("step_num", [3])?></div>
             </div>
         </div>
 

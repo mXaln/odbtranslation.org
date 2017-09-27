@@ -363,7 +363,7 @@ html, body, .container {
     right: -610px; bottom: 0;
     width: 620px;
     height: 500px;
-    z-index: 99;
+    z-index: 103;
 }
 
 .chat {
@@ -1524,7 +1524,7 @@ mark {
     background-color: #fff;
     border: 1px solid #4596cc;
     /*border-bottom: none;*/
-    z-index: 101;
+    z-index: 104;
     list-style: none;
     padding: 0px;
     overflow-y: auto;
@@ -3693,4 +3693,24 @@ button.startEvnt, button.editEvnt {
 
 .alma_loader img {
     display: none
+}
+
+.step_right {
+    float: right;
+    margin: -20px 20px 0 0;
+    font-weight: bold;
+    font-size: 22px;
+    color: #4596cc
+}
+
+.step_right.alt {
+    margin-top: -120px;
+}
+
+.step_right.chk {
+    color: #ffa500;
+}
+
+.main_content_footer form {
+    float: left;
 }

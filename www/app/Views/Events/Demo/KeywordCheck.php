@@ -217,6 +217,7 @@
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </div>
             </form>
+            <div class="step_right alt"><?php echo __("step_num", [7])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -236,7 +237,7 @@
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span">Marge S.</span>
+                        <span class="checker_name_span">Paul G.</span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/demo/information"><?php echo __("event_info") ?></a>

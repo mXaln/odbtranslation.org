@@ -60,13 +60,13 @@ $numValues = [
             <div class="public_uname"><?php echo $profile["username"] ?></div>
             <div class="public_fname"><?php echo $profile["fullname"] ?></div>
         </div>
-        <div class="public_rating">
+        <!--<div class="public_rating">
             <div>
                 <span><?php echo __("translator_rating") ?></span>
                 <img src="<?php echo template_url("img/note.png") ?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('translator_rating_tip'); ?>">
             </div>
             <div class="public_rating_score"><?php echo $profile["rating"] ?></div>
-        </div>
+        </div>-->
     </div>
 
     <h3><?php echo __('common_skills'); ?></h3>

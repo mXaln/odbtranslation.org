@@ -29,6 +29,7 @@ if(isset($data["error"])) return;
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </form>
+                <div class="step_right"><?php echo __("step_num", [1])?></div>
             </div>
             <?php //endif; ?>
         </div>
