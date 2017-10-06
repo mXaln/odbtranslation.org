@@ -164,7 +164,7 @@ class TranslationsModel extends Model
         foreach ($langNames as $langName) {
             $langs[$langName->langID] = $langName->langName;
         }
-
+        
         $sls = array();
         foreach (BookSources::catalog as $lang => $books) {
             foreach ($books as $book) {

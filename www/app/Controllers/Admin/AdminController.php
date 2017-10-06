@@ -387,21 +387,29 @@ class AdminController extends Controller {
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
+        $sourceTranslationNotes = isset($_POST['sourceTranslationNotes']) && $_POST['sourceTranslationNotes'] != "" ? $_POST['sourceTranslationNotes'] : null;
         $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
 
         if($subGwLangs == null)
         {
-            $error[] = __('choose_gateway_language');
+            $error[] = __('choose_gw_lang');
         }
 
         if($targetLang == null)
         {
-            $error[] = __("choose_target_language");
+            $error[] = __("choose_target_lang");
         }
 
         if($sourceTranslation == null)
         {
-            $error[] = __("choose_source_translation");
+            if($sourceTranslationNotes == null)
+            {
+                $error[] = __("choose_source_trans");
+            }
+            else
+            {
+                $sourceTranslation = $sourceTranslationNotes;
+            }
         }
         else
         {
@@ -416,9 +424,9 @@ class AdminController extends Controller {
             $sourceTrPair = explode("|", $sourceTranslation);
             $gwLangsPair = explode("|", $subGwLangs);
 
-            $projType = $sourceTrPair[0] != "ulb" && $sourceTrPair[0] != "udb" ?
+            $projType = !in_array($sourceTrPair[0], ['ulb', 'udb', 'tn']) ?
                 $projectType : $sourceTrPair[0];
-
+            
             $exist = $this->_eventsModel->getProject(["projects.projectID"], [
                 ["projects.gwLang", $gwLangsPair[0]],
                 ["projects.targetLang", $targetLang],
@@ -597,10 +605,13 @@ class AdminController extends Controller {
         {
             Cache::forget($cache_keyword);
 
-            $source = $this->_eventsModel->getSourceBookFromApiUSFM($bookProject, $abbrID, $bookCode, $sourceLangID);
-            $usfm = UsfmParser::parse($source);
+            $usfm = $this->_eventsModel->getCachedSourceBookFromApi(
+                $bookProject, 
+                $bookCode, 
+                $sourceLangID,
+                $abbrID);
 
-            if(!empty($usfm))
+            if($usfm && !empty($usfm))
                 Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
 
         }

@@ -6,6 +6,13 @@
 
 $(function () {
 
+    if(typeof $.fn.chosen == "function")
+        $("#subGwLangs, #targetLangs, "
+            + "#sourceTranslation, "
+            + "#sourceTranslationNotes, "
+            + "#gwLang, #projectMode")
+            .chosen();
+
     // Open gateway project form
     $("#cregwpr").click(function () {
         $("#gwProject").trigger("reset");
@@ -62,6 +69,24 @@ $(function () {
             $(".projectType").addClass("hidden");
         }
     });
+
+    $("select[name=projectMode]").change(function() {
+        if($(this).val() == "scripture")
+        {
+            $(".sourceTranslation").removeClass("hidden");
+            $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslation").chosen();
+        }
+        else if($(this).val() == "notes")
+        {
+            $(".sourceTranslation").addClass("hidden");
+            $(".sourceTranslationNotes").removeClass("hidden");
+            $(".projectType").addClass("hidden");
+            $("#sourceTranslationNotes").chosen();
+            $("#sourceTranslation").val('').trigger("chosen:updated");
+        }
+    });
+    
 
     $("#crepr").click(function () {
         $("#project").trigger("reset");
@@ -209,9 +234,6 @@ $(function () {
             '(<strong>'+Language.chaptersNum+':</strong> '+chapterNum+')'
         );
     });
-
-    if(typeof $.fn.chosen == "function")
-        $("#subGwLangs, #targetLangs, #sourceTranslation, #gwLang").chosen();
 
     // ------------------ DateTimePicker functionality ------------------- //
     if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")

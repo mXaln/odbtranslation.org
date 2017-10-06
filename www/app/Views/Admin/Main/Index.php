@@ -131,6 +131,16 @@
             <div class="subErrors"></div>
 
             <form action="/admin/rpc/create_project" method="post" id="project" style="width: 400px;">
+                
+                <div class="form-group">
+                    <label for="projectMode"><?php echo __('project_mode'); ?></label>
+                    <select name="projectMode" id="projectMode" class="form-control" data-placeholder="<?php echo __('choose_project_mode'); ?>">
+                        <option value=""></option>
+                        <option value="scripture"><?php echo __("scripture_mode") ?></option>
+                        <option value="notes"><?php echo __("notes_mode") ?></option>
+                    </select>
+                </div>
+            
                 <div class="form-group">
                     <label for="subGwLangs"><?php echo __('gw_language'); ?></label>
                     <select class="form-control" id="subGwLangs" name="subGwLangs" data-placeholder="<?php echo __('choose_gw_lang'); ?>">
@@ -151,15 +161,25 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="projects"><?php echo __('book_project'); ?></label>
+                <div class="form-group sourceTranslation">
+                    <label for="sourceTranslation"><?php echo __('book_project'); ?></label>
                     <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
                         <option value=""></option>
                         <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
                             <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>">
-                                <?php echo $sourceTranslation->langName . " - " . __($sourceTranslation->bookProject) ?>
+                                <?php echo "[".$sourceTranslation->langID."] "
+                                    . $sourceTranslation->langName . " - " 
+                                    . __($sourceTranslation->bookProject) ?>
                             </option>
                         <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group sourceTranslationNotes hidden">
+                    <label for="sourceTranslationNotes"><?php echo __('book_project'); ?></label>
+                    <select name="sourceTranslationNotes" id="sourceTranslationNotes" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
+                        <option value=""></option>
+                        <option value="tn|en">English</option>
                     </select>
                 </div>
 

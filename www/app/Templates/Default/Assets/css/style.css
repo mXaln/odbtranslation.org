@@ -3009,6 +3009,11 @@ div[class^="member_usname mid"] {
     margin-top: 5px;
 }
 
+.event_mode {
+    font-style: italic;
+    color: #008000;
+}
+
 .event_img {
     margin: 10px 0 20px;
 }
@@ -3713,4 +3718,58 @@ button.startEvnt, button.editEvnt {
 
 .main_content_footer form {
     float: left;
+}
+
+#sourceTranslationNotes_chosen {
+    width: 100% !important;
+}
+
+.note_content h1 {
+    font-size: 22px;
+}
+
+.note_chunk {
+    border-top: 1px solid #f00;
+    padding-top: 10px; 
+}
+
+.notes_content_block {
+    display: none;
+}
+
+.note_chunk_verses {
+    color: #249b45;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.add_notes {
+    text-align: right;
+}
+
+.notes_chunk_editor {
+    width: 100%;
+    margin: 5px 0 5px 0;
+    border: 1px solid #ccc;
+    padding: 5px;
+    position: relative;
+}
+
+.notes_chunk_editor textarea {
+    width: 100%;
+    font-weight: normal;
+}
+
+.notes_chunk_editor label {
+    display: inline;
+}
+
+.notes_chunk_remove {
+    position: absolute;
+    top: 2px; 
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    padding: 2px 4px;
+    font-size: 11px;
 }

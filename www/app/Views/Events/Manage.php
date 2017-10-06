@@ -172,6 +172,7 @@ if(!isset($error)):
 </div>
 
 <input type="hidden" id="eventID" value="<?php echo $data["event"][0]->eventID ?>">
+<input type="hidden" id="mode" value="<?php echo $data["event"][0]->bookProject ?>">
 
 
 <div class="chapter_members">

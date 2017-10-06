@@ -52,6 +52,11 @@ return array (
     "send" => "Отправить",
     "facilitator_message_tip" => "Это сообщение было отправлено с сайта V-MAST.com. <br>Если вы хотите ответить, нажмите на почтовую ссылку ниже. <br>Или скопируйте адрес и напишите новое письмо",
     "member_wrote" => "написал",
+    "project_mode" => "Режим проекта",
+    "choose_project_mode" => "Выберите режим проекта",
+    "scripture_mode" => "Писание",
+    "notes_mode" => "Заметки",
+    "project_exists" => "Проект существует",
 
     // Activate method
     "activate_account_title" => "Активация учетной записи",
@@ -219,6 +224,11 @@ return array (
     "ulb" => "Дословная Библия",
     "rsb" => "Русская Синодальная Бибилия",
     "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
+    "kar" => "Karoli Translation",
+    "dkl" => "Danicic Karadzic Latin",
+    "stf" => "Stefanović Novi Zavet",
+    "src" => "Šarić Hrvatski",
+    "tn" => "Заметки для перевода",
     "old_test" => "Ветхий Завет",
     "new_test" => "Новый Завет",
     "checker_apply" => "<b>{0}</b> готов(а) для проверки <b>({1})</b> книги <b>{2}</b>, главы <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
@@ -317,7 +327,7 @@ return array (
     "pairs_number" => "Пары (<span>{0}</span>)",
     "pair_number" => "Пара {0}",
     "add_person" => "Назначить главу",
-    "add_translator" => "Добавить переводчиков",
+    "add_translator" => "Добавить переводчиков/проверяющих",
     "add_checker" => "Добавить проверяющего",
     "assign_chapter_title" => "Назначить главу",
     "assign_pair_title" => "Назначить пару",
@@ -386,6 +396,7 @@ return array (
     "clear_cache" => "Очистить кэш",
     "clear_cache_info" => "Удалить исходный текст из кэша. \nОн будет восстановлен, когда переводчик откроет страницу 8 шагов.",
     "remove_checker" => "Удалить проверяющего",
+    "chunk_verses" => "Стих(и): {0}",
     
     // Steps
     "pray" => "Подготовка: Молитва",

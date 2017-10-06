@@ -8,16 +8,21 @@
 
 namespace App\Models;
 
-use Database\Model;
-use Helpers\Constants\BookSources;
-use Helpers\Constants\EventMembers;
-use Helpers\Constants\EventStates;
-use Helpers\Constants\EventSteps;
-use Helpers\Data;
-use Helpers\Session;
-use Helpers\Url;
-use PDO;
 use DB;
+use PDO;
+use File;
+use Cache;
+use ZipArchive;
+use Helpers\Url;
+use Helpers\Data;
+use Database\Model;
+use Helpers\Session;
+use Helpers\Parsedown;
+use \Helpers\UsfmParser;
+use Helpers\Constants\EventSteps;
+use Helpers\Constants\BookSources;
+use Helpers\Constants\EventStates;
+use Helpers\Constants\EventMembers;
 
 class EventsModel extends Model
 {
@@ -128,18 +133,22 @@ class EventsModel extends Model
      * @param bool $countMembers
      * @return array
      */
-    public function getEvent($eventID, $projectID = null, $bookCode = null, $countMembers = false)
+    public function getEvent($eventID, $projectID = null, $bookCode = null, $countMembers = false, $mode = "ulb")
     {
+        $table = "translators";
+        if($mode == "tn")
+            $table ="translators_notes";
+        
         $builder = $this->db->table("events");
         $select = ["events.*", "abbr.*", "gateway_projects.admins as superadmins"];
         if($countMembers)
         {
-            $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators");
+            $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX.$table.".memberID) AS translators");
             $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."checkers_l2.memberID) AS checkers_l2");
             $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX."checkers_l3.memberID) AS checkers_l3");
 
             $builder
-                ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
+                ->leftJoin($table, "events.eventID", "=", $table.".eventID")
                 ->leftJoin("checkers_l2", "events.eventID", "=", "checkers_l2.eventID")
                 ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID");
         }
@@ -226,8 +235,9 @@ class EventsModel extends Model
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, "
                 .PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, "
-                .PREFIX."translators.translateDone, ".PREFIX."translators.verbCheck, "
-                .PREFIX."translators.peerCheck, ".PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
+                .PREFIX."translators.translateDone, ".PREFIX."translators.stage, "
+                .PREFIX."translators.verbCheck, ".PREFIX."translators.peerCheck, "
+                .PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, mems.lastName AS checkerLName, "
                 ."chapters.chunks, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, ": "")
@@ -366,7 +376,7 @@ class EventsModel extends Model
                 "WHERE (evnt.state = :state OR evnt.state = :state1 OR evnt.state = :state2 OR evnt.state = :state3) ".
                     "AND (proj.gwLang IN ($in) OR proj.targetLang IN ($in)) ".
                     "AND (SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) < evnt.translatorsNum ".
-                    "AND DATE(evnt.dateTo) > NOW() ".
+                    //"AND DATE(evnt.dateTo) > NOW() ".
                 ($memberID ?
                     "AND (trs.memberID IS NULL AND chl2.memberID IS NULL AND chl3.memberID IS NULL) " : "").
             "ORDER BY evnt.state, abbr.abbrID";
@@ -383,20 +393,20 @@ class EventsModel extends Model
 
             $arr = $this->db->select($sql, $prepare);
         }
-
+        
         return $arr;
     }
 
 
     public function getMembersForEvent($eventID)
-    {
+    {       
         $this->db->setFetchMode(PDO::FETCH_ASSOC);
-        $res = $this->db->table("translators")
+        $builder = $this->db->table("translators")
             ->select("translators.*", "members.userName", "members.firstName", "members.lastName")
             ->leftJoin("members", "translators.memberID", "=", "members.memberID")
-            ->where("translators.eventID", $eventID)
-            ->orderBy("members.userName")->get();
+            ->where("translators.eventID", $eventID);
 
+        $res = $builder->orderBy("members.userName")->get();
         $this->db->setFetchMode(PDO::FETCH_CLASS);
 
         return $res;
@@ -607,63 +617,93 @@ class EventsModel extends Model
      * @param string $bookProject
      * @return mixed
      */
-    public function getSourceBookFromApi($bookCode, $sourceLang, $bookProject)
+    public function getSourceBookFromApi($bookProject, $bookCode, $sourceLang = "en", $bookNum = 0)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/".$bookCode."/".$sourceLang."/".$bookProject."/source.json");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $source = curl_exec($ch);
-        curl_close($ch);
-        return $source;
-    }
-
-    public function getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode, $sourceLang = "en")
-    {
-        $ch = curl_init();
-
+        $url = "";
         switch ($sourceLang)
         {
-            case "ru":
-                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/rsb-ru/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                break;
-
-            case "ar":
-                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/avd-ar/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                break;
-
-            case "sr-Latn":
-                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/dkl-sr-Latn/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                break;
-
-            case "hu":
-                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/pdb/txt/1/kar-hu/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+            case "ceb":
+                $url = template_url("tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
                 break;
 
             case "hwc":
-                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
-                break;
-
-            case "ceb":
-                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
-                break;
-
-            case "id":
-                curl_setopt($ch, CURLOPT_URL, template_url("tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"));
+                $url = template_url("tmp/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
                 break;
 
             default:
-                curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/".$bookProject."/txt/1/".$bookProject."-en/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                $catalog = $this->getCachedFullCatalog();
+                if(!$catalog) return false;
+
+                $catalog = json_decode($catalog);
+                //Data::pr($catalog);
+
+                foreach($catalog->languages as $language)
+                {
+                    if($language->identifier == $sourceLang)
+                    {
+                        foreach($language->resources as $resource)
+                        {
+                            if($resource->identifier == $bookProject)
+                            {
+                                foreach($resource->projects as $project)
+                                {
+                                    if($project->identifier == $bookCode)
+                                    {
+                                        foreach($project->formats as $format)
+                                        {
+                                            $url = $format->url;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 break;
         }
+        
+        if($url == "") return false;
 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $source = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            return false;
+        }
+
         curl_close($ch);
+
         return $source;
     }
 
+    public function getCachedSourceBookFromApi($bookProject, $bookCode, $sourceLang = "en", $bookNum = 0)
+    {
+        $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
+        $usfm = false;
+        if(Cache::has($cache_keyword))
+        {
+            $source = Cache::get($cache_keyword);
+            $usfm = json_decode($source, true);
+        }
+        else
+        {
+            $source = $this->getSourceBookFromApi($bookProject, $bookCode, $sourceLang, $bookNum);
+            if($source)
+            {
+                $usfm = UsfmParser::parse($source);
+                if(!empty($usfm))
+                    Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
+            }
+        }
+
+        return $usfm;
+    }
 
     public function getTWcatalog($book, $lang = "en")
     {
@@ -674,6 +714,72 @@ class EventsModel extends Model
         $cat = curl_exec($ch);
         curl_close($ch);
         return $cat;
+    }
+
+    public function getLangsFromTD()
+    {
+        $langs = [];
+        $langsFinal = [];
+        for($i=0; $i < 80; $i++)
+        {
+            $url = "http://td.unfoldingword.org/uw/ajax/languages/?draw=7&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=5&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=true&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B6%5D%5Bdata%5D=6&columns%5B6%5D%5Bname%5D=&columns%5B6%5D%5Bsearchable%5D=true&columns%5B6%5D%5Borderable%5D=true&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B6%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B7%5D%5Bdata%5D=7&columns%5B7%5D%5Bname%5D=&columns%5B7%5D%5Bsearchable%5D=true&columns%5B7%5D%5Borderable%5D=true&columns%5B7%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B7%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=".($i*100)."&length=100&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1507210697041";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $cat = curl_exec($ch);
+            curl_close($ch);
+            $arr = json_decode($cat);
+
+            $langs = array_merge($langs, $arr->data);
+            
+        }
+        
+        $languages = File::get("../app/Templates/Default/Assets/tmp/langnames.json");
+        $languages = json_decode($languages, true);
+        $count = 0;
+        foreach($langs as $lang)
+        {
+            $tmp = [];
+            preg_match('/>(.+)<\//', $lang[0], $matches);
+            $tmp["langID"] = $matches[1];
+            $tmp["langName"] = $lang[2];
+            $tmp["angName"] = $lang[4];
+            $tmp["isGW"] = preg_match("/success/", $lang[7]);
+            $tmp["gwLang"] = $tmp["isGW"] ? $tmp["langName"] : $lang[6];
+
+            if($tmp["gwLang"] == null)
+                $tmp["gwLang"] = "English";
+
+            foreach($languages as $ln)
+            {
+                if($ln["lc"] == $tmp["langID"])
+                {
+                    $tmp["direction"] = $ln["ld"];
+                }
+                else
+                {
+                    $tmp["direction"] = "ltr";
+                }
+            }
+
+            $langsFinal[] = $tmp;
+        }
+
+       //Data::pr($langsFinal); exit;
+       foreach($langsFinal as $lnf)
+       {
+            $data = [];
+            $data["langID"] = $lnf["langID"];
+            $data["langName"] = $lnf["langName"];
+            $data["angName"] = $lnf["angName"];
+            $data["isGW"] = $lnf["isGW"];
+            $data["gwLang"] = $lnf["gwLang"];
+            $data["direction"] = $lnf["direction"];
+        
+            $this->db->table("languages")
+                ->insert($data);
+       }
     }
 
     public function getTWords($lang = "en")
@@ -696,6 +802,198 @@ class EventsModel extends Model
         $cat = curl_exec($ch);
         curl_close($ch);
         return $cat;
+    }
+
+    public function getFullCatalog()
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.door43.org/v3/catalog.json");
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $cat = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            return false;
+        }
+
+        curl_close($ch);
+        return $cat;
+        
+    }
+
+    public function getCachedFullCatalog()
+    {
+        $cat_cache_keyword = "catalog";
+        
+        if(Cache::has($cat_cache_keyword))
+        {
+            $catalog = Cache::get($cat_cache_keyword);
+        }
+        else
+        {
+            $catalog = $this->getFullCatalog();
+            if($catalog)
+                Cache::add($cat_cache_keyword, $catalog, 60*24*7);
+            else
+                return false;
+        }
+
+        return $catalog;
+    }
+
+
+    public function downloadAndExtractNotes($lang = "en", $update = false)
+    {
+        // Get catalog
+        $catalog = $this->getCachedFullCatalog();
+        if(!$catalog) return false;
+        
+        $url = "";
+        $catalog = json_decode($catalog);
+        foreach($catalog->languages as $language)
+        {
+            if($language->identifier == $lang)
+            {
+                foreach($language->resources as $resource)
+                {
+                    if($resource->identifier == "tn")
+                    {
+                        foreach($resource->formats as $format)
+                        {
+                            $url = $format->url;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        $filepath = "../app/Templates/Default/Assets/tmp/".$lang."_notes.zip";
+        $folderpath = "../app/Templates/Default/Assets/tmp/".$lang."_tn";
+
+        if(!File::exists($folderpath) || $update)
+        {
+            $ch = curl_init();
+            
+            curl_setopt($ch, CURLOPT_URL, $url);
+    
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            $zip = curl_exec($ch);
+    
+            if(curl_errno($ch))
+            {
+                return "error: " . curl_error($ch);
+            }
+    
+            curl_close($ch);
+            
+            File::put($filepath, $zip);
+            
+            if(File::exists($filepath))
+            {
+                $zip = new ZipArchive();
+                $res = $zip->open($filepath);
+                $zip->extractTo("../app/Templates/Default/Assets/tmp/");
+                $zip->close();
+    
+                File::delete($filepath);
+            }
+        }
+
+        return $folderpath;
+    }
+
+
+    /**
+     * Parses .md files of specified book and returns array
+     * @param 
+     *
+     **/
+    public function getTranslationNotes($book, $lang ="en")
+    {
+        $folderpath = $this->downloadAndExtractNotes($lang);
+        
+        if(!$folderpath) return false;
+        
+        // Get book folder
+        $dirs = File::directories($folderpath);
+        foreach($dirs as $dir)
+        {
+            preg_match("/[1-3a-z]{3}$/", $dir, $matches)."<br>";
+            if($matches[0] == $book)
+            {
+                $folderpath = $dir;
+                break;
+            }
+        }
+        
+        $parsedown = new Parsedown();
+
+        $result = [];
+        $files = File::allFiles($folderpath);
+        foreach($files as $file)
+        {
+            // TODO decide if we need to translate intro
+            if(preg_match("/intro.md$/", $file)) continue;
+            
+            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).md$/", $file, $matches);
+            
+            if(!isset($matches[1]) || !isset($matches[2])) return false;
+            
+            $chapter = (int)$matches[1];
+            $chunk = (int)$matches[2];
+            
+            if(!isset($result[$chapter]))
+                $result[$chapter] = [];
+            if(isset($result[$chapter]) && !isset($result[$chapter][$chunk]))
+                $result[$chapter][$chunk] = [];
+
+            $md = File::get($file);
+            $md_arr = $parsedown->text($md, true);
+            $parsedown->clearBlocks();
+            
+            $tmp = [];
+            foreach($md_arr as $elm)
+            {
+                if($elm["element"]["name"] == "h1")
+                {
+                    $tmp["ref"] = $elm["element"]["text"];
+                }
+                else if($elm["element"]["name"] == "p")
+                {
+                    $tmp["text"] = $elm["element"]["text"];
+                    
+                }
+                else if($elm["element"]["name"] == "ul")
+                {
+                    $tmp["text"] = [];
+                    $i = 0;
+                    foreach($elm["element"]["text"] as $li)
+                    {
+                        $tmp["text"][$i] = [];
+                        foreach($li["text"] as $txt)
+                        {
+                            $tmp["text"][$i][] = $txt;
+                        }
+                        $i++;
+                    }
+                }
+
+                if(sizeof($tmp) == 2)
+                {
+                    $result[$chapter][$chunk][] = $tmp;
+                    $tmp = [];
+                }
+            }
+        }
+        
+        ksort($result);
+        return $result;
     }
 
     /**
@@ -746,23 +1044,10 @@ class EventsModel extends Model
     /**
      * Add member as new translator for event
      * @param array $data
-     * @param bool $addPair
-     * @param int $lastTrID
      * @return string
      */
     public function addTranslator($data)
     {
-        /*try
-        {
-            $this->db->insert(PREFIX."translators",$data);
-        } catch(\PDOException $e)
-        {
-            return $e->getMessage();
-        }
-
-        $trID = $this->db->lastInsertId('trID');
-        return $trID;*/
-
         return $this->db->table("translators")
             ->insertGetId($data);
     }

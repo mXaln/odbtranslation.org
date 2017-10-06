@@ -62,7 +62,7 @@ class AlmaController extends Controller
 		setlocale(LC_ALL, 'bg_BG.UTF-8');  
         $bookInfo = $this->translationModel->getBookInfo($bookCode);
 
-        $text = $this->getBook("ulb", $bookInfo[0]->abbrID, $bookInfo[0]->code, "ru");
+        $text = $this->getBook("rsb", $bookInfo[0]->code, "ru", $bookInfo[0]->abbrID);
 
         $words = Word::with('translations')
                 ->orderBy('title')
@@ -391,26 +391,18 @@ class AlmaController extends Controller
         ]);
 	}
 
-    private function getBook($bookProject, $bookNum, $bookCode, $sourceLang)
+    private function getBook($bookProject, $bookCode, $sourceLang, $bookNum)
     {
         $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
         $bookText = __("no_source_error");
 
-		if(Cache::has($cache_keyword))
-        {
-            $source = Cache::get($cache_keyword);
-            $usfm = json_decode($source, true);
-        }
-        else
-        {
-            $source = $this->eventsModel->getSourceBookFromApiUSFM($bookProject, $bookNum, $bookCode, $sourceLang);
-            $usfm = UsfmParser::parse($source);
+		$usfm = $this->eventsModel->getCachedSourceBookFromApi(
+            $bookProject, 
+            $bookCode, 
+            $sourceLang,
+            $bookNum);
 
-            if(!empty($usfm))
-                Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
-        }
-
-        if(!empty($usfm) && !empty($usfm["chapters"]))
+        if($usfm && !empty($usfm["chapters"]))
         {
             $bookText = '<h2>'.$usfm["toc1"].'</h2>';
             foreach ($usfm["chapters"] as $chapter => $chunks) {

@@ -72,7 +72,6 @@ $stepsNum = [
         <div class="clear"></div>
 
 
-
         <?php if(sizeof($data["myFacilitatorEventsInProgress"]) > 0): ?>
         <div class="events_separator"><?php echo __("events_in_progress") ?></div>
         <?php endif; ?>
@@ -83,6 +82,7 @@ $stepsNum = [
             {
                 case EventStates::L2_RECRUIT:
                     $eventType = __("l2_3_events", array(2));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
@@ -95,6 +95,7 @@ $stepsNum = [
 
                 case EventStates::L3_RECRUIT:
                     $eventType = __("l2_3_events", array(3));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
@@ -107,6 +108,7 @@ $stepsNum = [
 
                 default:
                     $eventType = __("8steps_vmast");
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/peer-review.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
@@ -122,6 +124,7 @@ $stepsNum = [
             <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
                 <div class="event_logo <?php echo $logoBorderClass ?>">
                     <div class="event_type"><?php echo __($eventType) ?></div>
+                    <div class="event_mode"><?php echo __($mode) ?></div>
                     <div class="event_img">
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
@@ -183,6 +186,7 @@ $stepsNum = [
             {
                 case EventStates::L2_RECRUIT:
                     $eventType = __("l2_3_events", array(2));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
@@ -195,6 +199,7 @@ $stepsNum = [
 
                 case EventStates::L3_RECRUIT:
                     $eventType = __("l2_3_events", array(3));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
@@ -207,6 +212,7 @@ $stepsNum = [
 
                 default:
                     $eventType = __("8steps_vmast");
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/peer-review.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
@@ -222,6 +228,7 @@ $stepsNum = [
             <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
                 <div class="event_logo <?php echo $logoBorderClass ?>">
                     <div class="event_type"><?php echo __($eventType) ?></div>
+                    <div class="event_mode"><?php echo __($mode) ?></div>
                     <div class="event_img">
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
@@ -282,6 +289,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "green-marked" : "" ?>">
             <div class="event_logo translation">
                 <div class="event_type"><?php echo __("8steps_vmast") ?></div>
+                <div class="event_mode"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/peer-review.png") ?>">
                 </div>
@@ -327,12 +335,18 @@ $stepsNum = [
                             $step = EventSteps::BLIND_DRAFT;
                         ?>
                         <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                        <?php echo ($event->currentChapter > 0 ? __("chapter_number", array($event->currentChapter)). ", " : "").__($event->step) ?>
+                        <?php echo ($event->currentChapter > 0 ? __("chapter_number", 
+                            array($event->currentChapter)). ", " : "")
+                                .__($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" : "")) ?>
                     </div>
                 <?php endif; ?>
             </div>
             <div class="event_action">
-                <div class="event_link"><a href="/events/translator/<?php echo $event->eventID ?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link">
+                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
                 <div class="event_members">
                     <div><?php echo __("translators") ?></div>
                     <div class="trs_num"><?php echo $event->currTrs."/".$event->translatorsNum ?></div>
@@ -354,6 +368,7 @@ $stepsNum = [
             <div class="event_logo checking">
                 <div class="event_type">
                     <div><?php echo __("step_num", [$stepsNum[$event->step]]) ?></div>
+                    <div class="event_mode"><?php echo __($event->bookProject) ?></div>
                     <div><?php echo __($event->step) ?></div>
                 </div>
                 <div class="event_img">
@@ -405,6 +420,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "lemon-marked" : "" ?>">
             <div class="event_logo checkingl2">
                 <div class="event_type"><?php echo __("l2_3_events", array(2)) ?></div>
+                <div class="event_mode"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
@@ -454,6 +470,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "blue-marked" : "" ?>">
             <div class="event_logo checkingl3">
                 <div class="event_type"><?php echo __("l2_3_events", array(3)) ?></div>
+                <div class="event_mode"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
@@ -513,6 +530,7 @@ $stepsNum = [
         {
             case EventStates::L2_RECRUIT:
                 $eventType = __("l2_3_events", array(2));
+                $mode = $event->bookProject;
                 $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl2";
                 $bgColor = "lemon-marked";
@@ -524,6 +542,7 @@ $stepsNum = [
 
             case EventStates::L3_RECRUIT:
                 $eventType = __("l2_3_events", array(3));
+                $mode = $event->bookProject;
                 $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl3";
                 $bgColor = "blue-marked";
@@ -535,6 +554,7 @@ $stepsNum = [
 
             default:
                 $eventType = __("8steps_vmast");
+                $mode = $event->bookProject;
                 $eventImg = template_url("img/steps/big/peer-review.png");
                 $logoBorderClass = "translation";
                 $bgColor = "green-marked";
@@ -549,6 +569,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
             <div class="event_logo <?php echo $logoBorderClass ?>">
                 <div class="event_type"><?php echo $eventType ?></div>
+                <div class="event_mode"><?php echo __($mode) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo $eventImg ?>">
                 </div>

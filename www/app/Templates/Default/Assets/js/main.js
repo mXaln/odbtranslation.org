@@ -1300,6 +1300,36 @@ $(document).ready(function() {
             });
     }
 
+    $(".add_notes button").click(function(e) {
+        e.preventDefault();
+        
+        var parent = $(this).parents(".notes_editor");
+        var chunkNo = parent.data("chunkno");
+        
+        var editor = "" + 
+            "<div class='notes_chunk_editor'>" +
+                "<button class='btn btn-danger notes_chunk_remove glyphicon glyphicon-remove'></button>" +
+                "<label>ref:" +
+                    "<textarea name='chunks["+chunkNo+"][][ref]' "+
+                        "class='textarea' rows='1'></textarea>" +
+                "</label>" + 
+                "<label>text:" +
+                    "<textarea name='chunks["+chunkNo+"][][text]' "+
+                        "class='textarea' rows='1'></textarea>" +
+                "</label>"
+            "</div>"
+        "";
+
+        $(".add_notes_editor", parent).append(editor);
+        autosize($('textarea'));
+    });
+
+    $(document).on("click", ".notes_chunk_remove", function() {
+        var parent = $(this).parents(".notes_chunk_editor");
+        parent.remove();
+    });
+
+
     // ---------------------  Verse markers setting start -------------------- //
     var bindDraggables = function() {
         $('.bubble').attr("contenteditable", false).attr("draggable", true);

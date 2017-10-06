@@ -8,7 +8,12 @@ if(!empty($data["project"])):
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h1 class="panel-title"><?php echo $data["project"][0]->tLang . " [".__($data["project"][0]->bookProject)."]" ?></h1>
+        <h1 class="panel-title">
+            <?php echo "[".$data["project"][0]->targetLang."] " 
+                . $data["project"][0]->tLang 
+                . ($data["project"][0]->tLang != $data["project"][0]->tAng ? " (" . $data["project"][0]->tAng . ")" : "")
+                . " - ".__($data["project"][0]->bookProject) ?>
+        </h1>
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">

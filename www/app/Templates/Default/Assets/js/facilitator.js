@@ -606,6 +606,7 @@ function assignChapter(data, action)
             eventID: data.eventID,
             chapter: data.chapter,
             memberID: data.memberID,
+            mode: data.mode,
             action: action
         },
         dataType: "json",
