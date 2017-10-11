@@ -49,7 +49,9 @@ if(!isset($error)):
                     <div class="assignChapterLoader inline_f" data="<?php echo $chapter ?>">
                         <img src="<?php echo template_url("img/loader.gif") ?>" width="22">
                     </div>
-                    <div class="col-sm-4 manage_chapter"><?php echo __("chapter_number", array($chapter)); ?></div>
+                    <div class="col-sm-4 manage_chapter">
+                        <?php echo $chapter > 0 ? __("chapter_number", $chapter) : __("chapter_number", __("intro")); ?>
+                    </div>
                     <div class="col-sm-8 manage_chapters_user chapter_<?php echo $chapter ?>">
                         <button class="btn btn-success add_person_chapter" data="<?php echo $chapter ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>
                             <?php echo __("add_person") ?>

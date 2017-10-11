@@ -1,4 +1,7 @@
 <?php
+use \Helpers\Constants\EventMembers;
+use \Helpers\Parsedown;
+
 if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
@@ -6,15 +9,20 @@ if(isset($data["error"])) return;
         <div class="main_content_title"><?php echo __("step_num", array(3)) . ": " . __("chunking_tn")?></div>
     </div>
 
-    <div class="row">
+    <div class="row" style="position: relative">
+        <button class="btn btn-warning toggle-help">Toggle help</button>
         <div class="main_content col-sm-9">
             <form action="" method="post">
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                     .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
+                    ."<span class='book_name'>".$data["event"][0]->name." ".
+                    (!$data["nosource"] 
+                        ? $data["currentChapter"].":1-".$data["totalVerses"]
+                        : "(".__("intro").")")."</span>"?></h4>
 
+                <?php if(!$data["nosource"]): ?>
                 <ul class="nav nav-tabs">
                     <li role="presentation" id="my_scripture" class="my_tab">
                         <a href="#"><?php echo __("scripture_mode") ?></a>
@@ -33,6 +41,7 @@ if(isset($data["error"])) return;
                         </div>    
                     <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
 
                 <div id="my_notes_content" class="my_content">
                     <?php foreach($data["notes"] as $chunkNo => $chunk): ?>
@@ -40,31 +49,39 @@ if(isset($data["error"])) return;
                             <div class="col-md-6">
                                 <div class="note_chunk_verses">
                                     <?php 
-                                    $verses = array_keys($data["text"][$chunkNo]);
-                                    if($verses[0] != $verses[sizeof($verses)-1])
-                                        echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
-                                    else
-                                        echo __("chunk_verses", $verses[0]);
+                                    if(!$data["nosource"])
+                                    {
+                                        $verses = array_keys($data["text"][$chunkNo]);
+                                        if($verses[0] != $verses[sizeof($verses)-1])
+                                            echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
+                                        else
+                                            echo __("chunk_verses", $verses[0]);
+                                    }
                                     ?>
                                 </div>
                                 <?php foreach($chunk as $note): ?>
-                                    <?php if($note["ref"] == "translationWords") continue; ?>
+                                    <?php //if($note["ref"] == "translationWords") continue; ?>
                                     <div class="note_content">
-                                        <h1><?php echo $note["ref"] ?></h1>
-                                        <p><?php echo $note["text"] ?></p>
+                                        <h1><?php //echo $note["ref"] ?></h1>
+                                        <p><?php //echo $note["text"] ?></p>
+                                        <?php echo $note ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
                             <div class="col-md-6 notes_editor" 
                                 data-chunkno="<?php echo $chunkNo ?>">
-                                <div class="add_notes">
-                                    <button 
-                                        class="glyphicon glyphicon-plus btn btn-success">
-                                    </button>
-                                </div>
-                                <div class="add_notes_editor">
-
-                                </div>
+                                <?php 
+                                $parsedown = new Parsedown();
+                                $text = isset($data["translation"][$chunkNo]) 
+                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
+                                    : "";
+                                $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo]) 
+                                    ? $_POST["chunks"][$chunkNo] 
+                                    : $text
+                                ?>
+                                <textarea 
+                                    name="chunks[<?php echo $chunkNo ?>]" 
+                                    class="add_notes_editor"><?php echo $text ?></textarea>
                             </div>
                         </div>
                     <?php endforeach; ?>

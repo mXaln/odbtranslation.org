@@ -1218,19 +1218,10 @@ class EventsController extends Controller
                         
                         // Get scripture text
                         $sourceText = $this->getSourceText($data);
-                        if($sourceText !== false)
-                        {
-                            if (!array_key_exists("error", $sourceText))
-                            {
-                                $data = $sourceText;
-                            }
-                            else
-                            {
-                                $error[] = $sourceText["error"];
-                                $data["error"] = $sourceText["error"];
-                            }
-                        }
-                    
+                        if($sourceText !== false && !array_key_exists("error", $sourceText))
+                            $data = $sourceText;
+                        
+                        // Get notes
                         $sourceTextNotes = $this->getNotesSourceText($data);
 
                         if($sourceTextNotes !== false)
@@ -1257,11 +1248,14 @@ class EventsController extends Controller
                             {
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                 $postdata = [
-                                    "step" => EventSteps::CONSUME,
-                                    "currentChapter" => $sourceText["currentChapter"],
-                                    "currentChunk" => $sourceText["currentChunk"]
+                                    "step" => !$data["nosource"] ? EventSteps::CONSUME : EventSteps::VERBALIZE,
+                                    "currentChapter" => $sourceTextNotes["currentChapter"],
+                                    "currentChunk" => $sourceTextNotes["currentChunk"]
                                 ];
                                 $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                // TODO Save chunk numbers to Chapters table
+                                
+                                
                                 Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
                             }
                         }
@@ -1276,18 +1270,24 @@ class EventsController extends Controller
                             ->shares("error", @$error);
 
                     case EventSteps::CONSUME:
+                        // Get scripture text
                         $sourceText = $this->getSourceText($data);
+                        if($sourceText !== false && !array_key_exists("error", $sourceText))
+                            $data = $sourceText;
+                        
+                        // Get notes
+                        $sourceTextNotes = $this->getNotesSourceText($data);
 
-                        if($sourceText !== false)
+                        if($sourceTextNotes !== false)
                         {
-                            if (!array_key_exists("error", $sourceText))
+                            if (!array_key_exists("error", $sourceTextNotes))
                             {
-                                $data = $sourceText;
+                                $data = $sourceTextNotes;
                             }
                             else
                             {
-                                $error[] = $sourceText["error"];
-                                $data["error"] = $sourceText["error"];
+                                $error[] = $sourceTextNotes["error"];
+                                $data["error"] = $sourceTextNotes["error"];
                             }
                         }
                         else
@@ -1295,7 +1295,7 @@ class EventsController extends Controller
                             $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
                             Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
                         }
-
+                        
                         if (isset($_POST) && !empty($_POST))
                         {
                             if (isset($_POST["confirm_step"]))
@@ -1318,22 +1318,14 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::VERBALIZE:
+                        // Get scripture text
                         $sourceText = $this->getSourceText($data);
-                        if($sourceText !== false)
-                        {
-                            if (!array_key_exists("error", $sourceText))
-                            {
-                                $data = $sourceText;
-                            }
-                            else
-                            {
-                                $error[] = $sourceText["error"];
-                                $data["error"] = $sourceText["error"];
-                            }
-                        }
+                        if($sourceText !== false && !array_key_exists("error", $sourceText))
+                            $data = $sourceText;
                         
+                        // Get notes
                         $sourceTextNotes = $this->getNotesSourceText($data);
-                        
+
                         if($sourceTextNotes !== false)
                         {
                             if (!array_key_exists("error", $sourceTextNotes))
@@ -1374,27 +1366,32 @@ class EventsController extends Controller
                         break;
 
                     case EventSteps::CHUNKING:
+                        // Get scripture text
                         $sourceText = $this->getSourceText($data);
-                        if($sourceText !== false)
-                        {
-                            if (!array_key_exists("error", $sourceText))
-                            {
-                                $data = $sourceText;
-                            }
-                            else
-                            {
-                                $error[] = $sourceText["error"];
-                                $data["error"] = $sourceText["error"];
-                            }
-                        }
+                        if($sourceText !== false && !array_key_exists("error", $sourceText))
+                            $data = $sourceText;
                         
+                        // Get notes
                         $sourceTextNotes = $this->getNotesSourceText($data);
-                        
+
                         if($sourceTextNotes !== false)
                         {
                             if (!array_key_exists("error", $sourceTextNotes))
                             {
                                 $data = $sourceTextNotes;
+
+                                $translationData = $this->_translationModel->getEventTranslation(
+                                    $data["event"][0]->trID, 
+                                    $data["event"][0]->currentChapter);
+                                $translation = array();
+
+                                foreach ($translationData as $tv)
+                                {
+                                    $arr = json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
+                                }
+                                $data["translation"] = $translation;
                             }
                             else
                             {
@@ -1410,26 +1407,72 @@ class EventsController extends Controller
                         
                         if (isset($_POST) && !empty($_POST))
                         {
-                            Data::pr($_POST); exit;
                             if (isset($_POST["confirm_step"]))
                             {
-                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
-
-                                $_POST = Gump::xss_clean($_POST);
-
-								$chunks = isset($_POST["chunks_array"]) ? $_POST["chunks_array"] : "";
-                                $chunks = (array)json_decode($chunks);
-                                if($this->testChunks($chunks, $sourceText["totalVerses"]))
+								$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                                $chunks = $this->testChunksNotes($chunks, $data["notes"], $data["currentChapter"]);
+                                
+                                if(!$chunks)
                                 {
-                                    if($this->_model->updateChapter(["chunks" => json_encode($chunks)], ["eventID" => $data["event"][0]->eventID, "chapter" => $data["event"][0]->currentChapter]))
+                                    foreach ($chunks as $key => $chunk) 
                                     {
-                                        $this->_model->updateTranslator(["step" => EventSteps::READ_CHUNK], ["trID" => $data["event"][0]->trID]);
-                                        Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                        exit;
-                                    }
-                                    else
-                                    {
-                                        $error[] = __("error_ocured");
+                                        if(!isset($translation[$key]))
+                                        {
+                                            $translationVerses = [
+                                                EventMembers::TRANSLATOR => [
+                                                    "verses" => $chunk
+                                                ],
+                                                EventMembers::L2_CHECKER => [
+                                                    "verses" => array()
+                                                ],
+                                                EventMembers::L3_CHECKER => [
+                                                    "verses" => array()
+                                                ],
+                                            ];
+
+                                            $trData = [
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => $data["event"][0]->currentChapter,
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => 0, // TODO get first verse from chunks
+                                                "translatedVerses"  => json_encode($translationVerses),
+                                                "dateCreate"        => date('Y-m-d H:i:s')
+                                            ];
+    
+                                            $tID = $this->_translationModel->createTranslation($trData);
+                                        }
+                                        elseif ($translation[$key][EventMembers::TRANSLATOR]["verses"] != $chunk) {
+                                            $tID = $translation[$key]["tID"];
+                                            unset($translation[$key]["tID"]);
+                                            $translation[$key][EventMembers::TRANSLATOR]["verses"] = $chunk;
+                                            $trData = array(
+                                                "translatedVerses"  => json_encode($translation[$key])
+                                            );
+                                            $this->_translationModel->updateTranslation(
+                                                $trData, 
+                                                array(
+                                                    "trID" => $data["event"][0]->trID, 
+                                                    "tID" => $tID)
+                                                );
+                                        }
+
+                                        if($tID)
+                                        {
+                                            $postdata["step"] = EventSteps::BLIND_DRAFT;
+                                            setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                            $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                            Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
+                                        }
+                                        else
+                                        {
+                                            $error[] = __("error_ocured", array($tID));
+                                        }
                                     }
                                 }
                                 else
@@ -2944,7 +2987,10 @@ class EventsController extends Controller
                 Url::redirect("events");
 
             $data["chapters"] = [];
-            for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
+            if($data["event"][0]->bookProject == "tn")
+                $data["chapters"][0] = [];
+            
+                for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
             {
                 $data["chapters"][$i] = [];
             }
@@ -4053,17 +4099,20 @@ class EventsController extends Controller
         $memberID = isset($_POST["memberID"]) && $_POST["memberID"] != "" ? (integer)$_POST["memberID"] : null;
         $action = isset($_POST["action"]) && preg_match("/^(add|delete)$/", $_POST["action"]) ? $_POST["action"] : null;
 
-        if($eventID !== null && $chapter != null && $memberID != null && $action != null)
+        if($eventID !== null && $chapter !== null && $memberID !== null && $action !== null)
         {
             $data["event"] = $this->_model->getMemberEvents($memberID, EventMembers::TRANSLATOR, $eventID, true);
             
             if(!empty($data["event"]))
             {
                 $admins = (array)json_decode($data["event"][0]->admins, true);
-
+                
                 if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $data["chapters"] = [];
+                    if($data["event"][0]->bookProject == "tn")
+                        $data["chapters"][0] = [];
+
                     for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
                     {
                         $data["chapters"][$i] = [];
@@ -4079,7 +4128,7 @@ class EventsController extends Controller
 
                         $data["chapters"][$chap["chapter"]] = $tmp;
                     }
-
+                    
                     if(isset($data["chapters"][$chapter]) && empty($data["chapters"][$chapter]))
                     {
                         if($action == "add")
@@ -4095,7 +4144,7 @@ class EventsController extends Controller
 
                             $assignChapter = $this->_model->assignChapter($postdata);
                             $data["chapters"][$chapter] = $postdata;
-
+                            
                             // Change translator's step to pray when at least one chapter is assigned to him or all chapters finished
                             if(sizeof(array_filter($data["chapters"], function ($v) use($data) {
                                     return isset($v["memberID"])
@@ -4125,7 +4174,7 @@ class EventsController extends Controller
                         if($action == "delete")
                         {
                             $hasTranslations = !empty($this->_translationModel->getTranslationByEventID($eventID, $chapter));
-
+                            
                             if(!$hasTranslations)
                             {
                                 if($data["chapters"][$chapter]["memberID"] == $memberID)
@@ -4154,14 +4203,11 @@ class EventsController extends Controller
                                         $trPostData["checkDone"] = 0;
                                         $trPostData["hideChkNotif"] = 1;
 
-                                        if(!in_array($mode, ["tn"]))
+                                        $verbCheck = (array)json_decode($data["event"][0]->verbCheck, true);
+                                        if(array_key_exists($chapter, $verbCheck))
                                         {
-                                            $verbCheck = (array)json_decode($data["event"][0]->verbCheck, true);
-                                            if(array_key_exists($chapter, $verbCheck))
-                                            {
-                                                unset($verbCheck[$chapter]);
-                                                $trPostData["verbCheck"] = json_encode($verbCheck);
-                                            }
+                                            unset($verbCheck[$chapter]);
+                                            $trPostData["verbCheck"] = json_encode($verbCheck);
                                         }
                                     }
 
@@ -4423,18 +4469,20 @@ class EventsController extends Controller
         
         if($usfm && !empty($usfm["chapters"]))
         {
+            $initChapter = $data["event"][0]->bookProject != "tn" ? 
+                0 : -1;
             $currentChunkText = "";
             $chunks = json_decode($data["event"][0]->chunks, true);
             $data["chunks"] = $chunks;
 
-            if($currentChapter == 0)
+            if($currentChapter == $initChapter)
             {
                 $nextChapter = $this->_model->getNextChapter($data["event"][0]->eventID, $data["event"][0]->myMemberID);
                 if(!empty($nextChapter))
                     $currentChapter = $nextChapter[0]->chapter;
             }
 
-            if($currentChapter <= 0) return false;
+            if($currentChapter <= $initChapter) return false;
 
             if(!isset($usfm["chapters"][$currentChapter]))
             {
@@ -4520,41 +4568,50 @@ class EventsController extends Controller
 
         if($notes)
         {
-            if($currentChapter == 0)
+            if($currentChapter == -1)
             {
                 $nextChapter = $this->_model->getNextChapter($data["event"][0]->eventID, $data["event"][0]->myMemberID);
                 if(!empty($nextChapter))
                     $currentChapter = $nextChapter[0]->chapter;
             }
 
-            if($currentChapter <= 0) return false;
+            if($currentChapter <= -1) return false;
             
             if(isset($notes[$currentChapter]))
             {
                 ksort($notes[$currentChapter]);
                 $data["notes"] = $notes[$currentChapter];
+                $data["currentChapter"] = $currentChapter;
+                $data["currentChunk"] = $currentChunk;
                 
-                $chunk_keys = array_keys($notes[$currentChapter]);
-                $tmp = [];
-                $chunkNo = 0;
-                foreach($data["text"] as $v => $text)
+                if($currentChapter > 0)
                 {
-                    if(!isset($chunk_keys[$chunkNo])) continue;
-                    if($v >= $chunk_keys[$chunkNo] 
-                        && (isset($chunk_keys[$chunkNo+1])
-                            && $v < $chunk_keys[$chunkNo+1]))
+                    $chunk_keys = array_keys($notes[$currentChapter]);
+                    $tmp = [];
+                    $chunkNo = 0;
+                    foreach($data["text"] as $v => $text)
+                    {
+                        if(!isset($chunk_keys[$chunkNo])) continue;
+                        if($v >= $chunk_keys[$chunkNo] 
+                            && (isset($chunk_keys[$chunkNo+1])
+                                && $v < $chunk_keys[$chunkNo+1]))
+                            {
+                                $tmp[$chunk_keys[$chunkNo]][$v] = $text;
+                            }
+                        else
                         {
+                            $chunkNo++;
+                            if(!isset($chunk_keys[$chunkNo]))
+                                $chunkNo--;
                             $tmp[$chunk_keys[$chunkNo]][$v] = $text;
                         }
-                    else
-                    {
-                        $chunkNo++;
-                        if(!isset($chunk_keys[$chunkNo]))
-                            $chunkNo--;
-                        $tmp[$chunk_keys[$chunkNo]][$v] = $text;
                     }
+                    $data["text"] = $tmp;
+                    $data["nosource"] = false;
                 }
-                $data["text"] = $tmp;
+                else {
+                    $data["nosource"] = true;
+                }
                 return $data;
             }
             else
@@ -4591,6 +4648,29 @@ class EventsController extends Controller
         if($lastVerse != $totalVerses) return false;
 
         return true;
+    }
+
+    private function testChunksNotes($chunks, $notes, $chapter)
+    {
+        if(!is_array($chunks) || !is_array($notes[$chapter]))
+            return false;
+        
+        if(array_keys($chunks) !== array_keys($notes[$chapter]))
+            return false;
+
+        $converter = new \Helpers\Markdownify\Converter;
+        foreach ($chunks as $key => $chunk) {
+            if(trim($chunk) == "")
+                return false;
+
+            $md = $converter->parseString($chunk);
+            if(trim($md) == "")
+                return false;
+
+            $chunks[$key] = $md;
+        }
+
+        return $chunks;
     }
 
     private function getUwKeyWords($book, $lang = "en", $chapter, $versesCount)

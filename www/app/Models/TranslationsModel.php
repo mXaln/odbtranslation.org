@@ -88,9 +88,8 @@ class TranslationsModel extends Model
             ->orderBy("translations.chapter")
             ->orderBy("translations.chunk");
 
-        if($chapter != null)
+        if($chapter !== null)
             $builder->where("translations.chapter", $chapter);
-
         return $builder->get();
     }
 
@@ -247,7 +246,7 @@ class TranslationsModel extends Model
             ->orderBy("comments.chunk")
             ->orderBy("comments.cID");
 
-        if($chapter != null)
+        if($chapter !== null)
             $builder->where("comments.chapter", $chapter);
 
         return $builder->get();
@@ -258,7 +257,7 @@ class TranslationsModel extends Model
         $builder = $this->db->table("comments");
 
         $builder->where("eventID", $eventID);
-        if($chapter != null)
+        if($chapter !== null)
             $builder->where("chapter", $chapter);
 
         return $builder->delete();

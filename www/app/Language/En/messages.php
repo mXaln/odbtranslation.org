@@ -250,6 +250,7 @@ return array (
     "step_num" => "Step {0}",
     "chapters" => "Chapters",
     "chapter_number" => "Chapter {0}",
+    "intro" => "Intro",
     "chapter_not_started" => "Not started",
     "chapter_in_progress" => "{0}% in progress",
     "chapter_finished" => "100% finished",

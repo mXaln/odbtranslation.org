@@ -12,29 +12,31 @@ if(isset($data["error"])) return;
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                     .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
-
-                <!--
-                <?php foreach($data["text"] as $verse => $text): ?>
-                    <p><?php //echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                <?php endforeach; ?>-->
+                    ."<span class='book_name'>".$data["event"][0]->name." ".
+                    (!$data["nosource"] 
+                        ? $data["currentChapter"].":1-".$data["totalVerses"]
+                        : "(".__("intro").")")."</span>"?></h4>
 
                 <?php foreach($data["notes"] as $chunkNo => $chunk): ?>
                     <div class="note_chunk">
                     <div class="note_chunk_verses">
                         <?php 
-                        $verses = array_keys($data["text"][$chunkNo]);
-                        if($verses[0] != $verses[sizeof($verses)-1])
-                            echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
-                        else
-                            echo __("chunk_verses", $verses[0]);
+                        if(!$data["nosource"])
+                        {
+                            $verses = array_keys($data["text"][$chunkNo]);
+                            if($verses[0] != $verses[sizeof($verses)-1])
+                                echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
+                            else
+                                echo __("chunk_verses", $verses[0]);
+                        }
                         ?>
                     </div>
                     <?php foreach($chunk as $note): ?>
-                        <?php if($note["ref"] == "translationWords") continue; ?>
+                        <?php //if($note["ref"] == "translationWords") continue; ?>
                         <div class="note_content">
-                            <h1><?php echo $note["ref"] ?></h1>
-                            <p><?php echo $note["text"] ?></p>
+                            <h1><?php //echo $note["ref"] ?></h1>
+                            <p><?php //echo $note["text"] ?></p>
+                            <?php echo $note ?>
                         </div>
                     <?php endforeach; ?>
                     </div>

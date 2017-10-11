@@ -1300,21 +1300,61 @@ $(document).ready(function() {
             });
     }
 
+    // Summernote reac text editor for notes
+    $(document).ready(function() {
+        $(".add_notes_editor").each(function() {
+            $(this).summernote({
+                lang: siteLang,
+                airMode: true,
+                placeholder: 'Start writing text here...',
+                popover: {
+                    link: [
+                        ['link', ['linkDialogShow', 'unlink']]
+                    ],
+                    air: [
+                        ['para', ['style', 'ul', 'ol']],
+                        ['misc', ['undo', 'redo']],
+                        ['link', ['linkDialogShow', 'unlink']]
+                    ]
+                }
+            });
+        });
+    });
+
+    $(".toggle-help").click(function() {
+        if($(".main_content").hasClass("col-sm-9"))
+        {
+            $(".main_content").removeClass("col-sm-9")
+                .addClass("col-sm-12");
+            $(".content_help").hide();
+        }
+        else 
+        {
+            $(".main_content").addClass("col-sm-9")
+                .removeClass("col-sm-12");
+            $(".content_help").show();
+        }
+    });
+
+    var chunkNotesIncr = [];
     $(".add_notes button").click(function(e) {
         e.preventDefault();
         
         var parent = $(this).parents(".notes_editor");
         var chunkNo = parent.data("chunkno");
+
+        if(typeof chunkNotesIncr[chunkNo] == "undefined")
+            chunkNotesIncr[chunkNo] = 0;
         
         var editor = "" + 
             "<div class='notes_chunk_editor'>" +
                 "<button class='btn btn-danger notes_chunk_remove glyphicon glyphicon-remove'></button>" +
                 "<label>ref:" +
-                    "<textarea name='chunks["+chunkNo+"][][ref]' "+
+                    "<textarea name='chunks["+chunkNo+"]["+chunkNotesIncr[chunkNo]+"][ref]' "+
                         "class='textarea' rows='1'></textarea>" +
                 "</label>" + 
                 "<label>text:" +
-                    "<textarea name='chunks["+chunkNo+"][][text]' "+
+                    "<textarea name='chunks["+chunkNo+"]["+chunkNotesIncr[chunkNo]+"][text]' "+
                         "class='textarea' rows='1'></textarea>" +
                 "</label>"
             "</div>"
@@ -1322,11 +1362,17 @@ $(document).ready(function() {
 
         $(".add_notes_editor", parent).append(editor);
         autosize($('textarea'));
+        chunkNotesIncr[chunkNo]++;
     });
 
     $(document).on("click", ".notes_chunk_remove", function() {
         var parent = $(this).parents(".notes_chunk_editor");
+        var chunkParent = $(this).parents(".notes_editor");
+        var chunkno = chunkParent.data("chunkno");
         parent.remove();
+        
+        if(typeof chunkNotesIncr[chunkNo] == "undefined")
+            chunkNotesIncr[chunkNo]--;
     });
 
 

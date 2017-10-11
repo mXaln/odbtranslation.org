@@ -104,7 +104,7 @@ class EventsModel extends Model
         $prepare = array();
         $prepare[":memberID"] = '%"'.$memberID.'"%';
 
-        if($projectID != null)
+        if($projectID !== null)
         {
             $sql .= " AND ".PREFIX."projects.projectID=:projectID";
             $prepare[":projectID"] = $projectID;
@@ -924,7 +924,7 @@ class EventsModel extends Model
         $dirs = File::directories($folderpath);
         foreach($dirs as $dir)
         {
-            preg_match("/[1-3a-z]{3}$/", $dir, $matches)."<br>";
+            preg_match("/[1-3a-z]{3}$/", $dir, $matches);
             if($matches[0] == $book)
             {
                 $folderpath = $dir;
@@ -938,13 +938,16 @@ class EventsModel extends Model
         $files = File::allFiles($folderpath);
         foreach($files as $file)
         {
-            // TODO decide if we need to translate intro
-            if(preg_match("/intro.md$/", $file)) continue;
-            
-            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).md$/", $file, $matches);
+            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro).md$/", $file, $matches);
             
             if(!isset($matches[1]) || !isset($matches[2])) return false;
             
+            if($matches[1] == "front")
+                $matches[1] = 0;
+
+            if($matches[2] == "intro")
+                $matches[2] = 0;
+
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
             
@@ -954,10 +957,12 @@ class EventsModel extends Model
                 $result[$chapter][$chunk] = [];
 
             $md = File::get($file);
-            $md_arr = $parsedown->text($md, true);
-            $parsedown->clearBlocks();
+            $html = $parsedown->text($md);
+            $html = preg_replace("//", "", $html);
+            //$parsedown->clearBlocks();
             
-            $tmp = [];
+            $result[$chapter][$chunk][] = $html;
+            /*$tmp = [];
             foreach($md_arr as $elm)
             {
                 if($elm["element"]["name"] == "h1")
@@ -989,10 +994,11 @@ class EventsModel extends Model
                     $result[$chapter][$chunk][] = $tmp;
                     $tmp = [];
                 }
-            }
+            }*/
         }
         
-        ksort($result);
+        ksort($result); 
+        //Data::pr($result); exit;
         return $result;
     }
 

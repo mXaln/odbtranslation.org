@@ -247,6 +247,7 @@ return array (
     "step_num" => "Шаг {0}",
     "chapters" => "Главы",
     "chapter_number" => "Глава {0}",
+    "intro" => "Введение",
     "chapter_not_started" => "Не начато",
     "chapter_in_progress" => "{0}% переведено",
     "chapter_finished" => "100% завершено",
