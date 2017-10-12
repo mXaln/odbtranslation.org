@@ -8,3 +8,4 @@ www/errorlog.html
 /www/app/Templates/Default/Assets/tmp
 /.project
 nbproject
+.vscode/launch.json

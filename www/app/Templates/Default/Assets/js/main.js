@@ -410,6 +410,11 @@ $(document).ready(function() {
                                             hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
+                                            
+                                        case "json":
+                                            hasChangesOnPage = false;
+                                            renderPopup(data.error);
+                                            break;
                                     }
                                 }
                                 console.log(data.error);
