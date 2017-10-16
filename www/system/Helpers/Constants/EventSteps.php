@@ -40,13 +40,42 @@ class EventSteps
         "finished" => 12,
         ];
 
-    public static function enum($step)
+    private static $enumNotes = [
+            "none" => 0,
+            "pray" => 1,
+            "consume" => 2,
+            "read-chunk" => 3,
+            "blind-draft" => 4,
+            "self-check" => 5,
+            "peer-review" => 6,
+            "finished" => 7,
+            ];
+
+    public static function enum($step, $mode = null)
     {
-        return self::$enum[$step];
+        switch($mode)
+        {
+            case "tn":
+                return self::$enumNotes[$step];
+                break;
+
+            default:
+                return self::$enum[$step];
+                break;
+        }
     }
 
-    public static function enumArray()
+    public static function enumArray($mode = null)
     {
-        return self::$enum;
+        switch($mode)
+        {
+            case "tn":
+                return self::$enumNotes;
+                break;
+
+            default:
+                return self::$enum;
+                break;
+        }
     }
 }

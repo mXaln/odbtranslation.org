@@ -3,20 +3,27 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(1)) . ": " . __("consume_tn")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [1]) . ": " . __("consume_tn")?></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                <h4><?php echo $data["event"][0]->tLang." - "
+            <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                     .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
+                    ."<span class='book_name'>".$data["event"][0]->name." ".
+                    (!$data["nosource"] 
+                        ? $data["currentChapter"].":1-".$data["totalVerses"]
+                        : "(".__("intro").")")."</span>"?></h4>
 
-                <?php foreach($data["text"] as $verse => $text): ?>
-                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                <?php endforeach; ?>
+                    <?php foreach($data["text"] as $chunk => $content): ?>
+                    <div class="note_chunk">
+                        <?php foreach($content as $verse => $text): ?>
+                        <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                        <?php endforeach; ?>
+                    </div>    
+                    <?php endforeach; ?>
             </div>
 
             <?php //if(empty($error)):?>

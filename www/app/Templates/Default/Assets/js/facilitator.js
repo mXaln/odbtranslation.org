@@ -471,9 +471,9 @@ $(function () {
 
     // Moving transators step back
     $(".step_selector").change(function () {
-        var event_member = $(this).attr("data").split(":");
-        var eventID = event_member[0];
-        var memberID = event_member[1];
+        var eventID = $(this).data("event");
+        var memberID = $(this).data("member");
+        var mode = $(this).data("mode");
         var to_step = $(this).val();
 
         var prev_chunk = /_prev$/.test(to_step);
@@ -505,7 +505,15 @@ $(function () {
         }
         else
         {
-            var confirm = to_step != EventSteps.CHUNKING;
+            var confirm = true;
+            if($.inArray(mode, ["tn"]) > -1)
+            {
+                confirm = to_step != EventSteps.CONSUME;
+            }
+            else
+            {
+                confirm = to_step != EventSteps.CHUNKING;
+            }
             moveStepBack($this, eventID, memberID, to_step, confirm, prev_chunk);
         }
     });

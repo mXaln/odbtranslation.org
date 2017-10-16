@@ -349,9 +349,9 @@ $(document).ready(function() {
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
-				var item = step == EventSteps.BLIND_DRAFT ?
-                "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk :
-                "event"+eventID;
+                var item = step == EventSteps.BLIND_DRAFT 
+                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk 
+                    : "event"+eventID;
 				var saved = localStorage.getItem(item);
 				if(saved)
 				{
@@ -1318,10 +1318,72 @@ $(document).ready(function() {
                     ],
                     air: [
                         ['para', ['style', 'ul', 'ol']],
-                        ['misc', ['undo', 'redo']],
-                        ['link', ['linkDialogShow', 'unlink']]
+                        ['style', ['bold', 'italic', 'underline']],
+                        ['link', ['linkDialogShow', 'unlink']],
+                        ['misc', ['undo', 'redo']]
                     ]
+                },
+                callbacks: {
+                    onPaste: function(e) {
+                        e.preventDefault();
+                        
+                        hasChangesOnPage = true;
+                        $(".unsaved_alert").show();
+                        
+                        var html = (e.originalEvent || e).clipboardData.getData('text/html');
+                        var dom = $(html);
+
+                        // Replace absolute urls by relative ones when using keyboard to paste
+                        $("a", dom).each(function() {
+                            $(this).attr("href", $(this).attr("title"));
+                        });
+                        
+                        var container = $("<div>").append(dom.clone()).html();
+
+                        container = container.replace(
+                            /(\[\[[a-z:\/\-]+\]\])/g, 
+                            "<span class='uwlink' title='"+Language.leaveit+"'>$1</span>");
+
+                        window.document.execCommand('insertHtml', false, container);
+                    },
+                    onChange: function(contents, $editable) {
+                        hasChangesOnPage = true;
+                        $(".unsaved_alert").show();
+                        
+                        var pasted = $(".button_copy_notes button").data("pasted");
+
+                        if(pasted)
+                        {
+                            $(".button_copy_notes button").data("pasted", false)
+
+                            contents = contents.replace(
+                                /(\[\[[a-z:\/\-]+\]\])/g, 
+                                "<span class='uwlink' title='"+Language.leaveit+"'>$1</span>");
+
+                            var dom = $(contents);
+                            
+                            // Clear break paragraphs
+                            $(this).summernote("reset");
+                            dom.each(function() {
+                                if(this.nodeName == "P")
+                                {
+                                    $(this).empty();
+                                }
+                            });
+
+                            // Replace absolute urls by relative ones when using button to paste
+                            $("a", dom).each(function() {
+                                $(this).attr("href", $(this).attr("title"));
+                            });
+
+                            var container = $("<div>").append(dom.clone()).html();
+                            window.document.execCommand('insertHtml', false, container);
+                        }
+                    }
                 }
+            });
+            $(".note_content a").each(function() {
+                $(this).attr("title", $(this).attr("href"));
             });
         });
     });
@@ -1341,7 +1403,17 @@ $(document).ready(function() {
         }
     });
 
-    var chunkNotesIncr = [];
+    $(".button_copy_notes button").click(function(e) {
+        e.preventDefault();
+
+        $(this).data("pasted", true);
+        
+        $(".note-editable").html("");
+        var content = $(".note_content").clone();
+        $(".add_notes_editor").summernote("insertNode", content[0]);
+    });
+
+    /*var chunkNotesIncr = [];
     $(".add_notes button").click(function(e) {
         e.preventDefault();
         
@@ -1378,7 +1450,7 @@ $(document).ready(function() {
         
         if(typeof chunkNotesIncr[chunkNo] == "undefined")
             chunkNotesIncr[chunkNo]--;
-    });
+    });*/
 
 
     // ---------------------  Verse markers setting start -------------------- //

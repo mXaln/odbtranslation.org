@@ -124,7 +124,7 @@ $stepsNum = [
             <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
                 <div class="event_logo <?php echo $logoBorderClass ?>">
                     <div class="event_type"><?php echo __($eventType) ?></div>
-                    <div class="event_mode"><?php echo __($mode) ?></div>
+                    <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
                     <div class="event_img">
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
@@ -228,7 +228,7 @@ $stepsNum = [
             <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
                 <div class="event_logo <?php echo $logoBorderClass ?>">
                     <div class="event_type"><?php echo __($eventType) ?></div>
-                    <div class="event_mode"><?php echo __($mode) ?></div>
+                    <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
                     <div class="event_img">
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
@@ -289,7 +289,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "green-marked" : "" ?>">
             <div class="event_logo translation">
                 <div class="event_type"><?php echo __("8steps_vmast") ?></div>
-                <div class="event_mode"><?php echo __($event->bookProject) ?></div>
+                <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/peer-review.png") ?>">
                 </div>
@@ -368,7 +368,7 @@ $stepsNum = [
             <div class="event_logo checking">
                 <div class="event_type">
                     <div><?php echo __("step_num", [$stepsNum[$event->step]]) ?></div>
-                    <div class="event_mode"><?php echo __($event->bookProject) ?></div>
+                    <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                     <div><?php echo __($event->step) ?></div>
                 </div>
                 <div class="event_img">
@@ -420,7 +420,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "lemon-marked" : "" ?>">
             <div class="event_logo checkingl2">
                 <div class="event_type"><?php echo __("l2_3_events", array(2)) ?></div>
-                <div class="event_mode"><?php echo __($event->bookProject) ?></div>
+                <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
@@ -470,7 +470,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "blue-marked" : "" ?>">
             <div class="event_logo checkingl3">
                 <div class="event_type"><?php echo __("l2_3_events", array(3)) ?></div>
-                <div class="event_mode"><?php echo __($event->bookProject) ?></div>
+                <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
@@ -569,7 +569,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
             <div class="event_logo <?php echo $logoBorderClass ?>">
                 <div class="event_type"><?php echo $eventType ?></div>
-                <div class="event_mode"><?php echo __($mode) ?></div>
+                <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo $eventImg ?>">
                 </div>

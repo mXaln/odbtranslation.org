@@ -3014,6 +3014,11 @@ div[class^="member_usname mid"] {
     color: #008000;
 }
 
+.event_mode.tn {
+    font-style: italic;
+    color: #be00ee;
+}
+
 .event_img {
     margin: 10px 0 20px;
 }
@@ -3783,4 +3788,15 @@ button.startEvnt, button.editEvnt {
     right: 20px; 
     top: 15px; 
     z-index: 99
+}
+
+.button_copy_notes {
+    margin: -10px 0 10px 0;
+    text-align: center
+}
+
+.uwlink {
+    color: #f00;
+    display: inline-block;
+    word-break: break-word;
 }

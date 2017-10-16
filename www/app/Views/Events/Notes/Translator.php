@@ -21,44 +21,31 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
 
     <ul class="steps_list">
-        <?php if($data["event"][0]->stage == "translation"): ?>
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PRAY)?></span>
         </li>
-
+            
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
             <span><?php echo __(EventSteps::CONSUME . "_tn")?></span>
         </li>
-
-        <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::VERBALIZE ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::VERBALIZE . "_tn")?></span>
+                
+        <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::READ_CHUNK . "_tn")?></span>
         </li>
-
-        <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CHUNKING . "_tn")?></span>
-        </li>
-
-        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ||
-            $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
+                    
+        <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
             <span><?php echo __(EventSteps::BLIND_DRAFT . "_tn")?></span>
+        </li>
+                        
+        <?php if($data["event"][0]->stage == "translation"): ?>
+        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::SELF_CHECK . "_tn")?></span>
         </li>
         <?php endif; ?>
 
         <?php if($data["event"][0]->stage == "checking"): ?>
-        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::SELF_CHECK . "_tn")?></span>
-        </li>
-
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PEER_REVIEW . "_tn")?></span>
-        </li>
-
-        <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::KEYWORD_CHECK . "_tn")?></span>
-        </li>
-
-        <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CONTENT_REVIEW . "_tn")?></span>
         </li>
         <?php endif; ?>
     </ul>
@@ -172,7 +159,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?2")?>"></script>
-<script src="<?php echo template_url("js/socket.js?2")?>"></script>
+<script src="<?php echo template_url("js/socket.js?3")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

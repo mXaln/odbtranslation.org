@@ -86,22 +86,27 @@ if(!isset($error)):
                     <div class="step_selector_block row">
                         <div class="col-sm-6">
                             <?php
-                            $s_disabled = EventSteps::enum($member["step"]) < 2;
+                            $mode = $data["event"][0]->bookProject;
+                            $s_disabled = EventSteps::enum($member["step"], $mode) < 2;
                             ?>
                             <label><?php echo __("current_step") ?>:</label>
-                            <select class="step_selector form-control" <?php echo $s_disabled ? "disabled" : "" ?> data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>">
-                                <?php foreach (EventSteps::enumArray() as $step => $i): ?>
+                            <select class="step_selector form-control" 
+                                <?php echo $s_disabled ? "disabled" : "" ?> 
+                                data-event="<?php echo $data["event"][0]->eventID ?>"
+                                data-member="<?php echo $member["memberID"] ?>"
+                                data-mode="<?php echo $mode ?>">
+                                <?php foreach (EventSteps::enumArray($mode) as $step => $i): ?>
                                     <?php
                                     if($step == EventSteps::NONE) continue;
 
                                     $selected = $step == $member["step"];
-                                    $o_disabled = EventSteps::enum($member["step"]) < $i ||
-                                        (EventSteps::enum($member["step"]) - $i) > 1;
+                                    $o_disabled = EventSteps::enum($member["step"], $mode) < $i ||
+                                        (EventSteps::enum($member["step"], $mode) - $i) > 1;
                                     ?>
 
                                     <?php if($step == EventSteps::READ_CHUNK):
                                         $ch_disabled = $member["currentChunk"] <= 0 ||
-                                            EventSteps::enum($member["step"]) >= EventSteps::enum(EventSteps::BLIND_DRAFT);
+                                            EventSteps::enum($member["step"], $mode) >= EventSteps::enum(EventSteps::BLIND_DRAFT, $mode);
                                         ?>
                                         <option <?php echo ($ch_disabled ? "disabled" : "") ?>
                                                 value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>"
@@ -111,7 +116,10 @@ if(!isset($error)):
                                     <?php endif; ?>
 
                                     <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
-                                        <?php echo EventSteps::enum($step) == 5 ? __("read-chunk-alt") : __($step) ?>
+                                        <?php 
+                                        $altStep = in_array($mode, ["tn"]) ? 3 : 5;
+                                        echo EventSteps::enum($step, $mode) == $altStep ? __("read-chunk-alt") : __($step) 
+                                        ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

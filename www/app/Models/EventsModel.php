@@ -13,16 +13,16 @@ use PDO;
 use File;
 use Cache;
 use ZipArchive;
-use Helpers\Url;
-use Helpers\Data;
-use Database\Model;
-use Helpers\Session;
-use Helpers\Parsedown;
+use \Helpers\Url;
+use \Helpers\Data;
+use \Database\Model;
+use \Helpers\Session;
+use \Helpers\Parsedown;
 use \Helpers\UsfmParser;
-use Helpers\Constants\EventSteps;
-use Helpers\Constants\BookSources;
-use Helpers\Constants\EventStates;
-use Helpers\Constants\EventMembers;
+use \Helpers\Constants\EventSteps;
+use \Helpers\Constants\BookSources;
+use \Helpers\Constants\EventStates;
+use \Helpers\Constants\EventMembers;
 
 class EventsModel extends Model
 {
@@ -931,7 +931,7 @@ class EventsModel extends Model
                 break;
             }
         }
-        
+
         $parsedown = new Parsedown();
 
         $result = [];
