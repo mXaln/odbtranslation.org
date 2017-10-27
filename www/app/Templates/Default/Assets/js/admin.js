@@ -71,19 +71,15 @@ $(function () {
     });
 
     $("select[name=projectMode]").change(function() {
-        if($(this).val() == "scripture")
+        if($(this).val() == "bible")
         {
-            $(".sourceTranslation").removeClass("hidden");
+            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
             $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslation").chosen();
         }
-        else if($(this).val() == "notes")
+        else if($(this).val() == "tn")
         {
-            $(".sourceTranslation").addClass("hidden");
             $(".sourceTranslationNotes").removeClass("hidden");
-            $(".projectType").addClass("hidden");
             $("#sourceTranslationNotes").chosen();
-            $("#sourceTranslation").val('').trigger("chosen:updated");
         }
     });
     
@@ -122,7 +118,7 @@ $(function () {
 
                 $.each(data.targetLangs, function (i, v) {
                     tlOptions += '<option value="'+ v.langID+'">'+
-                        '['+v.langID+'] '+v.langName+(v.langName != v.angName ? ' ( '+v.angName+' )' : '')+
+                        '['+v.langID+'] '+v.langName+(v.angName != "" && v.langName != v.angName ? ' ( '+v.angName+' )' : '')+
                     '</option>';
                 });
                 $("#targetLangs").html(tlOptions);

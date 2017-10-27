@@ -116,7 +116,9 @@ $stepsNum = [
                     $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
-                    $progressLink = "/events/information/".$event->eventID;
+                    $progressLink = "/events/information".
+                        (in_array($mode, ["tn"]) ? "-tn" : "").
+                        "/".$event->eventID;
                     break;
             }
             ?>
@@ -220,7 +222,9 @@ $stepsNum = [
                     $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
-                    $progressLink = "/events/information/".$event->eventID;
+                    $progressLink = "/events/information".
+                        (in_array($mode, ["tn"]) ? "-tn" : "").
+                        "/".$event->eventID;
                     break;
             }
             ?>
@@ -286,6 +290,7 @@ $stepsNum = [
 
 <div id="my_translations_content" class="my_content">
     <?php foreach($data["myTranslatorEvents"] as $key => $event): ?>
+        <?php $role = $event->stage == "translation" ? "translator" : "checker" ?>
         <div class="event_block <?php echo $key%2 == 0 ? "green-marked" : "" ?>">
             <div class="event_logo translation">
                 <div class="event_type"><?php echo __("8steps_vmast") ?></div>
@@ -343,7 +348,7 @@ $stepsNum = [
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
+                    <a href="/events/<?php echo $role.(in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "") ?>/<?php echo $event->eventID ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -409,7 +414,7 @@ $stepsNum = [
                 </div>
             </div>
             <div class="event_action check1">
-                <div class="event_link"><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID ?>" data="<?php echo $event->eventID."_".$event->memberID?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link"><a href="/events/checker<?php echo (in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "")."/".$event->eventID."/".$event->memberID ?>" data="<?php echo $event->eventID."_".$event->memberID?>"><?php echo __("continue_alt") ?></a></div>
             </div>
 
             <div class="clear"></div>

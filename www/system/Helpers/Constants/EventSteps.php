@@ -13,6 +13,7 @@ class EventSteps
     const NONE                  = "none";
     const PRAY                  = "pray";
     const CONSUME               = "consume";
+    const HIGHLIGHT             = "highlight";
     const VERBALIZE             = "verbalize";
     const CHUNKING              = "chunking";
     const READ_CHUNK            = "read-chunk";
@@ -47,16 +48,29 @@ class EventSteps
             "read-chunk" => 3,
             "blind-draft" => 4,
             "self-check" => 5,
-            "peer-review" => 6,
-            "finished" => 7,
+            "finished" => 6,
             ];
 
-    public static function enum($step, $mode = null)
+    private static $enumNotesChk = [
+        "none" => 0,
+        "pray" => 1,
+        "consume" => 2,
+        "highlight" => 3,
+        "blind-draft" => 4,
+        "keyword-check" => 5,
+        "peer-review" => 6,
+        "finished" => 7,
+        ];
+
+    public static function enum($step, $mode = null, $chk = false)
     {
         switch($mode)
         {
             case "tn":
-                return self::$enumNotes[$step];
+                if($chk)
+                    return self::$enumNotesChk[$step];
+                else
+                    return self::$enumNotes[$step];
                 break;
 
             default:
@@ -65,12 +79,15 @@ class EventSteps
         }
     }
 
-    public static function enumArray($mode = null)
+    public static function enumArray($mode = null, $chk = false)
     {
         switch($mode)
         {
             case "tn":
-                return self::$enumNotes;
+                if($chk)
+                    return self::$enumNotesChk;
+                else
+                    return self::$enumNotes;
                 break;
 
             default:

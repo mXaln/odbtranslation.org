@@ -82,5 +82,8 @@ var Language = {
     "commonError"               : "An error occurred. It could be due to the server error or lost internet connection. Please, try again later.",
     "add"                       : "Add",
     "addedSuccess"              : "The member has been successfully added to the event!",
-    "leaveit"                   : "Leave it as it is"
+    "leaveit"                   : "Leave it as it is",
+    "hideHelp"                  : "Hide help",
+    "showHelp"                  : "Show help",
+    "notesPlaceholder"          : "Start writing text here..."
 };

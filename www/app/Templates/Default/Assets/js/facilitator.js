@@ -595,6 +595,51 @@ $(function () {
                 //$(".filter_loader").hide();
             });
     }
+
+    // Set checker role for tN project
+    $(".is_checker_input").click(function(e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var parent = $(this).parents(".member_usname");
+        var memberID = parent.attr("data");
+        var eventID = $("#eventID").val();
+
+        $.ajax({
+            url: "/events/rpc/set_tn_checker",
+            method: "post",
+            data: {
+                eventID : eventID,
+                memberID : memberID,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $this.prop("disabled", true);
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $this.prop("checked", true);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error,
+                            function () {
+                                $( this ).dialog( "close" );
+                            },
+                            function () {
+                                window.location.reload();
+                            });
+                    }
+                }
+            })
+            .always(function() {
+                $this.prop("disabled", false);
+            });
+    });
 });
 
 

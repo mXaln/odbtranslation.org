@@ -1,10 +1,6 @@
 <?php
 /**
  * Routes - all standard Routes are defined here.
- *
- * @author David Carr - dave@daveismyname.com
- * @author Virgil-Adrian Teaca - virgil@giulianaeassociati.com
- * @version 3.0
  */
 
 
@@ -25,6 +21,12 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang}/{bookProject}/{bookCode}/usfm", "TranslationsController@getUsfm")
+        ->where([
+            "lang" => "[a-z0-9-]+",
+            "bookProject" => "[a-z0-9]+",
+            "bookCode" => "[a-z0-9]+"
+        ]);
+    Router::any("{lang}/{bookProject}/{bookCode}/md", "TranslationsController@getMd")
         ->where([
             "lang" => "[a-z0-9-]+",
             "bookProject" => "[a-z0-9]+",
@@ -51,7 +53,11 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+"
             ]);
-    Router::any("checker-tn/{eventID}/{memberID}", "EventsController@checkerNotes")
+    Router::any("checker-tn/{eventID}", "EventsController@checkerNotes")
+        ->where([
+            "eventID" => "[0-9]+"
+            ]);
+    Router::any("checker-tn/{eventID}/{memberID}", "EventsController@checkerNotesPeer")
         ->where([
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+"
@@ -62,11 +68,11 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "step" => "[a-z\-]+"
         ]);
-    Router::any("checker-tn/{eventID}/{memberID}/{step}/apply", "EventsController@applyCheckerNotes")
+    Router::any("checker/{eventID}/{memberID}/notes/{chapter}/apply", "EventsController@applyCheckerNotes")
         ->where([
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
-            "step" => "[a-z\-]+"
+            "chapter" => "[0-9]+"
         ]);
     Router::any("checker_l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
@@ -77,7 +83,6 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/apply_event", "EventsController@applyEvent");
     Router::any("rpc/get_notifications", "EventsController@getNotifications");
     Router::any("rpc/autosave_chunk", "EventsController@autosaveChunk");
-    Router::any("rpc/autosave_chunk_notes", "EventsController@autosaveChunkNotes");
     Router::any("rpc/save_comment", "EventsController@saveComment");
     Router::any("rpc/save_keyword", "EventsController@saveKeyword");
     Router::any("rpc/get_keywords", "EventsController@getKeywords");
@@ -89,6 +94,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/get_info_update/{eventID}", "EventsController@getInfoUpdate")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("rpc/move_step_back", "EventsController@moveStepBack");
+    Router::any("rpc/set_tn_checker", "EventsController@setTnChecker");
     Router::any("rpc/check_internet", "EventsController@checkInternet");
     Router::any("rpc/apply_verb_checker", "EventsController@applyVerbChecker");
 });

@@ -3,7 +3,7 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [1]) . ": " . __("consume_tn")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("highlight_tn")?></div>
     </div>
 
     <div class="row">
@@ -17,13 +17,16 @@ if(isset($data["error"])) return;
                         ? $data["currentChapter"].":1-".$data["totalVerses"]
                         : "(".__("front").")")."</span>"?></h4>
 
-                    <?php foreach($data["text"] as $chunk => $content): ?>
-                    <div class="note_chunk">
+                    <?php $key = 0; foreach($data["text"] as $chunk => $content): ?>
+                    <div class="note_chunk chunk_verses">
                         <?php foreach($content as $verse => $text): ?>
-                        <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                        <strong><sup><?php echo $verse; ?></sup></strong>
+                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>">
+                            <?php echo $text; ?>
+                        </div>
                         <?php endforeach; ?>
                     </div>    
-                    <?php endforeach; ?>
+                    <?php $key++; endforeach; ?>
             </div>
 
             <?php //if(empty($error)):?>
@@ -36,7 +39,7 @@ if(isset($data["error"])) return;
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [1])?></div>
+                <div class="step_right"><?php echo __("step_num", [2])?></div>
             </div>
             <?php //endif; ?>
         </div>
@@ -47,7 +50,7 @@ if(isset($data["error"])) return;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [1])?>: </span><?php echo __("consume_tn")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [2])?>: </span><?php echo __("highlight_tn")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("consume_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -77,8 +80,8 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("consume_tn")?></h3>
-            <ul><?php echo __("consume_desc")?></ul>
+            <h3><?php echo __("highlight_tn")?></h3>
+            <ul><?php echo __("highlight_desc")?></ul>
         </div>
     </div>
 </div>

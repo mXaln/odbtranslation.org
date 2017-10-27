@@ -83,7 +83,7 @@ if(isset($data["error"])) return;
 
                     <div class="col-sm-12">
                         <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary"><?php echo __("save")?></button>
-                        <img src="<?php echo template_url("img/alert.pn") ?>g" class="unsaved_alert">
+                        <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert">
                     </div>
                 </div>
 

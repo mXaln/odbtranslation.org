@@ -73,6 +73,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
+    var tMode = '<?php echo $data["event"][0]->bookProject ?>';
     var isAdmin = false;
     var disableChat = false;
     var turnUsername = '<?php echo isset($data["turn"]) ? $data["turn"][0] : "" ?>';

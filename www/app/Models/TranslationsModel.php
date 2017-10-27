@@ -57,7 +57,8 @@ class TranslationsModel extends Model
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
-                "translations.chapter", "translations.translatedVerses", "languages.direction")
+                "translations.chapter", "translations.chunk", "translations.translatedVerses",
+                "translations.eventID", "languages.direction")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
@@ -107,9 +108,9 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translations")
             ->where("trID", $trID);
 
-        if($chapter) {
+        if($chapter !== null) {
             $builder->where("chapter", $chapter);
-            if($chunk) {
+            if($chunk !== null) {
                 $builder->where("chunk", $chunk);
             }
         }
@@ -236,7 +237,7 @@ class TranslationsModel extends Model
             ->where("memberID", $memberID)->get();
     }
 
-    public function getCommentsByEvent($eventID, $chapter = null)
+    public function getCommentsByEvent($eventID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("comments")
             ->select("comments.*", "members.userName")
@@ -247,7 +248,11 @@ class TranslationsModel extends Model
             ->orderBy("comments.cID");
 
         if($chapter !== null)
+        {
             $builder->where("comments.chapter", $chapter);
+            if($chunk !== null)
+                $builder->where("comments.chunk", $chunk);
+        }
 
         return $builder->get();
     }

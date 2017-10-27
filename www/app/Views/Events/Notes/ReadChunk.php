@@ -16,7 +16,7 @@ if(isset($data["error"])) return;
                             .($data["currentChapter"] > 0 ? $data["currentChapter"].":"
                             .(!$data["no_chunk_source"] 
                                 ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
-                                : " ".__("intro")) : __("intro"))."</span>"?></h4>
+                                : " ".__("intro")) : __("front"))."</span>"?></h4>
 
                 <?php //foreach($data["text"] as $verse => $text): ?>
                     <p><?php //echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
@@ -57,7 +57,7 @@ if(isset($data["error"])) return;
             <div class="event_info">
                 <div class="participant_info">
                     <div class="additional_info">
-                        <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        <a href="/events/information-tn/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>

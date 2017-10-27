@@ -70,7 +70,16 @@ if(!isset($error)):
     <div class="manage_members col-sm-6">
         <h3>
             <?php echo __("people_number", array(sizeof($data["members"]), $data["event"][0]->translatorsNum)) ?>
-            <button class="btn btn-primary" id="openMembersSearch"><?php echo __("add_translator") ?></button>
+            <button 
+                class="btn btn-primary" 
+                id="openMembersSearch">
+                <?php echo __("add_translator") ?>
+            </button>
+            <button 
+                class="btn btn-success glyphicon glyphicon-refresh" 
+                id="refresh" 
+                title="<?php echo __("refresh"); ?>">
+            </button>
         </h3>
         <ul>
             <?php foreach ($data["members"] as $member):?>
@@ -79,6 +88,15 @@ if(!isset($error)):
                         <a href="/members/profile/<?php echo $member["memberID"] ?>" target="_blank"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></a>
                         (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                         <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
+                        
+                        <?php if(in_array($data["event"][0]->bookProject, ["tn"])): ?>
+                        <label class="is_checker_label">
+                            <input 
+                                class="is_checker_input" 
+                                type="checkbox"
+                                <?php echo $member["isChecker"] ? "checked" : "" ?>> <?php echo __("checking_tab_title") ?>
+                        </label>
+                        <?php endif; ?>
                     </div>
                     <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
                         <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
@@ -87,26 +105,28 @@ if(!isset($error)):
                         <div class="col-sm-6">
                             <?php
                             $mode = $data["event"][0]->bookProject;
-                            $s_disabled = EventSteps::enum($member["step"], $mode) < 2;
+                            $chk = $member["stage"] == "checking";
+                            $s_disabled = EventSteps::enum($member["step"], $mode, $chk) < 2;
                             ?>
-                            <label><?php echo __("current_step") ?>:</label>
+                            <label class="<?php echo $chk ? "tnchk" : "" ?>"><?php echo __("current_step") ?>:</label>
                             <select class="step_selector form-control" 
                                 <?php echo $s_disabled ? "disabled" : "" ?> 
                                 data-event="<?php echo $data["event"][0]->eventID ?>"
                                 data-member="<?php echo $member["memberID"] ?>"
                                 data-mode="<?php echo $mode ?>">
-                                <?php foreach (EventSteps::enumArray($mode) as $step => $i): ?>
+                                <?php foreach (EventSteps::enumArray($mode, $chk) as $step => $i): ?>
                                     <?php
+                                    // Skip None step
                                     if($step == EventSteps::NONE) continue;
-
+                                    
                                     $selected = $step == $member["step"];
-                                    $o_disabled = EventSteps::enum($member["step"], $mode) < $i ||
-                                        (EventSteps::enum($member["step"], $mode) - $i) > 1;
+                                    $o_disabled = EventSteps::enum($member["step"], $mode, $chk) < $i ||
+                                        (EventSteps::enum($member["step"], $mode, $chk) - $i) > 1;
                                     ?>
 
                                     <?php if($step == EventSteps::READ_CHUNK):
                                         $ch_disabled = $member["currentChunk"] <= 0 ||
-                                            EventSteps::enum($member["step"], $mode) >= EventSteps::enum(EventSteps::BLIND_DRAFT, $mode);
+                                            EventSteps::enum($member["step"], $mode, $chk) >= EventSteps::enum(EventSteps::BLIND_DRAFT, $mode, $chk);
                                         ?>
                                         <option <?php echo ($ch_disabled ? "disabled" : "") ?>
                                                 value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>"
@@ -117,8 +137,8 @@ if(!isset($error)):
 
                                     <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
                                         <?php 
-                                        $altStep = in_array($mode, ["tn"]) ? 3 : 5;
-                                        echo EventSteps::enum($step, $mode) == $altStep ? __("read-chunk-alt") : __($step) 
+                                        $altStep = in_array($mode, ["tn"]) ? ($chk ? 0 : 3) : 5;
+                                        echo EventSteps::enum($step, $mode, $chk) == $altStep ? __("read-chunk-alt") : __($step) 
                                         ?>
                                     </option>
                                 <?php endforeach; ?>

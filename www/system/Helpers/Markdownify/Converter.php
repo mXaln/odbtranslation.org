@@ -239,7 +239,7 @@ class Converter
      *             defaults to true (HTML will be kept)
      * @return void
      */
-    public function __construct($linkPosition = self::LINK_AFTER_CONTENT, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML)
+    public function __construct($linkPosition = self::LINK_IN_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML)
     {
         $this->linkPosition = $linkPosition;
         $this->keepHTML = $keepHTML;

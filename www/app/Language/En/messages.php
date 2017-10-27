@@ -56,7 +56,7 @@ return array (
     "member_wrote" => "wrote",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
-    "scripture_mode" => "Scripture",
+    "bible_mode" => "Bible",
     "notes_mode" => "Notes",
     "project_exists" => "Project exists",
 
@@ -223,6 +223,7 @@ return array (
     "admin_members_title" => "Members management",
     "gw_language" => "Gateway Language",
     "book_project" => "Source Translation",
+    "book_notes" => "Source Notes",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
     "rsb" => "Russian Synodal Bible",
@@ -231,10 +232,12 @@ return array (
     "dkl" => "Danicic Karadzic Latin",
     "stf" => "Stefanović Novi Zavet",
     "src" => "Šarić Hrvatski",
+    "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
     "checker_apply" => "<b>{0}</b> is ready for checking <b>({1})</b> book of <b>{2}</b>, chapter <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
+    "checker_notes_apply" => "<b>{0}</b> is ready for checking book of <b>{1}</b>, chapter <b>{2}</b> - <b>{3}</b> - <b>{4}</b>",
     "apply_to_check" => "Apply to check",
     "notifications" => "Notifications",
     "see_all" => "See all",
@@ -251,6 +254,7 @@ return array (
     "chapters" => "Chapters",
     "chapter_number" => "Chapter {0}",
     "intro" => "Intro",
+    "front" => "Front",
     "chapter_not_started" => "Not started",
     "chapter_in_progress" => "{0}% in progress",
     "chapter_finished" => "100% finished",
@@ -373,6 +377,7 @@ return array (
     "choose_gw_lang" => "Choose Gateway Language",
     "choose_target_lang" => "Choose Target Language",
     "choose_source_trans" => "Choose Source Translation",
+    "choose_source_notes" => "Choose Source Notes",
     "choose_project_type" => "Choose Project Type",
     "gw_projects" => "Gateway Projects",
     "gw_project" => "Gateway Project",
@@ -401,6 +406,10 @@ return array (
     "remove_checker" => "Remove checker",
     "chunk_verses" => "Verse(s): {0}",
     "leaveit" => "Leave it as it is",
+    "refresh" => "Refresh",
+    "hide_help" => "Hide help",
+    "show_help" => "Show help",
+    "copy" => "Copy",
     
     // Steps
     "pray" => "Preparation: Prayer",
@@ -410,6 +419,9 @@ return array (
     "consume" => "Consume",
     "consume_desc" => "<li><b>PURPOSE:</b> to prepare your short-term memory to assist you in translation</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
     
+    "highlight" => "Highlight",
+    "highlight_desc" => "<li><b>PURPOSE:</b> to prepare your short-term memory to assist you in translation</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
+
     "verbalize" => "Verbalize",
     "verbalize_desc" => "<li><b>PURPOSE:</b> to express verbally what you have consumed to engage short-term memory.</li><li>Contact your partner on a conversation platform: Skype, Hangout, V-MAST chat, phone, etc…</li><li>This is not a discussion of the text, but to verbalize “this is what I read,” followed by, “the main points are…”</li><li>It is best if the verbalizing is done in the target language.</li><li>Spend no more than 7-10 minutes with your partner on this step.</li>",
     "verbalize_checker_desc" => "<li><b>PURPOSE:</b> to listen as the translator expresses verbally what they learned from consumed text.</li><li>As the checker your screen instructions will be in orange and you will see no source or translated text.</li><li>This is not a discussion of the text, but a chance for the translator to verbalize what they read and the main points to activate short term memory.</li><li>It is best if the verbalizing is done in the target language.</li><li>Spend no more than 7-10 minutes with your partner on this step.</li>",
@@ -516,6 +528,7 @@ return array (
     "verification_error_title" => "Account is not verified",
     "chapter" => "Chapter {0}",
     "download_usfm" => "Download as USFM",
+    "download_markdown" => "Download as Markdown",
 
     // Alma keyword plugin
     "to_list" => "To list",

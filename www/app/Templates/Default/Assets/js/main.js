@@ -11,6 +11,7 @@ var EventSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
+    HIGHLIGHT: "highlight",
     VERBALIZE: "verbalize",
     CHUNKING: "chunking",
     READ_CHUNK: "read-chunk",
@@ -40,7 +41,7 @@ $(document).ready(function() {
     }
 
     Offline.on("confirmed-up", function () {
-        console.log("internet is up");
+        //console.log("internet is up");
     });
 
     Offline.on("confirmed-down", function () {
@@ -676,43 +677,43 @@ $(document).ready(function() {
             data: $("#checker_submit").serialize(),
             dataType: "json",
             beforeSend: function() {
-
-		if($(".checkerLoader").length <= 0)
-		    $(".ui-dialog-buttonset")
-			.prepend('<img src="/templates/default/assets/img/loader.gif" style="margin-right:10px" width="32" class="checkerLoader">');
-		$(".checkerLoader").show();
-		$(".ui-dialog-buttonset button").prop("disabled", true);
+                if($(".checkerLoader").length <= 0) {
+                    $(".ui-dialog-buttonset")
+                        .prepend('<img src="/templates/default/assets/img/loader.gif" style="margin-right:10px" width="32" class="checkerLoader">');
+                }
+                $(".checkerLoader").show();
+                $(".ui-dialog-buttonset button").prop("disabled", true);
             }
         })
-            .done(function(data) {
-                if(data.success)
-                {
-                    var data = {
-                        type: "checkDone",
-                        eventID: eventID,
-                        chkMemberID: chkMemberID,
-                    };
-                    socket.emit("system message", data);
+        .done(function(data) {
+            if(data.success)
+            {
+                var data = {
+                    type: "checkDone",
+                    eventID: eventID,
+                    chkMemberID: chkMemberID,
+                };
+                socket.emit("system message", data);
 
-                    if(window.opener != null)
-                    {
-                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
-                        window.close();
-                    }
-                    else
-                    {
-                        window.location = "/events";
-                    }
+                if(window.opener != null)
+                {
+                    window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                    window.close();
                 }
                 else
                 {
-                    console.log(data.errors);
+                    window.location = "/events";
                 }
-            })
-            .always(function() {
-		$(".checkerLoader").hide();
-		$(".ui-dialog-buttonset button").prop("disabled", false);
-            });
+            }
+            else
+            {
+                console.log(data.errors);
+            }
+        })
+        .always(function() {
+            $(".checkerLoader").hide();
+            $(".ui-dialog-buttonset button").prop("disabled", false);
+        });
 
         return false;
     });
@@ -1122,11 +1123,13 @@ $(document).ready(function() {
 
     // Save keywords
     $("body").on("mouseup", "div[class^=kwverse]", function (e) {
-        if(!isChecker) return false;
-        if(typeof isInfoPage != "undefined") return false;
+        if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
+        if(typeof disableHighlight != "undefined") return;
+        if(typeof isInfoPage != "undefined") return;
         if(typeof step == "undefined"
-            || step != EventSteps.KEYWORD_CHECK) return;
-
+            || (step != EventSteps.KEYWORD_CHECK
+            && step != EventSteps.HIGHLIGHT)) return;
+        
         var verseID = $(this).attr("class");
         var text;
 
@@ -1218,9 +1221,11 @@ $(document).ready(function() {
 
 
     $("body").on("mouseover", ".chunk_verses b", function (e) {
-        if(!isChecker) return false;
+        if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
+        if(typeof disableHighlight != "undefined") return;
         if(typeof step == "undefined"
-            || step != EventSteps.KEYWORD_CHECK) return;
+            || (step != EventSteps.KEYWORD_CHECK
+                && step != EventSteps.HIGHLIGHT)) return;
 
         if($(".remove_kw_tip").length <= 0)
         {
@@ -1231,15 +1236,18 @@ $(document).ready(function() {
     });
 
     $("body").on("mouseout", ".chunk_verses b", function (e) {
-        if(isChecker)
+        if(isChecker || ["tn"].indexOf(tMode) > -1)
             $(".remove_kw_tip").remove();
     });
 
     // Delete keyword
     $("body").on("click", ".chunk_verses b", function () {
-        if(typeof isInfoPage != "undefined") return false;
+        if(typeof isInfoPage != "undefined") return;
+        if(typeof disableHighlight != "undefined") return;
 
-        if(isChecker && step == EventSteps.KEYWORD_CHECK)
+        if((isChecker || ["tn"].indexOf(tMode) > -1) 
+            && (step == EventSteps.KEYWORD_CHECK
+                || step == EventSteps.HIGHLIGHT))
         {
             var $this = $(this);
             var text = $(this).text();
@@ -1260,12 +1268,16 @@ $(document).ready(function() {
 
     function loadKeywordsIntoSourse() {
         if(typeof eventID == "undefined") return;
-        if(typeof isDemo != "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
             && step != EventSteps.CONTENT_REVIEW
-            && step != EventSteps.FINAL_REVIEW)) return;
-
+            && step != EventSteps.FINAL_REVIEW
+            && step != EventSteps.HIGHLIGHT
+            && step != EventSteps.PEER_REVIEW)) return;
+        
+        if(step == EventSteps.PEER_REVIEW && 
+            typeof disableHighlight == "undefined") return;
+        
         $("div[class^=kwverse]").html(function() {
             return $(this).text();
         });
@@ -1311,7 +1323,7 @@ $(document).ready(function() {
             $(this).summernote({
                 lang: siteLang,
                 airMode: true,
-                placeholder: 'Start writing text here...',
+                placeholder: Language.notesPlaceholder,
                 popover: {
                     link: [
                         ['link', ['linkDialogShow', 'unlink']]
@@ -1324,6 +1336,12 @@ $(document).ready(function() {
                     ]
                 },
                 callbacks: {
+                    onInit: function() {
+                        var parent = $(this).parents(".note_chunk");
+                        var noteContent = $(".note_content", parent);
+                        var height = noteContent.actual("height");
+                        $(".notes_editor", parent).css("min-height", height);
+                    },
                     onPaste: function(e) {
                         e.preventDefault();
                         
@@ -1336,13 +1354,15 @@ $(document).ready(function() {
                         // Replace absolute urls by relative ones when using keyboard to paste
                         $("a", dom).each(function() {
                             $(this).attr("href", $(this).attr("title"));
+                            $(this).removeAttr("title");
+                        });
+
+                        // Fix when bold links come without spaces
+                        $("strong", dom).each(function() {
+                            $("<span> </span>").insertAfter(this);
                         });
                         
                         var container = $("<div>").append(dom.clone()).html();
-
-                        container = container.replace(
-                            /(\[\[[a-z:\/\-]+\]\])/g, 
-                            "<span class='uwlink' title='"+Language.leaveit+"'>$1</span>");
 
                         window.document.execCommand('insertHtml', false, container);
                     },
@@ -1355,10 +1375,6 @@ $(document).ready(function() {
                         if(pasted)
                         {
                             $(".button_copy_notes button").data("pasted", false)
-
-                            contents = contents.replace(
-                                /(\[\[[a-z:\/\-]+\]\])/g, 
-                                "<span class='uwlink' title='"+Language.leaveit+"'>$1</span>");
 
                             var dom = $(contents);
                             
@@ -1374,6 +1390,12 @@ $(document).ready(function() {
                             // Replace absolute urls by relative ones when using button to paste
                             $("a", dom).each(function() {
                                 $(this).attr("href", $(this).attr("title"));
+                                $(this).removeAttr("title");
+                            });
+
+                            // Fix when bold links come without spaces
+                            $("strong", dom).each(function() {
+                                $("<span> </span>").insertAfter(this);
                             });
 
                             var container = $("<div>").append(dom.clone()).html();
@@ -1388,18 +1410,24 @@ $(document).ready(function() {
         });
     });
 
+    $(".notes_editor").click(function() {
+        //$('.add_notes_editor', this).summernote('focus');
+    });
+
     $(".toggle-help").click(function() {
         if($(".main_content").hasClass("col-sm-9"))
         {
             $(".main_content").removeClass("col-sm-9")
                 .addClass("col-sm-12");
             $(".content_help").hide();
+            $(this).text(Language.showHelp);
         }
         else 
         {
             $(".main_content").addClass("col-sm-9")
                 .removeClass("col-sm-12");
             $(".content_help").show();
+            $(this).text(Language.hideHelp);
         }
     });
 
@@ -2065,6 +2093,10 @@ $(document).ready(function() {
         else
             $(".save_profile_container").addClass("unlinked");
     });
+
+    $("#refresh").click(function() {
+        window.location.reload();
+    });
 });
 
 function animateIntro() {
@@ -2281,7 +2313,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         highlightKeyword(verseID, text, index, remove);
         return false;
     }
-
+    
     $.ajax({
         url: "/events/rpc/save_keyword",
         method: "post",
@@ -2342,6 +2374,8 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
 function highlightKeyword(verseID, text, index, remove) {
     remove = remove || false;
     var verseEl = $("."+verseID);
+    
+    if(verseEl.length <= 0) return;
 
     text = unEscapeStr(text);
 

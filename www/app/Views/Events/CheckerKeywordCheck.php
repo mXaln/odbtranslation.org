@@ -63,7 +63,14 @@ if(empty($error) && empty($data["success"])):
                                         $verse = $combinedVerse;
                                     }
                                     ?>
-                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
+                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>" 
+                                        class="<?php echo $data["event"][0]->sLangDir ?>">
+                                        <sup><?php echo $verse; ?></sup>
+                                    </strong>
+                                    <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" 
+                                        dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                        <?php echo $data["text"][$verse]; ?>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                             <div class="vnote">

@@ -1058,7 +1058,7 @@ class Parsedown
 
                 # compile the unmarked text
                 $markup .= $this->unmarkedText($unmarkedText);
-
+                
                 # compile the inline
                 $markup .= isset($Inline['markup']) ? $Inline['markup'] : $this->element($Inline['element']);
 

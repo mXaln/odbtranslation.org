@@ -10,7 +10,7 @@ if(isset($data["error"])) return;
     </div>
 
     <div class="row" style="position: relative">
-        <button class="btn btn-warning toggle-help">Toggle help</button>
+        <button class="btn btn-warning toggle-help"><?php echo __("hide_help") ?></button>
         <div class="main_content col-sm-9">
             <form action="" id="main_form" method="post">
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
@@ -22,12 +22,12 @@ if(isset($data["error"])) return;
                             .($data["currentChapter"] > 0 ? $data["currentChapter"].":"
                             .(!$data["no_chunk_source"] 
                                 ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
-                                : " ".__("intro")) : __("intro"))."</span>"?></h4>
+                                : " ".__("intro")) : __("front"))."</span>"?></h4>
 
                 <?php if(!$data["nosource"]): ?>
                 <ul class="nav nav-tabs">
                     <li role="presentation" id="my_scripture" class="my_tab">
-                        <a href="#"><?php echo __("scripture_mode") ?></a>
+                        <a href="#"><?php echo __("bible_mode") ?></a>
                     </li>
                     <li role="presentation" id="my_notes" class="my_tab">
                         <a href="#"><?php echo __("notes_mode") ?></a>
@@ -38,7 +38,10 @@ if(isset($data["error"])) return;
                     <?php foreach($data["text"] as $chunk => $content): ?>
                         <div class="note_chunk">
                             <?php foreach($content as $verse => $text): ?>
-                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                            <p>
+                                <strong><sup><?php echo $verse ?></sup></strong>    
+                                <?php echo $text; ?>
+                            </p>
                             <?php endforeach; ?>
                         </div>    
                     <?php endforeach; ?>
@@ -47,13 +50,19 @@ if(isset($data["error"])) return;
 
                 <div id="my_notes_content" class="my_content">
                     <div class="button_copy_notes">
-                        <button data-pasted="false" class="btn btn-primary">Copy</button>
+                        <button data-pasted="false" 
+                            class="btn btn-primary glyphicon glyphicon-arrow-right">
+                            <?php echo __("copy") ?>
+                        </button>
                     </div>
                     <?php foreach($data["notes"] as $note): ?>
                         <div class="row note_chunk">
                             <div class="col-md-6">
                                 <div class="note_content">
-                                    <?php echo $note ?>
+                                    <?php echo preg_replace(
+                                        "/(\[\[[a-z:\/\-]+\]\])/", 
+                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
+                                        $note) ?>
                                 </div>
                             </div>
                             <div class="col-md-6 notes_editor">
@@ -84,6 +93,7 @@ if(isset($data["error"])) return;
                     <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                 </div>
                 <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [3])?></div>
@@ -105,7 +115,7 @@ if(isset($data["error"])) return;
             <div class="event_info">
                 <div class="participant_info">
                     <div class="additional_info">
-                        <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        <a href="/events/information-tn/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>
@@ -117,8 +127,8 @@ if(isset($data["error"])) return;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/consume.png") ?>" width="100px" height="100px">
-            <img src="<?php echo template_url("img/steps/big/consume.png") ?>" width="280px" height="280px">
+            <img src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>" width="100px" height="100px">
+            <img src="<?php echo template_url("img/steps/big/blind-draft.png") ?>" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label>
                     <input id="hide_tutorial" 
@@ -131,7 +141,7 @@ if(isset($data["error"])) return;
 
         <div class="tutorial_content">
             <h3><?php echo __("blind-draft_tn")?></h3>
-            <ul><?php echo __("consume_desc")?></ul>
+            <ul><?php echo __("blind-draft_desc")?></ul>
         </div>
     </div>
 </div>

@@ -9,6 +9,8 @@ if(isset($data["success"]))
     echo Error::display($data["success"], "alert alert-success");
 
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
+
+$chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
 ?>
 
 <noscript>
@@ -28,13 +30,21 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
             <span><?php echo __(EventSteps::CONSUME . "_tn")?></span>
         </li>
-                
-        <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ? "active" : "" ?>">
+
+        <?php if($data["event"][0]->stage == "checking"): ?>
+        <li class="highlight-step <?php echo $data["event"][0]->step == EventSteps::HIGHLIGHT ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::HIGHLIGHT . "_tn")?></span>
+        </li>
+        <?php endif; ?>
+             
+        <?php if($data["event"][0]->stage == "translation"): ?>
+        <li class="read-chunk-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ? "active" : "" ?>">
             <span><?php echo __(EventSteps::READ_CHUNK . "_tn")?></span>
         </li>
+        <?php endif; ?>
                     
-        <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::BLIND_DRAFT . "_tn")?></span>
+        <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::BLIND_DRAFT . "_tn".$chk)?></span>
         </li>
                         
         <?php if($data["event"][0]->stage == "translation"): ?>
@@ -44,6 +54,10 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <?php endif; ?>
 
         <?php if($data["event"][0]->stage == "checking"): ?>
+        <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::KEYWORD_CHECK . "_tn")?></span>
+        </li>
+
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PEER_REVIEW . "_tn")?></span>
         </li>
@@ -53,6 +67,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
+    var eventMemberID = <?php echo isset($data["event"][0]->memberID) ? $data["event"][0]->memberID : $data["event"][0]->myMemberID; ?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
     var myChunk = <?php echo $data["event"][0]->currentChunk; ?>;
@@ -60,6 +75,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
+    var tMode = '<?php echo $data["event"][0]->bookProject ?>';
     var isAdmin = false;
     var disableChat = false;
     var turnUsername = '<?php echo isset($data["turn"]) ? $data["turn"][0] : "" ?>';

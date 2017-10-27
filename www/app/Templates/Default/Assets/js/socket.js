@@ -81,7 +81,8 @@ function OnSystemMessage(data)
                 eventID: eventID,
                 step: step,
                 chkMemberID: chkMemberID,
-                isChecker: isChecker};
+                isChecker: isChecker,
+                tMode: tMode};
             this.emit('step enter', data);
             break;
 
@@ -236,7 +237,7 @@ function OnCheckingRequest(data)
 {
     if($.inArray(memberID.toString(), data.excludes) >= 0)
         return false;
-
+    
     $.ajax({
         url: "/events/rpc/get_notifications",
         method: "post",
