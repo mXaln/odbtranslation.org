@@ -470,7 +470,7 @@ class EventsModel extends Model
                 "OR trs.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l3 WHERE memberID = :memberID) ".
                 "OR ".PREFIX."events.admins LIKE :adminID) ".
             "AND trs.memberID != :memberID ".
-            "AND nTrs.memberID != :memberID ".
+            "AND (nTrs.memberID IS NULL OR nTrs.memberID != :memberID) ".
             "AND trs.step IN ($stepsIn) ".
             "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 

@@ -493,35 +493,45 @@ class EventsController extends Controller
                                         ],
                                     ];
 
-                                    if(!empty($translationData))
+                                    $encoded = json_encode($translationVerses);
+                                    $json_error = json_last_error();
+                                    
+                                    if($json_error == JSON_ERROR_NONE)
                                     {
-                                        $tID = $translationData[0]->tID;
-                                        $trData = [
-                                            "translatedVerses"  => json_encode($translationVerses),
-                                        ];
-                                        $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                        if(!empty($translationData))
+                                        {
+                                            $tID = $translationData[0]->tID;
+                                            $trData = [
+                                                "translatedVerses"  => $encoded,
+                                            ];
+                                            $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                        }
+                                        else
+                                        {
+                                            $trData = [
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => $data["event"][0]->currentChapter,
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => $sourceText["chunk"][0],
+                                                "translatedVerses"  => $encoded,
+                                                "dateCreate"        => date('Y-m-d H:i:s')
+                                            ];
+    
+                                            $tID = $this->_translationModel->createTranslation($trData);
+                                        }
                                     }
-                                    else
+                                    else 
                                     {
-                                        $trData = [
-                                            "projectID"         => $data["event"][0]->projectID,
-                                            "eventID"           => $data["event"][0]->eventID,
-                                            "trID"              => $data["event"][0]->trID,
-                                            "targetLang"        => $data["event"][0]->targetLang,
-                                            "bookProject"       => $data["event"][0]->bookProject,
-                                            "abbrID"            => $data["event"][0]->abbrID,
-                                            "bookCode"          => $data["event"][0]->bookCode,
-                                            "chapter"           => $data["event"][0]->currentChapter,
-                                            "chunk"             => $data["event"][0]->currentChunk,
-                                            "firstvs"           => $sourceText["chunk"][0],
-                                            "translatedVerses"  => json_encode($translationVerses),
-                                            "dateCreate"        => date('Y-m-d H:i:s')
-                                        ];
-
-                                        $tID = $this->_translationModel->createTranslation($trData);
+                                        $tID = "Json error: " . $json_error;
                                     }
 
-                                    if($tID)
+                                    if(is_numeric($tID))
                                     {
                                         $postdata["step"] = EventSteps::SELF_CHECK;
 
@@ -629,10 +639,25 @@ class EventsController extends Controller
                                             {
                                                 $tID = $translation[$key]["tID"];
                                                 unset($translation[$key]["tID"]);
-                                                $trData = array(
-                                                    "translatedVerses"  => json_encode($translation[$key])
-                                                );
-                                                $this->_translationModel->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
+                                                
+                                                $encoded = json_encode($translation[$key]);
+                                                $json_error = json_last_error();
+                                                
+                                                if($json_error == JSON_ERROR_NONE)
+                                                {
+                                                    $trData = array(
+                                                        "translatedVerses"  => $encoded
+                                                    );
+                                                    $this->_translationModel->updateTranslation(
+                                                        $trData, 
+                                                        array(
+                                                            "trID" => $data["event"][0]->trID, 
+                                                            "tID" => $tID));
+                                                }
+                                                else 
+                                                {
+                                                    $error[] = __("error_ocured", array($tID));
+                                                }
                                             }
                                         }
                                     }
@@ -725,10 +750,25 @@ class EventsController extends Controller
                                                 {
                                                     $tID = $translation[$key]["tID"];
                                                     unset($translation[$key]["tID"]);
-                                                    $trData = array(
-                                                        "translatedVerses"  => json_encode($translation[$key])
-                                                    );
-                                                    $this->_translationModel->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
+                                                    
+                                                    $encoded = json_encode($translation[$key]);
+                                                    $json_error = json_last_error();
+                                                    
+                                                    if($json_error == JSON_ERROR_NONE)
+                                                    {
+                                                        $trData = array(
+                                                            "translatedVerses"  => $encoded
+                                                        );
+                                                        $this->_translationModel->updateTranslation(
+                                                            $trData, 
+                                                            array(
+                                                                "trID" => $data["event"][0]->trID, 
+                                                                "tID" => $tID));
+                                                    }
+                                                    else 
+                                                    {
+                                                        $error[] = __("error_ocured", array($tID));
+                                                    }
                                                 }
                                             }
                                         }
@@ -835,10 +875,25 @@ class EventsController extends Controller
                                                 {
                                                     $tID = $translation[$key]["tID"];
                                                     unset($translation[$key]["tID"]);
-                                                    $trData = array(
-                                                        "translatedVerses"  => json_encode($translation[$key])
-                                                    );
-                                                    $this->_translationModel->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
+                                                    
+                                                    $encoded = json_encode($translation[$key]);
+                                                    $json_error = json_last_error();
+                                                    
+                                                    if($json_error == JSON_ERROR_NONE)
+                                                    {
+                                                        $trData = array(
+                                                            "translatedVerses"  => $encoded
+                                                        );
+                                                        $this->_translationModel->updateTranslation(
+                                                            $trData, 
+                                                            array(
+                                                                "trID" => $data["event"][0]->trID, 
+                                                                "tID" => $tID));
+                                                    }
+                                                    else 
+                                                    {
+                                                        $error[] = __("error_ocured", array($tID));
+                                                    }
                                                 }
                                             }
                                         }
@@ -946,10 +1001,25 @@ class EventsController extends Controller
                                                 {
                                                     $tID = $translation[$key]["tID"];
                                                     unset($translation[$key]["tID"]);
-                                                    $trData = array(
-                                                        "translatedVerses"  => json_encode($translation[$key])
-                                                    );
-                                                    $this->_translationModel->updateTranslation($trData, ["trID" => $data["event"][0]->trID, "tID" => $tID]);
+                                                    
+                                                    $encoded = json_encode($translation[$key]);
+                                                    $json_error = json_last_error();
+                                                    
+                                                    if($json_error == JSON_ERROR_NONE)
+                                                    {
+                                                        $trData = array(
+                                                            "translatedVerses"  => $encoded
+                                                        );
+                                                        $this->_translationModel->updateTranslation(
+                                                            $trData, 
+                                                            array(
+                                                                "trID" => $data["event"][0]->trID, 
+                                                                "tID" => $tID));
+                                                    }
+                                                    else 
+                                                    {
+                                                        $error[] = __("error_ocured", array($tID));
+                                                    }
                                                 }
                                             }
                                         }
@@ -1055,11 +1125,6 @@ class EventsController extends Controller
                                         $versesCombined[$key] = array_combine($data["chunks"][$key], $verses);
                                     }
 
-                                    //Data::pr($versesCombined);
-                                    //Data::pr($data["chunks"]);
-                                    //Data::pr($_POST["chunks"]);
-                                    //exit;
-
                                     if(!isset($error))
                                     {
                                         foreach ($versesCombined as $key => $chunk)
@@ -1068,12 +1133,26 @@ class EventsController extends Controller
 
                                             $tID = $translation[$key]["tID"];
                                             unset($translation[$key]["tID"]);
-                                            $trData = array(
-                                                "translatedVerses"  => json_encode($translation[$key]),
-                                                "translateDone" => true
-                                            );
-
-                                            $this->_translationModel->updateTranslation($trData, array("trID" => $data["event"][0]->trID, "tID" => $tID));
+                                            
+                                            $encoded = json_encode($translation[$key]);
+                                            $json_error = json_last_error();
+                                            
+                                            if($json_error == JSON_ERROR_NONE)
+                                            {
+                                                $trData = array(
+                                                    "translatedVerses"  => $encoded,
+                                                    "translateDone" => true
+                                                );
+                                                $this->_translationModel->updateTranslation(
+                                                    $trData, 
+                                                    array(
+                                                        "trID" => $data["event"][0]->trID, 
+                                                        "tID" => $tID));
+                                            }
+                                            else 
+                                            {
+                                                $error[] = __("error_ocured", array($tID));
+                                            }
                                         }
 
                                         $chapters = [];
@@ -1464,42 +1543,43 @@ class EventsController extends Controller
                                         ],
                                     ];
 
-                                    if(!empty($translationData))
-                                    {
-                                        $tID = $translationData[0]->tID;
-                                        $encoded = json_encode($translationVerses);
-                                        $json_error = json_last_error();
+                                    $encoded = json_encode($translationVerses);
+                                    $json_error = json_last_error();
 
-                                        if($json_error == JSON_ERROR_NONE)
+                                    if($json_error == JSON_ERROR_NONE)
+                                    {
+                                        if(!empty($translationData))
                                         {
+                                            $tID = $translationData[0]->tID;
                                             $trData = [
                                                 "translatedVerses"  => $encoded,
                                             ];
-                                            $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                            $this->_translationModel->updateTranslation(
+                                                $trData, ["tID" => $tID]);
                                         }
-                                        else 
+                                        else
                                         {
-                                            $tID = "Json error: " . $json_error;
+                                            $trData = [
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => $data["event"][0]->currentChapter,
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => $data["event"][0]->currentChapter > 0 ? $data["chunk"][0] : 0,
+                                                "translatedVerses"  => $encoded,
+                                                "dateCreate"        => date('Y-m-d H:i:s')
+                                            ];
+    
+                                            $tID = $this->_translationModel->createTranslation($trData);
                                         }
                                     }
-                                    else
+                                    else 
                                     {
-                                        $trData = [
-                                            "projectID"         => $data["event"][0]->projectID,
-                                            "eventID"           => $data["event"][0]->eventID,
-                                            "trID"              => $data["event"][0]->trID,
-                                            "targetLang"        => $data["event"][0]->targetLang,
-                                            "bookProject"       => $data["event"][0]->bookProject,
-                                            "abbrID"            => $data["event"][0]->abbrID,
-                                            "bookCode"          => $data["event"][0]->bookCode,
-                                            "chapter"           => $data["event"][0]->currentChapter,
-                                            "chunk"             => $data["event"][0]->currentChunk,
-                                            "firstvs"           => $data["event"][0]->currentChapter > 0 ? $data["chunk"][0] : 0,
-                                            "translatedVerses"  => json_encode($translationVerses),
-                                            "dateCreate"        => date('Y-m-d H:i:s')
-                                        ];
-
-                                        $tID = $this->_translationModel->createTranslation($trData);
+                                        $tID = "Json error: " . $json_error;
                                     }
                                     
                                     if(is_numeric($tID))
@@ -1601,7 +1681,7 @@ class EventsController extends Controller
                                             if($json_error == JSON_ERROR_NONE)
                                             {
                                                 $trData = array(
-                                                    "translatedVerses"  => json_encode($translation[$key])
+                                                    "translatedVerses"  => $encoded
                                                 );
                                                 $this->_translationModel->updateTranslation(
                                                     $trData, 
@@ -2189,7 +2269,8 @@ class EventsController extends Controller
                                             $trData = [
                                                 "translatedVerses"  => $encoded,
                                             ];
-                                            $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                            $this->_translationModel->updateTranslation(
+                                                $trData, ["tID" => $tID]);
                                         }
                                         else 
                                         {
@@ -2346,7 +2427,8 @@ class EventsController extends Controller
                                             $trData = [
                                                 "translatedVerses"  => $encoded,
                                             ];
-                                            $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                            $this->_translationModel->updateTranslation(
+                                                $trData, ["tID" => $tID]);
                                         }
                                         else 
                                         {
@@ -4019,9 +4101,13 @@ class EventsController extends Controller
                                         if($json_error === JSON_ERROR_NONE)
                                         {
                                             $trData = array(
-                                                "translatedVerses"  => json_encode($translation[$key])
+                                                "translatedVerses"  => $encoded
                                             );
-                                            $this->_translationModel->updateTranslation($trData, array("trID" => $trID, "tID" => $tID));
+                                            $this->_translationModel->updateTranslation(
+                                                $trData, 
+                                                array(
+                                                    "trID" => $trID, 
+                                                    "tID" => $tID));
                                             $updated++;
                                         }
                                     }
