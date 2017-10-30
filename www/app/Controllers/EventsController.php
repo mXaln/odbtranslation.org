@@ -1981,6 +1981,7 @@ class EventsController extends Controller
     public function checkerNotes($eventID)
     {
         $data["menu"] = 1;
+        $data["isCheckerPage"] = true;
         $title = "";
 
         $data["event"] = $this->_model->getMemberEvents(

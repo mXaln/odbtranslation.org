@@ -19,7 +19,7 @@
 
                 case "DEL": 
                 case "INS":
-                    var txt = $(this).text();
+                    var txt = $(this).text();//debug(txt);
                     var apx = "";
                     
                     //txt = txt.replace(/"/g, "&quot;")
@@ -36,6 +36,15 @@
                         }
 
                         txt = txt.substr(0, index);
+
+                        // Move del/ins text back from apx to txt
+                        if(apx.match(/^<[a-z0-9]+>[^<>]+/))
+                        {
+                            var match = apx.match(/^(<[a-z0-9]+>[^<>]+)(.*)/);
+                            
+                            txt += match[1];
+                            apx = match[2];
+                        }
                     }
                     
                     // Fix broken html tag at the beginning
