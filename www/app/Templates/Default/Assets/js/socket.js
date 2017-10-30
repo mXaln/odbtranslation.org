@@ -77,6 +77,7 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
+            var tMode = typeof tMode != "undefined" ? tMode : "";
             var data = {
                 eventID: eventID,
                 step: step,
