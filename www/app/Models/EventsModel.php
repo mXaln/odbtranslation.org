@@ -194,6 +194,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT ".PREFIX."translators.memberID AS translator, "
             ."checkers.checkerID AS checker, evnt.admins, ".PREFIX."translators.step, "
+            .PREFIX."translators.checkerID, ".PREFIX."translators.peerCheck, ".PREFIX."translators.currentChapter, "
             .PREFIX."checkers_l2.memberID AS checker_l2, ".PREFIX."checkers_l3.memberID AS checker_l3, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
             .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID "
@@ -718,13 +719,18 @@ class EventsModel extends Model
 
             case "hwc":
                 $url = template_url("tmp/".$bookProject."-hwc/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-hwc/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
                 break;
 
             case "id":
                 $url = template_url("tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
+                break;
 
             case "pmy":
                 $url = template_url("tmp/".$bookProject."-pmy/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-pmy/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
+                break;
 
             default:
                 $catalog = $this->getCachedFullCatalog();
@@ -760,7 +766,7 @@ class EventsModel extends Model
         }
         
         if($url == "") return false;
-
+        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

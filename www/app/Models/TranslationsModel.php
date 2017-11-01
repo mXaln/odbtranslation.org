@@ -80,9 +80,10 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translators");
 
         $builder->select("translations.chapter", "translations.chunk", "translations.translateDone",
+                "translations.translatedVerses",
                 "translations.firstvs", "translations.dateUpdate", "translators.memberID", "translators.step",
                 "translators.verbCheck", "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
-                "translators.currentChapter", "translators.checkerID")
+                "translators.otherCheck", "translators.currentChapter", "translators.checkerID")
             ->leftJoin("translations", "translators.trID", "=", "translations.trID")
             ->where("translators.eventID", $eventID)
             //->where("translators.step", "!=", EventSteps::NONE) TODO check for bugs

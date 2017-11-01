@@ -150,7 +150,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
+            <div class="help_info_steps<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -165,7 +165,7 @@ if(isset($data["error"])) return;
                 </div>
             </div>
 
-            <div class="event_info">
+            <div class="event_info<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                 <div class="participant_name">
                     <span><?php echo __("your_checker") ?>:</span>
                     <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>

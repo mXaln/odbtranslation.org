@@ -1099,6 +1099,10 @@ div.ui-datepicker {
     background-color: #ffa500;
 }
 
+.action_type.type_checking.isPeer {
+    background-color: #fc51f0;
+}
+
 .main_information {
     float: right;
     font-size: 18px;
@@ -2246,6 +2250,10 @@ mark {
     padding: 5px;
 }
 
+.section_step.chk {
+    border-color: #ffc352;
+}
+
 .section_step.finalReview {
     border: none;
 }
@@ -2890,8 +2898,16 @@ div[class^="member_usname mid"] {
     background-color: #ffa500 !important;
 }
 
+.is_checker_page.isPeer {
+    background-color: #fc51f0 !important;
+}
+
 .is_checker_page_help {
-    background-color: rgba(255, 212, 152, 0.69) !important;
+    background-color: #ffd498b0 !important;
+}
+
+.is_checker_page_help.isPeer {
+    background-color: #ffc7fc !important;
 }
 
 .verse_with_note .vnote {
@@ -3879,4 +3895,15 @@ button.startEvnt, button.editEvnt {
 
 .chapter_title {
     color: #1b8600
+}
+
+.section_translator_name.tnleft {
+    float: left;
+    width: 200px;
+}
+
+.section_translator_name.tnright {
+    float: right;
+    width: 200px;
+    margin-right: 40%;
 }

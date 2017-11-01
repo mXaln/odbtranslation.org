@@ -19,8 +19,14 @@ $chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
     </div>
 </noscript>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
+<div id="translator_steps" 
+    class="open <?php echo $data["event"][0]->step . 
+        ($data["isCheckerPage"] ? " is_checker_page".
+        (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>">
+    <div id="tr_steps_hide" 
+        class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . 
+            ($data["isCheckerPage"] ? " is_checker_page".
+            (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">

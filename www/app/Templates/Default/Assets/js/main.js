@@ -472,8 +472,11 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
+            var tn = typeof tMode != "undefined"
+                && $.inArray(tMode, ["tn"]) > -1 ? "-tn" : "";
+            
             $.ajax({
-                url: "/events/information/"+eventID,
+                url: "/events/information"+tn+"/"+eventID,
                 method: "get",
                 dataType: "json",
             })

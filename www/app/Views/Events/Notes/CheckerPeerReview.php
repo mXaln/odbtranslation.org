@@ -29,7 +29,8 @@ if(empty($error) && empty($data["success"])):
     <div class="row main_content_header">
         <div class="main_content_title">
             <div><?php echo __("step_num", [5]). ": " . __("peer-review_tn_chk")?></div>
-            <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
+            <div class="action_type type_checking <?php echo isset($data["isPeerPage"]) ? "isPeer" : "" ?>">
+            <?php echo __("type_checking"); ?></div>
         </div>
     </div>
 
@@ -153,7 +154,9 @@ if(empty($error) && empty($data["success"])):
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+            <div class="help_info_steps 
+                <?php echo $data["isCheckerPage"] ? " is_checker_page_help".
+                    (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -165,7 +168,8 @@ if(empty($error) && empty($data["success"])):
                 </div>
             </div>
 
-            <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+            <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help".
+                (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_translator") ?>:</span>
@@ -199,7 +203,7 @@ if(empty($error) && empty($data["success"])):
     </div>
 </div>
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?3")?>"></script>
 <script>
     var isChecker = true;
     var disableHighlight = true;
