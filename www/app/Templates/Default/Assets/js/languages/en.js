@@ -81,5 +81,9 @@ var Language = {
     "connectionLostMessage"     : "Internet connection lost. You can't leave this page until connection is up.",
     "commonError"               : "An error occurred. It could be due to the server error or lost internet connection. Please, try again later.",
     "add"                       : "Add",
-    "addedSuccess"              : "The member has been successfully added to the event!"
+    "addedSuccess"              : "The member has been successfully added to the event!",
+    "leaveit"                   : "Leave it as it is",
+    "hideHelp"                  : "Hide help",
+    "showHelp"                  : "Show help",
+    "notesPlaceholder"          : "Start writing text here..."
 };

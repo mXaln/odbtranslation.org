@@ -471,9 +471,9 @@ $(function () {
 
     // Moving transators step back
     $(".step_selector").change(function () {
-        var event_member = $(this).attr("data").split(":");
-        var eventID = event_member[0];
-        var memberID = event_member[1];
+        var eventID = $(this).data("event");
+        var memberID = $(this).data("member");
+        var mode = $(this).data("mode");
         var to_step = $(this).val();
 
         var prev_chunk = /_prev$/.test(to_step);
@@ -505,7 +505,15 @@ $(function () {
         }
         else
         {
-            var confirm = to_step != EventSteps.CHUNKING;
+            var confirm = true;
+            if($.inArray(mode, ["tn"]) > -1)
+            {
+                confirm = to_step != EventSteps.CONSUME;
+            }
+            else
+            {
+                confirm = to_step != EventSteps.CHUNKING;
+            }
             moveStepBack($this, eventID, memberID, to_step, confirm, prev_chunk);
         }
     });
@@ -587,6 +595,51 @@ $(function () {
                 //$(".filter_loader").hide();
             });
     }
+
+    // Set checker role for tN project
+    $(".is_checker_input").click(function(e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var parent = $(this).parents(".member_usname");
+        var memberID = parent.attr("data");
+        var eventID = $("#eventID").val();
+
+        $.ajax({
+            url: "/events/rpc/set_tn_checker",
+            method: "post",
+            data: {
+                eventID : eventID,
+                memberID : memberID,
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $this.prop("disabled", true);
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $this.prop("checked", true);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error,
+                            function () {
+                                $( this ).dialog( "close" );
+                            },
+                            function () {
+                                window.location.reload();
+                            });
+                    }
+                }
+            })
+            .always(function() {
+                $this.prop("disabled", false);
+            });
+    });
 });
 
 
@@ -606,6 +659,7 @@ function assignChapter(data, action)
             eventID: data.eventID,
             chapter: data.chapter,
             memberID: data.memberID,
+            mode: data.mode,
             action: action
         },
         dataType: "json",

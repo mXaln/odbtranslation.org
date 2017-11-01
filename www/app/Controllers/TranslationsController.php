@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\TranslationsModel;
+use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Shared\Legacy\Error;
 use View;
@@ -10,15 +11,19 @@ use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
+use Helpers\Parsedown;
+use Helpers\ZipStream\ZipStream;
 
 class TranslationsController extends Controller
 {
     private $_model;
+    private $_eventModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->_model = new TranslationsModel();
+        $this->_eventModel = new EventsModel();
 
         if (!Session::get('loggedin'))
         {
@@ -64,8 +69,10 @@ class TranslationsController extends Controller
             $data["data"] = $book[0];
             $data['title'] = $data['data']->bookName;
             $data['book'] = "";
-            $lastChapter = 0;
-
+            $data["mode"] = "bible";
+            $lastChapter = -1;
+            $chapter = [];
+            
             foreach ($book as $chunk) {
                 $verses = json_decode($chunk->translatedVerses);
 
@@ -73,22 +80,55 @@ class TranslationsController extends Controller
 
                 if($chunk->chapter != $lastChapter)
                 {
-                    $data['book'] .= '<h2>'.__("chapter", [$chunk->chapter]).'</h2>';
+                    $data['book'] .= $chunk->chapter > 0 
+                        ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).'</h2>'
+                        : '<h2 class="chapter_title">'.__("front").'</h2>';
                     $lastChapter = $chunk->chapter;
+
+                    $chapters = $this->_eventModel->getChapters(
+                        $chunk->eventID,
+                        null,
+                        $chunk->chapter
+                    );
+                    $chapter = $chapters[0];
                 }
 
                 // Start of chunk
                 $data['book'] .= '<p>';
+                
+                if(!in_array($chunk->bookProject, ["tn"]))
+                {
+                    foreach ($verses->translator->verses as $verse => $text) {
+                        $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                    }
+                }
+                else
+                {
+                    $chunks = (array)json_decode($chapter["chunks"], true);
+                    $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
+                    $versesLabel = "";
+                    
+                    if($currChunk[0] != $currChunk[sizeof($currChunk)-1])
+                        $versesLabel = __("chunk_verses", $currChunk[0] . "-" . $currChunk[sizeof($currChunk)-1]);
+                    else
+                        if($currChunk[0] == 0)
+                            $versesLabel = __("intro");
+                        else
+                            $versesLabel = __("chunk_verses", $currChunk[0]);
 
-                foreach ($verses->translator->verses as $verse => $text) {
-                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                    $data["mode"] = $chunk->bookProject;
+
+                    $parsedown = new Parsedown();
+                    $text = $parsedown->text($verses->checker->verses);
+                    
+                    $data['book'] .= '<br><strong class="note_chunk_verses">'.$versesLabel.'</strong> '.$text." ";
                 }
 
                 // End of chunk
                 $data['book'] .= '</p>';
             }
         }
-
+        
         return View::make('Translations/Index')
             ->shares("title", __("translations"))
             ->shares("data", $data);
@@ -140,5 +180,52 @@ class TranslationsController extends Controller
             header("Content-Disposition: attachment; filename=".$book[0]->abbrID."-".strtoupper($book[0]->bookCode).".usfm");
             echo $data["usfm"];
         }
+    }
+
+    public function getMd($lang, $bookProject, $bookCode)
+    {
+        if($lang != null && $bookProject != null && $bookCode != null)
+        {
+            $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            $lastChapter = -1;
+            $chapter = [];
+
+            if(!empty($book) && isset($book[0]))
+            {
+                $zip = new ZipStream("tn.zip");
+                $root = "".$book[0]->targetLang."_tn/".$book[0]->bookCode;
+
+                foreach ($book as $chunk) {
+                    $verses = json_decode($chunk->translatedVerses);
+    
+                    if($chunk->chapter != $lastChapter)
+                    {
+                        $lastChapter = $chunk->chapter;
+                        
+                        $chapters = $this->_eventModel->getChapters(
+                            $chunk->eventID,
+                            null,
+                            $chunk->chapter
+                        );
+                        $chapter = $chapters[0];
+                    }
+                    
+                    $chunks = (array)json_decode($chapter["chunks"], true);
+                    $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
+                    
+                    $chapPath = $chunk->chapter > 0 ? sprintf("%02d", $chunk->chapter) : "front";
+                    $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
+                    $filePath = $root."/".$chapPath."/".$chunkPath.".md";
+
+                    $text = $verses->checker->verses;
+
+                    $zip->addFile($filePath, $text);
+                }
+
+                $zip->finish();
+            }
+        }
+
+        echo "An error ocurred! Contact with administartor.";
     }
 }

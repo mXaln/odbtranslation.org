@@ -78,4 +78,8 @@ var Language = {
     "checkerConfirm"            : "Make sure that you have finished checking and connected with your translator. Translator has to make changes to their text. After you confirm this chapter checked, translator won't be able to edit their text on this step. Confirm check?",
     "attention"                 : "Attention",
     "removeCheckerConfirm"      : "Do you also want to remove the checker assigned to this chapter? If you click \"No\", translator will go to previous checking step and their checker will remain.",
+    "leaveit"                   : "Leave it as it is",
+    "hideHelp"                  : "Hide help",
+    "showHelp"                  : "Show help",
+    "notesPlaceholder"          : "Start writing text here..."
 };

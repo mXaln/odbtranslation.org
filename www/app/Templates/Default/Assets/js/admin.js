@@ -6,6 +6,13 @@
 
 $(function () {
 
+    if(typeof $.fn.chosen == "function")
+        $("#subGwLangs, #targetLangs, "
+            + "#sourceTranslation, "
+            + "#sourceTranslationNotes, "
+            + "#gwLang, #projectMode")
+            .chosen();
+
     // Open gateway project form
     $("#cregwpr").click(function () {
         $("#gwProject").trigger("reset");
@@ -63,6 +70,20 @@ $(function () {
         }
     });
 
+    $("select[name=projectMode]").change(function() {
+        if($(this).val() == "bible")
+        {
+            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
+            $(".sourceTranslationNotes").addClass("hidden");
+        }
+        else if($(this).val() == "tn")
+        {
+            $(".sourceTranslationNotes").removeClass("hidden");
+            $("#sourceTranslationNotes").chosen();
+        }
+    });
+    
+
     $("#crepr").click(function () {
         $("#project").trigger("reset");
         $(".subErrors").html("");
@@ -97,7 +118,7 @@ $(function () {
 
                 $.each(data.targetLangs, function (i, v) {
                     tlOptions += '<option value="'+ v.langID+'">'+
-                        '['+v.langID+'] '+v.langName+(v.langName != v.angName ? ' ( '+v.angName+' )' : '')+
+                        '['+v.langID+'] '+v.langName+(v.angName != "" && v.langName != v.angName ? ' ( '+v.angName+' )' : '')+
                     '</option>';
                 });
                 $("#targetLangs").html(tlOptions);
@@ -209,9 +230,6 @@ $(function () {
             '(<strong>'+Language.chaptersNum+':</strong> '+chapterNum+')'
         );
     });
-
-    if(typeof $.fn.chosen == "function")
-        $("#subGwLangs, #targetLangs, #sourceTranslation, #gwLang").chosen();
 
     // ------------------ DateTimePicker functionality ------------------- //
     if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")

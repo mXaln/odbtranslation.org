@@ -12,6 +12,7 @@ namespace Helpers\Constants;
 class EventMembers
 {
     const TRANSLATOR    = "translator";
+    const CHECKER       = "checker";  
     const L2_CHECKER    = "checker_l2";
     const L3_CHECKER    = "checker_l3";
 }

@@ -33,7 +33,10 @@ if(isset($data['book'])) {
 
     echo '<h1>'.$data['data']->bookName.'</h1>';
 
-    echo "<h4><a href='".$data['data']->bookCode."/usfm'>".__("download_usfm")."</a></h4>";
+    if(!in_array($data["mode"], ["tn"]))
+        echo "<h4><a href='".$data['data']->bookCode."/usfm'>".__("download_usfm")."</a></h4>";
+    else
+        echo "<h4><a href='".$data['data']->bookCode."/md'>".__("download_markdown")."</a></h4>";
 
     echo '<div class="bible_book" dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
 }

@@ -1099,6 +1099,10 @@ div.ui-datepicker {
     background-color: #ffa500;
 }
 
+.action_type.type_checking.isPeer {
+    background-color: #fc51f0;
+}
+
 .main_information {
     float: right;
     font-size: 18px;
@@ -1182,6 +1186,14 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/consume-source-inactive.png") no-repeat;
 }
 .consume-step.active {
+    background: url("/templates/default/assets/img/steps/consume-source-active.png") no-repeat;
+}
+
+.highlight {background-color: #4596cc;}
+.highlight-step {
+    background: url("/templates/default/assets/img/steps/consume-source-inactive.png") no-repeat;
+}
+.highlight-step.active {
     background: url("/templates/default/assets/img/steps/consume-source-active.png") no-repeat;
 }
 
@@ -1304,6 +1316,16 @@ div.ui-datepicker {
     line-height: 31px;
     padding: 8px;
     border: 1px solid #4596cc;
+}
+
+.notes_editor {
+    border: 1px solid #4596cc;
+    background-color: #fff9e4;
+}
+
+.notes_editor .note-placeholder {
+    margin-top: 10px;
+    font-size: 22px;
 }
 
 .chunk_verses {
@@ -1487,31 +1509,39 @@ mark {
 }
 
 .notifa .verbalize_checker {
-    background-color: rgb(186, 224, 248);
+    background-color: #bae0f8;
 }
 .notifa .verbalize_checker:hover {
-    background-color: rgb(176, 213, 237);
+    background-color: #b0d5ed;
 }
 
 .notifa .peer-review_checker {
-    background-color: rgb(253, 238, 255);
+    background-color: #fdeeff;
 }
 .notifa .peer-review_checker:hover {
-    background-color: rgb(246, 224, 255);
+    background-color: #f6e0ff;
 }
 
 .notifa .keyword-check_checker {
-    background-color: rgb(255, 228, 201);
+    background-color: #ffe4c9;
 }
 .notifa .keyword-check_checker:hover {
-    background-color: rgb(248, 207, 159);
+    background-color: #f8cf9f;
 }
 
 .notifa .content-review_checker {
-    background-color: rgb(222, 237, 227);
+    background-color: #deede3;
 }
 .notifa .content-review_checker:hover {
-    background-color: rgb(211, 237, 213);
+    background-color: #d3edd5;
+}
+
+.notifa .notes_checker {
+    background-color: #ff5de4;
+}
+
+.notifa .notes_checker:hover {
+    background-color: #ff3ae1;
 }
 
 .notif_block {
@@ -1687,6 +1717,14 @@ mark {
     cursor: pointer;
 }
 
+.editComment.tncomm {
+    right: 5px; 
+}
+
+.editComment.tncommpeer {
+    right: 20px; 
+}
+
 .comments_number {
     position: absolute;
     top: 0px; right: -42px;
@@ -1694,6 +1732,14 @@ mark {
     width: 20px;
     height: 25px;
     background-image: url("/templates/default/assets/img/note_empty.png");
+}
+
+.comments_number.tncomm {
+    right: -24px;
+}
+
+.comments_number.tncommpeer {
+    right: -5px;
 }
 
 .hasComment {
@@ -2204,6 +2250,10 @@ mark {
     padding: 5px;
 }
 
+.section_step.chk {
+    border-color: #ffc352;
+}
+
 .section_step.finalReview {
     border: none;
 }
@@ -2618,6 +2668,7 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     height: 32px;
     color: #0481ff;
     font-size: 18px;
+    position: relative;
 }
 
 .step_selector_block {
@@ -2847,8 +2898,16 @@ div[class^="member_usname mid"] {
     background-color: #ffa500 !important;
 }
 
+.is_checker_page.isPeer {
+    background-color: #fc51f0 !important;
+}
+
 .is_checker_page_help {
-    background-color: rgba(255, 212, 152, 0.69) !important;
+    background-color: #ffd498b0 !important;
+}
+
+.is_checker_page_help.isPeer {
+    background-color: #ffc7fc !important;
 }
 
 .verse_with_note .vnote {
@@ -3007,6 +3066,16 @@ div[class^="member_usname mid"] {
 .event_type {
     font-weight: bold;
     margin-top: 5px;
+}
+
+.event_mode {
+    font-style: italic;
+    color: #008000;
+}
+
+.event_mode.tn {
+    font-style: italic;
+    color: #be00ee;
 }
 
 .event_img {
@@ -3713,4 +3782,128 @@ button.startEvnt, button.editEvnt {
 
 .main_content_footer form {
     float: left;
+}
+
+#sourceTranslationNotes_chosen {
+    width: 100% !important;
+}
+
+.note_content h1 {
+    font-size: 22px;
+}
+
+.note_chunk {
+    border-top: 1px solid #f00;
+    padding-top: 10px; 
+}
+
+.notes_content_block {
+    display: none;
+}
+
+.note_chunk_verses {
+    color: #249b45;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.add_notes {
+    text-align: right;
+}
+
+.notes_chunk_editor {
+    width: 100%;
+    margin: 5px 0 5px 0;
+    border: 1px solid #ccc;
+    padding: 5px;
+    position: relative;
+}
+
+.notes_chunk_editor textarea {
+    width: 100%;
+    font-weight: normal;
+}
+
+.notes_chunk_editor label {
+    display: inline;
+}
+
+.notes_chunk_remove {
+    position: absolute;
+    top: 2px; 
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    padding: 2px 4px;
+    font-size: 11px;
+}
+
+.note_chunk h1 {
+    font-size: 36px;
+}
+
+.toggle-help {
+    position:absolute; 
+    right: 20px; 
+    top: 15px; 
+    z-index: 99
+}
+
+.button_copy_notes {
+    margin: -10px 0 10px 0;
+    text-align: center
+}
+
+.button_copy_notes button {
+    padding-top: 2px;
+}
+
+.note-editable .uwlink {
+    color: #ff0000;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.is_checker_label {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    color: #ff7802;
+}
+
+.tnchk {
+    color: #ff7802;
+}
+
+.note_content ins, .note_content ins *, .ins {
+    background: #d8ffd8;
+    text-decoration: none; /*underline*/
+}
+
+.note_content del, .note_content del *, .del {
+    background: #ffd8d8;
+    text-decoration: none; /*line-through*/
+}
+
+.notes_target {
+    margin-top: 20px;
+}
+
+.notes_translator {
+    display: none;
+}
+
+.chapter_title {
+    color: #1b8600
+}
+
+.section_translator_name.tnleft {
+    float: left;
+    width: 200px;
+}
+
+.section_translator_name.tnright {
+    float: right;
+    width: 200px;
+    margin-right: 40%;
 }

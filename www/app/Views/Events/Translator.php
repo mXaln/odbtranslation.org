@@ -73,6 +73,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
+    var tMode = '<?php echo $data["event"][0]->bookProject ?>';
     var isAdmin = false;
     var disableChat = false;
     var turnUsername = '<?php echo isset($data["turn"]) ? $data["turn"][0] : "" ?>';
@@ -172,7 +173,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?2")?>"></script>
-<script src="<?php echo template_url("js/socket.js?2")?>"></script>
+<script src="<?php echo template_url("js/socket.js?3")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

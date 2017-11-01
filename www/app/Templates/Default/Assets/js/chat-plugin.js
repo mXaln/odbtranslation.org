@@ -623,14 +623,5 @@
         date.setTime(timestamp);
 
         return date.toLocaleString();
-
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        var day = date.getDate();
-        var month = date.getMonth()+1;
-        var year = date.getFullYear();
-        return day + "." + month + "." + year + " " + hours + ":" + minutes + ":" + seconds;
     }
-
 }(jQuery));

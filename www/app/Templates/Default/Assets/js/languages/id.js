@@ -81,5 +81,9 @@ var Language = {
 	"connectionLostMessage"     : "Internet connection lost. You can't leave this page until connection is up.",
     "commonError"               : "Terjadi kesalahan. Bisa jadi karena kesalahan pada server atau tidak adanya koneksi internet. Mohon, coba lagi.",
     "add"                       : "Tambah",
-    "addedSuccess"              : "Anggota telah ditambahkan pada kegiatan!"
+    "addedSuccess"              : "Anggota telah ditambahkan pada kegiatan!",
+    "leaveit"                   : "Leave it as it is",
+    "hideHelp"                  : "Hide help",
+    "showHelp"                  : "Show help",
+    "notesPlaceholder"          : "Start writing text here..."
 }

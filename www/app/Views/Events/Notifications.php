@@ -23,12 +23,31 @@ use \Helpers\Constants\EventSteps;
                     <tbody>
                     <?php foreach($data["all_notifications"] as $event): ?>
                         <tr>
-                            <td><?php echo $event->bookName.", chapter ".$event->currentChapter ?></td>
+                            <?php
+                            $step = $event->step;
+                            $link = "";
+                            if(!in_array($event->bookProject, ["tn"]) 
+                                || !isset($event->notesChapter))
+                            {
+                                $step = $event->translateDone ? EventSteps::FINISHED :$event->step;
+                                $link = "/events/checker/".$event->eventID."/"
+                                    .$event->memberID."/".$event->step."/apply";
+                            }
+                            else 
+                            {
+                                $step = "not_available";
+                                $link = "/events/checker/".$event->eventID."/"
+                                    .$event->memberID."/notes/"
+                                    .$event->notesChapter."/apply";
+                            }
+                            ?>
+                            <td><?php echo $event->bookName.", chapter ".
+                                ($event->currentChapter > 0 ? $event->currentChapter : __("intro")) ?></td>
                             <td><?php echo $event->tLang ?></td>
                             <td><?php echo __($event->bookProject) ?></td>
-                            <td><?php echo $event->translateDone ? __(EventSteps::FINISHED) : __($event->step)?></td>
+                            <td><?php echo __($step)?></td>
                             <td><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></td>
-                            <td><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID."/".$event->step; ?>/apply"
+                            <td><a href="<?php echo $link ?>"
                                    data="check:<?php echo $event->eventID.":".$event->memberID ?>">
                                     <?php echo __("apply") ?>
                                 </a>

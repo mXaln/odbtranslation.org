@@ -384,24 +384,26 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
+        $sourceTranslationNotes = isset($_POST['sourceTranslationNotes']) && $_POST['sourceTranslationNotes'] != "" ? $_POST['sourceTranslationNotes'] : null;
         $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
-
+        
         if($subGwLangs == null)
         {
-            $error[] = __('choose_gateway_language');
+            $error[] = __('choose_gw_lang');
         }
 
         if($targetLang == null)
         {
-            $error[] = __("choose_target_language");
+            $error[] = __("choose_target_lang");
         }
 
         if($sourceTranslation == null)
         {
-            $error[] = __("choose_source_translation");
+            $error[] = __("choose_source_trans");
         }
         else
         {
@@ -411,14 +413,19 @@ class AdminController extends Controller {
             }
         }
 
+        if($projectMode == "tn" && $sourceTranslationNotes == null)
+        {
+            $error[] = __("choose_source_notes");
+        }
+
         if(!isset($error))
         {
             $sourceTrPair = explode("|", $sourceTranslation);
             $gwLangsPair = explode("|", $subGwLangs);
 
-            $projType = $sourceTrPair[0] != "ulb" && $sourceTrPair[0] != "udb" ?
-                $projectType : $sourceTrPair[0];
-
+            $projType = in_array($projectMode, ['tn']) ?
+                $projectMode : $sourceTrPair[0];
+            
             $exist = $this->_eventsModel->getProject(["projects.projectID"], [
                 ["projects.gwLang", $gwLangsPair[0]],
                 ["projects.targetLang", $targetLang],
@@ -438,9 +445,10 @@ class AdminController extends Controller {
                 "targetLang" => $targetLang,
                 "bookProject" => $projType,
                 "sourceBible" => $sourceTrPair[0],
-                "sourceLangID" => $sourceTrPair[1]
+                "sourceLangID" => $sourceTrPair[1],
+                "notesLangID" => $sourceTranslationNotes
             );
-
+            
             $id = $this->_eventsModel->createProject($postdata);
 
             if($id)
@@ -597,10 +605,13 @@ class AdminController extends Controller {
         {
             Cache::forget($cache_keyword);
 
-            $source = $this->_eventsModel->getSourceBookFromApiUSFM($bookProject, $abbrID, $bookCode, $sourceLangID);
-            $usfm = UsfmParser::parse($source);
+            $usfm = $this->_eventsModel->getCachedSourceBookFromApi(
+                $bookProject, 
+                $bookCode, 
+                $sourceLangID,
+                $abbrID);
 
-            if(!empty($usfm))
+            if($usfm && !empty($usfm))
                 Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
 
         }
