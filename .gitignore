@@ -5,7 +5,7 @@ access.log
 logs/error.log
 www/errorlog.html
 /www/app/Storage/Logs/error.log
-/www/app/Templates/Default/Assets/tmp
+/www/app/Templates/Default/Assets/tmp/*_tn
 /.project
 nbproject
 .vscode/launch.json
