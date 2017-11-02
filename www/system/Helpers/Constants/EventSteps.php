@@ -56,7 +56,7 @@ class EventSteps
         "pray" => 1,
         "consume" => 2,
         "highlight" => 3,
-        "blind-draft" => 4,
+        "self-check" => 4,
         "keyword-check" => 5,
         "peer-review" => 6,
         "finished" => 7,

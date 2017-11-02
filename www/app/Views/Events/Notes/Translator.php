@@ -47,17 +47,14 @@ $chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
         <li class="read-chunk-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ? "active" : "" ?>">
             <span><?php echo __(EventSteps::READ_CHUNK . "_tn")?></span>
         </li>
-        <?php endif; ?>
-                    
         <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
             <span><?php echo __(EventSteps::BLIND_DRAFT . "_tn".$chk)?></span>
         </li>
-                        
-        <?php if($data["event"][0]->stage == "translation"): ?>
-        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::SELF_CHECK . "_tn")?></span>
-        </li>
         <?php endif; ?>
+                        
+        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::SELF_CHECK . "_tn".$chk)?></span>
+        </li>
 
         <?php if($data["event"][0]->stage == "checking"): ?>
         <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">

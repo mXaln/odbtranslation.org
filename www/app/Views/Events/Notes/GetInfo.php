@@ -113,13 +113,13 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::HIGHLIGHT.".png") ?>"></div>
                         <div class="step_name">2. <?php echo __(EventSteps::HIGHLIGHT); ?></div>
                     </div>
-                    <!-- Blind Draft Step -->
-                    <div class="section_step chk <?php echo $chapter["blindDraftChk"]["state"] ?>">
-                        <div class="step_status"><?php echo __("step_status_" . $chapter["blindDraftChk"]["state"]) ?></div>
+                    <!-- Self Check Step -->
+                    <div class="section_step chk <?php echo $chapter["selfEditChk"]["state"] ?>">
+                        <div class="step_status"><?php echo __("step_status_" . $chapter["selfEditChk"]["state"]) ?></div>
                         <div class="step_light"></div>
-                        <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::BLIND_DRAFT.".png") ?>"></div>
-                        <div class="step_name">3-4. <?php echo __(EventSteps::BLIND_DRAFT."_tn_chk"); ?></div>
-                        <?php if($chapter["blindDraftChk"]["state"] != StepsStates::NOT_STARTED): ?>
+                        <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::SELF_CHECK.".png") ?>"></div>
+                        <div class="step_name">3. <?php echo __(EventSteps::SELF_CHECK."_tn_chk"); ?></div>
+                        <?php if($chapter["selfEditChk"]["state"] != StepsStates::NOT_STARTED): ?>
                         <div class="step_chunks <?php echo sizeof($chapter["chunks"]) > 4 ? "more_chunks" : "" ?>">
                             <?php if(isset($chapter["chunks"])): ?>
                                 <?php foreach ($chapter["chunks"] as $index => $chunk):;?>
@@ -142,6 +142,13 @@ foreach ($data["chapters"] as $key => $chapter):?>
                             <?php endif; ?>
                         </div>
                         <?php endif; ?>
+                    </div>
+                    <!-- Keyword Check Step -->
+                    <div class="section_step chk <?php echo $chapter["kwc"]["state"] ?>">
+                        <div class="step_status"><?php echo __("step_status_" . $chapter["kwc"]["state"]) ?></div>
+                        <div class="step_light"></div>
+                        <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::KEYWORD_CHECK.".png") ?>"></div>
+                        <div class="step_name">4. <?php echo __(EventSteps::KEYWORD_CHECK); ?></div>
                     </div>
                     <!-- Peer Check Step -->
                     <div class="section_step chk <?php echo $chapter["peerChk"]["state"] ?>">

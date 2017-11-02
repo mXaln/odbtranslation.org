@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [3]) . ": " . __("blind-draft_tn_chk")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [3]) . ": " . __("self-check_tn_chk")?></div>
     </div>
 
     <div class="row" style="position: relative">
@@ -27,14 +27,13 @@ if(isset($data["error"])) return;
             <form action="" id="main_form" method="post">
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
             
-            <h4><?php echo $data["event"][0]->sLang." - "
+            <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
-                        .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                        ."<span class='book_name'>".$data["event"][0]->name." "
-                            .($data["currentChapter"] > 0 ? $data["currentChapter"].":"
-                            .(!$data["no_chunk_source"] 
-                                ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
-                                : " ".__("intro")) : __("front"))."</span>"?></h4>
+                    .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
+                    ."<span class='book_name'>".$data["event"][0]->name." ".
+                    (!$data["nosource"] 
+                        ? $data["currentChapter"].":1-".$data["totalVerses"]
+                        : __("front"))."</span>"?></h4>
 
                 <?php if(!$data["nosource"]): ?>
                 <ul class="nav nav-tabs">
@@ -61,57 +60,77 @@ if(isset($data["error"])) return;
                 <?php endif; ?>
 
                 <div id="my_notes_content" class="my_content">
-                    <?php foreach($data["notes"] as $note): ?>
-                        <div class="row note_chunk">
-                            <div class="col-md-6">
+                    <?php $chunkNo = 0; foreach($data["notes"] as $fv => $chunk): ?>
+                    <div class="row note_chunk">
+                        <div class="col-md-6">
+                            <div class="note_chunk_verses">
+                                <?php 
+                                if(!$data["nosource"] && isset($data["text"][$fv]))
+                                {
+                                    $verses = array_keys($data["text"][$fv]);
+                                    if($verses[0] != $verses[sizeof($verses)-1])
+                                        echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
+                                    else
+                                        echo __("chunk_verses", $verses[0]);
+                                }
+                                else 
+                                {
+                                    echo __("intro");
+                                }
+                                ?>
+                            </div>
+                            <?php foreach($chunk as $note): ?>
                                 <div class="note_content">
                                     <?php echo preg_replace(
                                         "/(\[\[[a-z:\/\-]+\]\])/", 
                                         "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
                                         $note) ?>
                                 </div>
-                            </div>
-                            <div class="col-md-6 notes_editor">
-                                <?php 
-                                $parsedown = new Parsedown();
-                                $text = isset($data["translation"]) 
-                                    ? preg_replace(
-                                        "/(\[\[[a-z:\/\-]+\]\])/", 
-                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
-                                        $parsedown->text($data["translation"]))
-                                    : "";
-                                $text = isset($_POST["draft"]) && isset($_POST["draft"]) 
-                                    ? $_POST["draft"] 
-                                    : $text
-                                ?>
-                                <textarea 
-                                    name="draft" 
-                                    class="add_notes_editor blind_ta"><?php echo $text ?></textarea>
-                            
-                                <?php 
-                                $key = $data["currentChunk"];
-                                $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); 
-                                ?>
-                                <div class="comments_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
-                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
-                                </div>
-                                <img class="editComment tncomm" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                            <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
-                    <?php endforeach; ?>
+                        <div class="col-md-6 notes_editor" 
+                            data-chunkno="<?php echo $chunkNo ?>">
+                            <?php 
+                            $parsedown = new Parsedown();
+                            $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                                && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+                            $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo]) 
+                                ? $_POST["chunks"][$chunkNo] 
+                                : $text;
+                            $text = preg_replace(
+                                "/(\[\[[a-z:\/\-]+\]\])/", 
+                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
+                                $text);
+                            ?>
+                            <textarea 
+                                name="chunks[<?php echo $chunkNo ?>]" 
+                                class="add_notes_editor"><?php echo $text ?></textarea>
+                        
+                            <?php 
+                            $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); 
+                            ?>
+                            <div class="comments_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
+                                <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
+                            </div>
+                            <img class="editComment tncomm" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+
+                            <div class="comments">
+                                <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                    <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                            <div class="my_comment"><?php echo $comment->text; ?></div>
+                                        <?php else: ?>
+                                            <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <?php $chunkNo++; endforeach; ?>
                 </div>
             </div>
 
@@ -135,7 +154,7 @@ if(isset($data["error"])) return;
 
                 <div class="help_name_steps">
                     <span><?php echo __("step_num", [3])?>: </span>
-                    <?php echo __("blind-draft_tn_chk")?>
+                    <?php echo __("self-check_tn_chk")?>
                 </div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("consume_desc")?></ul>
@@ -158,8 +177,8 @@ if(isset($data["error"])) return;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>" width="100px" height="100px">
-            <img src="<?php echo template_url("img/steps/big/blind-draft.png") ?>" width="280px" height="280px">
+            <img src="<?php echo template_url("img/steps/icons/self-check.png") ?>" width="100px" height="100px">
+            <img src="<?php echo template_url("img/steps/big/self-check.png") ?>" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label>
                     <input id="hide_tutorial" 
@@ -171,8 +190,8 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("blind-draft_tn_chk")?></h3>
-            <ul><?php echo __("blind-draft_desc")?></ul>
+            <h3><?php echo __("self-check_tn_chk")?></h3>
+            <ul><?php echo __("self-check_desc")?></ul>
         </div>
     </div>
 </div>

@@ -2059,7 +2059,7 @@ class EventsController extends Controller
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                 
                                 $postdata = [
-                                    "step" => !$data["nosource"] ? EventSteps::CONSUME : EventSteps::BLIND_DRAFT,
+                                    "step" => !$data["nosource"] ? EventSteps::CONSUME : EventSteps::SELF_CHECK
                                 ];
                                 $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                 
@@ -2092,7 +2092,7 @@ class EventsController extends Controller
 
                                 if(isset($data["nosource"]) && $data["nosource"])
                                 {
-                                    $this->_model->updateTranslator(["step" => EventSteps::BLIND_DRAFT], ["trID" => $data["event"][0]->trID]);
+                                    $this->_model->updateTranslator(["step" => EventSteps::SELF_CHECK], ["trID" => $data["event"][0]->trID]);
                                     Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
                                 }
                             }
@@ -2146,7 +2146,7 @@ class EventsController extends Controller
                                 
                                 if(isset($data["nosource"]) && $data["nosource"])
                                 {
-                                    $this->_model->updateTranslator(["step" => EventSteps::BLIND_DRAFT], ["trID" => $data["event"][0]->trID]);
+                                    $this->_model->updateTranslator(["step" => EventSteps::SELF_CHECK], ["trID" => $data["event"][0]->trID]);
                                     Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
                                 }
                             }
@@ -2167,7 +2167,7 @@ class EventsController extends Controller
                             if (isset($_POST["confirm_step"]))
                             {
                                 $postdata = [
-                                    "step" => EventSteps::BLIND_DRAFT,
+                                    "step" => EventSteps::SELF_CHECK,
                                 ];
 
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
@@ -2183,43 +2183,37 @@ class EventsController extends Controller
                             ->shares("error", @$error);
                         break;
 
-                    case EventSteps::BLIND_DRAFT: // Criteria Check Notes
-                        // Get scripture text
-                        $sourceText = $this->getSourceText($data, true);
+                    case EventSteps::SELF_CHECK: // Criteria Check Notes
+                        $sourceText = $this->getSourceText($data);
                         if($sourceText !== false && !array_key_exists("error", $sourceText))
                             $data = $sourceText;
-                        
+
                         // Get notes
-                        $sourceTextNotes = $this->getNotesSourceText($data, true);
+                        $sourceTextNotes = $this->getNotesSourceText($data);
 
                         if($sourceTextNotes !== false)
                         {
                             if (!array_key_exists("error", $sourceTextNotes))
                             {
                                 $data = $sourceTextNotes;
-
+                                
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID, 
-                                    $data["event"][0]->currentChapter,
-                                    $data["event"][0]->currentChunk);
-                                
+                                    $data["event"][0]->currentChapter);
+
                                 $translationData = $this->_translationModel->getEventTranslation(
                                     $data["event"][0]->nTranslator,
-                                    $data["event"][0]->currentChapter,
-                                    $data["event"][0]->currentChunk);
+                                    $data["event"][0]->currentChapter);
                                 
-                                if(!empty($translationData))
+                                $translation = array();
+                                
+                                foreach ($translationData as $tv)
                                 {
-                                    $verses = json_decode($translationData[0]->translatedVerses, true);
-                                    $data["translation"] = $verses[EventMembers::TRANSLATOR]["verses"];
-                                    
-                                    if(isset($verses[EventMembers::CHECKER]) 
-                                        && isset($verses[EventMembers::CHECKER]["verses"])
-                                        && !empty($verses[EventMembers::CHECKER]["verses"]))
-                                        {
-                                            $data["translation"] = $verses[EventMembers::CHECKER]["verses"];
-                                        }
+                                    $arr = json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
                                 }
+                                $data["translation"] = $translation;
                             }
                             else
                             {
@@ -2235,113 +2229,85 @@ class EventsController extends Controller
                         
                         if (isset($_POST) && !empty($_POST))
                         {
-                            $chunk = isset($_POST["draft"]) ? $_POST["draft"] : "";
+                            $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                            $chunks = $this->testChunkNotes($chunks, $data["notes"], $data["currentChapter"]);
+                            $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
                             $converter = new \Helpers\Markdownify\Converter;
-                            $chunk = $converter->parseString($chunk);
-							$confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
-                            $tID = "unknown_error";
 
-                            if (isset($_POST["confirm_step"]))
+                            if(!$chunks === false)
                             {
-                                if(trim($chunk) != "" && isset($verses))
+                                foreach ($chunks as $key => $chunk) 
                                 {
-                                    $translationVerses = [
-                                        EventMembers::TRANSLATOR => [
-                                            "verses" => $verses[EventMembers::TRANSLATOR]["verses"]
-                                        ],
-                                        EventMembers::CHECKER => [
-                                            "verses" => trim($chunk)
-                                        ],
-                                        EventMembers::L2_CHECKER => [
-                                            "verses" => array()
-                                        ],
-                                        EventMembers::L3_CHECKER => [
-                                            "verses" => array()
-                                        ],
-                                    ];
-
-                                    if(!empty($translationData))
-                                    {
-                                        $tID = $translationData[0]->tID;
-                                        $encoded = json_encode($translationVerses);
+                                    if ($translation[$key][EventMembers::CHECKER]["verses"] != $chunk) {
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+                                        
+                                        $chunk = $converter->parseString($chunk);
+                                        $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
+                                        
+                                        $encoded = json_encode($translation[$key]);
                                         $json_error = json_last_error();
-
+                                        
                                         if($json_error == JSON_ERROR_NONE)
                                         {
-                                            $trData = [
-                                                "translatedVerses"  => $encoded,
-                                            ];
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded
+                                            );
                                             $this->_translationModel->updateTranslation(
-                                                $trData, ["tID" => $tID]);
+                                                $trData, 
+                                                array(
+                                                    "trID" => $data["event"][0]->trID, 
+                                                    "tID" => $tID)
+                                            );
                                         }
                                         else 
                                         {
                                             $tID = "Json error: " . $json_error;
                                         }
-                                    }
-                                    
-                                    if(is_numeric($tID))
-                                    {
-                                        $postdata["step"] = EventSteps::KEYWORD_CHECK;
-                                        if(isset($data["nosource"]) && $data["nosource"])
+
+                                        if(!is_numeric($tID))
                                         {
-                                            if(isset($data["no_chunk_source"]) && $data["no_chunk_source"])
-                                            {
-                                                $postdata["step"] = EventSteps::BLIND_DRAFT;
-                                                if(array_key_exists($data["event"][0]->currentChunk + 1, $data["chunks"]))
-                                                {
-                                                    // Current chunk is finished, go to next chunk
-                                                    $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
-                                                }
-                                                else
-                                                {
-                                                    $postdata["step"] = EventSteps::PEER_REVIEW;
-                                                    $postdata["checkerID"] = 0;
-                                                    $postdata["checkDone"] = false;
-                                                    $postdata["hideChkNotif"] = false;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                $postdata["step"] = EventSteps::PEER_REVIEW;
-                                                $postdata["checkerID"] = 0;
-                                                $postdata["checkDone"] = false;
-                                                $postdata["hideChkNotif"] = false;
-                                            }
+                                            $error[] = __("error_ocured", array($tID));
                                         }
-                                        
-                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                        $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                        Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
-                                    }
-                                    else
-                                    {
-                                        $error[] = __("error_ocured", array($tID));
                                     }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                $error[] = __("wrong_chunks_error");
+                            }
+
+                            if (!isset($error) && isset($_POST["confirm_step"]))
+                            {
+                                $postdata["step"] = EventSteps::KEYWORD_CHECK;
+                                if(isset($data["nosource"]) && $data["nosource"])
                                 {
-                                    $error[] = __("empty_draft_verses_error");
+                                    $postdata["step"] = EventSteps::PEER_REVIEW;
+                                    $postdata["checkerID"] = 0;
+                                    $postdata["checkDone"] = false;
+                                    $postdata["hideChkNotif"] = false;
                                 }
+                                
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
                             }
                         }
 
                         return View::make('Events/Notes/Translator')
-                            ->nest('page', 'Events/Notes/BlindDraftChecker')
+                            ->nest('page', 'Events/Notes/SelfCheckChecker')
                             ->shares("title", $title)
                             ->shares("data", $data)
                             ->shares("error", @$error);
                         break;
 
                     case EventSteps::KEYWORD_CHECK: // Highlight Check Notes
-                        // Get scripture text
-                        
-                        $sourceText = $this->getSourceText($data, true);
+                        $sourceText = $this->getSourceText($data);
                         if($sourceText !== false && !array_key_exists("error", $sourceText))
                             $data = $sourceText;
 
                         // Get notes
-                        $sourceTextNotes = $this->getNotesSourceText($data, true);
+                        $sourceTextNotes = $this->getNotesSourceText($data);
 
                         if($sourceTextNotes !== false)
                         {
@@ -2351,32 +2317,21 @@ class EventsController extends Controller
                                 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID, 
-                                    $data["event"][0]->currentChapter,
-                                    $data["event"][0]->currentChunk);
-
-                                if(isset($data["nosource"]) && $data["nosource"])
-                                {
-                                    $this->_model->updateTranslator(["step" => EventSteps::PEER_REVIEW], ["trID" => $data["event"][0]->trID]);
-                                    Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
-                                }
+                                    $data["event"][0]->currentChapter);
 
                                 $translationData = $this->_translationModel->getEventTranslation(
                                     $data["event"][0]->nTranslator,
-                                    $data["event"][0]->currentChapter,
-                                    $data["event"][0]->currentChunk);
+                                    $data["event"][0]->currentChapter);
                                 
-                                if(!empty($translationData))
+                                $translation = array();
+                                
+                                foreach ($translationData as $tv)
                                 {
-                                    $verses = json_decode($translationData[0]->translatedVerses, true);
-                                    $data["translation"] = $verses[EventMembers::TRANSLATOR]["verses"];
-                                    
-                                    if(isset($verses[EventMembers::CHECKER]) 
-                                        && isset($verses[EventMembers::CHECKER]["verses"])
-                                        && !empty($verses[EventMembers::CHECKER]["verses"]))
-                                        {
-                                            $data["translation"] = $verses[EventMembers::CHECKER]["verses"];
-                                        }
+                                    $arr = json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
                                 }
+                                $data["translation"] = $translation;
                             }
                             else
                             {
@@ -2392,83 +2347,64 @@ class EventsController extends Controller
                         
                         if (isset($_POST) && !empty($_POST))
                         {
-                            $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : "";
-                            $chunk = $chunks[0];
-                            $converter = new \Helpers\Markdownify\Converter;
-                            $chunk = $converter->parseString($chunk);
+                            $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                            $chunks = $this->testChunkNotes($chunks, $data["notes"], $data["currentChapter"]);
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
-                            $tID = "unknown_error";
+                            $converter = new \Helpers\Markdownify\Converter;
 
-                            if (isset($_POST["confirm_step"]))
+                            if(!$chunks === false)
                             {
-                                if(trim($chunk) != "" && isset($verses))
+                                foreach ($chunks as $key => $chunk) 
                                 {
-                                    $translationVerses = [
-                                        EventMembers::TRANSLATOR => [
-                                            "verses" => $verses[EventMembers::TRANSLATOR]["verses"]
-                                        ],
-                                        EventMembers::CHECKER => [
-                                            "verses" => trim($chunk)
-                                        ],
-                                        EventMembers::L2_CHECKER => [
-                                            "verses" => array()
-                                        ],
-                                        EventMembers::L3_CHECKER => [
-                                            "verses" => array()
-                                        ],
-                                    ];
-
-                                    if(!empty($translationData))
-                                    {
-                                        $tID = $translationData[0]->tID;
-                                        $encoded = json_encode($translationVerses);
+                                    if ($translation[$key][EventMembers::CHECKER]["verses"] != $chunk) {
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+                                        
+                                        $chunk = $converter->parseString($chunk);
+                                        $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
+                                        
+                                        $encoded = json_encode($translation[$key]);
                                         $json_error = json_last_error();
-
+                                        
                                         if($json_error == JSON_ERROR_NONE)
                                         {
-                                            $trData = [
-                                                "translatedVerses"  => $encoded,
-                                            ];
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded
+                                            );
                                             $this->_translationModel->updateTranslation(
-                                                $trData, ["tID" => $tID]);
+                                                $trData, 
+                                                array(
+                                                    "trID" => $data["event"][0]->trID, 
+                                                    "tID" => $tID)
+                                            );
                                         }
                                         else 
                                         {
                                             $tID = "Json error: " . $json_error;
                                         }
-                                    }
-                                    
-                                    if(is_numeric($tID))
-                                    {
-                                        $postdata["step"] = EventSteps::PEER_REVIEW;
 
-                                        // If chapter is finished go to PEER_REVIEW, otherwise go to the next chunk
-                                        if(array_key_exists($data["event"][0]->currentChunk + 1, $data["chunks"]))
+                                        if(!is_numeric($tID))
                                         {
-                                            // Current chunk is finished, go to next chunk
-                                            $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
-                                            $postdata["step"] = EventSteps::BLIND_DRAFT;
+                                            $error[] = __("error_ocured", array($tID));
                                         }
-                                        else
-                                        {
-                                            $postdata["checkerID"] = 0;
-                                            $postdata["checkDone"] = false;
-                                            $postdata["hideChkNotif"] = false;
-                                        }
-
-                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                        $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                        Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
-                                    }
-                                    else
-                                    {
-                                        $error[] = __("error_ocured", array($tID));
                                     }
                                 }
-                                else
-                                {
-                                    $error[] = __("empty_draft_verses_error");
-                                }
+                            }
+                            else
+                            {
+                                $error[] = __("wrong_chunks_error");
+                            }
+
+                            if (!isset($error) && isset($_POST["confirm_step"]))
+                            {
+                                $postdata["step"] = EventSteps::PEER_REVIEW;
+                                $postdata["checkerID"] = 0;
+                                $postdata["checkDone"] = false;
+                                $postdata["hideChkNotif"] = false;
+                                
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
                             }
                         }
                         
@@ -3470,7 +3406,8 @@ class EventsController extends Controller
 
                 $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::NOT_STARTED;
-                $data["chapters"][$key]["blindDraftChk"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["kwc"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["peerChk"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["peerChk"]["checkerID"] = 'na';
                 $data["chapters"][$key]["stepChk"] = EventSteps::PRAY;
@@ -3554,7 +3491,8 @@ class EventsController extends Controller
                             {
                                 $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                 $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
-                                $data["chapters"][$key]["blindDraftChk"]["state"] = StepsStates::FINISHED;
+                                $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
+                                $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
                                 $data["chapters"][$key]["peerChk"]["state"] = StepsStates::FINISHED;
                                 $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key];
                                 $members[$otherCheck[$key]["checkerID"]] = "";
@@ -3577,18 +3515,25 @@ class EventsController extends Controller
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::IN_PROGRESS;
                                 }
-                                else if($stepChk == EventSteps::BLIND_DRAFT
-                                    || $stepChk == EventSteps::KEYWORD_CHECK)
+                                else if($stepChk == EventSteps::SELF_CHECK)
                                 {
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
-                                    $data["chapters"][$key]["blindDraftChk"]["state"] = StepsStates::IN_PROGRESS;
+                                    $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::IN_PROGRESS;
+                                }
+                                else if($stepChk == EventSteps::KEYWORD_CHECK)
+                                {
+                                    $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["kwc"]["state"] = StepsStates::IN_PROGRESS;
                                 }
                                 else if($stepChk == EventSteps::PEER_REVIEW)
                                 {
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
-                                    $data["chapters"][$key]["blindDraftChk"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
                                     
                                     if(array_key_exists($key, $peerCheck))
                                     {
@@ -3633,7 +3578,7 @@ class EventsController extends Controller
                             $arr[] = "";
                     }
                     
-                    $data["chapters"][$key]["progress"] += sizeof($arr)*12/sizeof($chapter["chunks"]);
+                    $data["chapters"][$key]["progress"] += sizeof($arr)*10/sizeof($chapter["chunks"]);
                 }
                 
                 // Progress checks
@@ -3642,13 +3587,15 @@ class EventsController extends Controller
                 if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
                     $data["chapters"][$key]["progress"] += 17;
                 if($data["chapters"][$key]["consumeChk"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 12;
+                    $data["chapters"][$key]["progress"] += 10;
                 if($data["chapters"][$key]["highlightChk"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 12;
+                    $data["chapters"][$key]["progress"] += 10;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 10;
                 if($data["chapters"][$key]["peerChk"]["state"] == StepsStates::CHECKED)
-                    $data["chapters"][$key]["progress"] += 7;
+                    $data["chapters"][$key]["progress"] += 5;
                 if($data["chapters"][$key]["peerChk"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 13;
+                    $data["chapters"][$key]["progress"] += 9;
         
                 $overallProgress += $data["chapters"][$key]["progress"];
             }
