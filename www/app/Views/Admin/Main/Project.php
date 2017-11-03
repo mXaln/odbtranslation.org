@@ -11,7 +11,8 @@ if(!empty($data["project"])):
         <h1 class="panel-title">
             <?php echo "[".$data["project"][0]->targetLang."] " 
                 . $data["project"][0]->tLang 
-                . ($data["project"][0]->tLang != $data["project"][0]->tAng ? " (" . $data["project"][0]->tAng . ")" : "")
+                . ($data["project"][0]->tLang != $data["project"][0]->tAng 
+                    && $data["project"][0]->tAng != "" ? " (" . $data["project"][0]->tAng . ")" : "")
                 . " - ".__($data["project"][0]->bookProject) ?>
         </h1>
     </div>
