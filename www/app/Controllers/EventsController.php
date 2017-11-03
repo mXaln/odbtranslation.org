@@ -2232,7 +2232,6 @@ class EventsController extends Controller
                             $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
                             $chunks = $this->testChunkNotes($chunks, $data["notes"], $data["currentChapter"]);
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
-                            $converter = new \Helpers\Markdownify\Converter;
 
                             if(!$chunks === false)
                             {
@@ -2242,7 +2241,6 @@ class EventsController extends Controller
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
                                         
-                                        $chunk = $converter->parseString($chunk);
                                         $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
                                         
                                         $encoded = json_encode($translation[$key]);
@@ -2349,7 +2347,6 @@ class EventsController extends Controller
                             $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
                             $chunks = $this->testChunkNotes($chunks, $data["notes"], $data["currentChapter"]);
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
-                            $converter = new \Helpers\Markdownify\Converter;
 
                             if(!$chunks === false)
                             {
@@ -2359,7 +2356,6 @@ class EventsController extends Controller
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
                                         
-                                        $chunk = $converter->parseString($chunk);
                                         $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
                                         
                                         $encoded = json_encode($translation[$key]);
