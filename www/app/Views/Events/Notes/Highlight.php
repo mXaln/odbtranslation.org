@@ -3,7 +3,7 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("highlight_tn")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("highlight_tn_full")?></div>
     </div>
 
     <div class="row">
@@ -52,7 +52,7 @@ if(isset($data["error"])) return;
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [2])?>: </span><?php echo __("highlight_tn")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("consume_desc")?></ul>
+                    <ul><?php echo __("highlight_tn_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -81,7 +81,7 @@ if(isset($data["error"])) return;
 
         <div class="tutorial_content">
             <h3><?php echo __("highlight_tn")?></h3>
-            <ul><?php echo __("highlight_desc")?></ul>
+            <ul><?php echo __("highlight_tn_desc")?></ul>
         </div>
     </div>
 </div>

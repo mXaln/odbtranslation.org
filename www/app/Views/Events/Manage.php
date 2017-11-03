@@ -138,7 +138,14 @@ if(!isset($error)):
                                     <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
                                         <?php 
                                         $altStep = in_array($mode, ["tn"]) ? ($chk ? 0 : 3) : 5;
-                                        echo EventSteps::enum($step, $mode, $chk) == $altStep ? __("read-chunk-alt") : __($step) 
+                                        $add = "";
+
+                                        if($step != EventSteps::PRAY && $step != EventSteps::FINISHED)
+                                        {
+                                            $add = in_array($mode, ["tn"]) ? "_tn" : "";
+                                            $add = $step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add;
+                                        }
+                                        echo EventSteps::enum($step, $mode, $chk) == $altStep ? __("read-chunk-alt") : __($step.$add) 
                                         ?>
                                     </option>
                                 <?php endforeach; ?>

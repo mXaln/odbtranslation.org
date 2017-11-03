@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [5]) . ": " . __("peer-review_tn")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [4]) . ": " . __("keyword-check_tn_full")?></div>
     </div>
 
     <div class="row" style="position: relative">
@@ -142,7 +142,7 @@ if(isset($data["error"])) return;
                 <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [5])?></div>
+            <div class="step_right alt"><?php echo __("step_num", [4])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -152,11 +152,11 @@ if(isset($data["error"])) return;
                 <div class="clear"></div>
 
                 <div class="help_name_steps">
-                    <span><?php echo __("step_num", [5])?>: </span>
-                    <?php echo __("peer-review_tn_chk")?>
+                    <span><?php echo __("step_num", [4])?>: </span>
+                    <?php echo __("keyword-check_tn")?>
                 </div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("keyword-check_desc")?></ul>
+                    <ul><?php echo __("keyword-check_tn_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -180,8 +180,8 @@ if(isset($data["error"])) return;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/peer-review.png") ?>" width="100px" height="100px">
-            <img src="<?php echo template_url("img/steps/big/peer-review.png") ?>" width="280px" height="280px">
+            <img src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>" width="100px" height="100px">
+            <img src="<?php echo template_url("img/steps/big/keyword-check.png") ?>" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label>
                     <input id="hide_tutorial" 
@@ -193,8 +193,8 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review_tn")?></h3>
-            <ul><?php echo __("peer-review_desc")?></ul>
+            <h3><?php echo __("keyword-check_tn")?></h3>
+            <ul><?php echo __("keyword-check_tn_desc")?></ul>
         </div>
     </div>
 </div>

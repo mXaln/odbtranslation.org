@@ -2256,7 +2256,6 @@ class EventsController extends Controller
                                             $this->_translationModel->updateTranslation(
                                                 $trData, 
                                                 array(
-                                                    "trID" => $data["event"][0]->trID, 
                                                     "tID" => $tID)
                                             );
                                         }
@@ -2374,7 +2373,6 @@ class EventsController extends Controller
                                             $this->_translationModel->updateTranslation(
                                                 $trData, 
                                                 array(
-                                                    "trID" => $data["event"][0]->trID, 
                                                     "tID" => $tID)
                                             );
                                         }
@@ -5095,7 +5093,7 @@ class EventsController extends Controller
                     
                     $text = __("checker_apply", [
                         $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
-                        __($notification->step),
+                        __($notification->step.(in_array($notification->bookProject, ["tn"]) ? "_tn" : "")),
                         $notification->bookName,
                         ($notification->currentChapter == 0 ? __("intro") : $notification->notesChapter),
                         $notification->tLang,

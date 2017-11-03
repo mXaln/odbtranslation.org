@@ -92,7 +92,7 @@ if(!isset($error)):
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["consume"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONSUME.".png") ?>"></div>
-                                    <div class="step_name">1. <?php echo __(EventSteps::CONSUME); ?></div>
+                                    <div class="step_name">1. <?php echo __(EventSteps::CONSUME."_tn"); ?></div>
                                 </div>
                                 <!-- Blind Draft Step -->
                                 <div class="section_step <?php echo $chapter["blindDraft"]["state"] ?>">
@@ -135,14 +135,14 @@ if(!isset($error)):
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["consumeChk"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONSUME.".png") ?>"></div>
-                                    <div class="step_name">1. <?php echo __(EventSteps::CONSUME); ?></div>
+                                    <div class="step_name">1. <?php echo __(EventSteps::CONSUME."_tn"); ?></div>
                                 </div>
                                 <!-- Highlight Step -->
                                 <div class="section_step chk <?php echo $chapter["highlightChk"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["highlightChk"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::HIGHLIGHT.".png") ?>"></div>
-                                    <div class="step_name">2. <?php echo __(EventSteps::HIGHLIGHT); ?></div>
+                                    <div class="step_name">2. <?php echo __(EventSteps::HIGHLIGHT."_tn"); ?></div>
                                 </div>
                                 <!-- Self Check Step -->
                                 <div class="section_step chk <?php echo $chapter["selfEditChk"]["state"] ?>">
@@ -179,7 +179,7 @@ if(!isset($error)):
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["kwc"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::KEYWORD_CHECK.".png") ?>"></div>
-                                    <div class="step_name">4. <?php echo __(EventSteps::KEYWORD_CHECK); ?></div>
+                                    <div class="step_name">4. <?php echo __(EventSteps::KEYWORD_CHECK."_tn"); ?></div>
                                 </div>
                                 <!-- Peer Check Step -->
                                 <div class="section_step chk <?php echo $chapter["peerChk"]["state"] ?>">
@@ -188,7 +188,7 @@ if(!isset($error)):
                                     </div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::PEER_REVIEW.".png") ?>"></div>
-                                    <div class="step_name">5. <?php echo __(EventSteps::PEER_REVIEW); ?></div>
+                                    <div class="step_name">5. <?php echo __(EventSteps::PEER_REVIEW."_tn"); ?></div>
                                     <?php if($chapter["peerChk"]["checkerID"] != "na"): ?>
                                         <div class="step_checker">
                                             <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["peerChk"]["checkerID"]]["avatar"].".png") ?>">

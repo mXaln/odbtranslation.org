@@ -191,7 +191,7 @@ if(isset($data["error"])) return;
 
         <div class="tutorial_content">
             <h3><?php echo __("self-check_tn_chk")?></h3>
-            <ul><?php echo __("self-check_desc")?></ul>
+            <ul><?php echo __("self-check_tn_chk_desc")?></ul>
         </div>
     </div>
 </div>
