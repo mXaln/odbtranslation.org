@@ -1100,7 +1100,7 @@ div.ui-datepicker {
 }
 
 .action_type.type_checking.isPeer {
-    background-color: #fc51f0;
+    background-color: #8E007D;
 }
 
 .main_information {
@@ -2899,7 +2899,7 @@ div[class^="member_usname mid"] {
 }
 
 .is_checker_page.isPeer {
-    background-color: #fc51f0 !important;
+    background-color: #8E007D !important;
 }
 
 .is_checker_page_help {
@@ -2907,7 +2907,7 @@ div[class^="member_usname mid"] {
 }
 
 .is_checker_page_help.isPeer {
-    background-color: #ffc7fc !important;
+    background-color: #ecb7ff !important;
 }
 
 .verse_with_note .vnote {
