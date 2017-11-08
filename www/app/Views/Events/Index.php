@@ -398,7 +398,7 @@ $stepsNum = [
             <div class="event_translator">
                 <div class="event_translator_data">
                     <div class="event_translator_title"><?php echo __("translator") ?></div>
-                    <div class="event_translator_name"><?php echo $event->userName ?></div>
+                    <div class="event_translator_name"><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></div>
                 </div>
             </div>
             <div class="event_current_pos">

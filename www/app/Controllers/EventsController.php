@@ -112,11 +112,21 @@ class EventsController extends Controller
         $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
         $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
+        $notesCheckers = $this->_model->getMemberEventsForCheckerNotes(Session::get("memberID"));
+        $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER);
         $data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
+        
         // Extract facilitators from events
         $admins = [];
-        foreach ($data["myTranslatorEvents"] as $event) {
+        foreach ($data["myTranslatorEvents"] as $key => $event) {
+            if(in_array($event->bookProject, ["tn"]) && $event->stage == "checking")
+            {
+                $event->bookName = $event->name;
+                $data["myCheckerL1Events"][] = $event;
+                unset($data["myTranslatorEvents"][$key]);
+                continue;
+            }
             $admins = array_merge($admins, (array)json_decode($event->admins, true));
         }
         foreach ($data["newEvents"] as $event) {
@@ -131,7 +141,7 @@ class EventsController extends Controller
         foreach ($data["myCheckerL3Events"] as $event) {
             $admins = array_merge($admins, (array)json_decode($event->admins, true));
         }
-
+        
         $admins = array_unique($admins);
         $admins = (array)$this->_membersModel->getMembers(array_filter(array_values($admins)), true);
 
@@ -4841,6 +4851,7 @@ class EventsController extends Controller
             Session::get("memberID"));
 
         if(!empty($myEvent) && $myEvent[0]->step != EventSteps::NONE
+            && $myEvent[0]->step != EventSteps::PRAY
             && $myEvent[0]->step != EventSteps::FINISHED)
         {
             $isBusy = true;
