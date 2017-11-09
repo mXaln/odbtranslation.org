@@ -85,7 +85,7 @@ if(!empty($data["project"])):
                                     default:
                                         echo '<button 
                                             data="'.$event->code.'" data2="'.$event->eventID.'" 
-                                            data3="'.(Cache::has($event->code."_".$data["project"][0]->sourceLangID."_".$data["project"][0]->bookProject."_usfm")).'" 
+                                            data3="'.(Cache::has($event->code."_".$data["project"][0]->sourceLangID."_".$data["project"][0]->sourceBible."_usfm")).'" 
                                             data4="'.$event->abbrID.'"
                                                 class="btn btn-success editEvnt">'.__("edit").'</button>';
                                 }

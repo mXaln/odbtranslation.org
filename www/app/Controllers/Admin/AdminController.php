@@ -605,15 +605,11 @@ class AdminController extends Controller {
         {
             Cache::forget($cache_keyword);
 
-            $usfm = $this->_eventsModel->getCachedSourceBookFromApi(
+            $this->_eventsModel->getCachedSourceBookFromApi(
                 $bookProject, 
                 $bookCode, 
                 $sourceLangID,
                 $abbrID);
-
-            if($usfm && !empty($usfm))
-                Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
-
         }
 
         // Words source
@@ -794,6 +790,10 @@ class AdminController extends Controller {
         if(!isset($error))
         {
             $exist = $this->_eventsModel->getEvent(null, $projectID, $bookCode);
+            $project = $this->_eventsModel->getProject(
+                ["sourceLangID", "sourceBible"],
+                ["projectID", $projectID]
+            );
 
             $postdata = [
                 "translatorsNum" => $translators,
@@ -818,17 +818,38 @@ class AdminController extends Controller {
                     $postdata["bookCode"] = $bookCode;
 
                     $bookInfo = $this->_translationModel->getBookInfo($bookCode);
-
+                    
                     if(!empty($bookInfo))
                     {
-                        foreach ($admins as $admin) {
-                            $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                        // Book source
+                        $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->sourceBible."_usfm";
+
+                        if(!Cache::has($cache_keyword))
+                        {
+                            $usfm = $this->_eventsModel->getCachedSourceBookFromApi(
+                                $project[0]->sourceBible, 
+                                $bookInfo[0]->code, 
+                                $project[0]->sourceLangID,
+                                $bookInfo[0]->abbrID);
+                                
+                            if(!$usfm || empty($usfm))
+                            {
+                                $error[] = __("no_source_error");
+                                echo json_encode(array("error" => Error::display($error)));
+                            }
                         }
 
-                        $eventID = $this->_eventsModel->createEvent($postdata);
-
-                        if($eventID)
-                            echo json_encode(array("success" => __("successfully_created")));
+                        if(!isset($error))
+                        {
+                            foreach ($admins as $admin) {
+                                $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                            }
+    
+                            $eventID = $this->_eventsModel->createEvent($postdata);
+    
+                            if($eventID)
+                                echo json_encode(array("success" => __("successfully_created")));
+                        }
                     }
                     else
                     {

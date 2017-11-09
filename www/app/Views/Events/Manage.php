@@ -113,7 +113,8 @@ if(!isset($error)):
                                 <?php echo $s_disabled ? "disabled" : "" ?> 
                                 data-event="<?php echo $data["event"][0]->eventID ?>"
                                 data-member="<?php echo $member["memberID"] ?>"
-                                data-mode="<?php echo $mode ?>">
+                                data-mode="<?php echo $mode ?>"
+                                data-chk="<?php echo $chk ?>">
                                 <?php foreach (EventSteps::enumArray($mode, $chk) as $step => $i): ?>
                                     <?php
                                     // Skip None step
@@ -194,7 +195,8 @@ if(!isset($error)):
                             ?>
                             <button class="remove_checker btn btn-danger" style="margin-top: 22px;" 
                                     data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>" 
-                                    data2="<?php echo $member["step"] ?>">
+                                    data2="<?php echo $member["step"] ?>"
+                                    data3="<?php echo $chk ?>">
                                 <?php echo __("remove_checker") ?>
                             </button>
                             <?php endif; ?>

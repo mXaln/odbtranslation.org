@@ -398,8 +398,8 @@ return array (
     "noscript_message" => "Javascript tidak hidup! Mohon, hidupkan untuk menggunakan semua fungsi dari v-mast.",
     "type_translation" => "Modus Penerjemahan",
     "type_checking" => "Mode Pengecekan",
-    "clear_cache" => "Bersihkan Cache",
-    "clear_cache_info" => "Keluarkan teks sumber dari cache. \nIt akan diperbaharui ketika penerjemah akan membuka halaman 8-langkah lagi.",
+    "clear_cache" => "Perbarui Cache",
+    "clear_cache_info" => "Perbarui teks sumber dalam cache.",
     "remove_checker" => "Remove checker",
     "chunk_verses" => "Verse(s): {0}",
     "leaveit" => "Leave it as it is",
@@ -414,6 +414,8 @@ return array (
     "pray_text" => "Allah menciptakan semua bahasa-bahasa di dunia dan telah memberi kita kemampuan untuk mempelajari dan menggunakannya. Ia juga telah memberi kita Roh Kudus-Nya untuk membantu kita dalam segala sesuatu yang kita lakukan. Oleh karena itu, mari kita mulai dengan mengambil waktu dalam doa, bersyukur kepada Tuhan dan meminta agar Dia akan memberikan kita hikmat dan bimbingan yang diperlukan untuk secara setia dan akurat menerjemahkan Firman Kudus-Nya.",
     "prep_pray_text" => "<strong>Congratulations!</strong> Anda telah menyelesaikan pasal Anda! Istirahatlah, tidur siang, minum kopi atau teh dan mari kita mulai pasal lain!",
     
+    "pray_tn" => "Persiapan: Berdoa",
+
     "consume" => "Baca Mendalam",
     "consume_desc" => "<li><b>KEGUNAAN:</b> untuk menyiapkan memori jangka pendek Anda untuk membantu Anda dalam penerjemahan</li><li>Baca teks yang ditugaskan secara keseluruhan. Serap secara cermat dan pertimbangkan apa yang dikatakan untuk memahami isi utuh dari nats ini.</li><li>Berhenti, renungkan, dan baca kembali jika perlu.</li><li>Ambil tidak lebih dari 12 menit pada kegiatan ini.</li>",
     

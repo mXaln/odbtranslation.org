@@ -401,8 +401,8 @@ return array (
     "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
-    "clear_cache" => "Clear Cache",
-    "clear_cache_info" => "Remove source text from the cache. \nIt will be updated when translator will open 8-steps page again.",
+    "clear_cache" => "Update Cache",
+    "clear_cache_info" => "Update source text in cache.",
     "remove_checker" => "Remove checker",
     "chunk_verses" => "Verse(s): {0}",
     "leaveit" => "Leave it as it is",
@@ -417,6 +417,8 @@ return array (
     "pray_text" => "God created all the languages of the world and has given us the ability to learn and use them. He has also given us His Spirit to help us in everything we do.  Therefore, let us begin by spending time in prayer, giving thanks to the Lord and asking that He will give us the wisdom and guidance necessary to faithfully and accurately translate His Holy Word.",
     "prep_pray_text" => "<strong>Congratulations!</strong> You have completed your chapter!  Take a break, take a nap, get some coffee or tea and let’s start another chapter!",
     
+    "pray_tn" => "Preparation: Prayer",
+
     "consume" => "Consume",
     "consume_desc" => "<li><b>PURPOSE:</b> to prepare your short-term memory to assist you in translation</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
     

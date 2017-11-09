@@ -139,6 +139,7 @@ if(isset($data["error"])) return;
                     <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
                     <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                 </div>
+                <input type="hidden" name="chk" value="1">
                 <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
             </div>

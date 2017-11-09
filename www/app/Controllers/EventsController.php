@@ -2000,8 +2000,9 @@ class EventsController extends Controller
             EventMembers::TRANSLATOR,
             $eventID, 
             true, 
-            false);
-        
+            false,
+            true);
+
         if(!empty($data["event"]))
         {
             if($data["event"][0]->stage == "checking" && 
@@ -3747,11 +3748,12 @@ class EventsController extends Controller
         $to_step = isset($_POST["to_step"]) && $_POST["to_step"] != "" ? $_POST["to_step"] : null;
         $prev_chunk = isset($_POST["prev_chunk"]) && $_POST["prev_chunk"] != "" ? filter_var($_POST["prev_chunk"], FILTER_VALIDATE_BOOLEAN) : false;
         $confirm = isset($_POST["confirm"]) && $_POST["confirm"] != "" ? filter_var($_POST["confirm"], FILTER_VALIDATE_BOOLEAN) : false;
-        
+        $tnChk = isset($_POST["chk"]) && $_POST["chk"] != "" ? filter_var($_POST["chk"], FILTER_VALIDATE_BOOLEAN) : false;
+
         if($eventID !== null && $memberID !== null &&
             $to_step !== null)
         {
-            $member = $this->_model->getMemberEvents($memberID, EventMembers::TRANSLATOR, $eventID, true);
+            $member = $this->_model->getMemberEvents($memberID, EventMembers::TRANSLATOR, $eventID, true, false, $tnChk);
 
             if(!empty($member))
             {
@@ -4234,12 +4236,14 @@ class EventsController extends Controller
 
         if($eventID !== null && $formData !== null)
         {
-            $event = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
+            $post = array();
+            parse_str(htmlspecialchars_decode($formData, ENT_QUOTES), $post);
+            $tnChk = isset($post["chk"]) && $post["chk"] != "" ? filter_var($post["chk"], FILTER_VALIDATE_BOOLEAN) : false;
+            
+            $event = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID, false, false, $tnChk);
             
             if(!empty($event))
             {
-                $post = array();
-                parse_str(htmlspecialchars_decode($formData, ENT_QUOTES), $post);
 
                 $chunks = json_decode($event[0]->chunks, true);
                 $chunk = $chunks[$event[0]->currentChunk];

@@ -230,7 +230,7 @@ $(function () {
     // Start interval to check new applied translators
     var getMembersInterval = setInterval(function() {
         getNewMembersList();
-    }, 30000);
+    }, 60000);
 
     function getNewMembersList() {
         var eventID = $("#eventID").val();
@@ -284,7 +284,7 @@ $(function () {
                         mNum += newUsers.length;
                         $(".manage_members h3 span").text(mNum);
 
-                        renderPopup(Language.newUsersApplyed+": "+newUsers.join(", "));
+                        //renderPopup(Language.newUsersApplyed+": "+newUsers.join(", "));
                     }
                 }
                 else
@@ -474,6 +474,7 @@ $(function () {
         var eventID = $(this).data("event");
         var memberID = $(this).data("member");
         var mode = $(this).data("mode");
+        var chk = $(this).data("chk");
         var to_step = $(this).val();
 
         var prev_chunk = /_prev$/.test(to_step);
@@ -486,11 +487,11 @@ $(function () {
         {
             renderConfirmPopup(Language.attention, Language.removeCheckerConfirm,
                 function () {
-                    moveStepBack($this, eventID, memberID, to_step, true);
+                    moveStepBack($this, eventID, memberID, to_step, true, false, chk);
                     $( this ).dialog( "close" );
                 },
                 function () {
-                    moveStepBack($this, eventID, memberID, to_step);
+                    moveStepBack($this, eventID, memberID, to_step, false, false, chk);
                     $( this ).dialog( "close" );
                 },
                 function () {
@@ -514,7 +515,7 @@ $(function () {
             {
                 confirm = to_step != EventSteps.CHUNKING;
             }
-            moveStepBack($this, eventID, memberID, to_step, confirm, prev_chunk);
+            moveStepBack($this, eventID, memberID, to_step, confirm, prev_chunk, chk);
         }
     });
 
@@ -523,11 +524,12 @@ $(function () {
         var eventID = event_member[0];
         var memberID = event_member[1];
         var to_step = $(this).attr("data2");
+        var chk = $(this).attr("data3");
         
-        moveStepBack(null, eventID, memberID, to_step, true, false);
+        moveStepBack(null, eventID, memberID, to_step, true, false, chk);
     });
 
-    function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk) {
+    function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk, chk) {
         confirm = confirm || false;
         prev_chunk = prev_chunk || false;
 
@@ -539,7 +541,8 @@ $(function () {
                 memberID : memberID,
                 to_step: to_step,
                 confirm: confirm,
-                prev_chunk: prev_chunk
+                prev_chunk: prev_chunk,
+                chk: chk
             },
             dataType: "json",
             beforeSend: function() {
@@ -574,7 +577,7 @@ $(function () {
                     {
                         renderConfirmPopup(Language.attention, data.message,
                             function () {
-                                moveStepBack(selector, eventID, memberID, to_step, true);
+                                moveStepBack(selector, eventID, memberID, to_step, true, false, chk);
                                 $( this ).dialog( "close" );
                             },
                             function () {

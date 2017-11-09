@@ -400,8 +400,8 @@ return array (
     "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
-    "clear_cache" => "Clear Cache",
-    "clear_cache_info" => "Remove source text from the cache. \nIt will be updated when translator will open 8-steps page again.",
+    "clear_cache" => "Update Cache",
+    "clear_cache_info" => "Update source text in cache.",
     "remove_checker" => "Remove checker",
     "chunk_verses" => "Verse(s): {0}",
     "leaveit" => "Leave it as it is",
@@ -416,6 +416,8 @@ return array (
     "pray_text" => "Gihatag sa Dios kanato ang tanan nga pinulongan sa tibuok kalibotan ug gihatagan usab niya kita og abilidad aron tun-an ug gamiton kini. Gihatag usab niya ang iyang Espiritu aron motabang kanato sa tanan natong buhaton. Busa, sugdan nato kini pinaagi sa mga pag-ampo, magpasalamat kita sa Ginoo ug mangayo kita Kaniya ug kaalam ug paggiya nga kinahanglan aron matinud-anon ug haom ang atong paghubad sa Iyang Balaan nga Bulong",
     "prep_pray_text" => "<strong>Nahuman na nimo ang imong kapitulo!</strong> Pahulay usa, katulog kadali, inom og kape ug magsugod na usab kita sa lahi nga kapitulo!",
     
+    "pray_tn" => "Pagpangandam: Mga Pag-ampo",
+
     "consume" => "Pagbasa",
     "consume_desc" => "<li><b>KATUYOUAN:</b> Aron maandam ang imong short-term nga hunahuna aron makatabang kanimo sa paghubad</li><li>Basaha ang tibuok kapitulo nga gihatag sa imo. Sa hinayhinay hunahunaa kung unsa ang gisulti aron masabtan ang kinatibuk-an nga unod sa kapitulo.</li><li>Hunong kadali, hunahunaa, ug basaha pag-usab kung kinahanglan.</li><li>Kinahanglan nga dili ka molapas og 12 ka minuto niini nga lakang.</li>",
     

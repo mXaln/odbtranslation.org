@@ -2,22 +2,6 @@
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
 use Helpers\Session;
-
-$stepsNum = [
-    EventSteps::NONE => 0,
-    EventSteps::PRAY => 0,
-    EventSteps::CONSUME => 1,
-    EventSteps::VERBALIZE => 2,
-    EventSteps::CHUNKING => 3,
-    EventSteps::READ_CHUNK => 4,
-    EventSteps::BLIND_DRAFT => 4,
-    EventSteps::SELF_CHECK => 5,
-    EventSteps::PEER_REVIEW => 6,
-    EventSteps::KEYWORD_CHECK => 7,
-    EventSteps::CONTENT_REVIEW => 8,
-    EventSteps::FINAL_REVIEW => 0,
-    EventSteps::FINISHED => 0,
-];
 ?>
 
 <div style="margin-bottom: 20px">
@@ -372,16 +356,19 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
                 <div class="event_type">
-                    <div><?php echo __("step_num", [$stepsNum[$event->step]]) ?></div>
+                    <div><?php echo __("step_num", EventSteps::enum($event->step, $event->bookProject, true)) ?></div>
                     <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
-                    <div><?php echo __($event->step) ?></div>
+                    <?php $chk = $event->stage == "checking" ?>
+                    <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>
+                    <?php $add = $event->step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add; ?>
+                    <div><?php echo __($event->step.$add) ?></div>
                 </div>
                 <div class="event_img">
                     <img width="85" src="<?php echo template_url("img/steps/icons/". $event->step ."-gray.png") ?>">
                 </div>
             </div>
             <div class="event_project">
-                <div class="event_book"><?php echo $event->bookName ?></div>
+                <div class="event_book"><?php echo isset($event->bookName) ? $event->bookName : $event->name ?></div>
                 <div class="event_proj">
                     <div><?php echo __($event->bookProject) ?></div>
                     <div><?php echo $event->tLang . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
