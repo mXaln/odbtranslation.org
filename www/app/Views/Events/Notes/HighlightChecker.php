@@ -60,7 +60,7 @@ if(isset($data["error"])) return;
                 <?php endif; ?>
 
                 <div id="my_notes_content" class="my_content">
-                    <?php $chunkNo = 0; foreach($data["notes"] as $fv => $chunk): ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                     <div class="row note_chunk">
                         <div class="col-md-6">
                             <div class="note_chunk_verses">
@@ -79,7 +79,7 @@ if(isset($data["error"])) return;
                                 }
                                 ?>
                             </div>
-                            <?php foreach($chunk as $note): ?>
+                            <?php foreach($data["notes"][$fv] as $note): ?>
                                 <div class="note_content">
                                     <?php echo preg_replace(
                                         "/(\[\[[a-z:\/\-]+\]\])/", 
@@ -129,7 +129,7 @@ if(isset($data["error"])) return;
                             <div class="clear"></div>
                         </div>
                     </div>
-                    <?php $chunkNo++; endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
