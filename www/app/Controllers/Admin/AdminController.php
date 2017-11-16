@@ -51,6 +51,17 @@ class AdminController extends Controller {
         $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));
         $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
         
+        // Create multiple users
+        /*$langs = [
+            "en" => [3,3],
+            "id" => [3,4],
+            "pmy" => [1,1]
+        ];
+        $this->_membersModel->createMultipleMembers(
+            50, 
+            6,
+            $langs);*/
+        
         return View::make('Admin/Main/Index')
             ->shares("title", __("admin_project_title"))
             ->shares("data", $data);

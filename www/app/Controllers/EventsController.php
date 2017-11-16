@@ -3604,38 +3604,38 @@ class EventsController extends Controller
         
                 $overallProgress += $data["chapters"][$key]["progress"];
             }
-        }
+            
+            $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
         
-        $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
-        
-        $empty = array_fill(0, sizeof($admins), "");
-        $adminsArr = array_combine($admins, $empty);
-    
-        $members += $adminsArr;
-        $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
-    
-        foreach ($membersArray as $member) {
-            $members[$member->memberID]["userName"] = $member->userName;
-            $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
-            $members[$member->memberID]["avatar"] = $member->avatar;
-        }
-    
-        foreach ($members as $key => $member) {
-            if(!is_numeric($key) && $key != "na")
-            {
-                $name = $members[$key];
-                $members[$key] = [];
-                $members[$key]["userName"] = $key;
-                $members[$key]["name"] = $name;
-                $members[$key]["avatar"] = "n1";
+            $empty = array_fill(0, sizeof($admins), "");
+            $adminsArr = array_combine($admins, $empty);
+
+            $members += $adminsArr;
+            $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
+
+            foreach ($membersArray as $member) {
+                $members[$member->memberID]["userName"] = $member->userName;
+                $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                $members[$member->memberID]["avatar"] = $member->avatar;
             }
+
+            foreach ($members as $key => $member) {
+                if(!is_numeric($key) && $key != "na")
+                {
+                    $name = $members[$key];
+                    $members[$key] = [];
+                    $members[$key]["userName"] = $key;
+                    $members[$key]["name"] = $name;
+                    $members[$key]["avatar"] = "n1";
+                }
+            }
+
+            $members["na"] = __("not_available");
+            $members = array_filter($members);
+
+            $data["admins"] = $admins;
+            $data["members"] = $members;
         }
-    
-        $members["na"] = __("not_available");
-        $members = array_filter($members);
-    
-        $data["admins"] = $admins;
-        $data["members"] = $members;
         
         $data["notifications"] = $this->_notifications;
         

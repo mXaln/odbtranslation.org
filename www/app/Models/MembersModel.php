@@ -257,6 +257,32 @@ class MembersModel extends Model {
         Language::instance('app')->load("messages", $code);
         return Language::instance('app')->get($value, $code, $params);
     }
+    
+    public function createMultipleMembers($members = 50, $lastMember = 0, $profileLangs = ["en" => [3,3]])
+    {
+        for($i = $lastMember+1; $i <= $members+$lastMember; $i++)
+        {
+            $mData = [
+                "userName" => "user".$i,
+                "firstName" => "User".$i,
+                "lastName" => "N",
+                "password" => '$2y$10$Pmpy.pft1HCsWMr/Bg2y3OtH.MhV0pI7n9QhMXyjcWBiS/Jj7SqVe',
+                "email" => "user".$i."@v-mast.mvc",
+                "active" => true,
+                "verified" => true
+            ];
+            
+            $memberID = $this->createMember($mData);
+            
+            $pData = [
+                "mID" => $memberID,
+                "prefered_roles" => json_encode(["translator"]),
+                "languages" => json_encode($profileLangs)
+            ];
+            
+            $this->createProfile($pData);
+        }
+    }
 
     public function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')
     {
