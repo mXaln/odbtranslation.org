@@ -987,35 +987,35 @@ class EventsModel extends Model
 
     public function downloadAndExtractNotes($lang = "en", $update = false)
     {
-        // Get catalog
-        $catalog = $this->getCachedFullCatalog();
-        if(!$catalog) return false;
-        
-        $url = "";
-        $catalog = json_decode($catalog);
-        foreach($catalog->languages as $language)
-        {
-            if($language->identifier == $lang)
-            {
-                foreach($language->resources as $resource)
-                {
-                    if($resource->identifier == "tn")
-                    {
-                        foreach($resource->formats as $format)
-                        {
-                            $url = $format->url;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
         $filepath = "../app/Templates/Default/Assets/tmp/".$lang."_notes.zip";
         $folderpath = "../app/Templates/Default/Assets/tmp/".$lang."_tn";
 
         if(!File::exists($folderpath) || $update)
         {
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if($catalog) return false;
+
+            $url = "";
+            $catalog = json_decode($catalog);
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
+                {
+                    foreach($language->resources as $resource)
+                    {
+                        if($resource->identifier == "tn")
+                        {
+                            foreach($resource->formats as $format)
+                            {
+                                $url = $format->url;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
             $ch = curl_init();
             
             curl_setopt($ch, CURLOPT_URL, $url);

@@ -77,13 +77,13 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
-            var tMode = typeof tMode != "undefined" ? tMode : "";
+            var t_mode = typeof tMode != "undefined" ? tMode : "";
             var data = {
                 eventID: eventID,
                 step: step,
                 chkMemberID: chkMemberID,
                 isChecker: isChecker,
-                tMode: tMode};
+                tMode: t_mode};
             this.emit('step enter', data);
             break;
 

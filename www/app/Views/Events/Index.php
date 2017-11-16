@@ -361,6 +361,7 @@ use Helpers\Session;
                     <?php $chk = $event->stage == "checking" ?>
                     <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>
                     <?php $add = $event->step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add; ?>
+                    <?php $memberID = !$chk ? $event->memberID : ($event->checkerID == Session::get("memberID") ? $event->memberID : "")?>
                     <div><?php echo __($event->step.$add) ?></div>
                 </div>
                 <div class="event_img">
@@ -401,7 +402,7 @@ use Helpers\Session;
                 </div>
             </div>
             <div class="event_action check1">
-                <div class="event_link"><a href="/events/checker<?php echo (in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "")."/".$event->eventID."/".$event->memberID ?>" data="<?php echo $event->eventID."_".$event->memberID?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link"><a href="/events/checker<?php echo (in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "")."/".$event->eventID."/".$memberID ?>" data="<?php echo $event->eventID."_".$event->memberID?>"><?php echo __("continue_alt") ?></a></div>
             </div>
 
             <div class="clear"></div>

@@ -3489,7 +3489,7 @@ class EventsController extends Controller
 
                         if(!empty($checker))
                         {
-                            $peerCheck = json_decode($checker[0]->peerCheck, true);
+                            $peerCheck = (array)json_decode($checker[0]->peerCheck, true);
                             $data["chapters"][$key]["checkerID"] = $otherCheck[$key]["checkerID"];
                             
                             if($otherCheck[$key]["done"])
