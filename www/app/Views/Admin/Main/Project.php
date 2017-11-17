@@ -181,7 +181,7 @@ if(!empty($data["project"])):
                         <button type="submit" name="deleteEvent" class="btn btn-danger"><?php echo __("delete"); ?></button>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button name="progressEvent" class="btn btn-success"><?php echo __("progress"); ?></button>
+                        <button name="progressEvent" data-mode="<?php echo $data["project"][0]->bookProject?>" class="btn btn-success"><?php echo __("progress"); ?></button>
                         <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
                         &nbsp;&nbsp;
                         <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>" disabled><?php echo __("clear_cache"); ?></button>
