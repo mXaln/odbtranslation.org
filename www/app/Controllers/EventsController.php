@@ -2501,6 +2501,11 @@ class EventsController extends Controller
                                         $chapters[$chapter["chapter"]] = $tmp;
                                     }
                                     
+                                    $chapters[$data["event"][0]->currentChapter]["checked"] = true;
+                                    $this->_model->updateChapter(["checked" => true], [
+                                        "eventID" => $data["event"][0]->eventID, 
+                                        "chapter" => $data["event"][0]->currentChapter]);
+                                    
                                     // Set all event translations as Done
                                     foreach ($translationData as $key => $chunk) {
                                         $tID = $chunk->tID;
@@ -2517,7 +2522,7 @@ class EventsController extends Controller
                                     }
                                     
                                     // Check if whole book is finished
-                                    if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum+1))
+                                    if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum+1, true))
                                         $this->_model->updateEvent([
                                             "state" => EventStates::TRANSLATED,
                                             "dateTo" => date("Y-m-d H:i:s", time())],
@@ -5421,13 +5426,14 @@ class EventsController extends Controller
         echo json_encode($response);
     }
 
-    public function checkBookFinished($chapters, $chaptersNum)
+    public function checkBookFinished($chapters, $chaptersNum, $tn = false)
     {
         if(isset($chapters) && is_array($chapters) && !empty($chapters))
         {
             $chaptersDone = 0;
             foreach ($chapters as $chapter) {
-                if(!empty($chapter) && $chapter["done"])
+                $chk = $tn ? "checked" : "done";
+                if(!empty($chapter) && $chapter[$chk])
                     $chaptersDone++;
             }
 
