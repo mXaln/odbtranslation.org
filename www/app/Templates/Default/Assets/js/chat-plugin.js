@@ -308,7 +308,8 @@
             else
             {
                 msgClass = 'msg_other';
-                msgName = data.member.userName;
+                msgName = typeof data.member.fullName != "undefined" 
+                    ? data.member.fullName : data.member.userName;
                 playMissed = true;
             }
 
@@ -537,7 +538,8 @@
             else
             {
                 msgClass = 'msg_other';
-                msgName = msgObj.member.userName; //msgObj.member.firstName + " " + msgObj.member.lastName;
+                msgName = typeof msgObj.member.fullName != "undefined" 
+                    ? msgObj.member.fullName : msgObj.member.userName;
             }
 
             if(lastMsg.attr("data") == msgObj.member.memberID)
