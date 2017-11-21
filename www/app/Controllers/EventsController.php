@@ -2497,6 +2497,7 @@ class EventsController extends Controller
                                         $tmp["memberID"] = $chapter["memberID"];
                                         $tmp["chunks"] = json_decode($chapter["chunks"], true);
                                         $tmp["done"] = $chapter["done"];
+                                        $tmp["checked"] = $chapter["checked"];
 
                                         $chapters[$chapter["chapter"]] = $tmp;
                                     }

@@ -839,7 +839,7 @@ class EventsModel extends Model
             {
                 $usfm = UsfmParser::parse($source);
                 if(!empty($usfm))
-                    Cache::add($cache_keyword, json_encode($usfm), 60*24*7);
+                    Cache::add($cache_keyword, json_encode($usfm), 60*24*365);
             }
         }
 
