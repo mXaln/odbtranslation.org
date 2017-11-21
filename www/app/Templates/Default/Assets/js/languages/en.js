@@ -86,5 +86,6 @@ var Language = {
     "hideHelp"                  : "Hide help",
     "showHelp"                  : "Show help",
     "notesPlaceholder"          : "Start writing text here...",
-    "cacheUpdated"              : "Cache has been successfully updated"
+    "cacheUpdated"              : "Cache has been successfully updated",
+    "books"                     : "books"
 };

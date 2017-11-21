@@ -399,6 +399,7 @@ return array (
     "type_translation" => "Modus Penerjemahan",
     "type_checking" => "Mode Pengecekan",
     "clear_cache" => "Perbarui Cache",
+    "update_cache_all" => "Perbarui Cache (all books)",
     "clear_cache_info" => "Perbarui teks sumber dalam cache.",
     "remove_checker" => "Remove checker",
     "chunk_verses" => "Verse(s): {0}",

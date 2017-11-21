@@ -446,6 +446,41 @@ $(function () {
         e.preventDefault();
     });
 
+    $("button[name=updateAllCache]").click(function (e) {
+        var $this = $(this);
+        var sourceLangID = $this.data("sourcelangid");
+        var bookProject = $this.data("bookproject");
+
+        $.ajax({
+            url: "/admin/rpc/update_all_cache",
+            method: "post",
+            data: {
+                sourceLangID: sourceLangID,
+                bookProject: bookProject
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $(".cacheLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(Language.cacheUpdated + ": " + data.booksUpdated + " " + Language.books);
+                }
+                else
+                    renderPopup(Language.commonError, function () {
+                        window.location.reload();
+                    }, function () {
+                        window.location.reload();
+                    });
+            })
+            .always(function() {
+                $(".cacheLoader").hide();
+            });
+        e.preventDefault();
+    });
+
     $("button[name=clearCache]").click(function (e) {
         var $this = $(this);
         var abbrID = $("#abbrID").val();

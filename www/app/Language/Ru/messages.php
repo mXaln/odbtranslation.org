@@ -400,6 +400,7 @@ return array (
     "type_translation" => "Режим перевода",
     "type_checking" => "Режим проверки",
     "clear_cache" => "Обновить кэш",
+    "update_cache_all" => "Обновить кэш (все книги)",
     "clear_cache_info" => "Обновить исходный текст в кэше.",
     "remove_checker" => "Удалить проверяющего",
     "chunk_verses" => "Стих(и): {0}",

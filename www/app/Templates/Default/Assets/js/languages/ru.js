@@ -86,5 +86,6 @@ var Language = {
     "hideHelp"                  : "Скрыть помощь",
     "showHelp"                  : "Показать помощь",
     "notesPlaceholder"          : "Начните вводить текст здесь...",
-    "cacheUpdated"              : "Кэш был успешно обеовлён"
+    "cacheUpdated"              : "Кэш был успешно обеовлён",
+    "books"                     : "книги"
 };

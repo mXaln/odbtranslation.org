@@ -615,40 +615,130 @@ class AdminController extends Controller {
         if(Cache::has($cache_keyword))
             Cache::forget($cache_keyword);
         
-        $this->_eventsModel->getCachedSourceBookFromApi(
+        $source = $this->_eventsModel->getCachedSourceBookFromApi(
                 $bookProject, 
                 $bookCode, 
                 $sourceLangID,
                 $abbrID);
 
-        // Words source
-        $cat_lang = $sourceLangID;
-        if($sourceLangID == "ceb")
-            $cat_lang = "en";
+        if($source)
+        {
+            // Words source
+            $cat_lang = $sourceLangID;
+            if($sourceLangID == "ceb")
+                $cat_lang = "en";
 
-        // Get catalog
-        $cat_cache_keyword = "catalog_".$bookCode."_".$cat_lang;
-        if(Cache::has($cat_cache_keyword))
-            Cache::forget($cat_cache_keyword);
+            // Get catalog
+            $cat_cache_keyword = "catalog_".$bookCode."_".$cat_lang;
+            if(Cache::has($cat_cache_keyword))
+                Cache::forget($cat_cache_keyword);
+
+            $cat_source = $this->_eventsModel->getTWcatalog($bookCode, $cat_lang);
+            $cat_json = json_decode($cat_source, true);
+
+            if(!empty($cat_json))
+                Cache::add($cat_cache_keyword, $cat_source, 60*24*365);
+
+            // Get keywords
+            $tw_cache_keyword = "tw_".$sourceLangID;
+            if(Cache::has($tw_cache_keyword))
+                Cache::forget($tw_cache_keyword);
+
+            $tw_source = $this->_eventsModel->getTWords($sourceLangID);
+            $tw_json = json_decode($tw_source, true);
+
+            if(!empty($tw_json))
+                Cache::add($tw_cache_keyword, $tw_source, 60*24*365);
+            
+            $response["success"] = true;
+        }
         
-        $cat_source = $this->_eventsModel->getTWcatalog($bookCode, $cat_lang);
-        $cat_json = json_decode($cat_source, true);
+        echo json_encode($response);
+    }
+    
+    public function updateAllBooksCache()
+    {
+        $response = ["success" => false];
 
-        if(!empty($cat_json))
-            Cache::add($cat_cache_keyword, $cat_source, 60*24*365);
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = "not_loggedin";
+            echo json_encode($response);
+            exit;
+        }
 
-        // Get keywords
-        $tw_cache_keyword = "tw_".$sourceLangID;
-        if(Cache::has($tw_cache_keyword))
-            Cache::forget($tw_cache_keyword);
+        if(!Session::get('isSuperAdmin'))
+        {
+            $response["error"] = "not_allowed";
+            echo json_encode($response);
+            exit;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
+        $bookProject = isset($_POST["bookProject"]) ? $_POST["bookProject"] : null;
         
-        $tw_source = $this->_eventsModel->getTWords($sourceLangID);
-        $tw_json = json_decode($tw_source, true);
+        $booksUpdated = 0;
+        
+        if($sourceLangID && $bookProject)
+        {
+            $books = $this->_eventsModel->getBooks();
+            
+            foreach ($books as $book)
+            {
+                $bookCode = $book->code;
+                $abbrID = $book->abbrID;
+                
+                // Book source
+                $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject."_usfm";
 
-        if(!empty($tw_json))
-            Cache::add($tw_cache_keyword, $tw_source, 60*24*365);
+                if(Cache::has($cache_keyword))
+                    Cache::forget($cache_keyword);
 
-        $response["success"] = true;
+                $source = $this->_eventsModel->getCachedSourceBookFromApi(
+                        $bookProject, 
+                        $bookCode, 
+                        $sourceLangID,
+                        $abbrID);
+
+                if($source)
+                {
+                    // Words source
+                    $cat_lang = $sourceLangID;
+                    if($sourceLangID == "ceb")
+                        $cat_lang = "en";
+
+                    // Get catalog
+                    $cat_cache_keyword = "catalog_".$bookCode."_".$cat_lang;
+                    if(Cache::has($cat_cache_keyword))
+                        Cache::forget($cat_cache_keyword);
+
+                    $cat_source = $this->_eventsModel->getTWcatalog($bookCode, $cat_lang);
+                    $cat_json = json_decode($cat_source, true);
+
+                    if(!empty($cat_json))
+                        Cache::add($cat_cache_keyword, $cat_source, 60*24*365);
+
+                    // Get keywords
+                    $tw_cache_keyword = "tw_".$sourceLangID;
+                    if(Cache::has($tw_cache_keyword))
+                        Cache::forget($tw_cache_keyword);
+
+                    $tw_source = $this->_eventsModel->getTWords($sourceLangID);
+                    $tw_json = json_decode($tw_source, true);
+
+                    if(!empty($tw_json))
+                        Cache::add($tw_cache_keyword, $tw_source, 60*24*365);
+
+                    $response["success"] = true;
+                    $booksUpdated++;
+                }
+            }
+        }
+        
+        $response["booksUpdated"] = $booksUpdated;
+        
         echo json_encode($response);
     }
 

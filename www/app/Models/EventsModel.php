@@ -696,20 +696,26 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-	
-	public function getBooksOfTranslators()
-	{
-		return $this->db->table("chapters")
-			->select(["members.userName", "members.firstName", "members.lastName",
-                "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
-                "projects.bookProject", "projects.targetLang"])
-			->leftJoin("members", "chapters.memberID", "=", "members.memberID")
-			->leftJoin("events", "chapters.eventID", "=", "events.eventID")
-            ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
-			->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
-			->orderBy("members.userName")
-			->get();
-	}
+    public function getBooks()
+    {
+        return $this->db->table("abbr")
+            ->orderBy("abbrID")
+            ->get();
+    }
+
+    public function getBooksOfTranslators()
+    {
+            return $this->db->table("chapters")
+                    ->select(["members.userName", "members.firstName", "members.lastName",
+            "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
+            "projects.bookProject", "projects.targetLang"])
+                    ->leftJoin("members", "chapters.memberID", "=", "members.memberID")
+                    ->leftJoin("events", "chapters.eventID", "=", "events.eventID")
+        ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
+                    ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+                    ->orderBy("members.userName")
+                    ->get();
+    }
 
     public function getEventMemberInfo($eventID, $memberID)
     {

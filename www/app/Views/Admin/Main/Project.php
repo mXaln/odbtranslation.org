@@ -24,7 +24,13 @@ if(!empty($data["project"])):
                     <li role="presentation"><a href="#new_test"><?php echo __("new_test") ?></a></li>
                 </ul>
             </div>
-            <div class="add-event-btn col-sm-6"></div>
+            <div class="add-event-btn col-sm-5">
+                <img class="cacheLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
+                <button style="margin-top: 12px" class="btn btn-danger" 
+                        name="updateAllCache"
+                        data-sourcelangid="<?php echo $data["project"][0]->sourceLangID ?>"
+                        data-bookproject="<?php echo $data["project"][0]->sourceBible ?>"><?php echo __("update_cache_all") ?></button>
+            </div>
         </div>
 
         <?php foreach($data["events"] as $event): ?>

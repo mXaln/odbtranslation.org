@@ -402,6 +402,7 @@ return array (
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
     "clear_cache" => "Update Cache",
+    "update_cache_all" => "Update Cache (all books)",
     "clear_cache_info" => "Update source text in cache.",
     "remove_checker" => "Remove checker",
     "chunk_verses" => "Verse(s): {0}",

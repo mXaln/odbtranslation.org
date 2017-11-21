@@ -3907,3 +3907,8 @@ button.startEvnt, button.editEvnt {
     width: 200px;
     margin-right: 40%;
 }
+
+.cacheLoader {
+    margin: 12px 10px 0 0;
+    display: none;
+}

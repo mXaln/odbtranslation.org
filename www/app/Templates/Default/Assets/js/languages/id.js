@@ -16,7 +16,7 @@ var Language = {
     "checkerApproved"           : "Pemeriksa telah menyetujui langkah ini!",
     "assign"                    : "Tugaskan",
     "chapters"                  : "Pasal-pasal",
-	"newUsersApplyed"           : "Anggota-anggota telah didaftarkan",
+    "newUsersApplyed"           : "Anggota-anggota telah didaftarkan",
     "deleteChapterConfirm"      : "Keluarkan pasal ini dari penerjemah?",
     "deleteChapterConfirmTitle" : "Keluarkan pasal",
     "resetPairConfirm"          : "Apakah Anda ingin mengembalikan pasangan ini?",
@@ -28,8 +28,8 @@ var Language = {
     "startTranslationConfirm"   : "Apakah Anda yakin untuk memulai kegiatan ini?",
     "makeChunk"                 : "Buat chunk",
     "noNotifsMsg"               : "Tidak ada pemberitahuan",
-	"seeAll"                    : "Lihat semua",
-	"calling"                   : "Memanggil...",
+    "seeAll"                    : "Lihat semua",
+    "calling"                   : "Memanggil...",
     "incommingCall"             : "Panggilan datang dari",
     "callTimeout"               : "Tidak ada jawaban dari pemakai",
     "audioChatWith"             : "Obrolan suara dengan",
@@ -78,7 +78,7 @@ var Language = {
     "checkerConfirm"            : "Pastikan bahwa Anda telah selesai pemeriksaan dan terhubung dengan penerjemah Anda. Penerjemah harus membuat perubahan pada teks mereka. Setelah Anda memastikan pasal ini telah diperiksa, penerjemah tidak dapat mengubah teks mereka pada langkah ini. Pastikan pemeriksaan?",
     "attention"                 : "Perhatian",
     "removeCheckerConfirm"      : "Apakah Anda juga ingin mengeluarkan pemeriksa yang ditugaskan untuk pasal ini? Jika anda klik \"No\", penerjemah akan kembali ke langkah pemeriksaan sebelumnya dan pemeriksanya tetap.",
-	"connectionLostMessage"     : "Internet connection lost. You can't leave this page until connection is up.",
+    "connectionLostMessage"     : "Internet connection lost. You can't leave this page until connection is up.",
     "commonError"               : "Terjadi kesalahan. Bisa jadi karena kesalahan pada server atau tidak adanya koneksi internet. Mohon, coba lagi.",
     "add"                       : "Tambah",
     "addedSuccess"              : "Anggota telah ditambahkan pada kegiatan!",
@@ -86,5 +86,6 @@ var Language = {
     "hideHelp"                  : "Hide help",
     "showHelp"                  : "Show help",
     "notesPlaceholder"          : "Start writing text here...",
-    "cacheUpdated"              : "Cache has been successfully updated"
+    "cacheUpdated"              : "Cache has been successfully updated",
+    "books"                     : "books"
 }
