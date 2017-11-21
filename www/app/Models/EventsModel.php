@@ -750,59 +750,41 @@ class EventsModel extends Model
     public function getSourceBookFromApi($bookProject, $bookCode, $sourceLang = "en", $bookNum = 0)
     {
         $url = "";
-        switch ($sourceLang)
+        if(File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-".$sourceLang."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"))
         {
-            case "ceb":
-                $url = template_url("tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-ceb/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
-                break;
+            $url = template_url("tmp/".$bookProject."-".$sourceLang."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+        }
+        else
+        {
+            $catalog = $this->getCachedFullCatalog();
+            if(!$catalog) return false;
 
-            case "hwc":
-                $url = template_url("tmp/".$bookProject."-hwc/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-hwc/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
-                break;
+            $catalog = json_decode($catalog);
+            //Data::pr($catalog);
 
-            case "id":
-                $url = template_url("tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-id/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
-                break;
-
-            case "pmy":
-                $url = template_url("tmp/".$bookProject."-pmy/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
-                if(!File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-pmy/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm")) $url = "";
-                break;
-
-            default:
-                $catalog = $this->getCachedFullCatalog();
-                if(!$catalog) return false;
-
-                $catalog = json_decode($catalog);
-                //Data::pr($catalog);
-
-                foreach($catalog->languages as $language)
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $sourceLang)
                 {
-                    if($language->identifier == $sourceLang)
+                    foreach($language->resources as $resource)
                     {
-                        foreach($language->resources as $resource)
+                        if($resource->identifier == $bookProject)
                         {
-                            if($resource->identifier == $bookProject)
+                            foreach($resource->projects as $project)
                             {
-                                foreach($resource->projects as $project)
+                                if($project->identifier == $bookCode)
                                 {
-                                    if($project->identifier == $bookCode)
+                                    foreach($project->formats as $format)
                                     {
-                                        foreach($project->formats as $format)
-                                        {
-                                            $url = $format->url;
-                                            break;
-                                        }
+                                        $url = $format->url;
+                                        break;
                                     }
                                 }
                             }
                         }
                     }
                 }
-                break;
+            }
         }
         
         if($url == "") return false;
@@ -907,7 +889,6 @@ class EventsModel extends Model
             $langsFinal[] = $tmp;
         }
 
-       //Data::pr($langsFinal); exit;
        foreach($langsFinal as $lnf)
        {
             $data = [];
