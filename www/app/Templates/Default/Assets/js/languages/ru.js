@@ -85,5 +85,6 @@ var Language = {
     "leaveit"                   : "Оставить как есть",
     "hideHelp"                  : "Скрыть помощь",
     "showHelp"                  : "Показать помощь",
-    "notesPlaceholder"          : "Начните вводить текст здесь..."
+    "notesPlaceholder"          : "Начните вводить текст здесь...",
+    "cacheUpdated"              : "Кэш был успешно обеовлён"
 };

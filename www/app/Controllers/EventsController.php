@@ -5564,7 +5564,6 @@ class EventsController extends Controller
             $data["event"][0]->sourceLangID,
             $data["event"][0]->abbrID);
         
-            
         if($usfm && !empty($usfm["chapters"]))
         {
             $initChapter = $data["event"][0]->bookProject != "tn" ? 0 : -1;
@@ -5647,7 +5646,7 @@ class EventsController extends Controller
 
                 $data["text"] = $currentChunkText;
             }
-
+            
             return $data;
         }
         else
@@ -5693,7 +5692,7 @@ class EventsController extends Controller
                     $tmp = [];
                     $chunkNo = 0;
 
-                    if($data["text"] != "")
+                    if(isset($data["text"]) && $data["text"] != "")
                     {
                         foreach($data["text"] as $v => $text)
                         {
@@ -5718,6 +5717,7 @@ class EventsController extends Controller
                     }
                     else 
                     {
+                        $data["no_chunk_source"] = true;
                         $data["nosource"] = true;
                     }
                 }

@@ -339,7 +339,6 @@ $(function () {
     $(".editEvnt").click(function () {
         var bookCode = $(this).attr("data");
         var eventID = $(this).attr("data2");
-        var hasCache = $(this).attr("data3");
         var abbrID = $(this).attr("data4");
 
         $("#eID").val(eventID);
@@ -351,9 +350,6 @@ $(function () {
         $("#bookCode").val(bookCode);
         $("button[name=deleteEvent]").show();
         $(".delinput").hide();
-
-        $("button[name=clearCache]").prop("disabled", false);
-        if(!hasCache) $("button[name=clearCache]").prop("disabled", true);
 
         $.ajax({
             url: "/admin/rpc/get_event",
@@ -474,8 +470,7 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    $this.prop("disabled", true);
-                    $("button[data="+bookCode+"]").attr("data3", "");
+                    renderPopup(Language.cacheUpdated);
                 }
                 else
                     renderPopup(Language.commonError, function () {

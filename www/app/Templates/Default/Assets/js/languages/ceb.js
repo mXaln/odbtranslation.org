@@ -81,5 +81,6 @@ var Language = {
     "leaveit"                   : "Leave it as it is",
     "hideHelp"                  : "Hide help",
     "showHelp"                  : "Show help",
-    "notesPlaceholder"          : "Start writing text here..."
+    "notesPlaceholder"          : "Start writing text here...",
+    "cacheUpdated"              : "Cache has been successfully updated"
 };
