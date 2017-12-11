@@ -60,9 +60,9 @@ if(!empty($data["project"])):
                 <?php endif; ?>
                         <tr>
                             <td><?php echo $event->name ?></td>
-                            <td><?php echo $event->translators . "/" . (integer)$event->translatorsNum ?></td>
-                            <td><?php echo $event->checkers_l2 . "/" . (integer)$event->l2CheckersNum ?></td>
-                            <td><?php echo $event->checkers_l3 . "/" . (integer)$event->l3CheckersNum ?></td>
+                            <td><?php echo $event->translators ?></td>
+                            <td><?php echo $event->checkers_l2 ?></td>
+                            <td><?php echo $event->checkers_l3 ?></td>
                             <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
                                 date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>">
                                 <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom . " UTC" : "" ?></td>
@@ -129,36 +129,6 @@ if(!empty($data["project"])):
             <div class="row">
                 <div class="col-sm-12">
                     <form action="/admin/rpc/create_event" method="post" id="startEvent">
-                        <div class="form-group row numbersGroup">
-                            <div class="col-sm-3 participantsNum">
-                                <label for="translators" style="width: 100%; display: block"><?php echo __('translators'); ?></label>
-                                <input type="text" class="form-control" id="translators" name="translators" size="3" value="<?php if(isset($error)){ echo $_POST['translators']; } ?>">
-                                <img src="<?php echo template_url("img/note.png")?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('max_translators'); ?>">
-                            </div>
-                            <div class="col-sm-3 participantsNum">
-                                <label for="checkers_l2" style="width: 100%; display: block"><?php echo __('level', [2]); ?></label>
-                                <input type="text" class="form-control" id="checkers_l2" name="checkers_l2" size="3" value="<?php if(isset($error)){ echo $_POST['checkers_l2']; } ?>">
-                                <img src="<?php echo template_url("img/note.png")?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('max_checkers_l2'); ?>">
-                            </div>
-                            <div class="col-sm-3 participantsNum">
-                                <label for="checkers_l3" style="width: 100%; display: block"><?php echo __('level', [3]); ?></label>
-                                <input type="text" class="form-control" id="checkers_l3" name="checkers_l3" size="3" value="<?php if(isset($error)){ echo $_POST['checkers_l3']; } ?>">
-                                <img src="<?php echo template_url("img/note.png")?>" data-toggle="tooltip" data-placement="right" title="<?php echo __('max_checkers_l3'); ?>">
-                            </div>
-                        </div>
-
-                        <!--
-                        <div class="form-group">
-                            <label for="cal_from" style="width: 100%; display: block"><?php echo __('time_start'); ?></label>
-                            <input type="text" class="form-control" id="cal_from" name="cal_from" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_from']; } ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="cal_to" style="width: 100%; display: block"><?php echo __('time_end'); ?></label>
-                            <input type="text" class="form-control" id="cal_to" name="cal_to" autocomplete="off" value="<?php if(isset($error)){ echo $_POST['cal_to']; } ?>">
-                        </div>
-                        -->
-
                         <div class="form-group" style="width: 450px;">
                             <label for="adminsSelect" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
                             <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo __("add_admins_by_username") ?>">
@@ -179,8 +149,10 @@ if(!empty($data["project"])):
                         <input type="hidden" name="bookProject" id="bookProject" value="<?php echo $data["project"][0]->sourceBible?>" />
                         <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
 
-                        <br><br>
+                        <br>
 
+                        <label><?php echo __("translation_event") ?></label>
+                        <br>
                         <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create"); ?></button>
                         <button type="submit" name="deleteEvent" class="btn btn-danger"><?php echo __("delete"); ?></button>
 
@@ -189,6 +161,17 @@ if(!empty($data["project"])):
                         <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
                         &nbsp;&nbsp;
                         <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
+                        
+                        <div class="l2_buttons">
+                            <br>
+                            <label><?php echo __("l2_event") ?></label>
+                            <br>
+                            <button type="submit" name="startL2Event" class="btn btn-primary"><?php echo __("create"); ?></button>
+                            
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button name="progressL2Event" data-mode="<?php echo $data["project"][0]->bookProject?>" class="btn btn-success"><?php echo __("progress"); ?></button>
+                            <button name="manageL2Event" class="btn btn-warning"><?php echo __("manage"); ?></button>
+                        </div>
                         <img class="startEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                     </form>
                 </div>

@@ -46,7 +46,11 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-tn/{eventID}", "EventsController@informationNotes")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-l2/{eventID}", "EventsController@informationL2")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("manage-l2/{eventID}", "EventsController@manageL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker/{eventID}/{memberID}", "EventsController@checker")
         ->where([

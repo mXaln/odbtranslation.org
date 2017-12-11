@@ -14,6 +14,7 @@ use Helpers\Url;
 use App\Models\EventsModel;
 use App\Models\MembersModel;
 use Helpers\Password;
+use Helpers\Constants\EventStates;
 
 class AdminController extends Controller {
 
@@ -836,11 +837,6 @@ class AdminController extends Controller {
 
         $bookCode = isset($_POST['book_code']) && $_POST['book_code'] != "" ? $_POST['book_code'] : null;
         $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : null;
-        $translators = isset($_POST['translators']) && $_POST['translators'] != "" ? (integer)$_POST['translators'] : null;
-        $checkers_l2 = isset($_POST['checkers_l2']) && $_POST['checkers_l2'] != "" ? (integer)$_POST['checkers_l2'] : null;
-        $checkers_l3 = isset($_POST['checkers_l3']) && $_POST['checkers_l3'] != "" ? (integer)$_POST['checkers_l3'] : null;
-        //$dateFrom = isset($_POST['cal_from']) && $_POST['cal_from'] != "" ? $_POST['cal_from'] : null;
-        //$dateTo = isset($_POST['cal_to']) && $_POST['cal_to'] != "" ? $_POST['cal_to'] : null;
         $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : [];
         $act = isset($_POST['act']) && preg_match("/^(create|edit|delete)$/", $_POST['act']) ? $_POST['act'] : "create";
 
@@ -853,31 +849,6 @@ class AdminController extends Controller {
         {
             $error[] = __('wrong_project_id');
         }
-
-        if($translators == null || $translators <= 0)
-        {
-            $error[] = __('enter_translators');
-        }
-
-        if($checkers_l2 == null || $checkers_l2 <= 0)
-        {
-            $error[] = __('enter_checkers_l2');
-        }
-
-        if($checkers_l3 == null || $checkers_l3 <= 0)
-        {
-            $error[] = __('enter_checkers_l3');
-        }
-
-        /*if($dateFrom == null || $dateFrom === false)
-        {
-            $error[] = __('wrong_date_from');
-        }
-
-        if($dateTo == null || $dateTo === false)
-        {
-            $error[] = __('wrong_date_to');
-        }*/
 
         if(empty($admins))
         {
@@ -893,18 +864,17 @@ class AdminController extends Controller {
             );
 
             $postdata = [
-                "translatorsNum" => $translators,
-                "l2CheckersNum" => $checkers_l2,
-                "l3CheckersNum" => $checkers_l3,
                 "dateFrom" => date("Y-m-d H:i:s", strtotime("0000-00-00")),
                 "dateTo" => date("Y-m-d H:i:s", strtotime("0000-00-00")),
                 "admins" => json_encode($admins),
             ];
-
+            
             switch($act)
             {
                 case "create":
-                    if(!empty($exist))
+                    if(!empty($exist) && 
+                            $exist[0]->state != EventStates::TRANSLATED &&
+                            $exist[0]->state != EventStates::L2_CHECKED)
                     {
                         $error[] = __("event_already_exists");
                         echo json_encode(array("error" => Error::display($error)));
@@ -941,8 +911,26 @@ class AdminController extends Controller {
                             foreach ($admins as $admin) {
                                 $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
                             }
-    
-                            $eventID = $this->_eventsModel->createEvent($postdata);
+                               
+                            // Create(change state) L2 event
+                            if(empty($exist))
+                            {
+                                $eventID = $this->_eventsModel->createEvent($postdata);
+                                
+                            }
+                            else
+                            {
+                                if($exist[0]->state == EventStates::TRANSLATED)
+                                {
+                                    $postdata["state"] = EventStates::L2_RECRUIT;
+                                }
+                                else
+                                {
+                                    $postdata["state"] = EventStates::L3_RECRUIT;
+                                }
+                                $eventID = $this->_eventsModel->updateEvent($postdata, ["projectID" => $projectID, "bookCode" => $bookCode]);
+                            }
+                            
     
                             if($eventID)
                                 echo json_encode(array("success" => __("successfully_created")));

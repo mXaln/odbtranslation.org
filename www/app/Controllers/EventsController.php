@@ -3734,6 +3734,81 @@ class EventsController extends Controller
             ->shares("data", $data)
             ->shares("error", @$error);
     }
+    
+    
+    public function manageL2($eventID)
+    {
+        if (!Session::get('isAdmin') && !Session::get("isSuperAdmin"))
+        {
+            Url::redirect("events");
+        }
+
+        $data["menu"] = 1;
+        $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID, Session::get("isSuperAdmin"));
+        
+        if(!empty($data["event"]))
+        {
+            $superadmins = (array)json_decode($data["event"][0]->superadmins, true);
+            if(Session::get("isSuperAdmin") && !in_array(Session::get("memberID"), $superadmins))
+                Url::redirect("events");
+            
+            if($data["event"][0]->state != EventStates::L2_RECRUIT && 
+                $data["event"][0]->state != EventStates::L2_CHECK &&
+                $data["event"][0]->state != EventStates::L2_CHECKED)
+            {
+                Url::redirect("events");
+            }
+            
+            $data["chapters"] = [];
+            
+            for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
+            {
+                $data["chapters"][$i] = [];
+            }
+
+            $chapters = $this->_model->getChapters($data["event"][0]->eventID);
+
+            foreach ($chapters as $chapter) {
+                if($chapter["l2memberID"] == 0) continue;
+                
+                $tmp["l2chID"] = $chapter["l2chID"];
+                $tmp["l2memberID"] = $chapter["l2memberID"];
+                $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                $tmp["done"] = $chapter["done"];
+
+                $data["chapters"][$chapter["chapter"]] = $tmp;
+            }
+
+            $data["members"] = $this->_model->getMembersForL2Event($data["event"][0]->eventID, $data["event"][0]->bookProject);
+            
+            if (isset($_POST) && !empty($_POST)) {
+                if(!empty(array_filter($data["chapters"])))
+                {
+                    $updated = $this->_model->updateEvent(
+                        array(
+                            "state" => EventStates::L2_CHECK,
+                            /*"dateFrom" => date("Y-m-d H:i:s", time())*/),
+                            array("eventID" => $eventID));
+                    if($updated)
+                        Url::redirect("events/manage/".$eventID);
+                }
+                else
+                {
+                    $error[] = __("event_chapters_error");
+                }
+            }
+        }
+        else
+        {
+            $error[] = __("empty_or_not_permitted_event_error");
+        }
+
+        $data["notifications"] = $this->_notifications;
+        return View::make('Events/L2/Manage')
+            ->shares("title", __("manage_event"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
+    }
 
 
     public function moveStepBack()

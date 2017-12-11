@@ -71,10 +71,9 @@ use Helpers\Session;
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl2Cnt;
-                    $totalMembers = $event->l2CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l2/".$event->eventID;
+                    $progressLink = "/events/information-l2/".$event->eventID;
                     break;
 
                 case EventStates::L3_RECRUIT:
@@ -84,10 +83,9 @@ use Helpers\Session;
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl3Cnt;
-                    $totalMembers = $event->l3CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l3/".$event->eventID;
+                    $progressLink = "/events/information-l3/".$event->eventID;
                     break;
 
                 default:
@@ -97,7 +95,6 @@ use Helpers\Session;
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
-                    $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
@@ -152,7 +149,7 @@ use Helpers\Session;
                     <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
                     <div class="event_members">
                         <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                        <div class="trs_num"><?php echo $currentMembers ?></div>
                     </div>
                 </div>
 
@@ -177,10 +174,9 @@ use Helpers\Session;
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl2Cnt;
-                    $totalMembers = $event->l2CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l2/".$event->eventID;
+                    $progressLink = "/events/information-l2/".$event->eventID;
                     break;
 
                 case EventStates::L3_RECRUIT:
@@ -190,10 +186,9 @@ use Helpers\Session;
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl3Cnt;
-                    $totalMembers = $event->l3CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l3/".$event->eventID;
+                    $progressLink = "/events/information-l3/".$event->eventID;
                     break;
 
                 default:
@@ -203,7 +198,6 @@ use Helpers\Session;
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
-                    $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
@@ -258,7 +252,7 @@ use Helpers\Session;
                     <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
                     <div class="event_members">
                         <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                        <div class="trs_num"><?php echo $currentMembers ?></div>
                     </div>
                 </div>
 
@@ -338,7 +332,7 @@ use Helpers\Session;
                 </div>
                 <div class="event_members">
                     <div><?php echo __("translators") ?></div>
-                    <div class="trs_num"><?php echo $event->currTrs."/".$event->translatorsNum ?></div>
+                    <div class="trs_num"><?php echo $event->currTrs ?></div>
                 </div>
             </div>
 
@@ -528,7 +522,6 @@ use Helpers\Session;
                 $logoBorderClass = "checkingl2";
                 $bgColor = "lemon-marked";
                 $currentMembers = $event->chl2Cnt;
-                $totalMembers = $event->l2CheckersNum;
                 $members = __("checkers");
                 $stage = "l2";
                 break;
@@ -540,7 +533,6 @@ use Helpers\Session;
                 $logoBorderClass = "checkingl3";
                 $bgColor = "blue-marked";
                 $currentMembers = $event->chl3Cnt;
-                $totalMembers = $event->l3CheckersNum;
                 $members = __("checkers");
                 $stage = "l3";
                 break;
@@ -552,7 +544,6 @@ use Helpers\Session;
                 $logoBorderClass = "translation";
                 $bgColor = "green-marked";
                 $currentMembers = $event->trsCnt;
-                $totalMembers = $event->translatorsNum;
                 $members = __("translators");
                 $stage = "d1";
                 break;
@@ -602,7 +593,7 @@ use Helpers\Session;
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="#" class="applyEvent <?php echo $currentMembers == $totalMembers ? "eventFull" : "" ?>"
+                    <a href="#" class="applyEvent"
                        data="<?php echo $event->eventID ?>"
                        data2="<?php echo $event->name ?>"
                        data3="<?php echo $stage ?>">
@@ -611,7 +602,7 @@ use Helpers\Session;
                 </div>
                 <div class="event_members">
                     <div><?php echo $members ?></div>
-                    <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                    <div class="trs_num"><?php echo $currentMembers ?></div>
                 </div>
             </div>
 

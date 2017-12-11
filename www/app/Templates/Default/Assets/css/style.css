@@ -2888,7 +2888,7 @@ div[class^="member_usname mid"] {
     font-size: 22px;
     font-weight: bold;
     border-radius: 5px;
-    text-align: center;
+    /*text-align: center;*/
     height: 40px;
     color: #ff8400;
     padding-top: 5px;
@@ -3910,5 +3910,9 @@ button.startEvnt, button.editEvnt {
 
 .cacheLoader {
     margin: 12px 10px 0 0;
+    display: none;
+}
+
+.l2_buttons {
     display: none;
 }

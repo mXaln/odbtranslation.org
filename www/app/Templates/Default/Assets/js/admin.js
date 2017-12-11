@@ -217,6 +217,8 @@ $(function () {
 
         $("button[name=startEvent]").text(Language.create);
         $("button[name=deleteEvent]").hide();
+        $("button[name=progressEvent]").hide();
+        $("button[name=manageEvent]").hide();
         $(".delinput").hide();
         $("#startEvent").trigger("reset");
         $("#eventAction").val("create");
@@ -232,7 +234,7 @@ $(function () {
     });
 
     // ------------------ DateTimePicker functionality ------------------- //
-    if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")
+    /*if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")
     {
         var timeFormat;
         var timezoneList = [
@@ -302,7 +304,7 @@ $(function () {
                     $( "#cal_from" ).datepicker( "option", "maxDate", selectedDate );
             }
         });
-    }
+    }*/
 
     // Submit event form
     $("#startEvent").submit(function(e) {
@@ -349,6 +351,8 @@ $(function () {
         $("#abbrID").val(abbrID);
         $("#bookCode").val(bookCode);
         $("button[name=deleteEvent]").show();
+        $("button[name=progressEvent]").show();
+        $("button[name=manageEvent]").show();
         $(".delinput").hide();
 
         $.ajax({
@@ -364,21 +368,27 @@ $(function () {
                 if(data.success)
                 {
                     $("button[name=startEvent]").text(Language.save);
-
-                    $("#translators").val(data.event.translatorsNum);
-                    $("#checkers_l2").val(data.event.l2CheckersNum);
-                    $("#checkers_l3").val(data.event.l3CheckersNum);
-
-                    var dateFrom = data.event.dateFrom.replace(/(\d{4})-(\d{1,2})-(\d{1,2})(.*)/, function(match,y,m,d,t) {
-                        return m + '/' + d + '/' + y + " " + t;
-                    });
-
-                    var dateTo = data.event.dateTo.replace(/(\d{4})-(\d{1,2})-(\d{1,2})(.*)/, function(match,y,m,d,t) {
-                        return m + '/' + d + '/' + y + " " + t;
-                    });
-
-                    $('#cal_from').datetimepicker('setDate', new Date(dateFrom + " UTC"));
-                    $('#cal_to').datetimepicker('setDate', new Date(dateTo + " UTC"));
+                    if(EventStates.states[data.event.state] >= EventStates.states.translated)
+                    {
+                        $(".l2_buttons").show();
+                        if(EventStates.states[data.event.state] < EventStates.states.l2_recruit)
+                        {
+                            $("#eventAction").val("create");
+                            $("button[name=progressL2Event]").hide();
+                            $("button[name=manageL2Event]").hide();
+                        }
+                        else
+                        {
+                            $("button[name=startL2Event]").text(Language.save);
+                            $("button[name=startEvent]").prop("disabled", true);
+                            $("button[name=progressL2Event]").show();
+                            $("button[name=manageL2Event]").show();
+                        }
+                    }
+                    else
+                    {
+                        $(".l2_buttons").hide();
+                    }
 
                     $(".bookName").text(data.event.name);
                     $(".book_info_content").html(
@@ -439,10 +449,22 @@ $(function () {
         window.location = "/events/information"+add+"/"+eventID;
         e.preventDefault();
     });
+    
+    $("button[name=progressL2Event]").click(function (e) {
+        var eventID = $("#eID").val();
+        window.location = "/events/information-l2/"+eventID;
+        e.preventDefault();
+    });
 
     $("button[name=manageEvent]").click(function (e) {
         var eventID = $("#eID").val();
         window.location = "/events/manage/"+eventID;
+        e.preventDefault();
+    });
+    
+    $("button[name=manageL2Event]").click(function (e) {
+        var eventID = $("#eID").val();
+        window.location = "/events/manage-l2/"+eventID;
         e.preventDefault();
     });
 
@@ -869,7 +891,19 @@ $(function () {
 
 
 // --------------- Variables ---------------- //
-
+var EventStates = {
+    states: {
+        "started": 0,
+        "translating": 1,
+        "translated": 2,
+        "l2_recruit": 3,
+        "l2_check": 4,
+        "l2_checked": 5,
+        "l3_recruit": 6,
+        "l3_check": 7,
+        "complete": 8
+    }
+};
 
 
 // --------------- Functions ---------------- //

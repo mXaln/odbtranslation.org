@@ -244,7 +244,7 @@ class EventsModel extends Model
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, " 
             : "")
                 ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, "
-                ."evnt.dateTo, evnt.translatorsNum, evnt.admins, "
+                ."evnt.dateTo, evnt.admins, "
                 .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, "
@@ -427,7 +427,6 @@ class EventsModel extends Model
                     "LEFT JOIN ".PREFIX."checkers_l3 AS chl3 ON (chl3.eventID = evnt.eventID AND chl3.memberID = :memberID) " : "").
                 "WHERE (evnt.state = :state OR evnt.state = :state1 OR evnt.state = :state2 OR evnt.state = :state3) ".
                     "AND (proj.gwLang IN ($in) OR proj.targetLang IN ($in)) ".
-                    "AND (SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) < evnt.translatorsNum ".
                     //"AND DATE(evnt.dateTo) > NOW() ".
                 ($memberID ?
                     "AND (trs.memberID IS NULL AND chl2.memberID IS NULL AND chl3.memberID IS NULL) " : "").
@@ -457,6 +456,20 @@ class EventsModel extends Model
             ->select("translators.*", "members.userName", "members.firstName", "members.lastName")
             ->leftJoin("members", "translators.memberID", "=", "members.memberID")
             ->where("translators.eventID", $eventID);
+
+        $res = $builder->orderBy("members.userName")->get();
+        $this->db->setFetchMode(PDO::FETCH_CLASS);
+
+        return $res;
+    }
+    
+    public function getMembersForL2Event($eventID)
+    {       
+        $this->db->setFetchMode(PDO::FETCH_ASSOC);
+        $builder = $this->db->table("checkers_l2")
+            ->select("checkers_l2.*", "members.userName", "members.firstName", "members.lastName")
+            ->leftJoin("members", "checkers_l2.memberID", "=", "members.memberID")
+            ->where("checkers_l2.eventID", $eventID);
 
         $res = $builder->orderBy("members.userName")->get();
         $this->db->setFetchMode(PDO::FETCH_CLASS);

@@ -331,9 +331,7 @@ return array (
     "checker_view" => "Checker View",
     "translator_view" => "Translator View",
     "progress_all" => "Overall Progress",
-    "people_number" => "People (<span>{0}</span> of {1})",
-    "pairs_number" => "Pairs (<span>{0}</span>)",
-    "pair_number" => "Pair {0}",
+    "people_number" => "People: <span>{0}</span>",
     "add_person" => "Assign chapter",
     "add_translator" => "Add translators/checkers",
     "add_checker" => "Add checker",
@@ -343,6 +341,7 @@ return array (
     "assign" => "Assign",
     "check_pair_members" => "Check members to create pair",
     "start_translation" => "Start translation",
+    "start_checking" => "Start Checking",
     "checkers_l2" => "Level 2 checkers",
     "max_checkers_l2" => "The number of Level 2 checkers",
     "checkers_l3" => "Level 3 checkers",
@@ -411,6 +410,8 @@ return array (
     "hide_help" => "Hide help",
     "show_help" => "Show help",
     "copy" => "Copy",
+    "translation_event" => "Translation:",
+    "l2_event" => "Level 2 check",
     
     // Steps
     "pray" => "Preparation: Prayer",

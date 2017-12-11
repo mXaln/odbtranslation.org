@@ -330,9 +330,7 @@ return array (
     "checker_view" => "Paglantaw sa Tigsusi",
     "translator_view" => "Paglantaw sa Tighubad",
     "progress_all" => "Kinatibuk-ang Pag-uswag",
-    "people_number" => "Katawhan(<span>{0}</span> of {1})",
-    "pairs_number" => "Mga Kapares",
-    "pair_number" => "Pares",
+    "people_number" => "Katawhan: <span>{0}</span>",
     "add_person" => "Ipabuhat nga Kapitulo",
     "add_translator" => "Add translators",
     "add_checker" => "Add checker",
@@ -342,6 +340,7 @@ return array (
     "assign" => "Ipabuhat",
     "check_pair_members" => "I-tsek ang mga miyembro aron makabuhat og pares",
     "start_translation" => "Pagsugod sa Paghubad",
+    "start_checking" => "Start Checking",
     "checkers_l2" => "Tigsusi sa ikaduhang ang-ang",
     "max_checkers_l2" => "Kadaghanon sa Tigsusi sa Ikaduhang Ang-ang",
     "checkers_l3" => "Tigsusi sa ikatulong ang-ang",
@@ -410,6 +409,8 @@ return array (
     "hide_help" => "Hide help",
     "show_help" => "Show help",
     "copy" => "Copy",
+    "translation_event" => "Translation:",
+    "l2_event" => "Level 2 check",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

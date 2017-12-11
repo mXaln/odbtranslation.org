@@ -328,9 +328,7 @@ return array (
     "checker_view" => "Вид проверяющего",
     "translator_view" => "Вид переводчика",
     "progress_all" => "Общий прогресс",
-    "people_number" => "Людей (<span>{0}</span> из {1})",
-    "pairs_number" => "Пары (<span>{0}</span>)",
-    "pair_number" => "Пара {0}",
+    "people_number" => "Людей: <span>{0}</span>",
     "add_person" => "Назначить главу",
     "add_translator" => "Добавить переводчиков/проверяющих",
     "add_checker" => "Добавить проверяющего",
@@ -340,6 +338,7 @@ return array (
     "assign" => "Назначить",
     "check_pair_members" => "Отметьте пользователей для создания пары",
     "start_translation" => "Начать перевод",
+    "start_checking" => "Начать проверку",
     "checkers_l2" => "Проверяющие 2-го уровня",
     "max_checkers_l2" => "Количество проверяющих 2-го уровня",
     "checkers_l3" => "Проверяющие 3-го уровня",
@@ -409,6 +408,8 @@ return array (
     "hide_help" => "Скрыть помощь",
     "show_help" => "Показать помощь",
     "copy" => "Копировать",
+    "translation_event" => "Перевод:",
+    "l2_event" => "2-ой уровень проверки",
     
     // Steps
     "pray" => "Подготовка: Молитва",
