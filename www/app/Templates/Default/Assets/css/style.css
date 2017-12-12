@@ -1269,6 +1269,22 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/final-review-active.png") no-repeat;
 }
 
+.fst-check {background-color: #4596cc;}
+.fst-check-step {
+    background: url("/templates/default/assets/img/steps/consume-source-inactive.png") no-repeat;
+}
+.fst-check-step.active {
+    background: url("/templates/default/assets/img/steps/consume-source-active.png") no-repeat;
+}
+
+.snd-check {background-color: #4596cc;}
+.snd-check-step {
+    background: url("/templates/default/assets/img/steps/consume-source-inactive.png") no-repeat;
+}
+.snd-check-step.active {
+    background: url("/templates/default/assets/img/steps/consume-source-active.png") no-repeat;
+}
+
 .chunk_verse {
     /*border-bottom: 1px solid #ccc;*/
     margin-bottom: 10px;

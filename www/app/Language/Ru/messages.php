@@ -331,7 +331,7 @@ return array (
     "people_number" => "Людей: <span>{0}</span>",
     "add_person" => "Назначить главу",
     "add_translator" => "Добавить переводчиков/проверяющих",
-    "add_checker" => "Добавить проверяющего",
+    "add_checker" => "Добавить проверяющих",
     "assign_chapter_title" => "Назначить главу",
     "assign_pair_title" => "Назначить пару",
     "reset_pair_title" => "Удалить пару",
@@ -410,6 +410,8 @@ return array (
     "copy" => "Копировать",
     "translation_event" => "Перевод:",
     "l2_event" => "2-ой уровень проверки",
+    "source_text" => "Исходный текст",
+    "target_text" => "Целевой текст",
     
     // Steps
     "pray" => "Подготовка: Молитва",
@@ -521,7 +523,7 @@ return array (
     "not_in_event_error" => "Вы не учавствуете в этом переводе.",
     "checker_event_error" => "Вы не являетесь проверяющим для этого переводчика",
     "not_equal_verse_markers" => "Вы не верно расставили маркеры стихов",
-    "translator_has_chapter" => "Переводчики, которым назначены главы, не могут быть удалены с события.",
+    "translator_has_chapter" => "Переводчики/проверяющие, которым назначены главы, не могут быть удалены с события.",
     "event_already_exists" => "Это событие уже было создано",
     "event_not_exists_error" => "Событие еще не создано",
     "gw_project_exists_error" => "Проект этого ключевого языка уже был создан",

@@ -334,7 +334,7 @@ return array (
     "people_number" => "People: <span>{0}</span>",
     "add_person" => "Assign chapter",
     "add_translator" => "Add translators/checkers",
-    "add_checker" => "Add checker",
+    "add_checker" => "Add checkers",
     "assign_chapter_title" => "Assign chapter",
     "assign_pair_title" => "Create pair",
     "reset_pair_title" => "Reset pair",
@@ -412,6 +412,8 @@ return array (
     "copy" => "Copy",
     "translation_event" => "Translation:",
     "l2_event" => "Level 2 check",
+    "source_text" => "Source text",
+    "target_text" => "Target text",
     
     // Steps
     "pray" => "Preparation: Prayer",
@@ -522,7 +524,7 @@ return array (
     "not_in_event_error" => "You aren't participating in this event.",
     "checker_event_error" => "You aren't a checker for this translator",
     "not_equal_verse_markers" => "You haven't properly set the verse markers",
-    "translator_has_chapter" => "Translators with assigned chapters cannot be deleted from event.",
+    "translator_has_chapter" => "Translators/checkers with assigned chapters cannot be deleted from event.",
     "event_already_exists" => "Event has been already created",
     "event_not_exists_error" => "Event has not been created yet",
     "gw_project_exists_error" => "This gateway project has been already created",

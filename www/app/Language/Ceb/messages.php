@@ -333,7 +333,7 @@ return array (
     "people_number" => "Katawhan: <span>{0}</span>",
     "add_person" => "Ipabuhat nga Kapitulo",
     "add_translator" => "Add translators",
-    "add_checker" => "Add checker",
+    "add_checker" => "Add checkers",
     "assign_chapter_title" => "Ipabuhat nga Kapitulo",
     "assign_pair_title" => "Magbuhat og Pares",
     "reset_pair_title" => "Pag-usab sa Pares",
@@ -411,6 +411,8 @@ return array (
     "copy" => "Copy",
     "translation_event" => "Translation:",
     "l2_event" => "Level 2 check",
+    "source_text" => "Source text",
+    "target_text" => "Target text",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

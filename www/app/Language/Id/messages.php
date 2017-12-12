@@ -409,6 +409,8 @@ return array (
     "copy" => "Copy",
     "translation_event" => "Translation:",
     "l2_event" => "Level 2 check",
+    "source_text" => "Source text",
+    "target_text" => "Target text",
     
     // Steps
     "pray" => "Persiapan: Berdoa",

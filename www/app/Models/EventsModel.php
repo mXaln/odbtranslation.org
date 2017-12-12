@@ -242,6 +242,14 @@ class EventsModel extends Model
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
                 ."mems.lastName AS checkerLName, chapters.chunks, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, " 
+            : "").($memberType == EventMembers::L2_CHECKER 
+            ? PREFIX."checkers_l2.l2chID, "
+                .PREFIX."checkers_l2.memberID AS myMemberID, ".PREFIX."checkers_l2.step, "
+                .PREFIX."checkers_l2.checkerID, ".PREFIX."checkers_l2.checkDone, "
+                .PREFIX."checkers_l2.currentChapter, ".PREFIX."checkers_l2.peerCheck, "
+                ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
+                ."mems.lastName AS checkerLName, chapters.chunks, "
+                ."(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chkrs WHERE all_chkrs.eventID = ".PREFIX."checkers_l2.eventID ) AS currChkrs, " 
             : "")
                 ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, "
                 ."evnt.dateTo, evnt.admins, "
@@ -275,6 +283,9 @@ class EventsModel extends Model
             ($memberType == EventMembers::TRANSLATOR ?
                 "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = ".PREFIX."translators.checkerID ".
                 "LEFT JOIN ".PREFIX."chapters AS chapters ON ".PREFIX."translators.eventID = chapters.eventID AND ".PREFIX."translators.currentChapter = chapters.chapter " : "").
+            ($memberType == EventMembers::L2_CHECKER ?
+                "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = ".PREFIX."checkers_l2.checkerID ".
+                "LEFT JOIN ".PREFIX."chapters AS chapters ON ".PREFIX."checkers_l2.eventID = chapters.eventID AND ".PREFIX."checkers_l2.currentChapter = chapters.chapter " : "").
             "LEFT JOIN ".PREFIX."events AS evnt ON ".$mainTable.".eventID = evnt.eventID ".
             "LEFT JOIN ".PREFIX."projects ON evnt.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -1324,6 +1335,31 @@ class EventsModel extends Model
     public function deleteTranslators($where)
     {
         return $this->db->table("translators")
+            ->where($where)
+            ->delete();
+    }
+    
+    /**
+     * Update L2 Checker
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateL2Checker($data, $where)
+    {
+        return $this->db->table("checkers_l2")
+            ->where($where)
+            ->update($data);
+    }
+
+    /**
+     * Delete L2 Checkers from event/s
+     * @param array $where
+     * @return int
+     */
+    public function deleteL2Checkers($where)
+    {
+        return $this->db->table("checkers_l2")
             ->where($where)
             ->delete();
     }

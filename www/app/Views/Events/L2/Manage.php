@@ -1,5 +1,5 @@
 <?php
-use Helpers\Constants\EventSteps;
+use Helpers\Constants\EventCheckSteps;
 use Helpers\Constants\EventStates;
 use Shared\Legacy\Error;
 
@@ -9,10 +9,8 @@ if(!isset($error)):
 ?> 
 
 <div class="back_link">
-    <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
-    <?php endif; ?>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <a href="#" onclick="history.back(); return false;"><?php echo __("go_back") ?></a>
 </div>
 
 <div class="manage_container row">
@@ -39,8 +37,7 @@ if(!isset($error)):
                 <?php
                 if(!empty($chapData))
                 {
-                    $userName = "unknown";
-                    $key = array_search($chapData["memberID"], array_column($data["members"], 'memberID'));
+                    $key = array_search($chapData["l2memberID"], array_column($data["members"], 'memberID'));
                     $userName = $data["members"][$key]["userName"];
                     $name = $data["members"][$key]["firstName"] . " " . mb_substr($data["members"][$key]["lastName"], 0, 1).".";
                     $data["members"][$key]["assignedChapters"][] = $chapter;
@@ -58,8 +55,8 @@ if(!isset($error)):
                             <?php echo __("add_person") ?>
                         </button>
                         <div class="manage_username" <?php echo !empty($chapData) ? 'style="display: block"' : '' ?>>
-                            <div class="uname"><?php echo !empty($chapData) ? '<a href="/members/profile/'.$chapData["memberID"].'" target="_blank">'.$name.'</a>' : '' ?></div>
-                            <div class="uname_delete glyphicon glyphicon-remove" data="<?php echo !empty($chapData) ? $chapData["memberID"] : '' ?>"></div>
+                            <div class="uname"><?php echo !empty($chapData) ? '<a href="/members/profile/'.$chapData["l2memberID"].'" target="_blank">'.$name.'</a>' : '' ?></div>
+                            <div class="uname_delete glyphicon glyphicon-remove" data="<?php echo !empty($chapData) ? $chapData["l2memberID"] : '' ?>"></div>
                             <div class="clear"></div>
                         </div>
                     </div>
@@ -75,7 +72,7 @@ if(!isset($error)):
             <button 
                 class="btn btn-primary" 
                 id="openMembersSearch">
-                <?php echo __("add_translator") ?>
+                <?php echo __("add_checker") ?>
             </button>
             <button 
                 class="btn btn-success glyphicon glyphicon-refresh" 
@@ -90,15 +87,6 @@ if(!isset($error)):
                         <a href="/members/profile/<?php echo $member["memberID"] ?>" target="_blank"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></a>
                         (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                         <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
-                        
-                        <?php if(in_array($data["event"][0]->bookProject, ["tn"])): ?>
-                        <label class="is_checker_label">
-                            <input 
-                                class="is_checker_input" 
-                                type="checkbox"
-                                <?php echo $member["isChecker"] ? "checked" : "" ?>> <?php echo __("checking_tab_title") ?>
-                        </label>
-                        <?php endif; ?>
                     </div>
                     <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
                         <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
@@ -106,50 +94,27 @@ if(!isset($error)):
                     <div class="step_selector_block row">
                         <div class="col-sm-6">
                             <?php
-                            $mode = $data["event"][0]->bookProject;
-                            $chk = $member["stage"] == "checking";
-                            $s_disabled = EventSteps::enum($member["step"], $mode, $chk) < 2;
+                            $mode = "l2";
+                            $s_disabled = EventCheckSteps::enum($member["step"], $mode) < 2;
                             ?>
-                            <label class="<?php echo $chk ? "tnchk" : "" ?>"><?php echo __("current_step") ?>:</label>
+                            <label><?php echo __("current_step") ?>:</label>
                             <select class="step_selector form-control" 
                                 <?php echo $s_disabled ? "disabled" : "" ?> 
                                 data-event="<?php echo $data["event"][0]->eventID ?>"
                                 data-member="<?php echo $member["memberID"] ?>"
-                                data-mode="<?php echo $mode ?>"
-                                data-chk="<?php echo $chk ?>">
-                                <?php foreach (EventSteps::enumArray($mode, $chk) as $step => $i): ?>
+                                data-mode="<?php echo $mode ?>">
+                                <?php foreach (EventCheckSteps::enumArray($mode) as $step => $i): ?>
                                     <?php
                                     // Skip None step
-                                    if($step == EventSteps::NONE) continue;
+                                    if($step == EventCheckSteps::NONE) continue;
                                     
                                     $selected = $step == $member["step"];
-                                    $o_disabled = EventSteps::enum($member["step"], $mode, $chk) < $i ||
-                                        (EventSteps::enum($member["step"], $mode, $chk) - $i) > 1;
+                                    $o_disabled = EventCheckSteps::enum($member["step"], $mode) < $i ||
+                                        (EventCheckSteps::enum($member["step"], $mode) - $i) > 1;
                                     ?>
 
-                                    <?php if($step == EventSteps::READ_CHUNK):
-                                        $ch_disabled = $member["currentChunk"] <= 0 ||
-                                            EventSteps::enum($member["step"], $mode, $chk) >= EventSteps::enum(EventSteps::BLIND_DRAFT, $mode, $chk);
-                                        ?>
-                                        <option <?php echo ($ch_disabled ? "disabled" : "") ?>
-                                                value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>"
-                                        style="padding-left: 20px">
-                                            <?php echo __(EventSteps::BLIND_DRAFT."_previous").($member["currentChunk"] > 0 ? " ".$member["currentChunk"] : "") ?>
-                                        </option>
-                                    <?php endif; ?>
-
                                     <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
-                                        <?php 
-                                        $altStep = in_array($mode, ["tn"]) ? ($chk ? 0 : 3) : 5;
-                                        $add = "";
-
-                                        if($step != EventSteps::PRAY && $step != EventSteps::FINISHED)
-                                        {
-                                            $add = in_array($mode, ["tn"]) ? "_tn" : "";
-                                            $add = $step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add;
-                                        }
-                                        echo EventSteps::enum($step, $mode, $chk) == $altStep ? __("read-chunk-alt") : __($step.$add) 
-                                        ?>
+                                        <?php echo __($step) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -157,39 +122,15 @@ if(!isset($error)):
                         <div class="col-sm-6">
                             <?php 
                             $showButton = false;
-                            if($member["step"] == EventSteps::VERBALIZE || 
-                                    $member["step"] == EventSteps::PEER_REVIEW || 
-                                    $member["step"] == EventSteps::KEYWORD_CHECK || 
-                                    $member["step"] == EventSteps::CONTENT_REVIEW) 
+                            if($member["step"] == EventCheckSteps::PEER_REVIEW) 
                             {
                                 if($member["checkerID"] > 0)
                                     $showButton = true;
                                 else
                                 {
-                                    if($member["step"] == EventSteps::VERBALIZE)
-                                    {
-                                        $verbCheck = (array)json_decode($member["verbCheck"], true);
-                                        if(array_key_exists($member["currentChapter"], $verbCheck))
-                                            $showButton = true;
-                                    }
-                                    if($member["step"] == EventSteps::PEER_REVIEW)
-                                    {
-                                        $peerCheck = (array)json_decode($member["peerCheck"], true);
+                                    $peerCheck = (array)json_decode($member["peerCheck"], true);
                                         if(array_key_exists($member["currentChapter"], $peerCheck))
                                             $showButton = true;
-                                    }
-                                    if($member["step"] == EventSteps::KEYWORD_CHECK)
-                                    {
-                                        $kwCheck = (array)json_decode($member["kwCheck"], true);
-                                        if(array_key_exists($member["currentChapter"], $kwCheck))
-                                            $showButton = true;
-                                    }
-                                    if($member["step"] == EventSteps::CONTENT_REVIEW)
-                                    {
-                                        $crCheck = (array)json_decode($member["crCheck"], true);
-                                        if(array_key_exists($member["currentChapter"], $crCheck))
-                                            $showButton = true;
-                                    }
                                 }
                             }
                             
@@ -197,8 +138,7 @@ if(!isset($error)):
                             ?>
                             <button class="remove_checker btn btn-danger" style="margin-top: 22px;" 
                                     data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>" 
-                                    data2="<?php echo $member["step"] ?>"
-                                    data3="<?php echo $chk ?>">
+                                    data2="<?php echo $member["step"] ?>">
                                 <?php echo __("remove_checker") ?>
                             </button>
                             <?php endif; ?>
@@ -243,7 +183,7 @@ if(!isset($error)):
 <div class="members_search_dialog">
     <div class="members_search_dialog_div panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("add_translator")?> <span></span></h1>
+            <h1 class="panel-title"><?php echo __("add_checker")?> <span></span></h1>
             <span class="members-search-dialog-close glyphicon glyphicon-remove-sign"></span>
         </div>
         <div class="openMembersSearch dialog_f">
@@ -263,6 +203,8 @@ if(!isset($error)):
 
 <script>
     isManagePage = true;
+    manageMode = "l2";
+    userType = EventMembers.L2_CHECKER;
 
     $(document).ready(function () {
         $('.step_selector').each(function () {

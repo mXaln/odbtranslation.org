@@ -33,18 +33,19 @@ $(function () {
         });
     });
 
-    // Assign chapter to translator
+    // Assign chapter to translator/checker
     $(document).on("click", ".assign_chapter", function() {
         var data = {};
         data.eventID = $("#eventID").val();
         data.chapter = $(".chapter_members_div .panel-title span").text();
         data.memberID = $(this).attr("data");
         data.memberName = $(this).prev(".member_usname").children(".divname").text();
+        data.manageMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
         assignChapter(data, "add");
     });
 
-    // Show "add translator" dialog
+    // Show "add translator/checker" dialog
     $("#openMembersSearch").click(function() {
         $(".user_translators").html("");
         $("#user_translator").val("");
@@ -58,7 +59,7 @@ $(function () {
     });
 
 
-    // Close "add translator" dialog
+    // Close "add translator/checker" dialog
     $(".members-search-dialog-close").click(function() {
         $(".user_translators").html("");
         $("#user_translator").val("");
@@ -131,7 +132,6 @@ $(function () {
         var $this = $(this);
         var memberID = $(this).attr("data");
         var eventID = $("#eventID").val();
-        var userType = EventMembers.TRANSLATOR;
 
         $.ajax({
             url: "/events/rpc/apply_event",
@@ -180,6 +180,7 @@ $(function () {
             data.chapter = $(".add_person_chapter", parent).attr("data");
             data.memberID = $this.attr("data");
             data.memberName = $this.prev(".uname").text();
+            data.manageMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
             assignChapter(data, "delete");
         }, function () {
@@ -200,7 +201,7 @@ $(function () {
             $.ajax({
                 url: "/events/rpc/delete_event_member",
                 method: "post",
-                data: {eventID: eventID, memberID: memberID},
+                data: {eventID: eventID, memberID: memberID, manageMode: manageMode},
                 dataType: "json"
             })
                 .done(function(data) {
@@ -246,7 +247,7 @@ $(function () {
         $.ajax({
             url: "/events/rpc/get_event_members",
             method: "post",
-            data: {eventID: eventID, memberIDs: ids},
+            data: {eventID: eventID, memberIDs: ids, manageMode: manageMode},
             dataType: "json"
         })
             .done(function(data) {
@@ -662,7 +663,7 @@ function assignChapter(data, action)
             eventID: data.eventID,
             chapter: data.chapter,
             memberID: data.memberID,
-            mode: data.mode,
+            manageMode: manageMode,
             action: action
         },
         dataType: "json",

@@ -446,7 +446,7 @@ use Helpers\Session;
             <div class="event_current_pos">
             </div>
             <div class="event_action check1">
-                <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link"><a href="/events/checker-l2/<?php echo $event->eventID ?>"><?php echo __("continue_alt") ?></a></div>
             </div>
 
             <div class="clear"></div>

@@ -9,10 +9,8 @@ if(!isset($error)):
 ?> 
 
 <div class="back_link">
-    <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
-    <?php endif; ?>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <a href="#" onclick="history.back(); return false;"><?php echo __("go_back") ?></a>
 </div>
 
 <div class="manage_container row">
@@ -263,6 +261,8 @@ if(!isset($error)):
 
 <script>
     isManagePage = true;
+    manageMode = "l1";
+    userType = EventMembers.TRANSLATOR;
 
     $(document).ready(function () {
         $('.step_selector').each(function () {

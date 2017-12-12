@@ -12,10 +12,10 @@ class MembersModel extends Model {
     protected $table = 'members';
     protected $primaryKey = 'memberID';
 
-	public  function __construct()
-	{
-		parent::__construct();
-	}
+    public  function __construct()
+    {
+            parent::__construct();
+    }
 
     /**
      * Get member
@@ -23,7 +23,7 @@ class MembersModel extends Model {
      * @param array $where Single/Multidimentional array with where params (field, operator, value, logical)
      * @return array|static[]
      */
-	public function getMember(array $select, array $where, $getProfile = false)
+    public function getMember(array $select, array $where, $getProfile = false)
     {
         $builder = $this->db->table("members");
 
@@ -49,10 +49,10 @@ class MembersModel extends Model {
             ->select($select)->get();
     }
 
-	public function getMembers($memberIDs = array(), $more = false)
-	{
-		if(is_array($memberIDs) && !empty($memberIDs))
-		{
+    public function getMembers($memberIDs = array(), $more = false)
+    {
+        if(is_array($memberIDs) && !empty($memberIDs))
+        {
             $select = ["members.memberID", "members.userName", "members.firstName", "members.lastName", "profile.avatar"];
 
             if($more)
@@ -63,47 +63,47 @@ class MembersModel extends Model {
                 ->leftJoin("profile", "members.memberID", "=", "profile.mID")
                 ->whereIn("memberID", $memberIDs)
                 ->orderBy("firstName")->get();
-		}
-	}
+        }
+    }
 
 
-	/** Get member data
-	 * @param $emailOrUnameOrId
-	 * @return array
-	 */
-	public function getMemberWithProfile($emailOrUnameOrId)
-	{
+    /** Get member data
+     * @param $emailOrUnameOrId
+     * @return array
+     */
+    public function getMemberWithProfile($emailOrUnameOrId)
+    {
         return $this->db->table("members")
             ->leftJoin("profile", "members.memberID", "=", "profile.mID")
             ->where("members.userName", $emailOrUnameOrId)
             ->orWhere("members.email", $emailOrUnameOrId)
             ->orWhere("members.memberID", $emailOrUnameOrId)
             ->get();
-	}
+    }
 
-	/**
-	 * Get admins (facilitators) by name
-	 * @param string $search
-	 * @return array
-	 */
-	public function getAdminsByTerm($search)
-	{
+    /**
+     * Get admins (facilitators) by name
+     * @param string $search
+     * @return array
+     */
+    public function getAdminsByTerm($search)
+    {
         return $this->db->table("members")
             ->select("memberID", "userName")
             ->where("isAdmin", true)
             ->where("isSuperAdmin", false)
             ->where("userName", "LIKE", "%$search%")->get();
-	}
+    }
 
-	public function getMembersByTerm($search)
-	{
+    public function getMembersByTerm($search)
+    {
         return $this->db->table("members")
             //->where("isSuperAdmin", false)
             ->where("verified", true)
             ->where("userName", "LIKE", "%$search%")
             ->orWhere("firstName", "LIKE", "%$search%")
             ->orWhere("lastName", "LIKE", "%$search%")->get();
-	}
+    }
 
     /**
      * Search members by filters
@@ -115,7 +115,7 @@ class MembersModel extends Model {
      * @param int $take items per page
      * @return array|int|static[]
      */
-	public function searchMembers($name, $role, $languages, $count = false, $page = 1, $take = 50)
+    public function searchMembers($name, $role, $languages, $count = false, $page = 1, $take = 50)
     {
         $skip = ($page-1) * $take; // Skip 50 (default) rows every page
 
@@ -196,10 +196,10 @@ class MembersModel extends Model {
      * @param $data
      * @return string
      */
-	public function createMember($data){
+    public function createMember($data){
         return $this->db->table("members")
             ->insertGetId($data);
-	}
+    }
 
 
     /**
@@ -208,24 +208,24 @@ class MembersModel extends Model {
      * @param $where
      * @return int Number of affected rows
      */
-	public function updateMember($data, $where){
+    public function updateMember($data, $where){
         return $this->db->table("members")
             ->where($where)
             ->update($data);
-	}
+    }
 
-	public function createProfile($data)
-	{
+    public function createProfile($data)
+    {
         return $this->db->table("profile")
             ->insertGetId($data);
-	}
+    }
 
-	public function updateProfile($data, $where)
-	{
-		return $this->db->table("profile")
+    public function updateProfile($data, $where)
+    {
+        return $this->db->table("profile")
             ->where($where)
             ->update($data);
-	}
+    }
 
     public function getTurnSecret()
     {
