@@ -864,8 +864,6 @@ class AdminController extends Controller {
             );
 
             $postdata = [
-                "dateFrom" => date("Y-m-d H:i:s", strtotime("0000-00-00")),
-                "dateTo" => date("Y-m-d H:i:s", strtotime("0000-00-00")),
                 "admins" => json_encode($admins),
             ];
             
@@ -915,6 +913,8 @@ class AdminController extends Controller {
                             // Create(change state) L2 event
                             if(empty($exist))
                             {
+                                $postdata["dateFrom"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                                $postdata["dateTo"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
                                 $eventID = $this->_eventsModel->createEvent($postdata);
                                 
                             }

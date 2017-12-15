@@ -15,7 +15,7 @@ if(empty($error) && empty($data["success"])):
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
         <div class="other_comments_list"></div>
@@ -110,5 +110,3 @@ if(empty($error) && empty($data["success"])):
     isChecker = true;
 </script>
 <?php endif; ?>
-
-<script src="<?php echo template_url("js/jquery.mark.min.js")?>" type="text/javascript"></script>

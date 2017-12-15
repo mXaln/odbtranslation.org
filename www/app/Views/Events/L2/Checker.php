@@ -29,21 +29,22 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
             <span><?php echo __(EventCheckSteps::CONSUME)?></span>
         </li>
 
-        <li class="verbalize-step <?php echo $data["event"][0]->step == EventCheckSteps::FST_CHECK ? "active" : "" ?>">
+        <li class="fst-check-step <?php echo $data["event"][0]->step == EventCheckSteps::FST_CHECK ? "active" : "" ?>">
             <span><?php echo __(EventCheckSteps::FST_CHECK)?></span>
         </li>
 
-        <li class="chunking-step <?php echo $data["event"][0]->step == EventCheckSteps::SND_CHECK ? "active" : "" ?>">
+        <li class="snd-check-step <?php echo $data["event"][0]->step == EventCheckSteps::SND_CHECK ? "active" : "" ?>">
             <span><?php echo __(EventCheckSteps::SND_CHECK)?></span>
         </li>
 
-        <li class="peer-review-step <?php echo $data["event"][0]->step == EventCheckSteps::PEER_REVIEW ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::PEER_REVIEW)?></span>
+        <li class="keyword-check-l2-step <?php echo $data["event"][0]->step == EventCheckSteps::KEYWORD_CHECK_L2 ? "active" : "" ?>">
+            <span><?php echo __(EventCheckSteps::KEYWORD_CHECK_L2)?></span>
         </li>
 
-        <li class="keyword-check-step <?php echo $data["event"][0]->step == EventCheckSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::KEYWORD_CHECK)?></span>
+        <li class="peer-review-l2-step <?php echo $data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L2 ? "active" : "" ?>">
+            <span><?php echo __(EventCheckSteps::PEER_REVIEW_L2)?></span>
         </li>
+
     </ul>
 </div>
 
@@ -51,7 +52,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
-    var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
+    var chkMemberID = <?php echo isset($data["event"][0]->checkerID) ? $data["event"][0]->checkerID : 0; ?>;
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
@@ -73,10 +74,9 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                 <div id="chk" class="col-sm-4 chat_tab">
                     <div class="chk_title">
                         <?php
-                        echo isset($data["event"][0]->checkerFName) && $data["event"][0]->checkerFName !== null ?
-                            $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." :
-                                (isset($data["event"][0]->firstName) && $data["event"][0]->firstName !== null ?
-                                    $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." : __("not_available"))
+                        echo isset($data["event"][0]->checkerFName) && $data["event"][0]->checkerFName !== null
+                            ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."."
+                            : __("not_available")
                         ?>
                     </div>
                     <div class="missed"></div>
@@ -86,7 +86,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; float: right; padding: 2px 20px 0 0">
-                    <div class="<?php echo $data["event"][0]->checkerID <= 0 ? "videoBtnHide" : "" ?>">
+                    <div class="<?php echo isset($data["event"][0]->checkerID)
+                        && $data["event"][0]->checkerID > 0 ? "" : "videoBtnHide" ?>">
                         <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
                         <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
                     </div>

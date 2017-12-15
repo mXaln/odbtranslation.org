@@ -44,6 +44,8 @@ var Language = {
     "saveKeyword"               : "Apakah Anda ingin menyimpan kata kunci: ",
     "delKeywordTitle"           : "Hapus kata kunci: ",
     "delKeyword"                : "Apakah Anda ingin menghapus kata kunci: ",
+    "delKeywordL2Title"         : "Check keyword: ",
+    "delKeywordL2"              : "Click 'Yes' if this keyword is in target text and accurate. Otherwise click 'No'. The keyword is: ",
     "delKeywordTip"             : "Klik untuk mengeluarkan",
     "notActivatedWarning"       : "Anggota ini belum melalui aktivasi lewat email!",
     "verifyTitle"               : "Pastikan anggota",

@@ -444,9 +444,23 @@ use Helpers\Session;
                 </div>
             </div>
             <div class="event_current_pos">
+                <?php if($event->step != EventSteps::NONE): ?>
+                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                    <div class="event_curr_step">
+                        <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                        <?php echo ($event->currentChapter > 0 ? __("chapter_number",
+                                    array($event->currentChapter)). ", " : "")
+                            .__($event->step) ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="event_action check1">
-                <div class="event_link"><a href="/events/checker-l2/<?php echo $event->eventID ?>"><?php echo __("continue_alt") ?></a></div>
+            <div class="event_action check2">
+                <div class="event_link">
+                    <a href="/events/checker-l2/<?php echo $event->eventID
+                        .(isset($event->isContinue) ? "/".$event->memberID."/".$event->currentChapter : "") ?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
             </div>
 
             <div class="clear"></div>
@@ -495,7 +509,7 @@ use Helpers\Session;
             </div>
             <div class="event_current_pos">
             </div>
-            <div class="event_action check1">
+            <div class="event_action check3">
                 <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
             </div>
 

@@ -252,19 +252,21 @@ class TranslationsModel extends Model
             ->delete();
     }
 
-    public function getComment($eventID, $chapter, $chunk, $memberID)
+    public function getComment($eventID, $chapter, $chunk, $memberID, $level)
     {
         return $this->db->table("comments")
             ->where("eventID", $eventID)
             ->where("chapter", $chapter)
             ->where("chunk", $chunk)
-            ->where("memberID", $memberID)->get();
+            ->where("memberID", $memberID)
+            ->where("level", $level)
+            ->get();
     }
 
     public function getCommentsByEvent($eventID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("comments")
-            ->select("comments.*", "members.userName")
+            ->select("comments.*", "members.userName", "members.firstName", "members.lastName")
             ->leftJoin("members", "comments.memberID", "=", "members.memberID")
             ->where("comments.eventID", $eventID)
             ->orderBy("comments.chapter")

@@ -510,6 +510,7 @@ return array (
     "not_enough_rights_error" => "Walay igong katungod sa pagbuhat niini",
     "event_translating_error" => "Dili nimo mahimong walaon kini nga kapitulo tungod kay aduna kini hinubad nga mga bersikulo",
     "chapter_aready_assigned_error" => "Lahi nga tighubad ang nanag-iya niini nga kapitulo",
+    "chapter_checker_used_error" => "Chapter was checked by this checker!",
     "event_chapters_error" => "Kinahanglan nga ihatag nimo ang bisan us aka kapitulo aron masugdan ang paghubad",
     "peer_check_not_done_error" => "Wala nasusi sa imong pares ang niaging kapitulo.",
     "cannot_apply_checker" => "Adunay sayop nga nahitabo. Dili ka mahimong mosalmot sa pagsusi niini nga kapitulo",

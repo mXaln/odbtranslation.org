@@ -24,6 +24,17 @@ var EventSteps = {
     FINISHED: "finished",
 };
 
+var EventCheckSteps = {
+    NONE: "none",
+    PRAY: "pray",
+    CONSUME: "consume",
+    FST_CHECK: "fst-check",
+    SND_CHECK: "snd-check",
+    PEER_REVIEW_L2: "peer-review-l2",
+    KEYWORD_CHECK_L2: "keyword-check-l2",
+    FINISHED: "finished",
+};
+
 var EventMembers = {
     TRANSLATOR: "translator",
     L2_CHECKER: "checker_l2",
@@ -346,7 +357,10 @@ $(document).ready(function() {
 
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
-            step == EventSteps.CONTENT_REVIEW)
+            step == EventSteps.CONTENT_REVIEW ||
+            step == EventCheckSteps.FST_CHECK || // For Level 2 Check
+            step == EventCheckSteps.SND_CHECK ||
+            step == EventCheckSteps.PEER_REVIEW_L2)
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
@@ -979,6 +993,8 @@ $(document).ready(function() {
         comments = lastCommentEditor.next(".comments");
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
+        var level = $(this).data("level") != "undefined"
+            ? $(this).data("level") : 1;
 
         chapchunk = lastCommentEditor.attr("data").split(":");
 
@@ -994,7 +1010,8 @@ $(document).ready(function() {
                         eventID: eventID,
                         chapter: chapchunk[0],
                         chunk: chapchunk[1],
-                        comment: text},
+                        comment: text,
+                        level: level},
                     dataType: "json",
                     beforeSend: function() {
                         $(".commentEditorLoader").show();
@@ -1028,7 +1045,8 @@ $(document).ready(function() {
                             type: "comment",
                             eventID: eventID,
                             verse: lastCommentEditor.attr("data"),
-                            text: data.text
+                            text: data.text,
+                            level: level
                         };
                         socket.emit("system message", data);
                     }
@@ -1250,12 +1268,22 @@ $(document).ready(function() {
 
         if((isChecker || ["tn"].indexOf(tMode) > -1) 
             && (step == EventSteps.KEYWORD_CHECK
-                || step == EventSteps.HIGHLIGHT))
+                || step == EventSteps.HIGHLIGHT
+                || step == EventCheckSteps.KEYWORD_CHECK_L2
+                || step == EventCheckSteps.PEER_REVIEW_L2))
         {
             var $this = $(this);
             var text = $(this).text();
 
-            renderConfirmPopup(Language.delKeywordTitle, Language.delKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
+            var titleTxt = Language.delKeywordTitle;
+            var confirmTxt = Language.delKeyword;
+            if(typeof isLevel2 != "undefined")
+            {
+                var titleTxt = Language.delKeywordL2Title;
+                var confirmTxt = Language.delKeywordL2;
+            }
+
+            renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>?', function () {
                 $(this).dialog("close");
 
                 var parent = $this.parents("div[class^=kwverse]");
@@ -1267,7 +1295,8 @@ $(document).ready(function() {
         }
     });
 
-    loadKeywordsIntoSourse();
+    if(typeof isDemo == "undefined")
+        loadKeywordsIntoSourse();
 
     function loadKeywordsIntoSourse() {
         if(typeof eventID == "undefined") return;
@@ -1276,11 +1305,13 @@ $(document).ready(function() {
             && step != EventSteps.CONTENT_REVIEW
             && step != EventSteps.FINAL_REVIEW
             && step != EventSteps.HIGHLIGHT
-            && step != EventSteps.PEER_REVIEW)) return;
+            && step != EventSteps.PEER_REVIEW
+            && step != EventCheckSteps.KEYWORD_CHECK_L2
+            && step != EventCheckSteps.PEER_REVIEW_L2)) return;
         
         if(step == EventSteps.PEER_REVIEW && 
             typeof disableHighlight == "undefined") return;
-        
+
         $("div[class^=kwverse]").html(function() {
             return $(this).text();
         });
@@ -1320,7 +1351,7 @@ $(document).ready(function() {
             });
     }
 
-    // Summernote reac text editor for notes
+    // Summernote text editor for notes
     $(document).ready(function() {
         $(".add_notes_editor").each(function() {
             $(this).summernote({
@@ -1418,11 +1449,23 @@ $(document).ready(function() {
     });
 
     $(".toggle-help").click(function() {
+        var mode = $(this).data("mode");
+
         if($(".main_content").hasClass("col-sm-9"))
         {
             $(".main_content").removeClass("col-sm-9")
                 .addClass("col-sm-12");
             $(".content_help").hide();
+
+            if(mode == "l2")
+            {
+                $(".chunk_verses").hide();
+                $(".editor_area").removeClass("col-sm-6")
+                    .addClass("col-sm-12");
+                if(typeof autosize == "function")
+                    autosize.update($('textarea'));
+            }
+
             $(this).text(Language.showHelp);
         }
         else 
@@ -1430,6 +1473,16 @@ $(document).ready(function() {
             $(".main_content").addClass("col-sm-9")
                 .removeClass("col-sm-12");
             $(".content_help").show();
+
+            if(mode == "l2")
+            {
+                $(".chunk_verses").show();
+                $(".editor_area").addClass("col-sm-6")
+                    .removeClass("col-sm-12");
+                if(typeof autosize == "function")
+                    autosize.update($('textarea'));
+            }
+
             $(this).text(Language.hideHelp);
         }
     });

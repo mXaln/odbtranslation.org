@@ -61,6 +61,8 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     var chkMemberID = <?php echo $isCheckPage? "1" : "0"; ?>;
     var step = '<?php echo $data["step"]; ?>';
     var isDemo = true;
+    var myChapter = 2;
+    var tMode = "ulb";
 </script>
 
 <div style="position: fixed; right: 0;">
@@ -185,7 +187,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     }
 </style>
 
-<div class="buttons_spec">
+<!--<div class="buttons_spec">
     <button class="spec_char" data="D̃">D̃</button>
     <button class="spec_char" data="d̃">d̃</button>&nbsp;&nbsp;
     <button class="spec_char" data="Õ">Õ</button>
@@ -196,7 +198,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     <button class="spec_char" data="ṽ">ṽ</button>&nbsp;&nbsp;
     <button class="spec_char" data="W̃">W̃</button>
     <button class="spec_char" data="w̃">w̃</button>
-</div>
+</div>-->
 
 <script>
     $(document).ready(function () {

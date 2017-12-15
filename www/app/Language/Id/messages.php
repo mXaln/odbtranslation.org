@@ -508,6 +508,7 @@ return array (
     "not_enough_rights_error" => "Tidak memiliki hak yang cukup untuk tindakan ini!",
     "event_translating_error" => "Anda tidak dapat memindahkan pasal ini, karena memiliki ayat-ayat yang sudah diterjemahkan.",
     "chapter_aready_assigned_error" => "Pasal telah ditugaskan kepada penerjemah yang lain!",
+    "chapter_checker_used_error" => "Chapter was checked by this checker!",
     "event_chapters_error" => "Anda harus menugaskan setidaknya satu pasal untuk memulai penerjemahan.",
     "peer_check_not_done_error" => "Pasal Anda sebelumnya belum diperiksa rekan Anda.",
     "cannot_apply_checker" => "Terjadi kesalahan. Anda tidak dapat mendaftar untuk memeriksa pasal ini.",

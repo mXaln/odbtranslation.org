@@ -15,8 +15,8 @@ class EventCheckSteps
     const CONSUME               = "consume";
     const FST_CHECK             = "fst-check";
     const SND_CHECK             = "snd-check";
-    const PEER_REVIEW           = "peer-review";
-    const KEYWORD_CHECK         = "keyword-check";
+    const KEYWORD_CHECK_L2      = "keyword-check-l2";
+    const PEER_REVIEW_L2        = "peer-review-l2";
     const FINISHED              = "finished";
 
     private static $enum = [
@@ -25,8 +25,8 @@ class EventCheckSteps
         "consume" => 2,
         "fst-check" => 3,
         "snd-check" => 4,
-        "peer-review" => 5,
-        "keyword-check" => 6,
+        "peer-review-l2" => 5,
+        "keyword-check-l2" => 6,
         "finished" => 7,
         ];
 

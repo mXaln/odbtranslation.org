@@ -1285,6 +1285,22 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/consume-source-active.png") no-repeat;
 }
 
+.keyword-check-l2 {background-color: #4596cc;}
+.keyword-check-l2-step {
+    background: url("/templates/default/assets/img/steps/keyword-check-inactive.png") no-repeat;
+}
+.keyword-check-l2-step.active {
+    background: url("/templates/default/assets/img/steps/keyword-check-active.png") no-repeat;
+}
+
+.peer-review-l2 {background-color: #4596cc;}
+.peer-review-l2-step {
+    background: url("/templates/default/assets/img/steps/peer-edit-inactive.png") no-repeat;
+}
+.peer-review-l2-step.active {
+    background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
+}
+
 .chunk_verse {
     /*border-bottom: 1px solid #ccc;*/
     margin-bottom: 10px;
@@ -1524,40 +1540,47 @@ mark {
     position: relative;
 }
 
-.notifa .verbalize_checker {
-    background-color: #bae0f8;
-}
-.notifa .verbalize_checker:hover {
-    background-color: #b0d5ed;
-}
-
 .notifa .peer-review_checker {
-    background-color: #fdeeff;
+    border-left: 10px solid #78d5f8;
 }
 .notifa .peer-review_checker:hover {
-    background-color: #f6e0ff;
+    border-left: 10px solid #00b9f8;
 }
 
 .notifa .keyword-check_checker {
-    background-color: #ffe4c9;
+    border-left: 10px solid #ffbc70;
 }
 .notifa .keyword-check_checker:hover {
-    background-color: #f8cf9f;
+    border-left: 10px solid #ffac3a;
 }
 
 .notifa .content-review_checker {
-    background-color: #deede3;
+    border-left: 10px solid #47d700;
 }
 .notifa .content-review_checker:hover {
-    background-color: #d3edd5;
+    border-left: 10px solid #51c338;
 }
 
 .notifa .notes_checker {
-    background-color: #ff5de4;
+    border-left: 10px solid #ff5de4;
 }
 
 .notifa .notes_checker:hover {
-    background-color: #ff3ae1;
+    border-left: 10px solid #ff3ae1;
+}
+
+.notifa .snd-check_checker {
+    border-left: 10px solid #d76f75;
+}
+.notifa .snd-check_checker:hover {
+    border-left: 10px solid #c34d4d;
+}
+
+.notifa .peer-review-l2_checker {
+    border-left: 10px solid #78d5f8;
+}
+.notifa .peer-review-l2_checker:hover {
+    border-left: 10px solid #00b9f8;
 }
 
 .notif_block {
@@ -1706,9 +1729,10 @@ mark {
 
 .editor-close, .alt_editor-close {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 22px;
+    top: 3px;
+    right: 2px;
+    font-size: 14px;
+    padding: 4px 12px;
 }
 
 .verse_with_note {
@@ -3931,4 +3955,17 @@ button.startEvnt, button.editEvnt {
 
 .l2_buttons {
     display: none;
+}
+
+.verse_block {
+    position: relative;
+}
+
+.verse_number {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    color: #0089ff;
+    font-weight: bold;
+    font-size: 12px;
 }

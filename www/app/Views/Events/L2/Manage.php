@@ -122,7 +122,7 @@ if(!isset($error)):
                         <div class="col-sm-6">
                             <?php 
                             $showButton = false;
-                            if($member["step"] == EventCheckSteps::PEER_REVIEW) 
+                            if($member["step"] == EventCheckSteps::PEER_REVIEW_L2)
                             {
                                 if($member["checkerID"] > 0)
                                     $showButton = true;

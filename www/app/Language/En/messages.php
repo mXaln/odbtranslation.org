@@ -511,6 +511,7 @@ return array (
     "not_enough_rights_error" => "Not enough rights to do this action!",
     "event_translating_error" => "You cannot remove this chapter, because it has translated verses.",
     "chapter_aready_assigned_error" => "Chapter is assigned to other translator!",
+    "chapter_checker_used_error" => "Chapter was checked by this checker!",
     "event_chapters_error" => "You have to assign at least one chapter to start translation.",
     "peer_check_not_done_error" => "Your previous chapter hasn't been checked by your partner.",
     "cannot_apply_checker" => "An error occured. You cannot apply to check this chapter.",
