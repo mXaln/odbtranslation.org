@@ -2,6 +2,8 @@
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
 use Helpers\Session;
+
+$profile = Session::get("profile");
 ?>
 
 <div style="margin-bottom: 20px">
@@ -54,7 +56,6 @@ use Helpers\Session;
         <?php endif; ?>
 
         <div class="clear"></div>
-
 
         <?php if(sizeof($data["myFacilitatorEventsInProgress"]) > 0): ?>
         <div class="events_separator"><?php echo __("events_in_progress") ?></div>
@@ -457,7 +458,7 @@ use Helpers\Session;
             <div class="event_action check2">
                 <div class="event_link">
                     <a href="/events/checker-l2/<?php echo $event->eventID
-                        .(isset($event->isContinue) ? "/".$event->memberID."/".$event->currentChapter : "") ?>">
+                        .(isset($event->isContinue) ? "/".$event->l2memberID."/".$event->currentChapter : "") ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -632,9 +633,9 @@ use Helpers\Session;
 </div>
 
 <div class="event-content form-panel">
-    <div class="create-event-content panel panel-default">
+    <div class="create-event-content l2 panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"></h1>
+            <h1 class="panel-title applyForm"></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -644,7 +645,7 @@ use Helpers\Session;
 
                 <div class="errors"></div>
 
-                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 900px;">
+                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 550px;">
                     <div class="form-group">
                         <h3 class="ftr"><?php echo __("apply_as_translator") ?></h3>
                         <h3 class="fl2" style="display: none"><?php echo __("apply_as_checker", [2]) ?></h3>
@@ -654,7 +655,7 @@ use Helpers\Session;
                     <div class="checker_info">
                         <div class="form-group">
                             <label class="church_role"><?php echo __('church_role'); ?>: </label>
-                            <div class="form-control">
+                            <div class="form-control" style="height: auto;">
                                 <label><input type="checkbox" name="church_role[]" value="Elder"
                                         <?php echo isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('elder'); ?> &nbsp;</label>
                                 <label><input type="checkbox" name="church_role[]" value="Bishop"

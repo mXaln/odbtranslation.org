@@ -19,11 +19,6 @@ var Language = {
     "newUsersApplyed"           : "Adunay mga users ang bag-ohay pa lamang nagsulod",
     "deleteChapterConfirm"      : "Hawaon ang kapitulo gikan sa kini nga translator?",
     "deleteChapterConfirmTitle" : "Hawaon ang kapitulo",
-    "resetPairConfirm"          : "Gusto ba nimo usbon kini nga pares?",
-    "resetPairConfirmTitle"     : "Usbon ang pares",
-    "pair_number"               : "Pares",
-    "assignPairTitle"           : "Pagbuhat ug pares",
-    "resetPairTitle"            : "Usbon ang pares",
     "startTranslation"          : "Pagsugod sa paghubad",
     "startTranslationConfirm"   : "Sigurado ka nga magsugod ka sa bag-o nga paghubad?",
     "makeChunk"                 : "Pagbuhat ug chunk",
@@ -85,5 +80,6 @@ var Language = {
     "showHelp"                  : "Show help",
     "notesPlaceholder"          : "Start writing text here...",
     "cacheUpdated"              : "Cache has been successfully updated",
-    "books"                     : "books"
+    "books"                     : "books",
+    "remove_l2_checker"         : "Do you want to remove this checker?"
 };

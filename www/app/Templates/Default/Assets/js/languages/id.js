@@ -19,11 +19,6 @@ var Language = {
     "newUsersApplyed"           : "Anggota-anggota telah didaftarkan",
     "deleteChapterConfirm"      : "Keluarkan pasal ini dari penerjemah?",
     "deleteChapterConfirmTitle" : "Keluarkan pasal",
-    "resetPairConfirm"          : "Apakah Anda ingin mengembalikan pasangan ini?",
-    "resetPairConfirmTitle"     : "Kembalikan pasangan",
-    "pair_number"               : "Pasangan",
-    "assignPairTitle"           : "Buat pasangan",
-    "resetPairTitle"            : "Kembalikan pasangan",
     "startTranslation"          : "Mulai menerjemahkan",
     "startTranslationConfirm"   : "Apakah Anda yakin untuk memulai kegiatan ini?",
     "makeChunk"                 : "Buat chunk",
@@ -89,5 +84,6 @@ var Language = {
     "showHelp"                  : "Show help",
     "notesPlaceholder"          : "Start writing text here...",
     "cacheUpdated"              : "Cache has been successfully updated",
-    "books"                     : "books"
+    "books"                     : "books",
+    "remove_l2_checker"         : "Do you want to remove this checker?"
 }

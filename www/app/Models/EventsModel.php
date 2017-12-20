@@ -392,11 +392,7 @@ class EventsModel extends Model
      */
     public function getMemberEventsForCheckerL2($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
     {
-        $prepare = [
-            ":sndMemberID" => '%\"'.$memberID.'"%',
-            ":peer1MemberID" => '%\"'.$memberID.'"%',
-            ":peer2MemberID" => '%\"'.$memberID.'"%'
-        ];
+        $prepare = [];
         if($eventID)
             $prepare[":eventID"] = $eventID;
         if($chkMemberID)
@@ -418,8 +414,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE (chks.sndCheck LIKE :sndMemberID OR chks.peer1Check LIKE :peer1MemberID ".
-            "OR chks.peer2Check LIKE :peer2MemberID) ".
+            "WHERE 1 ".
             ($eventID ? "AND chks.eventID = :eventID " : " ").
             ($chkMemberID ? "AND chks.memberID = :chkMemberID " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
@@ -429,24 +424,36 @@ class EventsModel extends Model
 
         foreach($events as $event)
         {
+            // First Check events
+            if($event->memberID == $memberID
+                && $event->step != EventCheckSteps::NONE)
+            {
+                $filtered[] = $event;
+            }
+
+            // Second Check events
             $sndCheck = (array)json_decode($event->sndCheck, true);
             foreach ($sndCheck as $chap => $data) {
                 if(!isset($chapter) || $chapter == $chap)
                 {
                     if($data["memberID"] == $memberID && $data["done"] != 2)
                     {
-                        $event->step = $data["done"] == 0 ?
+                        $ev = clone $event;
+
+                        $ev->step = $data["done"] == 0 ?
                             EventCheckSteps::SND_CHECK :
                             EventCheckSteps::KEYWORD_CHECK_L2;
-                        $event->currentChapter = $chap;
-                        $event->myMemberID = 0;
-                        $event->myChkMemberID = $memberID;
-                        $event->isContinue = true; // Means not owner of chapter
-                        $filtered[] = $event;
+                        $ev->currentChapter = $chap;
+                        $ev->l2memberID = $ev->memberID;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $filtered[] = $ev;
                     }
                 }
             }
 
+            // Peer Check events
             $peer1Check = (array)json_decode($event->peer1Check, true);
             $peer2Check = (array)json_decode($event->peer2Check, true);
             foreach ($peer1Check as $chap => $data) {
@@ -454,6 +461,7 @@ class EventsModel extends Model
                 {
                     if($data["memberID"] == $memberID && $data["done"] == 0)
                     {
+                        $ev = clone $event;
                         $checkerFName = null;
                         $checkerLName = null;
                         $checkerID = 0;
@@ -473,17 +481,18 @@ class EventsModel extends Model
                             }
                         }
 
-                        $event->step = EventCheckSteps::PEER_REVIEW_L2;
-                        $event->currentChapter = $chap;
-                        $event->peer = 1;
-                        $event->memberID = $memberID;
-                        $event->myMemberID = $peer1Check[$chap]["memberID"];
-                        $event->myChkMemberID = $memberID;
-                        $event->checkerFName = $checkerFName;
-                        $event->checkerLName = $checkerLName;
-                        $event->checkerID = $checkerID;
-                        $event->isContinue = true;
-                        $filtered[] = $event;
+                        $ev->step = EventCheckSteps::PEER_REVIEW_L2;
+                        $ev->currentChapter = $chap;
+                        $ev->peer = 1;
+                        $ev->l2memberID = $ev->memberID;
+                        $ev->memberID = $memberID;
+                        $ev->myMemberID = $peer1Check[$chap]["memberID"];
+                        $ev->myChkMemberID = $memberID;
+                        $ev->checkerFName = $checkerFName;
+                        $ev->checkerLName = $checkerLName;
+                        $ev->checkerID = $checkerID;
+                        $ev->isContinue = true;
+                        $filtered[] = $ev;
                     }
                 }
             }
@@ -493,6 +502,7 @@ class EventsModel extends Model
                 {
                     if($data["memberID"] == $memberID && $data["done"] == 0)
                     {
+                        $ev = clone $event;
                         $checkerFName = null;
                         $checkerLName = null;
                         $checkerID = 0;
@@ -509,17 +519,18 @@ class EventsModel extends Model
                             $checkerID = $peer1Check[$chap]["memberID"];
                         }
 
-                        $event->step = EventCheckSteps::PEER_REVIEW_L2;
-                        $event->currentChapter = $chap;
-                        $event->peer = 2;
-                        $event->memberID = $peer1Check[$chap]["memberID"];
-                        $event->myMemberID = $memberID;
-                        $event->myChkMemberID = $memberID;
-                        $event->checkerFName = $checkerFName;
-                        $event->checkerLName = $checkerLName;
-                        $event->checkerID = $checkerID;
-                        $event->isContinue = true;
-                        $filtered[] = $event;
+                        $ev->step = EventCheckSteps::PEER_REVIEW_L2;
+                        $ev->currentChapter = $chap;
+                        $ev->peer = 2;
+                        $ev->l2memberID = $ev->memberID;
+                        $ev->memberID = $peer1Check[$chap]["memberID"];
+                        $ev->myMemberID = $memberID;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->checkerFName = $checkerFName;
+                        $ev->checkerLName = $checkerLName;
+                        $ev->checkerID = $checkerID;
+                        $ev->isContinue = true;
+                        $filtered[] = $ev;
                     }
                 }
             }
@@ -1606,18 +1617,32 @@ class EventsModel extends Model
      * @param $memberID
      * @return array|static[]
      */
-    public function getChapters($eventID, $memberID = null, $chapter = null)
+    public function getChapters($eventID, $memberID = null, $chapter = null, $manageMode = "l1")
     {
         $this->db->setFetchMode(PDO::FETCH_ASSOC);
 
-        $builder = $this->db->table("chapters")
-            ->where(["eventID" => $eventID])
-            ->orderBy("chapter");
+        $builder = $this->db->table("chapters");
 
-        if($memberID !== null)
-            $builder->where(["memberID" => $memberID]);
+        if($manageMode == "l2")
+        {
+            $builder->leftJoin("checkers_l2", function($join){
+                $join->on("chapters.eventID", "=", "checkers_l2.eventID")
+                    ->on("chapters.l2memberID", "=", "checkers_l2.memberID");
+            });
+            if($memberID !== null)
+                $builder->where(["chapters.l2memberID" => $memberID]);
+        }
+        else
+        {
+            if($memberID !== null)
+                $builder->where(["chapters.memberID" => $memberID]);
+        }
+
         if($chapter !== null)
-            $builder->where(["chapter" => $chapter]);
+            $builder->where(["chapters.chapter" => $chapter]);
+
+        $builder->where(["chapters.eventID" => $eventID])
+            ->orderBy("chapters.chapter");
 
         $res = $builder->get();
 

@@ -412,6 +412,9 @@ return array (
     "l2_event" => "2-ой уровень проверки",
     "source_text" => "Исходный текст",
     "target_text" => "Целевой текст",
+    //"l2_snd_checker" => "",
+    //"l2_p1_checker" => "",
+    //"l2_p2_checker" => "",
     
     // Steps
     "pray" => "Подготовка: Молитва",

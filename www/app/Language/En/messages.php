@@ -414,7 +414,10 @@ return array (
     "l2_event" => "Level 2 check",
     "source_text" => "Source text",
     "target_text" => "Target text",
-    
+    //"l2_snd_checker" => "",
+    //"l2_p1_checker" => "",
+    //"l2_p2_checker" => "",
+
     // Steps
     "pray" => "Preparation: Prayer",
     "pray_desc" => "<li><b>PURPOSE:</b> to ask God to help you in your translation work.</li><li>Pray as long as you feel necessary for this step, but try to spend at least 5-10 minutes.</li><li>This step is as important as any of the others.</li>",

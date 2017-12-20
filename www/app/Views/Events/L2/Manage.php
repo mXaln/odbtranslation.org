@@ -50,7 +50,7 @@ if(!isset($error)):
                     <div class="col-sm-4 manage_chapter">
                         <?php echo $chapter > 0 ? __("chapter_number", $chapter) : __("chapter_number", __("intro")); ?>
                     </div>
-                    <div class="col-sm-8 manage_chapters_user chapter_<?php echo $chapter ?>">
+                    <div class="col-sm-4 manage_chapters_user chapter_<?php echo $chapter ?>">
                         <button class="btn btn-success add_person_chapter" data="<?php echo $chapter ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>
                             <?php echo __("add_person") ?>
                         </button>
@@ -59,6 +59,35 @@ if(!isset($error)):
                             <div class="uname_delete glyphicon glyphicon-remove" data="<?php echo !empty($chapData) ? $chapData["l2memberID"] : '' ?>"></div>
                             <div class="clear"></div>
                         </div>
+                    </div>
+                    <div class="col-sm-4" data-chapter="<?php echo $chapter ?>"
+                            data-member="<?php echo !empty($chapData) ? $chapData["l2memberID"] : "" ?>">
+                        <?php
+                        $snd = !empty($chapData["sndCheck"])
+                            && array_key_exists($chapter, $chapData["sndCheck"])
+                            && $chapData["sndCheck"][$chapter]["memberID"] > 0;
+                        $p1 = !empty($chapData["peer1Check"])
+                            && array_key_exists($chapter, $chapData["peer1Check"])
+                            && $chapData["peer1Check"][$chapter]["memberID"] > 0;
+                        $p2 = !empty($chapData["peer2Check"])
+                            && array_key_exists($chapter, $chapData["peer2Check"])
+                            && $chapData["peer2Check"][$chapter]["memberID"] > 0;
+                        ?>
+                        <?php if($snd): ?>
+                        <button class="btn btn-danger remove_checker_l2" id="snd_checker"
+                                data-level="<?php echo $chapData["sndCheck"][$chapter]["done"] ?>"
+                            <?php echo $p1 ? "disabled" : "" ?>
+                                title="<?php echo __("l2_snd_checker") ?>">2nd</button>
+                            <?php if($p1): ?>
+                            <button class="btn btn-danger remove_checker_l2" id="p1_checker"
+                                <?php echo $p2 ? "disabled" : "" ?>
+                                    title="<?php echo __("l2_p1_checker") ?>">P1</button>
+                                <?php if($p2): ?>
+                                <button class="btn btn-danger remove_checker_l2" id="p2_checker"
+                                        title="<?php echo __("l2_p2_checker") ?>">P2</button>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </li>
             <?php endforeach; ?>
@@ -107,6 +136,7 @@ if(!isset($error)):
                                     <?php
                                     // Skip None step
                                     if($step == EventCheckSteps::NONE) continue;
+                                    if(EventCheckSteps::enum($step, $mode) > 3) continue;
                                     
                                     $selected = $step == $member["step"];
                                     $o_disabled = EventCheckSteps::enum($member["step"], $mode) < $i ||

@@ -19,11 +19,6 @@ var Language = {
     "newUsersApplyed"           : "Members have been applied",
     "deleteChapterConfirm"      : "Remove this chapter from translator?",
     "deleteChapterConfirmTitle" : "Remove chapter",
-    "resetPairConfirm"          : "Do you want to reset this pair?",
-    "resetPairConfirmTitle"     : "Reset pair",
-    "pair_number"               : "Pair",
-    "assignPairTitle"           : "Create pair",
-    "resetPairTitle"            : "Reset pair",
     "startTranslation"          : "Start translation",
     "startTranslationConfirm"   : "Are you sure you want to start the event?",
     "makeChunk"                 : "Make chunk",
@@ -89,5 +84,6 @@ var Language = {
     "showHelp"                  : "Show help",
     "notesPlaceholder"          : "Start writing text here...",
     "cacheUpdated"              : "Cache has been successfully updated",
-    "books"                     : "books"
+    "books"                     : "books",
+    "remove_l2_checker"         : "Do you want to remove this checker?"
 };

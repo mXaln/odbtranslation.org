@@ -231,7 +231,7 @@ $(function () {
     // Start interval to check new applied translators
     var getMembersInterval = setInterval(function() {
         getNewMembersList();
-    }, 60000);
+    }, 300000);
 
     function getNewMembersList() {
         var eventID = $("#eventID").val();
@@ -530,9 +530,66 @@ $(function () {
         moveStepBack(null, eventID, memberID, to_step, true, false, chk);
     });
 
+    $(".remove_checker_l2").click(function() {
+        var id = $(this).attr("id");
+        var eventID = $("#eventID").val();
+        var memberID = $(this).parent().data("member");
+        var chapter = $(this).parent().data("chapter");
+
+        renderConfirmPopup(Language.attention, Language.remove_l2_checker, function() {
+            $.ajax({
+                url: "/events/rpc/move_step_back_l2",
+                method: "post",
+                data: {
+                    eventID : eventID,
+                    memberID : memberID,
+                    chapter: chapter,
+                    mode: id
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    //$(".filter_loader").show();
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        renderPopup(data.message,
+                            function () {
+                                $( this ).dialog( "close" );
+                            },
+                            function () {
+                                window.location.reload();
+                            });
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error,
+                                function () {
+                                    $( this ).dialog( "close" );
+                                },
+                                function () {
+                                    window.location.reload();
+                                });
+                        }
+                    }
+                })
+                .always(function() {
+                    //$(".filter_loader").hide();
+                });
+        }, function () {
+            $( this ).dialog( "close" );
+        }, function () {
+            $( this ).dialog( "close" );
+        });
+    });
+
     function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk, chk) {
         confirm = confirm || false;
         prev_chunk = prev_chunk || false;
+        var mMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
         $.ajax({
             url: "/events/rpc/move_step_back",
@@ -543,7 +600,8 @@ $(function () {
                 to_step: to_step,
                 confirm: confirm,
                 prev_chunk: prev_chunk,
-                chk: chk
+                chk: chk,
+                manageMode: mMode
             },
             dataType: "json",
             beforeSend: function() {

@@ -254,7 +254,7 @@ function OnCheckingRequest(data)
                 $(".notif_count").remove();
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
                 var notifs = "";
-                $.each(data.notifs, function(i, note) {
+                $.each(data.notifs, function(i, note) {console.log(note);
                     if($("a[data='"+note.anchor+"']").length <= 0)
                         notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
                                 '<li class="'+note.step+'_checker">'+note.text+'</li>'+

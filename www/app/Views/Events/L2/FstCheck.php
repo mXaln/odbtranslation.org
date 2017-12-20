@@ -72,7 +72,7 @@ use Helpers\Constants\EventMembers;
                                     <div class="vnote">
                                         <?php foreach($verses as $verse => $text): ?>
                                             <div class="verse_block">
-                                                <span class="verse_number"><?php echo $verse?></span>
+                                                <span class="verse_number_l2"><?php echo $verse?></span>
                                                 <textarea name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
                                                           class="peer_verse_ta textarea">
                                                     <?php echo $text; ?></textarea>

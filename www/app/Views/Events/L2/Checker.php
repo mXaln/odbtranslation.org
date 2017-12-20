@@ -8,7 +8,7 @@ echo Error::display($error);
 if(isset($data["success"]))
     echo Error::display($data["success"], "alert alert-success");
 
-if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventCheckSteps::FINISHED):
+if(!empty($data["event"]) && !isset($data["error"])):
 ?>
 
 <noscript>

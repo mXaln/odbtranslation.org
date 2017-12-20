@@ -19,11 +19,6 @@ var Language = {
     "newUsersApplyed"           : "Пользователи присоединились к событию",
     "deleteChapterConfirm"      : "Убрать эту главу у переводчика?",
     "deleteChapterConfirmTitle" : "Удалить главу",
-    "resetPairConfirm"          : "Вы хотите удалить эту пару?",
-    "resetPairConfirmTitle"     : "Удаление пары",
-    "pair_number"               : "Пара",
-    "assignPairTitle"           : "Назначить пару",
-    "resetPairTitle"            : "Удалить пару",
     "startTranslation"          : "Начать перевод",
     "startTranslationConfirm"   : "Вы действительно хотите начать перевод?",
     "makeChunk"                 : "Создать отрывок",
@@ -89,5 +84,6 @@ var Language = {
     "showHelp"                  : "Показать помощь",
     "notesPlaceholder"          : "Начните вводить текст здесь...",
     "cacheUpdated"              : "Кэш был успешно обновлён",
-    "books"                     : "книги"
+    "books"                     : "книги",
+    "remove_l2_checker"         : "Вы хотите удалить этого проверяющего?"
 };

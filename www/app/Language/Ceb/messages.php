@@ -413,6 +413,9 @@ return array (
     "l2_event" => "Level 2 check",
     "source_text" => "Source text",
     "target_text" => "Target text",
+    //"l2_snd_checker" => "",
+    //"l2_p1_checker" => "",
+    //"l2_p2_checker" => "",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

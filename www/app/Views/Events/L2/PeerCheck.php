@@ -99,16 +99,13 @@ use Helpers\Constants\EventMembers;
                                     </div>
                                     <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                         <?php
-                                        if(!empty($_POST["chunks"][$key]))
-                                            $verses = $_POST["chunks"][$key];
-                                        else
-                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
+                                        $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
                                         ?>
                                         <div class="vnote">
                                             <?php foreach($verses as $verse => $text): ?>
                                                 <div class="verse_block">
                                                     <?php if($data["event"][0]->peer == 1): ?>
-                                                        <span class="verse_number"><?php echo $verse?></span>
+                                                        <span class="verse_number_l2"><?php echo $verse?></span>
                                                         <textarea name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
                                                                   class="peer_verse_ta textarea"
                                                                   data-orig-verse="<?php echo $verse ?>"  >
@@ -163,7 +160,7 @@ use Helpers\Constants\EventMembers;
 
                     <input type="hidden" name="level" value="l2continue">
                     <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
-                    <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+                    <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->l2memberID ?>">
                     <button id="next_step" type="submit" name="submit_chk" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </div>
             </form>
@@ -258,9 +255,7 @@ use Helpers\Constants\EventMembers;
         });
     })();
 
-
     isLevel2 = true;
-
 </script>
 <?php if($data["event"][0]->peer == 2): ?>
 <script>

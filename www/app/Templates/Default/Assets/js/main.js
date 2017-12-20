@@ -486,11 +486,12 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
-            var tn = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn"]) > -1 ? "-tn" : "";
-            
+            var add = typeof tMode != "undefined"
+                && $.inArray(tMode, ["tn"]) > -1 ? "-tn"
+                    : (typeof manageMode != "undefined" ? "-"+manageMode : "");
+
             $.ajax({
-                url: "/events/information"+tn+"/"+eventID,
+                url: "/events/information"+add+"/"+eventID,
                 method: "get",
                 dataType: "json",
             })
@@ -1266,7 +1267,10 @@ $(document).ready(function() {
         if(typeof isInfoPage != "undefined") return;
         if(typeof disableHighlight != "undefined") return;
 
-        if((isChecker || ["tn"].indexOf(tMode) > -1) 
+        var isL2Checker = typeof isLevel2 != "undefined"
+                && !isChecker ? true : false;
+
+        if((isChecker || ["tn"].indexOf(tMode) > -1 || isL2Checker)
             && (step == EventSteps.KEYWORD_CHECK
                 || step == EventSteps.HIGHLIGHT
                 || step == EventCheckSteps.KEYWORD_CHECK_L2

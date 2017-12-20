@@ -111,6 +111,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/get_info_update/{eventID}", "EventsController@getInfoUpdate")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("rpc/move_step_back", "EventsController@moveStepBack");
+    Router::any("rpc/move_step_back_l2", "EventsController@moveStepBackL2");
     Router::any("rpc/set_tn_checker", "EventsController@setTnChecker");
     Router::any("rpc/check_internet", "EventsController@checkInternet");
     Router::any("rpc/apply_verb_checker", "EventsController@applyVerbChecker");
