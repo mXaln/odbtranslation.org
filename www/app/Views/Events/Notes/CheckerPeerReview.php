@@ -208,7 +208,7 @@ if(empty($error) && empty($data["success"])):
     </div>
 </div>
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?3")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?4")?>"></script>
 <script>
     var isChecker = true;
     var disableHighlight = true;
