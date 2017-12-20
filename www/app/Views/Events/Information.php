@@ -11,7 +11,7 @@ if(!isset($error)):
     <div class="back_link">
         <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
             <span class="glyphicon glyphicon-chevron-left"></span>
-            <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
+            <a href="#" onclick="history.back(); return false;"><?php echo __("go_back") ?></a>
         <?php endif; ?>
     </div>
 
