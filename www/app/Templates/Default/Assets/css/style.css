@@ -3979,3 +3979,8 @@ button.startEvnt, button.editEvnt {
     font-weight: bold;
     font-size: 12px;
 }
+
+.l2_checker_name {
+    color: red;
+    font-weight: bold;
+}

@@ -211,7 +211,8 @@ function OnSystemMessage(data)
 
         case "keyword":
             if(typeof isInfoPage == "undefined" &&
-                (typeof step != "undefined" && step == EventSteps.KEYWORD_CHECK))
+                (typeof step != "undefined"
+                    && (step == EventSteps.KEYWORD_CHECK || EventCheckSteps.PEER_REVIEW_L2)))
                 highlightKeyword(data.verseID, data.text, data.index, data.remove == "true");
             break;
 

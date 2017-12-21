@@ -91,9 +91,7 @@ use Helpers\Constants\EventMembers;
                                             <strong class="<?php echo $data["event"][0]->sLangDir ?>">
                                                 <sup><?php echo $verse; ?></sup>
                                             </strong>
-                                            <span class="orig_text" data-orig-verse="<?php echo $verse ?>">
-                                                <?php echo $text; ?>
-                                            </span>
+                                            <span class="orig_text" data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></span>
                                         </p>
                                         <?php endforeach; ?>
                                     </div>
@@ -108,8 +106,7 @@ use Helpers\Constants\EventMembers;
                                                         <span class="verse_number_l2"><?php echo $verse?></span>
                                                         <textarea name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
                                                                   class="peer_verse_ta textarea"
-                                                                  data-orig-verse="<?php echo $verse ?>"  >
-                                                        <?php echo $text; ?></textarea>
+                                                                  data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></textarea>
                                                     <?php else: ?>
                                                         <p>
                                                             <strong><sup><?php echo $verse?></sup></strong>

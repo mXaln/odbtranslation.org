@@ -178,7 +178,7 @@ $chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?3")?>"></script>
-<script src="<?php echo template_url("js/socket.js?5")?>"></script>
+<script src="<?php echo template_url("js/socket.js?6")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

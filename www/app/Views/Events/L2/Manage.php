@@ -72,18 +72,40 @@ if(!isset($error)):
                         $p2 = !empty($chapData["peer2Check"])
                             && array_key_exists($chapter, $chapData["peer2Check"])
                             && $chapData["peer2Check"][$chapter]["memberID"] > 0;
+
+                        $sndName = "";
+                        $p1Name = "";
+                        $p2Name = "";
+                        if($snd)
+                        {
+                            $sndKey = array_search($chapData["sndCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                            $sndName = $data["members"][$sndKey]["firstName"] . " " . mb_substr($data["members"][$sndKey]["lastName"], 0, 1).".";
+                        }
+                        if($p1)
+                        {
+                            $p1Key = array_search($chapData["peer1Check"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                            $p1Name = $data["members"][$p1Key]["firstName"] . " " . mb_substr($data["members"][$p1Key]["lastName"], 0, 1).".";
+                        }
+                        if($p2)
+                        {
+                            $p2Key = array_search($chapData["peer2Check"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                            $p2Name = $data["members"][$p2Key]["firstName"] . " " . mb_substr($data["members"][$p2Key]["lastName"], 0, 1).".";
+                        }
                         ?>
                         <?php if($snd): ?>
                         <button class="btn btn-danger remove_checker_l2" id="snd_checker"
                                 data-level="<?php echo $chapData["sndCheck"][$chapter]["done"] ?>"
+                                data-name="<?php echo $sndName ?>"
                             <?php echo $p1 ? "disabled" : "" ?>
                                 title="<?php echo __("l2_snd_checker") ?>">2nd</button>
                             <?php if($p1): ?>
                             <button class="btn btn-danger remove_checker_l2" id="p1_checker"
+                                    data-name="<?php echo $p1Name ?>"
                                 <?php echo $p2 ? "disabled" : "" ?>
                                     title="<?php echo __("l2_p1_checker") ?>">P1</button>
                                 <?php if($p2): ?>
                                 <button class="btn btn-danger remove_checker_l2" id="p2_checker"
+                                        data-name="<?php echo $p2Name ?>"
                                         title="<?php echo __("l2_p2_checker") ?>">P2</button>
                                 <?php endif; ?>
                             <?php endif; ?>

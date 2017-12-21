@@ -535,8 +535,9 @@ $(function () {
         var eventID = $("#eventID").val();
         var memberID = $(this).parent().data("member");
         var chapter = $(this).parent().data("chapter");
+        var name = "<span class='l2_checker_name'>"+$(this).data("name")+"</span>";
 
-        renderConfirmPopup(Language.attention, Language.remove_l2_checker, function() {
+        renderConfirmPopup(Language.attention, Language.remove_l2_checker + name, function() {
             $.ajax({
                 url: "/events/rpc/move_step_back_l2",
                 method: "post",

@@ -66,6 +66,8 @@ $profile = Session::get("profile");
             switch ($event->state)
             {
                 case EventStates::L2_RECRUIT:
+                case EventStates::L2_CHECK:
+                case EventStates::L2_CHECKED:
                     $eventType = __("l2_3_events", array(2));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
@@ -78,6 +80,7 @@ $profile = Session::get("profile");
                     break;
 
                 case EventStates::L3_RECRUIT:
+                case EventStates::L3_CHECK:
                     $eventType = __("l2_3_events", array(3));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
@@ -169,6 +172,8 @@ $profile = Session::get("profile");
             switch ($event->state)
             {
                 case EventStates::L2_RECRUIT:
+                case EventStates::L2_CHECK:
+                case EventStates::L2_CHECKED:
                     $eventType = __("l2_3_events", array(2));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
@@ -181,6 +186,7 @@ $profile = Session::get("profile");
                     break;
 
                 case EventStates::L3_RECRUIT:
+                case EventStates::L3_CHECK:
                     $eventType = __("l2_3_events", array(3));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");

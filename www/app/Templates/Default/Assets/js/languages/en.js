@@ -85,5 +85,5 @@ var Language = {
     "notesPlaceholder"          : "Start writing text here...",
     "cacheUpdated"              : "Cache has been successfully updated",
     "books"                     : "books",
-    "remove_l2_checker"         : "Do you want to remove this checker?"
+    "remove_l2_checker"         : "Do you want to remove the checker "
 };
