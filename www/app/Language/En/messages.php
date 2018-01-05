@@ -534,6 +534,7 @@ return array (
     "gw_project_exists_error" => "This gateway project has been already created",
     "not_allowed_action" => "An error occurred. Please try again.",
     "wrong_parameters" => "Wrong parameters. Please try again.",
+    "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

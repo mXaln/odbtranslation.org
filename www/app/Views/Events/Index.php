@@ -11,6 +11,13 @@ $profile = Session::get("profile");
     <div class="demo_title events_index">
         <a href="/events/demo" class="demo_link"><?php echo __("demo")?></a>
         <span class="glyphicon glyphicon-chevron-right"></span>
+        <div class="demo_options">
+            <ul>
+                <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
+                <a href="/events/demo-l2"><li><?php echo __("l2_3_events", [2]); ?></li></a>
+                <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
+            </ul>
+        </div>
     </div>
 </div>
 

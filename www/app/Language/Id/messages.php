@@ -531,6 +531,7 @@ return array (
     "gw_project_exists_error" => "Proyek gateway ini telah dibuat",
     "not_allowed_action" => "Terjadi kesalahan. Mohon coba lagi.",
     "wrong_parameters" => "Parameter yang salah. Mohon coba lagi.",
+    "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
 
     // Success messages
     "you_event_finished_success" => "Anda telah menyelesaikan penerjemahan semua pasal Anda.",

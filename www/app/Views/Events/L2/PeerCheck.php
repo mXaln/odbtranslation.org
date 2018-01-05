@@ -158,7 +158,7 @@ use Helpers\Constants\EventMembers;
                     <input type="hidden" name="level" value="l2continue">
                     <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
                     <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->l2memberID ?>">
-                    <button id="next_step" type="submit" name="submit_chk" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <button id="next_step" type="submit" name="submit_chk" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [5])?></div>
@@ -262,6 +262,7 @@ use Helpers\Constants\EventMembers;
         renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
             function () {
                 $("#checker_submit").submit();
+                $( this ).dialog("close");
             },
             function () {
                 $("#confirm_step").prop("checked", false);

@@ -322,7 +322,7 @@ class EventsModel extends Model
             $prepare[":trMemberID"] = $trMemberID;
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
-                .PREFIX."members.lastName, evnt.bookCode, evnt.admins, "
+                .PREFIX."members.lastName, evnt.bookCode, evnt.admins, evnt.state, "
                 ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
                 .PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
@@ -426,7 +426,8 @@ class EventsModel extends Model
         {
             // First Check events
             if($event->memberID == $memberID
-                && $event->step != EventCheckSteps::NONE)
+                && $event->step != EventCheckSteps::NONE
+                && ($chapter == null || $chapter == $event->currentChapter))
             {
                 $filtered[] = $event;
             }
@@ -738,7 +739,7 @@ class EventsModel extends Model
 
         $notesNotifications = $this->db->select($sql, $prepare);
         $notifs = [];
-        
+
         foreach ($notesNotifications as $notification)
         {
             if($notification->stage == "checking") continue;
@@ -755,7 +756,7 @@ class EventsModel extends Model
                 $notifs[] = $note;
             }
         }
-        
+
         return $notifs;
     }
 

@@ -114,7 +114,7 @@ use Helpers\Constants\EventMembers;
                     </div>
 
                     <input type="hidden" name="level" value="l2">
-                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [4])?></div>

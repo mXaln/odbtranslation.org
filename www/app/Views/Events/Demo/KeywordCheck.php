@@ -13,7 +13,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [7]) . ": " . __("keyword-check")?></div>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>

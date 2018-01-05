@@ -381,6 +381,11 @@ $(document).ready(function() {
 			}
 			
             autosaveTimer = setInterval(function() {
+                if(typeof isDemo != "undefined" && isDemo)
+                {
+                    hasChangesOnPage = false;
+                }
+
                 if(hasChangesOnPage)
                 {
                     $.ajax({
@@ -725,6 +730,11 @@ $(document).ready(function() {
             }
             else
             {
+                var message = "";
+                $.each(data.errors, function(i, v) {
+                    message += v + "<br>";
+                });
+                renderPopup(message);
                 console.log(data.errors);
             }
         })
@@ -1431,7 +1441,7 @@ $(document).ready(function() {
                                 $(this).removeAttr("title");
                             });
 
-                            // Fix when bold links come without spaces
+                            // Fix bold links that come without spaces
                             $("strong", dom).each(function() {
                                 $("<span> </span>").insertAfter(this);
                             });
@@ -1728,12 +1738,12 @@ $(document).ready(function() {
         if($(this).val() != "")
         {
             $(".fluency", parent).prop("name", "lang["+$(this).val()+"][fluency]").prop("disabled", false);
-            $(".geo_years", parent).prop("name", "lang["+$(this).val()+"][geo_years]").prop("disabled", false);
+            //$(".geo_years", parent).prop("name", "lang["+$(this).val()+"][geo_years]").prop("disabled", false);
         }
         else
         {
             $(".fluency", parent).prop("name", "").prop("disabled", true);
-            $(".geo_years", parent).prop("name", "").prop("disabled", true);
+            //$(".geo_years", parent).prop("name", "").prop("disabled", true);
         }
     });
 
@@ -1746,8 +1756,8 @@ $(document).ready(function() {
 
         $(".language").val("").trigger('chosen:updated');
         $(".fluency").prop("checked", false).prop("disabled", true);
-        $(".geo_years").prop("checked", false).prop("disabled", true);
-        $(".fluency, .geo_years").trigger("change");
+        //$(".geo_years").prop("checked", false).prop("disabled", true);
+        $(".fluency/*, .geo_years*/").trigger("change");
         $(".language").chosen();
     });
 
@@ -1756,11 +1766,11 @@ $(document).ready(function() {
         var lang = $(".language").val();
         var langName = $(".language option:selected").text();
         var fluency = $(".fluency:checked").val();
-        var geo_years = $(".geo_years:checked").val();
+        //var geo_years = $(".geo_years:checked").val();
         var option = $(".langs option[value^='"+lang+":']");
 
         if(option.length <= 0) {
-            $(".langs").append("<option value='"+lang+":"+fluency+":"+geo_years+"'>" + langName + "</option>");
+            $(".langs").append("<option value='"+lang+":"+fluency+/*":"+geo_years+*/"'>" + langName + "</option>");
             option = $(".langs option[value^='"+lang+":']");
         }
         else
@@ -1775,11 +1785,11 @@ $(document).ready(function() {
         $(".langs").prop("disabled", false).trigger("chosen:updated");
     });
 
-    $(".fluency, .geo_years").change(function() {
+    $(".fluency/*, .geo_years*/").change(function() {
         var fluency = $(".fluency:checked").val();
-        var geo_years = $(".geo_years:checked").val();
+        //var geo_years = $(".geo_years:checked").val();
 
-        if(typeof fluency != "undefined" && typeof geo_years != "undefined")
+        if(typeof fluency != "undefined"/* && typeof geo_years != "undefined"*/)
         {
             $(".add_lang").prop("disabled", false);
         }
@@ -2156,6 +2166,18 @@ $(document).ready(function() {
 
     $("#refresh").click(function() {
         window.location.reload();
+    });
+
+    $(".demo_link").click(function() {
+        if($(".demo_options").is(":visible"))
+        {
+            $(".demo_options").hide(200);
+        }
+        else
+        {
+            $(".demo_options").show(200);
+        }
+        return false;
     });
 });
 

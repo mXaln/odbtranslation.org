@@ -153,7 +153,7 @@ use Helpers\Constants\EventMembers;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/consume.png") ?>" width="100px" height="100px">
+            <img src="<?php echo template_url("img/steps/icons/snd-check.png") ?>" width="100px" height="100px">
             <img src="<?php echo template_url("img/steps/big/consume.png") ?>" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>

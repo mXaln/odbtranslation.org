@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers\Admin;
 
+use Helpers\Constants\EventMembers;
 use Helpers\UsfmParser;
 use Support\Facades\Cache;
 use App\Core\Controller;
@@ -995,8 +996,54 @@ class AdminController extends Controller {
                         return;
                     }
 
-                    $this->_eventsModel->deleteEvent(["projectID" => $projectID, "bookCode" => $bookCode]);
-                    echo json_encode(array("success" => __("successfully_deleted")));
+                    // Check the level of the event
+                    if($exist[0]->state == EventStates::L2_CHECK || $exist[0]->state == EventStates::L2_RECRUIT)
+                    {
+                        // Set to previous state
+                        $this->_eventsModel->updateEvent(["state" => EventStates::TRANSLATED],
+                            ["eventID" => $exist[0]->eventID]);
+
+                        // Delete L2 checkers
+                        $this->_eventsModel->deleteL2Checkers(["eventID" => $exist[0]->eventID]);
+
+                        // Remove L2 checkers from chapters
+                        $this->_eventsModel->updateChapter([
+                            "l2memberID" => 0,
+                            "l2chID" => 0,
+                            "l2checked" => false
+                        ], [
+                            "eventID" => $exist[0]->eventID
+                        ]);
+
+                        // Remove L2 translations
+                        $translatons = $this->_translationModel->getEventTranslationByEventID(
+                            $exist[0]->eventID
+                        );
+
+                        foreach ($translatons as $trans)
+                        {
+                            $verses = (array)json_decode($trans->translatedVerses, true);
+
+                            if(!empty($verses[EventMembers::L2_CHECKER]))
+                            {
+                                $verses[EventMembers::L2_CHECKER] = ["verses" => []];
+
+                                $this->_translationModel->updateTranslation([
+                                    "translatedVerses" => json_encode($verses)
+                                ], [
+                                    "tID" => $trans->tID
+                                ]);
+                            }
+                        }
+
+                        echo json_encode(array("success" => __("successfully_deleted")));
+                    }
+                    elseif ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
+                    {
+                        $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
+                        echo json_encode(array("success" => __("successfully_deleted")));
+                    }
+
                     break;
             }
         }

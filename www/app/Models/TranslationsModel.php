@@ -37,12 +37,13 @@ class TranslationsModel extends Model
     {
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject",
-                "abbr.name AS bookName", "translations.bookCode")
+                "abbr.name AS bookName", "translations.bookCode", "abbr.abbrID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
             ->where("translations.translateDone", true)
+            ->orderBy("abbr.abbrID")
             ->groupBy("translations.bookCode")->get();
     }
 

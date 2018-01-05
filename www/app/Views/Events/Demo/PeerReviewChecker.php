@@ -14,7 +14,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [6]) . ": " . __("peer-review")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>

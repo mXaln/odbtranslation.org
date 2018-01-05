@@ -140,7 +140,11 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
 
     <div class="members_online panel panel-info">
         <div class="panel-heading"><?php echo __("members_online_title") ?></div>
-        <ul id="online" class="panel-body"><li>Genry M.</li><li>Mark P.</li><li class="mine">Marge S. (facilitator)</li></ul>
+        <ul id="online" class="panel-body">
+            <li>Genry M.</li>
+            <li>Mark P.</li>
+            <li class="mine">Marge S. (<?php echo __("facilitator"); ?>)</li>
+        </ul>
     </div>
 
     <div class="clear"></div>

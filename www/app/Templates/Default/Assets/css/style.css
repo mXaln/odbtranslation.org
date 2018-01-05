@@ -1082,6 +1082,7 @@ div.ui-datepicker {
     float: left;
     position: relative;
     padding-top: 40px;
+    width: 900px;
 }
 
 .main_content_title .demo_title {
@@ -2197,7 +2198,7 @@ mark {
 
 .save_profile_container.unlinked {
     position: absolute;
-    top: -110px;
+    top: -175px;
     left: auto;
     right: 0;
 }
@@ -2572,6 +2573,7 @@ mark {
 .demo_title.events_index {
     margin-top: -60px;
     float: right;
+    position: relative;
 }
 
 .demo_title span {
@@ -2582,6 +2584,33 @@ mark {
     height: 22px;
     padding: 2px 0 0 3px;
     width: 22px;
+}
+
+.demo_options {
+    position: absolute;
+    width: 300px;
+    right: 0;
+    text-align: right;
+    background-color: #fff;
+    display: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px 10px;
+    font-size: 20px;
+}
+
+.demo_options li {
+    border-bottom: 1px solid #ccc;
+}
+
+.demo_options ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.demo_options a, .demo_options a:hover {
+    text-decoration: none;
 }
 
 .back_link span {
@@ -3051,6 +3080,10 @@ div[class^="member_usname mid"] {
     height: 50px;
     vertical-align: middle;
     padding-top: 6px;
+}
+
+.notifications:hover {
+    box-shadow: inset 1px 1px 10px 0px #406d9e;
 }
 
 .footer_langs {
@@ -3935,6 +3968,16 @@ button.startEvnt, button.editEvnt {
     text-decoration: none; /*line-through*/
 }
 
+.orig_text ins {
+    background: #d8ffd8;
+    text-decoration: none; /*underline*/
+}
+
+.orig_text del {
+    background: #ffd8d8;
+    text-decoration: none; /*line-through*/
+}
+
 .notes_target {
     margin-top: 20px;
 }
@@ -3983,4 +4026,8 @@ button.startEvnt, button.editEvnt {
 .l2_checker_name {
     color: red;
     font-weight: bold;
+}
+
+.breaks {
+    display: none;
 }

@@ -533,6 +533,7 @@ return array (
     "gw_project_exists_error" => "Kini nga gateway nga proyekto nabuhat na",
     "not_allowed_action" => "Adunay sayop nga nahitabo. Palihog usaba",
     "wrong_parameters" => "Sayop nga dapit. Palihog usaba",
+    "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
 
     // Success messages
     "you_event_finished_success" => "Wala pa nimo nahuman og hubad ang tanan nimo nga kapitulo.",

@@ -21,7 +21,7 @@ if(isset($data['books'])) {
     echo __($data['books'][0]->bookProject).'</a><br><br>';
 
     foreach ($data['books'] as $book) {
-        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">" . $book->bookName . "</a><br>";
+        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">". $book->bookName . "</a><br>";
     }
 }
 

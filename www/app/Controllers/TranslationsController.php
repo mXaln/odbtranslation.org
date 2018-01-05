@@ -80,9 +80,6 @@ class TranslationsController extends Controller
 
                 if($chunk->chapter != $lastChapter)
                 {
-                    $data['book'] .= $chunk->chapter > 0 
-                        ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).'</h2>'
-                        : '<h2 class="chapter_title">'.__("front").'</h2>';
                     $lastChapter = $chunk->chapter;
 
                     $chapters = $this->_eventModel->getChapters(
@@ -91,6 +88,16 @@ class TranslationsController extends Controller
                         $chunk->chapter
                     );
                     $chapter = $chapters[0];
+
+                    $level = "";
+                    if(!in_array($chunk->bookProject, ["tn"]))
+                    {
+                        $level = " [".($chapter["l2checked"] ? "L2" : "L1")."]";
+                    }
+
+                    $data['book'] .= $chunk->chapter > 0
+                        ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
+                        : '<h2 class="chapter_title">'.__("front").'</h2>';
                 }
 
                 // Start of chunk
@@ -98,8 +105,23 @@ class TranslationsController extends Controller
                 
                 if(!in_array($chunk->bookProject, ["tn"]))
                 {
-                    foreach ($verses->translator->verses as $verse => $text) {
-                        $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                            $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                        }
+                    }
+                    elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                            $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                        }
+                    }
+                    else
+                    {
+                        foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                            $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                        }
                     }
                 }
                 else
@@ -169,9 +191,25 @@ class TranslationsController extends Controller
 
                 $chapterStarted = false;
 
-                foreach ($verses->translator->verses as $verse => $text) {
-                    $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                {
+                    foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                        $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                    }
                 }
+                elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                {
+                    foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                        $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                    }
+                }
+                else
+                {
+                    foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                        $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                    }
+                }
+
                 // End of chunk
                 $data["usfm"] .= "\n\n";
             }

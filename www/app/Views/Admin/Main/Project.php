@@ -161,13 +161,13 @@ if(!empty($data["project"])):
                         <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
                         &nbsp;&nbsp;
                         <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
-                        
+                        <div class="breaks"><br><br></div>
                         <div class="l2_buttons">
-                            <br>
+
                             <label><?php echo __("l2_event") ?></label>
                             <br>
                             <button type="submit" name="startL2Event" class="btn btn-primary"><?php echo __("create"); ?></button>
-                            
+                            <button type="submit" name="deleteL2Event" class="btn btn-danger"><?php echo __("delete"); ?></button>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <button name="progressL2Event" data-mode="<?php echo $data["project"][0]->bookProject?>" class="btn btn-success"><?php echo __("progress"); ?></button>
                             <button name="manageL2Event" class="btn btn-warning"><?php echo __("manage"); ?></button>

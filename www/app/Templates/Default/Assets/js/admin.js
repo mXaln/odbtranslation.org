@@ -354,6 +354,7 @@ $(function () {
         $("button[name=progressEvent]").show();
         $("button[name=manageEvent]").show();
         $(".delinput").hide();
+        var delLabel = $(".delinput label");
 
         $.ajax({
             url: "/admin/rpc/get_event",
@@ -370,24 +371,38 @@ $(function () {
                     $("button[name=startEvent]").text(Language.save);
                     if(EventStates.states[data.event.state] >= EventStates.states.translated)
                     {
-                        $(".l2_buttons").show();
+                        $(".l2_buttons").css("display", "inline-block");
+                        $(".breaks").show();
+                        $("button[name=startEvent]").prop("disabled", true);
+                        $("button[name=deleteEvent]").prop("disabled", true);
+                        $("button[name=manageEvent]").prop("disabled", true);
                         if(EventStates.states[data.event.state] < EventStates.states.l2_recruit)
                         {
                             $("#eventAction").val("create");
+                            $("button[name=startL2Event]").text(Language.create);
+                            $("button[name=deleteL2Event]").hide();
                             $("button[name=progressL2Event]").hide();
                             $("button[name=manageL2Event]").hide();
+                            $("span", delLabel).remove();
                         }
                         else
                         {
                             $("button[name=startL2Event]").text(Language.save);
-                            $("button[name=startEvent]").prop("disabled", true);
+                            $("button[name=deleteL2Event]").show();
                             $("button[name=progressL2Event]").show();
                             $("button[name=manageL2Event]").show();
+                            if(delLabel.has("span").length <= 0)
+                                delLabel.append(" <span>(L2)</span>");
                         }
                     }
                     else
                     {
+                        $("button[name=startEvent]").prop("disabled", false);
+                        $("button[name=deleteEvent]").prop("disabled", false);
+                        $("button[name=manageEvent]").prop("disabled", false);
                         $(".l2_buttons").hide();
+                        $(".breaks").hide();
+                        $("span", delLabel).remove();
                     }
 
                     $(".bookName").text(data.event.name);
@@ -426,7 +441,7 @@ $(function () {
     });
 
 
-    $("button[name=deleteEvent]").click(function (e) {
+    $("button[name=deleteEvent], button[name=deleteL2Event]").click(function (e) {
         var bookName = $(".bookName").text();
         var delName = $("#delevnt").val();
         var delinput = $(".delinput");

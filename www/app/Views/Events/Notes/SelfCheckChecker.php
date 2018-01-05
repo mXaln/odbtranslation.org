@@ -163,7 +163,7 @@ if(isset($data["error"])) return;
                     <?php echo __("self-check_tn_chk")?>
                 </div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("consume_desc")?></ul>
+                    <ul><?php echo __("self-check_tn_chk_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
