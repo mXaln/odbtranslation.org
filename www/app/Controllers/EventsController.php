@@ -102,7 +102,20 @@ class EventsController extends Controller
             $data["myFacilitatorEventsFinished"] = [];
 
             foreach ($myFacilitatorEvents as $myFacilitatorEvent) {
-                if($myFacilitatorEvent->state == EventStates::TRANSLATED)
+                // Level 1
+                if(EventStates::enum($myFacilitatorEvent->state) <= EventStates::enum(EventStates::TRANSLATED))
+                {
+                    $adms = (array)json_decode($myFacilitatorEvent->admins, true);
+                    if(!in_array(Session::get("memberID"), $adms)) continue;
+                } // Level 2
+                elseif(EventStates::enum($myFacilitatorEvent->state) <= EventStates::enum(EventStates::L2_CHECKED))
+                {
+                    $adms = (array)json_decode($myFacilitatorEvent->admins_l2, true);
+                    if(!in_array(Session::get("memberID"), $adms)) continue;
+                }
+
+                if($myFacilitatorEvent->state == EventStates::TRANSLATED
+                    || $myFacilitatorEvent->state == EventStates::L2_CHECKED)
                     $data["myFacilitatorEventsFinished"][] = $myFacilitatorEvent;
                 else
                     $data["myFacilitatorEventsInProgress"][] = $myFacilitatorEvent;
@@ -117,7 +130,9 @@ class EventsController extends Controller
         $notesCheckers = $this->_model->getMemberEventsForCheckerNotes(Session::get("memberID"));
         $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
-        $data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
+
+        $data["myCheckerL3Events"] = [];
+        //$data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
         // Extract facilitators from events
         $admins = [];
@@ -138,10 +153,10 @@ class EventsController extends Controller
             $admins = array_merge($admins, (array)json_decode($event->admins, true));
         }
         foreach ($data["myCheckerL2Events"] as $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+            $admins = array_merge($admins, (array)json_decode($event->admins_l2, true));
         }
         foreach ($data["myCheckerL3Events"] as $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+            $admins = array_merge($admins, (array)json_decode($event->admins_l2, true));
         }
         
         $admins = array_unique($admins);
@@ -3426,6 +3441,41 @@ class EventsController extends Controller
                                             $postdata = [
                                                 "peer1Check" => json_encode($peer1Check)
                                             ];
+
+                                            // Check if the whole book was checked and set its state to L2_CHECKED
+                                            $chapters = [];
+                                            $events = $this->_model->getMembersForL2Event($data["event"][0]->eventID);
+
+                                            foreach ($events as $event)
+                                            {
+                                                $peer2 = (array)json_decode($event["peer2Check"], true);
+                                                if(!empty($peer2))
+                                                {
+                                                    $chapters += $peer2;
+                                                }
+                                            }
+
+                                            if(sizeof($chapters) == $data["event"][0]->chaptersNum)
+                                            {
+                                                $allDone = true;
+                                                foreach ($chapters as $chapter)
+                                                {
+                                                    if($chapter["done"] == 0)
+                                                    {
+                                                        $allDone = false;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if($allDone)
+                                                {
+                                                    $this->_model->updateEvent([
+                                                        "state" => EventStates::L2_CHECKED
+                                                    ], [
+                                                        "eventID" => $data["event"][0]->eventID
+                                                    ]);
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -4468,7 +4518,7 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
-            $admins = (array)json_decode($data["event"][0]->admins, true);
+            $admins = (array)json_decode($data["event"][0]->admins_l2, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
                 && $data["event"][0]->checker_l2 === null && $data["event"][0]->checker_l3 === null)
@@ -4774,6 +4824,15 @@ class EventsController extends Controller
             if(Session::get("isSuperAdmin") && !in_array(Session::get("memberID"), $superadmins))
                 Url::redirect("events");
 
+            if(!Session::get("isSuperAdmin"))
+            {
+                $adms = (array)json_decode($data["event"][0]->admins, true);
+                if(!in_array(Session::get("memberID"), $adms))
+                {
+                    Url::redirect("/events");
+                }
+            }
+
             $data["chapters"] = [];
             if($data["event"][0]->bookProject == "tn")
                 $data["chapters"][0] = [];
@@ -4836,13 +4895,22 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID, Session::get("isSuperAdmin"));
-        
+
         if(!empty($data["event"]))
         {
             $superadmins = (array)json_decode($data["event"][0]->superadmins, true);
             if(Session::get("isSuperAdmin") && !in_array(Session::get("memberID"), $superadmins))
                 Url::redirect("events");
-            
+
+            if(!Session::get("isSuperAdmin"))
+            {
+                $adms = (array)json_decode($data["event"][0]->admins_l2, true);
+                if(!in_array(Session::get("memberID"), $adms))
+                {
+                    Url::redirect("/events");
+                }
+            }
+
             if($data["event"][0]->state != EventStates::L2_RECRUIT && 
                 $data["event"][0]->state != EventStates::L2_CHECK &&
                 $data["event"][0]->state != EventStates::L2_CHECKED)
@@ -4936,58 +5004,65 @@ class EventsController extends Controller
 
             if(!empty($member))
             {
-                $mode = $member[0]->bookProject;
-                $chk = in_array($mode, ["tn"]) && $member[0]->stage == "checking"
-                    && $member[0]->isChecker
-                    && $member[0]->currentChapter > -1;
-                $member[0]->chk = $chk;
-                
-                if(array_key_exists($to_step, EventSteps::enumArray($mode, $chk))
-                    || array_key_exists($to_step, EventCheckSteps::enumArray("l2")))
+                if(EventStates::enum($member[0]->state) < EventStates::enum(EventStates::TRANSLATED))
                 {
-                    $postData = $this->moveMemberStepBack(
-                        $member[0], 
-                        $to_step, 
-                        $confirm, 
-                        $prev_chunk
-                    );
+                    $mode = $member[0]->bookProject;
+                    $chk = in_array($mode, ["tn"]) && $member[0]->stage == "checking"
+                        && $member[0]->isChecker
+                        && $member[0]->currentChapter > -1;
+                    $member[0]->chk = $chk;
 
-                    if(!empty($postData))
+                    if(array_key_exists($to_step, EventSteps::enumArray($mode, $chk))
+                        || array_key_exists($to_step, EventCheckSteps::enumArray("l2")))
                     {
-                        if(in_array("hasTranslation", $postData, true))
-                        {
-                            $response["confirm"] = true;
-                            $response["message"] = __("chapter_has_translation");
-                            echo json_encode($response);
-                            return;
-                        }
-    
-                        if(array_key_exists("translations", $postData))
-                        {
-                            unset($postData["translations"]);
-                            $this->_translationModel->deleteTranslation(["trID" => $member[0]->trID, "chapter" => $member[0]->currentChapter]);
-                            $this->_translationModel->deleteCommentsByEvent($eventID, $member[0]->currentChapter);
-                        }
+                        $postData = $this->moveMemberStepBack(
+                            $member[0],
+                            $to_step,
+                            $confirm,
+                            $prev_chunk
+                        );
 
-                        if($manageMode == "l1")
-                            $this->_model->updateTranslator($postData,
-                                ["trID" => $member[0]->trID]);
-                        else
-                            $this->_model->updateL2Checker($postData,
-                                ["l2chID" => $member[0]->l2chID]);
+                        if(!empty($postData))
+                        {
+                            if(in_array("hasTranslation", $postData, true))
+                            {
+                                $response["confirm"] = true;
+                                $response["message"] = __("chapter_has_translation");
+                                echo json_encode($response);
+                                return;
+                            }
 
-                        $response["success"] = true;
-                        $response["message"] = $member[0]->step != $to_step 
+                            if(array_key_exists("translations", $postData))
+                            {
+                                unset($postData["translations"]);
+                                $this->_translationModel->deleteTranslation(["trID" => $member[0]->trID, "chapter" => $member[0]->currentChapter]);
+                                $this->_translationModel->deleteCommentsByEvent($eventID, $member[0]->currentChapter);
+                            }
+
+                            if($manageMode == "l1")
+                                $this->_model->updateTranslator($postData,
+                                    ["trID" => $member[0]->trID]);
+                            else
+                                $this->_model->updateL2Checker($postData,
+                                    ["l2chID" => $member[0]->l2chID]);
+
+                            $response["success"] = true;
+                            $response["message"] = $member[0]->step != $to_step
                                 ? __("moved_back_success") : __("checker_removed_success");
+                        }
+                        else
+                        {
+                            $response["error"] = __("not_allowed_action");
+                        }
                     }
                     else
                     {
-                        $response["error"] = __("not_allowed_action");
+                        $response["error"] = __("wrong_parameters");
                     }
                 }
                 else
                 {
-                    $response["error"] = __("wrong_parameters");
+                    $response["error"] = __("event_is_finished");
                 }
             }
             else
@@ -5020,88 +5095,105 @@ class EventsController extends Controller
         if($eventID !== null && $memberID !== null &&
             $chapter !== null)
         {
-            $chapters = $this->_model->getChapters($eventID, $memberID, $chapter, "l2");
-            $chap = [];
+            $event = $this->_model->getEvent($eventID);
 
-            if(!empty($chapters))
+            if(!empty($event))
             {
-                $chap["l2chID"] = $chapters[0]["l2chID"];
-                $chap["l2memberID"] = $chapters[0]["l2memberID"];
-                $chap["chunks"] = json_decode($chapters[0]["chunks"], true);
-                $chap["l2checked"] = $chapters[0]["l2checked"];
-                $chap["sndCheck"] = (array)json_decode($chapters[0]["sndCheck"], true);
-                $chap["peer1Check"] = (array)json_decode($chapters[0]["peer1Check"], true);
-                $chap["peer2Check"] = (array)json_decode($chapters[0]["peer2Check"], true);
-
-                $p1 = !empty($chap["peer1Check"])
-                    && array_key_exists($chapter, $chap["peer1Check"])
-                    && $chap["peer1Check"][$chapter]["memberID"] > 0;
-                $p2 = !empty($chap["peer2Check"])
-                    && array_key_exists($chapter, $chap["peer2Check"])
-                    && $chap["peer2Check"][$chapter]["memberID"] > 0;
-
-                switch ($mode)
+                if(EventStates::enum($event[0]->state) < EventStates::enum(EventStates::L2_CHECKED))
                 {
-                    case "snd_checker":
-                        if(!$p1)
-                        {
-                            $chap["sndCheck"][$chapter]["memberID"] = 0;
-                            $chap["sndCheck"][$chapter]["done"] = 0;
-                            unset($chap["peer1Check"][$chapter]);
-                            unset($chap["peer2Check"][$chapter]);
-                        }
-                        else
-                        {
-                            $response["error"] = __("wrong_parameters");
-                        }
-                        break;
+                    $chapters = $this->_model->getChapters($eventID, $memberID, $chapter, "l2");
+                    $chap = [];
 
-                    case "p1_checker":
-                        if(!$p2)
-                        {
-                            $chap["peer1Check"][$chapter]["memberID"] = 0;
-                            $chap["peer1Check"][$chapter]["done"] = 0;
-                            $chap["peer2Check"][$chapter]["memberID"] = 0;
-                            $chap["peer2Check"][$chapter]["done"] = 0;
-                        }
-                        else
-                        {
-                            $response["error"] = __("wrong_parameters");
-                        }
-                        break;
+                    if(!empty($chapters))
+                    {
+                        $chap["l2chID"] = $chapters[0]["l2chID"];
+                        $chap["l2memberID"] = $chapters[0]["l2memberID"];
+                        $chap["chunks"] = json_decode($chapters[0]["chunks"], true);
+                        $chap["l2checked"] = $chapters[0]["l2checked"];
+                        $chap["sndCheck"] = (array)json_decode($chapters[0]["sndCheck"], true);
+                        $chap["peer1Check"] = (array)json_decode($chapters[0]["peer1Check"], true);
+                        $chap["peer2Check"] = (array)json_decode($chapters[0]["peer2Check"], true);
 
-                    case "p2_checker":
-                        if($p2)
-                        {
-                            $chap["peer2Check"][$chapter]["memberID"] = 0;
-                            $chap["peer2Check"][$chapter]["done"] = 0;
-                        }
-                        else
-                        {
-                            $response["error"] = __("wrong_parameters");
-                        }
-                        break;
+                        $p1 = !empty($chap["peer1Check"])
+                            && array_key_exists($chapter, $chap["peer1Check"])
+                            && $chap["peer1Check"][$chapter]["memberID"] > 0;
+                        $p2 = !empty($chap["peer2Check"])
+                            && array_key_exists($chapter, $chap["peer2Check"])
+                            && $chap["peer2Check"][$chapter]["memberID"] > 0;
 
-                    default:
+                        switch ($mode)
+                        {
+                            case "snd_checker":
+                                if(!$p1)
+                                {
+                                    $chap["sndCheck"][$chapter]["memberID"] = 0;
+                                    $chap["sndCheck"][$chapter]["done"] = 0;
+                                    unset($chap["peer1Check"][$chapter]);
+                                    unset($chap["peer2Check"][$chapter]);
+                                }
+                                else
+                                {
+                                    $response["error"] = __("wrong_parameters");
+                                }
+                                break;
+
+                            case "p1_checker":
+                                if(!$p2)
+                                {
+                                    $chap["peer1Check"][$chapter]["memberID"] = 0;
+                                    $chap["peer1Check"][$chapter]["done"] = 0;
+                                    $chap["peer2Check"][$chapter]["memberID"] = 0;
+                                    $chap["peer2Check"][$chapter]["done"] = 0;
+                                }
+                                else
+                                {
+                                    $response["error"] = __("wrong_parameters");
+                                }
+                                break;
+
+                            case "p2_checker":
+                                if($p2)
+                                {
+                                    $chap["peer1Check"][$chapter]["done"] = 0;
+                                    $chap["peer2Check"][$chapter]["memberID"] = 0;
+                                    $chap["peer2Check"][$chapter]["done"] = 0;
+                                }
+                                else
+                                {
+                                    $response["error"] = __("wrong_parameters");
+                                }
+                                break;
+
+                            default:
+                                $response["error"] = __("wrong_parameters");
+                                break;
+                        }
+
+                        if(!isset($response["error"]))
+                        {
+                            $postData = [
+                                "sndCheck" => json_encode($chap["sndCheck"]),
+                                "peer1Check" => json_encode($chap["peer1Check"]),
+                                "peer2Check" => json_encode($chap["peer2Check"]),
+                            ];
+
+                            $this->_model->updateL2Checker($postData, [
+                                "eventID" => $eventID,
+                                "memberID" => $memberID
+                            ]);
+
+                            $response["message"] = __("checker_removed_success");
+                            $response["success"] = true;
+                        }
+                    }
+                    else
+                    {
                         $response["error"] = __("wrong_parameters");
-                        break;
+                    }
                 }
-
-                if(!isset($response["error"]))
+                else
                 {
-                    $postData = [
-                        "sndCheck" => json_encode($chap["sndCheck"]),
-                        "peer1Check" => json_encode($chap["peer1Check"]),
-                        "peer2Check" => json_encode($chap["peer2Check"]),
-                    ];
-
-                    $this->_model->updateL2Checker($postData, [
-                        "eventID" => $eventID,
-                        "memberID" => $memberID
-                    ]);
-
-                    $response["message"] = __("checker_removed_success");
-                    $response["success"] = true;
+                    $response["error"] = __("event_is_finished");
                 }
             }
             else

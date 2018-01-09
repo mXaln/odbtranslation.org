@@ -194,7 +194,7 @@ class EventsModel extends Model
     public function getEventMember($eventID, $memberID, $getInfo = false)
     {
         $sql = "SELECT ".PREFIX."translators.memberID AS translator, "
-            ."checkers.checkerID AS checker, evnt.admins, ".PREFIX."translators.step, "
+            ."checkers.checkerID AS checker, evnt.admins, evnt.admins_l2, ".PREFIX."translators.step, "
             .PREFIX."translators.checkerID, ".PREFIX."translators.peerCheck, ".PREFIX."translators.currentChapter, "
             .PREFIX."checkers_l2.memberID AS checker_l2, ".PREFIX."checkers_l3.memberID AS checker_l3, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
@@ -399,14 +399,15 @@ class EventsModel extends Model
             $prepare[":chkMemberID"] = $chkMemberID;
 
         $sql = "SELECT chks.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
-            .PREFIX."members.lastName, evnt.bookCode, evnt.admins, evnt.state, "
+            .PREFIX."members.lastName, evnt.bookCode, evnt.admins_l2, evnt.state, "
             ."evnt.dateFrom, evnt.dateTo, "
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
-            "t_lang.direction as tLangDir, s_lang.direction as sLangDir ".
+            "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+            .PREFIX."abbr.chaptersNum ".
             "FROM ".PREFIX."checkers_l2 AS chks ".
             "LEFT JOIN ".PREFIX."members ON chks.memberID = ".PREFIX."members.memberID ".
             "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = chks.eventID ".
@@ -560,7 +561,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
             "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
             "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
-            (!$isSuperAdmin ? "WHERE evnt.admins LIKE :memberID " : "").
+            (!$isSuperAdmin ? "WHERE (evnt.admins LIKE :memberID OR evnt.admins_l2 LIKE :memberID) " : "").
             ($isSuperAdmin && $eventID ? "WHERE " : (!$isSuperAdmin && $eventID ? "AND " : "")).
             ($eventID ? "evnt.eventID = :eventID " : "").
             "ORDER BY evnt.state, tLang.langName, proj.sourceBible, abbr.abbrID";
@@ -634,7 +635,7 @@ class EventsModel extends Model
     {       
         $this->db->setFetchMode(PDO::FETCH_ASSOC);
         $builder = $this->db->table("checkers_l2")
-            ->select("checkers_l2.*", "members.userName", "members.firstName", "members.lastName")
+            ->select("checkers_l2.*", "members.userName", "members.firstName", "members.lastName", "checkers_l2.peer2Check")
             ->leftJoin("members", "checkers_l2.memberID", "=", "members.memberID")
             ->where("checkers_l2.eventID", $eventID);
 
@@ -655,6 +656,23 @@ class EventsModel extends Model
                 "abbr.chaptersNum"
             ])
             ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
+            ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+            ->where("events.eventID", $eventID)
+            ->get();
+
+    }
+
+
+    public function getEventWithContributorsL2($eventID)
+    {
+        return $this->db->table("events")
+            ->select([
+                "events.eventID","events.admins_l2",
+                "checkers_l2.sndCheck","checkers_l2.peer1Check",
+                "checkers_l2.peer2Check",
+                "abbr.chaptersNum"
+            ])
+            ->leftJoin("checkers_l2", "events.eventID", "=", "checkers_l2.eventID")
             ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
             ->where("events.eventID", $eventID)
             ->get();

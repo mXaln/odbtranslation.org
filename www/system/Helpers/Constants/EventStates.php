@@ -31,10 +31,10 @@ class EventStates
         "l3_recruit" => 6,
         "l3_check" => 7,
         "complete" => 8,
-        ];
+    ];
     
-    public static function enum($stage)
+    public static function enum($state)
     {
-        return self::$enum[$stage];
+        return self::$enum[$state];
     }
 }

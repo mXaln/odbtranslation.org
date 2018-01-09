@@ -39,17 +39,17 @@
                 <div id="source_scripture_content" class="my_content shown">
                     <div class="chunk_block">
                         <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in <b data="0">Christ Jesus</b>.</div></div>
-                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to <b data="0">faithful</b> people who will be able to teach others also.</div></div>
-                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of <b data="0">Christ Jesus</b>.</div></div>
+                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in Christ Jesus.</div></div>
+                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</div></div>
+                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of Christ Jesus.</div></div>
                         </div>
                     </div>
                     <div class="chunk_block">
                         <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No <b data="0">soldier</b> serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
-                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an <b data="0">athlete</b>, he is not crowned unless he competes by the rules.</div></div>
+                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
+                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</div></div>
                             <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
-                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what <b data="0">I</b> am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
+                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what I am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
                         </div>
                     </div>
                     <div class="chunk_block">

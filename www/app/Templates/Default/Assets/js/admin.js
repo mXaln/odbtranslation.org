@@ -375,7 +375,7 @@ $(function () {
                         $(".breaks").show();
                         $("button[name=startEvent]").prop("disabled", true);
                         $("button[name=deleteEvent]").prop("disabled", true);
-                        $("button[name=manageEvent]").prop("disabled", true);
+                        //$("button[name=manageEvent]").prop("disabled", true);
                         if(EventStates.states[data.event.state] < EventStates.states.l2_recruit)
                         {
                             $("#eventAction").val("create");
@@ -399,7 +399,7 @@ $(function () {
                     {
                         $("button[name=startEvent]").prop("disabled", false);
                         $("button[name=deleteEvent]").prop("disabled", false);
-                        $("button[name=manageEvent]").prop("disabled", false);
+                        //$("button[name=manageEvent]").prop("disabled", false);
                         $(".l2_buttons").hide();
                         $(".breaks").hide();
                         $("span", delLabel).remove();
@@ -410,7 +410,7 @@ $(function () {
                         '(<strong>'+Language.chaptersNum+':</strong> '+data.event.chaptersNum+')'
                     );
 
-                    var admins = data["event"].admins;
+                    var admins = data["admins"];
                     var content = "";
                     $.each(admins, function(k, v) {
                         content += '' +
@@ -418,7 +418,6 @@ $(function () {
                     });
 
                     $("#adminsSelect").prepend(content);
-
                     $(".event-content").css("left", 0);
                 }
                 else
@@ -559,12 +558,13 @@ $(function () {
 
     // Show event contributors
     $(".showContributors").click(function () {
-        var eventID = $(this).attr("data");
+        var eventID = $(this).data("eventid");
+        var level = $(this).data("level");
 
         $.ajax({
             url: "/admin/rpc/get_event_contributors",
             method: "post",
-            data: {eventID: eventID},
+            data: {eventID: eventID, level: level},
             dataType: "json",
             beforeSend: function() {
                 $(".showContributors").prop("disabled", true);
@@ -586,14 +586,17 @@ $(function () {
                     html += "</div>";
 
                     // Render translators
-                    html += "<div class='translators_list'>" +
-                        "<div class='contrib_title'>"+Language.translators+":</div>";
-                    $.each(data.translators, function (i,v) {
-                        html += "<div>" +
-                            "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
-                            "</div>";
-                    });
-                    html += "</div>";
+                    if(data.translators.length > 0)
+                    {
+                        html += "<div class='translators_list'>" +
+                            "<div class='contrib_title'>"+Language.translators+":</div>";
+                        $.each(data.translators, function (i,v) {
+                            html += "<div>" +
+                                "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
+                                "</div>";
+                        });
+                        html += "</div>";
+                    }
 
                     // Render checkers
                     html += "<div class='checkers_list'>" +

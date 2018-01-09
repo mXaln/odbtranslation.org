@@ -40,75 +40,75 @@
                 <div id="my_scripture_content" class="my_content shown">
                     <div class="note_chunk chunk_verses">
                         <strong><sup>1</sup></strong>
-                        <div class="kwverse_1_0_1"> <b data="0">The former book I wrote</b>, <b data="0">Theophilus</b>, told all that <b data="0">Jesus began to do and to teach</b>, </div>
+                        <div class="kwverse_1_0_1"> <b data="0">Teofilus, dalam buku pertama yang saya tuliskan</b>, dijelaskan semua yang telah dilakukan dan diajarkan Yesus, </div>
                         <strong><sup>2</sup></strong>
-                        <div class="kwverse_1_0_2"> until the day that <b data="0">he was taken up</b>, after <b data="0">he had given commands</b> <b data="0">through the Holy Spirit to the apostles</b> he had chosen. </div>
+                        <div class="kwverse_1_0_2"> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui <b data="0">Roh Kudus kepada</b> rasul-rasul yang telah dipilihNya. </div>
                         <strong><sup>3</sup></strong>
-                        <div class="kwverse_1_0_3"> After his suffering, <b data="0">he presented himself alive to them with many convincing proofs</b>. For forty days he appeared to them, and he spoke about the <b data="0">kingdom of God</b>. </div>
+                        <div class="kwverse_1_0_3"> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>4</sup></strong>
-                        <div class="kwverse_1_1_4"> When he was meeting together with them, <b data="0">he commanded them not to leave Jerusalem</b>, but to wait for the <b data="0">promise of the Father</b>, about which, he said, "You heard from me </div>
+                        <div class="kwverse_1_1_4"> Ketika Ia berkumpul bersama mereka, Ia memerintahkan mereka untuk tidak meninggalkan Yerusalem, tetapi menantikan janji dari Bapa, dan tentang itu, Ia telah berkata, "<b data="0">Kamu telah mendengar dariKu</b> </div>
                         <strong><sup>5</sup></strong>
-                        <div class="kwverse_1_1_5"> that John indeed <b data="0">baptized with water</b>, but you shall be <b data="0">baptized in the Holy Spirit</b> in a few days." </div>
+                        <div class="kwverse_1_1_5"> bahwa Yohanes membaptis dengan air, tetapi kamu akan dibaptis dengan <b data="0">Roh Kudus dalam</b> beberapa hari lagi." </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>6</sup></strong>
-                        <div class="kwverse_1_2_6"> When they were assembled together they asked him, "Lord, is this the time you will restore the kingdom to Israel?" </div>
+                        <div class="kwverse_1_2_6"> Ketika mereka berkumpul bersama-sama, mereka bertanya kepadaNya, "<b data="0">Tuhan, inikah waktunya Engkau</b> akan memulihkan Kerajaan Israel?" </div>
                         <strong><sup>7</sup></strong>
-                        <div class="kwverse_1_2_7"> He said to them, "It is not for you to know the times or the seasons which the Father has determined by his own authority. </div>
+                        <div class="kwverse_1_2_7"> Ia berkata kepada mereka, "Kamu tidak perlu mengetahui waktu dan masa yang telah ditetapkan Allah dengan kuasaNya sendiri. </div>
                         <strong><sup>8</sup></strong>
-                        <div class="kwverse_1_2_8"> But you will receive power, when the Holy Spirit comes upon you, and you will be my witnesses both in Jerusalem and in all Judea and Samaria, and to the ends of the earth." </div>
+                        <div class="kwverse_1_2_8"> Tetapi kamu akan menerima kuasa, saat <b data="0">Roh Kudus</b> turun atas kamu, dan kamu akan menjadi saksiKu baik di Yerusalem dan di seluruh Yudea dan Samaria, dan sampai ke ujung bumi." </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>9</sup></strong>
-                        <div class="kwverse_1_3_9"> When the Lord Jesus had said these things, as they were looking up, he was raised up, and a cloud hid him from their eyes. </div>
+                        <div class="kwverse_1_3_9"> <b data="0">Ketika Tuhan Yesus</b> telah mengatakan hal-hal ini, ketika mereka sedang melihat ke atas, Ia telah terangkat, dan awan menutupiNya dari mata mereka. </div>
                         <strong><sup>10</sup></strong>
-                        <div class="kwverse_1_3_10"> While they were looking intensely to heaven as he went, suddenly, two men stood by them in white clothing. </div>
+                        <div class="kwverse_1_3_10"> Sementara mereka sedang menatap ke surga saat Ia terangkat, tiba-tiba, dua orang telah berdiri dekat mereka dalam pakaian berwarna putih. </div>
                         <strong><sup>11</sup></strong>
-                        <div class="kwverse_1_3_11"> They said, "You men of Galilee, why do you stand here looking into heaven? This Jesus who has been taken up from you into heaven, will return in the same manner as you saw him going into heaven." </div>
+                        <div class="kwverse_1_3_11"> Mereka berkata, "<b data="0">Kamu orang-orang Galilea</b>, mengapa kamu berdiri di sini memandang ke surga? Yesus yang terangkat ke surga akan kembali dengan cara yang sama sebagaimana kamu melihatNya naik ke surga." </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>12</sup></strong>
-                        <div class="kwverse_1_4_12"> Then they returned to Jerusalem from the Mount of Olives, which is near to Jerusalem, a Sabbath day's journey. </div>
+                        <div class="kwverse_1_4_12"> Kemudian mereka kembali ke <b data="0">Yerusalem dari Bukit Zaitun</b>, yang dekat ke Yerusalem, seperjalanan hari Sabat jauhnya. </div>
                         <strong><sup>13</sup></strong>
-                        <div class="kwverse_1_4_13"> When they arrived, they went up into the upper chamber, where they were staying. They were Peter, John, James, Andrew, Philip, Thomas, Bartholomew, Matthew, James son of Alphaeus, Simon the Zealot, and Judas son of James. </div>
+                        <div class="kwverse_1_4_13"> Ketika mereka tiba, mereka naik ke ruang atas, tempat mereka tinggal. <b data="0">Mereka adalah Petrus, Yohanes, Yakobus, Andreas, Filipus, Tomas, Bartolomeus, Matius, Yakobus putra Alfeus, Simon orang Zelot, dan Yudas putra Yakobus</b>. </div>
                         <strong><sup>14</sup></strong>
-                        <div class="kwverse_1_4_14"> They were all united as one, as they diligently continued in prayer. Included were the women, Mary the mother of Jesus, and his brothers. </div>
+                        <div class="kwverse_1_4_14"> Mereka semua berkumpul menjadi satu, sebagaimana mereka bertekun dalam doa. Termasuk adalah para perempuan, Maria ibu Yesus, dan saudara-saudara Yesus. </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>15</sup></strong>
-                        <div class="kwverse_1_5_15"> In those days Peter stood up in the midst of the brothers, about 120 people, and said, </div>
+                        <div class="kwverse_1_5_15"> Pada hari-hari itu <b data="0">berdirilah Petrus di tengah-tengah</b> para saudara, sekitar seratus dua puluh orang, dan berkata, </div>
                         <strong><sup>16</sup></strong>
-                        <div class="kwverse_1_5_16"> "Brothers, it was necessary that the scripture should be fulfilled, that the Holy Spirit spoke before by the mouth of David concerning Judas, who guided the ones who arrested Jesus. </div>
+                        <div class="kwverse_1_5_16"> "Saudara-saudara, adalah penting agar tulisan firman harus digenapi, bahwa <b data="0">Roh Kudus</b> telah berkata melalui mulut Daud mengenai Yudas Iskariot, yang telah menuntun mereka yang menangkap Yesus. </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>17</sup></strong>
-                        <div class="kwverse_1_6_17"> For he was one of us and received his share of the benefits of this ministry." </div>
+                        <div class="kwverse_1_6_17"> Karena ia dahulu adalah salah satu dari antara kita dan telah menerima bagian dari manfaat pelayanan ini." </div>
                         <strong><sup>18</sup></strong>
-                        <div class="kwverse_1_6_18"> (Now this man bought a field with the earnings he received for his wickedness, and there he fell headfirst, and his body burst open, and all his intestines poured out. </div>
+                        <div class="kwverse_1_6_18"> (Sekarang orang ini membeli sebidang tanah <b data="0">dengan hasil yang ia dapatkan</b> dari kejahatannya, dan di situlah ia jatuh dengan kepalanya terlebih dahulu, dan tubuhnya terbelah, serta seluruh isi perutnya terhambur keluar. </div>
                         <strong><sup>19</sup></strong>
-                        <div class="kwverse_1_6_19"> All those living in Jerusalem heard about this, so they called that field in their language "Akeldama," that is, "Field of Blood.") </div>
+                        <div class="kwverse_1_6_19"> <b data="0">Semua yang hidup di Yerusalem</b> telah mendengar tentang hal ini, sebab itulah mereka menyebut ladang itu dalam bahasa mereka "Hakal-Dama," yaitu, "Tanah Darah.") </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>20</sup></strong>
-                        <div class="kwverse_1_7_20"> "For it is written in the Book of Psalms, 'Let his field be made desolate, and do not let even one person live there'; 'Let someone else take his position of leadership.' </div>
+                        <div class="kwverse_1_7_20"> Karena ada tertulis dalam <b data="0">Kitab Mazmur, 'Biarlah ladangnya menjadi terlantar</b>, dan jangan biarkan seorangpun menetap di sana'; dan, <b data="0">'Biarlah orang lain</b> mengambil kedudukannya dalam kepemimpinan.' </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>21</sup></strong>
-                        <div class="kwverse_1_8_21"> It is necessary, therefore, that one of the men who accompanied us all the time the Lord Jesus went in and out among us, </div>
+                        <div class="kwverse_1_8_21"> Karena itulah, suatu keharusan, bahwa salah satu dari mereka yang telah bergabung dengan kita terus menerus ketika <b data="0">Tuhan Yesus berada di antara kita</b>, </div>
                         <strong><sup>22</sup></strong>
-                        <div class="kwverse_1_8_22"> beginning from the baptism of John to the day that he was taken up from us, must be a witness with us of his resurrection." </div>
+                        <div class="kwverse_1_8_22"> mulai dari baptisan Yohanes hingga pada hari Ia diangkat dari antara kita, haruslah menjadi saksi bersama-sama dengan kita mengenai kebangkitanNya. </div>
                         <strong><sup>23</sup></strong>
-                        <div class="kwverse_1_8_23"> They put forward two men, Joseph called Barsabbas, who was also named Justus, and Matthias. </div>
+                        <div class="kwverse_1_8_23"> Mereka mengajukan dua orang, <b data="0">Yusuf yang disebut Barsabas</b>, yang juga bernama Yustus, dan Matias. </div>
                     </div>
                     <div class="note_chunk chunk_verses">
                         <strong><sup>24</sup></strong>
-                        <div class="kwverse_1_9_24"> They prayed and said, "You, Lord, know the hearts of all people, so reveal which of these two is the one whom you have chosen </div>
+                        <div class="kwverse_1_9_24"> <b data="0">Mereka berdoa dan berkata</b>, "Engkau, Tuhan, yang mengetahui hati semua orang, nyatakanlah yang mana dari antara kedua ini yang Engkau pilih, </div>
                         <strong><sup>25</sup></strong>
-                        <div class="kwverse_1_9_25"> to take the place in this ministry and apostleship from which Judas turned away to go to his own place." </div>
+                        <div class="kwverse_1_9_25"> untuk menggantikan tempat dalam pelayanan ini dan kerasulan yang mana <b data="0">Yudas Iskariot</b> telah melanggarnya untuk pergi ke tempat yang telah menjadi miliknya. </div>
                         <strong><sup>26</sup></strong>
-                        <div class="kwverse_1_9_26"> They cast lots for them, and the lot fell to Matthias, and he was numbered with the eleven apostles. </div>
+                        <div class="kwverse_1_9_26"> Mereka membuang undi terhadap keduanya; undi itu jatuh pada Matias sehingga ia telah terhitung di antara kesebelas rasul. </div>
                     </div>
                 </div>
 

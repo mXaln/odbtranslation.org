@@ -257,6 +257,8 @@ if(!isset($error)):
         </div>
     </div>
 </div>
+<?php else: ?>
+    <a href="#" onclick="history.back(); return false"><?php echo __('go_back')?></a>
 <?php endif; ?>
 
 <script>

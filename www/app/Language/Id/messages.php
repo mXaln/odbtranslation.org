@@ -322,6 +322,7 @@ return array (
     "state_translated" => "Sudah diterjemahkan",
     "state_l2_recruit" => "Menunggu pemeriksa L2",
     "state_l2_check" => "Pemeriksaan Level 2",
+    "state_l2_checked" => "Level 2 Complete",
     "state_l3_recruit" => "Menunggu Pemeriksa L3",
     "state_l3_check" => "Pemeriksaan Level 3",
     "state_complete" => "Selesai",
@@ -531,6 +532,7 @@ return array (
     "gw_project_exists_error" => "Proyek gateway ini telah dibuat",
     "not_allowed_action" => "Terjadi kesalahan. Mohon coba lagi.",
     "wrong_parameters" => "Parameter yang salah. Mohon coba lagi.",
+    "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
 
     // Success messages

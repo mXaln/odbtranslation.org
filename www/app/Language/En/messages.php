@@ -325,6 +325,7 @@ return array (
     "state_translated" => "Translated",
     "state_l2_recruit" => "Waiting for L2 checkers",
     "state_l2_check" => "Level 2 check",
+    "state_l2_checked" => "Level 2 Complete",
     "state_l3_recruit" => "Waiting for L3 checkers",
     "state_l3_check" => "Level 3 check",
     "state_complete" => "Complete",
@@ -534,6 +535,7 @@ return array (
     "gw_project_exists_error" => "This gateway project has been already created",
     "not_allowed_action" => "An error occurred. Please try again.",
     "wrong_parameters" => "Wrong parameters. Please try again.",
+    "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
 
     // Success messages

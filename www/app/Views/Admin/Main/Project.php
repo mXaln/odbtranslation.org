@@ -46,9 +46,6 @@ if(!empty($data["project"])):
                     <thead>
                     <tr>
                         <th><?php echo __("book") ?></th>
-                        <th><?php echo __("translators") ?></th>
-                        <th><?php echo __('level', [2]); ?></th>
-                        <th><?php echo __('level', [3]); ?></th>
                         <th><?php echo __("time_start") ?></th>
                         <th><?php echo __("time_end") ?></th>
                         <th><?php echo __("state") ?></th>
@@ -60,9 +57,6 @@ if(!empty($data["project"])):
                 <?php endif; ?>
                         <tr>
                             <td><?php echo $event->name ?></td>
-                            <td><?php echo $event->translators ?></td>
-                            <td><?php echo $event->checkers_l2 ?></td>
-                            <td><?php echo $event->checkers_l3 ?></td>
                             <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
                                 date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>">
                                 <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom . " UTC" : "" ?></td>
@@ -71,8 +65,17 @@ if(!empty($data["project"])):
                                 <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td>
-                                <?php if($event->state == EventStates::TRANSLATED): ?>
-                                <button class="btn btn-warning showContributors" data="<? echo $event->eventID?>"><?php echo __("contributors") ?></button>
+                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)): ?>
+                                <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="1"
+                                    title="<?php echo __("contributors") ?>">
+                                    <?php echo __("L1") ?>
+                                </button>
+                                <?php endif; ?>
+                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)): ?>
+                                    <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="2"
+                                        title="<?php echo __("contributors") ?>">
+                                        <?php echo __("L2") ?>
+                                    </button>
                                 <?php endif; ?>
                             </td>
                             <td>

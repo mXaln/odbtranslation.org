@@ -324,6 +324,7 @@ return array (
     "state_translated" => "Hinubad",
     "state_l2_recruit" => "Naghulat sa L2 nga Tigsusi",
     "state_l2_check" => "Pagsusi sa ikaduhang Ang-ang",
+    "state_l2_checked" => "Level 2 Complete",
     "state_l3_recruit" => "Naghulat alang sa Tigsusi sa L3",
     "state_l3_check" => "Ikatulong Ang-ang sa pagsusi",
     "state_complete" => "Kumpleto",
@@ -533,6 +534,7 @@ return array (
     "gw_project_exists_error" => "Kini nga gateway nga proyekto nabuhat na",
     "not_allowed_action" => "Adunay sayop nga nahitabo. Palihog usaba",
     "wrong_parameters" => "Sayop nga dapit. Palihog usaba",
+    "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
 
     // Success messages

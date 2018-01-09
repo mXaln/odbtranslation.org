@@ -322,6 +322,7 @@ return array (
     "state_translated" => "Переведено",
     "state_l2_recruit" => "Ожидание проверки ур.2",
     "state_l2_check" => "Проверка ур.2",
+    "state_l2_checked" => "Проверка ур.2 завершена",
     "state_l3_recruit" => "Ожидание проверки ур.3",
     "state_l3_check" => "Проверка ур.3",
     "state_complete" => "Complete",
@@ -533,6 +534,7 @@ return array (
     "gw_project_exists_error" => "Проект этого ключевого языка уже был создан",
     "not_allowed_action" => "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
     "wrong_parameters" => "Неверные параметры. Пожалуйста, попробуйте еще раз.",
+    "event_is_finished" => "Событие завершено. Действие невозможно.",
     "keywords_still_exist_error" => "Вы не можете утвердить эту главу, пока в ней присутствуют ключевые слова.",
 
     // Success messages

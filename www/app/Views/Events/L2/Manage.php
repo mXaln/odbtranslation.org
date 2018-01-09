@@ -6,7 +6,7 @@ use Shared\Legacy\Error;
 echo Error::display($error);
 
 if(!isset($error)):
-?> 
+?>
 
 <div class="back_link">
     <span class="glyphicon glyphicon-chevron-left"></span>
@@ -251,6 +251,8 @@ if(!isset($error)):
         </div>
     </div>
 </div>
+<?php else: ?>
+    <a href="#" onclick="history.back(); return false"><?php echo __('go_back')?></a>
 <?php endif; ?>
 
 <script>

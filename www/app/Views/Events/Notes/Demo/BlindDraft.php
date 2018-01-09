@@ -26,9 +26,9 @@
 
                 <div id="my_scripture_content" class="my_content shown">
                     <div class="note_chunk">
-                        <p> <strong><sup>1</sup></strong> The former book I wrote, Theophilus, told all that Jesus began to do and to teach, </p>
-                        <p> <strong><sup>2</sup></strong> until the day that he was taken up, after he had given commands through the Holy Spirit to the apostles he had chosen. </p>
-                        <p> <strong><sup>3</sup></strong> After his suffering, he presented himself alive to them with many convincing proofs. For forty days he appeared to them, and he spoke about the kingdom of God. </p>
+                        <p> <strong><sup>1</sup></strong> Teofilus, dalam buku pertama yang saya tuliskan, dijelaskan semua yang telah dilakukan dan diajarkan Yesus, </p>
+                        <p> <strong><sup>2</sup></strong> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui Roh Kudus kepada rasul-rasul yang telah dipilihNya. </p>
+                        <p> <strong><sup>3</sup></strong> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </p>
                     </div>
                 </div>
 

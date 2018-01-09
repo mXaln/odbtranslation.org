@@ -435,7 +435,7 @@ $profile = Session::get("profile");
                 <div class="event_facilitator">
                     <div><?php echo __("facilitators") ?>:</div>
                     <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
+                        <?php foreach ((array)json_decode($event->admins_l2, true) as $admin): ?>
                             <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
                         <?php endforeach; ?>
                     </div>
