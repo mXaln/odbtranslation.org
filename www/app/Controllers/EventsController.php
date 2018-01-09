@@ -7748,7 +7748,7 @@ class EventsController extends Controller
 
     private function moveMemberStepBack($member, $toStep, $confirm, $prevChunk = false)
     {
-        $mode = $member->bookProject;
+        $mode = $member->bookProject; // test
         $chk = $member->chk;
         $manageMode = "l1";
 
