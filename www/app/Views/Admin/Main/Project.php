@@ -49,7 +49,7 @@ if(!empty($data["project"])):
                         <th><?php echo __("time_start") ?></th>
                         <th><?php echo __("time_end") ?></th>
                         <th><?php echo __("state") ?></th>
-                        <th></th>
+                        <th><?php echo __("contributors") ?></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -66,14 +66,12 @@ if(!empty($data["project"])):
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td>
                                 <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)): ?>
-                                <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="1"
-                                    title="<?php echo __("contributors") ?>">
+                                <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="1">
                                     <?php echo __("L1") ?>
                                 </button>
                                 <?php endif; ?>
                                 <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)): ?>
-                                    <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="2"
-                                        title="<?php echo __("contributors") ?>">
+                                    <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="2">
                                         <?php echo __("L2") ?>
                                     </button>
                                 <?php endif; ?>
