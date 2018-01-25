@@ -2,6 +2,8 @@
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
 use Helpers\Session;
+
+$profile = Session::get("profile");
 ?>
 
 <div style="margin-bottom: 20px">
@@ -9,6 +11,13 @@ use Helpers\Session;
     <div class="demo_title events_index">
         <a href="/events/demo" class="demo_link"><?php echo __("demo")?></a>
         <span class="glyphicon glyphicon-chevron-right"></span>
+        <div class="demo_options">
+            <ul>
+                <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
+                <a href="/events/demo-l2"><li><?php echo __("l2_3_events", [2]); ?></li></a>
+                <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -55,7 +64,6 @@ use Helpers\Session;
 
         <div class="clear"></div>
 
-
         <?php if(sizeof($data["myFacilitatorEventsInProgress"]) > 0): ?>
         <div class="events_separator"><?php echo __("events_in_progress") ?></div>
         <?php endif; ?>
@@ -65,29 +73,30 @@ use Helpers\Session;
             switch ($event->state)
             {
                 case EventStates::L2_RECRUIT:
+                case EventStates::L2_CHECK:
+                case EventStates::L2_CHECKED:
                     $eventType = __("l2_3_events", array(2));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl2Cnt;
-                    $totalMembers = $event->l2CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l2/".$event->eventID;
+                    $progressLink = "/events/information-l2/".$event->eventID;
                     break;
 
                 case EventStates::L3_RECRUIT:
+                case EventStates::L3_CHECK:
                     $eventType = __("l2_3_events", array(3));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl3Cnt;
-                    $totalMembers = $event->l3CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l3/".$event->eventID;
+                    $progressLink = "/events/information-l3/".$event->eventID;
                     break;
 
                 default:
@@ -97,7 +106,6 @@ use Helpers\Session;
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
-                    $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
@@ -152,7 +160,7 @@ use Helpers\Session;
                     <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
                     <div class="event_members">
                         <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                        <div class="trs_num"><?php echo $currentMembers ?></div>
                     </div>
                 </div>
 
@@ -171,29 +179,30 @@ use Helpers\Session;
             switch ($event->state)
             {
                 case EventStates::L2_RECRUIT:
+                case EventStates::L2_CHECK:
+                case EventStates::L2_CHECKED:
                     $eventType = __("l2_3_events", array(2));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl2Cnt;
-                    $totalMembers = $event->l2CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l2/".$event->eventID;
+                    $progressLink = "/events/information-l2/".$event->eventID;
                     break;
 
                 case EventStates::L3_RECRUIT:
+                case EventStates::L3_CHECK:
                     $eventType = __("l2_3_events", array(3));
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl3Cnt;
-                    $totalMembers = $event->l3CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l3/".$event->eventID;
+                    $progressLink = "/events/information-l3/".$event->eventID;
                     break;
 
                 default:
@@ -203,7 +212,6 @@ use Helpers\Session;
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
-                    $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
@@ -258,7 +266,7 @@ use Helpers\Session;
                     <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
                     <div class="event_members">
                         <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                        <div class="trs_num"><?php echo $currentMembers ?></div>
                     </div>
                 </div>
 
@@ -338,7 +346,7 @@ use Helpers\Session;
                 </div>
                 <div class="event_members">
                     <div><?php echo __("translators") ?></div>
-                    <div class="trs_num"><?php echo $event->currTrs."/".$event->translatorsNum ?></div>
+                    <div class="trs_num"><?php echo $event->currTrs ?></div>
                 </div>
             </div>
 
@@ -427,7 +435,7 @@ use Helpers\Session;
                 <div class="event_facilitator">
                     <div><?php echo __("facilitators") ?>:</div>
                     <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
+                        <?php foreach ((array)json_decode($event->admins_l2, true) as $admin): ?>
                             <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
                         <?php endforeach; ?>
                     </div>
@@ -450,9 +458,23 @@ use Helpers\Session;
                 </div>
             </div>
             <div class="event_current_pos">
+                <?php if($event->step != EventSteps::NONE): ?>
+                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                    <div class="event_curr_step">
+                        <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                        <?php echo ($event->currentChapter > 0 ? __("chapter_number",
+                                    array($event->currentChapter)). ", " : "")
+                            .__($event->step) ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="event_action check1">
-                <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
+            <div class="event_action check2">
+                <div class="event_link">
+                    <a href="/events/checker-l2/<?php echo $event->eventID
+                        .(isset($event->isContinue) ? "/".$event->l2memberID."/".$event->currentChapter : "") ?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
             </div>
 
             <div class="clear"></div>
@@ -501,7 +523,7 @@ use Helpers\Session;
             </div>
             <div class="event_current_pos">
             </div>
-            <div class="event_action check1">
+            <div class="event_action check3">
                 <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
             </div>
 
@@ -528,7 +550,6 @@ use Helpers\Session;
                 $logoBorderClass = "checkingl2";
                 $bgColor = "lemon-marked";
                 $currentMembers = $event->chl2Cnt;
-                $totalMembers = $event->l2CheckersNum;
                 $members = __("checkers");
                 $stage = "l2";
                 break;
@@ -540,7 +561,6 @@ use Helpers\Session;
                 $logoBorderClass = "checkingl3";
                 $bgColor = "blue-marked";
                 $currentMembers = $event->chl3Cnt;
-                $totalMembers = $event->l3CheckersNum;
                 $members = __("checkers");
                 $stage = "l3";
                 break;
@@ -552,7 +572,6 @@ use Helpers\Session;
                 $logoBorderClass = "translation";
                 $bgColor = "green-marked";
                 $currentMembers = $event->trsCnt;
-                $totalMembers = $event->translatorsNum;
                 $members = __("translators");
                 $stage = "d1";
                 break;
@@ -602,7 +621,7 @@ use Helpers\Session;
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="#" class="applyEvent <?php echo $currentMembers == $totalMembers ? "eventFull" : "" ?>"
+                    <a href="#" class="applyEvent"
                        data="<?php echo $event->eventID ?>"
                        data2="<?php echo $event->name ?>"
                        data3="<?php echo $stage ?>">
@@ -611,7 +630,7 @@ use Helpers\Session;
                 </div>
                 <div class="event_members">
                     <div><?php echo $members ?></div>
-                    <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                    <div class="trs_num"><?php echo $currentMembers ?></div>
                 </div>
             </div>
 
@@ -627,9 +646,9 @@ use Helpers\Session;
 </div>
 
 <div class="event-content form-panel">
-    <div class="create-event-content panel panel-default">
+    <div class="create-event-content l2 panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"></h1>
+            <h1 class="panel-title applyForm"></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -639,7 +658,7 @@ use Helpers\Session;
 
                 <div class="errors"></div>
 
-                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 900px;">
+                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 550px;">
                     <div class="form-group">
                         <h3 class="ftr"><?php echo __("apply_as_translator") ?></h3>
                         <h3 class="fl2" style="display: none"><?php echo __("apply_as_checker", [2]) ?></h3>
@@ -649,7 +668,7 @@ use Helpers\Session;
                     <div class="checker_info">
                         <div class="form-group">
                             <label class="church_role"><?php echo __('church_role'); ?>: </label>
-                            <div class="form-control">
+                            <div class="form-control" style="height: auto;">
                                 <label><input type="checkbox" name="church_role[]" value="Elder"
                                         <?php echo isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('elder'); ?> &nbsp;</label>
                                 <label><input type="checkbox" name="church_role[]" value="Bishop"

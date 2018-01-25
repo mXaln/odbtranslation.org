@@ -9,7 +9,13 @@ use Shared\Legacy\Error;
 $profile = $data["profile"];
 ?>
 
+<div>
+    <div class="public_uname"><?php echo Session::get("userName") ?></div>
+    <div class="public_fname"><?php echo Session::get("firstName")." ".Session::get("lastName") ?></div>
+</div>
+
 <form action='' method='post' style="width: 900px" class="form-horizontal profile_form">
+
     <div class="profile_messages">
         <?php
         echo Error::display($error);
@@ -370,17 +376,16 @@ $profile = $data["profile"];
             <label><input type="radio" class="fluency" name="" value="4" disabled> <?php echo __('native'); ?> &nbsp;</label>
             <label><input type="radio" class="fluency" name="" value="5" disabled> <?php echo __('expert'); ?> &nbsp;</label>
         </div>
-
         <br>
 
-        <label><?php echo __('lang_geographic_years'); ?>: </label>
+        <!--<label><?php echo __('lang_geographic_years'); ?>: </label>
         <div class="form-control">
             <label><input type="radio" class="geo_years" name="" value="1" disabled> <?php echo __('less_than', array(2)); ?> &nbsp;&nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="2" disabled> 2-4 &nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="3" disabled> 5-7 &nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="4" disabled> 8-10 &nbsp;</label>
         </div>
-        <br>
+        <br>-->
         <button class="add_lang btn btn-primary" disabled><?php echo __("add_lang") ?></button>
     </div>
 </div>

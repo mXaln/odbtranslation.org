@@ -2,7 +2,7 @@
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title", array(""))?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
         </div>
         <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
         <div class="other_comments_list"></div>
@@ -13,7 +13,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [7]) . ": " . __("keyword-check")?></div>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>

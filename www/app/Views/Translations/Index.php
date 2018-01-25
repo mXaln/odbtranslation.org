@@ -21,7 +21,7 @@ if(isset($data['books'])) {
     echo __($data['books'][0]->bookProject).'</a><br><br>';
 
     foreach ($data['books'] as $book) {
-        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">" . $book->bookName . "</a><br>";
+        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">". $book->bookName . "</a><br>";
     }
 }
 
@@ -38,5 +38,5 @@ if(isset($data['book'])) {
     else
         echo "<h4><a href='".$data['data']->bookCode."/md'>".__("download_markdown")."</a></h4>";
 
-    echo '<div class="bible_book" dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
+    echo '<div class="bible_book '.($data["data"]->targetLang == "sun" ? "sun_content" : "").' dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
 }

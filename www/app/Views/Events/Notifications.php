@@ -29,9 +29,11 @@ use \Helpers\Constants\EventSteps;
                             if(!in_array($event->bookProject, ["tn"]) 
                                 || !isset($event->notesChapter))
                             {
-                                $step = $event->translateDone ? EventSteps::FINISHED :$event->step;
+                                $step = isset($event->translateDone) && $event->translateDone ? EventSteps::FINISHED :$event->step;
                                 $link = "/events/checker/".$event->eventID."/"
-                                    .$event->memberID."/".$event->step."/apply";
+                                    .$event->memberID."/".$event->step."/"
+                                    .(isset($event->manageMode) ? $event->currentChapter."/" : "")
+                                    ."apply";
                             }
                             else 
                             {

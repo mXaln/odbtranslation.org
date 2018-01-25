@@ -37,12 +37,13 @@ class TranslationsModel extends Model
     {
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject",
-                "abbr.name AS bookName", "translations.bookCode")
+                "abbr.name AS bookName", "translations.bookCode", "abbr.abbrID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
             ->where("translations.translateDone", true)
+            ->orderBy("abbr.abbrID")
             ->groupBy("translations.bookCode")->get();
     }
 
@@ -97,7 +98,7 @@ class TranslationsModel extends Model
 
 
     /** Get translation of translator in event
-     * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
+     * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
      * @param int $tID
      * @param int $chapter
@@ -108,6 +109,29 @@ class TranslationsModel extends Model
     {
         $builder = $this->db->table("translations")
             ->where("trID", $trID);
+
+        if($chapter !== null) {
+            $builder->where("chapter", $chapter);
+            if($chunk !== null) {
+                $builder->where("chunk", $chunk);
+            }
+        }
+
+        return $builder->get();
+    }
+
+    /** Get translation of translator/checker in event by eventID
+     * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
+     * @param int $trID
+     * @param int $tID
+     * @param int $chapter
+     * @param int $chunk
+     * @return array
+     */
+    public function getEventTranslationByEventID($eventID, $chapter = null, $chunk = null)
+    {
+        $builder = $this->db->table("translations")
+            ->where("eventID", $eventID);
 
         if($chapter !== null) {
             $builder->where("chapter", $chapter);
@@ -229,19 +253,21 @@ class TranslationsModel extends Model
             ->delete();
     }
 
-    public function getComment($eventID, $chapter, $chunk, $memberID)
+    public function getComment($eventID, $chapter, $chunk, $memberID, $level)
     {
         return $this->db->table("comments")
             ->where("eventID", $eventID)
             ->where("chapter", $chapter)
             ->where("chunk", $chunk)
-            ->where("memberID", $memberID)->get();
+            ->where("memberID", $memberID)
+            ->where("level", $level)
+            ->get();
     }
 
     public function getCommentsByEvent($eventID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("comments")
-            ->select("comments.*", "members.userName")
+            ->select("comments.*", "members.userName", "members.firstName", "members.lastName")
             ->leftJoin("members", "comments.memberID", "=", "members.memberID")
             ->where("comments.eventID", $eventID)
             ->orderBy("comments.chapter")

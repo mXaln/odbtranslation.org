@@ -121,6 +121,7 @@ class MembersController extends Controller
                 $langArr = array();
                 foreach ($langs as $lang) {
                     $arr = explode(":", $lang);
+                    $arr[2] = 4; // To support old version, when geo years were saved
 
                     if(sizeof($arr) != 3) continue;
 

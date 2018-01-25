@@ -2,7 +2,7 @@
     <div class="comment_div panel panel-default">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
         </div>
         <textarea class="textarea textarea_editor" style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;"></textarea>
         <div class="other_comments_list"></div>
@@ -14,7 +14,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [7]) . ": " . __("keyword-check")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
@@ -41,7 +41,7 @@
                             <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                             <div class="comments">
-                                <div class="other_comments"><span>Mark P.:</span> This is translator's comment on this chunk</div>
+                                <div class="other_comments"><span>Mark P. (L1):</span> This is translator's comment on this chunk</div>
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -59,7 +59,7 @@
                             <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                             <div class="comments">
-                                <div class="other_comments"><span>Mark P.:</span> This is translator's comment on this chunk</div>
+                                <div class="other_comments"><span>Mark P. (L1):</span> This is translator's comment on this chunk</div>
                             </div>
                             <div class="clear"></div>
                         </div>

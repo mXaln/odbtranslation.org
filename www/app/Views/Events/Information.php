@@ -11,7 +11,7 @@ if(!isset($error)):
     <div class="back_link">
         <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
             <span class="glyphicon glyphicon-chevron-left"></span>
-            <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
+            <a href="#" onclick="history.back(); return false;"><?php echo __("go_back") ?></a>
         <?php endif; ?>
     </div>
 
@@ -284,6 +284,6 @@ if(!isset($error)):
 
     <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
     <script src="<?php echo template_url("js/chat-plugin.js?3")?>"></script>
-    <script src="<?php echo template_url("js/socket.js?4")?>"></script>
+    <script src="<?php echo template_url("js/socket.js?6")?>"></script>
 
 <?php endif; ?>

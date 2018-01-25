@@ -1,5 +1,6 @@
 <?php
-use \Helpers\Constants\EventSteps;
+use Helpers\Constants\EventSteps;
+use Helpers\Constants\EventStates;
 use Shared\Legacy\Error;
 
 echo Error::display($error);
@@ -8,20 +9,18 @@ if(!isset($error)):
 ?> 
 
 <div class="back_link">
-    <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
-    <?php endif; ?>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <a href="#" onclick="history.back(); return false;"><?php echo __("go_back") ?></a>
 </div>
 
 <div class="manage_container row">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <div class="book_title" style="padding-left: 15px"><?php echo $data["event"][0]->name ?></div>
             <div class="project_title" style="padding-left: 15px"><?php echo __($data["event"][0]->bookProject)." - ".$data["event"][0]->langName ?></div>
         </div>
-        <div class="col-sm-4 start_translation">
-            <?php if($data["event"][0]->state == "started"): ?>
+        <div class="col-sm-6 start_translation">
+            <?php if($data["event"][0]->state == EventStates::STARTED): ?>
                 <form action="" method="post">
                     <button type="submit" name="submit" class="btn btn-warning" id="startTranslation" style="width: 150px; height: 50px;"><?php echo __("start_translation")?></button>
                 </form>
@@ -69,7 +68,8 @@ if(!isset($error)):
 
     <div class="manage_members col-sm-6">
         <h3>
-            <?php echo __("people_number", array(sizeof($data["members"]), $data["event"][0]->translatorsNum)) ?>
+            <?php echo __("people_number", sizeof($data["members"])) ?>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button 
                 class="btn btn-primary" 
                 id="openMembersSearch">
@@ -257,10 +257,14 @@ if(!isset($error)):
         </div>
     </div>
 </div>
+<?php else: ?>
+    <a href="#" onclick="history.back(); return false"><?php echo __('go_back')?></a>
 <?php endif; ?>
 
 <script>
     isManagePage = true;
+    manageMode = "l1";
+    userType = EventMembers.TRANSLATOR;
 
     $(document).ready(function () {
         $('.step_selector').each(function () {

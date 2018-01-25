@@ -12,10 +12,11 @@ if(empty($error) && empty($data["success"])):
 ?>
 
 <div class="editor">
-    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
+    <div class="comment_div panel panel-default <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"
+            dir="<?php echo $data["event"][0]->tLangDir ?>">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
         <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
@@ -68,7 +69,7 @@ if(empty($error) && empty($data["success"])):
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
                                 <div class="vnote">
-                                    <?php echo $text; ?>
+                                    <div class="<?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"><?php echo $text; ?></div>
 
                                     <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                     <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
@@ -82,7 +83,12 @@ if(empty($error) && empty($data["success"])):
                                                 <?php if($comment->memberID == Session::get("memberID")): ?>
                                                     <div class="my_comment"><?php echo $comment->text; ?></div>
                                                 <?php else: ?>
-                                                    <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                                    (L".$comment->level."):</span> 
+                                                                ".$comment->text; ?>
+                                                    </div>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
@@ -183,5 +189,3 @@ if(empty($error) && empty($data["success"])):
     });
 </script>
 <?php endif; ?>
-
-<script src="<?php echo template_url("js/jquery.mark.min.js")?>" type="text/javascript"></script>

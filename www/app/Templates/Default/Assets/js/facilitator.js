@@ -33,18 +33,19 @@ $(function () {
         });
     });
 
-    // Assign chapter to translator
+    // Assign chapter to translator/checker
     $(document).on("click", ".assign_chapter", function() {
         var data = {};
         data.eventID = $("#eventID").val();
         data.chapter = $(".chapter_members_div .panel-title span").text();
         data.memberID = $(this).attr("data");
         data.memberName = $(this).prev(".member_usname").children(".divname").text();
+        data.manageMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
         assignChapter(data, "add");
     });
 
-    // Show "add translator" dialog
+    // Show "add translator/checker" dialog
     $("#openMembersSearch").click(function() {
         $(".user_translators").html("");
         $("#user_translator").val("");
@@ -58,7 +59,7 @@ $(function () {
     });
 
 
-    // Close "add translator" dialog
+    // Close "add translator/checker" dialog
     $(".members-search-dialog-close").click(function() {
         $(".user_translators").html("");
         $("#user_translator").val("");
@@ -131,7 +132,6 @@ $(function () {
         var $this = $(this);
         var memberID = $(this).attr("data");
         var eventID = $("#eventID").val();
-        var userType = EventMembers.TRANSLATOR;
 
         $.ajax({
             url: "/events/rpc/apply_event",
@@ -180,6 +180,7 @@ $(function () {
             data.chapter = $(".add_person_chapter", parent).attr("data");
             data.memberID = $this.attr("data");
             data.memberName = $this.prev(".uname").text();
+            data.manageMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
             assignChapter(data, "delete");
         }, function () {
@@ -200,7 +201,7 @@ $(function () {
             $.ajax({
                 url: "/events/rpc/delete_event_member",
                 method: "post",
-                data: {eventID: eventID, memberID: memberID},
+                data: {eventID: eventID, memberID: memberID, manageMode: manageMode},
                 dataType: "json"
             })
                 .done(function(data) {
@@ -230,7 +231,7 @@ $(function () {
     // Start interval to check new applied translators
     var getMembersInterval = setInterval(function() {
         getNewMembersList();
-    }, 60000);
+    }, 300000);
 
     function getNewMembersList() {
         var eventID = $("#eventID").val();
@@ -246,7 +247,7 @@ $(function () {
         $.ajax({
             url: "/events/rpc/get_event_members",
             method: "post",
-            data: {eventID: eventID, memberIDs: ids},
+            data: {eventID: eventID, memberIDs: ids, manageMode: manageMode},
             dataType: "json"
         })
             .done(function(data) {
@@ -529,9 +530,67 @@ $(function () {
         moveStepBack(null, eventID, memberID, to_step, true, false, chk);
     });
 
+    $(".remove_checker_l2").click(function() {
+        var id = $(this).attr("id");
+        var eventID = $("#eventID").val();
+        var memberID = $(this).parent().data("member");
+        var chapter = $(this).parent().data("chapter");
+        var name = "<span class='l2_checker_name'>"+$(this).data("name")+"</span>";
+
+        renderConfirmPopup(Language.attention, Language.remove_l2_checker + name, function() {
+            $.ajax({
+                url: "/events/rpc/move_step_back_l2",
+                method: "post",
+                data: {
+                    eventID : eventID,
+                    memberID : memberID,
+                    chapter: chapter,
+                    mode: id
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    //$(".filter_loader").show();
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        renderPopup(data.message,
+                            function () {
+                                $( this ).dialog( "close" );
+                            },
+                            function () {
+                                window.location.reload();
+                            });
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error,
+                                function () {
+                                    $( this ).dialog( "close" );
+                                },
+                                function () {
+                                    window.location.reload();
+                                });
+                        }
+                    }
+                })
+                .always(function() {
+                    //$(".filter_loader").hide();
+                });
+        }, function () {
+            $( this ).dialog( "close" );
+        }, function () {
+            $( this ).dialog( "close" );
+        });
+    });
+
     function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk, chk) {
         confirm = confirm || false;
         prev_chunk = prev_chunk || false;
+        var mMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
         $.ajax({
             url: "/events/rpc/move_step_back",
@@ -542,7 +601,8 @@ $(function () {
                 to_step: to_step,
                 confirm: confirm,
                 prev_chunk: prev_chunk,
-                chk: chk
+                chk: chk,
+                manageMode: mMode
             },
             dataType: "json",
             beforeSend: function() {
@@ -662,7 +722,7 @@ function assignChapter(data, action)
             eventID: data.eventID,
             chapter: data.chapter,
             memberID: data.memberID,
-            mode: data.mode,
+            manageMode: manageMode,
             action: action
         },
         dataType: "json",

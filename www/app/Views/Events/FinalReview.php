@@ -5,10 +5,11 @@ if(isset($data["error"])) return;
 ?>
 
 <div class="editor">
-    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
+    <div class="comment_div panel panel-default <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"
+            dir="<?php echo $data["event"][0]->tLangDir ?>">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
+            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
         </div>
         <textarea class="textarea textarea_editor"></textarea>
         <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
@@ -76,7 +77,8 @@ if(isset($data["error"])) return;
                                         if(!empty($_POST) && isset($_POST["chunks"][$key]))
                                             $text = $_POST["chunks"][$key];
                                         ?>
-                                        <div class="textWithBubbles noselect" contentEditable="true">
+                                        <div class="textWithBubbles noselect <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"
+                                             contentEditable="true">
                                             <?php
                                             $wordverse = preg_split("/\|([0-9]+)\|/", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
                                             foreach ($wordverse as $item)
@@ -110,7 +112,12 @@ if(isset($data["error"])) return;
                                                     <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
                                                         <div class="my_comment"><?php echo $comment->text; ?></div>
                                                     <?php else: ?>
-                                                        <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                        <div class="other_comments">
+                                                            <?php echo
+                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                                    (L".$comment->level."):</span> 
+                                                                ".$comment->text; ?>
+                                                        </div>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>

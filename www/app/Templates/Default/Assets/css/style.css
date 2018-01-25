@@ -1,3 +1,20 @@
+@font-face {
+    font-family: "SUN";
+    font-style: normal;
+    font-weight: normal;
+    unicode-range: U+0-10FFFF;
+    src: url("../fonts/SUN.eot");
+    src: url("../fonts/SUN.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/SUN.woff") format("woff"),
+    url("../fonts/SUN.ttf") format("truetype")
+}
+
+.sun_content {
+    font-family: SUN;
+    font-size: 22px;
+    word-wrap: break-word;
+}
+
 html, body, .container {
     height: 100%;
 }
@@ -738,6 +755,8 @@ html, body, .container {
     top: 12px;
     right: 10px;
     cursor: pointer;
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
 }
 
 .adminsEvLoader {
@@ -831,6 +850,16 @@ html, body, .container {
     top: calc(50% - 260px);
 }
 
+.event-content > .create-event-content.l2 {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    width: 600px;
+    left: calc(50% - 300px);
+    top: calc(50% - 360px);
+}
+
 .create-event-content.wide_form {
     width: 960px;
     left: calc(50% - 480px);
@@ -869,6 +898,10 @@ html, body, .container {
     border: 1px solid #cccccc;
     margin: 5px;
     padding: 5px;
+}
+
+#startEvent {
+    position: relative;
 }
 
 #startEvent #cal_from, #startEvent #cal_to {
@@ -1072,6 +1105,7 @@ div.ui-datepicker {
     float: left;
     position: relative;
     padding-top: 40px;
+    width: 900px;
 }
 
 .main_content_title .demo_title {
@@ -1267,6 +1301,38 @@ div.ui-datepicker {
 }
 .final-review-step.active {
     background: url("/templates/default/assets/img/steps/final-review-active.png") no-repeat;
+}
+
+.fst-check {background-color: #4596cc;}
+.fst-check-step {
+    background: url("/templates/default/assets/img/steps/first-check-inactive.png") no-repeat;
+}
+.fst-check-step.active {
+    background: url("/templates/default/assets/img/steps/first-check-active.png") no-repeat;
+}
+
+.snd-check {background-color: #4596cc;}
+.snd-check-step {
+    background: url("/templates/default/assets/img/steps/second-check-inactive.png") no-repeat;
+}
+.snd-check-step.active {
+    background: url("/templates/default/assets/img/steps/second-check-active.png") no-repeat;
+}
+
+.keyword-check-l2 {background-color: #4596cc;}
+.keyword-check-l2-step {
+    background: url("/templates/default/assets/img/steps/keyword-check-inactive.png") no-repeat;
+}
+.keyword-check-l2-step.active {
+    background: url("/templates/default/assets/img/steps/keyword-check-active.png") no-repeat;
+}
+
+.peer-review-l2 {background-color: #4596cc;}
+.peer-review-l2-step {
+    background: url("/templates/default/assets/img/steps/peer-edit-inactive.png") no-repeat;
+}
+.peer-review-l2-step.active {
+    background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
 }
 
 .chunk_verse {
@@ -1508,40 +1574,47 @@ mark {
     position: relative;
 }
 
-.notifa .verbalize_checker {
-    background-color: #bae0f8;
-}
-.notifa .verbalize_checker:hover {
-    background-color: #b0d5ed;
-}
-
 .notifa .peer-review_checker {
-    background-color: #fdeeff;
+    border-left: 10px solid #78d5f8;
 }
 .notifa .peer-review_checker:hover {
-    background-color: #f6e0ff;
+    border-left: 10px solid #00b9f8;
 }
 
 .notifa .keyword-check_checker {
-    background-color: #ffe4c9;
+    border-left: 10px solid #ffbc70;
 }
 .notifa .keyword-check_checker:hover {
-    background-color: #f8cf9f;
+    border-left: 10px solid #ffac3a;
 }
 
 .notifa .content-review_checker {
-    background-color: #deede3;
+    border-left: 10px solid #47d700;
 }
 .notifa .content-review_checker:hover {
-    background-color: #d3edd5;
+    border-left: 10px solid #51c338;
 }
 
 .notifa .notes_checker {
-    background-color: #ff5de4;
+    border-left: 10px solid #ff5de4;
 }
 
 .notifa .notes_checker:hover {
-    background-color: #ff3ae1;
+    border-left: 10px solid #ff3ae1;
+}
+
+.notifa .snd-check_checker {
+    border-left: 10px solid #d76f75;
+}
+.notifa .snd-check_checker:hover {
+    border-left: 10px solid #c34d4d;
+}
+
+.notifa .peer-review-l2_checker {
+    border-left: 10px solid #78d5f8;
+}
+.notifa .peer-review-l2_checker:hover {
+    border-left: 10px solid #00b9f8;
 }
 
 .notif_block {
@@ -1690,9 +1763,10 @@ mark {
 
 .editor-close, .alt_editor-close {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 22px;
+    top: 3px;
+    right: 2px;
+    font-size: 14px;
+    padding: 4px 12px;
 }
 
 .verse_with_note {
@@ -2147,7 +2221,7 @@ mark {
 
 .save_profile_container.unlinked {
     position: absolute;
-    top: -110px;
+    top: -175px;
     left: auto;
     right: 0;
 }
@@ -2522,6 +2596,7 @@ mark {
 .demo_title.events_index {
     margin-top: -60px;
     float: right;
+    position: relative;
 }
 
 .demo_title span {
@@ -2532,6 +2607,33 @@ mark {
     height: 22px;
     padding: 2px 0 0 3px;
     width: 22px;
+}
+
+.demo_options {
+    position: absolute;
+    width: 300px;
+    right: 0;
+    text-align: right;
+    background-color: #fff;
+    display: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px 10px;
+    font-size: 20px;
+}
+
+.demo_options li {
+    border-bottom: 1px solid #ccc;
+}
+
+.demo_options ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.demo_options a, .demo_options a:hover {
+    text-decoration: none;
 }
 
 .back_link span {
@@ -2888,7 +2990,7 @@ div[class^="member_usname mid"] {
     font-size: 22px;
     font-weight: bold;
     border-radius: 5px;
-    text-align: center;
+    /*text-align: center;*/
     height: 40px;
     color: #ff8400;
     padding-top: 5px;
@@ -3001,6 +3103,10 @@ div[class^="member_usname mid"] {
     height: 50px;
     vertical-align: middle;
     padding-top: 6px;
+}
+
+.notifications:hover {
+    box-shadow: inset 1px 1px 10px 0px #406d9e;
 }
 
 .footer_langs {
@@ -3885,6 +3991,16 @@ button.startEvnt, button.editEvnt {
     text-decoration: none; /*line-through*/
 }
 
+.orig_text ins {
+    background: #d8ffd8;
+    text-decoration: none; /*underline*/
+}
+
+.orig_text del {
+    background: #ffd8d8;
+    text-decoration: none; /*line-through*/
+}
+
 .notes_target {
     margin-top: 20px;
 }
@@ -3910,5 +4026,193 @@ button.startEvnt, button.editEvnt {
 
 .cacheLoader {
     margin: 12px 10px 0 0;
+    display: none;
+}
+
+.l2_buttons {
+    display: none;
+}
+
+.verse_block {
+    position: relative;
+}
+
+.verse_number_l2 {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    color: #0089ff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.l2_checker_name {
+    color: red;
+    font-weight: bold;
+}
+
+.breaks {
+    display: none;
+}
+
+#old_test, #new_test {
+    position: relative;
+}
+
+.project_progress {
+    position: absolute;
+    top: -40px;
+    left: 300px;
+    width: 240px;
+}
+
+.importTranslation {
+    font-size: 22px;
+    cursor: pointer;
+    vertical-align: middle;
+    position: absolute;
+    right: 100px;
+    top: 6px;
+}
+
+.importInfo {
+    position: absolute;
+    right: 75px;
+    top: 10px;
+    font-size: 16px;
+}
+
+.import_menu_content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9000px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.import_menu_content > .import_menu_content_body {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    width: 610px;
+    left: calc(50% - 300px);
+    top: calc(50% - 250px);
+}
+
+.import_menu {
+    background-color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.import_menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.import_menu ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.import_menu label {
+    font-weight: normal;
+    width: 100%;
+}
+
+.import_menu ul li input {
+    display: none;
+}
+
+.import_menu ul li:first-child, .dcs_import_menu ul li:first-child {
+    background-color: #337ab7 !important;
+    color: #fff !important;
+    text-align: center;
+    cursor: auto;
+    font-weight: bold !important;
+    height: 30px;
+    padding: 3px !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.import_menu ul li:last-child, .dcs_import_menu ul li:last-child {
+    background-color: #fff !important;
+    color: #222 !important;
+    text-align: right;
+    font-weight: bold !important;
+    height: 40px;
+    padding: 7px 10px !important;
+    border-top: 1px solid #ccc;
+}
+
+.import_menu ul li:hover {
+    background-color: #eee;
+}
+
+.dcs_import_menu_content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9000px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dcs_import_menu_content > .dcs_import_menu_content_body {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    width: 800px;
+    left: calc(50% - 400px);
+    top: calc(50% - 280px);
+}
+
+.dcs_import_menu {
+    background-color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.dcs_import_menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dcs_import_menu ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dcs_list {
+    height: 370px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dcs_list table {
+    width: 100%;
+}
+
+.dcs_list th {
+    width: 200px;
+}
+
+.importLoader {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
     display: none;
 }
