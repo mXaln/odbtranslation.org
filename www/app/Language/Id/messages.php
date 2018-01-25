@@ -412,6 +412,15 @@ return array (
     "l2_event" => "Level 2 check",
     "source_text" => "Source text",
     "target_text" => "Target text",
+    "import_translation_tip" => "Import translation",
+    "import_options" => "Import options",
+    "import_from_dcs" => "Import from DCS (Door43)",
+    "import_from_usfm" => "Import from USFM (.usfm)",
+    "import_from_ts" => "Import from translationStudio project (.tstudio)",
+    "repository_name" => "Repository name",
+    "repository" => "Repository",
+    "updated_at" => "Updated at",
+    "cancel" => "Cancel",
     //"l2_snd_checker" => "",
     //"l2_p1_checker" => "",
     //"l2_p2_checker" => "",
@@ -534,6 +543,10 @@ return array (
     "wrong_parameters" => "Parameter yang salah. Mohon coba lagi.",
     "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
+    "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
+    "event_has_translations_error" => "The event has translation started, so you cannot import another project",
+    "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
+    "unknown_import_type_error" => "Unknown type of project",
 
     // Success messages
     "you_event_finished_success" => "Anda telah menyelesaikan penerjemahan semua pasal Anda.",
@@ -547,6 +560,7 @@ return array (
     "successfully_deleted" => "Berhasil dihapus!",
     "moved_back_success" => "Penerjemah berhasil dipindahkan satu langkah ke belakang!",
     "checker_removed_success" => "Checker has been successfully removed!",
+    "import_successfull_massage" => "The project has been imported successfully!",
 
     // Other messages
     "alert_message" => "Pesan",

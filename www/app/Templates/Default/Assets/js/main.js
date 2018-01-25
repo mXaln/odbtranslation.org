@@ -1587,8 +1587,8 @@ $(document).ready(function() {
         var bubble = $("body").data("bubble");
         var focused = $("body").data("focused");
         var txt = $(e.target).text();
-        // Check if text has Chinese/Japanese/Myanmar/Lao characters
-        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f]/.test(txt);
+        // Check if text has Chinese/Japanese/Myanmar/Lao characters and SUN
+        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f\ue000-\uf8ff]/.test(txt);
         $("body").data("hasCJLM", hasCJLM);
 
         if(!e.target || e.target.className != "splword" // drop only before words

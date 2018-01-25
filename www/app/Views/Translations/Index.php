@@ -38,5 +38,5 @@ if(isset($data['book'])) {
     else
         echo "<h4><a href='".$data['data']->bookCode."/md'>".__("download_markdown")."</a></h4>";
 
-    echo '<div class="bible_book" dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
+    echo '<div class="bible_book '.($data["data"]->targetLang == "sun" ? "sun_content" : "").' dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
 }

@@ -138,7 +138,7 @@ class EventsModel extends Model
     {
         $table = "translators";        
         $builder = $this->db->table("events");
-        $select = ["events.*", "abbr.*", "gateway_projects.admins as superadmins", "projects.bookProject"];
+        $select = ["events.*", "abbr.*", "gateway_projects.admins as superadmins", "projects.bookProject", "projects.targetLang"];
         if($countMembers)
         {
             $select[] = $this->db->raw("COUNT(DISTINCT ".PREFIX.$table.".memberID) AS translators");
@@ -974,13 +974,15 @@ class EventsModel extends Model
     {
             return $this->db->table("chapters")
                     ->select(["members.userName", "members.firstName", "members.lastName",
-            "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
-            "projects.bookProject", "projects.targetLang"])
+                        "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
+                        "projects.bookProject", "projects.targetLang"])
                     ->leftJoin("members", "chapters.memberID", "=", "members.memberID")
                     ->leftJoin("events", "chapters.eventID", "=", "events.eventID")
-        ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
+                    ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
                     ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
                     ->orderBy("members.userName")
+                    ->orderBy("abbr.abbrID")
+                    ->orderBy("chapters.chapter")
                     ->get();
     }
 
@@ -1033,7 +1035,6 @@ class EventsModel extends Model
             if(!$catalog) return false;
 
             $catalog = json_decode($catalog);
-            //Data::pr($catalog);
 
             foreach($catalog->languages as $language)
             {
@@ -1112,6 +1113,7 @@ class EventsModel extends Model
         return $cat;
     }
 
+    // Used just for development purposes
     public function getLangsFromTD()
     {
         $langs = [];
@@ -1230,7 +1232,7 @@ class EventsModel extends Model
         {
             $catalog = $this->getFullCatalog();
             if($catalog)
-                Cache::add($cat_cache_keyword, $catalog, 60*24*7);
+                Cache::add($cat_cache_keyword, $catalog, 60*24*30);
             else
                 return false;
         }
@@ -1239,6 +1241,12 @@ class EventsModel extends Model
     }
 
 
+    /**
+     * Download notes from DCS and extract them
+     * @param string $lang
+     * @param bool $update
+     * @return bool|string
+     */
     public function downloadAndExtractNotes($lang = "en", $update = false)
     {
         $filepath = "../app/Templates/Default/Assets/tmp/".$lang."_notes.zip";
@@ -1306,8 +1314,9 @@ class EventsModel extends Model
 
     /**
      * Parses .md files of specified book and returns array
-     * @param 
-     *
+     * @param $book
+     * @param $lang
+     * @return  array
      **/
     public function getTranslationNotes($book, $lang ="en")
     {
@@ -1392,8 +1401,7 @@ class EventsModel extends Model
             }*/
         }
         
-        ksort($result); 
-        //Data::pr($result); exit;
+        ksort($result);
         return $result;
     }
 

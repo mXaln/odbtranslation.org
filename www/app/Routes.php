@@ -167,6 +167,8 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("members", "AdminController@members");
     Router::any("migrate/chapters", "AdminController@migrateChapters");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
+    Router::any("rpc/import", "AdminController@import");
+    Router::any("rpc/repos_search/{q}", "AdminController@repos_search");
     Router::any("rpc/get_event", "AdminController@getEvent");
     Router::any("rpc/get_event_contributors", "AdminController@getEventContributors");
     Router::any("rpc/create_project", "AdminController@createProject");

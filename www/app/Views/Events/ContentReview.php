@@ -5,7 +5,8 @@ if(isset($data["error"])) return;
 ?>
 
 <div class="editor">
-    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
+    <div class="comment_div panel panel-default <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"
+            dir="<?php echo $data["event"][0]->tLangDir ?>">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title", array(""))?><span></span></h1>
             <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
@@ -42,7 +43,9 @@ if(isset($data["error"])) return;
                             <div class="chunk_verse editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <div class="vnote">
                                     <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
-                                    <textarea name="chunks[]" class="peer_verse_ta textarea"><?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?></textarea>
+                                    <textarea name="chunks[]" class="peer_verse_ta textarea <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>">
+                                        <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
+                                    </textarea>
 
                                     <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                     <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">

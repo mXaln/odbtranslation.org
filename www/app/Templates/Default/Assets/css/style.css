@@ -1,3 +1,20 @@
+@font-face {
+    font-family: "SUN";
+    font-style: normal;
+    font-weight: normal;
+    unicode-range: U+0-10FFFF;
+    src: url("../fonts/SUN.eot");
+    src: url("../fonts/SUN.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/SUN.woff") format("woff"),
+    url("../fonts/SUN.ttf") format("truetype")
+}
+
+.sun_content {
+    font-family: SUN;
+    font-size: 22px;
+    word-wrap: break-word;
+}
+
 html, body, .container {
     height: 100%;
 }
@@ -738,6 +755,8 @@ html, body, .container {
     top: 12px;
     right: 10px;
     cursor: pointer;
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
 }
 
 .adminsEvLoader {
@@ -879,6 +898,10 @@ html, body, .container {
     border: 1px solid #cccccc;
     margin: 5px;
     padding: 5px;
+}
+
+#startEvent {
+    position: relative;
 }
 
 #startEvent #cal_from, #startEvent #cal_to {
@@ -4029,5 +4052,167 @@ button.startEvnt, button.editEvnt {
 }
 
 .breaks {
+    display: none;
+}
+
+#old_test, #new_test {
+    position: relative;
+}
+
+.project_progress {
+    position: absolute;
+    top: -40px;
+    left: 300px;
+    width: 240px;
+}
+
+.importTranslation {
+    font-size: 22px;
+    cursor: pointer;
+    vertical-align: middle;
+    position: absolute;
+    right: 100px;
+    top: 6px;
+}
+
+.importInfo {
+    position: absolute;
+    right: 75px;
+    top: 10px;
+    font-size: 16px;
+}
+
+.import_menu_content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9000px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.import_menu_content > .import_menu_content_body {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    width: 610px;
+    left: calc(50% - 300px);
+    top: calc(50% - 250px);
+}
+
+.import_menu {
+    background-color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.import_menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.import_menu ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.import_menu label {
+    font-weight: normal;
+    width: 100%;
+}
+
+.import_menu ul li input {
+    display: none;
+}
+
+.import_menu ul li:first-child, .dcs_import_menu ul li:first-child {
+    background-color: #337ab7 !important;
+    color: #fff !important;
+    text-align: center;
+    cursor: auto;
+    font-weight: bold !important;
+    height: 30px;
+    padding: 3px !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.import_menu ul li:last-child, .dcs_import_menu ul li:last-child {
+    background-color: #fff !important;
+    color: #222 !important;
+    text-align: right;
+    font-weight: bold !important;
+    height: 40px;
+    padding: 7px 10px !important;
+    border-top: 1px solid #ccc;
+}
+
+.import_menu ul li:hover {
+    background-color: #eee;
+}
+
+.dcs_import_menu_content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9000px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dcs_import_menu_content > .dcs_import_menu_content_body {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    width: 800px;
+    left: calc(50% - 400px);
+    top: calc(50% - 280px);
+}
+
+.dcs_import_menu {
+    background-color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.dcs_import_menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dcs_import_menu ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dcs_list {
+    height: 370px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dcs_list table {
+    width: 100%;
+}
+
+.dcs_list th {
+    width: 200px;
+}
+
+.importLoader {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
     display: none;
 }

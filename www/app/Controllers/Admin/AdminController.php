@@ -9,6 +9,7 @@ use App\Models\TranslationsModel;
 use Shared\Legacy\Error;
 use View;
 use Helpers\Data;
+use File;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
@@ -16,6 +17,8 @@ use App\Models\EventsModel;
 use App\Models\MembersModel;
 use Helpers\Password;
 use Helpers\Constants\EventStates;
+use Helpers\Constants\EventSteps;
+use ZipArchive;
 
 class AdminController extends Controller {
 
@@ -88,11 +91,147 @@ class AdminController extends Controller {
         if(!empty($data["project"]))
         {
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID);
+            $otDone = 0;
+            $ntDone = 0;
+            $data["OTprogress"] = 0;
+            $data["NTprogress"] = 0;
+
+            foreach ($data["events"] as $event)
+            {
+                if($event->abbrID < 41) // Old testament
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $otDone++;
+                    }
+                }
+                else // New testament
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $ntDone++;
+                    }
+                }
+            }
+
+            $data["OTprogress"] = 100*$otDone/39;
+            $data["NTprogress"] = 100*$ntDone/27;
         }
 
         return View::make('Admin/Main/Project')
             ->shares("title", __("admin_events_title"))
             ->shares("data", $data);
+    }
+
+    public function import()
+    {
+        $response = [
+            "success" => false,
+            "error" => __("unknown_import_type_error")
+        ];
+
+        if (!Session::get('loggedin'))
+        {
+            return;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+        $_FILES = Gump::xss_clean($_FILES);
+
+        $import = isset($_FILES['import']) && $_FILES['import'] != "" ? $_FILES['import']
+                : (isset($_POST['import']) && $_POST['import'] != "" ? $_POST['import'] : null);
+        $type = isset($_POST['type']) && $_POST['type'] != "" ? $_POST['type'] : "dcs";
+        $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? (integer)$_POST['eventID'] : null;
+
+        if($import !== null)
+        {
+            if($eventID !== null)
+            {
+                switch ($type)
+                {
+                    case "dcs":
+                        $usfm = $this->processDCSUrl($import);
+
+                        if($usfm != null)
+                        {
+                            $response = $this->importProjectToEvent($usfm, $eventID);
+                        }
+                        break;
+
+                    case "usfm":
+                        if(File::extension($import["name"]) == "usfm"
+                            || File::extension($import["name"]) == "txt")
+                        {
+                            $usfm = File::get($import["tmp_name"]);
+                            $response = $this->importProjectToEvent($usfm, $eventID);
+                        }
+                        else
+                        {
+                            $response["error"] = __("usfm_not_valid_error");
+                        }
+                        break;
+
+                    case "ts":
+                        if(File::extension($import["name"]) == "tstudio")
+                        {
+                            $usfm = $this->processTStudioProject($import);
+
+                            if($usfm != null)
+                            {
+                                $response = $this->importProjectToEvent($usfm, $eventID);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        else
+                        {
+                            $response["error"] = __("usfm_not_valid_error");
+                        }
+                        break;
+
+                    default:
+                        $response["error"] = __("unknown_import_type_error");
+                        break;
+                }
+            }
+            else
+            {
+                $response["error"] = __("event_does_not_exist_error");
+            }
+        }
+        else
+        {
+            $response["error"] = __('unknown_import_type_error');
+        }
+
+        echo json_encode($response);
+    }
+
+    public function repos_search($q)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://git.door43.org/api/v1/repos/search?limit=50&q=" . $q);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            return false;
+        }
+
+        curl_close($ch);
+
+        echo $data;
     }
 
     public function members()
@@ -134,7 +273,7 @@ class AdminController extends Controller {
                 $data["books"][$item->userName] = $tmp;
             }
 
-            if(!isset($members[$item->userName]["books"]))
+            if(!isset($data["books"][$item->userName]["books"]))
             {
                 $tmp = [];
                 $tmp["name"] = $item->name;
@@ -142,7 +281,7 @@ class AdminController extends Controller {
                 $data["books"][$item->userName]["books"][$item->code] = $tmp;
             }
 
-            if(!isset($members[$item->userName]["books"][$item->code]))
+            if(!isset($data["books"][$item->userName]["books"][$item->code]))
             {
                 $tmp = [];
                 $tmp["name"] = $item->name;
@@ -1212,6 +1351,252 @@ class AdminController extends Controller {
 
         echo json_encode($response);
     }
+
+
+    /**
+     * Clones repository
+     * @param $url
+     * @return USFM file
+     */
+    private function processDCSUrl($url)
+    {
+        $usfm = null;
+
+        $folderpath = "/tmp/".uniqid();
+
+        shell_exec("/usr/bin/git clone ". $url ." ".$folderpath." 2>&1");
+
+        $usfm = $this->compileUSFMProject($folderpath);
+
+        return $usfm;
+    }
+
+    /**
+     * Exctracts .tstudio file
+     * @param $file
+     * @return USFM file
+     */
+    private function processTStudioProject($file)
+    {
+        $usfm = null;
+
+        $folderpath = "/tmp/".uniqid();
+
+        $zip = new ZipArchive();
+        $zip->open($file["tmp_name"]);
+        $zip->extractTo($folderpath);
+        $zip->close();
+        $dirs = File::directories($folderpath);
+
+        foreach ($dirs as $dir) {
+            if(File::isDirectory($dir))
+            {
+                $usfm = $this->compileUSFMProject($dir);
+                break;
+            }
+        }
+
+        return $usfm;
+    }
+
+
+    /**
+     * Compiles all the chunks into a single usfm file
+     * @param $folderpath
+     * @return null
+     */
+    private function compileUSFMProject($folderpath)
+    {
+        $usfm = null;
+
+        if(File::exists($folderpath))
+        {
+            $filepath = $folderpath . "/tmpfile";
+
+            $files = File::files($folderpath);
+            foreach ($files as $file) {
+                if(preg_match("/\.usfm$/", $file))
+                {
+                    // If repository contains only one usfm with entire book
+                    $usfm = File::get($file);
+                    File::deleteDirectory($folderpath);
+                    return $usfm;
+                }
+            }
+
+            // Iterate through all the chapters and chunks
+            $dirs = File::directories($folderpath);
+            sort($dirs);
+            foreach($dirs as $dir)
+            {
+                if(preg_match("/[0-9]{2,3}$/", $dir, $chapters))
+                {
+                    $chapter = (integer)$chapters[0];
+
+                    $files = File::allFiles($dir);
+                    sort($files);
+                    foreach($files as $file)
+                    {
+                        if(preg_match("/[0-9]{2,3}.txt$/", $file, $chunks))
+                        {
+                            $chunk = (integer)$chunks[0];
+                            $text = File::get($file);
+                            if($chunk == 1)
+                            {
+                                // Fix usfm with missed chapter number tags
+                                if(!preg_match("/^\\\\c/", $text))
+                                {
+                                    $text = "\c ".$chapter." ".$text;
+                                }
+                            }
+
+                            File::append($filepath, "\s5\n" . $text);
+                        }
+                    }
+                }
+            }
+
+            if(File::exists($filepath))
+            {
+                $usfm = File::get($filepath);
+                File::deleteDirectory($folderpath);
+            }
+        }
+
+        return $usfm;
+    }
+
+
+    private function importProjectToEvent($usfm, $eventID)
+    {
+        $response = ["success" => false];
+        $usfmData = UsfmParser::parse($usfm);
+
+        $event = $this->_eventsModel->getEvent($eventID);
+        if(!empty($event))
+        {
+            if(isset($usfmData["chapters"]) && sizeof($usfmData["chapters"]) == $event[0]->chaptersNum)
+            {
+                // Check if a "fake" user exists
+                $member = $this->_membersModel->getMemberWithProfile("spec");
+                if(empty($member))
+                {
+                    $mid = $this->_membersModel->createMember([
+                        "userName" => "spec",
+                        "firstName" => "Special",
+                        "lastName" => "User",
+                        "password" => "none",
+                        "email" => "none",
+                        "active" => true,
+                        "verified" => true
+                    ]);
+
+                    $this->_membersModel->createProfile([
+                        "mID" => $mid
+                    ]);
+                }
+                else
+                {
+                    $mid = $member[0]->memberID;
+                }
+
+                // Check if there are translations of this event in database
+                $trans = $this->_translationModel->getEventTranslationByEventID($eventID);
+                if(empty($trans))
+                {
+                    // Create new translator
+                    $chkData = [];
+                    for($i=1; $i<=$event[0]->chaptersNum; $i++)
+                    {
+                        $chkData[$i] = $mid;
+                    }
+
+                    $trData = array(
+                        "memberID" => $mid,
+                        "eventID" => $eventID,
+                        "step" => EventSteps::NONE,
+                        "currentChapter" => 0,
+                        "verbCheck" => json_encode($chkData),
+                        "peerCheck" => json_encode($chkData),
+                        "kwCheck" => json_encode($chkData),
+                        "crCheck" => json_encode($chkData)
+                    );
+                    $trID = $this->_eventsModel->addTranslator($trData);
+
+                    foreach ($usfmData["chapters"] as $key => $chapter)
+                    {
+                        $chunks = [];
+                        foreach ($chapter as $chunkkey => $chunk) {
+                            $chunks[] = array_keys($chunk);
+
+                            $translationVerses = [
+                                EventMembers::TRANSLATOR => [
+                                    "blind" => "",
+                                    "verses" => $chunk
+                                ],
+                                EventMembers::L2_CHECKER => [
+                                    "verses" => array()
+                                ],
+                                EventMembers::L3_CHECKER => [
+                                    "verses" => array()
+                                ],
+                            ];
+
+                            // Create new translations
+                            $this->_translationModel->createTranslation([
+                                "projectID" => $event[0]->projectID,
+                                "eventID" => $eventID,
+                                "trID" => $trID,
+                                "targetLang" => $event[0]->targetLang,
+                                "bookProject" => $event[0]->bookProject,
+                                "abbrID" => $event[0]->abbrID,
+                                "bookCode" => $event[0]->bookCode,
+                                "chapter" => $key,
+                                "chunk" => $chunkkey,
+                                "firstvs" => key($chunk),
+                                "translatedVerses" => json_encode($translationVerses),
+                                "translateDone" => true
+                            ]);
+                        }
+
+                        // Assign chapters to new translator
+                        $this->_eventsModel->assignChapter([
+                            "eventID" => $eventID,
+                            "memberID" => $mid,
+                            "trID" => $trID,
+                            "chapter" => $key,
+                            "chunks" => json_encode($chunks),
+                            "done" => true
+                        ]);
+
+                        $this->_eventsModel->updateEvent([
+                            "state" => EventStates::TRANSLATED
+                        ], [
+                            "eventID" => $eventID
+                        ]);
+
+                        $response["success"] = true;
+                        $response["message"] = __("import_successfull_massage");
+                    }
+                }
+                else
+                {
+                    $response["error"] = __("event_has_translations_error");
+                }
+            }
+            else
+            {
+                $response["error"] = __("usfm_not_valid_error");
+            }
+        }
+        else
+        {
+            $response["error"] = __("event_notexist_error");
+        }
+
+        return $response;
+    }
+
 
     // ----------------- Migration functions -------------------- //
 
