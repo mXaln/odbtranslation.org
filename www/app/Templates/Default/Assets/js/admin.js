@@ -288,6 +288,7 @@ $(function () {
         var bookName = $(this).attr("data2");
         var chapterNum = $(this).attr("data3");
         var sourceLangID = $("#sourceLangID").val();
+        var sourceBible = $("#sourceBible").val();
         var bookProject = $("#bookProject").val();
 
         $("button[name=startEvent]").text(Language.create);
@@ -303,8 +304,16 @@ $(function () {
         $(".event-content").css("left", 0);
         $("#adminsSelect").empty().trigger("chosen:updated");
 
-        $(".importTranslation").show();
-        $(".importInfo").show();
+        if(["tn"].indexOf(bookProject) > -1)
+        {
+            $(".importTranslation").hide();
+            $(".importInfo").hide();
+        }
+        else
+        {
+            $(".importTranslation").show();
+            $(".importInfo").show();
+        }
 
         $(".l2_buttons").hide();
         $(".breaks").hide();
@@ -378,7 +387,8 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    if(EventStates.states[data.event.state] >= EventStates.states.translating)
+                    if(EventStates.states[data.event.state] >= EventStates.states.translating
+                        || ["tn"].indexOf(data.event.bookProject) > -1)
                     {
                         $(".importTranslation").hide();
                         $(".importInfo").hide();
@@ -506,14 +516,14 @@ $(function () {
     $("button[name=updateAllCache]").click(function (e) {
         var $this = $(this);
         var sourceLangID = $this.data("sourcelangid");
-        var bookProject = $this.data("bookproject");
+        var sourceBible = $this.data("sourcebible");
 
         $.ajax({
             url: "/admin/rpc/update_all_cache",
             method: "post",
             data: {
                 sourceLangID: sourceLangID,
-                bookProject: bookProject
+                sourceBible: sourceBible
             },
             dataType: "json",
             beforeSend: function() {
@@ -543,7 +553,7 @@ $(function () {
         var abbrID = $("#abbrID").val();
         var bookCode = $("#bookCode").val();
         var sourceLangID = $("#sourceLangID").val();
-        var bookProject = $("#bookProject").val();
+        var sourceBible = $("#sourceBible").val();
 
         $.ajax({
             url: "/admin/rpc/clear_cache",
@@ -552,7 +562,7 @@ $(function () {
                 abbrID: abbrID,
                 bookCode: bookCode,
                 sourceLangID: sourceLangID,
-                bookProject: bookProject
+                sourceBible: sourceBible
             },
             dataType: "json",
             beforeSend: function() {

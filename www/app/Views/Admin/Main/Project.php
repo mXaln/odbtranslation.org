@@ -29,7 +29,7 @@ if(!empty($data["project"])):
                 <button style="margin-top: 12px" class="btn btn-danger" 
                         name="updateAllCache"
                         data-sourcelangid="<?php echo $data["project"][0]->sourceLangID ?>"
-                        data-bookproject="<?php echo $data["project"][0]->sourceBible ?>"><?php echo __("update_cache_all") ?></button>
+                        data-sourcebible="<?php echo $data["project"][0]->sourceBible ?>"><?php echo __("update_cache_all") ?></button>
             </div>
         </div>
 
@@ -164,7 +164,8 @@ if(!empty($data["project"])):
                         <input type="hidden" name="abbrID" id="abbrID" value="" />
                         <input type="hidden" name="book_code" id="bookCode" value="" />
                         <input type="hidden" name="projectID" id="projectID" value="<?php echo $data["project"][0]->projectID?>" />
-                        <input type="hidden" name="bookProject" id="bookProject" value="<?php echo $data["project"][0]->sourceBible?>" />
+                        <input type="hidden" name="sourceBible" id="sourceBible" value="<?php echo $data["project"][0]->sourceBible?>" />
+                        <input type="hidden" name="bookProject" id="bookProject" value="<?php echo $data["project"][0]->bookProject?>" />
                         <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
                         <input type="hidden" name="targetLangID" id="targetLangID" value="<?php echo $data["project"][0]->targetLang?>" />
 

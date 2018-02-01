@@ -848,16 +848,16 @@ class AdminController extends Controller {
         $abbrID = isset($_POST["abbrID"]) ? $_POST["abbrID"] : null;
         $bookCode = isset($_POST["bookCode"]) ? $_POST["bookCode"] : null;
         $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
-        $bookProject = isset($_POST["bookProject"]) ? $_POST["bookProject"] : null;
+        $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
 
         // Book source
-        $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject."_usfm";
+        $cache_keyword = $bookCode."_".$sourceLangID."_".$sourceBible."_usfm";
 
         if(Cache::has($cache_keyword))
             Cache::forget($cache_keyword);
         
         $source = $this->_eventsModel->getCachedSourceBookFromApi(
-                $bookProject, 
+                $sourceBible,
                 $bookCode, 
                 $sourceLangID,
                 $abbrID);
@@ -918,11 +918,11 @@ class AdminController extends Controller {
         $_POST = Gump::xss_clean($_POST);
 
         $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
-        $bookProject = isset($_POST["bookProject"]) ? $_POST["bookProject"] : null;
+        $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
         
         $booksUpdated = 0;
         
-        if($sourceLangID && $bookProject)
+        if($sourceLangID && $sourceBible)
         {
             $books = $this->_eventsModel->getBooks();
             
@@ -932,13 +932,13 @@ class AdminController extends Controller {
                 $abbrID = $book->abbrID;
                 
                 // Book source
-                $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject."_usfm";
+                $cache_keyword = $bookCode."_".$sourceLangID."_".$sourceBible."_usfm";
 
                 if(Cache::has($cache_keyword))
                     Cache::forget($cache_keyword);
 
                 $source = $this->_eventsModel->getCachedSourceBookFromApi(
-                        $bookProject, 
+                        $sourceBible,
                         $bookCode, 
                         $sourceLangID,
                         $abbrID);

@@ -1111,6 +1111,7 @@ div.ui-datepicker {
 .main_content_title .demo_title {
     position: absolute;
     top: -10px;
+    font-size: 18px;
 }
 
 .action_type {
@@ -1697,6 +1698,7 @@ mark {
 
 .bible_book {
     text-align: justify;
+    padding: 10px 20px;
 }
 
 .side_by_side_toggle {
@@ -2106,7 +2108,7 @@ mark {
     background-color: #ffffff;
     z-index: 99;
     cursor: auto;
-    width: 700px;
+    width: 750px;
     padding: 20px;
     border-radius: 5px;
 }
@@ -3009,7 +3011,7 @@ div[class^="member_usname mid"] {
 }
 
 .is_checker_page_help.isPeer {
-    background-color: #ecb7ff !important;
+    background-color: #f3d1ff !important;
 }
 
 .verse_with_note .vnote {
@@ -4010,7 +4012,8 @@ button.startEvnt, button.editEvnt {
 }
 
 .chapter_title {
-    color: #1b8600
+    color: #1b8600;
+    text-align: center;
 }
 
 .section_translator_name.tnleft {

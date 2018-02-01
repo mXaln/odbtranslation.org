@@ -124,7 +124,7 @@ class EventsController extends Controller
 
         $myLangs = array_keys(Session::get("profile")["languages"]);
         
-        $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
+        $data["myTranslatorEventsdd"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
         $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
         $notesCheckers = $this->_model->getMemberEventsForCheckerNotes(Session::get("memberID"));

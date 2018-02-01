@@ -889,6 +889,9 @@
 </div>
 
 <script>
+    var isChecker = true;
+    var disableHighlight = true;
+
     $(document).ready(function () {
         $("#next_step").click(function (e) {
             e.preventDefault();

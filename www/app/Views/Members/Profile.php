@@ -370,6 +370,7 @@ $profile = $data["profile"];
 
         <label><?php echo __('language_fluency'); ?>: </label>
         <div class="form-control">
+            <label><input type="radio" class="fluency" name="" value="0" disabled> <?php echo __('none'); ?> &nbsp;</label>
             <label><input type="radio" class="fluency" name="" value="1" disabled> <?php echo __('moderate'); ?> &nbsp;</label>
             <label><input type="radio" class="fluency" name="" value="2" disabled> <?php echo __('strong'); ?> &nbsp;</label>
             <label><input type="radio" class="fluency" name="" value="3" disabled> <?php echo __('fluent'); ?> &nbsp;</label>
