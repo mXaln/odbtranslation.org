@@ -657,12 +657,17 @@ class AdminController extends Controller {
         {
             $error[] = __("choose_source_trans");
         }
-        else
+        /*else
         {
             if(($sourceTranslation != "ulb|en" && $sourceTranslation != "udb|en") && $projectType == null)
             {
                 $error[] = __("choose_project_type");
             }
+        }*/
+
+        if($projectType == null)
+        {
+            $error[] = __("choose_project_type");
         }
 
         if($projectMode == "tn" && $sourceTranslationNotes == null)
@@ -676,7 +681,7 @@ class AdminController extends Controller {
             $gwLangsPair = explode("|", $subGwLangs);
 
             $projType = in_array($projectMode, ['tn']) ?
-                $projectMode : $sourceTrPair[0];
+                $projectMode . ($projectType == "sun" ? "_sun" : "") : $projectType;
             
             $exist = $this->_eventsModel->getProject(["projects.projectID"], [
                 ["projects.gwLang", $gwLangsPair[0]],

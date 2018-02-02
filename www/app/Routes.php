@@ -42,6 +42,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-tn/{eventID}", "EventsController@translatorNotes")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-sun/{eventID}", "EventsController@translatorSun")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l3/{eventID}", "EventsController@checkerL3")
@@ -51,6 +53,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information-tn/{eventID}", "EventsController@informationNotes")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-l2/{eventID}", "EventsController@informationL2")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-sun/{eventID}", "EventsController@informationSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
         ->where(["eventID" => "[0-9]+"]);

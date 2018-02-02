@@ -96,8 +96,8 @@
                 switch (id)
                 {
                     case currentP2Ptab.prop("id"):
-                        $("#evnt").removeClass("active");
-                        $("#evnt_messages").hide();
+                        $(".chat_tab").removeClass("active");
+                        $(".chat_msgs").hide();
                         $(this).addClass("active");
                         currentP2Pmsgs.show();
                         $("#chat_type").val(currentChatType);
@@ -116,26 +116,27 @@
                         break;
 
                     default:
+                        $(".chat_tab").removeClass("active");
+                        $(".chat_msgs").hide();
                         $(this).addClass("active");
-                        currentP2Ptab.removeClass("active");
-                        $("#chat_type").val("evnt");
-                        $("#evnt_messages").show();
-                        currentP2Pmsgs.hide();
+                        $("#"+id+"_messages").show();
+                        $("#chat_type").val(id);
 
-                        var newmsgs = $(".newmsgs", $("#evnt_messages"));
+                        var newmsgs = $(".newmsgs", $("#"+id+"_messages"));
 
+                        // TODO test project messages
                         if(!newEvntMsgsShown && newmsgs.length > 0) {
-                            $("#evnt_messages").animate({scrollTop: newmsgs.offset().top - $("#evnt_messages").offset().top + $("#evnt_messages").scrollTop()}, 200);
+                            $("#"+id+"_messages").animate({scrollTop: newmsgs.offset().top - $("#"+id+"_messages").offset().top + $("#"+id+"_messages").scrollTop()}, 200);
 
                             newEvntMsgsShown = true;
                         }
                         else
                         {
-                            $("#evnt_messages").animate({scrollTop: $("#evnt_messages")[0].scrollHeight}, 200);
+                            $("#"+id+"_messages").animate({scrollTop: $("#"+id+"_messages")[0].scrollHeight}, 200);
                         }
 
                         missedMsgsNum = 0;
-                        $(".missed", "#evnt").text("").hide();
+                        $(".missed", "#"+id).text("").hide();
 
                         if((missedMsgsNumCurrent + missedMsgsNum) > 0)
                         {

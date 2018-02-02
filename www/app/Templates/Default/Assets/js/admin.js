@@ -60,8 +60,8 @@ $(function () {
     });
 
     // Open project Form
-    $("select[name=sourceTranslation]").change(function() {
-        if($(this).val() != "" && $(this).val() != "udb|en" && $(this).val() != "ulb|en")
+    /*$("select[name=sourceTranslation]").change(function() {
+        if($(this).val() != ""&& $(this).val() != "udb|en" && $(this).val() != "ulb|en")
         {
             $(".projectType").removeClass("hidden");
             $("#projectType").chosen();
@@ -70,7 +70,7 @@ $(function () {
         {
             $(".projectType").addClass("hidden");
         }
-    });
+    });*/
 
     $("select[name=projectMode]").change(function() {
         if($(this).val() == "bible")
@@ -90,8 +90,9 @@ $(function () {
         $("#project").trigger("reset");
         $(".subErrors").html("");
         $(".sub-content").css("left", 0);
-        $(".projectType").addClass("hidden");
+        /*$(".projectType").addClass("hidden");*/
         $("#project select").val('').trigger("chosen:updated");
+        $("#projectType").chosen();
     });
 
     // Get list of target languages for gateway language

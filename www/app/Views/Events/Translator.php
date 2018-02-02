@@ -99,8 +99,12 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                     </div>
                     <div class="missed"></div>
                 </div>
-                <div id="evnt" class="col-sm-4 chat_tab active">
+                <div id="evnt" class="col-sm-2 chat_tab active">
                     <div><?php echo __("event_tab_title") ?></div>
+                    <div class="missed"></div>
+                </div>
+                <div id="proj" class="col-sm-2 chat_tab">
+                    <div><?php echo __("project_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; float: right; padding: 2px 20px 0 0">
@@ -113,6 +117,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </div>
         <ul id="chk_messages" class="chat_msgs"></ul>
         <ul id="evnt_messages" class="chat_msgs"></ul>
+        <ul id="proj_messages" class="chat_msgs"></ul>
         <form action="" class="form-inline">
             <div class="form-group">
                 <textarea id="m" class="form-control"></textarea>

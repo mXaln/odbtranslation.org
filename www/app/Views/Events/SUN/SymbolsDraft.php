@@ -1,27 +1,34 @@
 <?php
+use Helpers\Constants\EventMembers;
+
 if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [4]). ": " . __("blind-draft")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [4]). ": " . __("symbol-draft")?></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
-                <div class="main_content_text">
-                    <div class="row">
-                        <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
-                                .__($data["event"][0]->bookProject)." - "
-                                .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                                ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?></h4>
-                    </div>
+                <div class="main_content_text row" style="padding-left: 15px">
+                    <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
+                            .__($data["event"][0]->bookProject)." - "
+                            .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
+                            ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?>
+                    </h4>
 
-                    <div class="row">
-                        <div class="col-sm-12" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea">
-                                <?php echo isset($_POST["draft"]) ? $_POST["draft"] : (isset($data["blind"]) ? $data["blind"] : "")?>
-                            </textarea>
+                    <div class="col-sm-12 no_padding">
+                        <div class="row chunk_block words_block">
+                            <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                <?php echo $data["words"] ?>
+                            </div>
+                            <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                <?php $text = isset($data["symbols"]) ? $data["symbols"] : ""; ?>
+                                <textarea name="symbols" class="col-sm-6 peer_verse_ta textarea sun_content">
+                                    <?php echo isset($_POST["symbols"]) ? $_POST["symbols"] : $text ?>
+                                </textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,9 +51,9 @@ if(isset($data["error"])) return;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>: </span> <?php echo __("blind-draft")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("symbol-draft")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("blind-draft_desc")?></ul>
+                    <ul><?php echo __("symbol-draft_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -67,16 +74,16 @@ if(isset($data["error"])) return;
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>" width="100px" height="100px">
-            <img src="<?php echo template_url("img/steps/big/blind-draft.png") ?>" width="280px" height="280px">
+            <img src="<?php echo template_url("img/steps/icons/symbol-draft.png") ?>" width="100" height="100">
+            <img src="<?php echo template_url("img/steps/big/symbol-draft.png") ?>" width="280" height="280">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("blind-draft")?></h3>
-            <ul><?php echo __("blind-draft_desc")?></ul>
+            <h3><?php echo __("symbol-draft")?></h3>
+            <ul><?php echo __("symbol-draft_desc")?></ul>
         </div>
     </div>
 </div>

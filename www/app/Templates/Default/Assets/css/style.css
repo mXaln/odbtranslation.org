@@ -11,8 +11,9 @@
 
 .sun_content {
     font-family: SUN;
-    font-size: 22px;
+    font-size: 26px;
     word-wrap: break-word;
+    padding: 4px 8px !important;
 }
 
 html, body, .container {
@@ -485,7 +486,7 @@ html, body, .container {
     display: none;
 }
 
-#evnt_messages, #chk_messages {
+#evnt_messages, #chk_messages, #proj_messages {
     height: 375px;
     overflow-y: auto;
     word-wrap: break-word;
@@ -495,7 +496,7 @@ html, body, .container {
     display: none;
 }
 
-#evnt_messages.info {
+#evnt_messages.info, #proj_messages.info {
     display: block;
 }
 
@@ -1334,6 +1335,30 @@ div.ui-datepicker {
 }
 .peer-review-l2-step.active {
     background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
+}
+
+.rearrange {background-color: #4596cc;}
+.rearrange-step {
+    background: url("/templates/default/assets/img/steps/rearrange-inactive.png") no-repeat;
+}
+.rearrange-step.active {
+    background: url("/templates/default/assets/img/steps/rearrange-active.png") no-repeat;
+}
+
+.theo-check {background-color: #4596cc;}
+.theo-check-step {
+    background: url("/templates/default/assets/img/steps/theo-check-inactive.png") no-repeat;
+}
+.theo-check-step.active {
+    background: url("/templates/default/assets/img/steps/theo-check-active.png") no-repeat;
+}
+
+.symbol-draft {background-color: #4596cc;}
+.symbol-draft-step {
+    background: url("/templates/default/assets/img/steps/symbol-draft-inactive.png") no-repeat;
+}
+.symbol-draft-step.active {
+    background: url("/templates/default/assets/img/steps/symbol-draft-active.png") no-repeat;
 }
 
 .chunk_verse {

@@ -33,31 +33,24 @@ if(isset($data["error"])) return;
 
                     <div class="col-sm-12 no_padding">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                            <div class="row chunk_block">
-                                <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                    <?php $firstVerse = 0; ?>
-                                    <?php foreach ($chunk as $verse): ?>
-                                        <?php
-                                        // process combined verses
-                                        if (!isset($data["text"][$verse]))
-                                        {
-                                            if($firstVerse == 0)
-                                            {
-                                                $firstVerse = $verse;
-                                                continue;
-                                            }
-                                            $combinedVerse = $firstVerse . "-" . $verse;
-
-                                            if(!isset($data["text"][$combinedVerse]))
-                                                continue;
-                                            $verse = $combinedVerse;
-                                        }
-                                        ?>
-                                        <strong class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><?php echo $data["text"][$verse]; ?>
-                                    <?php endforeach; ?>
+                            <div class="row chunk_block words_block">
+                                <div class="chunk_verses col-sm-6 sun_content" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                    <?php
+                                    $verse = "";
+                                    if(is_array($chunk) && !empty($chunk))
+                                    {
+                                        $verse = $chunk[0];
+                                        if($chunk[sizeof($chunk)-1] != $verse)
+                                            $verse .= "-".$chunk[sizeof($chunk)-1];
+                                    }
+                                    ?>
+                                    <strong class="<?php echo $data["event"][0]->sLangDir ?>">
+                                        <sup><?php echo $verse; ?></sup>
+                                    </strong>
+                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                 </div>
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"]; ?>
                                     <div class="vnote">
                                         <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea">
                                             <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
@@ -87,11 +80,6 @@ if(isset($data["error"])) return;
                             </div>
                             <div class="chunk_divider col-sm-12"></div>
                         <?php endforeach; ?>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary"><?php echo __("save")?></button>
-                        <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert">
                     </div>
                 </div>
 

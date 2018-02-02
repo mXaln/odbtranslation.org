@@ -13,7 +13,7 @@ if(empty($error) && empty($data["success"])):
 ?>
 
 <div class="editor">
-    <div class="comment_div panel panel-default <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"
+    <div class="comment_div panel panel-default"
             dir="<?php echo $data["event"][0]->tLangDir ?>">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("write_note_title")?></h1>

@@ -9,8 +9,6 @@ if(isset($data["success"]))
     echo Error::display($data["success"], "alert alert-success");
 
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
-
-$chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
 ?>
 
 <noscript>
@@ -19,58 +17,50 @@ $chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
     </div>
 </noscript>
 
-<div id="translator_steps" 
-    class="open <?php echo $data["event"][0]->step . 
-        ($data["isCheckerPage"] ? " is_checker_page".
-        (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>">
-    <div id="tr_steps_hide" 
-        class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . 
-            ($data["isCheckerPage"] ? " is_checker_page".
-            (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>"></div>
+<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PRAY)?></span>
         </li>
-            
+
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CONSUME . "_tn")?></span>
+            <span><?php echo __(EventSteps::CONSUME)?></span>
         </li>
 
-        <?php if($data["event"][0]->stage == "checking"): ?>
-        <li class="highlight-step <?php echo $data["event"][0]->step == EventSteps::HIGHLIGHT ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::HIGHLIGHT . "_tn")?></span>
+        <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::CHUNKING)?></span>
         </li>
-        <?php endif; ?>
-             
-        <?php if($data["event"][0]->stage == "translation"): ?>
-        <li class="read-chunk-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::READ_CHUNK . "_tn")?></span>
+
+        <li class="rearrange-step <?php echo $data["event"][0]->step == EventSteps::REARRANGE ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::REARRANGE)?></span>
         </li>
-        <li class="blind-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::BLIND_DRAFT . "_tn".$chk)?></span>
+
+        <li class="symbol-draft-step <?php echo $data["event"][0]->step == EventSteps::SYMBOL_DRAFT ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::SYMBOL_DRAFT)?></span>
         </li>
-        <?php endif; ?>
-                        
+
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::SELF_CHECK . "_tn".$chk)?></span>
+            <span><?php echo __(EventSteps::SELF_CHECK)?></span>
         </li>
 
-        <?php if($data["event"][0]->stage == "checking"): ?>
-        <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::KEYWORD_CHECK . "_tn")?></span>
+        <li class="theo-check-step <?php echo $data["event"][0]->step == EventSteps::THEO_CHECK ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::THEO_CHECK)?></span>
         </li>
 
-        <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::PEER_REVIEW . "_tn")?></span>
+        <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::CONTENT_REVIEW)?></span>
         </li>
-        <?php endif; ?>
+
+        <li class="final-review-step <?php echo $data["event"][0]->step == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::FINAL_REVIEW)?></span>
+        </li>
     </ul>
 </div>
 
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
-    var eventMemberID = <?php echo isset($data["event"][0]->memberID) ? $data["event"][0]->memberID : $data["event"][0]->myMemberID; ?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
     var myChunk = <?php echo $data["event"][0]->currentChunk; ?>;

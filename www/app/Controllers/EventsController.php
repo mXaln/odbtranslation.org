@@ -124,7 +124,7 @@ class EventsController extends Controller
 
         $myLangs = array_keys(Session::get("profile")["languages"]);
         
-        $data["myTranslatorEventsdd"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
+        $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
         $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
         $notesCheckers = $this->_model->getMemberEventsForCheckerNotes(Session::get("memberID"));
@@ -1822,6 +1822,567 @@ class EventsController extends Controller
             $title = "Error";
 
             return View::make('Events/Notes/Translator')
+                ->shares("title", $title)
+                ->shares("data", $data)
+                ->shares("error", @$error);
+        }
+    }
+
+
+    public function translatorSun($eventID)
+    {
+        $data["menu"] = 1;
+        $data["notifications"] = $this->_notifications;
+        $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
+
+        $title = "";
+
+        if(!empty($data["event"]))
+        {
+            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+
+            if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
+            {
+                if($data["event"][0]->step == EventSteps::NONE)
+                    Url::redirect("events/information/".$eventID);
+
+                $turnSecret = $this->_membersModel->getTurnSecret();
+                $turnUsername = (time() + 3600) . ":vmast";
+                $turnPassword = "";
+
+                if(!empty($turnSecret))
+                {
+                    if(($turnSecret[0]->expire - time()) < 0)
+                    {
+                        $pass = $this->_membersModel->generateStrongPassword(22);
+                        if($this->_membersModel->updateTurnSecret(["value" => $pass, "expire" => time() + (30*24*3600)])) // Update turn secret each month
+                        {
+                            $turnSecret[0]->value = $pass;
+                        }
+                    }
+
+                    $turnPassword = hash_hmac("sha1", $turnUsername, $turnSecret[0]->value, true);
+                }
+
+                $data["turn"][] = $turnUsername;
+                $data["turn"][] = base64_encode($turnPassword);
+
+                switch ($data["event"][0]->step) {
+                    case EventSteps::PRAY:
+                        $sourceText = $this->getSourceText($data);
+
+                        if ($sourceText !== false) {
+                            if (!array_key_exists("error", $sourceText)) {
+                                $data = $sourceText;
+                            } else {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        } else {
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                        }
+
+                        if (isset($_POST) && !empty($_POST)) {
+                            if (isset($_POST["confirm_step"])) {
+                                setcookie("temp_tutorial", false, time() - 24 * 3600, "/");
+                                $postdata = [
+                                    "step" => EventSteps::CONSUME,
+                                    "currentChapter" => $sourceText["currentChapter"],
+                                    "currentChunk" => $sourceText["currentChunk"]
+                                ];
+                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                            }
+                        }
+
+                        // Check if translator just started translating of this book
+                        $data["event"][0]->justStarted = $data["event"][0]->verbCheck == "";
+
+                        return View::make('Events/SUN/Translator')
+                            ->nest('page', 'Events/Pray')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::CONSUME:
+                        $sourceText = $this->getSourceText($data);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                $postdata = [
+                                    "step" => EventSteps::CHUNKING
+                                ];
+
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                            }
+                        }
+
+                        return View::make('Events/SUN/Translator')
+                            ->nest('page', 'Events/Consume')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::CHUNKING:
+                        $sourceText = $this->getSourceText($data);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
+
+                                $_POST = Gump::xss_clean($_POST);
+
+                                $chunks = isset($_POST["chunks_array"]) ? $_POST["chunks_array"] : "";
+                                $chunks = (array)json_decode($chunks);
+                                if($this->testChunks($chunks, $sourceText["totalVerses"]))
+                                {
+                                    if($this->_model->updateChapter(["chunks" => json_encode($chunks)], ["eventID" => $data["event"][0]->eventID, "chapter" => $data["event"][0]->currentChapter]))
+                                    {
+                                        $this->_model->updateTranslator(["step" => EventSteps::REARRANGE], ["trID" => $data["event"][0]->trID]);
+                                        Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                                        exit;
+                                    }
+                                    else
+                                    {
+                                        $error[] = __("error_ocured");
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("wrong_chunks_error");
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Translator')
+                            ->nest('page', 'Events/SUN/Chunking')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::REARRANGE:
+                        $sourceText = $this->getSourceText($data, true);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+
+                                $translationData = $this->_translationModel
+                                    ->getEventTranslation($data["event"][0]->trID, $data["event"][0]->currentChapter, $data["event"][0]->currentChunk);
+
+                                if(!empty($translationData))
+                                {
+                                    $verses = json_decode($translationData[0]->translatedVerses, true);
+                                    $data["words"] = $verses[EventMembers::TRANSLATOR]["words"];
+                                }
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            $_POST = Gump::xss_clean($_POST);
+                            $words = isset($_POST["draft"]) ? $_POST["draft"] : "";
+
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                if(trim($words) != "")
+                                {
+                                    $words = preg_replace("/[\\r\\n]/", " ", $words);
+
+                                    $translationVerses = [
+                                        EventMembers::TRANSLATOR => [
+                                            "words" => trim($words),
+                                            "symbols" => "",
+                                            "bt" => "",
+                                            "verses" => []
+                                        ],
+                                        EventMembers::L2_CHECKER => [
+                                            "verses" => array()
+                                        ],
+                                        EventMembers::L3_CHECKER => [
+                                            "verses" => array()
+                                        ],
+                                    ];
+
+                                    $encoded = json_encode($translationVerses);
+                                    $json_error = json_last_error();
+
+                                    if($json_error == JSON_ERROR_NONE)
+                                    {
+                                        if(!empty($translationData))
+                                        {
+                                            $tID = $translationData[0]->tID;
+                                            $trData = [
+                                                "translatedVerses"  => $encoded,
+                                            ];
+                                            $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                        }
+                                        else
+                                        {
+                                            $trData = [
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => $data["event"][0]->currentChapter,
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => $sourceText["chunk"][0],
+                                                "translatedVerses"  => $encoded,
+                                                "dateCreate"        => date('Y-m-d H:i:s')
+                                            ];
+
+                                            $tID = $this->_translationModel->createTranslation($trData);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $tID = "Json error: " . $json_error;
+                                    }
+
+                                    if(is_numeric($tID))
+                                    {
+                                        $postdata["step"] = EventSteps::SYMBOL_DRAFT;
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                        $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                        Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                                    }
+                                    else
+                                    {
+                                        $error[] = __("error_ocured", array($tID));
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("empty_words_error");
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Translator')
+                            ->nest('page', 'Events/SUN/WordsDraft')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::SYMBOL_DRAFT:
+                        $sourceText = $this->getSourceText($data, true);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+
+                                $translationData = $this->_translationModel
+                                    ->getEventTranslation($data["event"][0]->trID, $data["event"][0]->currentChapter, $data["event"][0]->currentChunk);
+
+                                if(!empty($translationData))
+                                {
+                                    $verses = json_decode($translationData[0]->translatedVerses, true);
+                                    $data["words"] = $verses[EventMembers::TRANSLATOR]["words"];
+                                    $data["symbols"] = $verses[EventMembers::TRANSLATOR]["symbols"];
+                                }
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            $_POST = Gump::xss_clean($_POST);
+                            $symbols = isset($_POST["symbols"]) ? $_POST["symbols"] : "";
+
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                if(trim($symbols) != "")
+                                {
+                                    $symbols = preg_replace("/[\\r\\n]/", " ", $symbols);
+
+                                    $translationVerses = [
+                                        EventMembers::TRANSLATOR => [
+                                            "words" => $data["words"],
+                                            "symbols" => trim($symbols),
+                                            "bt" => "",
+                                            "verses" => []
+                                        ],
+                                        EventMembers::L2_CHECKER => [
+                                            "verses" => array()
+                                        ],
+                                        EventMembers::L3_CHECKER => [
+                                            "verses" => array()
+                                        ],
+                                    ];
+
+                                    $encoded = json_encode($translationVerses);
+                                    $json_error = json_last_error();
+
+                                    if($json_error == JSON_ERROR_NONE)
+                                    {
+                                        if(!empty($translationData))
+                                        {
+                                            $tID = $translationData[0]->tID;
+                                            $trData = [
+                                                "translatedVerses"  => $encoded,
+                                            ];
+                                            $this->_translationModel->updateTranslation($trData, ["tID" => $tID]);
+                                        }
+                                        else
+                                        {
+                                            $trData = [
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => $data["event"][0]->currentChapter,
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => $sourceText["chunk"][0],
+                                                "translatedVerses"  => $encoded,
+                                                "dateCreate"        => date('Y-m-d H:i:s')
+                                            ];
+
+                                            $tID = $this->_translationModel->createTranslation($trData);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $tID = "Json error: " . $json_error;
+                                    }
+
+                                    if(is_numeric($tID))
+                                    {
+                                        $postdata["step"] = EventSteps::SELF_CHECK;
+
+                                        // If chapter is finished go to SELF_EDIT, otherwise go to the next chunk
+                                        if(array_key_exists($data["event"][0]->currentChunk + 1, $sourceText["chunks"]))
+                                        {
+                                            // Current chunk is finished, go to next chunk
+                                            $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
+                                            $postdata["step"] = EventSteps::REARRANGE;
+                                        }
+
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                        $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                        Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                                    }
+                                    else
+                                    {
+                                        $error[] = __("error_ocured", array($tID));
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("empty_words_error");
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Translator')
+                            ->nest('page', 'Events/SUN/SymbolsDraft')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::SELF_CHECK:
+                        $sourceText = $this->getSourceText($data);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+                                $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
+
+                                $translationData = $this->_translationModel->getEventTranslation($data["event"][0]->trID, $data["event"][0]->currentChapter);
+                                $translation = array();
+
+                                foreach ($translationData as $tv)
+                                {
+                                    $arr = json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
+                                }
+                                $data["translation"] = $translation;
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            $_POST = Gump::xss_clean($_POST);
+
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                $chunks = array_map("trim", $chunks);
+                                $chunks = array_filter($chunks, function($v) {
+                                    return !empty($v);
+                                });
+
+                                if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
+                                    $error[] = __("empty_verses_error");
+
+                                if(!isset($error))
+                                {
+                                    if(!empty($translation))
+                                    {
+                                        foreach ($translation as $key => $chunk)
+                                        {
+                                            $shouldUpdate = false;
+                                            if($chunk[EventMembers::TRANSLATOR]["bt"] != $chunks[$key])
+                                                $shouldUpdate = true;
+
+                                            $translation[$key][EventMembers::TRANSLATOR]["bt"] = $chunks[$key];
+
+                                            if($shouldUpdate)
+                                            {
+                                                $tID = $translation[$key]["tID"];
+                                                unset($translation[$key]["tID"]);
+
+                                                $encoded = json_encode($translation[$key]);
+                                                $json_error = json_last_error();
+
+                                                if($json_error == JSON_ERROR_NONE)
+                                                {
+                                                    $trData = array(
+                                                        "translatedVerses"  => $encoded
+                                                    );
+                                                    $this->_translationModel->updateTranslation(
+                                                        $trData,
+                                                        array(
+                                                            "trID" => $data["event"][0]->trID,
+                                                            "tID" => $tID));
+                                                }
+                                                else
+                                                {
+                                                    $error[] = __("error_ocured", array($tID));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if(!isset($error))
+                                {
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                    $postdata = [
+                                        "step" => EventSteps::THEO_CHECK,
+                                        "hideChkNotif" => false,
+                                    ];
+                                    $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                    Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Translator')
+                            ->nest('page', 'Events/SUN/SelfCheck')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                }
+            }
+            else
+            {
+                $data["error"] = true;
+                $error[] = __("wrong_event_state_error");
+
+                return View::make('Events/Translator')
+                    ->shares("title", $title)
+                    ->shares("data", $data)
+                    ->shares("error", @$error);
+            }
+        }
+        else
+        {
+            $error[] = __("not_in_event_error");
+            $title = "Error";
+
+            return View::make('Events/SUN/Translator')
                 ->shares("title", $title)
                 ->shares("data", $data)
                 ->shares("error", @$error);
@@ -5853,6 +6414,11 @@ class EventsController extends Controller
                 switch($event[0]->step)
                 {
                     case EventSteps::BLIND_DRAFT:
+                    case EventSteps::REARRANGE:
+                    case EventSteps::SYMBOL_DRAFT:
+                        if($event[0]->step == EventSteps::SYMBOL_DRAFT)
+                            $post["draft"] = $post["symbols"];
+
                         if(trim(strip_tags($post["draft"])) != "") {
                             $chunks = json_decode($event[0]->chunks, true);
                             $chunk = $chunks[$event[0]->currentChunk];
@@ -5897,11 +6463,23 @@ class EventsController extends Controller
                             
                             if(!$shoudUpdate)
                             {
-                                $trArr = ["blind" => [], "verses" => []];
+                                $trArr = [];
                                 if(in_array($mode, ["tn"]))
+                                {
                                     $trArr["verses"] = trim($post["draft"]);
-                                else 
+                                }
+                                elseif($mode == "sun")
+                                {
+                                    $trArr["words"] = trim($post["draft"]);
+                                    $trArr["symbols"] = "";
+                                    $trArr["bt"] = "";
+                                    $trArr["verses"] = [];
+                                }
+                                else
+                                {
                                     $trArr["blind"] = trim($post["draft"]);
+                                    $trArr["verses"] = [];
+                                }
 
                                 $translationVerses = array(
                                     EventMembers::TRANSLATOR => $trArr,
@@ -5955,8 +6533,15 @@ class EventsController extends Controller
                             {
                                 if(in_array($mode, ["tn"]))
                                     $translationVerses[$role]["verses"] = trim($post["draft"]);
+                                elseif ($mode == "sun")
+                                {
+                                    if($event[0]->step == EventSteps::SYMBOL_DRAFT)
+                                        $translationVerses[$role]["symbols"] = trim($post["draft"]);
+                                    else
+                                        $translationVerses[$role]["words"] = trim($post["draft"]);
+                                }
                                 else
-                                    $translationVerses[EventMembers::TRANSLATOR]["blind"] = trim($post["draft"]);
+                                    $translationVerses[$role]["blind"] = trim($post["draft"]);
 
                                 $encoded = json_encode($translationVerses);
                                 $json_error = json_last_error();
@@ -6038,6 +6623,13 @@ class EventsController extends Controller
                                         $converter = new \Helpers\Markdownify\Converter;
                                         $post["chunks"][$key] = $converter->parseString($post["chunks"][$key]);
                                         $section = "verses";
+                                    }
+                                    elseif ($mode == "sun")
+                                    {
+                                        if($event[0]->step == EventSteps::SELF_CHECK)
+                                            $section = "bt";
+                                        elseif($event[0]->step == EventSteps::CONTENT_REVIEW)
+                                            $section = "symbols";
                                     }
 
                                     $shouldUpdate = false;

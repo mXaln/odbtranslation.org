@@ -109,7 +109,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
-                        (in_array($mode, ["tn"]) ? "-tn" : "").
+                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
             }
@@ -215,7 +215,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
-                        (in_array($mode, ["tn"]) ? "-tn" : "").
+                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
             }
@@ -340,7 +340,7 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="/events/<?php echo $role.(in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "") ?>/<?php echo $event->eventID ?>">
+                    <a href="/events/<?php echo $role.(in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "") ?>/<?php echo $event->eventID ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>

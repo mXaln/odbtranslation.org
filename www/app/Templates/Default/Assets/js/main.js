@@ -16,6 +16,10 @@ var EventSteps = {
     CHUNKING: "chunking",
     READ_CHUNK: "read-chunk",
     BLIND_DRAFT: "blind-draft",
+    REARRANGE: "rearrange",
+    SYMBOL_DRAFT : "symbol-draft",
+    THEO_CHECK: "theo-check",
+    BT_CHECK : "bt-check",
     SELF_CHECK: "self-check",
     PEER_REVIEW: "peer-review",
     KEYWORD_CHECK: "keyword-check",
@@ -357,7 +361,8 @@ $(document).ready(function() {
 
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
-            step == EventSteps.CONTENT_REVIEW ||
+            step == EventSteps.CONTENT_REVIEW || step == EventSteps.REARRANGE ||
+            step == EventSteps.SYMBOL_DRAFT ||
             step == EventCheckSteps.FST_CHECK || // For Level 2 Check
             step == EventCheckSteps.SND_CHECK ||
             step == EventCheckSteps.PEER_REVIEW_L2)
@@ -1461,6 +1466,13 @@ $(document).ready(function() {
     $(".notes_editor").click(function() {
         //$('.add_notes_editor', this).summernote('focus');
     });
+
+    setTimeout(function () {
+        $(".words_block").each(function() {
+            var h = $(".chunk_verses", this).height();console.log(h);
+            $(".editor_area textarea", this).css("min-height", h);
+        });
+    },100);
 
     $(".toggle-help").click(function() {
         var mode = $(this).data("mode");

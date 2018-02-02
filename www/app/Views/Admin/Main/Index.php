@@ -180,12 +180,13 @@
                     </select>
                 </div>
 
-                <div class="form-group projectType hidden">
+                <div class="form-group projectType">
                     <label for="projectType"><?php echo __('project_type'); ?></label>
                     <select name="projectType" id="projectType" class="form-control" data-placeholder="<?php echo __('choose_project_type'); ?>">
                         <option value=""></option>
                         <option value="udb"><?php echo __("udb") ?></option>
                         <option value="ulb"><?php echo __("ulb") ?></option>
+                        <option value="sun"><?php echo __("sun") ?></option>
                     </select>
                 </div>
 

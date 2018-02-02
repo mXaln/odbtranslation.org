@@ -100,8 +100,12 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
                     <div>Lili J.</div>
                     <div class="missed"></div>
                 </div>
-                <div id="evnt" class="col-sm-4 chat_tab active">
+                <div id="evnt" class="col-sm-2 chat_tab active">
                     <div><?php echo __("event_tab_title") ?></div>
+                    <div class="missed"></div>
+                </div>
+                <div id="proj" class="col-sm-2 chat_tab">
+                    <div><?php echo __("project_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
@@ -121,11 +125,21 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
         <ul id="evnt_messages" class="chat_msgs">
             <li class="message msg_other" data="16">
                 <div class="msg_name">Ketut S.</div>
-                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message</div>
+                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test event message</div>
             </li>
             <li class="message msg_my" data="7">
                 <div class="msg_name">You</div>
-                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message 2</div>
+                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test event message 2</div>
+            </li>
+        </ul>
+        <ul id="proj_messages" class="chat_msgs">
+            <li class="message msg_other" data="16">
+                <div class="msg_name">Ketut S.</div>
+                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test project message</div>
+            </li>
+            <li class="message msg_my" data="7">
+                <div class="msg_name">You</div>
+                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test project message 2</div>
             </li>
         </ul>
         <form action="" class="form-inline">
