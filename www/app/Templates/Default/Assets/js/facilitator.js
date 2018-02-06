@@ -530,7 +530,7 @@ $(function () {
         moveStepBack(null, eventID, memberID, to_step, true, false, chk);
     });
 
-    $(".remove_checker_l2").click(function() {
+    $(".remove_checker_alt").click(function() {
         var id = $(this).attr("id");
         var eventID = $("#eventID").val();
         var memberID = $(this).parent().data("member");
@@ -539,7 +539,7 @@ $(function () {
 
         renderConfirmPopup(Language.attention, Language.remove_l2_checker + name, function() {
             $.ajax({
-                url: "/events/rpc/move_step_back_l2",
+                url: "/events/rpc/move_step_back_alt",
                 method: "post",
                 data: {
                     eventID : eventID,

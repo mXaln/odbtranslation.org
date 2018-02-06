@@ -77,7 +77,7 @@ if(isset($data["error"])) return;
                                         if(!empty($_POST) && isset($_POST["chunks"][$key]))
                                             $text = $_POST["chunks"][$key];
                                         ?>
-                                        <div class="textWithBubbles noselect <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>"
+                                        <div class="textWithBubbles noselect"
                                              contentEditable="true">
                                             <?php
                                             $wordverse = preg_split("/\|([0-9]+)\|/", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -146,6 +146,7 @@ if(isset($data["error"])) return;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -166,6 +167,8 @@ if(isset($data["error"])) return;
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 <div class="tutorial_container">

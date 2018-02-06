@@ -257,9 +257,14 @@ if(!isset($error)):
                         <div><?php echo __("event_tab_title") ?></div>
                         <div class="missed"></div>
                     </div>
+                    <div id="proj" class="col-sm-4 chat_tab">
+                        <div><?php echo __("project_tab_title") ?></div>
+                        <div class="missed"></div>
+                    </div>
                 </div>
             </div>
             <ul id="evnt_messages" class="chat_msgs info"></ul>
+            <ul id="proj_messages" class="chat_msgs"></ul>
             <form action="" class="form-inline">
                 <div class="form-group">
                     <textarea id="m" class="form-control"></textarea>

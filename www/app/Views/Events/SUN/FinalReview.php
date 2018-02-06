@@ -1,5 +1,5 @@
 <?php
-use \Helpers\Constants\EventMembers;
+use Helpers\Constants\EventMembers;
 
 if(isset($data["error"])) return;
 ?>
@@ -19,20 +19,13 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title">
-            <div><?php echo __("step_num", [6]) . ": " . __("peer-review")?></div>
-            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
-        </div>
+        <div class="main_content_title"><?php echo __("final-review")?></div>
     </div>
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <form action="" method="post" id="main_form">
-                <div class="main_content_text row">
-                    <?php if($data["event"][0]->checkerID == 0): ?>
-                        <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
-                    <?php endif; ?>
-
+            <form action="" method="post" id="finalReview">
+                <div class="main_content_text">
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->bookProject)." - "
                             .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
@@ -60,26 +53,63 @@ if(isset($data["error"])) return;
                                             $verse = $combinedVerse;
                                         }
                                         ?>
-                                        <strong class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><?php echo $data["text"][$verse]; ?>
+                                        <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="col-sm-6 editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"];?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea">
-                                            <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
-                                        </textarea>
+                                        <div class="markerBubbles noselect">
+                                            <?php
+                                            foreach ($chunk as $verse)
+                                            {
+                                                if(!empty($_POST) && isset($_POST["chunks"][$key]))
+                                                {
+                                                    if(preg_match("/\|".$verse."\|/", $_POST["chunks"][$key]))
+                                                        continue;
+                                                }
+                                                echo '<div class="bubble">'.$verse.'</div>';
+                                            }
+                                            ?>
+                                        </div>
+
+                                        <?php
+                                        if(!empty($_POST) && isset($_POST["chunks"][$key]))
+                                            $text = $_POST["chunks"][$key];
+                                        ?>
+                                        <div class="textWithBubbles noselect sun_content"
+                                             contentEditable="true">
+                                            <?php
+                                            $wordverse = preg_split("/\|([0-9]+)\|/", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+                                            foreach ($wordverse as $item)
+                                            {
+                                                if(preg_match("/^[0-9]+$/", $item))
+                                                {
+                                                    echo "<div class=\"bubble\">{$item}</div>";
+                                                }
+                                                else
+                                                {
+                                                    $words = preg_split("/ /", $item);
+                                                    foreach ($words as $word) {
+                                                        echo "<div class='splword' contenteditable='true'>{$word}</div> ";
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea ta_hidden"></textarea>
 
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                             <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                         </div>
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>"/>
 
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
                                                 <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                                    <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                    <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
                                                         <div class="my_comment"><?php echo $comment->text; ?></div>
                                                     <?php else: ?>
                                                         <div class="other_comments">
@@ -92,6 +122,7 @@ if(isset($data["error"])) return;
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>
+
                                         <div class="clear"></div>
                                     </div>
                                 </div>
@@ -99,11 +130,7 @@ if(isset($data["error"])) return;
                             <div class="chunk_divider col-sm-12"></div>
                         <?php endforeach; ?>
                     </div>
-
-                    <div class="col-sm-12">
-                        <button id="save_step" type="submit" name="save" value="1" class="btn btn-primary"><?php echo __("save")?></button>
-                        <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert">
-                    </div>
+                    <div class="clear"></div>
                 </div>
 
                 <div class="main_content_footer row">
@@ -115,29 +142,24 @@ if(isset($data["error"])) return;
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [6])?></div>
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
+            <div class="help_info_steps is_checker_page_help">
                 <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [6])?>:</span> <?php echo __("peer-review")?></div>
+                <div class="help_name_steps"><span><?php echo __("final-review")?></span></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review_desc")?></ul>
+                    <ul><?php echo __("final-review_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 
-            <div class="event_info">
+            <div class="event_info is_checker_page_help">
                 <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>
-                    </div>
                     <div class="additional_info">
                         <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
@@ -149,21 +171,20 @@ if(isset($data["error"])) return;
     <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
-
 <div class="tutorial_container">
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/peer-review.png") ?>" width="100" height="100">
-            <img src="<?php echo template_url("img/steps/big/peer-review.png") ?>" width="280" height="280">
+            <img src="<?php echo template_url("img/steps/icons/final-review.png") ?>" height="100px" width="100px">
+            <img src="<?php echo template_url("img/steps/big/final-review.png") ?>" height="280px" width="280px">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
+                <label><input id="hide_tutorial" data="read-chunk" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review")?></h3>
-            <ul><?php echo __("peer-review_desc")?></ul>
+            <h3><?php echo __("final-review")?></h3>
+            <ul><?php echo __("final-review_desc")?></ul>
         </div>
     </div>
 </div>

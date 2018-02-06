@@ -548,6 +548,7 @@ return array (
     "wrong_parameters" => "Parameter yang salah. Mohon coba lagi.",
     "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
+    "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
     "event_has_translations_error" => "The event has translation started, so you cannot import another project",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
@@ -574,7 +575,7 @@ return array (
     "goto_event_info" => "Ke halaman informasi kegiatan",
     "event_info" => "Informasi Kegiatan",
     "manage_event" => "Kelola Kegiatan",
-    "chapter_has_translation" => "Perhatian! Pasal ini memiliki beberapa teks dari tahap Draft Kosong. Jika Anda pindahkan ke \"Penggalan\" teks akan hilang. Apakah Anda ingin melanjutkan?",
+    "chapter_has_translation" => "Perhatian! Pasal ini memiliki beberapa teks dari tahap Draft. Jika Anda pindahkan ke \"Penggalan\" teks akan hilang. Apakah Anda ingin melanjutkan?",
 
     // -------------- Translation Controller ----------------- //
 

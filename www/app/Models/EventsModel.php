@@ -541,6 +541,103 @@ class EventsModel extends Model
         return $filtered;
     }
 
+
+    /**
+     * Get SUN checker event/s
+     * @param $memberID SUN Checker member ID
+     * @param null $eventID event ID
+     * @param null $chkMemberID SUN translator member ID
+     * @return array
+     */
+    public function getMemberEventsForSun($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
+    {
+        $prepare = [];
+        if($eventID)
+            $prepare[":eventID"] = $eventID;
+        if($chkMemberID)
+            $prepare[":chkMemberID"] = $chkMemberID;
+
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
+            .PREFIX."members.lastName, evnt.bookCode, evnt.admins, evnt.state, "
+            ."evnt.dateFrom, evnt.dateTo, "
+            ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
+            .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
+            .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
+            "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+            .PREFIX."abbr.chaptersNum ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
+            "WHERE ".PREFIX."projects.bookProject = 'sun' ".
+            ($eventID ? "AND trs.eventID = :eventID " : " ").
+            ($chkMemberID ? "AND trs.memberID = :chkMemberID " : " ").
+            "ORDER BY tLang, ".PREFIX."abbr.abbrID";
+
+        $events = $this->db->select($sql, $prepare);
+        $filtered = [];
+
+        foreach($events as $event)
+        {
+            // translation events
+            if($event->memberID == $memberID
+                && $event->step != EventCheckSteps::NONE
+                && ($chapter == null || $chapter == $event->currentChapter))
+            {
+                $filtered[] = $event;
+            }
+
+            // Theo Check events
+            $kwCheck = (array)json_decode($event->kwCheck, true);
+            foreach ($kwCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] == 0)
+                    {
+                        $ev = clone $event;
+
+                        $ev->step = EventSteps::THEO_CHECK;
+                        $ev->currentChapter = $chap;
+                        $ev->memberID = $ev->memberID;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+
+            // Verse-by-verse Check events
+            $crCheck = (array)json_decode($event->crCheck, true);
+            foreach ($crCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] != 2)
+                    {
+                        $ev = clone $event;
+
+                        $ev->step = $data["done"] == 0 ?
+                            EventSteps::CONTENT_REVIEW :
+                            EventSteps::FINAL_REVIEW;
+                        $ev->currentChapter = $chap;
+                        $ev->memberID = $ev->memberID;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
     /**
      * Get event/list of events for facilitator
      * @param $memberID
@@ -688,7 +785,7 @@ class EventsModel extends Model
         $stepsIn = $this->db->quoteArray([
             EventSteps::PEER_REVIEW,
             EventSteps::KEYWORD_CHECK,
-            EventSteps::CONTENT_REVIEW,
+            EventSteps::CONTENT_REVIEW
         ]);
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
@@ -845,6 +942,75 @@ class EventsModel extends Model
                 $notif->currentChapter = $chapter;
                 $notif->manageMode = "l2";
                 $notifs[] = $notif;
+            }
+        }
+
+        return $notifs;
+    }
+
+
+    /**
+     * Get notifications for Level 2 events
+     * @return array
+     */
+    public function getNotificationsSun()
+    {
+        $sql = "SELECT trs.*, ".
+            PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
+            "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."translators as mytrs ON mytrs.memberID = :memberID AND mytrs.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
+            "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
+            "OR ".PREFIX."events.admins LIKE :adminID) ".
+            "AND trs.kwCheck != '' AND ".PREFIX."projects.bookProject = 'sun' ";
+
+        $prepare = [
+            ":memberID" => Session::get("memberID"),
+            ":adminID" => '%\"'.Session::get("memberID").'"%'
+        ];
+
+        $notifications = $this->db->select($sql, $prepare);
+        $notifs = [];
+
+        foreach ($notifications as $notification)
+        {
+            // Theological check notifications
+            if($notification->memberID != Session::get("memberID"))
+            {
+                $kwCheck = (array)json_decode($notification->kwCheck, true);
+                foreach ($kwCheck as $chapter => $data) {
+                    // Exclude taken chapters
+                    if($data["memberID"] > 0) continue;
+
+                    $notif = clone $notification;
+                    $notif->step = EventSteps::THEO_CHECK;
+                    $notif->currentChapter = $chapter;
+                    $notif->manageMode = "sun";
+                    $notifs[] = $notif;
+                }
+            }
+
+            // Verse-by-verse check notifications
+            if($notification->memberID != Session::get("memberID"))
+            {
+                $crCheck = (array)json_decode($notification->crCheck, true);
+                foreach ($crCheck as $chapter => $data) {
+                    // Exclude taken chapters
+                    if($data["memberID"] > 0) continue;
+
+                    $notif = clone $notification;
+                    $notif->step = EventSteps::CONTENT_REVIEW;
+                    $notif->currentChapter = $chapter;
+                    $notif->manageMode = "sun";
+                    $notifs[] = $notif;
+                }
             }
         }
 
@@ -1658,6 +1824,15 @@ class EventsModel extends Model
             });
             if($memberID !== null)
                 $builder->where(["chapters.l2memberID" => $memberID]);
+        }
+        if($manageMode == "sun")
+        {
+            $builder->leftJoin("translators", function($join){
+                $join->on("chapters.eventID", "=", "translators.eventID")
+                    ->on("chapters.memberID", "=", "translators.memberID");
+            });
+            if($memberID !== null)
+                $builder->where(["chapters.memberID" => $memberID]);
         }
         else
         {

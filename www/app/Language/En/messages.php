@@ -550,6 +550,7 @@ return array (
     "wrong_parameters" => "Wrong parameters. Please try again.",
     "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
+    "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
     "event_has_translations_error" => "The event has translation started, so you cannot import another project",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
@@ -576,7 +577,7 @@ return array (
     "goto_event_info" => "Go to event information page",
     "event_info" => "Event Information",
     "manage_event" => "Manage Event",
-    "chapter_has_translation" => "Attention! This chapter has some blind draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
+    "chapter_has_translation" => "Attention! This chapter has some draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
 
     // -------------- Translation Controller ----------------- //
 

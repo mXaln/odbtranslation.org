@@ -765,7 +765,11 @@ $(document).ready(function() {
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
         var p = $(this).parent().parent();
-        var createChunkBtn = $(".create_chunk").clone();
+        var createChunkBtn = $(".clone.create_chunk").clone();
+        var resetBtn = $(".clone.chunks_reset").clone();
+
+        createChunkBtn.removeClass("clone");
+        resetBtn.removeClass("clone");
 
         var verses = parseCombinedVerses($(this).val());
 
@@ -792,7 +796,7 @@ $(document).ready(function() {
                     currentChunk = 0;
                     firstVerse = verse;
 
-                    $(".chunks_reset").show();
+                    //$(".chunks_reset").show();
                 }
                 else
                 {
@@ -806,9 +810,11 @@ $(document).ready(function() {
 
                 lastVerse = verse;
             }
-
             $(".verse_p .create_chunk").remove();
+            $(".verse_p .chunks_reset").remove();
+
             p.append(createChunkBtn);
+            p.append(resetBtn);
         }
         else                     // Deselect verse from the end
         {
@@ -847,15 +853,17 @@ $(document).ready(function() {
                 if(chunks.length <= 0)
                 {
                     firstVerse = 0;
-                    $(".chunks_reset").hide();
+                    //$(".chunks_reset").hide();
                 }
             }
 
             $(".verse_p .create_chunk").remove();
+            $(".verse_p .chunks_reset").remove();
 
             if(prep_p.length > 0)
             {
                 prep_p.append(createChunkBtn);
+                prep_p.append(resetBtn);
             }
         }
 
@@ -863,7 +871,8 @@ $(document).ready(function() {
 
         fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
         lv = lastVerse < 10 ? "0"+lastVerse : lastVerse;
-        $(".verse_p .create_chunk").text(Language.makeChunk+" "+fv+"-"+lv).show();
+        $(".verse_p .create_chunk").text(fv+"-"+lv).attr("title", Language.makeChunk+" "+fv+"-"+lv).show();
+        $(".verse_p .chunks_reset").show();
     });
 
     // Start new chunk
@@ -871,16 +880,17 @@ $(document).ready(function() {
         currentChunk++;
         $(".verse_p .create_chunk").parent().after('<div class="chunk_divider col-sm-12"></div>');
         $(".verse_p .create_chunk").remove();
+        $(".verse_p .chunks_reset").css("top", -15);
     });
 
     // Reset chunks
-    $(".chunks_reset").click(function() {
+    $(document).on("click", ".verse_p .chunks_reset", function() {
         chunks = [];
         currentChunk = -1;
         firstVerse = 0;
         lastVerse = 0;
 
-        $(this).hide();
+        $(this).remove();
         $(".verse_p .create_chunk").remove();
         $(".chunk_divider").remove();
         $(".verse_number").prop("checked", false);
@@ -1165,6 +1175,7 @@ $(document).ready(function() {
         if(typeof isInfoPage != "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
+            && step != EventSteps.THEO_CHECK
             && step != EventSteps.HIGHLIGHT)) return;
         
         var verseID = $(this).attr("class");
@@ -1262,6 +1273,7 @@ $(document).ready(function() {
         if(typeof disableHighlight != "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
+                && step != EventSteps.THEO_CHECK
                 && step != EventSteps.HIGHLIGHT)) return;
 
         if($(".remove_kw_tip").length <= 0)
@@ -1288,6 +1300,7 @@ $(document).ready(function() {
         if((isChecker || ["tn"].indexOf(tMode) > -1 || isL2Checker)
             && (step == EventSteps.KEYWORD_CHECK
                 || step == EventSteps.HIGHLIGHT
+                || step == EventSteps.THEO_CHECK
                 || step == EventCheckSteps.KEYWORD_CHECK_L2
                 || step == EventCheckSteps.PEER_REVIEW_L2))
         {
@@ -1326,6 +1339,7 @@ $(document).ready(function() {
             && step != EventSteps.HIGHLIGHT
             && step != EventSteps.PEER_REVIEW
             && step != EventCheckSteps.KEYWORD_CHECK_L2
+            && step != EventSteps.THEO_CHECK
             && step != EventCheckSteps.PEER_REVIEW_L2)) return;
         
         if(step == EventSteps.PEER_REVIEW && 
@@ -1479,9 +1493,24 @@ $(document).ready(function() {
 
         if($(".main_content").hasClass("col-sm-9"))
         {
+            var hidePos = $(".help_hide").offset();
+            var showPos = $(".help_show").position();
+
+            $(".help_show").css("visibility", "visible");
+
+            $(".help_show").offset(hidePos);
+            $(".help_show").animate({
+                top: -5,
+                right: -5,
+                left: showPos.left
+            }, 500);
+
+            // Hide
             $(".main_content").removeClass("col-sm-9")
                 .addClass("col-sm-12");
             $(".content_help").hide();
+
+
 
             if(mode == "l2")
             {
@@ -1492,13 +1521,16 @@ $(document).ready(function() {
                     autosize.update($('textarea'));
             }
 
-            $(this).text(Language.showHelp);
+            //$(this).text(Language.showHelp);
         }
         else 
         {
+            // Show
             $(".main_content").addClass("col-sm-9")
                 .removeClass("col-sm-12");
             $(".content_help").show();
+            $(".help_hide").show();
+            $(".help_show").css("visibility", "hidden");
 
             if(mode == "l2")
             {
@@ -1509,7 +1541,7 @@ $(document).ready(function() {
                     autosize.update($('textarea'));
             }
 
-            $(this).text(Language.hideHelp);
+            //$(this).text(Language.hideHelp);
         }
     });
 
