@@ -491,7 +491,7 @@ $(function () {
     $("button[name=progressEvent]").click(function (e) {
         var eventID = $("#eID").val();
         var mode = $(this).data("mode");
-        var add = ["tn"].indexOf(mode) > -1 ? "-tn" : "";
+        var add = ["tn","sun"].indexOf(mode) > -1 ? "-"+mode : "";
         window.location = "/events/information"+add+"/"+eventID;
         e.preventDefault();
     });

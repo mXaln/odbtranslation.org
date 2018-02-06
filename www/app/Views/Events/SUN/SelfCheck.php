@@ -52,9 +52,9 @@ if(isset($data["error"])) return;
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea">
-                                            <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
-                                        </textarea>
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea"><?php
+                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                        ?></textarea>
 
                                         <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
@@ -90,6 +90,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [5])?></div>

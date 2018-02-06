@@ -66,9 +66,9 @@ if(isset($data["error"])) return;
                                 <div class="col-sm-6 editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea">
-                                            <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
-                                        </textarea>
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea"><?php
+                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                        ?></textarea>
 
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">

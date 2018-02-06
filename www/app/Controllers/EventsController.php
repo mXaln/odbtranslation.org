@@ -189,6 +189,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["ulb","udb"]))
+            {
+                Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
@@ -1292,6 +1297,14 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["tn"]))
+            {
+                if(in_array($data["event"][0]->bookProject, ["udb","ulb"]))
+                    Url::redirect("events/translator/".$eventID);
+                else
+                    Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if(($data["event"][0]->state == EventStates::TRANSLATING 
@@ -1840,6 +1853,14 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["sun"]))
+            {
+                if(in_array($data["event"][0]->bookProject, ["udb","ulb"]))
+                    Url::redirect("events/translator/".$eventID);
+                else
+                    Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
@@ -3371,6 +3392,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["sun"]))
+            {
+                Url::redirect("events/");
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
@@ -4643,6 +4669,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["ulb","udb"]))
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
@@ -5159,6 +5190,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["tn"]))
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
@@ -5574,6 +5610,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["ulb","udb"]) || $data["event"][0]->admins_l2 == "")
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins_l2, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
@@ -5881,6 +5922,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["sun"]))
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null

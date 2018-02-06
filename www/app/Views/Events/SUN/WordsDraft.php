@@ -27,9 +27,9 @@ if(isset($data["error"])) return;
                             </div>
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php $text = isset($data["words"]) ? $data["words"] : ""; ?>
-                                <textarea name="draft" class="col-sm-6 peer_verse_ta textarea">
-                                    <?php echo isset($_POST["draft"]) ? $_POST["draft"] : $text ?>
-                                </textarea>
+                                <textarea name="draft" class="col-sm-6 peer_verse_ta textarea"><?php
+                                    echo isset($_POST["draft"]) ? $_POST["draft"] : $text
+                                ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -42,6 +42,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [3])?></div>

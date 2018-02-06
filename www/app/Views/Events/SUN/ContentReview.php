@@ -77,9 +77,9 @@ if(isset($data["error"])) return;
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea sun_content">
-                                            <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
-                                        </textarea>
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea sun_content"><?php
+                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                        ?></textarea>
 
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
@@ -147,6 +147,7 @@ if(isset($data["error"])) return;
                     <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [7])?></div>

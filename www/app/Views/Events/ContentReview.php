@@ -43,9 +43,9 @@ if(isset($data["error"])) return;
                             <div class="chunk_verse editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <div class="vnote">
                                     <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
-                                    <textarea name="chunks[]" class="peer_verse_ta textarea <?php echo $data["event"][0]->targetLang == "sun" ? "sun_content" : "" ?>">
-                                        <?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?>
-                                    </textarea>
+                                    <textarea name="chunks[]" class="peer_verse_ta textarea"><?php
+                                        echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                    ?></textarea>
 
                                     <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                     <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
