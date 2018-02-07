@@ -145,15 +145,6 @@ if(!isset($error)):
                             $mode = $data["event"][0]->bookProject;
                             $chk = $member["stage"] == "checking";
                             $s_disabled = EventSteps::enum($member["step"], $mode, $chk) < 2;
-
-                            $blindDraft = EventSteps::BLIND_DRAFT;
-                            $readChunk = EventSteps::READ_CHUNK;
-
-                            if($mode == "sun")
-                            {
-                                $readChunk = EventSteps::REARRANGE;
-                                $blindDraft = EventSteps::SYMBOL_DRAFT;
-                            }
                             ?>
                             <label class="<?php echo $chk ? "tnchk" : "" ?>"><?php echo __("current_step") ?>:</label>
                             <select class="step_selector form-control" 
@@ -177,14 +168,48 @@ if(!isset($error)):
                                         (EventSteps::enum($member["step"], $mode, $chk) - $i) > 1;
                                     ?>
 
-                                    <?php if($step == $readChunk):
+                                    <?php if($step == EventSteps::READ_CHUNK):
                                         $ch_disabled = $member["currentChunk"] <= 0 ||
-                                            EventSteps::enum($member["step"], $mode, $chk) >= EventSteps::enum($blindDraft, $mode, $chk);
+                                            EventSteps::enum($member["step"], $mode, $chk) >= EventSteps::enum(EventSteps::BLIND_DRAFT, $mode, $chk);
                                         ?>
                                         <option <?php echo ($ch_disabled ? "disabled" : "") ?>
-                                                value="<?php echo $blindDraft."_prev" ?>"
-                                        style="padding-left: 20px">
-                                            <?php echo __($blindDraft."_previous").($member["currentChunk"] > 0 ? " ".$member["currentChunk"] : "") ?>
+                                                value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <?php echo __(EventSteps::BLIND_DRAFT."_previous").($member["currentChunk"] > 0 ? " ".$member["currentChunk"] : "") ?>
+                                        </option>
+                                    <?php endif; ?>
+
+                                    <?php if($step == EventSteps::REARRANGE):
+                                        $ch_disabled = ($member["currentChunk"] <= 0 && $member["step"] != EventSteps::SYMBOL_DRAFT) ||
+                                            ($member["step"] == EventSteps::SYMBOL_DRAFT && $member["currentChunk"] > 0) ||
+                                            (EventSteps::enum($member["step"], $mode, $chk) - EventSteps::enum($step, $mode, $chk)) > 1;
+
+                                        $chunks = (array)json_decode($member["chunks"], true);
+                                        $currentChunk = $member["currentChunk"] > 0 || $member["step"] != EventSteps::SYMBOL_DRAFT
+                                            ? $member["currentChunk"]
+                                            : sizeof($chunks);
+                                        ?>
+                                        <option <?php echo ($ch_disabled ? "disabled" : "") ?>
+                                                value="<?php echo EventSteps::REARRANGE."_prev" ?>">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <?php echo __(EventSteps::REARRANGE."_previous").($currentChunk > 0 ? " ".$currentChunk : "") ?>
+                                        </option>
+                                    <?php endif; ?>
+
+                                    <?php if($step == EventSteps::SYMBOL_DRAFT):
+                                        $ch_disabled = $member["currentChunk"] <= 0 ||
+                                            EventSteps::enum($member["step"], $mode, $chk) < EventSteps::enum($step, $mode, $chk) ||
+                                            (EventSteps::enum($member["step"], $mode, $chk) - EventSteps::enum($step, $mode, $chk)) > 1;
+
+                                        $chunks = (array)json_decode($member["chunks"], true);
+                                        $currentChunk = $member["step"] != EventSteps::SELF_CHECK
+                                            ? $member["currentChunk"]
+                                            : sizeof($chunks);
+                                        ?>
+                                        <option <?php echo ($ch_disabled ? "disabled" : "") ?>
+                                                value="<?php echo EventSteps::SYMBOL_DRAFT."_prev" ?>">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <?php echo __(EventSteps::SYMBOL_DRAFT."_previous").($member["currentChunk"] > 0 ? " ".$currentChunk : "") ?>
                                         </option>
                                     <?php endif; ?>
 

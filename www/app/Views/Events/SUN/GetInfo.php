@@ -44,13 +44,13 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <span><b><?php echo $data["members"][$chapter["memberID"]]["name"] ?></b></span>
                     </div>
                     <?php if(isset($chapter["theoChk"]["checkerID"]) && $chapter["theoChk"]["checkerID"] != "na"): ?>
-                        <div class="section_translator_name tnleft sun" style="margin-left: 480px">
+                        <div class="section_translator_name tnleft sun" style="margin-left: 520px">
                             <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["theoChk"]["checkerID"]]["avatar"].".png") ?>">
                             <span><b><?php echo $data["members"][$chapter["theoChk"]["checkerID"]]["name"] ?></b></span>
                         </div>
                     <?php endif; ?>
                     <?php if(isset($chapter["crc"]["checkerID"]) && $chapter["crc"]["checkerID"] != "na"): ?>
-                        <div class="section_translator_name tnleft sun" style="margin-left: 100px">
+                        <div class="section_translator_name tnleft sun" style="margin-left: 30px">
                             <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["crc"]["checkerID"]]["avatar"].".png") ?>">
                             <span><b><?php echo $data["members"][$chapter["crc"]["checkerID"]]["name"] ?></b></span>
                         </div>
@@ -87,12 +87,19 @@ foreach ($data["chapters"] as $key => $chapter):?>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <!-- Draft Step -->
-                    <div class="section_step <?php echo $chapter["draft"]["state"] ?>">
-                        <div class="step_status"><?php echo __("step_status_" . $chapter["draft"]["state"]) ?></div>
+                    <!-- Rearrange Step -->
+                    <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>">
+                        <div class="step_status"><?php echo __("step_status_" . $chapter["rearrange"]["state"]) ?></div>
+                        <div class="step_light"></div>
+                        <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::REARRANGE.".png") ?>"></div>
+                        <div class="step_name">3. <?php echo __(EventSteps::REARRANGE); ?></div>
+                    </div>
+                    <!-- Symbol Draft Step -->
+                    <div class="section_step <?php echo $chapter["symbolDraft"]["state"] ?>">
+                        <div class="step_status"><?php echo __("step_status_" . $chapter["symbolDraft"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::SYMBOL_DRAFT.".png") ?>"></div>
-                        <div class="step_name">3-4. <?php echo __(EventSteps::SYMBOL_DRAFT); ?></div>
+                        <div class="step_name">4. <?php echo __(EventSteps::SYMBOL_DRAFT); ?></div>
                     </div>
                     <!-- Self Check Step -->
                     <div class="section_step <?php echo $chapter["selfEdit"]["state"] ?>">
@@ -103,7 +110,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                     </div>
 
                     <!-- Checking stage -->
-                    <div class="section_step chk">
+                    <div class="section_step chk" style="width: 50px">
                     </div>
 
                     <!-- Theo Check Step -->
@@ -118,7 +125,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                     </div>
 
                     <!-- Checking stage -->
-                    <div class="section_step chk">
+                    <div class="section_step chk" style="width: 50px">
                     </div>
 
                     <!-- Verse-by-verse Check Step -->
@@ -132,7 +139,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <?php endif; ?>
                     </div>
                     <!-- Verse Markers Step -->
-                    <div class="section_step <?php echo $chapter["finalReview"]["state"] ?>">
+                    <div class="section_step chk <?php echo $chapter["finalReview"]["state"] ?>">
                         <div class="step_status"><?php echo __("step_status_" . $chapter["finalReview"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::FINAL_REVIEW.".png") ?>"></div>

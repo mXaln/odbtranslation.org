@@ -2125,6 +2125,16 @@ class EventsController extends Controller
                                     if(is_numeric($tID))
                                     {
                                         $postdata["step"] = EventSteps::SYMBOL_DRAFT;
+                                        $postdata["currentChunk"] = 0;
+
+                                        // If chapter is finished go to SYMBOL_DRAFT, otherwise go to the next chunk
+                                        if(array_key_exists($data["event"][0]->currentChunk + 1, $sourceText["chunks"]))
+                                        {
+                                            // Current chunk is finished, go to next chunk
+                                            $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
+                                            $postdata["step"] = EventSteps::REARRANGE;
+                                        }
+
                                         setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                         Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
@@ -2252,7 +2262,7 @@ class EventsController extends Controller
                                         {
                                             // Current chunk is finished, go to next chunk
                                             $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
-                                            $postdata["step"] = EventSteps::REARRANGE;
+                                            $postdata["step"] = EventSteps::SYMBOL_DRAFT;
                                         }
 
                                         setcookie("temp_tutorial", false, time() - 24*3600, "/");
@@ -6062,7 +6072,8 @@ class EventsController extends Controller
                 $currentStep = EventSteps::PRAY;
                 $consumeState = StepsStates::NOT_STARTED;
                 $chunkingState = StepsStates::NOT_STARTED;
-                $draftState = StepsStates::NOT_STARTED;
+                $rearrangeState = StepsStates::NOT_STARTED;
+                $symbolDraftState = StepsStates::NOT_STARTED;
 
                 $members[$chapter["memberID"]] = "";
                 $data["chapters"][$key]["progress"] = 0;
@@ -6100,26 +6111,36 @@ class EventsController extends Controller
                             $consumeState = StepsStates::FINISHED;
                             $chunkingState = StepsStates::IN_PROGRESS;
                         }
-                        elseif($currentStep == EventSteps::REARRANGE || $currentStep == EventSteps::SYMBOL_DRAFT)
+                        elseif($currentStep == EventSteps::REARRANGE)
                         {
                             $consumeState = StepsStates::FINISHED;
                             $chunkingState = StepsStates::FINISHED;
-                            $draftState = StepsStates::IN_PROGRESS;
+                            $rearrangeState = StepsStates::IN_PROGRESS;
+                        }
+                        elseif($currentStep == EventSteps::SYMBOL_DRAFT)
+                        {
+                            $consumeState = StepsStates::FINISHED;
+                            $chunkingState = StepsStates::FINISHED;
+                            $rearrangeState = StepsStates::FINISHED;
+                            $symbolDraftState = StepsStates::IN_PROGRESS;
                         }
                     }
 
                     $data["chapters"][$key]["step"] = $currentStep;
                     $data["chapters"][$key]["consume"]["state"] = $consumeState;
                     $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
-                    $data["chapters"][$key]["draft"]["state"] = $draftState;
+                    $data["chapters"][$key]["rearrange"]["state"] = $rearrangeState;
+                    $data["chapters"][$key]["symbolDraft"]["state"] = $symbolDraftState;
 
-                    // Pregress checks
+                    // Progress checks
                     if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
                         $data["chapters"][$key]["progress"] += 12.5;
                     if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
                         $data["chapters"][$key]["progress"] += 12.5;
-                    if($data["chapters"][$key]["draft"]["state"] == StepsStates::FINISHED)
-                        $data["chapters"][$key]["progress"] += 25;
+                    if($data["chapters"][$key]["rearrange"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 12.5;
+                    if($data["chapters"][$key]["symbolDraft"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 12.5;
 
                     $overallProgress += $data["chapters"][$key]["progress"];
 
@@ -6140,7 +6161,8 @@ class EventsController extends Controller
                     // Theo check
                     $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["draft"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
 
                     if($kwCheck[$key]["memberID"] > 0)
@@ -6194,22 +6216,30 @@ class EventsController extends Controller
                     {
                         $data["chapters"][$key]["consume"]["state"] = StepsStates::IN_PROGRESS;
                     }
-                    else if($currentStep == EventSteps::CHUNKING)
+                    elseif($currentStep == EventSteps::CHUNKING)
                     {
                         $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
                         $data["chapters"][$key]["chunking"]["state"] = StepsStates::IN_PROGRESS;
                     }
-                    else if($currentStep == EventSteps::REARRANGE || $currentStep == EventSteps::SYMBOL_DRAFT)
+                    elseif($currentStep == EventSteps::REARRANGE)
                     {
                         $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
                         $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
-                        $data["chapters"][$key]["draft"]["state"] = StepsStates::IN_PROGRESS;
+                        $data["chapters"][$key]["rearrange"]["state"] = StepsStates::IN_PROGRESS;
                     }
-                    else if($currentStep == EventSteps::SELF_CHECK)
+                    elseif($currentStep == EventSteps::SYMBOL_DRAFT)
                     {
                         $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
                         $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
-                        $data["chapters"][$key]["draft"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::SELF_CHECK)
+                    {
+                        $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::FINISHED;
                         $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
                     }
                 }
@@ -6220,8 +6250,10 @@ class EventsController extends Controller
                     $data["chapters"][$key]["progress"] += 12.5;
                 if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
                     $data["chapters"][$key]["progress"] += 12.5;
-                if($data["chapters"][$key]["draft"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 25;
+                if($data["chapters"][$key]["rearrange"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["symbolDraft"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
                 if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
                     $data["chapters"][$key]["progress"] += 12.5;
                 if($data["chapters"][$key]["theoChk"]["state"] == StepsStates::FINISHED)
@@ -7452,7 +7484,12 @@ class EventsController extends Controller
                             if($event[0]->stage == "translation")
                             {
                                 $trID = $event[0]->trID;
-                                $translationData = $this->_translationModel->getLastEventTranslation($trID);
+                                $translationData = $this->_translationModel->getEventTranslationByEventID(
+                                    $event[0]->eventID,
+                                    $event[0]->currentChapter,
+                                    $event[0]->currentChunk
+                                );
+                                //$translationData = $this->_translationModel->getLastEventTranslation($trID);
                             }
                             else
                             {
@@ -7476,7 +7513,7 @@ class EventsController extends Controller
                                     $shoudUpdate = true;
                                 }
                             }
-                            
+
                             if(!$shoudUpdate)
                             {
                                 $trArr = [];
@@ -9474,15 +9511,6 @@ class EventsController extends Controller
         $chk = $member->chk;
         $manageMode = "l1";
 
-        $blindDraft = EventSteps::BLIND_DRAFT;
-        $readChunk = EventSteps::READ_CHUNK;
-
-        if($mode == "sun")
-        {
-            $readChunk = EventSteps::REARRANGE;
-            $blindDraft = EventSteps::SYMBOL_DRAFT;
-        }
-
         if(isset($member->state) && $member->state == EventStates::L2_CHECK)
             $manageMode = "l2";
 
@@ -9524,7 +9552,7 @@ class EventsController extends Controller
 
         // Do not allow to move forward, exclusion from READ_CHUNK to BLIND_DRAFT of previous chunk
         if(EventSteps::enum($toStep, $mode, $chk) >= EventSteps::enum($member->step, $mode, $chk)
-            && ($toStep == $blindDraft && !$prevChunk))
+            && ($toStep == EventSteps::BLIND_DRAFT && !$prevChunk))
             return [];
 
         switch ($toStep)
@@ -9609,15 +9637,44 @@ class EventsController extends Controller
                 $postData["translations"] = true;
                 break;
 
-            case $readChunk:
-                $postData["step"] = $readChunk;
+            case EventSteps::READ_CHUNK:
+                $postData["step"] = EventSteps::READ_CHUNK;
                 break;
 
-            case $blindDraft:
-                $postData["step"] = $blindDraft;
+            case EventSteps::BLIND_DRAFT:
+                $postData["step"] = EventSteps::BLIND_DRAFT;
                 if($prevChunk)
                 {
                     $chunk = $member->currentChunk-1;
+                    $postData["currentChunk"] = max(0, $chunk);
+                }
+                break;
+
+            case EventSteps::REARRANGE:
+                $postData["step"] = EventSteps::REARRANGE;
+                $postData["currentChunk"] = 0;
+                if($prevChunk)
+                {
+                    $chunks = (array)json_decode($member->chunks, true);
+                    if($member->step == EventSteps::SYMBOL_DRAFT && $member->currentChunk == 0)
+                        $chunk = sizeof($chunks)-1;
+                    else
+                        $chunk = $member->currentChunk-1;
+
+                    $postData["currentChunk"] = max(0, $chunk);
+                }
+                break;
+
+            case EventSteps::SYMBOL_DRAFT:
+                $postData["step"] = EventSteps::SYMBOL_DRAFT;
+                $postData["currentChunk"] = 0;
+                if($prevChunk)
+                {
+                    $chunks = (array)json_decode($member->chunks, true);
+                    if($member->step == EventSteps::SELF_CHECK)
+                        $chunk = sizeof($chunks)-1;
+                    else
+                        $chunk = $member->currentChunk-1;
                     $postData["currentChunk"] = max(0, $chunk);
                 }
                 break;

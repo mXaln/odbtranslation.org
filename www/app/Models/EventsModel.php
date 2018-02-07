@@ -718,8 +718,12 @@ class EventsModel extends Model
     {       
         $this->db->setFetchMode(PDO::FETCH_ASSOC);
         $builder = $this->db->table("translators")
-            ->select("translators.*", "members.userName", "members.firstName", "members.lastName")
+            ->select("translators.*", "members.userName", "members.firstName", "members.lastName", "chapters.chunks")
             ->leftJoin("members", "translators.memberID", "=", "members.memberID")
+            ->leftJoin("chapters", function($join) {
+                $join->on("translators.eventID", "=", "chapters.eventID")
+                    ->on("translators.currentChapter", "=", "chapters.chapter");
+            })
             ->where("translators.eventID", $eventID);
 
         $res = $builder->orderBy("members.userName")->get();
@@ -1825,7 +1829,7 @@ class EventsModel extends Model
             if($memberID !== null)
                 $builder->where(["chapters.l2memberID" => $memberID]);
         }
-        if($manageMode == "sun")
+        if($manageMode != null)
         {
             $builder->leftJoin("translators", function($join){
                 $join->on("chapters.eventID", "=", "translators.eventID")
