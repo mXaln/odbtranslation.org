@@ -236,6 +236,7 @@ return array (
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
     "tn_sun" => "Translation Notes (SUN)",
+    "vsail" => "vSAIL",
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
     "checker_apply" => "<b>{0}</b> is ready for checking <b>({1})</b> book of <b>{2}</b>, chapter <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",

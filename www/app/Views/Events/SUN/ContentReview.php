@@ -42,7 +42,7 @@ if(isset($data["error"])) return;
 
                     <div id="source_scripture_content" class="col-sm-12 no_padding my_content shown">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                            <div class="row chunk_block words_block">
+                            <div class="row chunk_block">
                                 <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $firstVerse = 0; ?>
                                     <?php foreach ($chunk as $verse): ?>
@@ -114,7 +114,7 @@ if(isset($data["error"])) return;
 
                     <div id="rearrange_content" class="my_content">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                            <div class="row chunk_block words_block">
+                            <div class="row chunk_block">
                                 <div class="chunk_verses col-sm-12" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php
                                     $verse = "";

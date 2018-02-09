@@ -176,6 +176,7 @@ if(!isset($error)):
     <script>
         var memberID = <?php echo Session::get('memberID') ;?>;
         var eventID = <?php echo $data["event"][0]->eventID; ?>;
+        var projectID = <?php echo $data["event"][0]->projectID; ?>;
         var chkMemberID = 0;
         var aT = '<?php echo Session::get('authToken'); ?>';
         var step = '<?php //echo $data["event"][0]->step; ?>';
@@ -230,7 +231,7 @@ if(!isset($error)):
     <?php endif; ?>
 
     <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
-    <script src="<?php echo template_url("js/chat-plugin.js?4")?>"></script>
-    <script src="<?php echo template_url("js/socket.js?6")?>"></script>
+    <script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+    <script src="<?php echo template_url("js/socket.js?7")?>"></script>
 
 <?php endif; ?>

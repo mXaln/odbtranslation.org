@@ -369,7 +369,7 @@
             renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
                 function () {
                     deleteCookie("temp_tutorial");
-                    window.location.href = '/events/demo-l2/pray';
+                    window.location.href = '/events/demo-l2/information';
                 },
                 function () {
                     $("#confirm_step").prop("checked", false);

@@ -62,6 +62,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
+    var projectID = <?php echo $data["event"][0]->projectID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
     var myChunk = <?php echo $data["event"][0]->currentChunk; ?>;
     var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
@@ -172,8 +173,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 </audio>
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
-<script src="<?php echo template_url("js/chat-plugin.js?4")?>"></script>
-<script src="<?php echo template_url("js/socket.js?6")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/socket.js?7")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

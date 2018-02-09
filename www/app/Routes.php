@@ -116,6 +116,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo/{page?}", "EventsController@demo");
     Router::any("demo-l2/{page?}", "EventsController@demoL2");
     Router::any("demo-tn/{page?}", "EventsController@demoTn");
+    Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("rpc/apply_event", "EventsController@applyEvent");
     Router::any("rpc/get_notifications", "EventsController@getNotifications");
     Router::any("rpc/autosave_chunk", "EventsController@autosaveChunk");

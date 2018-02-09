@@ -7,52 +7,45 @@ use Helpers\Constants\EventSteps;
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
-            <a href="/events/demo/pray"><span><?php echo __(EventSteps::PRAY) ?></span></a>
+            <a href="/events/demo-sun/pray"><span><?php echo __(EventSteps::PRAY)?></span></a>
         </li>
 
         <li class="consume-step <?php echo $data["step"] == EventSteps::CONSUME ? "active" : "" ?>">
-            <a href="/events/demo/consume"><span><?php echo __(EventSteps::CONSUME) ?></span></a>
-        </li>
-
-        <li class="verbalize-step <?php echo $data["step"] == EventSteps::VERBALIZE ? "active" : "" ?>">
-            <a href="/events/demo/verbalize"><span><?php echo __(EventSteps::VERBALIZE) ?></span></a>
+            <a href="/events/demo-sun/consume"><span><?php echo __(EventSteps::CONSUME)?></span></a>
         </li>
 
         <li class="chunking-step <?php echo $data["step"] == EventSteps::CHUNKING ? "active" : "" ?>">
-            <a href="/events/demo/chunking"><span><?php echo __(EventSteps::CHUNKING) ?></span></a>
+            <a href="/events/demo-sun/chunking"><span><?php echo __(EventSteps::CHUNKING)?></span></a>
         </li>
 
-        <li class="blind-draft-step <?php echo $data["step"] == EventSteps::READ_CHUNK ||
-                $data["step"] == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
-            <a href="/events/demo/read_chunk"><span><?php echo __(EventSteps::BLIND_DRAFT) ?></span></a>
+        <li class="rearrange-step <?php echo $data["step"] == EventSteps::REARRANGE ? "active" : "" ?>">
+            <a href="/events/demo-sun/rearrange"><span><?php echo __(EventSteps::REARRANGE)?></span></a>
+        </li>
+
+        <li class="symbol-draft-step <?php echo $data["step"] == EventSteps::SYMBOL_DRAFT ? "active" : "" ?>">
+            <a href="/events/demo-sun/symbol-draft"><span><?php echo __(EventSteps::SYMBOL_DRAFT)?></span></a>
         </li>
 
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <a href="/events/demo/self_check"><span><?php echo __(EventSteps::SELF_CHECK) ?></span></a>
+            <a href="/events/demo-sun/self-check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
         </li>
 
-        <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW) ?></span></a>
-        </li>
-
-        <li class="keyword-check-step <?php echo $data["step"] == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <a href="/events/demo/keyword_check"><span><?php echo __(EventSteps::KEYWORD_CHECK) ?></span></a>
+        <li class="theo-check-step <?php echo $data["step"] == EventSteps::THEO_CHECK ? "active" : "" ?>">
+            <a href="/events/demo-sun/theo-check"><span><?php echo __(EventSteps::THEO_CHECK)?></span></a>
         </li>
 
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo/content_review"><span><?php echo __(EventSteps::CONTENT_REVIEW) ?></span></a>
+            <a href="/events/demo-sun/verse-by-verse-check"><span><?php echo __(EventSteps::CONTENT_REVIEW)?></span></a>
         </li>
 
         <li class="final-review-step <?php echo $data["step"] == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo/final_review"><span><?php echo __(EventSteps::FINAL_REVIEW) ?></span></a>
+            <a href="/events/demo-sun/verse-markers"><span><?php echo __(EventSteps::FINAL_REVIEW)?></span></a>
         </li>
     </ul>
 </div>
 
 <?php
-$isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
-    $data["step"] == EventSteps::KEYWORD_CHECK ||
-    $data["step"] == EventSteps::CONTENT_REVIEW;
+$isCheckPage = $data["step"] == EventSteps::THEO_CHECK || $data["step"] == EventSteps::CONTENT_REVIEW;
 ?>
 
 <script>
@@ -62,7 +55,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     var step = '<?php echo $data["step"]; ?>';
     var isDemo = true;
     var myChapter = 2;
-    var tMode = "ulb";
+    var tMode = "sun";
 </script>
 
 <div style="position: fixed; right: 0;">
@@ -185,7 +178,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
 <?php echo isset($page) ? $page : "" ?>
 
 
-<?php if($isCheckPage || $data["step"] == EventSteps::SELF_CHECK): ?>
+<?php if($isCheckPage): ?>
 <style>
     .buttons_spec {
         position: absolute;

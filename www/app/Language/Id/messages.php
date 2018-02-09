@@ -234,6 +234,7 @@ return array (
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
     "tn_sun" => "Translation Notes (SUN)",
+    "vsail" => "vSAIL",
     "old_test" => "Perjanjian Lama",
     "new_test" => "Perjanjian Baru",
     "checker_apply" => "<b>{0}</b> sudah siap untuk diperiksa <b>({1})</b> buku <b>{2}</b>, pasal <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",

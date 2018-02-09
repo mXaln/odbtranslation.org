@@ -21,7 +21,6 @@ use Helpers\Constants\EventMembers;
     </div>
 
     <div class="row" style="position: relative">
-        <button class="btn btn-warning toggle-help" data-mode="l2alt"><?php echo __("hide_help") ?></button>
         <div class="main_content col-sm-9">
             <?php if($data["event"][0]->peer == 1 && $data["event"][0]->checkerID == 0): ?>
                 <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
@@ -166,7 +165,9 @@ use Helpers\Constants\EventMembers;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
+                     data-mode="l2alt"
+                     title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -200,7 +201,9 @@ use Helpers\Constants\EventMembers;
         </div>
     </div>
 
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign"
+         data-mode="l2alt"
+         title="<?php echo __("show_help") ?>"></div>
 </div>
 
 <div class="tutorial_container">

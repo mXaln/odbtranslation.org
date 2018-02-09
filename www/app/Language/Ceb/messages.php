@@ -236,6 +236,7 @@ return array (
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
     "tn_sun" => "Translation Notes (SUN)",
+    "vsail" => "vSAIL",
     "old_test" => "Daang Kasabotan",
     "new_test" => "Bag-ong Kasabotan",
     "checker_apply" => "<b>{0}</b> andam na para sa pagsusi <b>({1})</b> libro sa <b>{2}</b>, kapitulo <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",

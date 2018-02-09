@@ -3249,7 +3249,7 @@ class EventsController extends Controller
     public function checkerNotesPeer($eventID, $memberID)
     {
         $data["event"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"), $eventID, $memberID);
-        
+
         if(!empty($data["event"]))
         {
             if($data["event"][0]->step != EventSteps::FINISHED && !$data["event"][0]->checkDone)
@@ -6275,6 +6275,7 @@ class EventsController extends Controller
             $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
                 $members[$member->memberID]["userName"] = $member->userName;
                 $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
@@ -7179,6 +7180,100 @@ class EventsController extends Controller
 
             case "information":
                 return View::make("Events/L2/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
+    public function demoSun($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-sun/pray");
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new \stdClass();
+
+            if($i==0)
+                $notifObj->step = EventSteps::THEO_CHECK;
+            else
+                $notifObj->step = EventSteps::CONTENT_REVIEW;
+
+            $notifObj->currentChapter = 2;
+            $notifObj->firstName = "Mark";
+            $notifObj->lastName = "Patton";
+            $notifObj->bookCode = "2ti";
+            $notifObj->bookProject = "sun";
+            $notifObj->tLang = "English";
+            $notifObj->bookName = "2 Timothy";
+            $notifObj->manageMode = "sun";
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["menu"] = 1;
+
+        $view = View::make("Events/SUN/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/SUN/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/SUN/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "chunking":
+                $view->nest("page", "Events/SUN/Demo/Chunking");
+                $data["step"] = EventSteps::CHUNKING;
+                break;
+
+            case "rearrange":
+                $view->nest("page", "Events/SUN/Demo/WordsDraft");
+                $data["step"] = EventSteps::REARRANGE;
+                break;
+
+            case "symbol-draft":
+                $view->nest("page", "Events/SUN/Demo/SymbolsDraft");
+                $data["step"] = EventSteps::SYMBOL_DRAFT;
+                break;
+
+            case "self-check":
+                $view->nest("page", "Events/SUN/Demo/SelfCheck");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "theo-check":
+                $view->nest("page", "Events/SUN/Demo/TheoCheck");
+                $data["step"] = EventSteps::THEO_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "verse-by-verse-check":
+                $view->nest("page", "Events/SUN/Demo/ContentReview");
+                $data["step"] = EventSteps::CONTENT_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "verse-markers":
+                $view->nest("page", "Events/SUN/Demo/FinalReview");
+                $data["step"] = EventSteps::FINAL_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/SUN/Demo/Information")
                     ->shares("title", __("event_info"));
                 break;
         }
@@ -9159,7 +9254,7 @@ class EventsController extends Controller
         if($usfm && !empty($usfm["chapters"]))
         {
             $initChapter = $data["event"][0]->bookProject != "tn" ? 0 : -1;
-            $currentChunkText = "";
+            $currentChunkText = [];
             $chunks = json_decode($data["event"][0]->chunks, true);
             $data["chunks"] = $chunks;
 
@@ -9222,7 +9317,7 @@ class EventsController extends Controller
 
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
-			
+
             if($getChunk)
             {
                 $chapData = $chunks;

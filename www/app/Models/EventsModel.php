@@ -329,7 +329,7 @@ class EventsModel extends Model
                 .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
                 "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
-                .PREFIX."chapters.chunks ".
+                .PREFIX."chapters.chunks, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."chapters ON trs.eventID = ".PREFIX."chapters.eventID AND trs.currentChapter = ".PREFIX."chapters.chapter ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -407,7 +407,7 @@ class EventsModel extends Model
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
-            .PREFIX."abbr.chaptersNum ".
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."checkers_l2 AS chks ".
             "LEFT JOIN ".PREFIX."members ON chks.memberID = ".PREFIX."members.memberID ".
             "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = chks.eventID ".
@@ -566,7 +566,7 @@ class EventsModel extends Model
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
-            .PREFIX."abbr.chaptersNum ".
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
             "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
             "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".

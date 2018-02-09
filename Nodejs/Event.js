@@ -7,12 +7,14 @@
  ***************************************************/
 var Event = function() {
     var eventID;
+    var projectID;
     var checkPairs;
     var sockets;
 
     // Define which variables and methods can be accessed
     return {
         eventID: eventID,
+        projectID: projectID,
         checkPairs: [],
         sockets: [],
     }

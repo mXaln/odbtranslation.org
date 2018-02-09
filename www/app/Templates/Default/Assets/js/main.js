@@ -1169,7 +1169,8 @@ $(document).ready(function() {
     });
 
     // Save keywords
-    $("body").on("mouseup", "div[class^=kwverse]", function (e) {
+    var isHighlighting = false; // Fix for mobile devices
+    $("body").on("mouseup touchend", "div[class^=kwverse]", function (e) {
         if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
         if(typeof disableHighlight != "undefined") return;
         if(typeof isInfoPage != "undefined") return;
@@ -1241,6 +1242,10 @@ $(document).ready(function() {
                                 var index = search.indexOf(offset + diff);
 
                                 sel.removeAllRanges();
+                                isHighlighting = true;
+                                setTimeout(function () {
+                                    isHighlighting = false;
+                                }, 500);
                                 //renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
                                 //    $(this).dialog("close");
                                     saveOrRemoveKeyword(verseID, text, index, false);
@@ -1293,6 +1298,9 @@ $(document).ready(function() {
     $("body").on("click", ".chunk_verses b", function () {
         if(typeof isInfoPage != "undefined") return;
         if(typeof disableHighlight != "undefined") return;
+        if(isHighlighting) return;
+
+        if(!window.getSelection().isCollapsed) return;
 
         var isL2Checker = typeof isLevel2 != "undefined"
                 && !isChecker ? true : false;
@@ -1509,8 +1517,6 @@ $(document).ready(function() {
             $(".main_content").removeClass("col-sm-9")
                 .addClass("col-sm-12");
             $(".content_help").hide();
-
-
 
             if(mode == "l2")
             {

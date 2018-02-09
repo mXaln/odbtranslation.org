@@ -21,7 +21,6 @@ use Helpers\Constants\EventMembers;
     </div>
 
     <div class="row" style="position: relative">
-        <button class="btn btn-warning toggle-help" data-mode="l2continue"><?php echo __("hide_help") ?></button>
         <div class="main_content col-sm-9">
             <form action="" id="main_form" method="post" >
                 <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
@@ -122,7 +121,9 @@ use Helpers\Constants\EventMembers;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
+                     data-mode="l2continue"
+                     title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -147,7 +148,9 @@ use Helpers\Constants\EventMembers;
         </div>
     </div>
 
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign"
+         data-mode="l2continue"
+         title="<?php echo __("show_help") ?>"></div>
 </div>
 
 <div class="tutorial_container">

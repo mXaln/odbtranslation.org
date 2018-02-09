@@ -367,7 +367,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-l2/pray';
+            window.location.href = '/events/demo-l2/information';
 
             return false;
         });

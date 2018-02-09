@@ -2092,7 +2092,7 @@ mark {
 
 .video_popup {
     position: absolute;
-    top: calc(50% - 280px);
+    top: calc(50% - 230px);
     left: calc(50% - 450px);
     background-color: #ffffff;
     z-index: 99;
