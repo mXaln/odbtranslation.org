@@ -4,17 +4,15 @@ use Helpers\Constants\EventMembers;
 if(isset($data["error"])) return;
 ?>
 
-<div class="editor">
-    <div class="comment_div panel panel-default"
-            dir="<?php echo $data["event"][0]->tLangDir ?>">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
-        </div>
-        <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
@@ -90,8 +88,7 @@ if(isset($data["error"])) return;
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
                                                 <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                                    <?php if($comment->memberID == $data["event"][0]->myChkMemberID
-                                                        && $comment->level == 2): ?>
+                                                    <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
                                                         <div class="my_comment"><?php echo $comment->text; ?></div>
                                                     <?php else: ?>
                                                         <div class="other_comments">

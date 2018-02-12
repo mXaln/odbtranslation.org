@@ -218,6 +218,12 @@ class TranslationsModel extends Model
             ->orderBy("abbrID")->get();
     }
 
+    public function getSunDictionary()
+    {
+        return $this->db->table("sail_dict")
+            ->orderBy("word")->get();
+    }
+
     /**
      * Create translation record
      * @param array $data

@@ -993,10 +993,16 @@ $(document).ready(function() {
 
     // Show/Hide Comment Textarea
     $(document).on("click", ".editComment", function() {
+        $(".comment_div").hide();
+
         comments = $(this).next(".comments");
         var comment = $(".my_comment", comments).text();
-        $(".editor").show();
+
+        var top = $(this).offset().top - 80;
+        $(".comment_div").css("top", top).show();
+
         $("textarea", $(".comment_div")).val(comment).focus();
+
         lastCommentEditor = $(this);
         autosize.update($('textarea'));
 
@@ -1008,15 +1014,13 @@ $(document).ready(function() {
         });
     });
 
-    $(".editor").click(function(e) {
-        if(e.target.className == "comment_div" || e.target.className == "editor")
-        {
-            $(".editor").hide();
-        }
+    $(".xbtn").click(function () {
+        $(".comment_div").hide();
     });
 
     $(".editor-close").click(function() {
         comments = lastCommentEditor.next(".comments");
+
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
         var level = $(this).data("level") != "undefined"
@@ -1046,7 +1050,7 @@ $(document).ready(function() {
                 .done(function(data) {
                     if(data.success)
                     {
-                        $(".editor").hide();
+                        $(".comment_div").hide();
                         var src = lastCommentEditor.attr("src");
 
                         data.text = unEscapeStr(data.text);
@@ -1095,9 +1099,11 @@ $(document).ready(function() {
         }
 		else
 		{
-			$(".editor").hide();
+			$(".comment_div").hide();
 		}
     });
+
+    $(".comment_div").draggable({snap: 'inner'});
 
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
@@ -1491,7 +1497,7 @@ $(document).ready(function() {
 
     setTimeout(function () {
         $(".words_block").each(function() {
-            var h = $(".chunk_verses", this).height();console.log(h);
+            var h = $(".chunk_verses", this).height();
             $(".editor_area textarea", this).css("min-height", h);
         });
     },100);
@@ -2228,6 +2234,44 @@ $(document).ready(function() {
             $(".demo_options").show(200);
         }
         return false;
+    });
+
+    // Sail dictionary
+    $("body").on("keyup", "#sailfilter", function () {
+        var w = $(this).val();
+        var re = new RegExp(w, "ig");
+
+        $(".sail_list li").hide();
+        $(".sail_list li").filter(function () {
+            return this.id.match(re);
+        }).show();
+    });
+
+    $("body").on("click", ".sail_list li", function () {
+        var symbol = $("input", this);
+        symbol.select();
+
+        try
+        {
+            document.execCommand("Copy");
+            $(".copied_tooltip").show().fadeOut(2000);
+        }
+        catch (error)
+        {
+            alert(error);
+        }
+    });
+
+    $(".saildict_panel").draggable({snap: 'inner'});
+
+    $(".show_saildict").click(function (e) {
+        $(".saildict_panel").show();
+
+        e.preventDefault();
+    });
+
+    $("body").on("click", ".saildict_panel .panel-close", function () {
+        $(".saildict_panel").hide();
     });
 });
 

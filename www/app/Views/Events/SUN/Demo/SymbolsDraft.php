@@ -19,6 +19,8 @@ use Helpers\Constants\EventMembers;
                 <div class="main_content_text row" style="padding-left: 15px">
                     <h4 dir="ltr">English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-3</span> </h4>
 
+                    <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
+
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
                             <div class="chunk_verses col-sm-6" dir="ltr">
@@ -91,6 +93,36 @@ use Helpers\Constants\EventMembers;
             <ul><?php echo __("symbol-draft_desc")?></ul>
         </div>
     </div>
+</div>
+
+<div class="saildict_panel panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("sail_dictionary") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove"></span>
+    </div>
+
+    <div class="sun_content saildict page-content panel-body">
+        <div class="sail_filter">
+            <div class="form-group">
+                <label for="sailfilter" class="sr-only">Filter</label>
+                <input type="text" class="form-control input-lg" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
+            </div>
+        </div>
+        <div class="sail_list">
+            <ul>
+                <?php foreach ($data["saildict"] as $word): ?>
+                    <li id="<?php echo $word->word ?>" title="<?php echo __("copy_symbol_tip") ?>">
+                        <div class="sail_word"><?php echo $word->word ?></div>
+                        <div class="sail_symbol"><?php echo $word->symbol ?></div>
+                        <input type="text" value="<?php echo $word->symbol ?>" />
+                        <div class="clear"></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="copied_tooltip"><?php echo __("copied_tip") ?></div>
 </div>
 
 <script>

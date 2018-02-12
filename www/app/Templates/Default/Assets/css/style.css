@@ -1,17 +1,14 @@
 @font-face {
-    font-family: "SUN";
-    font-style: normal;
-    font-weight: normal;
-    unicode-range: U+0-10FFFF;
-    src: url("../fonts/SUN.eot");
-    src: url("../fonts/SUN.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/SUN.woff") format("woff"),
-    url("../fonts/SUN.ttf") format("truetype")
+    font-family: "SUN3";
+    src: url("../fonts/SUN3.woff2?1") format('woff2'),
+    url("../fonts/SUN3.woff?1") format("woff"),
+    url("../fonts/SUN3.ttf?1") format("truetype")
 }
 
 .sun_content {
-    font-family: SUN;
+    font-family: SUN3;
     font-size: 26px;
+    font-weight: bold;
     word-wrap: break-word;
     padding: 4px 8px !important;
     text-align: inherit !important;
@@ -1728,6 +1725,10 @@ mark {
     padding: 10px 20px;
 }
 
+.bible_book sup {
+    color: #1b8600;
+}
+
 .side_by_side_toggle {
     margin: 10px 0 0 0;
 }
@@ -1746,7 +1747,7 @@ mark {
 }
 
 .textarea_editor {
-    width: 505px;
+    width: 503px;
     min-height: 100px;
 }
 
@@ -1784,10 +1785,18 @@ mark {
 }
 
 .comment_div, .alt_comment_div {
-    margin: 300px auto;
     text-align: center;
-    position: relative;
+    position: absolute;
+    left: calc(50% - 250px);
     width: 507px;
+    z-index: 102;
+    box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.5);
+    border: 2px solid #5a5a5a;
+    display: none;
+}
+
+.comment_div .panel-heading {
+    cursor: pointer;
 }
 
 .editor-close, .alt_editor-close {
@@ -1796,6 +1805,14 @@ mark {
     right: 2px;
     font-size: 14px;
     padding: 4px 12px;
+}
+
+.xbtn {
+    position: absolute;
+    top: 10px;
+    left: 7px;
+    right: auto;
+    font-size: 16px;
 }
 
 .verse_with_note {
@@ -4268,4 +4285,81 @@ button.startEvnt, button.editEvnt {
     cursor: pointer;
     display: block;
     visibility: hidden;
+}
+
+.saildict_panel {
+    width: 400px;
+    z-index: 102;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 150px);
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.saildict_panel .panel-heading {
+    cursor: move;
+    background-color: #0096c3;
+    color: #fff;
+}
+
+.saildict {
+    width: 398px;
+    padding: 0 !important;
+}
+
+.sail_filter {
+    padding: 10px;
+}
+
+.sail_list {
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sail_list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sail_list li {
+    padding: 0 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.sail_list li:hover {
+    background-color: #00b9fc;
+    color: #fff;
+    font-weight: bold;
+}
+
+.sail_list li input {
+    position: absolute;
+    left: -10000px;
+}
+
+.sail_word {
+    float: left;
+    font-weight: normal !important;
+}
+
+.sail_symbol {
+    float: right;
+}
+
+.copied_tooltip {
+    position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 15px);
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    background-color: #454545;
+    color: #fff;
+    border-radius: 5px;
+    padding-top: 5px;
+    display: none;
 }

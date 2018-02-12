@@ -2151,6 +2151,8 @@ class EventsController extends Controller
                             }
                         }
 
+                        $data["saildict"] = $this->_translationModel->getSunDictionary();
+
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/WordsDraft')
                             ->shares("title", $title)
@@ -2280,6 +2282,8 @@ class EventsController extends Controller
                                 }
                             }
                         }
+
+                        $data["saildict"] = $this->_translationModel->getSunDictionary();
 
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/SymbolsDraft')
@@ -7242,11 +7246,13 @@ class EventsController extends Controller
             case "rearrange":
                 $view->nest("page", "Events/SUN/Demo/WordsDraft");
                 $data["step"] = EventSteps::REARRANGE;
+                $data["saildict"] = $this->_translationModel->getSunDictionary();
                 break;
 
             case "symbol-draft":
                 $view->nest("page", "Events/SUN/Demo/SymbolsDraft");
                 $data["step"] = EventSteps::SYMBOL_DRAFT;
+                $data["saildict"] = $this->_translationModel->getSunDictionary();
                 break;
 
             case "self-check":
@@ -8832,12 +8838,15 @@ class EventsController extends Controller
                             
                             $assignChapter = $this->_model->assignChapter($postdata);
                             $data["chapters"][$chapter] = $postdata;
-                            
+
+                            $myChapters = array_filter($data["chapters"], function ($v) use($data) {
+                                return isset($v["memberID"])
+                                    && $v["memberID"] == $data["event"][0]->myMemberID
+                                    && !$v["done"];
+                            });
+
                             // Change translator's step to pray when at least one chapter is assigned to him or all chapters finished
-                            if(sizeof(array_filter($data["chapters"], function ($v) use($data) {
-                                    return isset($v["memberID"])
-                                    && $v["memberID"] == $data["event"][0]->myMemberID;
-                                })) == 1 || $data["event"][0]->step == EventSteps::FINISHED) {
+                            if(sizeof($myChapters) == 1 || $data["event"][0]->step == EventSteps::FINISHED) {
                                 $this->_model->updateTranslator(
                                     ["step" => EventSteps::PRAY, "translateDone" => false], 
                                     ["trID" => $data["event"][0]->trID]);
@@ -8890,7 +8899,8 @@ class EventsController extends Controller
 
                                         $noMoreChapters = empty(array_filter($data["chapters"], function ($v) use($data) {
                                             return isset($v["memberID"])
-                                            && $v["memberID"] == $data["event"][0]->myMemberID;
+                                                && $v["memberID"] == $data["event"][0]->myMemberID
+                                                && !$v["done"];
                                         }));
 
                                         // Clear translator data to default if current chapter was removed

@@ -3,16 +3,15 @@ if(isset($data["error"])) return;
 
 use Helpers\Constants\EventMembers;
 ?>
-<div class="editor">
-    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
-        </div>
-        <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
