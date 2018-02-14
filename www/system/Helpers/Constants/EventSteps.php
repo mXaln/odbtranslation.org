@@ -22,7 +22,6 @@ class EventSteps
     const SYMBOL_DRAFT          = "symbol-draft";
     const SELF_CHECK            = "self-check";
     const THEO_CHECK            = "theo-check";
-    const BT_CHECK              = "bt-check";
     const PEER_REVIEW           = "peer-review";
     const KEYWORD_CHECK         = "keyword-check";
     const CONTENT_REVIEW        = "content-review";
@@ -75,7 +74,7 @@ class EventSteps
         "symbol-draft" => 5,
         "self-check" => 6,
         "theo-check" => 7,
-        "bt-check" => 8,
+        "content-review" => 8,
         "final-review" => 9,
         "finished" => 10,
     ];

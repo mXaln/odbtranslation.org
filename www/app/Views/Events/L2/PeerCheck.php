@@ -3,16 +3,15 @@ if(isset($data["error"])) return;
 
 use Helpers\Constants\EventMembers;
 ?>
-<div class="editor">
-    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
-        </div>
-        <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
@@ -21,7 +20,6 @@ use Helpers\Constants\EventMembers;
     </div>
 
     <div class="row" style="position: relative">
-        <button class="btn btn-warning toggle-help" data-mode="l2alt"><?php echo __("hide_help") ?></button>
         <div class="main_content col-sm-9">
             <?php if($data["event"][0]->peer == 1 && $data["event"][0]->checkerID == 0): ?>
                 <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
@@ -166,6 +164,9 @@ use Helpers\Constants\EventMembers;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
+                     data-mode="l2alt"
+                     title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -198,6 +199,10 @@ use Helpers\Constants\EventMembers;
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign"
+         data-mode="l2alt"
+         title="<?php echo __("show_help") ?>"></div>
 </div>
 
 <div class="tutorial_container">

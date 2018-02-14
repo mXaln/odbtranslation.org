@@ -22,7 +22,6 @@ if(isset($data["error"])) return;
                         </label>
                     </p>
                 <?php endforeach; ?>
-                <div class="chunks_reset <?php echo $data["event"][0]->sLangDir; ?>"><?php echo __("reset_chunks") ?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -41,6 +40,7 @@ if(isset($data["error"])) return;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -61,9 +61,12 @@ if(isset($data["error"])) return;
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
-<span class="create_chunk <?php echo $data["event"][0]->sLangDir; ?>"><?php echo __("make_chunk") ?>Make chunk</span>
+<span class="clone create_chunk" title="<?php echo __("make_chunk") ?>">Make chunk</span>
+<span class="clone chunks_reset glyphicon glyphicon-ban-circle" title="<?php echo __("reset_chunks") ?>"></span>
 
 
 <div class="tutorial_container">

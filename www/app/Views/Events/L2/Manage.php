@@ -93,18 +93,18 @@ if(!isset($error)):
                         }
                         ?>
                         <?php if($snd): ?>
-                        <button class="btn btn-danger remove_checker_l2" id="snd_checker"
+                        <button class="btn btn-danger remove_checker_alt" id="snd_checker"
                                 data-level="<?php echo $chapData["sndCheck"][$chapter]["done"] ?>"
                                 data-name="<?php echo $sndName ?>"
                             <?php echo $p1 ? "disabled" : "" ?>
                                 title="<?php echo __("l2_snd_checker") ?>">2nd</button>
                             <?php if($p1): ?>
-                            <button class="btn btn-danger remove_checker_l2" id="p1_checker"
+                            <button class="btn btn-danger remove_checker_alt" id="p1_checker"
                                     data-name="<?php echo $p1Name ?>"
                                 <?php echo $p2 ? "disabled" : "" ?>
                                     title="<?php echo __("l2_p1_checker") ?>">P1</button>
                                 <?php if($p2): ?>
-                                <button class="btn btn-danger remove_checker_l2" id="p2_checker"
+                                <button class="btn btn-danger remove_checker_alt" id="p2_checker"
                                         data-name="<?php echo $p2Name ?>"
                                         title="<?php echo __("l2_p2_checker") ?>">P2</button>
                                 <?php endif; ?>

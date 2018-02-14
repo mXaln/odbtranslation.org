@@ -49,6 +49,16 @@ class MembersModel extends Model {
             ->select($select)->get();
     }
 
+
+    public function getLastTempMember()
+    {
+        return $this->db->table("members")
+            ->select("userName")
+            ->where("userName", "like", "%user%")
+            ->orderBy("userName", "desc")
+            ->limit(1)->get();
+    }
+
     public function getMembers($memberIDs = array(), $more = false)
     {
         if(is_array($memberIDs) && !empty($memberIDs))
@@ -258,8 +268,23 @@ class MembersModel extends Model {
         return Language::instance('app')->get($value, $code, $params);
     }
     
-    public function createMultipleMembers($members = 50, $lastMember = 0, $profileLangs = ["en" => [3,3]])
+    public function createMultipleMembers($members = 50, $profileLangs = ["en" => [3,3]])
     {
+        $result = "";
+        $lastUser = $this->getLastTempMember();
+        $lastMember = 0;
+
+        if(!empty($lastUser))
+        {
+            $lastUserName = $lastUser[0]->userName;
+            preg_match("/\d+/", $lastUserName, $matches);
+
+            if(!empty($matches))
+                $lastMember = $matches[0];
+        }
+
+        $result .= "The members (user".($lastMember+1)." to ";
+
         for($i = $lastMember+1; $i <= $members+$lastMember; $i++)
         {
             $mData = [
@@ -267,21 +292,25 @@ class MembersModel extends Model {
                 "firstName" => "User".$i,
                 "lastName" => "N",
                 "password" => '$2y$10$Pmpy.pft1HCsWMr/Bg2y3OtH.MhV0pI7n9QhMXyjcWBiS/Jj7SqVe',
-                "email" => "user".$i."@v-mast.mvc",
+                "email" => "user".$i."@v-mast.com",
                 "active" => true,
                 "verified" => true
             ];
-            
+
             $memberID = $this->createMember($mData);
-            
+
             $pData = [
                 "mID" => $memberID,
                 "prefered_roles" => json_encode(["translator"]),
                 "languages" => json_encode($profileLangs)
             ];
-            
+
             $this->createProfile($pData);
         }
+
+        $result .= "user".($i).") have been created!";
+
+        return $result;
     }
 
     public function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')

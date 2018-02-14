@@ -234,6 +234,7 @@ return array (
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
     "tn_sun" => "Translation Notes (SUN)",
+    "vsail" => "vSAIL",
     "old_test" => "Perjanjian Lama",
     "new_test" => "Perjanjian Baru",
     "checker_apply" => "<b>{0}</b> sudah siap untuk diperiksa <b>({1})</b> buku <b>{2}</b>, pasal <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
@@ -425,6 +426,11 @@ return array (
     "repository" => "Repository",
     "updated_at" => "Updated at",
     "cancel" => "Cancel",
+    "sail_dictionary" => "SAIL Dictionary",
+    "filter_by_word" => "Filter by word",
+    "copy_symbol_tip" => "Click to copy symbol to clipboard",
+    "copied_tip" => "Copied!",
+    "show_dictionary" => "Show dictionary",
     //"l2_snd_checker" => "",
     //"l2_p1_checker" => "",
     //"l2_p2_checker" => "",
@@ -548,6 +554,7 @@ return array (
     "wrong_parameters" => "Parameter yang salah. Mohon coba lagi.",
     "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
+    "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
     "event_has_translations_error" => "The event has translation started, so you cannot import another project",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
@@ -574,7 +581,7 @@ return array (
     "goto_event_info" => "Ke halaman informasi kegiatan",
     "event_info" => "Informasi Kegiatan",
     "manage_event" => "Kelola Kegiatan",
-    "chapter_has_translation" => "Perhatian! Pasal ini memiliki beberapa teks dari tahap Draft Kosong. Jika Anda pindahkan ke \"Penggalan\" teks akan hilang. Apakah Anda ingin melanjutkan?",
+    "chapter_has_translation" => "Perhatian! Pasal ini memiliki beberapa teks dari tahap Draft. Jika Anda pindahkan ke \"Penggalan\" teks akan hilang. Apakah Anda ingin melanjutkan?",
 
     // -------------- Translation Controller ----------------- //
 
@@ -682,4 +689,14 @@ return array (
     "3jn" => "3 John",
     "jud" => "Jude",
     "rev" => "Revelation",
+
+    // Admin Controller
+    "admin_tools_title" => "Administrator Tools",
+    "update_lang_db" => "Update Languages Database",
+    "go" => "GO",
+    "create_multiple_users" => "Create multiple users",
+    "tools_quantity_members" => "Quantity (default: 50)",
+    "enter_value" => "Enter a value",
+    "tools_member_language" => "Languages (comma separated, default: en)",
+    "enter_lang_codes" => "Enter language code(s)"
 );

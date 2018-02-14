@@ -1,13 +1,12 @@
-<div class="editor">
-    <div class="comment_div panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
-        </div>
-        <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
@@ -40,11 +39,15 @@
                                 <div class="vnote">
                                     <textarea class="col-sm-6 peer_verse_ta textarea" name="chunks[]" style="overflow: hidden; word-wrap: break-word; height: 266px;">Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
-                                    <div class="comments_number  hasComment">1</div>
+                                    <div class="comments_number  hasComment">2</div>
                                     <img width="16" title="<?php echo __("write_note_title")?>" src="<?php echo template_url("img/edit.png") ?>" data="0:0" class="editComment">
 
                                     <div class="comments">
-                                        <div class="my_comment">This is translator's comment on this chunk</div></div>
+                                        <div class="my_comment">This is translator's comment on this chunk</div>
+                                        <div class="other_comments">
+                                            <div><span>Marge S. (L1):</span> This is checker's comment on this chunk</div>
+                                        </div>
+                                    </div>
                                     <div class="clear"></div>
                                 </div>
                             </div>
@@ -220,6 +223,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -248,6 +252,8 @@
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 

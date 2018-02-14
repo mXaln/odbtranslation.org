@@ -1,13 +1,12 @@
-<div class="editor">
-    <div class="comment_div panel panel-default" dir="ltr">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
-        </div>
-        <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list ltr"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
@@ -838,6 +837,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps is_checker_page_help isPeer">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -868,6 +868,8 @@
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 <div class="tutorial_container">

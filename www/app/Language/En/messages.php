@@ -236,6 +236,7 @@ return array (
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
     "tn_sun" => "Translation Notes (SUN)",
+    "vsail" => "vSAIL",
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
     "checker_apply" => "<b>{0}</b> is ready for checking <b>({1})</b> book of <b>{2}</b>, chapter <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
@@ -387,8 +388,8 @@ return array (
     "create_gw_project" => "Create Gateway Project",
     "edit" => "Edit",
     "add_admins_by_username" => "Add facilitators by typing their user names",
-    "admin_project_title" => "Creating of projects",
-    "admin_events_title" => "Creating of events",
+    "admin_project_title" => "Project creation",
+    "admin_events_title" => "Event creation",
     "apply_checker_l1" => "Apply as checker",
     "not_available" => "Not available",
     "reset_markers" => "Reset markers",
@@ -427,6 +428,11 @@ return array (
     "repository" => "Repository",
     "updated_at" => "Updated at",
     "cancel" => "Cancel",
+    "sail_dictionary" => "SAIL Dictionary",
+    "filter_by_word" => "Filter by word",
+    "copy_symbol_tip" => "Click to copy symbol to clipboard",
+    "copied_tip" => "Copied!",
+    "show_dictionary" => "Show dictionary",
     //"l2_snd_checker" => "",
     //"l2_p1_checker" => "",
     //"l2_p2_checker" => "",
@@ -550,6 +556,7 @@ return array (
     "wrong_parameters" => "Wrong parameters. Please try again.",
     "event_is_finished" => "Event is finished. Action is not allowed.",
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
+    "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
     "event_has_translations_error" => "The event has translation started, so you cannot import another project",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
@@ -576,7 +583,7 @@ return array (
     "goto_event_info" => "Go to event information page",
     "event_info" => "Event Information",
     "manage_event" => "Manage Event",
-    "chapter_has_translation" => "Attention! This chapter has some blind draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
+    "chapter_has_translation" => "Attention! This chapter has some draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
 
     // -------------- Translation Controller ----------------- //
 
@@ -607,6 +614,7 @@ return array (
     "cancel_confirmation" => "Cancel approval",
     "comment" => "comment",
     "add" => "Add",
+
     // Errors
     "word_not_found_error" => "Error: word not found",
     "translation_approved_error" => "Error: translation is already approved.",
@@ -684,4 +692,14 @@ return array (
     "3jn" => "3 John",
     "jud" => "Jude",
     "rev" => "Revelation",
+
+    // Admin Controller
+    "admin_tools_title" => "Administrator Tools",
+    "update_lang_db" => "Update Languages Database",
+    "go" => "GO",
+    "create_multiple_users" => "Create multiple users",
+    "tools_quantity_members" => "Quantity (default: 50)",
+    "enter_value" => "Enter a value",
+    "tools_member_language" => "Languages (comma separated, default: en)",
+    "enter_lang_codes" => "Enter language code(s)"
 );

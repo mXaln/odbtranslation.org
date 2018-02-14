@@ -6,7 +6,8 @@ $(document).ready(function () {
     socket.on('connect', OnConnected);
     socket.on('reconnect', OnConnected);
     socket.on('chat message', OnChatMessage);
-    socket.on('room update', OnRoomUpdate);
+    socket.on('event room update', OnEventRoomUpdate);
+    socket.on('project room update', OnProjectRoomUpdate);
     socket.on('system message', OnSystemMessage);
     socket.on('checking request', OnCheckingRequest);
 
@@ -31,6 +32,7 @@ function OnConnected()
     var data = {
         memberID: memberID,
         eventID: eventID,
+        projectID: projectID,
         aT: aT,
         step: step,
         chkMemberID: chkMemberID,
@@ -43,7 +45,7 @@ function OnChatMessage(data)
     $("#chat_container").chat("newMessageArrived", data);
 }
 
-function OnRoomUpdate(roomMates)
+function OnEventRoomUpdate(roomMates)
 {
     var membersObj = $(".member_item");
     if(membersObj.length > 0)
@@ -65,6 +67,30 @@ function OnRoomUpdate(roomMates)
     }
 
     $("#chat_container").chat("updateChatMembers", roomMates);
+}
+
+function OnProjectRoomUpdate(roomMates)
+{
+    var membersObj = $(".member_item");
+    if(membersObj.length > 0)
+    {
+        // $(".online_indicator", membersObj).removeClass("online");
+        // $(".online_status", membersObj).hide();
+        // $(".offline_status", membersObj).show();
+    }
+
+    for(var rm in roomMates)
+    {
+        var memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
+        if(memberObj.length > 0)
+        {
+            // $(".online_indicator", memberObj).addClass("online");
+            // $(".online_status", memberObj).show();
+            // $(".offline_status", memberObj).hide();
+        }
+    }
+
+    // $("#chat_container").chat("updateChatMembers", roomMates);
 }
 
 function OnSystemMessage(data)
@@ -117,6 +143,10 @@ function OnSystemMessage(data)
 
         case "evntMsgs":
             $("#chat_container").chat("updateEventMessages", data);
+            break;
+
+        case "projMsgs":
+            $("#chat_container").chat("updateProjectMessages", data);
             break;
 
         case "checkDone":

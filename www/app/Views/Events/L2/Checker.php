@@ -51,6 +51,7 @@ if(!empty($data["event"]) && !isset($data["error"])):
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
+    var projectID = <?php echo $data["event"][0]->projectID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
     var chkMemberID = <?php echo isset($data["event"][0]->checkerID) ? $data["event"][0]->checkerID : 0; ?>;
     var isChecker = false;
@@ -81,8 +82,12 @@ if(!empty($data["event"]) && !isset($data["error"])):
                     </div>
                     <div class="missed"></div>
                 </div>
-                <div id="evnt" class="col-sm-4 chat_tab active">
+                <div id="evnt" class="col-sm-2 chat_tab active">
                     <div><?php echo __("event_tab_title") ?></div>
+                    <div class="missed"></div>
+                </div>
+                <div id="proj" class="col-sm-2 chat_tab">
+                    <div><?php echo __("project_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; float: right; padding: 2px 20px 0 0">
@@ -96,6 +101,7 @@ if(!empty($data["event"]) && !isset($data["error"])):
         </div>
         <ul id="chk_messages" class="chat_msgs"></ul>
         <ul id="evnt_messages" class="chat_msgs"></ul>
+        <ul id="proj_messages" class="chat_msgs"></ul>
         <form action="" class="form-inline">
             <div class="form-group">
                 <textarea id="m" class="form-control"></textarea>
@@ -155,8 +161,8 @@ if(!empty($data["event"]) && !isset($data["error"])):
 </audio>
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
-<script src="<?php echo template_url("js/chat-plugin.js?3")?>"></script>
-<script src="<?php echo template_url("js/socket.js?6")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/socket.js?7")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

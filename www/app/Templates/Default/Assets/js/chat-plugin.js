@@ -2,11 +2,14 @@
     var isActive;
     var hasP2pNewmsgs = {val: false};
     var hasEvntNewMsgs = {val: false};
+    var hasProjNewMsgs = {val: false};
     var newEvntMsgsShown = false;
+    var newProjMsgsShown = false;
     var newp2pMsgsShown = false;
     var currentP2Ptab, currentP2Pmsgs, currentChatType;
     var titleChanger, initTitle = document.title, isNewTitle = false;
-    var missedMsgsNum = 0;
+    var missedMsgsNumEvent = 0;
+    var missedMsgsNumProject = 0;
     var missedMsgsNumCurrent = 0;
     var isInfoPage = false;
     var chatRightPos = 0;
@@ -20,6 +23,7 @@
                 step: "",
                 memberID: 0,
                 eventID: 0,
+                projectID: 0,
                 chkMemberID: 0,
                 disableChat: false,
                 isAdmin: false,
@@ -105,9 +109,11 @@
                         missedMsgsNumCurrent = 0;
                         $(".missed", currentP2Ptab).text("").hide();
 
-                        if((missedMsgsNumCurrent + missedMsgsNum) > 0)
+                        if(id == "evnt") missedMsgsNumEvent = 0;
+
+                        if((missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject) > 0)
                         {
-                            $(".chat_new_msgs").text(missedMsgsNum);
+                            $(".chat_new_msgs").text(missedMsgsNumEvent + missedMsgsNumProject);
                         }
                         else
                         {
@@ -115,32 +121,65 @@
                         }
                         break;
 
-                    default:
+                    case "evnt":
                         $(".chat_tab").removeClass("active");
                         $(".chat_msgs").hide();
                         $(this).addClass("active");
-                        $("#"+id+"_messages").show();
-                        $("#chat_type").val(id);
+                        $("#evnt_messages").show();
+                        $("#chat_type").val("evnt");
 
-                        var newmsgs = $(".newmsgs", $("#"+id+"_messages"));
+                        var newmsgs = $(".newmsgs", $("#evnt_messages"));
 
-                        // TODO test project messages
                         if(!newEvntMsgsShown && newmsgs.length > 0) {
-                            $("#"+id+"_messages").animate({scrollTop: newmsgs.offset().top - $("#"+id+"_messages").offset().top + $("#"+id+"_messages").scrollTop()}, 200);
+                            $("#evnt_messages").animate({scrollTop: newmsgs.offset().top - $("#evnt_messages").offset().top + $("#evnt_messages").scrollTop()}, 200);
 
                             newEvntMsgsShown = true;
                         }
                         else
                         {
-                            $("#"+id+"_messages").animate({scrollTop: $("#"+id+"_messages")[0].scrollHeight}, 200);
+                            $("#evnt_messages").animate({scrollTop: $("#evnt_messages")[0].scrollHeight}, 200);
                         }
 
-                        missedMsgsNum = 0;
-                        $(".missed", "#"+id).text("").hide();
+                        missedMsgsNumEvent = 0;
+                        $(".missed", "#evnt").text("").hide();
 
-                        if((missedMsgsNumCurrent + missedMsgsNum) > 0)
+                        if((missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject) > 0)
                         {
-                            $(".chat_new_msgs").text(missedMsgsNumCurrent);
+                            $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNumProject);
+                        }
+                        else
+                        {
+                            $(".chat_new_msgs").text("").hide();
+                        }
+                        break;
+
+                    case "proj":
+                        $(".chat_tab").removeClass("active");
+                        $(".chat_msgs").hide();
+                        $(this).addClass("active");
+                        $("#proj_messages").show();
+                        $("#chat_type").val("proj");
+
+                        var newmsgs = $(".newmsgs", $("#proj_messages"));
+
+                        if(!newProjMsgsShown && newmsgs.length > 0) {
+                            $("#proj_messages").animate({scrollTop: newmsgs.offset().top - $("#proj_messages").offset().top + $("#proj_messages").scrollTop()}, 200);
+
+                            newProjMsgsShown = true;
+                        }
+                        else
+                        {
+                            $("#proj_messages").animate({scrollTop: $("#proj_messages")[0].scrollHeight}, 200);
+                        }
+
+                        missedMsgsNumProject = 0;
+                        $(".missed", "#proj").text("").hide();
+
+                        if(currentP2Ptab.prop("id") == "evnt") missedMsgsNumEvent = 0;
+
+                        if((missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject) > 0)
+                        {
+                            $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNumEvent);
                         }
                         else
                         {
@@ -283,15 +322,25 @@
                     hasNewMsgs = hasP2pNewmsgs;
                     break;
 
-                default:
-                    if(data.chatType == "p2p" || data.chatType == "chk") break;
-
+                case "evnt":
                     messagesObj = $("#evnt_messages");
                     lastMsg = $("#evnt_messages .message:last");
                     setTimeout(function() {
                         setCookie("evnt_"+settings.eventID+"_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
                     }, 1000);
                     hasNewMsgs = hasEvntNewMsgs;
+                    break;
+
+                case "proj":
+                    messagesObj = $("#proj_messages");
+                    lastMsg = $("#proj_messages .message:last");
+                    setTimeout(function() {
+                        setCookie("proj_"+settings.projectID+"_last_msg", data.date, {expires: 7*24*60*60, path: "/"});
+                    }, 1000);
+                    hasNewMsgs = hasProjNewMsgs;
+                    break;
+
+                default:
                     break;
             }
 
@@ -370,6 +419,11 @@
                     newEvntMsgsShown = false;
                 }
 
+                if(newProjMsgsShown)
+                {
+                    newProjMsgsShown = false;
+                }
+
                 clearInterval(titleChanger);
                 titleChanger = setInterval(function() {
                     document.title = !isNewTitle ? "New message arrived" : initTitle;
@@ -383,13 +437,23 @@
                         $(".missed", currentP2Ptab).text(missedMsgsNumCurrent).show();
                         break;
 
+                    case "evnt":
+                        missedMsgsNumEvent++;
+                        $(".missed", "#evnt").text(missedMsgsNumEvent).show();
+                        break;
+
+                    case "proj":
+                        missedMsgsNumProject++;
+                        $(".missed", "#proj").text(missedMsgsNumProject).show();
+                        break;
+
                     default:
-                        missedMsgsNum++;
-                        $(".missed", "#evnt").text(missedMsgsNum).show();
                         break;
                 }
 
-                $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNum).show();
+                if(currentChatType == "evnt") missedMsgsNumEvent = 0;
+
+                $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject).show();
             }
 
             messagesObj.animate({ scrollTop: messagesObj[0].scrollHeight}, 200);
@@ -430,7 +494,6 @@
                     {
                         skip = true;
                         msgObj = {};
-
                     }
                 }
                 else
@@ -481,6 +544,33 @@
 
             $('[data-toggle="tooltip"]').tooltip();
         },
+        updateProjectMessages: function(data)
+        {
+            var messages = [];
+            var date, msgObj;
+            var cookieLastMsg = getCookie("proj_"+settings.projectID+"_last_msg");
+
+            for(var i in data.msgs)
+            {
+                if(isNaN(data.msgs[i]))
+                {
+                    msgObj = JSON.parse(data.msgs[i]);
+                }
+                else
+                {
+                    date = data.msgs[i];
+                    msgObj.date = parseInt(date);
+
+                    messages.push(msgObj);
+                }
+            }
+
+            var lastDate = renderMessages(messages, $("#proj_messages"), cookieLastMsg);
+
+            setCookie("proj_"+settings.projectID+"_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
+
+            $('[data-toggle="tooltip"]').tooltip();
+        },
         options: function(data)
         {
             $.each(data, function(i, v) {
@@ -521,7 +611,7 @@
             }
         }
 
-        var lastDate;
+        var lastDate = "";
         var hasNewmsgs = false;
 
         cookieLastMsg = typeof cookieLastMsg == "undefined" ? Date.now() : cookieLastMsg;
@@ -554,9 +644,14 @@
                             $(".missed", currentP2Ptab).text(missedMsgsNumCurrent).show();
                             break;
 
-                        default:
-                            missedMsgsNum++;
-                            $(".missed", "#evnt").text(missedMsgsNum).show();
+                        case "evnt":
+                            missedMsgsNumEvent++;
+                            $(".missed", "#evnt").text(missedMsgsNumEvent).show();
+                            break;
+
+                        case "proj":
+                            missedMsgsNumProject++;
+                            $(".missed", "#proj").text(missedMsgsNumProject).show();
                             break;
                     }
                 }
@@ -590,9 +685,14 @@
                             $(".missed", currentP2Ptab).text(missedMsgsNumCurrent).show();
                             break;
 
-                        default:
-                            missedMsgsNum++;
-                            $(".missed", "#evnt").text(missedMsgsNum).show();
+                        case "evnt":
+                            missedMsgsNumEvent++;
+                            $(".missed", "#evnt").text(missedMsgsNumEvent).show();
+                            break;
+
+                        case "proj":
+                            missedMsgsNumProject++;
+                            $(".missed", "#proj").text(missedMsgsNumProject).show();
                             break;
                     }
                 }
@@ -615,8 +715,8 @@
             lastDate = msgObj.date;
         });
 
-        if((missedMsgsNumCurrent + missedMsgsNum) > 0)
-            $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNum).show();
+        if((missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject) > 0)
+            $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject).show();
 
         return lastDate;
     }

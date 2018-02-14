@@ -18,6 +18,8 @@ if(isset($data["error"])) return;
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?>
                     </h4>
 
+                    <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
+
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
                             <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
@@ -25,9 +27,9 @@ if(isset($data["error"])) return;
                             </div>
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php $text = isset($data["symbols"]) ? $data["symbols"] : ""; ?>
-                                <textarea name="symbols" class="col-sm-6 peer_verse_ta textarea sun_content">
-                                    <?php echo isset($_POST["symbols"]) ? $_POST["symbols"] : $text ?>
-                                </textarea>
+                                <textarea name="symbols" class="col-sm-6 peer_verse_ta textarea sun_content"><?php
+                                    echo isset($_POST["symbols"]) ? $_POST["symbols"] : $text
+                                ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -40,6 +42,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [4])?></div>
@@ -47,6 +50,7 @@ if(isset($data["error"])) return;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -61,12 +65,14 @@ if(isset($data["error"])) return;
             <div class="event_info">
                 <div class="participant_info">
                     <div class="additional_info">
-                        <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        <a href="/events/information-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 
@@ -86,4 +92,34 @@ if(isset($data["error"])) return;
             <ul><?php echo __("symbol-draft_desc")?></ul>
         </div>
     </div>
+</div>
+
+<div class="saildict_panel panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("sail_dictionary") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove"></span>
+    </div>
+
+    <div class="sun_content saildict page-content panel-body">
+        <div class="sail_filter">
+            <div class="form-group">
+                <label for="sailfilter" class="sr-only">Filter</label>
+                <input type="text" class="form-control input-lg" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
+            </div>
+        </div>
+        <div class="sail_list">
+            <ul>
+                <?php foreach ($data["saildict"] as $word): ?>
+                    <li id="<?php echo $word->word ?>" title="<?php echo __("copy_symbol_tip") ?>">
+                        <div class="sail_word"><?php echo $word->word ?></div>
+                        <div class="sail_symbol"><?php echo $word->symbol ?></div>
+                        <input type="text" value="<?php echo $word->symbol ?>" />
+                        <div class="clear"></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="copied_tooltip"><?php echo __("copied_tip") ?></div>
 </div>

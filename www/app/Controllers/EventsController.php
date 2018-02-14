@@ -69,7 +69,8 @@ class EventsController extends Controller
         $this->_notifications = array_merge(
             $this->_notifications,
             $this->_model->getNotificationsNotes(),
-            $this->_model->getNotificationsL2());
+            $this->_model->getNotificationsL2(),
+            $this->_model->getNotificationsSun());
     }
 
     /**
@@ -188,6 +189,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["ulb","udb"]))
+            {
+                Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
@@ -1291,6 +1297,14 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["tn"]))
+            {
+                if(in_array($data["event"][0]->bookProject, ["udb","ulb"]))
+                    Url::redirect("events/translator/".$eventID);
+                else
+                    Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if(($data["event"][0]->state == EventStates::TRANSLATING 
@@ -1839,12 +1853,20 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["sun"]))
+            {
+                if(in_array($data["event"][0]->bookProject, ["udb","ulb"]))
+                    Url::redirect("events/translator/".$eventID);
+                else
+                    Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
+            }
+
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
                 if($data["event"][0]->step == EventSteps::NONE)
-                    Url::redirect("events/information/".$eventID);
+                    Url::redirect("events/information-sun/".$eventID);
 
                 $turnSecret = $this->_membersModel->getTurnSecret();
                 $turnUsername = (time() + 3600) . ":vmast";
@@ -1900,7 +1922,7 @@ class EventsController extends Controller
                         $data["event"][0]->justStarted = $data["event"][0]->verbCheck == "";
 
                         return View::make('Events/SUN/Translator')
-                            ->nest('page', 'Events/Pray')
+                            ->nest('page', 'Events/SUN/Pray')
                             ->shares("title", $title)
                             ->shares("data", $data)
                             ->shares("error", @$error);
@@ -1942,7 +1964,7 @@ class EventsController extends Controller
                         }
 
                         return View::make('Events/SUN/Translator')
-                            ->nest('page', 'Events/Consume')
+                            ->nest('page', 'Events/SUN/Consume')
                             ->shares("title", $title)
                             ->shares("data", $data)
                             ->shares("error", @$error);
@@ -2103,6 +2125,16 @@ class EventsController extends Controller
                                     if(is_numeric($tID))
                                     {
                                         $postdata["step"] = EventSteps::SYMBOL_DRAFT;
+                                        $postdata["currentChunk"] = 0;
+
+                                        // If chapter is finished go to SYMBOL_DRAFT, otherwise go to the next chunk
+                                        if(array_key_exists($data["event"][0]->currentChunk + 1, $sourceText["chunks"]))
+                                        {
+                                            // Current chunk is finished, go to next chunk
+                                            $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
+                                            $postdata["step"] = EventSteps::REARRANGE;
+                                        }
+
                                         setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                         $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                         Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
@@ -2118,6 +2150,8 @@ class EventsController extends Controller
                                 }
                             }
                         }
+
+                        $data["saildict"] = $this->_translationModel->getSunDictionary();
 
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/WordsDraft')
@@ -2230,7 +2264,7 @@ class EventsController extends Controller
                                         {
                                             // Current chunk is finished, go to next chunk
                                             $postdata["currentChunk"] = $data["event"][0]->currentChunk + 1;
-                                            $postdata["step"] = EventSteps::REARRANGE;
+                                            $postdata["step"] = EventSteps::SYMBOL_DRAFT;
                                         }
 
                                         setcookie("temp_tutorial", false, time() - 24*3600, "/");
@@ -2248,6 +2282,8 @@ class EventsController extends Controller
                                 }
                             }
                         }
+
+                        $data["saildict"] = $this->_translationModel->getSunDictionary();
 
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/SymbolsDraft')
@@ -2346,11 +2382,57 @@ class EventsController extends Controller
 
                                 if(!isset($error))
                                 {
-                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                    $chapters = [];
+                                    for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
+                                    {
+                                        $data["chapters"][$i] = [];
+                                    }
+
+                                    $chaptersDB = $this->_model->getChapters($data["event"][0]->eventID);
+
+                                    foreach ($chaptersDB as $chapter) {
+                                        $tmp["trID"] = $chapter["trID"];
+                                        $tmp["memberID"] = $chapter["memberID"];
+                                        $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                                        $tmp["done"] = $chapter["done"];
+
+                                        $chapters[$chapter["chapter"]] = $tmp;
+                                    }
+
+                                    $chapters[$data["event"][0]->currentChapter]["done"] = true;
+                                    $this->_model->updateChapter(["done" => true], ["eventID" => $data["event"][0]->eventID, "chapter" => $data["event"][0]->currentChapter]);
+
+                                    // Check if the member has another chapter to translate
+                                    // then redirect to preparation page
+                                    $nextChapter = 0;
+                                    $nextChapterDB = $this->_model->getNextChapter($data["event"][0]->eventID, Session::get("memberID"));
+                                    if(!empty($nextChapterDB))
+                                        $nextChapter = $nextChapterDB[0]->chapter;
+
+                                    $kwCheck = (array)json_decode($data["event"][0]->kwCheck, true);
+                                    if(!array_key_exists($data["event"][0]->currentChapter, $kwCheck))
+                                    {
+                                        $kwCheck[$data["event"][0]->currentChapter] = [
+                                            "memberID" => 0,
+                                            "done" => 0
+                                        ];
+                                    }
+
                                     $postdata = [
-                                        "step" => EventSteps::THEO_CHECK,
-                                        "hideChkNotif" => false,
+                                        "step" => EventSteps::NONE,
+                                        "currentChapter" => 0,
+                                        "currentChunk" => 0,
+                                        "kwCheck" => json_encode($kwCheck)
                                     ];
+
+                                    if($nextChapter > 0)
+                                    {
+                                        $postdata["step"] = EventSteps::PRAY;
+                                        $postdata["currentChapter"] = $nextChapter;
+                                        $postdata["translateDone"] = false;
+                                    }
+
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                     $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                     Url::redirect('events/translator-sun/' . $data["event"][0]->eventID);
                                 }
@@ -3171,7 +3253,7 @@ class EventsController extends Controller
     public function checkerNotesPeer($eventID, $memberID)
     {
         $data["event"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"), $eventID, $memberID);
-        
+
         if(!empty($data["event"]))
         {
             if($data["event"][0]->step != EventSteps::FINISHED && !$data["event"][0]->checkDone)
@@ -3299,6 +3381,457 @@ class EventsController extends Controller
             ->shares("title", $title)
             ->shares("data", $data)
             ->shares("error", @$error);
+    }
+
+
+    /**
+     * View for Theo check and V-b-v check in SUN event
+     * @param $eventID
+     * @param $memberID
+     * @return View
+     */
+    public function checkerSun($eventID, $memberID, $chapter)
+    {
+        $isAjax = false;
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $isAjax = true;
+            $response["success"] = false;
+        }
+
+        $data["menu"] = 1;
+        $data["notifications"] = $this->_notifications;
+        $data["event"] = $this->_model->getMemberEventsForSun(
+            Session::get("memberID"), $eventID, $memberID, $chapter);
+
+        if(!empty($data["event"]))
+        {
+            if(!in_array($data["event"][0]->bookProject, ["sun"]))
+            {
+                Url::redirect("events/");
+            }
+
+            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+
+            if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
+            {
+                $turnSecret = $this->_membersModel->getTurnSecret();
+                $turnUsername = (time() + 3600) . ":vmast";
+                $turnPassword = "";
+
+                if(!empty($turnSecret))
+                {
+                    if(($turnSecret[0]->expire - time()) < 0)
+                    {
+                        $pass = $this->_membersModel->generateStrongPassword(22);
+                        if($this->_membersModel->updateTurnSecret(["value" => $pass, "expire" => time() + (30*24*3600)])) // Update turn secret each month
+                        {
+                            $turnSecret[0]->value = $pass;
+                        }
+                    }
+
+                    $turnPassword = hash_hmac("sha1", $turnUsername, $turnSecret[0]->value, true);
+                }
+
+                $data["turn"][] = $turnUsername;
+                $data["turn"][] = base64_encode($turnPassword);
+
+                $chapters = $this->_model->getChapters($eventID, null, $chapter);
+                $data["event"][0]->chunks = [];
+                if(!empty($chapters))
+                {
+                    $data["event"][0]->chunks = $chapters[0]["chunks"];
+                }
+
+                switch ($data["event"][0]->step)
+                {
+                    case EventSteps::THEO_CHECK:
+                        $sourceText = $this->getSourceText($data);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+
+                                $data["comments"] = $this->getComments(
+                                    $data["event"][0]->eventID,
+                                    $data["event"][0]->currentChapter);
+
+                                $translationData = $this->_translationModel->getEventTranslationByEventID(
+                                    $data["event"][0]->eventID,
+                                    $data["event"][0]->currentChapter
+                                );
+                                $translation = array();
+
+                                foreach ($translationData as $tv)
+                                {
+                                    $arr = (array)json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
+                                }
+                                $data["translation"] = $translation;
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            Url::redirect('events');
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                if(!isset($error))
+                                {
+                                    $keywords = $this->_translationModel->getKeywords([
+                                        "eventID" => $data["event"][0]->eventID,
+                                        "chapter" => $data["event"][0]->currentChapter
+                                    ]);
+
+                                    if(!empty($keywords))
+                                    {
+                                        $kwCheck = (array)json_decode($data["event"][0]->kwCheck, true);
+                                        if(array_key_exists($data["event"][0]->currentChapter, $kwCheck))
+                                        {
+                                            $kwCheck[$data["event"][0]->currentChapter]["done"] = 1;
+                                        }
+
+                                        $crCheck = (array)json_decode($data["event"][0]->crCheck, true);
+                                        $crCheck[$data["event"][0]->currentChapter] = [
+                                            "memberID" => 0,
+                                            "done" => 0
+                                        ];
+
+                                        $postdata = [
+                                            "kwCheck" => json_encode($kwCheck),
+                                            "crCheck" => json_encode($crCheck)
+                                        ];
+
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                        $this->_model->updateTranslator($postdata, [
+                                            "trID" => $data["event"][0]->trID
+                                        ]);
+                                        Url::redirect('events/');
+                                    }
+                                    else
+                                    {
+                                        $error[] = __("keywords_empty_error");
+                                    }
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Checker')
+                            ->nest('page', 'Events/SUN/TheoCheck')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::CONTENT_REVIEW:
+                        $sourceText = $this->getSourceText($data);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+
+                                $data["comments"] = $this->getComments(
+                                    $data["event"][0]->eventID,
+                                    $data["event"][0]->currentChapter);
+
+                                $translationData = $this->_translationModel->getEventTranslationByEventID(
+                                    $data["event"][0]->eventID,
+                                    $data["event"][0]->currentChapter
+                                );
+                                $translation = array();
+
+                                foreach ($translationData as $tv)
+                                {
+                                    $arr = (array)json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
+                                }
+                                $data["translation"] = $translation;
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            Url::redirect('events');
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                $chunks = array_map("trim", $chunks);
+                                $chunks = array_filter($chunks, function($v) {
+                                    return !empty($v);
+                                });
+
+                                if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
+                                    $error[] = __("empty_verses_error");
+
+                                if(!isset($error))
+                                {
+                                    if(!empty($translation))
+                                    {
+                                        foreach ($translation as $key => $chunk)
+                                        {
+                                            $shouldUpdate = false;
+                                            if($chunk[EventMembers::TRANSLATOR]["symbols"] != $chunks[$key])
+                                                $shouldUpdate = true;
+
+                                            $translation[$key][EventMembers::TRANSLATOR]["symbols"] = $chunks[$key];
+
+                                            if($shouldUpdate)
+                                            {
+                                                $tID = $translation[$key]["tID"];
+                                                unset($translation[$key]["tID"]);
+
+                                                $encoded = json_encode($translation[$key]);
+                                                $json_error = json_last_error();
+
+                                                if($json_error == JSON_ERROR_NONE)
+                                                {
+                                                    $trData = array(
+                                                        "translatedVerses"  => $encoded
+                                                    );
+                                                    $this->_translationModel->updateTranslation(
+                                                        $trData,
+                                                        array(
+                                                            "trID" => $data["event"][0]->trID,
+                                                            "tID" => $tID));
+                                                }
+                                                else
+                                                {
+                                                    $error[] = __("error_ocured", array($tID));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if(!isset($error))
+                                {
+                                    $crCheck = (array)json_decode($data["event"][0]->crCheck, true);
+                                    if(array_key_exists($data["event"][0]->currentChapter, $crCheck))
+                                    {
+                                        $crCheck[$data["event"][0]->currentChapter]["done"] = 1;
+                                    }
+
+                                    $postdata = [
+                                        "crCheck" => json_encode($crCheck),
+                                    ];
+
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                    $this->_model->updateTranslator($postdata, [
+                                        "trID" => $data["event"][0]->trID
+                                    ]);
+                                    Url::redirect('events/checker-sun/' . $data["event"][0]->eventID .
+                                        "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Checker')
+                            ->nest('page', 'Events/SUN/ContentReview')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+
+                    case EventSteps::FINAL_REVIEW:
+                        $sourceText = $this->getSourceText($data);
+
+                        if($sourceText !== false)
+                        {
+                            if (!array_key_exists("error", $sourceText))
+                            {
+                                $data = $sourceText;
+
+                                $data["comments"] = $this->getComments(
+                                    $data["event"][0]->eventID,
+                                    $data["event"][0]->currentChapter);
+
+                                $translationData = $this->_translationModel->getEventTranslationByEventID(
+                                    $data["event"][0]->eventID,
+                                    $data["event"][0]->currentChapter
+                                );
+                                $translation = array();
+
+                                foreach ($translationData as $tv)
+                                {
+                                    $arr = (array)json_decode($tv->translatedVerses, true);
+                                    $arr["tID"] = $tv->tID;
+                                    $translation[] = $arr;
+                                }
+                                $data["translation"] = $translation;
+                            }
+                            else
+                            {
+                                $error[] = $sourceText["error"];
+                                $data["error"] = $sourceText["error"];
+                            }
+                        }
+                        else
+                        {
+                            Url::redirect('events');
+                        }
+
+                        if (isset($_POST) && !empty($_POST))
+                        {
+                            $_POST = Gump::xss_clean($_POST);
+
+                            if (isset($_POST["confirm_step"]))
+                            {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                $chunks = array_map("trim", $chunks);
+                                $chunks = array_filter($chunks, function($v) {
+                                    return !empty($v);
+                                });
+
+                                if(sizeof($chunks) < sizeof($data["chunks"]))
+                                    $error[] = __("empty_verses_error");
+
+                                if(!isset($error))
+                                {
+                                    $versesCombined = [];
+                                    foreach ($chunks as $key => $chunk)
+                                    {
+                                        $verses = preg_split("/\|([0-9]+)\|/", $chunk, -1, PREG_SPLIT_NO_EMPTY);
+
+                                        if(sizeof($data["chunks"][$key]) !=
+                                            sizeof($verses))
+                                        {
+                                            $error[] = __("not_equal_verse_markers");
+                                            break;
+                                        }
+
+                                        $versesCombined[$key] = array_combine($data["chunks"][$key], $verses);
+                                    }
+
+                                    if(!isset($error))
+                                    {
+                                        foreach ($versesCombined as $key => $chunk)
+                                        {
+                                            $translation[$key][EventMembers::TRANSLATOR]["verses"] = $chunk;
+
+                                            $tID = $translation[$key]["tID"];
+                                            unset($translation[$key]["tID"]);
+
+                                            $encoded = json_encode($translation[$key]);
+                                            $json_error = json_last_error();
+
+                                            if($json_error == JSON_ERROR_NONE)
+                                            {
+                                                $trData = array(
+                                                    "translatedVerses"  => $encoded,
+                                                    "translateDone" => true
+                                                );
+                                                $this->_translationModel->updateTranslation(
+                                                    $trData,
+                                                    array(
+                                                        "trID" => $data["event"][0]->trID,
+                                                        "tID" => $tID));
+                                            }
+                                            else
+                                            {
+                                                $error[] = __("error_ocured", array($tID));
+                                            }
+                                        }
+
+                                        if(!isset($error))
+                                        {
+                                            $chapters = [];
+                                            for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
+                                            {
+                                                $data["chapters"][$i] = [];
+                                            }
+
+                                            $chaptersDB = $this->_model->getChapters($data["event"][0]->eventID);
+
+                                            foreach ($chaptersDB as $chapter) {
+                                                $tmp["trID"] = $chapter["trID"];
+                                                $tmp["memberID"] = $chapter["memberID"];
+                                                $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                                                $tmp["checked"] = $chapter["checked"];
+
+                                                $chapters[$chapter["chapter"]] = $tmp;
+                                            }
+
+                                            $chapters[$data["event"][0]->currentChapter]["done"] = true;
+
+                                            // Check if whole book is finished
+                                            if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum, true))
+                                                $this->_model->updateEvent([
+                                                    "state" => EventStates::TRANSLATED,
+                                                    "dateTo" => date("Y-m-d H:i:s", time())],
+                                                    ["eventID" => $data["event"][0]->eventID]);
+
+                                            $this->_model->updateChapter(["checked" => true], ["eventID" => $data["event"][0]->eventID, "chapter" => $data["event"][0]->currentChapter]);
+
+                                            $crCheck = (array)json_decode($data["event"][0]->crCheck, true);
+                                            if(array_key_exists($data["event"][0]->currentChapter, $crCheck))
+                                            {
+                                                $crCheck[$data["event"][0]->currentChapter]["done"] = 2;
+                                            }
+
+                                            $postdata = [
+                                                "crCheck" => json_encode($crCheck),
+                                            ];
+
+                                            setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                            $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                            Url::redirect('events/');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        return View::make('Events/SUN/Checker')
+                            ->nest('page', 'Events/SUN/FinalReview')
+                            ->shares("title", $title)
+                            ->shares("data", $data)
+                            ->shares("error", @$error);
+                        break;
+                }
+            }
+            else
+            {
+                $data["error"] = true;
+                $error[] = __("wrong_event_state_error");
+
+                return View::make('Events/L2/Checker')
+                    ->shares("title", $title)
+                    ->shares("data", $data)
+                    ->shares("error", @$error);
+            }
+        }
+        else
+        {
+            $error[] = __("not_in_event_error");
+            $title = "Error";
+
+            return View::make('Events/L2/Checker')
+                ->shares("title", $title)
+                ->shares("data", $data)
+                ->shares("error", @$error);
+        }
     }
 
     /**
@@ -4150,6 +4683,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["ulb","udb"]))
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
@@ -4381,7 +4919,7 @@ class EventsController extends Controller
                     $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
                     $data["chapters"][$key]["blindDraft"]["state"] = $blindDraftState;
 
-                    // Pregress checks
+                    // Progress checks
                     if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
                         $data["chapters"][$key]["progress"] += 11;
                     if($data["chapters"][$key]["verb"]["state"] == StepsStates::CHECKED)
@@ -4390,6 +4928,8 @@ class EventsController extends Controller
                         $data["chapters"][$key]["progress"] += 11;
                     if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
                         $data["chapters"][$key]["progress"] += 11;
+
+                    $overallProgress += $data["chapters"][$key]["progress"];
 
                     $data["chapters"][$key]["chunksData"] = [];
                     continue;
@@ -4664,6 +5204,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["tn"]))
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
@@ -5079,6 +5624,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(!in_array($data["event"][0]->bookProject, ["ulb","udb"]) || $data["event"][0]->admins_l2 == "")
+            {
+                Url::redirect("events/");
+            }
+
             $admins = (array)json_decode($data["event"][0]->admins_l2, true);
 
             if($data["event"][0]->translator === null && $data["event"][0]->checker === null
@@ -5369,6 +5919,414 @@ class EventsController extends Controller
         }
     }
 
+    public function informationSun($eventID)
+    {
+        $data["menu"] = 1;
+        $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
+        $data["isAdmin"] = false;
+        $canViewInfo = false;
+        $isAjax = false;
+
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+        {
+            $isAjax = true;
+            $response = ["success" => false];
+        }
+
+        if(!empty($data["event"]))
+        {
+            if(!in_array($data["event"][0]->bookProject, ["sun"]))
+            {
+                Url::redirect("events/");
+            }
+
+            $admins = (array)json_decode($data["event"][0]->admins, true);
+
+            if($data["event"][0]->translator === null && $data["event"][0]->checker === null
+                && $data["event"][0]->checker_l2 === null && $data["event"][0]->checker_l3 === null)
+            {
+                // If member is not a participant of the event, check if he is a facilitator
+                if(Session::get("isAdmin"))
+                {
+                    $data["isAdmin"] = $canViewInfo = in_array(Session::get("memberID"), $admins);
+
+                    if(!$data["isAdmin"])
+                    {
+                        if(Session::get("isSuperAdmin")) // Or superadmin
+                        {
+                            $data["isAdmin"] = $canViewInfo = true;
+                        }
+                        else
+                        {
+                            if(!$isAjax)
+                                $error[] = __("empty_or_not_permitted_event_error");
+                            else
+                            {
+                                $response["errorType"] = "empty_no_permission";
+                                echo json_encode($response);
+                                exit;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if(!$isAjax)
+                        $error[] = __("empty_or_not_permitted_event_error");
+                    else
+                    {
+                        $response["errorType"] = "empty_no_permission";
+                        echo json_encode($response);
+                        exit;
+                    }
+                }
+            }
+            else
+            {
+                $canViewInfo = true;
+                if(Session::get("isAdmin"))
+                {
+                    $data["isAdmin"] = in_array(Session::get("memberID"), $admins)
+                        || Session::get("isSuperAdmin");
+                }
+            }
+
+            if($data["event"][0]->state == "started" && $canViewInfo)
+            {
+                if(!$isAjax)
+                    $error[] = __("not_started_event_error", array($data["event"][0]->eventID));
+                else
+                {
+                    $response["errorType"] = "not_started";
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+        }
+        else
+        {
+            if(!$isAjax)
+                $error[] = __("empty_or_not_permitted_event_error");
+            else
+            {
+                $response["errorType"] = "empty_no_permission";
+                echo json_encode($response);
+                exit;
+            }
+        }
+
+        if(!isset($error))
+        {
+            $data["chapters"] = [];
+            for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
+            {
+                $data["chapters"][$i] = [];
+            }
+
+            $chapters = $this->_model->getChapters($data["event"][0]->eventID);
+
+            foreach ($chapters as $chapter) {
+                $tmp["trID"] = $chapter["trID"];
+                $tmp["memberID"] = $chapter["memberID"];
+                $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                $tmp["done"] = $chapter["done"];
+                $tmp["checked"] = $chapter["checked"];
+
+                $data["chapters"][$chapter["chapter"]] = $tmp;
+            }
+
+            $members = [];
+            $overallProgress = 0;
+
+            $chunks = $this->_translationModel->getTranslationByEventID($data["event"][0]->eventID);
+
+            $memberSteps = [];
+
+            foreach ($chunks as $chunk) {
+                if(!array_key_exists($chunk->memberID, $memberSteps))
+                {
+                    $memberSteps[$chunk->memberID]["step"] = $chunk->step;
+                    $memberSteps[$chunk->memberID]["kwCheck"] = $chunk->kwCheck;
+                    $memberSteps[$chunk->memberID]["crCheck"] = $chunk->crCheck;
+                    $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
+                    $members[$chunk->memberID] = "";
+                }
+
+                if($chunk->chapter == null)
+                    continue;
+
+                $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
+
+                if(!isset($data["chapters"][$chunk->chapter]["lastEdit"]))
+                {
+                    $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+                }
+                else
+                {
+                    $prevDate = strtotime($data["chapters"][$chunk->chapter]["lastEdit"]);
+                    if($prevDate < strtotime($chunk->dateUpdate))
+                        $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+                }
+            }
+
+            foreach ($data["chapters"] as $key => $chapter) {
+                if(empty($chapter)) continue;
+
+                $currentStep = EventSteps::PRAY;
+                $consumeState = StepsStates::NOT_STARTED;
+                $chunkingState = StepsStates::NOT_STARTED;
+                $rearrangeState = StepsStates::NOT_STARTED;
+                $symbolDraftState = StepsStates::NOT_STARTED;
+
+                $members[$chapter["memberID"]] = "";
+                $data["chapters"][$key]["progress"] = 0;
+
+                $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
+                $kwCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["kwCheck"], true);
+                $crCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["crCheck"], true);
+
+                // Set default values
+                $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["chunking"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["rearrange"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
+
+                $data["chapters"][$key]["theoChk"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["theoChk"]["checkerID"] = 'na';
+                $data["chapters"][$key]["crc"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["crc"]["checkerID"] = 'na';
+                $data["chapters"][$key]["finalReview"]["state"] = StepsStates::NOT_STARTED;
+
+                // When no chunks created or translation not started
+                if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
+                {
+                    if($currentChapter == $key)
+                    {
+                        $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+
+                        if($currentStep == EventSteps::CONSUME)
+                        {
+                            $consumeState = StepsStates::IN_PROGRESS;
+                        }
+                        elseif($currentStep == EventSteps::CHUNKING)
+                        {
+                            $consumeState = StepsStates::FINISHED;
+                            $chunkingState = StepsStates::IN_PROGRESS;
+                        }
+                        elseif($currentStep == EventSteps::REARRANGE)
+                        {
+                            $consumeState = StepsStates::FINISHED;
+                            $chunkingState = StepsStates::FINISHED;
+                            $rearrangeState = StepsStates::IN_PROGRESS;
+                        }
+                        elseif($currentStep == EventSteps::SYMBOL_DRAFT)
+                        {
+                            $consumeState = StepsStates::FINISHED;
+                            $chunkingState = StepsStates::FINISHED;
+                            $rearrangeState = StepsStates::FINISHED;
+                            $symbolDraftState = StepsStates::IN_PROGRESS;
+                        }
+                    }
+
+                    $data["chapters"][$key]["step"] = $currentStep;
+                    $data["chapters"][$key]["consume"]["state"] = $consumeState;
+                    $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
+                    $data["chapters"][$key]["rearrange"]["state"] = $rearrangeState;
+                    $data["chapters"][$key]["symbolDraft"]["state"] = $symbolDraftState;
+
+                    // Progress checks
+                    if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 12.5;
+                    if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 12.5;
+                    if($data["chapters"][$key]["rearrange"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 12.5;
+                    if($data["chapters"][$key]["symbolDraft"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 12.5;
+
+                    $overallProgress += $data["chapters"][$key]["progress"];
+
+                    $data["chapters"][$key]["chunksData"] = [];
+                    continue;
+                }
+
+                $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+
+                $kw = !empty($kwCheck)
+                    && array_key_exists($key, $kwCheck);
+                $cr = !empty($crCheck)
+                    && array_key_exists($key, $crCheck)
+                    && $crCheck[$key]["memberID"] > 0;
+
+                if($kw)
+                {
+                    // Theo check
+                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                    if($kwCheck[$key]["memberID"] > 0)
+                    {
+                        $members[$kwCheck[$key]["memberID"]] = "";
+                        $data["chapters"][$key]["theoChk"]["checkerID"] = $kwCheck[$key]["memberID"];
+
+                        if($kwCheck[$key]["done"] == 1)
+                        {
+                            // Verse-by-verse check
+                            $data["chapters"][$key]["theoChk"]["state"] = StepsStates::FINISHED;
+
+                            if($cr)
+                            {
+                                $members[$crCheck[$key]["memberID"]] = "";
+                                $data["chapters"][$key]["crc"]["checkerID"] = $crCheck[$key]["memberID"];
+
+                                if($crCheck[$key]["done"] == 2)
+                                {
+                                    $data["chapters"][$key]["crc"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["finalReview"]["state"] = StepsStates::FINISHED;
+                                }
+                                elseif($crCheck[$key]["done"] == 1)
+                                {
+                                    $data["chapters"][$key]["crc"]["state"] = StepsStates::FINISHED;
+                                    $data["chapters"][$key]["finalReview"]["state"] = StepsStates::IN_PROGRESS;
+                                }
+                                else
+                                {
+                                    $data["chapters"][$key]["crc"]["state"] = StepsStates::IN_PROGRESS;
+                                }
+                            }
+                            else
+                            {
+                                $data["chapters"][$key]["crc"]["state"] = StepsStates::WAITING;
+                            }
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["theoChk"]["state"] = StepsStates::IN_PROGRESS;
+                        }
+                    }
+                    else
+                    {
+                        $data["chapters"][$key]["theoChk"]["state"] = StepsStates::WAITING;
+                    }
+                }
+                else
+                {
+                    if($currentStep == EventSteps::CONSUME)
+                    {
+                        $data["chapters"][$key]["consume"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::CHUNKING)
+                    {
+                        $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["chunking"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::REARRANGE)
+                    {
+                        $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["rearrange"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::SYMBOL_DRAFT)
+                    {
+                        $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::SELF_CHECK)
+                    {
+                        $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                }
+
+
+                // Progress checks
+                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["rearrange"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["symbolDraft"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["theoChk"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["crc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+                if($data["chapters"][$key]["finalReview"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12.5;
+
+                $overallProgress += $data["chapters"][$key]["progress"];
+            }
+
+            $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
+
+            $empty = array_fill(0, sizeof($admins), "");
+            $adminsArr = array_combine($admins, $empty);
+
+            $members += $adminsArr;
+            $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
+
+            foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
+                $members[$member->memberID]["userName"] = $member->userName;
+                $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                $members[$member->memberID]["avatar"] = $member->avatar;
+            }
+
+            foreach ($members as $key => $member) {
+                if(!is_numeric($key) && $key != "na")
+                {
+                    $name = $members[$key];
+                    $members[$key] = [];
+                    $members[$key]["userName"] = $key;
+                    $members[$key]["name"] = $name;
+                    $members[$key]["avatar"] = "n1";
+                }
+            }
+
+            $members["na"] = __("not_available");
+            $members = array_filter($members);
+
+            $data["admins"] = $admins;
+            $data["members"] = $members;
+        }
+
+        $data["notifications"] = $this->_notifications;
+
+        if(!$isAjax)
+        {
+            return View::make('Events/SUN/Information')
+                ->shares("title", __("event_info"))
+                ->shares("data", $data)
+                ->shares("error", @$error);
+        }
+        else
+        {
+            $this->layout = "dummy";
+            $response["success"] = true;
+            $response["progress"] = $data["overall_progress"];
+            $response["admins"] = $data["admins"];
+            $response["members"] = $data["members"];
+            $response["html"] = View::make("Events/SUN/GetInfo")
+                ->shares("data", $data)
+                ->renderContents();
+
+            echo json_encode($response);
+        }
+    }
+
     public function manage($eventID)
     {
         if (!Session::get('isAdmin') && !Session::get("isSuperAdmin"))
@@ -5378,7 +6336,7 @@ class EventsController extends Controller
 
         $data["menu"] = 1;
         $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID, Session::get("isSuperAdmin"));
-        
+
         if(!empty($data["event"]))
         {
             $superadmins = (array)json_decode($data["event"][0]->superadmins, true);
@@ -5403,19 +6361,20 @@ class EventsController extends Controller
                 $data["chapters"][$i] = [];
             }
 
-            $chapters = $this->_model->getChapters($data["event"][0]->eventID);
-
+            $chapters = $this->_model->getChapters($data["event"][0]->eventID, null, null, $data["event"][0]->bookProject);
             foreach ($chapters as $chapter) {
                 $tmp["trID"] = $chapter["trID"];
                 $tmp["memberID"] = $chapter["memberID"];
                 $tmp["chunks"] = json_decode($chapter["chunks"], true);
                 $tmp["done"] = $chapter["done"];
+                $tmp["kwCheck"] = (array)json_decode($chapter["kwCheck"], true);
+                $tmp["crCheck"] = (array)json_decode($chapter["crCheck"], true);
 
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
 
             $data["members"] = $this->_model->getMembersForEvent($data["event"][0]->eventID, $data["event"][0]->bookProject);
-            
+
             if (isset($_POST) && !empty($_POST)) {
                 if(!empty(array_filter($data["chapters"])))
                 {
@@ -5635,7 +6594,7 @@ class EventsController extends Controller
         echo json_encode($response);
     }
 
-    public function moveStepBackL2()
+    public function moveStepBackAlt()
     {
         $response = array("success" => false);
 
@@ -5660,101 +6619,182 @@ class EventsController extends Controller
 
             if(!empty($event))
             {
-                if(EventStates::enum($event[0]->state) < EventStates::enum(EventStates::L2_CHECKED))
+                if($event[0]->bookProject == "sun")
                 {
-                    $chapters = $this->_model->getChapters($eventID, $memberID, $chapter, "l2");
-                    $chap = [];
-
-                    if(!empty($chapters))
+                    if(EventStates::enum($event[0]->state) < EventStates::enum(EventStates::TRANSLATED))
                     {
-                        $chap["l2chID"] = $chapters[0]["l2chID"];
-                        $chap["l2memberID"] = $chapters[0]["l2memberID"];
-                        $chap["chunks"] = json_decode($chapters[0]["chunks"], true);
-                        $chap["l2checked"] = $chapters[0]["l2checked"];
-                        $chap["sndCheck"] = (array)json_decode($chapters[0]["sndCheck"], true);
-                        $chap["peer1Check"] = (array)json_decode($chapters[0]["peer1Check"], true);
-                        $chap["peer2Check"] = (array)json_decode($chapters[0]["peer2Check"], true);
+                        $chapters = $this->_model->getChapters($eventID, $memberID, $chapter, "sun");
+                        $chap = [];
 
-                        $p1 = !empty($chap["peer1Check"])
-                            && array_key_exists($chapter, $chap["peer1Check"])
-                            && $chap["peer1Check"][$chapter]["memberID"] > 0;
-                        $p2 = !empty($chap["peer2Check"])
-                            && array_key_exists($chapter, $chap["peer2Check"])
-                            && $chap["peer2Check"][$chapter]["memberID"] > 0;
-
-                        switch ($mode)
+                        if(!empty($chapters))
                         {
-                            case "snd_checker":
-                                if(!$p1)
-                                {
-                                    $chap["sndCheck"][$chapter]["memberID"] = 0;
-                                    $chap["sndCheck"][$chapter]["done"] = 0;
-                                    unset($chap["peer1Check"][$chapter]);
-                                    unset($chap["peer2Check"][$chapter]);
-                                }
-                                else
-                                {
-                                    $response["error"] = __("wrong_parameters");
-                                }
-                                break;
+                            $chap["trID"] = $chapters[0]["trID"];
+                            $chap["memberID"] = $chapters[0]["memberID"];
+                            $chap["chunks"] = json_decode($chapters[0]["chunks"], true);
+                            $chap["checked"] = $chapters[0]["checked"];
+                            $chap["kwCheck"] = (array)json_decode($chapters[0]["kwCheck"], true);
+                            $chap["crCheck"] = (array)json_decode($chapters[0]["crCheck"], true);
 
-                            case "p1_checker":
-                                if(!$p2)
-                                {
-                                    $chap["peer1Check"][$chapter]["memberID"] = 0;
-                                    $chap["peer1Check"][$chapter]["done"] = 0;
-                                    $chap["peer2Check"][$chapter]["memberID"] = 0;
-                                    $chap["peer2Check"][$chapter]["done"] = 0;
-                                }
-                                else
-                                {
-                                    $response["error"] = __("wrong_parameters");
-                                }
-                                break;
+                            $cr = !empty($chap["crCheck"])
+                                && array_key_exists($chapter, $chap["crCheck"])
+                                && $chap["crCheck"][$chapter]["memberID"] > 0;
 
-                            case "p2_checker":
-                                if($p2)
-                                {
-                                    $chap["peer1Check"][$chapter]["done"] = 0;
-                                    $chap["peer2Check"][$chapter]["memberID"] = 0;
-                                    $chap["peer2Check"][$chapter]["done"] = 0;
-                                }
-                                else
-                                {
-                                    $response["error"] = __("wrong_parameters");
-                                }
-                                break;
+                            switch ($mode)
+                            {
+                                case "kw_checker":
+                                    if(!$cr)
+                                    {
+                                        $chap["kwCheck"][$chapter]["memberID"] = 0;
+                                        $chap["kwCheck"][$chapter]["done"] = 0;
+                                        unset($chap["crCheck"][$chapter]);
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
 
-                            default:
-                                $response["error"] = __("wrong_parameters");
-                                break;
+                                case "cr_checker":
+                                    if($cr)
+                                    {
+                                        $chap["crCheck"][$chapter]["memberID"] = 0;
+                                        $chap["crCheck"][$chapter]["done"] = 0;
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
+
+                                default:
+                                    $response["error"] = __("wrong_parameters");
+                                    break;
+                            }
+
+                            if(!isset($response["error"]))
+                            {
+                                $postData = [
+                                    "kwCheck" => json_encode($chap["kwCheck"]),
+                                    "crCheck" => json_encode($chap["crCheck"]),
+                                ];
+
+                                $this->_model->updateTranslator($postData, [
+                                    "eventID" => $eventID,
+                                    "memberID" => $memberID
+                                ]);
+
+                                $response["message"] = __("checker_removed_success");
+                                $response["success"] = true;
+                            }
                         }
-
-                        if(!isset($response["error"]))
+                        else
                         {
-                            $postData = [
-                                "sndCheck" => json_encode($chap["sndCheck"]),
-                                "peer1Check" => json_encode($chap["peer1Check"]),
-                                "peer2Check" => json_encode($chap["peer2Check"]),
-                            ];
-
-                            $this->_model->updateL2Checker($postData, [
-                                "eventID" => $eventID,
-                                "memberID" => $memberID
-                            ]);
-
-                            $response["message"] = __("checker_removed_success");
-                            $response["success"] = true;
+                            $response["error"] = __("wrong_parameters");
                         }
                     }
                     else
                     {
-                        $response["error"] = __("wrong_parameters");
+                        $response["error"] = __("event_is_finished");
                     }
                 }
                 else
                 {
-                    $response["error"] = __("event_is_finished");
+                    if(EventStates::enum($event[0]->state) < EventStates::enum(EventStates::L2_CHECKED))
+                    {
+                        $chapters = $this->_model->getChapters($eventID, $memberID, $chapter, "l2");
+                        $chap = [];
+
+                        if(!empty($chapters))
+                        {
+                            $chap["l2chID"] = $chapters[0]["l2chID"];
+                            $chap["l2memberID"] = $chapters[0]["l2memberID"];
+                            $chap["chunks"] = json_decode($chapters[0]["chunks"], true);
+                            $chap["l2checked"] = $chapters[0]["l2checked"];
+                            $chap["sndCheck"] = (array)json_decode($chapters[0]["sndCheck"], true);
+                            $chap["peer1Check"] = (array)json_decode($chapters[0]["peer1Check"], true);
+                            $chap["peer2Check"] = (array)json_decode($chapters[0]["peer2Check"], true);
+
+                            $p1 = !empty($chap["peer1Check"])
+                                && array_key_exists($chapter, $chap["peer1Check"])
+                                && $chap["peer1Check"][$chapter]["memberID"] > 0;
+                            $p2 = !empty($chap["peer2Check"])
+                                && array_key_exists($chapter, $chap["peer2Check"])
+                                && $chap["peer2Check"][$chapter]["memberID"] > 0;
+
+                            switch ($mode)
+                            {
+                                case "snd_checker":
+                                    if(!$p1)
+                                    {
+                                        $chap["sndCheck"][$chapter]["memberID"] = 0;
+                                        $chap["sndCheck"][$chapter]["done"] = 0;
+                                        unset($chap["peer1Check"][$chapter]);
+                                        unset($chap["peer2Check"][$chapter]);
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
+
+                                case "p1_checker":
+                                    if(!$p2)
+                                    {
+                                        $chap["peer1Check"][$chapter]["memberID"] = 0;
+                                        $chap["peer1Check"][$chapter]["done"] = 0;
+                                        $chap["peer2Check"][$chapter]["memberID"] = 0;
+                                        $chap["peer2Check"][$chapter]["done"] = 0;
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
+
+                                case "p2_checker":
+                                    if($p2)
+                                    {
+                                        $chap["peer1Check"][$chapter]["done"] = 0;
+                                        $chap["peer2Check"][$chapter]["memberID"] = 0;
+                                        $chap["peer2Check"][$chapter]["done"] = 0;
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
+
+                                default:
+                                    $response["error"] = __("wrong_parameters");
+                                    break;
+                            }
+
+                            if(!isset($response["error"]))
+                            {
+                                $postData = [
+                                    "sndCheck" => json_encode($chap["sndCheck"]),
+                                    "peer1Check" => json_encode($chap["peer1Check"]),
+                                    "peer2Check" => json_encode($chap["peer2Check"]),
+                                ];
+
+                                $this->_model->updateL2Checker($postData, [
+                                    "eventID" => $eventID,
+                                    "memberID" => $memberID
+                                ]);
+
+                                $response["message"] = __("checker_removed_success");
+                                $response["success"] = true;
+                            }
+                        }
+                        else
+                        {
+                            $response["error"] = __("wrong_parameters");
+                        }
+                    }
+                    else
+                    {
+                        $response["error"] = __("event_is_finished");
+                    }
                 }
             }
             else
@@ -6153,6 +7193,102 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
+    public function demoSun($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-sun/pray");
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new \stdClass();
+
+            if($i==0)
+                $notifObj->step = EventSteps::THEO_CHECK;
+            else
+                $notifObj->step = EventSteps::CONTENT_REVIEW;
+
+            $notifObj->currentChapter = 2;
+            $notifObj->firstName = "Mark";
+            $notifObj->lastName = "Patton";
+            $notifObj->bookCode = "2ti";
+            $notifObj->bookProject = "sun";
+            $notifObj->tLang = "English";
+            $notifObj->bookName = "2 Timothy";
+            $notifObj->manageMode = "sun";
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["menu"] = 1;
+
+        $view = View::make("Events/SUN/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/SUN/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/SUN/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "chunking":
+                $view->nest("page", "Events/SUN/Demo/Chunking");
+                $data["step"] = EventSteps::CHUNKING;
+                break;
+
+            case "rearrange":
+                $view->nest("page", "Events/SUN/Demo/WordsDraft");
+                $data["step"] = EventSteps::REARRANGE;
+                $data["saildict"] = $this->_translationModel->getSunDictionary();
+                break;
+
+            case "symbol-draft":
+                $view->nest("page", "Events/SUN/Demo/SymbolsDraft");
+                $data["step"] = EventSteps::SYMBOL_DRAFT;
+                $data["saildict"] = $this->_translationModel->getSunDictionary();
+                break;
+
+            case "self-check":
+                $view->nest("page", "Events/SUN/Demo/SelfCheck");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "theo-check":
+                $view->nest("page", "Events/SUN/Demo/TheoCheck");
+                $data["step"] = EventSteps::THEO_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "verse-by-verse-check":
+                $view->nest("page", "Events/SUN/Demo/ContentReview");
+                $data["step"] = EventSteps::CONTENT_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "verse-markers":
+                $view->nest("page", "Events/SUN/Demo/FinalReview");
+                $data["step"] = EventSteps::FINAL_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/SUN/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
     public function applyEvent()
     {
         $data["errors"] = array();
@@ -6397,15 +7533,28 @@ class EventsController extends Controller
             if($level == "l2")
                 $memberType = EventMembers::L2_CHECKER;
 
-            if($level != "l2continue")
+            if($level == "l1" || $level == "l2")
+            {
                 $event = $this->_model->getMemberEvents(Session::get("memberID"), $memberType, $eventID, false, false, $tnChk);
-            else
+            }
+            elseif($level == "l2continue")
+            {
                 $event = $this->_model->getMemberEventsForCheckerL2(
                     Session::get("memberID"),
                     $eventID,
                     $post["memberID"],
                     $post["chapter"]
                 );
+            }
+            elseif ($level == "sunContinue")
+            {
+                $event = $this->_model->getMemberEventsForSun(
+                    Session::get("memberID"),
+                    $eventID,
+                    $post["memberID"],
+                    $post["chapter"]
+                );
+            }
 
             if(!empty($event))
             {
@@ -6436,7 +7585,12 @@ class EventsController extends Controller
                             if($event[0]->stage == "translation")
                             {
                                 $trID = $event[0]->trID;
-                                $translationData = $this->_translationModel->getLastEventTranslation($trID);
+                                $translationData = $this->_translationModel->getEventTranslationByEventID(
+                                    $event[0]->eventID,
+                                    $event[0]->currentChapter,
+                                    $event[0]->currentChunk
+                                );
+                                //$translationData = $this->_translationModel->getLastEventTranslation($trID);
                             }
                             else
                             {
@@ -6460,7 +7614,7 @@ class EventsController extends Controller
                                     $shoudUpdate = true;
                                 }
                             }
-                            
+
                             if(!$shoudUpdate)
                             {
                                 $trArr = [];
@@ -6930,7 +8084,7 @@ class EventsController extends Controller
                             }
                         }
                     }
-                    else if($memberInfo[0]->l2checker == $memberID)
+                    elseif($memberInfo[0]->l2checker == $memberID)
                     {
                         $canCreate = false;
                         $events = $this->_model->getMemberEventsForCheckerL2(
@@ -6943,6 +8097,26 @@ class EventsController extends Controller
                         foreach ($events as $event) {
                             if($event->step == EventCheckSteps::KEYWORD_CHECK_L2
                                 || $event->step == EventCheckSteps::PEER_REVIEW_L2)
+                            {
+                                if($chapter == $event->currentChapter)
+                                {
+                                    $canKeyword = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    elseif($memberInfo[0]->bookProject == "sun" && $memberInfo[0]->translator == $memberID)
+                    {
+                        $events = $this->_model->getMemberEventsForSun(
+                            $memberID,
+                            $eventID,
+                            null,
+                            $chapter
+                        );
+
+                        foreach ($events as $event) {
+                            if($event->step == EventSteps::THEO_CHECK)
                             {
                                 if($chapter == $event->currentChapter)
                                 {
@@ -7222,6 +8396,28 @@ class EventsController extends Controller
                         }
                     }
                 }
+                elseif($step == EventSteps::KEYWORD_CHECK)
+                {
+                    $kwCheck = (array)json_decode($notification->kwCheck, true);
+                    if(isset($kwCheck[$chapter]) && $kwCheck[$chapter]["memberID"] == 0)
+                    {
+                        $kwCheck[$chapter]["memberID"] = Session::get("memberID");
+                        $notification->kwCheck = json_encode($kwCheck);
+                        $notif = $notification;
+                        $canApply = true;
+                    }
+                }
+                elseif($step == EventSteps::CONTENT_REVIEW)
+                {
+                    $crCheck = (array)json_decode($notification->crCheck, true);
+                    if(isset($crCheck[$chapter]) && $crCheck[$chapter]["memberID"] == 0)
+                    {
+                        $crCheck[$chapter]["memberID"] = Session::get("memberID");
+                        $notification->crCheck = json_encode($crCheck);
+                        $notif = $notification;
+                        $canApply = true;
+                    }
+                }
             }
         }
 
@@ -7249,6 +8445,78 @@ class EventsController extends Controller
 
         return View::make("Events/CheckerApply")
             ->shares("title", __("apply_checker_l1"))
+            ->shares("data", $data)
+            ->shares("error", @$error);
+    }
+
+    public function applyCheckerSun($eventID, $memberID, $step, $chapter)
+    {
+        $canApply = false;
+
+        $profile = Session::get("profile");
+        $langs = [];
+        foreach ($profile["languages"] as $lang => $item) {
+            $langs[] = $lang;
+        }
+
+        $allNotifications = $this->_model->getAllNotifications($langs);
+        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
+        $notif = null;
+
+        foreach ($allNotifications as $notification) {
+            if($eventID == $notification->eventID
+                && $memberID == $notification->memberID
+                && $step == $notification->step
+                && $chapter == $notification->currentChapter)
+            {
+                if($step == EventSteps::THEO_CHECK)
+                {
+                    $kwCheck = (array)json_decode($notification->kwCheck, true);
+                    if(isset($kwCheck[$chapter]) && $kwCheck[$chapter]["memberID"] == 0)
+                    {
+                        $kwCheck[$chapter]["memberID"] = Session::get("memberID");
+                        $notification->kwCheck = json_encode($kwCheck);
+                        $notif = $notification;
+                        $canApply = true;
+                    }
+                }
+                elseif($step == EventSteps::CONTENT_REVIEW)
+                {
+                    $crCheck = (array)json_decode($notification->crCheck, true);
+                    if(isset($crCheck[$chapter]) && $crCheck[$chapter]["memberID"] == 0)
+                    {
+                        $crCheck[$chapter]["memberID"] = Session::get("memberID");
+                        $notification->crCheck = json_encode($crCheck);
+                        $notif = $notification;
+                        $canApply = true;
+                    }
+                }
+            }
+        }
+
+        if($canApply && $notif)
+        {
+            $postdata = [
+                "kwCheck" => $notif->kwCheck,
+                "crCheck" => $notif->crCheck,
+            ];
+            $this->_model->updateTranslator($postdata, [
+                "eventID" => $eventID,
+                "memberID" => $memberID
+            ]);
+
+            Url::redirect('events/checker-sun/'.$eventID.'/'.$memberID.'/'.$chapter);
+        }
+        else
+        {
+            $error[] = __("cannot_apply_checker");
+        }
+
+        $data["menu"] = 1;
+        $data["notifications"] = $this->_notifications;
+
+        return View::make("Events/CheckerApply")
+            ->shares("title", __("apply_checker_sun"))
             ->shares("data", $data)
             ->shares("error", @$error);
     }
@@ -7570,12 +8838,15 @@ class EventsController extends Controller
                             
                             $assignChapter = $this->_model->assignChapter($postdata);
                             $data["chapters"][$chapter] = $postdata;
-                            
+
+                            $myChapters = array_filter($data["chapters"], function ($v) use($data) {
+                                return isset($v["memberID"])
+                                    && $v["memberID"] == $data["event"][0]->myMemberID
+                                    && !$v["done"];
+                            });
+
                             // Change translator's step to pray when at least one chapter is assigned to him or all chapters finished
-                            if(sizeof(array_filter($data["chapters"], function ($v) use($data) {
-                                    return isset($v["memberID"])
-                                    && $v["memberID"] == $data["event"][0]->myMemberID;
-                                })) == 1 || $data["event"][0]->step == EventSteps::FINISHED) {
+                            if(sizeof($myChapters) == 1 || $data["event"][0]->step == EventSteps::FINISHED) {
                                 $this->_model->updateTranslator(
                                     ["step" => EventSteps::PRAY, "translateDone" => false], 
                                     ["trID" => $data["event"][0]->trID]);
@@ -7628,7 +8899,8 @@ class EventsController extends Controller
 
                                         $noMoreChapters = empty(array_filter($data["chapters"], function ($v) use($data) {
                                             return isset($v["memberID"])
-                                            && $v["memberID"] == $data["event"][0]->myMemberID;
+                                                && $v["memberID"] == $data["event"][0]->myMemberID
+                                                && !$v["done"];
                                         }));
 
                                         // Clear translator data to default if current chapter was removed
@@ -7992,7 +9264,7 @@ class EventsController extends Controller
         if($usfm && !empty($usfm["chapters"]))
         {
             $initChapter = $data["event"][0]->bookProject != "tn" ? 0 : -1;
-            $currentChunkText = "";
+            $currentChunkText = [];
             $chunks = json_decode($data["event"][0]->chunks, true);
             $data["chunks"] = $chunks;
 
@@ -8055,7 +9327,7 @@ class EventsController extends Controller
 
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
-			
+
             if($getChunk)
             {
                 $chapData = $chunks;
@@ -8479,6 +9751,35 @@ class EventsController extends Controller
                 if($prevChunk)
                 {
                     $chunk = $member->currentChunk-1;
+                    $postData["currentChunk"] = max(0, $chunk);
+                }
+                break;
+
+            case EventSteps::REARRANGE:
+                $postData["step"] = EventSteps::REARRANGE;
+                $postData["currentChunk"] = 0;
+                if($prevChunk)
+                {
+                    $chunks = (array)json_decode($member->chunks, true);
+                    if($member->step == EventSteps::SYMBOL_DRAFT && $member->currentChunk == 0)
+                        $chunk = sizeof($chunks)-1;
+                    else
+                        $chunk = $member->currentChunk-1;
+
+                    $postData["currentChunk"] = max(0, $chunk);
+                }
+                break;
+
+            case EventSteps::SYMBOL_DRAFT:
+                $postData["step"] = EventSteps::SYMBOL_DRAFT;
+                $postData["currentChunk"] = 0;
+                if($prevChunk)
+                {
+                    $chunks = (array)json_decode($member->chunks, true);
+                    if($member->step == EventSteps::SELF_CHECK)
+                        $chunk = sizeof($chunks)-1;
+                    else
+                        $chunk = $member->currentChunk-1;
                     $postData["currentChunk"] = max(0, $chunk);
                 }
                 break;

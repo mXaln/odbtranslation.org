@@ -19,9 +19,9 @@ if(isset($data["error"])) return;
 
                     <div class="row">
                         <div class="col-sm-12" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea">
-                                <?php echo isset($_POST["draft"]) ? $_POST["draft"] : (isset($data["blind"]) ? $data["blind"] : "")?>
-                            </textarea>
+                            <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php
+                                echo isset($_POST["draft"]) ? $_POST["draft"] : (isset($data["blind"]) ? $data["blind"] : "")
+                            ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -40,6 +40,7 @@ if(isset($data["error"])) return;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -60,6 +61,8 @@ if(isset($data["error"])) return;
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 

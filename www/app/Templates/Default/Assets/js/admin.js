@@ -491,7 +491,7 @@ $(function () {
     $("button[name=progressEvent]").click(function (e) {
         var eventID = $("#eID").val();
         var mode = $(this).data("mode");
-        var add = ["tn"].indexOf(mode) > -1 ? "-tn" : "";
+        var add = ["tn","sun"].indexOf(mode) > -1 ? "-"+mode : "";
         window.location = "/events/information"+add+"/"+eventID;
         e.preventDefault();
     });
@@ -529,6 +529,7 @@ $(function () {
             dataType: "json",
             beforeSend: function() {
                 $(".cacheLoader").show();
+                $this.prop("disabled", true);
             }
         })
             .done(function(data) {
@@ -545,7 +546,9 @@ $(function () {
             })
             .always(function() {
                 $(".cacheLoader").hide();
+                $this.prop("disabled", false);
             });
+
         e.preventDefault();
     });
 
@@ -568,6 +571,7 @@ $(function () {
             dataType: "json",
             beforeSend: function() {
                 $(".startEventLoader").show();
+                $this.prop("disabled", true);
             }
         })
             .done(function(data) {
@@ -584,6 +588,7 @@ $(function () {
             })
             .always(function() {
                 $(".startEventLoader").hide();
+                $this.prop("disabled", false);
             });
         e.preventDefault();
     });
@@ -1105,6 +1110,68 @@ $(function () {
         $("#membersFilter")[0].reset();
         $(".mems_language").val('').trigger("chosen:updated");
         return false;
+    });
+
+    // Admin tools
+
+    // Update languages database
+    $(".update_langs button").click(function () {
+        $.ajax({
+            url: "/admin/rpc/update_languages",
+            method: "post",
+            dataType: "json",
+            beforeSend: function() {
+                $(".update_langs img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup("Updated!");
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".update_langs img").hide();
+            });
+    });
+
+    // Create multiple users
+    $(".create_users button").click(function () {
+        var amount = $(".create_users #amount").val();
+        var langs = $(".create_users #langs").val();
+
+        $.ajax({
+            url: "/admin/rpc/create_multiple_users",
+            method: "post",
+            data: {amount: amount, langs: langs},
+            dataType: "json",
+            beforeSend: function() {
+                $(".create_users img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(data.msg);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".create_users img").hide();
+            });
     });
 });
 
