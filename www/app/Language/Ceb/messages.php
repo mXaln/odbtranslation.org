@@ -691,4 +691,14 @@ return array (
     "3jn" => "3 John",
     "jud" => "Jude",
     "rev" => "Revelation",
+
+    // Admin Controller
+    "admin_tools_title" => "Administrator Tools",
+    "update_lang_db" => "Update Languages Database",
+    "go" => "GO",
+    "create_multiple_users" => "Create multiple users",
+    "tools_quantity_members" => "Quantity (default: 50)",
+    "enter_value" => "Enter a value",
+    "tools_member_language" => "Languages (comma separated, default: en)",
+    "enter_lang_codes" => "Enter language code(s)"
 );

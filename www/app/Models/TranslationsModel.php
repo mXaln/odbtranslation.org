@@ -179,18 +179,18 @@ class TranslationsModel extends Model
      * Get source translations
      * @return array
      */
-    public function getSourceTranslations()
+    public function getSourceTranslations($catalog)
     {
-        $langNames = $this->db->table("languages")
+        /*$langNames = $this->db->table("languages")
             ->whereIn("langID", array_keys(BookSources::catalog))
             ->select("langID", "langName")->get();
 
-        $langs = array();
+        $langs = [];
         foreach ($langNames as $langName) {
             $langs[$langName->langID] = $langName->langName;
         }
-        
-        $sls = array();
+
+        $sls = [];
         foreach (BookSources::catalog as $lang => $books) {
             foreach ($books as $book) {
                 $elm = new \stdClass();
@@ -199,6 +199,44 @@ class TranslationsModel extends Model
                 $elm->bookProject = $book;
 
                 $sls[] = $elm;
+            }
+        }
+
+        return $sls;*/
+
+
+        $sls = [];
+
+        foreach ($catalog as $key => $data) {
+            if($key == "languages")
+            {
+                foreach ($data as $lang)
+                {
+                    $tmp = [];
+                    $tmp["langID"] = $lang->identifier;
+                    $tmp["langName"] = $lang->title;
+                    $tmp["bookProjects"] = [];
+
+                    foreach ($lang->resources as $resource) {
+                        if(in_array($resource->identifier, [
+                            "ta",
+                            "obs-tn",
+                            "obs",
+                            "tq",
+                            "tn",
+                            "tw",
+                            "obs-tq"
+                        ])) continue;
+
+                        $res = [];
+                        $res["resName"] = $resource->title;
+                        $res["resType"] = $resource->identifier;
+                        $tmp["bookProjects"][] = $res;
+                    }
+
+                    if(!empty($tmp["bookProjects"]))
+                        $sls[] = $tmp;
+                }
             }
         }
 

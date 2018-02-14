@@ -171,11 +171,13 @@
                     <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
                         <option value=""></option>
                         <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
-                            <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>">
-                                <?php echo "[".$sourceTranslation->langID."] "
-                                    . $sourceTranslation->langName . " - " 
-                                    . __($sourceTranslation->bookProject) ?>
+                            <?php foreach ($sourceTranslation["bookProjects"] as $project):?>
+                            <option value="<?php echo $project["resType"] . "|" . $sourceTranslation["langID"]; ?>">
+                                <?php echo "[".$sourceTranslation["langID"]."] "
+                                    . $sourceTranslation["langName"] . " - "
+                                    . $project["resName"] . " [".$project["resType"]."]" ?>
                             </option>
+                            <?php endforeach; ?>
                         <?php endforeach; ?>
                     </select>
                 </div>

@@ -7,6 +7,7 @@ use Support\Facades\Cache;
 use App\Core\Controller;
 use App\Models\TranslationsModel;
 use Shared\Legacy\Error;
+use Support\Facades\Input;
 use View;
 use Helpers\Data;
 use File;
@@ -50,23 +51,14 @@ class AdminController extends Controller {
         }
 		
         $data['menu'] = 1;
-		
+
+        $catalog = $this->_eventsModel->getCachedFullCatalog();
+
         $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
         $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));
-        $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations();
-        
-        // Create multiple users
-        /*$langs = [
-            "en" => [3,3],
-            "id" => [3,4],
-            "pmy" => [1,1]
-        ];
-        $this->_membersModel->createMultipleMembers(
-            50, 
-            6,
-            $langs);*/
-        
+        $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations($catalog);
+
         return View::make('Admin/Main/Index')
             ->shares("title", __("admin_project_title"))
             ->shares("data", $data);
@@ -301,6 +293,15 @@ class AdminController extends Controller {
 
         return View::make('Admin/Members/Index')
             ->shares("title", __("admin_members_title"))
+            ->shares("data", $data);
+    }
+
+    public function tools()
+    {
+        $data["menu"] = 3;
+
+        return View::make('Admin/Main/Tools')
+            ->shares("title", __("admin_tools_title"))
             ->shares("data", $data);
     }
 
@@ -926,11 +927,17 @@ class AdminController extends Controller {
         $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
         
         $booksUpdated = 0;
-        
+
         if($sourceLangID && $sourceBible)
         {
             $books = $this->_eventsModel->getBooks();
-            
+
+            $renDir = "../app/Templates/Default/Assets/source/".$sourceLangID."_".$sourceBible."_tmp";
+            $origDir = "../app/Templates/Default/Assets/source/".$sourceLangID."_".$sourceBible;
+
+            //File::deleteDirectory($renDir);
+            File::move($origDir, $renDir);
+
             foreach ($books as $book)
             {
                 $bookCode = $book->code;
@@ -964,7 +971,7 @@ class AdminController extends Controller {
                     $cat_json = json_decode($cat_source, true);
 
                     if(!empty($cat_json))
-                        Cache::add($cat_cache_keyword, $cat_source, 60*24*365);
+                        Cache::add($cat_cache_keyword, $cat_source, 365*24*60);
 
                     // Get keywords
                     $tw_cache_keyword = "tw_".$sourceLangID;
@@ -975,11 +982,21 @@ class AdminController extends Controller {
                     $tw_json = json_decode($tw_source, true);
 
                     if(!empty($tw_json))
-                        Cache::add($tw_cache_keyword, $tw_source, 60*24*365);
+                        Cache::add($tw_cache_keyword, $tw_source, 365*24*60);
 
                     $response["success"] = true;
                     $booksUpdated++;
                 }
+            }
+
+            if($booksUpdated > 0)
+            {
+                File::deleteDirectory($renDir);
+
+            }
+            else
+            {
+                File::move($renDir, $origDir);
             }
         }
         
@@ -1600,6 +1617,46 @@ class AdminController extends Controller {
         }
 
         return $response;
+    }
+
+    public function updateLanguages()
+    {
+        $result = $this->_eventsModel->insertLangsFromTD();
+
+        echo json_encode($result);
+    }
+
+    public function createMultipleUsers()
+    {
+        $result = ["success" => false];
+
+        $amount = (integer)Input::get("amount", "50");
+        $langs = (string)Input::get("langs", "en");
+        
+        if($amount <= 0)
+            $amount = 50;
+
+        if($langs == "" || !preg_match("/[a-z\-]+,?\s?/", $langs))
+            $langs = "en";
+
+        $ilangs = explode(",", $langs);
+
+        $langs = [];
+
+        foreach ($ilangs as $lang) {
+            $lang = trim($lang);
+
+            $langs[$lang] = [3,3];
+        }
+
+        $res = $this->_membersModel->createMultipleMembers(
+            $amount,
+            $langs);
+
+        $result["success"] = true;
+        $result["msg"] = $res;
+
+        echo json_encode($result);
     }
 
 

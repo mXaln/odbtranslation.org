@@ -33,12 +33,15 @@
                             <div class="vnote">
                                 <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
-                                <div class="comments_number hasComment">1</div>
+                                <div class="comments_number hasComment">2</div>
 
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
 
                                 <div class="comments">
                                     <div class="my_comment">This is translator's comment on this chunk</div>
+                                    <div class="other_comments">
+                                        <div><span>John B. (L1):</span> This is checker's comment on this chunk</div>
+                                    </div>
                                 </div>
                                 <div class="clear"></div>
                             </div>

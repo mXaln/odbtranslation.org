@@ -44,10 +44,11 @@
                         <div class="col-sm-6 editor_area" style="padding: 0;">
                             <div class="vnote">
                                 Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text
-                                <div class="comments_number hasComment">1</div>
+                                <div class="comments_number hasComment">2</div>
                                 <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                                 <div class="comments">
+                                    <div class="my_comment">This is checker's comment on this chunk</div>
                                     <div class="other_comments"><span>Mark P. (L1):</span> This is translator's comment on this chunk</div>
                                 </div>
                                 <div class="clear"></div>
@@ -209,10 +210,11 @@
                             <strong><sup>3</sup></strong><div class="kwverse_2_0_3"><b data="0">Suffer</b> hardship with me, as a good soldier of Christ Jesus.</div>
                         </div>
                         <div class="vnote">
-                            <div class="comments_number hasComment">1</div>
+                            <div class="comments_number hasComment">2</div>
                             <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                             <div class="comments">
+                                <div class="my_comment">This is checker's comment on this chunk</div>
                                 <div class="other_comments"><span>Mark P. (L1):</span> Translator's comment</div>
                             </div>
                             <div class="clear"></div>

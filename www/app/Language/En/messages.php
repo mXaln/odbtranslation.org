@@ -388,8 +388,8 @@ return array (
     "create_gw_project" => "Create Gateway Project",
     "edit" => "Edit",
     "add_admins_by_username" => "Add facilitators by typing their user names",
-    "admin_project_title" => "Creating of projects",
-    "admin_events_title" => "Creating of events",
+    "admin_project_title" => "Project creation",
+    "admin_events_title" => "Event creation",
     "apply_checker_l1" => "Apply as checker",
     "not_available" => "Not available",
     "reset_markers" => "Reset markers",
@@ -614,6 +614,7 @@ return array (
     "cancel_confirmation" => "Cancel approval",
     "comment" => "comment",
     "add" => "Add",
+
     // Errors
     "word_not_found_error" => "Error: word not found",
     "translation_approved_error" => "Error: translation is already approved.",
@@ -691,4 +692,14 @@ return array (
     "3jn" => "3 John",
     "jud" => "Jude",
     "rev" => "Revelation",
+
+    // Admin Controller
+    "admin_tools_title" => "Administrator Tools",
+    "update_lang_db" => "Update Languages Database",
+    "go" => "GO",
+    "create_multiple_users" => "Create multiple users",
+    "tools_quantity_members" => "Quantity (default: 50)",
+    "enter_value" => "Enter a value",
+    "tools_member_language" => "Languages (comma separated, default: en)",
+    "enter_lang_codes" => "Enter language code(s)"
 );

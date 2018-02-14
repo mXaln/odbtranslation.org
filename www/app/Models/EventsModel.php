@@ -1185,6 +1185,82 @@ class EventsModel extends Model
     }
 
 
+    public function downloadAndExtractSourceScripture($bookProject, $sourceLang = "en")
+    {
+        $url = "";
+        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_".$bookProject.".zip";
+        $folderpath = "../app/Templates/Default/Assets/source/".$sourceLang."_".$bookProject;
+
+        $catalog = $this->getCachedFullCatalog();
+        if(empty($catalog)) return false;
+
+        foreach($catalog->languages as $language)
+        {
+            if($language->identifier == $sourceLang)
+            {
+                foreach($language->resources as $resource)
+                {
+                    if($resource->identifier == $bookProject)
+                    {
+                        foreach($resource->formats as $format)
+                        {
+                            $url = $format->url;
+                            break 3;
+                        }
+                    }
+                }
+            }
+        }
+
+        if($url == "") return false;
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        $zip = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            return "error: " . curl_error($ch);
+        }
+
+        curl_close($ch);
+
+        File::put($filepath, $zip);
+
+        if(File::exists($filepath))
+        {
+            $zip = new ZipArchive();
+            $res = $zip->open($filepath);
+            $sourceFolder = $sourceLang."_".$bookProject;
+            $archFolder = "";
+
+            if($res)
+            {
+                $index = preg_replace("/\/$/", "", $zip->getNameIndex(0));
+                $archFolder = $index;
+            }
+
+            $zip->extractTo("../app/Templates/Default/Assets/source/");
+            $zip->close();
+
+            File::delete($filepath);
+
+            if($sourceFolder != $archFolder)
+            {
+                File::deleteDirectory("../app/Templates/Default/Assets/source/".$sourceFolder);
+                File::move("../app/Templates/Default/Assets/source/".$archFolder, "../app/Templates/Default/Assets/source/".$sourceFolder);
+            }
+        }
+
+        return $folderpath;
+    }
+
     /**
      * Get book source from unfolding word api
      * @param string $bookCode
@@ -1194,58 +1270,33 @@ class EventsModel extends Model
      */
     public function getSourceBookFromApi($bookProject, $bookCode, $sourceLang = "en", $bookNum = 0)
     {
-        $url = "";
-        if(File::exists("../app/Templates/Default/Assets/tmp/".$bookProject."-".$sourceLang."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm"))
+        $source = "";
+        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_".$bookProject."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm";
+
+        if(File::exists($filepath))
         {
-            $url = template_url("tmp/".$bookProject."-".$sourceLang."/".sprintf("%02d", $bookNum)."-".strtoupper($bookCode).".usfm");
+            $source = File::get($filepath);
         }
         else
         {
-            $catalog = $this->getCachedFullCatalog();
-            if(!$catalog) return false;
+            $folderpath = $this->downloadAndExtractSourceScripture($bookProject, $sourceLang);
+            if(!$folderpath) return $source;
 
-            $catalog = json_decode($catalog);
-
-            foreach($catalog->languages as $language)
+            $files = File::allFiles($folderpath);
+            foreach($files as $file)
             {
-                if($language->identifier == $sourceLang)
+                preg_match("/([0-9]{2,3})-(.*).usfm$/", $file, $matches);
+
+                if(!isset($matches[1]) || !isset($matches[2])) return false;
+
+                if((integer)$matches[1] == $bookNum && strtolower($matches[2]) == $bookCode)
                 {
-                    foreach($language->resources as $resource)
-                    {
-                        if($resource->identifier == $bookProject)
-                        {
-                            foreach($resource->projects as $project)
-                            {
-                                if($project->identifier == $bookCode)
-                                {
-                                    foreach($project->formats as $format)
-                                    {
-                                        $url = $format->url;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    $source = File::get($file);
+                    break;
                 }
             }
         }
         
-        if($url == "") return false;
-        
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $source = curl_exec($ch);
-
-        if(curl_errno($ch))
-        {
-            return false;
-        }
-
-        curl_close($ch);
-
         return $source;
     }
 
@@ -1284,13 +1335,38 @@ class EventsModel extends Model
     }
 
     // Used just for development purposes
-    public function getLangsFromTD()
+    public function insertLangsFromTD()
     {
+        $response = ["success" => false];
+
         $langs = [];
         $langsFinal = [];
-        for($i=0; $i < 80; $i++)
+        for($i=0; $i < 81; $i++)
         {
-            $url = "http://td.unfoldingword.org/uw/ajax/languages/?draw=7&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=5&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=true&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B6%5D%5Bdata%5D=6&columns%5B6%5D%5Bname%5D=&columns%5B6%5D%5Bsearchable%5D=true&columns%5B6%5D%5Borderable%5D=true&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B6%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B7%5D%5Bdata%5D=7&columns%5B7%5D%5Bname%5D=&columns%5B7%5D%5Bsearchable%5D=true&columns%5B7%5D%5Borderable%5D=true&columns%5B7%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B7%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=".($i*100)."&length=100&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1507210697041";
+            $url = "http://td.unfoldingword.org/uw/ajax/languages/?".
+                "draw=7&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&".
+                "columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&".
+                "columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&".
+                "columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&".
+                "columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&".
+                "columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&".
+                "columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&".
+                "columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&".
+                "columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&".
+                "columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&".
+                "columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&".
+                "columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&".
+                "columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=5&columns%5B5%5D%5Bname%5D=&".
+                "columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=true&".
+                "columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&".
+                "columns%5B6%5D%5Bdata%5D=6&columns%5B6%5D%5Bname%5D=&columns%5B6%5D%5Bsearchable%5D=true&".
+                "columns%5B6%5D%5Borderable%5D=true&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D=&".
+                "columns%5B6%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B7%5D%5Bdata%5D=7&columns%5B7%5D%5Bname%5D=&".
+                "columns%5B7%5D%5Bsearchable%5D=true&columns%5B7%5D%5Borderable%5D=true&".
+                "columns%5B7%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B7%5D%5Bsearch%5D%5Bregex%5D=false&".
+                "order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=".($i*100)."&length=100&".
+                "search%5Bvalue%5D=&search%5Bregex%5D=false&_=1507210697041";
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1302,51 +1378,77 @@ class EventsModel extends Model
             $langs = array_merge($langs, $arr->data);
             
         }
-        
-        $languages = File::get("../app/Templates/Default/Assets/tmp/langnames.json");
-        $languages = json_decode($languages, true);
-        $count = 0;
-        foreach($langs as $lang)
+
+        if(!empty($langs))
         {
-            $tmp = [];
-            preg_match('/>(.+)<\//', $lang[0], $matches);
-            $tmp["langID"] = $matches[1];
-            $tmp["langName"] = $lang[2];
-            $tmp["angName"] = $lang[4];
-            $tmp["isGW"] = preg_match("/success/", $lang[7]);
-            $tmp["gwLang"] = $tmp["isGW"] ? $tmp["langName"] : $lang[6];
-
-            if($tmp["gwLang"] == null)
-                $tmp["gwLang"] = "English";
-
-            foreach($languages as $ln)
+            if(!File::exists("../app/Templates/Default/Assets/source/langnames.json"))
             {
-                if($ln["lc"] == $tmp["langID"])
-                {
-                    $tmp["direction"] = $ln["ld"];
-                }
-                else
-                {
-                    $tmp["direction"] = "ltr";
-                }
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://td.unfoldingword.org/exports/langnames.json");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $languages = curl_exec($ch);
+                curl_close($ch);
+
+                File::put("../app/Templates/Default/Assets/source/langnames.json", $languages);
+            }
+            else
+            {
+                $languages = File::get("../app/Templates/Default/Assets/source/langnames.json");
             }
 
-            $langsFinal[] = $tmp;
+            $languages = json_decode($languages, true);
+
+            foreach($langs as $lang)
+            {
+                $tmp = [];
+                preg_match('/>(.+)<\//', $lang[0], $matches);
+                $tmp["langID"] = $matches[1];
+                $tmp["langName"] = $lang[2];
+                $tmp["angName"] = $lang[4];
+                $tmp["isGW"] = preg_match("/success/", $lang[7]);
+                $tmp["gwLang"] = $tmp["isGW"] ? $tmp["langName"] : $lang[6];
+
+                if($tmp["gwLang"] == null)
+                    $tmp["gwLang"] = "English";
+
+                foreach($languages as $ln)
+                {
+                    if($ln["lc"] == $tmp["langID"])
+                    {
+                        $tmp["direction"] = $ln["ld"];
+                    }
+                    else
+                    {
+                        $tmp["direction"] = "ltr";
+                    }
+                }
+
+                $langsFinal[] = $tmp;
+            }
+
+            if(!empty($langsFinal))
+                $this->db->table("languages")
+                    ->delete();
+
+            foreach($langsFinal as $lnf)
+            {
+                $data = [];
+                $data["langID"] = $lnf["langID"];
+                $data["langName"] = $lnf["langName"];
+                $data["angName"] = $lnf["angName"];
+                $data["isGW"] = $lnf["isGW"];
+                $data["gwLang"] = $lnf["gwLang"];
+                $data["direction"] = $lnf["direction"];
+
+                $this->db->table("languages")
+                    ->insert($data);
+            }
+
+            $response["success"] = true;
         }
 
-       foreach($langsFinal as $lnf)
-       {
-            $data = [];
-            $data["langID"] = $lnf["langID"];
-            $data["langName"] = $lnf["langName"];
-            $data["angName"] = $lnf["angName"];
-            $data["isGW"] = $lnf["isGW"];
-            $data["gwLang"] = $lnf["gwLang"];
-            $data["direction"] = $lnf["direction"];
-        
-            $this->db->table("languages")
-                ->insert($data);
-       }
+        return $response;
     }
 
     public function getTWords($lang = "en")
@@ -1356,7 +1458,7 @@ class EventsModel extends Model
         switch ($lang)
         {
             case "ceb":
-                curl_setopt($ch, CURLOPT_URL, template_url("tmp/ulb-ceb/terms.json"));
+                curl_setopt($ch, CURLOPT_URL, template_url("source/ceb_ulb/terms.json"));
                 break;
 
             default:
@@ -1392,20 +1494,22 @@ class EventsModel extends Model
 
     public function getCachedFullCatalog()
     {
-        $cat_cache_keyword = "catalog";
-        
-        if(Cache::has($cat_cache_keyword))
+        $filepath = "../app/Templates/Default/Assets/source/catalog.json";
+        if(!File::exists($filepath))
         {
-            $catalog = Cache::get($cat_cache_keyword);
+            $catalog = $this->getFullCatalog();
+
+            if($catalog)
+                File::put($filepath, $catalog);
+            else
+                $catalog = "[]";
         }
         else
         {
-            $catalog = $this->getFullCatalog();
-            if($catalog)
-                Cache::add($cat_cache_keyword, $catalog, 60*24*30);
-            else
-                return false;
+            $catalog = File::get($filepath);
         }
+
+        $catalog = json_decode($catalog);
 
         return $catalog;
     }
@@ -1419,17 +1523,17 @@ class EventsModel extends Model
      */
     public function downloadAndExtractNotes($lang = "en", $update = false)
     {
-        $filepath = "../app/Templates/Default/Assets/tmp/".$lang."_notes.zip";
-        $folderpath = "../app/Templates/Default/Assets/tmp/".$lang."_tn";
+        $filepath = "../app/Templates/Default/Assets/source/".$lang."_notes.zip";
+        $folderpath = "../app/Templates/Default/Assets/source/".$lang."_tn";
 
         if(!File::exists($folderpath) || $update)
         {
             // Get catalog
             $catalog = $this->getCachedFullCatalog();
-            if($catalog) return false;
+            if(empty($catalog)) return false;
 
             $url = "";
-            $catalog = json_decode($catalog);
+
             foreach($catalog->languages as $language)
             {
                 if($language->identifier == $lang)
@@ -1471,7 +1575,7 @@ class EventsModel extends Model
             {
                 $zip = new ZipArchive();
                 $res = $zip->open($filepath);
-                $zip->extractTo("../app/Templates/Default/Assets/tmp/");
+                $zip->extractTo("../app/Templates/Default/Assets/source/");
                 $zip->close();
     
                 File::delete($filepath);

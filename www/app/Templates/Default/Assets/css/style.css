@@ -4363,3 +4363,25 @@ button.startEvnt, button.editEvnt {
     padding-top: 5px;
     display: none;
 }
+
+#tools {
+    width: 300px;
+}
+
+.tools_title {
+    display: block;
+    font-weight: bold;
+}
+
+.update_langs, .create_users {
+    margin-top: 20px;
+}
+
+.tools_title {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#tools img {
+    display: none;
+}

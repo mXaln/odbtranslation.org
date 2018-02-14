@@ -183,6 +183,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
             "projectID" => "[0-9]+"
     ]);
     Router::any("members", "AdminController@members");
+    Router::any("tools", "AdminController@tools");
     Router::any("migrate/chapters", "AdminController@migrateChapters");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
     Router::any("rpc/import", "AdminController@import");
@@ -199,6 +200,8 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/block_member", "AdminController@blockMember");
     Router::any("rpc/clear_cache", "AdminController@clearCache");
     Router::any("rpc/update_all_cache", "AdminController@updateAllBooksCache");
+    Router::any("rpc/update_languages", "AdminController@updateLanguages");
+    Router::any("rpc/create_multiple_users", "AdminController@createMultipleUsers");
 });
 
 /** End default Routes */

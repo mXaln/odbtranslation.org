@@ -39,11 +39,15 @@
                                 <div class="vnote">
                                     <textarea class="col-sm-6 peer_verse_ta textarea" name="chunks[]" style="overflow: hidden; word-wrap: break-word; height: 266px;">Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
-                                    <div class="comments_number  hasComment">1</div>
+                                    <div class="comments_number  hasComment">2</div>
                                     <img width="16" title="<?php echo __("write_note_title")?>" src="<?php echo template_url("img/edit.png") ?>" data="0:0" class="editComment">
 
                                     <div class="comments">
-                                        <div class="my_comment">This is translator's comment on this chunk</div></div>
+                                        <div class="my_comment">This is translator's comment on this chunk</div>
+                                        <div class="other_comments">
+                                            <div><span>Marge S. (L1):</span> This is checker's comment on this chunk</div>
+                                        </div>
+                                    </div>
                                     <div class="clear"></div>
                                 </div>
                             </div>

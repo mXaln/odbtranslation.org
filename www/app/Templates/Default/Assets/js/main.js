@@ -2451,9 +2451,9 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo, onClose) {
         return false;
     };
     onClose = typeof onClose != "undefined" ? onClose : function(){
-            $( this ).dialog( "close" );
-            return false;
-        };
+        $( this ).dialog( "close" );
+        return false;
+    };
 
     var yes = Language.yes;
     var no = Language.no;
