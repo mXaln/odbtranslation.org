@@ -45,7 +45,7 @@
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content">                             </textarea>
+                                          class="col-sm-6 verse_ta textarea sun_content">                             </textarea>
                                 <div class="comments_number hasComment">2 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments">

@@ -28,7 +28,7 @@ if(isset($data["error"])) return;
                             </div>
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php $text = isset($data["words"]) ? $data["words"] : ""; ?>
-                                <textarea name="draft" class="col-sm-6 peer_verse_ta textarea"><?php
+                                <textarea name="draft" class="col-sm-6 verse_ta textarea"><?php
                                     echo isset($_POST["draft"]) ? $_POST["draft"] : $text
                                 ?></textarea>
                             </div>

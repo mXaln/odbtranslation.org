@@ -101,9 +101,11 @@ $profile = Session::get("profile");
                     break;
 
                 default:
-                    $eventType = __("8steps_vmast");
                     $mode = $event->bookProject;
-                    $eventImg = template_url("img/steps/big/peer-review.png");
+                    $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+                    $eventImg = $mode != "sun"
+                        ? template_url("img/steps/big/peer-review.png")
+                        : template_url("img/steps/big/vsail.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
@@ -207,9 +209,11 @@ $profile = Session::get("profile");
                     break;
 
                 default:
-                    $eventType = __("8steps_vmast");
                     $mode = $event->bookProject;
-                    $eventImg = template_url("img/steps/big/peer-review.png");
+                    $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+                    $eventImg = $mode != "sun"
+                        ? template_url("img/steps/big/peer-review.png")
+                        : template_url("img/steps/big/vsail.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
@@ -283,13 +287,20 @@ $profile = Session::get("profile");
 
 <div id="my_translations_content" class="my_content">
     <?php foreach($data["myTranslatorEvents"] as $key => $event): ?>
-        <?php $role = $event->stage == "translation" ? "translator" : "checker" ?>
+        <?php
+        $role = $event->stage == "translation" ? "translator" : "checker";
+        $mode = $event->bookProject;
+        $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+        $eventImg = $mode != "sun"
+            ? template_url("img/steps/big/peer-review.png")
+            : template_url("img/steps/big/vsail.png");
+        ?>
         <div class="event_block <?php echo $key%2 == 0 ? "green-marked" : "" ?>">
             <div class="event_logo translation">
-                <div class="event_type"><?php echo __("8steps_vmast") ?></div>
+                <div class="event_type"><?php echo $eventType ?></div>
                 <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
-                    <img width="146" src="<?php echo template_url("img/steps/big/peer-review.png") ?>">
+                    <img width="146" src="<?php echo $eventImg?>">
                 </div>
             </div>
             <div class="event_project">
@@ -411,7 +422,14 @@ $profile = Session::get("profile");
                 </div>
             </div>
             <div class="event_action check1">
-                <div class="event_link"><a href="/events/checker<?php echo (in_array($event->bookProject, ["tn"]) ? "-".$event->bookProject : "")."/".$event->eventID."/".$memberID ?>" data="<?php echo $event->eventID."_".$event->memberID?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link">
+                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "")
+                            ."/".$event->eventID."/".$memberID
+                            .(isset($event->isContinue) ? "/".$event->currentChapter : "")?>"
+                       data="<?php echo $event->eventID."_".$event->memberID?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
             </div>
 
             <div class="clear"></div>

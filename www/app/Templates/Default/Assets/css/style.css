@@ -6,7 +6,7 @@
 }
 
 .sun_content {
-    font-family: SUN3;
+    font-family: SUN3, serif;
     font-size: 26px;
     font-weight: bold;
     word-wrap: break-word;
@@ -475,9 +475,16 @@ html, body, .container {
     display: none;
 }
 
+.chat_msgs {
+    font-family: SUN3, serif;
+    font-size: 20px;
+}
+
 #m {
     height: 60px;
     width: 388px;
+    font-family: SUN3, serif;
+    font-size: 20px;
 }
 
 #chk {
@@ -1749,6 +1756,8 @@ mark {
 .textarea_editor {
     width: 503px;
     min-height: 100px;
+    font-family: SUN3, Serif;
+    font-size: 20px;
 }
 
 .other_comments_list {
@@ -1756,6 +1765,8 @@ mark {
     text-align: left;
     max-height: 300px;
     overflow-y: auto;
+    font-family: SUN3, Serif;
+    font-size: 20px;
 }
 
 .other_comments_list.rtl {

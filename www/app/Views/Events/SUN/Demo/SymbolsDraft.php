@@ -29,7 +29,7 @@ use Helpers\Constants\EventMembers;
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <textarea name="symbols"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
+                                          class="col-sm-6 verse_ta textarea sun_content"
                                           style="overflow: hidden; word-wrap: break-word; height: 72px; min-height: 40px;"></textarea>
                             </div>
                         </div>

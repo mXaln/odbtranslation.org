@@ -544,6 +544,95 @@ class EventsModel extends Model
 
     /**
      * Get SUN checker event/s
+     * @param $checkerID Checker member ID
+     * @param null $eventID event ID
+     * @param null $memberID Translator member ID
+     * @return array
+     */
+    public function getMemberEventsForCheckerSun($checkerID, $eventID = null, $memberID = null, $chapter = null)
+    {
+        $prepare = [];
+        if($eventID)
+            $prepare[":eventID"] = $eventID;
+        if($memberID)
+            $prepare[":memberID"] = $memberID;
+
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
+            .PREFIX."members.lastName, evnt.bookCode, evnt.admins, evnt.state, "
+            ."evnt.dateFrom, evnt.dateTo, "
+            ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
+            .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
+            .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
+            "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
+            "WHERE ".PREFIX."projects.bookProject = 'sun' AND trs.kwCheck != '' ".
+            ($eventID ? "AND trs.eventID = :eventID " : " ").
+            ($memberID ? "AND trs.memberID = :memberID " : " ").
+            "ORDER BY tLang, ".PREFIX."abbr.abbrID";
+
+        $events = $this->db->select($sql, $prepare);
+        $filtered = [];
+
+        foreach($events as $event)
+        {
+            // Theo Check events
+            $kwCheck = (array)json_decode($event->kwCheck, true);
+            foreach ($kwCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $checkerID && $data["done"] == 0)
+                    {
+                        $ev = clone $event;
+
+                        $ev->step = EventSteps::THEO_CHECK;
+                        $ev->currentChapter = $chap;
+                        $ev->memberID = $ev->memberID;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $checkerID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+
+            // Verse-by-verse Check events
+            $crCheck = (array)json_decode($event->crCheck, true);
+            foreach ($crCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $checkerID && $data["done"] != 2)
+                    {
+                        $ev = clone $event;
+
+                        $ev->step = $data["done"] == 0 ?
+                            EventSteps::CONTENT_REVIEW :
+                            EventSteps::FINAL_REVIEW;
+                        $ev->currentChapter = $chap;
+                        $ev->memberID = $ev->memberID;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $checkerID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+
+    /**
+     * Get SUN checker event/s
      * @param $memberID SUN Checker member ID
      * @param null $eventID event ID
      * @param null $chkMemberID SUN translator member ID

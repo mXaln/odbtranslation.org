@@ -30,7 +30,7 @@ use Helpers\Constants\EventMembers;
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <textarea name="draft"
-                                          class="col-sm-6 peer_verse_ta textarea"
+                                          class="col-sm-6 verse_ta textarea"
                                           style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 150px;"></textarea>
                             </div>
                         </div>

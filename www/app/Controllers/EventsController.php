@@ -129,7 +129,8 @@ class EventsController extends Controller
         $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
         $notesCheckers = $this->_model->getMemberEventsForCheckerNotes(Session::get("memberID"));
-        $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers);
+        $sunCheckers = $this->_model->getMemberEventsForCheckerSun(Session::get("memberID"));
+        $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers, $sunCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
 
         $data["myCheckerL3Events"] = [];

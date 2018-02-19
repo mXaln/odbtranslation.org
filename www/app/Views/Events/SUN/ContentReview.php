@@ -75,7 +75,7 @@ if(isset($data["error"])) return;
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea sun_content"><?php
+                                        <textarea name="chunks[]" class="col-sm-6 verse_ta textarea sun_content"><?php
                                             echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
                                         ?></textarea>
 
