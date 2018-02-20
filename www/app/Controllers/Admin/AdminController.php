@@ -250,7 +250,7 @@ class AdminController extends Controller {
 
         // All members
         $data["count"] = $this->_membersModel->searchMembers(null, "all", null, true);
-        $data["members"] = $this->_membersModel->searchMembers(null, "all", null, false);
+        $data["members"] = $this->_membersModel->searchMembers(null, "all", null, false, true);
 
         // All books
         $data["books"] = [];
@@ -299,6 +299,8 @@ class AdminController extends Controller {
     public function tools()
     {
         $data["menu"] = 3;
+
+        $data["saildict"] = $this->_translationModel->getSunDictionary();
 
         return View::make('Admin/Main/Tools')
             ->shares("title", __("admin_tools_title"))
@@ -784,7 +786,7 @@ class AdminController extends Controller {
         {
             $response["success"] = true;
             $response["count"] = $this->_membersModel->searchMembers($name, $role, $language, true);
-            $response["members"] = $this->_membersModel->searchMembers($name, $role, $language, false, $page);
+            $response["members"] = $this->_membersModel->searchMembers($name, $role, $language, false, true, $page);
         }
         else
         {
@@ -1621,6 +1623,22 @@ class AdminController extends Controller {
 
     public function updateLanguages()
     {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
         $result = $this->_eventsModel->insertLangsFromTD();
 
         echo json_encode($result);
@@ -1629,6 +1647,20 @@ class AdminController extends Controller {
     public function createMultipleUsers()
     {
         $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
 
         $amount = (integer)Input::get("amount", "50");
         $langs = (string)Input::get("langs", "en");
@@ -1655,6 +1687,97 @@ class AdminController extends Controller {
 
         $result["success"] = true;
         $result["msg"] = $res;
+
+        echo json_encode($result);
+    }
+
+
+    public function deleteSailWord()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $word = Input::get("word", "");
+
+        if(trim($word) != "")
+        {
+            if($this->_translationModel->deleteSunWord(["word" => $word]))
+            {
+                $result["success"] = true;
+            }
+        }
+
+        echo json_encode($result);
+    }
+
+
+    public function createSailWord()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $word = Input::get("word", "");
+        $symbol = Input::get("symbol", "");
+
+        if(trim($word) != "" && trim($symbol) != "")
+        {
+            $data = [
+                "word" => $word,
+                "symbol" => $symbol
+            ];
+
+            $exist = $this->_translationModel->getSunWord(["word" => $word]);
+
+            if(empty($exist))
+            {
+                if($this->_translationModel->createSunWord($data))
+                {
+                    $li = '<li class="sun_content" id="'.$word.'">
+                            <div class="tools_delete_word glyphicon glyphicon-remove" title="'.__("delete").'">
+                                <img src="'.template_url("img/loader.gif").'">
+                            </div>
+
+                            <div class="sail_word">'.$word.'</div>
+                            <div class="sail_symbol">'.$symbol.'</div>
+                            <input type="text" value="'.$symbol.'" />
+                            <div class="clear"></div>
+                        </li>';
+
+                    $result["success"] = true;
+                    $result["li"] = $li;
+                }
+            }
+            else
+            {
+                $result["error"] = __("sail_word_exists");
+            }
+        }
 
         echo json_encode($result);
     }

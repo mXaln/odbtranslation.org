@@ -4319,14 +4319,27 @@ button.startEvnt, button.editEvnt {
     padding: 0 !important;
 }
 
+.saildict.tools {
+    width: 100%;
+    margin-top: 20px;
+}
+
 .sail_filter {
     padding: 10px;
+}
+
+.sail_filter.tools {
+    padding: 0;
 }
 
 .sail_list {
     height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.sail_list.tools {
+    height: 600px;
 }
 
 .sail_list ul {
@@ -4347,6 +4360,11 @@ button.startEvnt, button.editEvnt {
     font-weight: bold;
 }
 
+.sail_list.tools li:hover {
+    background-color: inherit;
+    color: inherit;
+}
+
 .sail_list li input {
     position: absolute;
     left: -10000px;
@@ -4359,6 +4377,33 @@ button.startEvnt, button.editEvnt {
 
 .sail_symbol {
     float: right;
+}
+
+.sail_list.tools {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.sail_list.tools li {
+    vertical-align: middle;
+}
+
+.sail_create {
+    margin-bottom: 10px;
+    padding: 0 !important;
+}
+
+.tools_delete_word {
+    float: left;
+    margin-right: 10px;
+    font-size: 14px;
+    padding-top: 9px;
+    width: 30px;
+    height: 30px;
+}
+
+.tools_delete_word img {
+    margin: -24px 0 0 -10px;
 }
 
 .copied_tooltip {
@@ -4375,8 +4420,16 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
-#tools {
-    width: 300px;
+.tools_left {
+    width: 40%;
+    float: left;
+}
+
+.tools_right {
+    width: 50%;
+    float: right;
+    border-left: 1px solid #ccc;
+    padding-left: 50px;
 }
 
 .tools_title {

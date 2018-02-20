@@ -125,7 +125,7 @@ class MembersModel extends Model {
      * @param int $take items per page
      * @return array|int|static[]
      */
-    public function searchMembers($name, $role, $languages, $count = false, $page = 1, $take = 50)
+    public function searchMembers($name, $role, $languages, $count = false, $isAdmin = false, $page = 1, $take = 50)
     {
         $skip = ($page-1) * $take; // Skip 50 (default) rows every page
 
@@ -136,16 +136,20 @@ class MembersModel extends Model {
 
         if(!$count)
         {
-            $builder->select([
+            $select = [
                 "members.memberID",
                 "members.userName",
-                "members.email",
                 "members.firstName",
                 "members.lastName",
                 "members.isAdmin",
                 "profile.prefered_roles",
                 "blocked"
-            ])
+            ];
+
+            if($isAdmin)
+                $select[] = "members.email";
+
+            $builder->select($select)
                 ->skip($skip)->take($take) // limit to 50 (default) rows per page
                 ->orderBy("members.userName");
         }

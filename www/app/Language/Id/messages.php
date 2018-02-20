@@ -431,6 +431,9 @@ return array (
     "copy_symbol_tip" => "Click to copy symbol to clipboard",
     "copied_tip" => "Copied!",
     "show_dictionary" => "Show dictionary",
+    "sail_enter_symbol" => "Symbol",
+    "sail_enter_word" => "Word",
+    "sail_word_exists" => "The word exists",
     //"l2_snd_checker" => "",
     //"l2_p1_checker" => "",
     //"l2_p2_checker" => "",
@@ -698,5 +701,6 @@ return array (
     "tools_quantity_members" => "Quantity (default: 50)",
     "enter_value" => "Enter a value",
     "tools_member_language" => "Languages (comma separated, default: en)",
-    "enter_lang_codes" => "Enter language code(s)"
+    "enter_lang_codes" => "Enter language code(s)",
+    "sail_dictionary_editor" => "SAIL Dictionary Editor",
 );

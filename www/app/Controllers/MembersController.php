@@ -476,14 +476,14 @@ class MembersController extends Controller
                     if(in_array($language, $admLangs))
                     {
                         $count = $this->_model->searchMembers($name, $role, [$language], true);
-                        $members = $this->_model->searchMembers($name, $role, [$language], false, $page);
+                        $members = $this->_model->searchMembers($name, $role, [$language], false, true, $page);
                     }
                 }
                 else
                 {
                     if($searchExt) $admLangs = [];
                     $count = $this->_model->searchMembers($name, $role, $admLangs, true);
-                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, $page);
+                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, true, $page);
                 }
 
                 $response["success"] = true;
@@ -509,7 +509,7 @@ class MembersController extends Controller
         $data["languages"] = $this->_eventModel->getAllLanguages(null, $admLangs);
 
         $data["count"] = $this->_model->searchMembers(null, "all", $admLangs, true);
-        $data["members"] = $this->_model->searchMembers(null, "all", $admLangs, false);
+        $data["members"] = $this->_model->searchMembers(null, "all", $admLangs, false, true);
 
         return View::make('Members/Search')
             ->shares("title", __("admin_members_title"))

@@ -1173,6 +1173,79 @@ $(function () {
                 $(".create_users img").hide();
             });
     });
+
+
+    // Managing SAIL Dictionary
+
+    // Delete word
+    $("body").on("click", ".tools_delete_word", function (e) {
+        var li = $(this).parent("li");
+        var word = li.attr("id");
+
+        $.ajax({
+            url: "/admin/rpc/delete_sail_word",
+            method: "post",
+            data: {word: word},
+            dataType: "json",
+            beforeSend: function() {
+                $("img", li).show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    li.remove();
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $("img", li).hide();
+            });
+
+        e.preventDefault();
+        return false;
+    });
+
+    // Create word
+    $("body").on("click", ".sail_create .add_word", function (e) {
+        var word = $("#sailword").val();
+        var symbol = $("#sailsymbol").val();
+
+        $.ajax({
+            url: "/admin/rpc/create_sail_word",
+            method: "post",
+            data: {word: word, symbol: symbol},
+            dataType: "json",
+            beforeSend: function() {
+                $("#sail_create_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $(".sail_list.tools ul").append(data.li);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $("#sail_create_loader").hide();
+            });
+
+        e.preventDefault();
+        return false;
+    });
 });
 
 

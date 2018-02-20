@@ -202,6 +202,8 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/update_all_cache", "AdminController@updateAllBooksCache");
     Router::any("rpc/update_languages", "AdminController@updateLanguages");
     Router::any("rpc/create_multiple_users", "AdminController@createMultipleUsers");
+    Router::any("rpc/delete_sail_word", "AdminController@deleteSailWord");
+    Router::any("rpc/create_sail_word", "AdminController@createSailWord");
 });
 
 /** End default Routes */

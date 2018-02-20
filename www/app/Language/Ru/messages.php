@@ -431,6 +431,9 @@ return array (
     "copy_symbol_tip" => "Нажмите, чтобы скопировать символ в буфер обмена",
     "copied_tip" => "Скопировано!",
     "show_dictionary" => "Показать словарь",
+    "sail_enter_symbol" => "Символ",
+    "sail_enter_word" => "Слово",
+    "sail_word_exists" => "Слово существует",
     //"l2_snd_checker" => "",
     //"l2_p1_checker" => "",
     //"l2_p2_checker" => "",
@@ -701,5 +704,6 @@ return array (
     "tools_quantity_members" => "Количество (по умолчанию: 50)",
     "enter_value" => "Введите значение",
     "tools_member_language" => "Языки (через запятую, по умолчанию: en)",
-    "enter_lang_codes" => "Введите код(ы) языков"
+    "enter_lang_codes" => "Введите код(ы) языков",
+    "sail_dictionary_editor" => "Редактор словаря SAIL",
 );
