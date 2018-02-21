@@ -117,6 +117,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-l2/{page?}", "EventsController@demoL2");
     Router::any("demo-tn/{page?}", "EventsController@demoTn");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
+    Router::any("news", "EventsController@news");
     Router::any("rpc/apply_event", "EventsController@applyEvent");
     Router::any("rpc/get_notifications", "EventsController@getNotifications");
     Router::any("rpc/autosave_chunk", "EventsController@autosaveChunk");
@@ -204,6 +205,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/create_multiple_users", "AdminController@createMultipleUsers");
     Router::any("rpc/delete_sail_word", "AdminController@deleteSailWord");
     Router::any("rpc/create_sail_word", "AdminController@createSailWord");
+    Router::any("rpc/create_news", "AdminController@createNews");
 });
 
 /** End default Routes */

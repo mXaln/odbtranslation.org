@@ -5,6 +5,9 @@
 
 namespace App\Controllers;
 
+use App\Models\NewsModel;
+use App\Models\SailDictionaryModel;
+use Support\Facades\Cookie;
 use View;
 use Helpers\Url;
 use Helpers\Data;
@@ -26,14 +29,20 @@ class EventsController extends Controller
 {
     private $_model;
     private $_translationModel;
+    private $_saildictModel;
+    private $_newsModel;
     private $_membersModel;
     private $_notifications;
+    private $_news;
+    private $_newNewsCount;
 
     public function __construct()
     {
         parent::__construct();
         $this->_model = new EventsModel();
         $this->_translationModel = new TranslationsModel();
+        $this->_saildictModel = new SailDictionaryModel();
+        $this->_newsModel = new NewsModel();
         $this->_membersModel = new MembersModel();
         
         if (!Session::get('loggedin'))
@@ -71,6 +80,13 @@ class EventsController extends Controller
             $this->_model->getNotificationsNotes(),
             $this->_model->getNotificationsL2(),
             $this->_model->getNotificationsSun());
+
+        $this->_news = $this->_newsModel->getNews();
+        $this->_newNewsCount = 0;
+        foreach ($this->_news as $news) {
+            if(!isset($_COOKIE["newsid".$news->id]))
+                $this->_newNewsCount++;
+        }
     }
 
     /**
@@ -174,6 +190,8 @@ class EventsController extends Controller
 
         $data["admins"] = $adminData;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Events/Index')
             ->shares("title", __("welcome_title"))
@@ -184,6 +202,8 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
 
         $title = "";
@@ -1292,6 +1312,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
 
         $title = "";
@@ -1848,6 +1870,8 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
 
         $title = "";
@@ -2152,7 +2176,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        $data["saildict"] = $this->_translationModel->getSunDictionary();
+                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/WordsDraft')
@@ -2284,7 +2308,7 @@ class EventsController extends Controller
                             }
                         }
 
-                        $data["saildict"] = $this->_translationModel->getSunDictionary();
+                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/SymbolsDraft')
@@ -2593,6 +2617,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["isCheckerPage"] = true;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         $page = "CheckerVerbalize";
         if(!isset($error))
@@ -3244,6 +3270,8 @@ class EventsController extends Controller
 
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Events/Notes/Translator')
             ->shares("title", $title)
@@ -3376,6 +3404,8 @@ class EventsController extends Controller
         $data["isCheckerPage"] = true;
         $data["isPeerPage"] = true;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Events/Notes/Translator')
             ->nest('page', 'Events/Notes/CheckerPeerReview')
@@ -3402,6 +3432,8 @@ class EventsController extends Controller
 
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEventsForSun(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -3845,6 +3877,8 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER, $eventID);
         
         $title = "";
@@ -4219,6 +4253,8 @@ class EventsController extends Controller
 
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEventsForCheckerL2(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -5165,6 +5201,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         if(!$isAjax)
         {
@@ -5584,6 +5622,8 @@ class EventsController extends Controller
         }
         
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         
         if(!$isAjax)
         {
@@ -5897,6 +5937,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         if(!$isAjax)
         {
@@ -6305,6 +6347,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         if(!$isAjax)
         {
@@ -6375,6 +6419,27 @@ class EventsController extends Controller
             }
 
             $data["members"] = $this->_model->getMembersForEvent($data["event"][0]->eventID, $data["event"][0]->bookProject);
+            $data["out_members"] = [];
+
+            // Include sun checkers that are not in the list of participants (ususally superadmins)
+            if($data["event"][0]->bookProject == "sun")
+            {
+                $tmpmems = [];
+                foreach ($data["members"] as $key => $member) {
+                    $kw = (array)json_decode($member["kwCheck"], true);
+                    $cr = (array)json_decode($member["crCheck"], true);
+
+                    foreach ($kw as $chap) {
+                        $tmpmems[] = $chap["memberID"];
+                    }
+
+                    foreach ($cr as $chap) {
+                        $tmpmems[] = $chap["memberID"];
+                    }
+                }
+
+                $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
+            }
 
             if (isset($_POST) && !empty($_POST)) {
                 if(!empty(array_filter($data["chapters"])))
@@ -6399,6 +6464,9 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+
         return View::make('Events/Manage')
             ->shares("title", __("manage_event"))
             ->shares("data", $data)
@@ -6415,6 +6483,8 @@ class EventsController extends Controller
 
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEventsForAdmin(Session::get("memberID"), $eventID, Session::get("isSuperAdmin"));
 
         if(!empty($data["event"]))
@@ -6883,6 +6953,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["isDemo"] = true;
         $data["menu"] = 1;
 
@@ -7017,6 +7089,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["isDemo"] = true;
         $data["menu"] = 1;
 
@@ -7139,6 +7213,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["isDemo"] = true;
         $data["menu"] = 1;
 
@@ -7221,6 +7297,8 @@ class EventsController extends Controller
         }
 
         $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data["isDemo"] = true;
         $data["menu"] = 1;
 
@@ -7247,13 +7325,13 @@ class EventsController extends Controller
             case "rearrange":
                 $view->nest("page", "Events/SUN/Demo/WordsDraft");
                 $data["step"] = EventSteps::REARRANGE;
-                $data["saildict"] = $this->_translationModel->getSunDictionary();
+                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "symbol-draft":
                 $view->nest("page", "Events/SUN/Demo/SymbolsDraft");
                 $data["step"] = EventSteps::SYMBOL_DRAFT;
-                $data["saildict"] = $this->_translationModel->getSunDictionary();
+                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "self-check":
@@ -7289,6 +7367,34 @@ class EventsController extends Controller
             ->shares("title", __("demo"))
             ->shares("data", $data);
     }
+
+    public function news()
+    {
+        if (Session::get('loggedin') !== true)
+        {
+            Url::redirect("members/login");
+        }
+
+        if(Session::get("isDemo"))
+        {
+            Url::redirect('events/demo');
+        }
+
+        if(empty(Session::get("profile")))
+        {
+            Url::redirect("members/profile");
+        }
+
+        $data["menu"] = 1;
+        $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = 0;
+
+        return View::make('Events/News')
+            ->shares("title", __("news_title"))
+            ->shares("data", $data);
+    }
+
 
     public function applyEvent()
     {
@@ -8066,10 +8172,11 @@ class EventsController extends Controller
         {
             $memberInfo = (array)$this->_model->getEventMemberInfo($eventID, $memberID);
 
-            if(!empty($memberInfo))
+            $canKeyword = false;
+            $canCreate = true;
+
+            if(!empty($memberInfo) || Session::get("isSuperAdmin"))
             {
-                $canKeyword = false;
-                $canCreate = true;
                 if(!in_array($memberInfo[0]->bookProject, ["tn"]))
                 {
                     if($memberInfo[0]->checker == $memberID)
@@ -8126,6 +8233,10 @@ class EventsController extends Controller
                                 }
                             }
                         }
+                    }
+                    elseif(Session::get("isSuperAdmin"))
+                    {
+                        $canKeyword = true;
                     }
                 }
                 else

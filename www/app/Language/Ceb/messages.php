@@ -198,7 +198,7 @@ return array (
     "enter_valid_email_error" => "Palihog isulat ang madawat lang nga email address",
     "email_taken_error" => "Naa nay naggamit niini nga email",
     "username_taken_error" => "Naa nay naggamit niini nga alyas",
-    "password_short_error" => "Mubo ra kayo ang password",
+    "password_short_error" => "Ang password kinahanglan nga adunay 6 o labaw pa nga mga karakter",
     "passwords_notmatch_error" => "Dili mao ang password",
     "tou_accept_error" => "Kinahanglan dawaton nimo ang mga termino sa paggamit",
     "sof_accept_error" => "Kinahanglan dawaton nimo ang Pamahayag sa Pagtuo",
@@ -370,6 +370,7 @@ return array (
     "chat" => "Chat",
     "you_are_at" => "Naa ka sa",
     "8steps_vmast" => "Walo(8) ka mga Lakang sa VMAST",
+    "common" => "Common",
     "vmast_events" => "Mga Bulohaton sa V-MAST",
     "create_event" => "Create event",
     "edit_event" => "Edit event",
@@ -436,9 +437,11 @@ return array (
     "sail_enter_symbol" => "Symbol",
     "sail_enter_word" => "Word",
     "sail_word_exists" => "The word exists",
-    //"l2_snd_checker" => "",
-    //"l2_p1_checker" => "",
-    //"l2_p2_checker" => "",
+    "sun_theo_checker" => "Remove Theological checker",
+    "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "l2_snd_checker" => "Remove 2nd checker",
+    "l2_p1_checker" => "Remove 1st peer checker",
+    "l2_p2_checker" => "Remove 2nd peer checker",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",
@@ -705,4 +708,11 @@ return array (
     "tools_member_language" => "Languages (comma separated, default: en)",
     "enter_lang_codes" => "Enter language code(s)",
     "sail_dictionary_editor" => "SAIL Dictionary Editor",
+    "create_news" => "Create News",
+    "tools_news_title" => "News title",
+    "enter_news_title" => "Enter text",
+    "tools_news_category" => "News category",
+    "select_news_category" => "Select news category",
+    "tools_news_text" => "News text",
+    "enter_news_text" => "Enter text"
 );

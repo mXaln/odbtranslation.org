@@ -1260,7 +1260,10 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."projects AS proj ON evnt.projectID = proj.projectID ".
             "WHERE evnt.eventID = :eventID";
 
-        $prepare = array(":memberID" => $memberID, ":eventID" => $eventID);
+        $prepare = array(
+            ":memberID" => $memberID,
+            ":eventID" => $eventID,
+            ":outMemberID" => '%"memberID":"'.$memberID.'""%');
 
         return $this->db->select($sql, $prepare);
     }

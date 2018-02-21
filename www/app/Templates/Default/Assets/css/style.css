@@ -1694,7 +1694,7 @@ mark {
     width: 100%;
 }
 
-.notif_count {
+.notif_count, .news_count {
     background-color: #ff0000;
     border-radius: 10px;
     width: 20px;
@@ -1725,6 +1725,11 @@ mark {
     border-top: 1px solid #ccc;
     text-align: center;
     padding: 5px 0;
+}
+
+.news {
+    position: relative;
+    background-color: #4596cc;
 }
 
 .bible_book {
@@ -3166,6 +3171,10 @@ div[class^="member_usname mid"] {
     box-shadow: inset 1px 1px 10px 0px #406d9e;
 }
 
+.news:hover {
+    box-shadow: inset 1px 1px 10px 0px #406d9e;
+}
+
 .footer_langs {
     text-align: right;
     padding: 0;
@@ -4339,7 +4348,7 @@ button.startEvnt, button.editEvnt {
 }
 
 .sail_list.tools {
-    height: 600px;
+    height: 650px;
 }
 
 .sail_list ul {
@@ -4432,11 +4441,6 @@ button.startEvnt, button.editEvnt {
     padding-left: 50px;
 }
 
-.tools_title {
-    display: block;
-    font-weight: bold;
-}
-
 .update_langs, .create_users {
     margin-top: 20px;
 }
@@ -4444,8 +4448,58 @@ button.startEvnt, button.editEvnt {
 .tools_title {
     margin-bottom: 10px;
     font-size: 18px;
+    display: block;
+    font-weight: bold;
+    color: #ff880f;
 }
 
 #tools img {
     display: none;
+}
+
+#tools .create_news {
+    font-family: SUN3, Serif;
+}
+
+#tools .create_news textarea {
+    font-size: 20px;
+}
+
+.news_page {
+    font-family: SUN3, Serif;
+    padding: 20px;
+    margin: 0 20px;
+}
+
+.news_page ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.news_page ul li {
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.news_new {
+    color: #f00;
+    position: absolute;
+    top: 5px;
+    left: -20px;
+}
+
+.news_title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.news_category {
+    color: #7c7c7c;
+}
+
+.news_text {
+    font-size: 20px;
+    margin-top: 20px;
 }

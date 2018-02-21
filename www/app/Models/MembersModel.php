@@ -55,7 +55,7 @@ class MembersModel extends Model {
         return $this->db->table("members")
             ->select("userName")
             ->where("userName", "like", "%user%")
-            ->orderBy("userName", "desc")
+            ->orderBy("memberID", "desc")
             ->limit(1)->get();
     }
 
@@ -66,7 +66,7 @@ class MembersModel extends Model {
             $select = ["members.memberID", "members.userName", "members.firstName", "members.lastName", "profile.avatar"];
 
             if($more)
-                $select = array_merge($select, ["members.firstName", "members.lastName", "members.email"]);
+                $select = array_merge($select, ["members.email"]);
 
             return $this->db->table("members")
                 ->select($select)
@@ -272,11 +272,13 @@ class MembersModel extends Model {
         return Language::instance('app')->get($value, $code, $params);
     }
     
-    public function createMultipleMembers($members = 50, $profileLangs = ["en" => [3,3]])
+    public function createMultipleMembers($members = 50, $profileLangs = ["en" => [3,3]], $password = null)
     {
         $result = "";
         $lastUser = $this->getLastTempMember();
         $lastMember = 0;
+
+        if(!$password) return $result;
 
         if(!empty($lastUser))
         {
@@ -295,7 +297,7 @@ class MembersModel extends Model {
                 "userName" => "user".$i,
                 "firstName" => "User".$i,
                 "lastName" => "N",
-                "password" => '$2y$10$Pmpy.pft1HCsWMr/Bg2y3OtH.MhV0pI7n9QhMXyjcWBiS/Jj7SqVe',
+                "password" => $password,
                 "email" => "user".$i."@v-mast.com",
                 "active" => true,
                 "verified" => true
@@ -312,7 +314,7 @@ class MembersModel extends Model {
             $this->createProfile($pData);
         }
 
-        $result .= "user".($i).") have been created!";
+        $result .= "user".($i-1).") have been created!";
 
         return $result;
     }

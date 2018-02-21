@@ -1146,11 +1146,12 @@ $(function () {
     $(".create_users button").click(function () {
         var amount = $(".create_users #amount").val();
         var langs = $(".create_users #langs").val();
+        var password = $(".create_users #password").val();
 
         $.ajax({
             url: "/admin/rpc/create_multiple_users",
             method: "post",
-            data: {amount: amount, langs: langs},
+            data: {amount: amount, langs: langs, password: password},
             dataType: "json",
             beforeSend: function() {
                 $(".create_users img").show();
@@ -1159,6 +1160,10 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
+                    $(".create_users #amount").val("");
+                    $(".create_users #langs").val("");
+                    $(".create_users #password").val("");
+
                     renderPopup(data.msg);
                 }
                 else
@@ -1182,31 +1187,34 @@ $(function () {
         var li = $(this).parent("li");
         var word = li.attr("id");
 
-        $.ajax({
-            url: "/admin/rpc/delete_sail_word",
-            method: "post",
-            data: {word: word},
-            dataType: "json",
-            beforeSend: function() {
-                $("img", li).show();
-            }
-        })
-            .done(function(data) {
-                if(data.success)
-                {
-                    li.remove();
-                }
-                else
-                {
-                    if(typeof data.error != "undefined")
-                    {
-                        renderPopup(data.error);
-                    }
+        renderConfirmPopup(Language.attention, Language.delSailword + word, function () {
+            $( this ).dialog( "close" );
+            $.ajax({
+                url: "/admin/rpc/delete_sail_word",
+                method: "post",
+                data: {word: word},
+                dataType: "json",
+                beforeSend: function() {
+                    $("img", li).show();
                 }
             })
-            .always(function() {
-                $("img", li).hide();
-            });
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        li.remove();
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                })
+                .always(function() {
+                    $("img", li).hide();
+                });
+        });
 
         e.preventDefault();
         return false;
@@ -1229,6 +1237,8 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
+                    $("#sailword").val("");
+                    $("#sailsymbol").val("");
                     $(".sail_list.tools ul").append(data.li);
                 }
                 else
@@ -1241,6 +1251,47 @@ $(function () {
             })
             .always(function() {
                 $("#sail_create_loader").hide();
+            });
+
+        e.preventDefault();
+        return false;
+    });
+
+
+    // Create News
+    $(".create_news button").click(function (e) {
+        var title = $("#title").val();
+        var category = $("#category").val();
+        var text = $("#text").val();
+
+        $.ajax({
+            url: "/admin/rpc/create_news",
+            method: "post",
+            data: {title: title, category: category, text: text},
+            dataType: "json",
+            beforeSend: function() {
+                $(".create_news img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $("#title").val("");
+                    $("#category").val("");
+                    $("#text").val("");
+
+                    renderPopup(data.msg);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".create_news img").hide();
             });
 
         e.preventDefault();

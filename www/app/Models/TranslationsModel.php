@@ -256,34 +256,6 @@ class TranslationsModel extends Model
             ->orderBy("abbrID")->get();
     }
 
-    public function getSunDictionary()
-    {
-        return $this->db->table("sail_dict")
-            ->orderBy("word")->get();
-    }
-
-
-    public function getSunWord($where)
-    {
-        return $this->db->table("sail_dict")
-            ->where($where)
-            ->get();
-    }
-
-    public function createSunWord($data)
-    {
-        return $this->db->table("sail_dict")
-            ->insertGetId($data);
-    }
-
-
-    public function deleteSunWord($where)
-    {
-        return $this->db->table("sail_dict")
-            ->where($where)
-            ->delete();
-    }
-
     /**
      * Create translation record
      * @param array $data

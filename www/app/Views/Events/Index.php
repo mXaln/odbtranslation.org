@@ -373,6 +373,13 @@ $profile = Session::get("profile");
 
 <div id="my_checks_content" class="my_content">
     <?php foreach($data["myCheckerL1Events"] as $key => $event): ?>
+        <?php
+            $mode = $event->bookProject;
+            $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+            $eventImg = $mode != "sun"
+                ? template_url("img/steps/icons/". $event->step ."-gray.png")
+                : template_url("img/steps/big/vsail.png");
+        ?>
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
                 <div class="event_type">
@@ -385,7 +392,7 @@ $profile = Session::get("profile");
                     <div><?php echo __($event->step.$add) ?></div>
                 </div>
                 <div class="event_img">
-                    <img width="85" src="<?php echo template_url("img/steps/icons/". $event->step ."-gray.png") ?>">
+                    <img width="85" src="<?php echo $eventImg ?>">
                 </div>
             </div>
             <div class="event_project">

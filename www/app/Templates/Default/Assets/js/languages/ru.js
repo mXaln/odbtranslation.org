@@ -85,5 +85,6 @@ var Language = {
     "notesPlaceholder"          : "Начните вводить текст здесь...",
     "cacheUpdated"              : "Кэш был успешно обновлён",
     "books"                     : "книги",
-    "remove_l2_checker"         : "Вы хотите удалить проверяющего "
+    "remove_l2_checker"         : "Вы хотите удалить проверяющего ",
+    "delSailword"               : "Вы хотите удалить слово: ",
 };

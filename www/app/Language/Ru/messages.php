@@ -203,7 +203,7 @@ return array (
     "enter_valid_email_error" => "Введите правильный почтовый адрес",
     "email_taken_error" => "Почтовый адрес уже используется",
     "username_taken_error" => "Имя пользователя уже используется",
-    "password_short_error" => "Пароль слишком короткий",
+    "password_short_error" => "Пароль должен содержать 6 или более символов",
     "passwords_notmatch_error" => "Пароли не совпадают",
     "tou_accept_error" => "Вы должны принять Условия Использования",
     "sof_accept_error" => "Вы должны принять Утверждение Веры",
@@ -367,6 +367,7 @@ return array (
     "chat" => "ЧАТ",
     "you_are_at" => "Вы на стадии",
     "8steps_vmast" => "8 Шагов VMAST",
+    "common" => "Общee",
     "vmast_events" => "V-MAST События",
     "create_event" => "Создать событие",
     "edit_event" => "Редактировать событие",
@@ -434,9 +435,11 @@ return array (
     "sail_enter_symbol" => "Символ",
     "sail_enter_word" => "Слово",
     "sail_word_exists" => "Слово существует",
-    //"l2_snd_checker" => "",
-    //"l2_p1_checker" => "",
-    //"l2_p2_checker" => "",
+    "sun_theo_checker" => "Удалить теологического проверяющего",
+    "sun_vbv_checker" => "Удалить проверяющего по стихам",
+    "l2_snd_checker" => "Удалить проверяющего 2-ой проверки",
+    "l2_p1_checker" => "Удалить 1-ого парного проверяющего",
+    "l2_p2_checker" => "Удалить 2-ого парного проверяющего",
     
     // Steps
     "pray" => "Подготовка: Молитва",
@@ -706,4 +709,11 @@ return array (
     "tools_member_language" => "Языки (через запятую, по умолчанию: en)",
     "enter_lang_codes" => "Введите код(ы) языков",
     "sail_dictionary_editor" => "Редактор словаря SAIL",
+    "create_news" => "Создание новостей",
+    "tools_news_title" => "Заголовок новости",
+    "enter_news_title" => "Введите текст",
+    "tools_news_category" => "Категория новости",
+    "select_news_category" => "Выберите категорию",
+    "tools_news_text" => "Текст",
+    "enter_news_text" => "Введите текст"
 );

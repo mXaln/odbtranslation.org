@@ -21,6 +21,42 @@
                 <input type="text" class="form-control" id="langs" name="langs" placeholder="<?php echo __('enter_lang_codes'); ?>" value="">
             </div>
 
+            <div class="form-group">
+                <label for="password" class=""><?php echo __("password"); ?>:</label>
+                <input type="text" class="form-control" id="password" name="password" placeholder="<?php echo __('enter_value'); ?>" value="">
+            </div>
+
+            <button class="btn btn-warning"><?php echo __("go"); ?></button>
+            <img src="<?php echo template_url("img/loader.gif") ?>">
+        </div>
+
+        <hr>
+
+        <div class="create_news">
+            <div class="tools_title"><?php echo __("create_news"); ?></div>
+
+            <div class="form-group">
+                <label for="title" class=""><?php echo __("tools_news_title"); ?>:</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="<?php echo __('enter_news_title'); ?>" value="">
+            </div>
+
+            <div class="form-group">
+                <label for="category" class=""><?php echo __("tools_news_category"); ?>:</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="" hidden><?php echo __('select_news_category'); ?></option>
+                    <option value="common"><?php echo __("common") ?></option>
+                    <option value="vmast"><?php echo __("8steps_vmast") ?></option>
+                    <option value="vsail"><?php echo __("vsail") ?></option>
+                    <option value="level2"><?php echo __("l2_3_events", [2]) ?></option>
+                    <option value="notes"><?php echo __("tn") ?></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="text" class=""><?php echo __("tools_news_text"); ?>:</label>
+                <textarea rows="4" class="form-control" id="text" name="text" placeholder="<?php echo __('enter_news_text'); ?>"></textarea>
+            </div>
+
             <button class="btn btn-warning"><?php echo __("go"); ?></button>
             <img src="<?php echo template_url("img/loader.gif") ?>">
         </div>

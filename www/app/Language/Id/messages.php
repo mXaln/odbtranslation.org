@@ -197,7 +197,7 @@ return array (
     "enter_valid_email_error" => "Silahkan masukkan alamat email yang valid",
     "email_taken_error" => "Email sudah ada",
     "username_taken_error" => "Username sudah ada",
-    "password_short_error" => "Password terlalu pendek",
+    "password_short_error" => "Password harus berisi 6 karakter atau lebih",
     "passwords_notmatch_error" => "Kedua password tidak cocok",
     "tou_accept_error" => "Anda harus menerima Aturan Pemakaian",
     "sof_accept_error" => "Anda harus menerima Pengakuan Iman",
@@ -368,6 +368,7 @@ return array (
     "chat" => "OBROL",
     "you_are_at" => "Anda berada di",
     "8steps_vmast" => "VMAST 8 Langkah",
+    "common" => "Common",
     "vmast_events" => "Kegiatan V-MAST",
     "create_event" => "Buat kegiatan",
     "edit_event" => "Ubah kegiatan",
@@ -434,9 +435,11 @@ return array (
     "sail_enter_symbol" => "Symbol",
     "sail_enter_word" => "Word",
     "sail_word_exists" => "The word exists",
-    //"l2_snd_checker" => "",
-    //"l2_p1_checker" => "",
-    //"l2_p2_checker" => "",
+    "sun_theo_checker" => "Remove Theological checker",
+    "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "l2_snd_checker" => "Remove 2nd checker",
+    "l2_p1_checker" => "Remove 1st peer checker",
+    "l2_p2_checker" => "Remove 2nd peer checker",
     
     // Steps
     "pray" => "Persiapan: Berdoa",
@@ -703,4 +706,11 @@ return array (
     "tools_member_language" => "Languages (comma separated, default: en)",
     "enter_lang_codes" => "Enter language code(s)",
     "sail_dictionary_editor" => "SAIL Dictionary Editor",
+    "create_news" => "Create News",
+    "tools_news_title" => "News title",
+    "enter_news_title" => "Enter text",
+    "tools_news_category" => "News category",
+    "select_news_category" => "Select news category",
+    "tools_news_text" => "News text",
+    "enter_news_text" => "Enter text"
 );

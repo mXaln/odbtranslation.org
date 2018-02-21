@@ -1,32 +1,34 @@
 <?php
 namespace App\Controllers\Admin;
 
-use Helpers\Constants\EventMembers;
-use Helpers\UsfmParser;
-use Support\Facades\Cache;
 use App\Core\Controller;
+use App\Models\EventsModel;
+use App\Models\MembersModel;
+use App\Models\NewsModel;
+use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
-use Shared\Legacy\Error;
-use Support\Facades\Input;
-use View;
-use Helpers\Data;
 use File;
+use View;
+use Helpers\Password;
+use Helpers\Constants\EventMembers;
+use Helpers\Constants\EventStates;
+use Helpers\Constants\EventSteps;
 use Helpers\Gump;
 use Helpers\Session;
 use Helpers\Url;
-use App\Models\EventsModel;
-use App\Models\MembersModel;
-use Helpers\Password;
-use Helpers\Constants\EventStates;
-use Helpers\Constants\EventSteps;
+use Helpers\UsfmParser;
+use Shared\Legacy\Error;
+use Support\Facades\Cache;
+use Support\Facades\Input;
 use ZipArchive;
 
 class AdminController extends Controller {
 
-    private $_model;
     private $_membersModel;
     private $_eventsModel;
     private $_translationModel;
+    private $_saildictModel;
+    private $_newsModel;
     protected $layout = "admin";
 
     public function __construct()
@@ -35,6 +37,8 @@ class AdminController extends Controller {
         $this->_membersModel = new MembersModel();
         $this->_eventsModel = new EventsModel();
         $this->_translationModel = new TranslationsModel();
+        $this->_saildictModel = new SailDictionaryModel();
+        $this->_newsModel = new NewsModel();
     }
 
     public  function index() {
@@ -298,9 +302,20 @@ class AdminController extends Controller {
 
     public function tools()
     {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            Url::redirect('');
+        }
+
         $data["menu"] = 3;
 
-        $data["saildict"] = $this->_translationModel->getSunDictionary();
+        $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
         return View::make('Admin/Main/Tools')
             ->shares("title", __("admin_tools_title"))
@@ -1664,7 +1679,15 @@ class AdminController extends Controller {
 
         $amount = (integer)Input::get("amount", "50");
         $langs = (string)Input::get("langs", "en");
-        
+        $password = (string)Input::get("password", "");
+
+        if(mb_strlen(trim($password)) < 6)
+        {
+            $result["error"] = __("password_short_error");
+            echo json_encode($result);
+            exit;
+        }
+
         if($amount <= 0)
             $amount = 50;
 
@@ -1681,9 +1704,12 @@ class AdminController extends Controller {
             $langs[$lang] = [3,3];
         }
 
+        $password = Password::make($password);
+
         $res = $this->_membersModel->createMultipleMembers(
             $amount,
-            $langs);
+            $langs,
+            $password);
 
         $result["success"] = true;
         $result["msg"] = $res;
@@ -1714,7 +1740,7 @@ class AdminController extends Controller {
 
         if(trim($word) != "")
         {
-            if($this->_translationModel->deleteSunWord(["word" => $word]))
+            if($this->_saildictModel->deleteSunWord(["word" => $word]))
             {
                 $result["success"] = true;
             }
@@ -1752,11 +1778,11 @@ class AdminController extends Controller {
                 "symbol" => $symbol
             ];
 
-            $exist = $this->_translationModel->getSunWord(["word" => $word]);
+            $exist = $this->_saildictModel->getSunWord(["word" => $word]);
 
             if(empty($exist))
             {
-                if($this->_translationModel->createSunWord($data))
+                if($this->_saildictModel->createSunWord($data))
                 {
                     $li = '<li class="sun_content" id="'.$word.'">
                             <div class="tools_delete_word glyphicon glyphicon-remove" title="'.__("delete").'">
@@ -1777,6 +1803,56 @@ class AdminController extends Controller {
             {
                 $result["error"] = __("sail_word_exists");
             }
+        }
+
+        echo json_encode($result);
+    }
+
+
+    public function createNews()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $title = Input::get("title", "");
+        $category = Input::get("category", "common");
+        $text = Input::get("text", "");
+
+        if(trim($title) != "" && trim($text) != "" && preg_match("/^common|vmast|vsail|level2|notes$/", $category))
+        {
+            $data = [
+                "title" => $title,
+                "category" => $category,
+                "text" => $text,
+                "created_at" => date("Y-m-d H:i:s", time())
+            ];
+
+            if($this->_newsModel->createNews($data))
+            {
+                $result["success"] = true;
+                $result["msg"] = __("successfully_created");
+            }
+            else
+            {
+                $result["error"] = __("error_ocured");
+            }
+        }
+        else
+        {
+            $result["error"] = __("wrong_parameters");
         }
 
         echo json_encode($result);
