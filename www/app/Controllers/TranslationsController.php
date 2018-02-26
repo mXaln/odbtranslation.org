@@ -23,7 +23,7 @@ class TranslationsController extends Controller
         parent::__construct();
 
         if(Config::get("app.isMaintenance")
-            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+            && !in_array($_SERVER['REMOTE_ADDR'], Config::get("app.ips")))
         {
             Url::redirect("maintenance");
         }
