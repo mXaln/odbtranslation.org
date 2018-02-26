@@ -9,6 +9,7 @@ use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
 use File;
 use View;
+use Config\Config;
 use Helpers\Password;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
@@ -34,6 +35,13 @@ class AdminController extends Controller {
     public function __construct()
     {
         parent::__construct();
+
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         $this->_membersModel = new MembersModel();
         $this->_eventsModel = new EventsModel();
         $this->_translationModel = new TranslationsModel();

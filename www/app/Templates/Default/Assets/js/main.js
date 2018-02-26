@@ -2224,7 +2224,7 @@ $(document).ready(function() {
         window.location.reload();
     });
 
-    $(".demo_link").click(function() {
+    $(".demo_link, #demo_link").click(function() {
         if($(".demo_options").is(":visible"))
         {
             $(".demo_options").hide(200);
@@ -2233,7 +2233,6 @@ $(document).ready(function() {
         {
             $(".demo_options").show(200);
         }
-        return false;
     });
 
     // Sail dictionary

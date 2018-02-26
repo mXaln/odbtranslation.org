@@ -1187,7 +1187,7 @@ $(function () {
         var li = $(this).parent("li");
         var word = li.attr("id");
 
-        renderConfirmPopup(Language.attention, Language.delSailword + word, function () {
+        renderConfirmPopup(Language.attention, Language.delSailword + word + "?", function () {
             $( this ).dialog( "close" );
             $.ajax({
                 url: "/admin/rpc/delete_sail_word",

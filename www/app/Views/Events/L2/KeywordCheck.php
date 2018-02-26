@@ -16,7 +16,7 @@ use Helpers\Constants\EventMembers;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(4)) . ": " . __("keyword-check-l2")?></div>
+        <div class="main_content_title"><?php echo __("step_num", array(4)) . ": " . __("keyword-check-l2_full")?></div>
     </div>
 
     <div class="row" style="position: relative">
@@ -164,7 +164,7 @@ use Helpers\Constants\EventMembers;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("keyword-check-l2")?></h3>
+            <h3><?php echo __("keyword-check-l2_full")?></h3>
             <ul><?php echo __("keyword-check-l2_desc")?></ul>
         </div>
     </div>

@@ -5,7 +5,8 @@ return array (
 	"home" => "Главная",
 	"welcome_text" => "Добро пожаловать на V-MAST!",
     "welcome_hint" => "Вы можете учавствовать только по приглашению",
-	"welcome_message" => " “Посему и мы, имея вокруг себя такое облако свидетелей, свергнем с себя всякое бремя и запинающий нас грех и с терпением будем проходить предлежащее нам поприще,”<br>К Евреям 12:1",
+	"welcome_message" => "",
+    "maintenance_work" => "Ведутся технические работы!",
 
 	"translations_title" => "Переводы",
 	"events_title" => "События",
@@ -440,6 +441,7 @@ return array (
     "l2_snd_checker" => "Удалить проверяющего 2-ой проверки",
     "l2_p1_checker" => "Удалить 1-ого парного проверяющего",
     "l2_p2_checker" => "Удалить 2-ого парного проверяющего",
+    "news" => "Новости",
     
     // Steps
     "pray" => "Подготовка: Молитва",
@@ -512,6 +514,31 @@ return array (
     "final-review" => "Нумерация стихов",
     "final-review_desc" => "<li><b>PURPOSE:</b> здесь вы можете проставить нумерацию к стихам в переведенном тексте.</li><li>Прочтите переведенный текст и сравните с исходным текстом, затем нажмите на нумерацию и перетащите ее к правильному стиху в переведенном тексте.</li><li>Уделите этому шагу не более 10 минут.</li>",
     "finished" => "Завершено",
+
+    "rearrange" => "Перегруппировка",
+    "rearrange_desc" => "<li><b>PURPOSE:</b> перегруппируйте структуру предложений так, чтобы они соответствовало правилам SUN:</li><li>Не более 7 слов в предложении (исключение: цитаты).</li><li>Подлежащее, Глагол, Прямой объект структуры предложения</li><li>Имя прилагательное всегда перед именем существительным</li><li>Наречие всегда перед глаголом</li><li>Притяжательные перед объектом, которому они принадлежат</li><li>Цитаты и пунктуация следуют правилам английского языка</li><li>Заполняющие слова (союзы, предлоги, артикли) не используются, если только они не меняют смысла предложения</li>",
+
+    "symbol-draft" => "Набросок символов",
+    "symbol-draft_desc" => "<li><b>PURPOSE:</b> assign symbols for words.</li><li>When a word does not have a symbol, ask the following questions: <ol><li>Can the word be attached to existing symbol?</li><li>Can an extension be made instead of a new character?</li><li>If the answers to the above questions are negative, contact the SAIL Director to create a new symbol that follows the 3 golden rules of SUN (Simple, Intuitive, Universal), then type the word and continue the translation into symbols.  The word will be changed to a symbol in step 7.</li><li>Proper nouns are created using the meaning of the name or something significant about the person or place.</li></ol></li>",
+
+    "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li><li>Edit text if any errors or inconsistencies are found.</li>",
+
+    "theo-check" => "Теологическая проверка",
+    "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li><li>If you see an incorrect word, double-click the word to highlight it and put a comment in the \"notes\" for the suggested change.</li>",
+
+    "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",
+
+    "fst-check" => "Провека текста",
+    "fst-check_full" => "1ая проверка: Целевой текст",
+
+    "snd-check" => "Парная проверка",
+    "snd-check_full" => "2ая проверка: Парная проверка целевого текста",
+
+    "keyword-check-l2" => "Проверка ключевых слов",
+    "keyword-check-l2_full" => "2ая проверка: Проверка ключевых слов",
+
+    "peer-review-l2" => "Несоответствия",
+    "peer-review-l2_full" => "3я проверка: Обсуждение несоответствий",
 
     // Errors
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class=\"checker_waits\"></span>",

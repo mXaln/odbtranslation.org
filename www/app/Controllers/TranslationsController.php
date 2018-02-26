@@ -7,8 +7,7 @@ use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Shared\Legacy\Error;
 use View;
-use Helpers\Data;
-use Helpers\Gump;
+use Config\Config;
 use Helpers\Session;
 use Helpers\Url;
 use Helpers\Parsedown;
@@ -22,6 +21,13 @@ class TranslationsController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         $this->_model = new TranslationsModel();
         $this->_eventModel = new EventsModel();
 

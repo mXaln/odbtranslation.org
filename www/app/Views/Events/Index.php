@@ -9,7 +9,7 @@ $profile = Session::get("profile");
 <div style="margin-bottom: 20px">
     <h1 class="demo_h"><?php echo __("vmast_events") ?></h1>
     <div class="demo_title events_index">
-        <a href="/events/demo" class="demo_link"><?php echo __("demo")?></a>
+        <a href="#" class="demo_link"><?php echo __("demo")?></a>
         <span class="glyphicon glyphicon-chevron-right"></span>
         <div class="demo_options">
             <ul>

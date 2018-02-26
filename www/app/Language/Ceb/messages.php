@@ -9,6 +9,7 @@ return array (
     "welcome_text" => "Maayong Pag-abot sa V-MAST",
     "welcome_hint" => "Kadto lang gidapit ang mahimong moapil",
     "welcome_message" => "",
+    "maintenance_work" => "Maintenance work in progress!",
 
     "translations_title" => "Mga Hinubad",
     "events_title" => "Mga Panghitabo",
@@ -442,6 +443,7 @@ return array (
     "l2_snd_checker" => "Remove 2nd checker",
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
+    "news" => "News",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",
@@ -514,6 +516,31 @@ return array (
     "final-review" => "Kataposang Pagsusi",
     "final-review_desc" => "<li><b>KATUYOUAN:</b> mao kini ang kataposan nga pagsusi ug diin ibutang na ang mga numero sa bersikulo ngadto sa hinubad nga teksto.</li> <li>Basaha ang gihubad nga teksto ug ikumpara kini sa gigikanan nga teksto, unya ibutang dayon ang numero sa matag bersikulo sa sakto nga posisyon sa hinubad nga teksto.</li> <li>Kinahanglan nga dili kini molapas sa 10 ka minute.</li>",
     "finished" => "Tapos Na",
+
+    "rearrange" => "Rearrange",
+    "rearrange_desc" => "<li><b>PURPOSE:</b> rearrange sentence structure to fit SUN rules.</li><li>No more than 7 words per sentence - except quotes.</li><li>Subject, Verb, Direct Object sentence structure</li><li>Adjective always before the noun</li><li>Adverb always before the verb</li><li>Possessives before the thing they possess</li><li>Quotes, inner quotes, punctuation, follow English rules</li><li>Filler words (conjunctions, prepositions, articles) not used unless they change the meaning of the sentence</li>",
+
+    "symbol-draft" => "Symbol Draft",
+    "symbol-draft_desc" => "<li><b>PURPOSE:</b> assign symbols for words.</li><li>When a word does not have a symbol, ask the following questions: <ol><li>Can the word be attached to existing symbol?</li><li>Can an extension be made instead of a new character?</li><li>If the answers to the above questions are negative, contact the SAIL Director to create a new symbol that follows the 3 golden rules of SUN (Simple, Intuitive, Universal), then type the word and continue the translation into symbols.  The word will be changed to a symbol in step 7.</li><li>Proper nouns are created using the meaning of the name or something significant about the person or place.</li></ol></li>",
+
+    "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li><li>Edit text if any errors or inconsistencies are found.</li>",
+
+    "theo-check" => "Theological Check",
+    "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li><li>If you see an incorrect word, double-click the word to highlight it and put a comment in the \"notes\" for the suggested change.</li>",
+
+    "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",
+
+    "fst-check" => "Check Text",
+    "fst-check_full" => "1st Check: Check Target Text",
+
+    "snd-check" => "Peer Check",
+    "snd-check_full" => "2nd Check: Peer-Check Target Text",
+
+    "keyword-check-l2" => "Keyword Check",
+    "keyword-check-l2_full" => "2nd Check: Keyword Check",
+
+    "peer-review-l2" => "Discrepancies",
+    "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
 
     // Errors
     "checker_translator_not_ready_error" => "Dili pa andam ang tighubad niini nga lakang, palihog hulat. Mobalik ra ang teksto kung andam na ang tighubad.",

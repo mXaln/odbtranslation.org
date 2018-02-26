@@ -8,7 +8,8 @@ return array (
     "home" => "Dasbor",
     "welcome_text" => "Selamat datang di V-MAST",
     "welcome_hint" => "Anda dapat berpartisipasi hanya melalui undangan",
-    "welcome_message" => "“Therefore, since we have so great a cloud of witnesses surrounding us, let us also lay aside every encumbrance and the sin which so easily entangles us, and let us run with endurance the race that is set before us,”  <br>Hebrews 12:1",
+    "welcome_message" => "",
+    "maintenance_work" => "Maintenance work in progress!",
 
     "translations_title" => "Terjemahan",
     "events_title" => "Kegiatan",
@@ -440,6 +441,7 @@ return array (
     "l2_snd_checker" => "Remove 2nd checker",
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
+    "news" => "News",
     
     // Steps
     "pray" => "Persiapan: Berdoa",
@@ -512,6 +514,31 @@ return array (
     "final-review" => "Review Akhir",
     "final-review_desc" => "<li><b>KEGUNAAN:</b> ini adalah kajian terakhir di mana Anda akan menambahkan penanda ayat pada teks yang diterjemahkan.</li><li>Baca teks yang diterjemahkan dan bandingkan dengan teks sumber, kemudian drag and drop penanda ayat ke tempat yang seharusnya dalam teks terjemahan.</li><li>Ambil waktu tidak lebih dari 10 menit untuk kegiatan ini.</li>",
     "finished" => "Selesai",
+
+    "rearrange" => "Rearrange",
+    "rearrange_desc" => "<li><b>PURPOSE:</b> rearrange sentence structure to fit SUN rules.</li><li>No more than 7 words per sentence - except quotes.</li><li>Subject, Verb, Direct Object sentence structure</li><li>Adjective always before the noun</li><li>Adverb always before the verb</li><li>Possessives before the thing they possess</li><li>Quotes, inner quotes, punctuation, follow English rules</li><li>Filler words (conjunctions, prepositions, articles) not used unless they change the meaning of the sentence</li>",
+
+    "symbol-draft" => "Symbol Draft",
+    "symbol-draft_desc" => "<li><b>PURPOSE:</b> assign symbols for words.</li><li>When a word does not have a symbol, ask the following questions: <ol><li>Can the word be attached to existing symbol?</li><li>Can an extension be made instead of a new character?</li><li>If the answers to the above questions are negative, contact the SAIL Director to create a new symbol that follows the 3 golden rules of SUN (Simple, Intuitive, Universal), then type the word and continue the translation into symbols.  The word will be changed to a symbol in step 7.</li><li>Proper nouns are created using the meaning of the name or something significant about the person or place.</li></ol></li>",
+
+    "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li><li>Edit text if any errors or inconsistencies are found.</li>",
+
+    "theo-check" => "Theological Check",
+    "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li><li>If you see an incorrect word, double-click the word to highlight it and put a comment in the \"notes\" for the suggested change.</li>",
+
+    "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",
+
+    "fst-check" => "Check Text",
+    "fst-check_full" => "1st Check: Check Target Text",
+
+    "snd-check" => "Peer Check",
+    "snd-check_full" => "2nd Check: Peer-Check Target Text",
+
+    "keyword-check-l2" => "Keyword Check",
+    "keyword-check-l2_full" => "2nd Check: Keyword Check",
+
+    "peer-review-l2" => "Discrepancies",
+    "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
 
     // Errors
     "checker_translator_not_ready_error" => "Penerjemah tidak siap untuk langkah ini, mohon tunggu. Halaman akan dimuat ulang ketika penerjemah sudah siap.<span class=\"checker_waits\"></span>",

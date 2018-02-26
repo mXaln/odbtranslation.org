@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [2]).")" ?></div>
-            <div><?php echo __("step_num", [2]) . ": " . __("fst-check")?></div>
+            <div><?php echo __("step_num", [2]) . ": " . __("fst-check_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -244,7 +244,7 @@
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("fst-check")?></h3>
+            <h3><?php echo __("fst-check_full")?></h3>
             <ul><?php echo __("fst-check_desc")?></ul>
         </div>
     </div>

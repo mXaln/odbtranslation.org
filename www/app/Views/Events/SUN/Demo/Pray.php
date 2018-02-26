@@ -70,9 +70,5 @@
             window.location.href = '/events/demo-sun/consume';
             return false;
         });
-
-        var ref = '<?php echo isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "/events" ?>';
-        if(!/demo-sun/.test(ref))
-            $(".video_container").show();
     });
 </script>

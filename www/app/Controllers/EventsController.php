@@ -9,8 +9,8 @@ use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
 use Support\Facades\Cookie;
 use View;
+use Config\Config;
 use Helpers\Url;
-use Helpers\Data;
 use Helpers\Gump;
 use Helpers\Session;
 use App\Core\Controller;
@@ -39,6 +39,13 @@ class EventsController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         $this->_model = new EventsModel();
         $this->_translationModel = new TranslationsModel();
         $this->_saildictModel = new SailDictionaryModel();
@@ -7394,7 +7401,6 @@ class EventsController extends Controller
             ->shares("title", __("news_title"))
             ->shares("data", $data);
     }
-
 
     public function applyEvent()
     {

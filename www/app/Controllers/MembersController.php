@@ -6,9 +6,9 @@ use App\Models\NewsModel;
 use View;
 use Helpers\Constants\EventMembers;
 use Helpers\Csrf;
-use Helpers\Data;
 use Helpers\Gump;
 use Mailer;
+use Config\Config;
 use Helpers\Password;
 use Helpers\ReCaptcha;
 use Helpers\Session;
@@ -18,7 +18,6 @@ use App\Models\MembersModel;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Config\Config;
 
 class MembersController extends Controller
 {
@@ -32,6 +31,13 @@ class MembersController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         $this->_model = new MembersModel();
 
         $this->_eventModel = new EventsModel();
