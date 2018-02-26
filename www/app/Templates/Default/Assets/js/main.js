@@ -11,15 +11,31 @@ var EventSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
+    HIGHLIGHT: "highlight",
     VERBALIZE: "verbalize",
     CHUNKING: "chunking",
     READ_CHUNK: "read-chunk",
     BLIND_DRAFT: "blind-draft",
+    REARRANGE: "rearrange",
+    SYMBOL_DRAFT : "symbol-draft",
+    THEO_CHECK: "theo-check",
+    BT_CHECK : "bt-check",
     SELF_CHECK: "self-check",
     PEER_REVIEW: "peer-review",
     KEYWORD_CHECK: "keyword-check",
     CONTENT_REVIEW: "content-review",
     FINAL_REVIEW: "final-review",
+    FINISHED: "finished",
+};
+
+var EventCheckSteps = {
+    NONE: "none",
+    PRAY: "pray",
+    CONSUME: "consume",
+    FST_CHECK: "fst-check",
+    SND_CHECK: "snd-check",
+    PEER_REVIEW_L2: "peer-review-l2",
+    KEYWORD_CHECK_L2: "keyword-check-l2",
     FINISHED: "finished",
 };
 
@@ -40,7 +56,7 @@ $(document).ready(function() {
     }
 
     Offline.on("confirmed-up", function () {
-        console.log("internet is up");
+        //console.log("internet is up");
     });
 
     Offline.on("confirmed-down", function () {
@@ -345,13 +361,17 @@ $(document).ready(function() {
 
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
-            step == EventSteps.CONTENT_REVIEW)
+            step == EventSteps.CONTENT_REVIEW || step == EventSteps.REARRANGE ||
+            step == EventSteps.SYMBOL_DRAFT ||
+            step == EventCheckSteps.FST_CHECK || // For Level 2 Check
+            step == EventCheckSteps.SND_CHECK ||
+            step == EventCheckSteps.PEER_REVIEW_L2)
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
-				var item = step == EventSteps.BLIND_DRAFT ?
-                "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk :
-                "event"+eventID;
+                var item = step == EventSteps.BLIND_DRAFT 
+                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk 
+                    : "event"+eventID;
 				var saved = localStorage.getItem(item);
 				if(saved)
 				{
@@ -366,6 +386,11 @@ $(document).ready(function() {
 			}
 			
             autosaveTimer = setInterval(function() {
+                if(typeof isDemo != "undefined" && isDemo)
+                {
+                    hasChangesOnPage = false;
+                }
+
                 if(hasChangesOnPage)
                 {
                     $.ajax({
@@ -471,8 +496,12 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
+            var add = typeof tMode != "undefined"
+                && $.inArray(tMode, ["tn"]) > -1 ? "-tn"
+                    : (typeof manageMode != "undefined" ? "-"+manageMode : "");
+
             $.ajax({
-                url: "/events/information/"+eventID,
+                url: "/events/information"+add+"/"+eventID,
                 method: "get",
                 dataType: "json",
             })
@@ -676,43 +705,48 @@ $(document).ready(function() {
             data: $("#checker_submit").serialize(),
             dataType: "json",
             beforeSend: function() {
-
-		if($(".checkerLoader").length <= 0)
-		    $(".ui-dialog-buttonset")
-			.prepend('<img src="/templates/default/assets/img/loader.gif" style="margin-right:10px" width="32" class="checkerLoader">');
-		$(".checkerLoader").show();
-		$(".ui-dialog-buttonset button").prop("disabled", true);
+                if($(".checkerLoader").length <= 0) {
+                    $(".ui-dialog-buttonset")
+                        .prepend('<img src="/templates/default/assets/img/loader.gif" style="margin-right:10px" width="32" class="checkerLoader">');
+                }
+                $(".checkerLoader").show();
+                $(".ui-dialog-buttonset button").prop("disabled", true);
             }
         })
-            .done(function(data) {
-                if(data.success)
-                {
-                    var data = {
-                        type: "checkDone",
-                        eventID: eventID,
-                        chkMemberID: chkMemberID,
-                    };
-                    socket.emit("system message", data);
+        .done(function(data) {
+            if(data.success)
+            {
+                var data = {
+                    type: "checkDone",
+                    eventID: eventID,
+                    chkMemberID: chkMemberID,
+                };
+                socket.emit("system message", data);
 
-                    if(window.opener != null)
-                    {
-                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
-                        window.close();
-                    }
-                    else
-                    {
-                        window.location = "/events";
-                    }
+                if(window.opener != null)
+                {
+                    window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                    window.close();
                 }
                 else
                 {
-                    console.log(data.errors);
+                    window.location = "/events";
                 }
-            })
-            .always(function() {
-		$(".checkerLoader").hide();
-		$(".ui-dialog-buttonset button").prop("disabled", false);
-            });
+            }
+            else
+            {
+                var message = "";
+                $.each(data.errors, function(i, v) {
+                    message += v + "<br>";
+                });
+                renderPopup(message);
+                console.log(data.errors);
+            }
+        })
+        .always(function() {
+            $(".checkerLoader").hide();
+            $(".ui-dialog-buttonset button").prop("disabled", false);
+        });
 
         return false;
     });
@@ -731,7 +765,11 @@ $(document).ready(function() {
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
         var p = $(this).parent().parent();
-        var createChunkBtn = $(".create_chunk").clone();
+        var createChunkBtn = $(".clone.create_chunk").clone();
+        var resetBtn = $(".clone.chunks_reset").clone();
+
+        createChunkBtn.removeClass("clone");
+        resetBtn.removeClass("clone");
 
         var verses = parseCombinedVerses($(this).val());
 
@@ -758,7 +796,7 @@ $(document).ready(function() {
                     currentChunk = 0;
                     firstVerse = verse;
 
-                    $(".chunks_reset").show();
+                    //$(".chunks_reset").show();
                 }
                 else
                 {
@@ -772,9 +810,11 @@ $(document).ready(function() {
 
                 lastVerse = verse;
             }
-
             $(".verse_p .create_chunk").remove();
+            $(".verse_p .chunks_reset").remove();
+
             p.append(createChunkBtn);
+            p.append(resetBtn);
         }
         else                     // Deselect verse from the end
         {
@@ -813,15 +853,17 @@ $(document).ready(function() {
                 if(chunks.length <= 0)
                 {
                     firstVerse = 0;
-                    $(".chunks_reset").hide();
+                    //$(".chunks_reset").hide();
                 }
             }
 
             $(".verse_p .create_chunk").remove();
+            $(".verse_p .chunks_reset").remove();
 
             if(prep_p.length > 0)
             {
                 prep_p.append(createChunkBtn);
+                prep_p.append(resetBtn);
             }
         }
 
@@ -829,7 +871,8 @@ $(document).ready(function() {
 
         fv = firstVerse < 10 ? "0"+firstVerse : firstVerse;
         lv = lastVerse < 10 ? "0"+lastVerse : lastVerse;
-        $(".verse_p .create_chunk").text(Language.makeChunk+" "+fv+"-"+lv).show();
+        $(".verse_p .create_chunk").text(fv+"-"+lv).attr("title", Language.makeChunk+" "+fv+"-"+lv).show();
+        $(".verse_p .chunks_reset").show();
     });
 
     // Start new chunk
@@ -837,16 +880,17 @@ $(document).ready(function() {
         currentChunk++;
         $(".verse_p .create_chunk").parent().after('<div class="chunk_divider col-sm-12"></div>');
         $(".verse_p .create_chunk").remove();
+        $(".verse_p .chunks_reset").css("top", -15);
     });
 
     // Reset chunks
-    $(".chunks_reset").click(function() {
+    $(document).on("click", ".verse_p .chunks_reset", function() {
         chunks = [];
         currentChunk = -1;
         firstVerse = 0;
         lastVerse = 0;
 
-        $(this).hide();
+        $(this).remove();
         $(".verse_p .create_chunk").remove();
         $(".chunk_divider").remove();
         $(".verse_number").prop("checked", false);
@@ -949,10 +993,16 @@ $(document).ready(function() {
 
     // Show/Hide Comment Textarea
     $(document).on("click", ".editComment", function() {
+        $(".comment_div").hide();
+
         comments = $(this).next(".comments");
         var comment = $(".my_comment", comments).text();
-        $(".editor").show();
+
+        var top = $(this).offset().top - 80;
+        $(".comment_div").css("top", top).show();
+
         $("textarea", $(".comment_div")).val(comment).focus();
+
         lastCommentEditor = $(this);
         autosize.update($('textarea'));
 
@@ -964,17 +1014,17 @@ $(document).ready(function() {
         });
     });
 
-    $(".editor").click(function(e) {
-        if(e.target.className == "comment_div" || e.target.className == "editor")
-        {
-            $(".editor").hide();
-        }
+    $(".xbtn").click(function () {
+        $(".comment_div").hide();
     });
 
     $(".editor-close").click(function() {
         comments = lastCommentEditor.next(".comments");
+
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
+        var level = $(this).data("level") != "undefined"
+            ? $(this).data("level") : 1;
 
         chapchunk = lastCommentEditor.attr("data").split(":");
 
@@ -990,7 +1040,8 @@ $(document).ready(function() {
                         eventID: eventID,
                         chapter: chapchunk[0],
                         chunk: chapchunk[1],
-                        comment: text},
+                        comment: text,
+                        level: level},
                     dataType: "json",
                     beforeSend: function() {
                         $(".commentEditorLoader").show();
@@ -999,7 +1050,7 @@ $(document).ready(function() {
                 .done(function(data) {
                     if(data.success)
                     {
-                        $(".editor").hide();
+                        $(".comment_div").hide();
                         var src = lastCommentEditor.attr("src");
 
                         data.text = unEscapeStr(data.text);
@@ -1024,7 +1075,8 @@ $(document).ready(function() {
                             type: "comment",
                             eventID: eventID,
                             verse: lastCommentEditor.attr("data"),
-                            text: data.text
+                            text: data.text,
+                            level: level
                         };
                         socket.emit("system message", data);
                     }
@@ -1047,9 +1099,11 @@ $(document).ready(function() {
         }
 		else
 		{
-			$(".editor").hide();
+			$(".comment_div").hide();
 		}
     });
+
+    $(".comment_div").draggable({snap: 'inner'});
 
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
@@ -1121,12 +1175,16 @@ $(document).ready(function() {
     });
 
     // Save keywords
-    $("body").on("mouseup", "div[class^=kwverse]", function (e) {
-        if(!isChecker) return false;
-        if(typeof isInfoPage != "undefined") return false;
+    var isHighlighting = false; // Fix for mobile devices
+    $("body").on("mouseup touchend", "div[class^=kwverse]", function (e) {
+        if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
+        if(typeof disableHighlight != "undefined") return;
+        if(typeof isInfoPage != "undefined") return;
         if(typeof step == "undefined"
-            || step != EventSteps.KEYWORD_CHECK) return;
-
+            || (step != EventSteps.KEYWORD_CHECK
+            && step != EventSteps.THEO_CHECK
+            && step != EventSteps.HIGHLIGHT)) return;
+        
         var verseID = $(this).attr("class");
         var text;
 
@@ -1190,6 +1248,10 @@ $(document).ready(function() {
                                 var index = search.indexOf(offset + diff);
 
                                 sel.removeAllRanges();
+                                isHighlighting = true;
+                                setTimeout(function () {
+                                    isHighlighting = false;
+                                }, 500);
                                 //renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
                                 //    $(this).dialog("close");
                                     saveOrRemoveKeyword(verseID, text, index, false);
@@ -1218,9 +1280,12 @@ $(document).ready(function() {
 
 
     $("body").on("mouseover", ".chunk_verses b", function (e) {
-        if(!isChecker) return false;
+        if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
+        if(typeof disableHighlight != "undefined") return;
         if(typeof step == "undefined"
-            || step != EventSteps.KEYWORD_CHECK) return;
+            || (step != EventSteps.KEYWORD_CHECK
+                && step != EventSteps.THEO_CHECK
+                && step != EventSteps.HIGHLIGHT)) return;
 
         if($(".remove_kw_tip").length <= 0)
         {
@@ -1231,20 +1296,40 @@ $(document).ready(function() {
     });
 
     $("body").on("mouseout", ".chunk_verses b", function (e) {
-        if(isChecker)
+        if(isChecker || ["tn"].indexOf(tMode) > -1)
             $(".remove_kw_tip").remove();
     });
 
     // Delete keyword
     $("body").on("click", ".chunk_verses b", function () {
-        if(typeof isInfoPage != "undefined") return false;
+        if(typeof isInfoPage != "undefined") return;
+        if(typeof disableHighlight != "undefined") return;
+        if(isHighlighting) return;
 
-        if(isChecker && step == EventSteps.KEYWORD_CHECK)
+        if(!window.getSelection().isCollapsed) return;
+
+        var isL2Checker = typeof isLevel2 != "undefined"
+                && !isChecker ? true : false;
+
+        if((isChecker || ["tn"].indexOf(tMode) > -1 || isL2Checker)
+            && (step == EventSteps.KEYWORD_CHECK
+                || step == EventSteps.HIGHLIGHT
+                || step == EventSteps.THEO_CHECK
+                || step == EventCheckSteps.KEYWORD_CHECK_L2
+                || step == EventCheckSteps.PEER_REVIEW_L2))
         {
             var $this = $(this);
             var text = $(this).text();
 
-            renderConfirmPopup(Language.delKeywordTitle, Language.delKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
+            var titleTxt = Language.delKeywordTitle;
+            var confirmTxt = Language.delKeyword;
+            if(typeof isLevel2 != "undefined")
+            {
+                var titleTxt = Language.delKeywordL2Title;
+                var confirmTxt = Language.delKeywordL2;
+            }
+
+            renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>?', function () {
                 $(this).dialog("close");
 
                 var parent = $this.parents("div[class^=kwverse]");
@@ -1256,15 +1341,23 @@ $(document).ready(function() {
         }
     });
 
-    loadKeywordsIntoSourse();
+    if(typeof isDemo == "undefined")
+        loadKeywordsIntoSourse();
 
     function loadKeywordsIntoSourse() {
         if(typeof eventID == "undefined") return;
-        if(typeof isDemo != "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
             && step != EventSteps.CONTENT_REVIEW
-            && step != EventSteps.FINAL_REVIEW)) return;
+            && step != EventSteps.FINAL_REVIEW
+            && step != EventSteps.HIGHLIGHT
+            && step != EventSteps.PEER_REVIEW
+            && step != EventCheckSteps.KEYWORD_CHECK_L2
+            && step != EventSteps.THEO_CHECK
+            && step != EventCheckSteps.PEER_REVIEW_L2)) return;
+        
+        if(step == EventSteps.PEER_REVIEW && 
+            typeof disableHighlight == "undefined") return;
 
         $("div[class^=kwverse]").html(function() {
             return $(this).text();
@@ -1305,6 +1398,215 @@ $(document).ready(function() {
             });
     }
 
+    // Summernote text editor for notes
+    $(document).ready(function() {
+        $(".add_notes_editor").each(function() {
+            $(this).summernote({
+                lang: siteLang,
+                airMode: true,
+                placeholder: Language.notesPlaceholder,
+                popover: {
+                    link: [
+                        ['link', ['linkDialogShow', 'unlink']]
+                    ],
+                    air: [
+                        ['para', ['style', 'ul', 'ol']],
+                        ['style', ['bold', 'italic', 'underline']],
+                        ['link', ['linkDialogShow', 'unlink']],
+                        ['misc', ['undo', 'redo']]
+                    ]
+                },
+                callbacks: {
+                    onInit: function() {
+                        var parent = $(this).parents(".note_chunk");
+                        var noteContent = $(".note_content", parent);
+                        var height = noteContent.actual("height");
+                        $(".notes_editor", parent).css("min-height", height);
+                    },
+                    onPaste: function(e) {
+                        e.preventDefault();
+                        
+                        hasChangesOnPage = true;
+                        $(".unsaved_alert").show();
+                        
+                        var html = (e.originalEvent || e).clipboardData.getData('text/html');
+                        var dom = $(html);
+
+                        // Replace absolute urls by relative ones when using keyboard to paste
+                        $("a", dom).each(function() {
+                            $(this).attr("href", $(this).attr("title"));
+                            $(this).removeAttr("title");
+                        });
+
+                        // Fix when bold links come without spaces
+                        $("strong", dom).each(function() {
+                            $("<span> </span>").insertAfter(this);
+                        });
+                        
+                        var container = $("<div>").append(dom.clone()).html();
+
+                        window.document.execCommand('insertHtml', false, container);
+                    },
+                    onChange: function(contents, $editable) {
+                        hasChangesOnPage = true;
+                        $(".unsaved_alert").show();
+                        
+                        var pasted = $(".button_copy_notes button").data("pasted");
+
+                        if(pasted)
+                        {
+                            $(".button_copy_notes button").data("pasted", false)
+
+                            var dom = $(contents);
+                            
+                            // Clear break paragraphs
+                            $(this).summernote("reset");
+                            dom.each(function() {
+                                if(this.nodeName == "P")
+                                {
+                                    $(this).empty();
+                                }
+                            });
+
+                            // Replace absolute urls by relative ones when using button to paste
+                            $("a", dom).each(function() {
+                                $(this).attr("href", $(this).attr("title"));
+                                $(this).removeAttr("title");
+                            });
+
+                            // Fix bold links that come without spaces
+                            $("strong", dom).each(function() {
+                                $("<span> </span>").insertAfter(this);
+                            });
+
+                            var container = $("<div>").append(dom.clone()).html();
+                            window.document.execCommand('insertHtml', false, container);
+                        }
+                    }
+                }
+            });
+            $(".note_content a").each(function() {
+                $(this).attr("title", $(this).attr("href"));
+            });
+        });
+    });
+
+    $(".notes_editor").click(function() {
+        //$('.add_notes_editor', this).summernote('focus');
+    });
+
+    setTimeout(function () {
+        $(".words_block").each(function() {
+            var h = $(".chunk_verses", this).height();
+            $(".editor_area textarea", this).css("min-height", h);
+        });
+    },100);
+
+    $(".toggle-help").click(function() {
+        var mode = $(this).data("mode");
+
+        if($(".main_content").hasClass("col-sm-9"))
+        {
+            var hidePos = $(".help_hide").offset();
+            var showPos = $(".help_show").position();
+
+            $(".help_show").css("visibility", "visible");
+
+            $(".help_show").offset(hidePos);
+            $(".help_show").animate({
+                top: -5,
+                right: -5,
+                left: showPos.left
+            }, 500);
+
+            // Hide
+            $(".main_content").removeClass("col-sm-9")
+                .addClass("col-sm-12");
+            $(".content_help").hide();
+
+            if(mode == "l2")
+            {
+                $(".chunk_verses").hide();
+                $(".editor_area").removeClass("col-sm-6")
+                    .addClass("col-sm-12");
+                if(typeof autosize == "function")
+                    autosize.update($('textarea'));
+            }
+
+            //$(this).text(Language.showHelp);
+        }
+        else 
+        {
+            // Show
+            $(".main_content").addClass("col-sm-9")
+                .removeClass("col-sm-12");
+            $(".content_help").show();
+            $(".help_hide").show();
+            $(".help_show").css("visibility", "hidden");
+
+            if(mode == "l2")
+            {
+                $(".chunk_verses").show();
+                $(".editor_area").addClass("col-sm-6")
+                    .removeClass("col-sm-12");
+                if(typeof autosize == "function")
+                    autosize.update($('textarea'));
+            }
+
+            //$(this).text(Language.hideHelp);
+        }
+    });
+
+    $(".button_copy_notes button").click(function(e) {
+        e.preventDefault();
+
+        $(this).data("pasted", true);
+        
+        $(".note-editable").html("");
+        var content = $(".note_content").clone();
+        $(".add_notes_editor").summernote("insertNode", content[0]);
+    });
+
+    /*var chunkNotesIncr = [];
+    $(".add_notes button").click(function(e) {
+        e.preventDefault();
+        
+        var parent = $(this).parents(".notes_editor");
+        var chunkNo = parent.data("chunkno");
+
+        if(typeof chunkNotesIncr[chunkNo] == "undefined")
+            chunkNotesIncr[chunkNo] = 0;
+        
+        var editor = "" + 
+            "<div class='notes_chunk_editor'>" +
+                "<button class='btn btn-danger notes_chunk_remove glyphicon glyphicon-remove'></button>" +
+                "<label>ref:" +
+                    "<textarea name='chunks["+chunkNo+"]["+chunkNotesIncr[chunkNo]+"][ref]' "+
+                        "class='textarea' rows='1'></textarea>" +
+                "</label>" + 
+                "<label>text:" +
+                    "<textarea name='chunks["+chunkNo+"]["+chunkNotesIncr[chunkNo]+"][text]' "+
+                        "class='textarea' rows='1'></textarea>" +
+                "</label>"
+            "</div>"
+        "";
+
+        $(".add_notes_editor", parent).append(editor);
+        autosize($('textarea'));
+        chunkNotesIncr[chunkNo]++;
+    });
+
+    $(document).on("click", ".notes_chunk_remove", function() {
+        var parent = $(this).parents(".notes_chunk_editor");
+        var chunkParent = $(this).parents(".notes_editor");
+        var chunkno = chunkParent.data("chunkno");
+        parent.remove();
+        
+        if(typeof chunkNotesIncr[chunkNo] == "undefined")
+            chunkNotesIncr[chunkNo]--;
+    });*/
+
+
     // ---------------------  Verse markers setting start -------------------- //
     var bindDraggables = function() {
         $('.bubble').attr("contenteditable", false).attr("draggable", true);
@@ -1341,8 +1643,8 @@ $(document).ready(function() {
         var bubble = $("body").data("bubble");
         var focused = $("body").data("focused");
         var txt = $(e.target).text();
-        // Check if text has Chinese/Japanese/Myanmar/Lao characters
-        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f]/.test(txt);
+        // Check if text has Chinese/Japanese/Myanmar/Lao characters and SUN
+        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f\ue000-\uf8ff]/.test(txt);
         $("body").data("hasCJLM", hasCJLM);
 
         if(!e.target || e.target.className != "splword" // drop only before words
@@ -1492,12 +1794,12 @@ $(document).ready(function() {
         if($(this).val() != "")
         {
             $(".fluency", parent).prop("name", "lang["+$(this).val()+"][fluency]").prop("disabled", false);
-            $(".geo_years", parent).prop("name", "lang["+$(this).val()+"][geo_years]").prop("disabled", false);
+            //$(".geo_years", parent).prop("name", "lang["+$(this).val()+"][geo_years]").prop("disabled", false);
         }
         else
         {
             $(".fluency", parent).prop("name", "").prop("disabled", true);
-            $(".geo_years", parent).prop("name", "").prop("disabled", true);
+            //$(".geo_years", parent).prop("name", "").prop("disabled", true);
         }
     });
 
@@ -1510,8 +1812,8 @@ $(document).ready(function() {
 
         $(".language").val("").trigger('chosen:updated');
         $(".fluency").prop("checked", false).prop("disabled", true);
-        $(".geo_years").prop("checked", false).prop("disabled", true);
-        $(".fluency, .geo_years").trigger("change");
+        //$(".geo_years").prop("checked", false).prop("disabled", true);
+        $(".fluency/*, .geo_years*/").trigger("change");
         $(".language").chosen();
     });
 
@@ -1520,11 +1822,11 @@ $(document).ready(function() {
         var lang = $(".language").val();
         var langName = $(".language option:selected").text();
         var fluency = $(".fluency:checked").val();
-        var geo_years = $(".geo_years:checked").val();
+        //var geo_years = $(".geo_years:checked").val();
         var option = $(".langs option[value^='"+lang+":']");
 
         if(option.length <= 0) {
-            $(".langs").append("<option value='"+lang+":"+fluency+":"+geo_years+"'>" + langName + "</option>");
+            $(".langs").append("<option value='"+lang+":"+fluency+/*":"+geo_years+*/"'>" + langName + "</option>");
             option = $(".langs option[value^='"+lang+":']");
         }
         else
@@ -1539,11 +1841,11 @@ $(document).ready(function() {
         $(".langs").prop("disabled", false).trigger("chosen:updated");
     });
 
-    $(".fluency, .geo_years").change(function() {
+    $(".fluency/*, .geo_years*/").change(function() {
         var fluency = $(".fluency:checked").val();
-        var geo_years = $(".geo_years:checked").val();
+        //var geo_years = $(".geo_years:checked").val();
 
-        if(typeof fluency != "undefined" && typeof geo_years != "undefined")
+        if(typeof fluency != "undefined"/* && typeof geo_years != "undefined"*/)
         {
             $(".add_lang").prop("disabled", false);
         }
@@ -1917,6 +2219,59 @@ $(document).ready(function() {
         else
             $(".save_profile_container").addClass("unlinked");
     });
+
+    $("#refresh").click(function() {
+        window.location.reload();
+    });
+
+    $(".demo_link, #demo_link").click(function() {
+        if($(".demo_options").is(":visible"))
+        {
+            $(".demo_options").hide(200);
+        }
+        else
+        {
+            $(".demo_options").show(200);
+        }
+    });
+
+    // Sail dictionary
+    $("body").on("keyup", "#sailfilter", function () {
+        var w = $(this).val();
+        var re = new RegExp(w, "ig");
+
+        $(".sail_list li").hide();
+        $(".sail_list li").filter(function () {
+            return this.id.match(re);
+        }).show();
+    });
+
+    $("body").on("click", ".sail_list li", function () {
+        var symbol = $("input", this);
+        symbol.select();
+
+        try
+        {
+            document.execCommand("Copy");
+            $(".copied_tooltip").show().fadeOut(2000);
+        }
+        catch (error)
+        {
+            alert(error);
+        }
+    });
+
+    $(".saildict_panel").draggable({snap: 'inner'});
+
+    $(".show_saildict").click(function (e) {
+        $(".saildict_panel").show();
+
+        e.preventDefault();
+    });
+
+    $("body").on("click", ".saildict_panel .panel-close", function () {
+        $(".saildict_panel").hide();
+    });
 });
 
 function animateIntro() {
@@ -2095,9 +2450,9 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo, onClose) {
         return false;
     };
     onClose = typeof onClose != "undefined" ? onClose : function(){
-            $( this ).dialog( "close" );
-            return false;
-        };
+        $( this ).dialog( "close" );
+        return false;
+    };
 
     var yes = Language.yes;
     var no = Language.no;
@@ -2133,7 +2488,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         highlightKeyword(verseID, text, index, remove);
         return false;
     }
-
+    
     $.ajax({
         url: "/events/rpc/save_keyword",
         method: "post",
@@ -2194,6 +2549,8 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
 function highlightKeyword(verseID, text, index, remove) {
     remove = remove || false;
     var verseEl = $("."+verseID);
+    
+    if(verseEl.length <= 0) return;
 
     text = unEscapeStr(text);
 

@@ -4,16 +4,15 @@ use Helpers\Constants\EventMembers;
 if(isset($data["error"])) return;
 ?>
 
-<div class="editor">
-    <div class="comment_div panel panel-default" dir="<?php echo $data["event"][0]->tLangDir ?>">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
-        </div>
-        <textarea class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list <?php echo $data["event"][0]->tLangDir?>"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
@@ -65,7 +64,9 @@ if(isset($data["error"])) return;
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea"><?php echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text ?></textarea>
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea"><?php
+                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                        ?></textarea>
 
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
@@ -79,7 +80,12 @@ if(isset($data["error"])) return;
                                                     <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
                                                         <div class="my_comment"><?php echo $comment->text; ?></div>
                                                     <?php else: ?>
-                                                        <div class="other_comments"><?php echo "<span>".$comment->userName.":</span> ".$comment->text; ?></div>
+                                                        <div class="other_comments">
+                                                            <?php echo
+                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                                    (L".$comment->level."):</span> 
+                                                                ".$comment->text; ?>
+                                                        </div>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
@@ -112,6 +118,7 @@ if(isset($data["error"])) return;
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -136,6 +143,8 @@ if(isset($data["error"])) return;
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 

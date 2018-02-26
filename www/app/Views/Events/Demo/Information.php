@@ -7,7 +7,7 @@ use Helpers\Constants\StepsStates;
     <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
         <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
     <?php endif; ?>
-    <div class="demo_title"><?php echo __("demo") ?></div>
+    <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
 </div>
 
 <div>
@@ -442,21 +442,21 @@ use Helpers\Constants\StepsStates;
         <div class="members_title"><?php echo __("event_participants") ?>:</div>
         <div data="16" class="member_item">
             <span class="online_indicator glyphicon glyphicon-record online">&nbsp;</span>
-            <span class="member_uname">mSimpson</span>
+            <span class="member_uname">Marge S.</span>
             <span class="member_admin"> </span>
             <span class="online_status" style="display: inline;"><?php echo __("status_online") ?></span>
             <span class="offline_status" style="display: none;"><?php echo __("status_offline") ?></span>
         </div>
         <div data="7" class="member_item">
             <span class="online_indicator glyphicon glyphicon-record online">&nbsp;</span>
-            <span class="member_uname">mpat1977</span>
+            <span class="member_uname">Paul G.</span>
             <span class="member_admin"> </span>
             <span class="online_status" style="display: inline;"><?php echo __("status_online") ?></span>
             <span class="offline_status" style="display: none;"><?php echo __("status_offline") ?></span>
         </div>
         <div data="17" class="member_item">
             <span class="online_indicator glyphicon glyphicon-record">&nbsp;</span>
-            <span class="member_uname">bober</span>
+            <span class="member_uname">Genry M.</span>
             <span class="member_admin"> (<?php echo __("facilitator"); ?>)</span>
             <span class="online_status" style="display: none;"><?php echo __("status_online") ?></span>
             <span class="offline_status"><?php echo __("status_offline") ?></span>

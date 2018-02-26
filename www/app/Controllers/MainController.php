@@ -3,9 +3,9 @@ namespace App\Controllers;
 
 use View;
 use App\Core\Controller;
-use Helpers\Data;
 use Helpers\Session;
 use Helpers\Url;
+use Config\Config;
 
 /**
  * Sample controller showing a construct and 2 methods and their typical usage.
@@ -30,6 +30,12 @@ class MainController extends Controller
      */
     public function index()
     {
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         if(Session::get('loggedin'))
         {
             if(empty(Session::get("profile")))
@@ -46,6 +52,12 @@ class MainController extends Controller
         return View::make('Main/Index')
             ->shares("title", __("welcome_text"))
             ->shares("data", $data);
+    }
+
+    public function maintenance()
+    {
+        return View::make('Main/Maintenance')
+            ->shares("title", __("maintenance_work"));
     }
 
     /**

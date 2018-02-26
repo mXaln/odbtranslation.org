@@ -3,28 +3,22 @@ use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
 use Helpers\Session;
 
-$stepsNum = [
-    EventSteps::NONE => 0,
-    EventSteps::PRAY => 0,
-    EventSteps::CONSUME => 1,
-    EventSteps::VERBALIZE => 2,
-    EventSteps::CHUNKING => 3,
-    EventSteps::READ_CHUNK => 4,
-    EventSteps::BLIND_DRAFT => 4,
-    EventSteps::SELF_CHECK => 5,
-    EventSteps::PEER_REVIEW => 6,
-    EventSteps::KEYWORD_CHECK => 7,
-    EventSteps::CONTENT_REVIEW => 8,
-    EventSteps::FINAL_REVIEW => 0,
-    EventSteps::FINISHED => 0,
-];
+$profile = Session::get("profile");
 ?>
 
 <div style="margin-bottom: 20px">
     <h1 class="demo_h"><?php echo __("vmast_events") ?></h1>
     <div class="demo_title events_index">
-        <a href="/events/demo" class="demo_link"><?php echo __("demo")?></a>
+        <a href="#" class="demo_link"><?php echo __("demo")?></a>
         <span class="glyphicon glyphicon-chevron-right"></span>
+        <div class="demo_options">
+            <ul>
+                <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
+                <a href="/events/demo-l2"><li><?php echo __("l2_3_events", [2]); ?></li></a>
+                <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
+                <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -71,8 +65,6 @@ $stepsNum = [
 
         <div class="clear"></div>
 
-
-
         <?php if(sizeof($data["myFacilitatorEventsInProgress"]) > 0): ?>
         <div class="events_separator"><?php echo __("events_in_progress") ?></div>
         <?php endif; ?>
@@ -82,39 +74,46 @@ $stepsNum = [
             switch ($event->state)
             {
                 case EventStates::L2_RECRUIT:
+                case EventStates::L2_CHECK:
+                case EventStates::L2_CHECKED:
                     $eventType = __("l2_3_events", array(2));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl2Cnt;
-                    $totalMembers = $event->l2CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l2/".$event->eventID;
+                    $progressLink = "/events/information-l2/".$event->eventID;
                     break;
 
                 case EventStates::L3_RECRUIT:
+                case EventStates::L3_CHECK:
                     $eventType = __("l2_3_events", array(3));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl3Cnt;
-                    $totalMembers = $event->l3CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l3/".$event->eventID;
+                    $progressLink = "/events/information-l3/".$event->eventID;
                     break;
 
                 default:
-                    $eventType = __("8steps_vmast");
-                    $eventImg = template_url("img/steps/big/peer-review.png");
+                    $mode = $event->bookProject;
+                    $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+                    $eventImg = $mode != "sun"
+                        ? template_url("img/steps/big/peer-review.png")
+                        : template_url("img/steps/big/vsail.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
-                    $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
-                    $progressLink = "/events/information/".$event->eventID;
+                    $progressLink = "/events/information".
+                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
+                        "/".$event->eventID;
                     break;
             }
             ?>
@@ -122,6 +121,7 @@ $stepsNum = [
             <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
                 <div class="event_logo <?php echo $logoBorderClass ?>">
                     <div class="event_type"><?php echo __($eventType) ?></div>
+                    <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
                     <div class="event_img">
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
@@ -163,7 +163,7 @@ $stepsNum = [
                     <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
                     <div class="event_members">
                         <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                        <div class="trs_num"><?php echo $currentMembers ?></div>
                     </div>
                 </div>
 
@@ -182,39 +182,46 @@ $stepsNum = [
             switch ($event->state)
             {
                 case EventStates::L2_RECRUIT:
+                case EventStates::L2_CHECK:
+                case EventStates::L2_CHECKED:
                     $eventType = __("l2_3_events", array(2));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl2Cnt;
-                    $totalMembers = $event->l2CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l2/".$event->eventID;
+                    $progressLink = "/events/information-l2/".$event->eventID;
                     break;
 
                 case EventStates::L3_RECRUIT:
+                case EventStates::L3_CHECK:
                     $eventType = __("l2_3_events", array(3));
+                    $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->chl3Cnt;
-                    $totalMembers = $event->l3CheckersNum;
                     $members = __("checkers");
-                    $manageLink = "#";
-                    $progressLink = "#";
+                    $manageLink = "/events/manage-l3/".$event->eventID;
+                    $progressLink = "/events/information-l3/".$event->eventID;
                     break;
 
                 default:
-                    $eventType = __("8steps_vmast");
-                    $eventImg = template_url("img/steps/big/peer-review.png");
+                    $mode = $event->bookProject;
+                    $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+                    $eventImg = $mode != "sun"
+                        ? template_url("img/steps/big/peer-review.png")
+                        : template_url("img/steps/big/vsail.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
-                    $totalMembers = $event->translatorsNum;
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
-                    $progressLink = "/events/information/".$event->eventID;
+                    $progressLink = "/events/information".
+                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
+                        "/".$event->eventID;
                     break;
             }
             ?>
@@ -222,6 +229,7 @@ $stepsNum = [
             <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
                 <div class="event_logo <?php echo $logoBorderClass ?>">
                     <div class="event_type"><?php echo __($eventType) ?></div>
+                    <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
                     <div class="event_img">
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
@@ -263,7 +271,7 @@ $stepsNum = [
                     <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
                     <div class="event_members">
                         <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                        <div class="trs_num"><?php echo $currentMembers ?></div>
                     </div>
                 </div>
 
@@ -279,11 +287,20 @@ $stepsNum = [
 
 <div id="my_translations_content" class="my_content">
     <?php foreach($data["myTranslatorEvents"] as $key => $event): ?>
+        <?php
+        $role = $event->stage == "translation" ? "translator" : "checker";
+        $mode = $event->bookProject;
+        $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+        $eventImg = $mode != "sun"
+            ? template_url("img/steps/big/peer-review.png")
+            : template_url("img/steps/big/vsail.png");
+        ?>
         <div class="event_block <?php echo $key%2 == 0 ? "green-marked" : "" ?>">
             <div class="event_logo translation">
-                <div class="event_type"><?php echo __("8steps_vmast") ?></div>
+                <div class="event_type"><?php echo $eventType ?></div>
+                <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
-                    <img width="146" src="<?php echo template_url("img/steps/big/peer-review.png") ?>">
+                    <img width="146" src="<?php echo $eventImg?>">
                 </div>
             </div>
             <div class="event_project">
@@ -327,15 +344,21 @@ $stepsNum = [
                             $step = EventSteps::BLIND_DRAFT;
                         ?>
                         <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                        <?php echo ($event->currentChapter > 0 ? __("chapter_number", array($event->currentChapter)). ", " : "").__($event->step) ?>
+                        <?php echo ($event->currentChapter > 0 ? __("chapter_number", 
+                            array($event->currentChapter)). ", " : "")
+                                .__($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" : "")) ?>
                     </div>
                 <?php endif; ?>
             </div>
             <div class="event_action">
-                <div class="event_link"><a href="/events/translator/<?php echo $event->eventID ?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link">
+                    <a href="/events/<?php echo $role.(in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "") ?>/<?php echo $event->eventID ?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
                 <div class="event_members">
                     <div><?php echo __("translators") ?></div>
-                    <div class="trs_num"><?php echo $event->currTrs."/".$event->translatorsNum ?></div>
+                    <div class="trs_num"><?php echo $event->currTrs ?></div>
                 </div>
             </div>
 
@@ -350,18 +373,30 @@ $stepsNum = [
 
 <div id="my_checks_content" class="my_content">
     <?php foreach($data["myCheckerL1Events"] as $key => $event): ?>
+        <?php
+            $mode = $event->bookProject;
+            $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+            $eventImg = $mode != "sun"
+                ? template_url("img/steps/icons/". $event->step ."-gray.png")
+                : template_url("img/steps/big/vsail.png");
+        ?>
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
                 <div class="event_type">
-                    <div><?php echo __("step_num", [$stepsNum[$event->step]]) ?></div>
-                    <div><?php echo __($event->step) ?></div>
+                    <div><?php echo __("step_num", EventSteps::enum($event->step, $event->bookProject, true)) ?></div>
+                    <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
+                    <?php $chk = $event->stage == "checking" ?>
+                    <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>
+                    <?php $add = $event->step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add; ?>
+                    <?php $memberID = !$chk ? $event->memberID : ($event->checkerID == Session::get("memberID") ? $event->memberID : "")?>
+                    <div><?php echo __($event->step.$add) ?></div>
                 </div>
                 <div class="event_img">
-                    <img width="85" src="<?php echo template_url("img/steps/icons/". $event->step ."-gray.png") ?>">
+                    <img width="85" src="<?php echo $eventImg ?>">
                 </div>
             </div>
             <div class="event_project">
-                <div class="event_book"><?php echo $event->bookName ?></div>
+                <div class="event_book"><?php echo isset($event->bookName) ? $event->bookName : $event->name ?></div>
                 <div class="event_proj">
                     <div><?php echo __($event->bookProject) ?></div>
                     <div><?php echo $event->tLang . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
@@ -378,7 +413,7 @@ $stepsNum = [
             <div class="event_translator">
                 <div class="event_translator_data">
                     <div class="event_translator_title"><?php echo __("translator") ?></div>
-                    <div class="event_translator_name"><?php echo $event->userName ?></div>
+                    <div class="event_translator_name"><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></div>
                 </div>
             </div>
             <div class="event_current_pos">
@@ -394,7 +429,14 @@ $stepsNum = [
                 </div>
             </div>
             <div class="event_action check1">
-                <div class="event_link"><a href="/events/checker/<?php echo $event->eventID."/".$event->memberID ?>" data="<?php echo $event->eventID."_".$event->memberID?>"><?php echo __("continue_alt") ?></a></div>
+                <div class="event_link">
+                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "")
+                            ."/".$event->eventID."/".$memberID
+                            .(isset($event->isContinue) ? "/".$event->currentChapter : "")?>"
+                       data="<?php echo $event->eventID."_".$event->memberID?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
             </div>
 
             <div class="clear"></div>
@@ -405,6 +447,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "lemon-marked" : "" ?>">
             <div class="event_logo checkingl2">
                 <div class="event_type"><?php echo __("l2_3_events", array(2)) ?></div>
+                <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
@@ -418,7 +461,7 @@ $stepsNum = [
                 <div class="event_facilitator">
                     <div><?php echo __("facilitators") ?>:</div>
                     <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
+                        <?php foreach ((array)json_decode($event->admins_l2, true) as $admin): ?>
                             <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
                         <?php endforeach; ?>
                     </div>
@@ -441,9 +484,23 @@ $stepsNum = [
                 </div>
             </div>
             <div class="event_current_pos">
+                <?php if($event->step != EventSteps::NONE): ?>
+                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                    <div class="event_curr_step">
+                        <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                        <?php echo ($event->currentChapter > 0 ? __("chapter_number",
+                                    array($event->currentChapter)). ", " : "")
+                            .__($event->step) ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="event_action check1">
-                <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
+            <div class="event_action check2">
+                <div class="event_link">
+                    <a href="/events/checker-l2/<?php echo $event->eventID
+                        .(isset($event->isContinue) ? "/".$event->l2memberID."/".$event->currentChapter : "") ?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
             </div>
 
             <div class="clear"></div>
@@ -454,6 +511,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? "blue-marked" : "" ?>">
             <div class="event_logo checkingl3">
                 <div class="event_type"><?php echo __("l2_3_events", array(3)) ?></div>
+                <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
@@ -491,7 +549,7 @@ $stepsNum = [
             </div>
             <div class="event_current_pos">
             </div>
-            <div class="event_action check1">
+            <div class="event_action check3">
                 <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
             </div>
 
@@ -513,33 +571,33 @@ $stepsNum = [
         {
             case EventStates::L2_RECRUIT:
                 $eventType = __("l2_3_events", array(2));
+                $mode = $event->bookProject;
                 $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl2";
                 $bgColor = "lemon-marked";
                 $currentMembers = $event->chl2Cnt;
-                $totalMembers = $event->l2CheckersNum;
                 $members = __("checkers");
                 $stage = "l2";
                 break;
 
             case EventStates::L3_RECRUIT:
                 $eventType = __("l2_3_events", array(3));
+                $mode = $event->bookProject;
                 $eventImg = template_url("img/steps/big/l2_check.png");
                 $logoBorderClass = "checkingl3";
                 $bgColor = "blue-marked";
                 $currentMembers = $event->chl3Cnt;
-                $totalMembers = $event->l3CheckersNum;
                 $members = __("checkers");
                 $stage = "l3";
                 break;
 
             default:
                 $eventType = __("8steps_vmast");
+                $mode = $event->bookProject;
                 $eventImg = template_url("img/steps/big/peer-review.png");
                 $logoBorderClass = "translation";
                 $bgColor = "green-marked";
                 $currentMembers = $event->trsCnt;
-                $totalMembers = $event->translatorsNum;
                 $members = __("translators");
                 $stage = "d1";
                 break;
@@ -549,6 +607,7 @@ $stepsNum = [
         <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
             <div class="event_logo <?php echo $logoBorderClass ?>">
                 <div class="event_type"><?php echo $eventType ?></div>
+                <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo $eventImg ?>">
                 </div>
@@ -588,7 +647,7 @@ $stepsNum = [
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="#" class="applyEvent <?php echo $currentMembers == $totalMembers ? "eventFull" : "" ?>"
+                    <a href="#" class="applyEvent"
                        data="<?php echo $event->eventID ?>"
                        data2="<?php echo $event->name ?>"
                        data3="<?php echo $stage ?>">
@@ -597,7 +656,7 @@ $stepsNum = [
                 </div>
                 <div class="event_members">
                     <div><?php echo $members ?></div>
-                    <div class="trs_num"><?php echo $currentMembers."/".$totalMembers ?></div>
+                    <div class="trs_num"><?php echo $currentMembers ?></div>
                 </div>
             </div>
 
@@ -613,9 +672,9 @@ $stepsNum = [
 </div>
 
 <div class="event-content form-panel">
-    <div class="create-event-content panel panel-default">
+    <div class="create-event-content l2 panel panel-default">
         <div class="panel-heading">
-            <h1 class="panel-title"></h1>
+            <h1 class="panel-title applyForm"></h1>
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
@@ -625,7 +684,7 @@ $stepsNum = [
 
                 <div class="errors"></div>
 
-                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 900px;">
+                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 550px;">
                     <div class="form-group">
                         <h3 class="ftr"><?php echo __("apply_as_translator") ?></h3>
                         <h3 class="fl2" style="display: none"><?php echo __("apply_as_checker", [2]) ?></h3>
@@ -635,7 +694,7 @@ $stepsNum = [
                     <div class="checker_info">
                         <div class="form-group">
                             <label class="church_role"><?php echo __('church_role'); ?>: </label>
-                            <div class="form-control">
+                            <div class="form-control" style="height: auto;">
                                 <label><input type="checkbox" name="church_role[]" value="Elder"
                                         <?php echo isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('elder'); ?> &nbsp;</label>
                                 <label><input type="checkbox" name="church_role[]" value="Bishop"

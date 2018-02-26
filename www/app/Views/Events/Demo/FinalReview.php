@@ -1,19 +1,18 @@
-<div class="editor">
-    <div class="comment_div panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title", array(""))?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
-        </div>
-        <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("final-review")?></div>
         </div>
         <div class="demo_video">
@@ -25,7 +24,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-7</span></h4>
+                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div class="col-sm-12">
                     <div class="row chunk_block">
@@ -78,11 +77,14 @@
                                 <textarea class="col-sm-6 peer_verse_ta textarea ta_hidden" name="chunks[]" style="overflow-x: hidden; word-wrap: break-word;"></textarea>
 
                                 <div class="comments_number hasComment">
-                                    1                                        </div>
+                                    2                                        </div>
                                 <img width="16" title="<?php echo __("write_note_title")?>" src="<?php echo template_url("img/edit.png") ?>" data="0:0" class="editComment">
 
                                 <div class="comments">
                                     <div class="my_comment">This is translator's comment on this chunk</div>
+                                    <div class="other_comments">
+                                        <div><span>John B. (L1):</span> This is checker's comment on this chunk</div>
+                                    </div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -686,6 +688,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -706,6 +709,8 @@
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 
@@ -734,7 +739,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/pray';
+            window.location.href = '/events/demo/information';
 
             return false;
         });

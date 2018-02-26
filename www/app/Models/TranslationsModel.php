@@ -37,12 +37,13 @@ class TranslationsModel extends Model
     {
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject",
-                "abbr.name AS bookName", "translations.bookCode")
+                "abbr.name AS bookName", "translations.bookCode", "abbr.abbrID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
             ->where("translations.translateDone", true)
+            ->orderBy("abbr.abbrID")
             ->groupBy("translations.bookCode")->get();
     }
 
@@ -57,7 +58,8 @@ class TranslationsModel extends Model
         return $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
-                "translations.chapter", "translations.translatedVerses", "languages.direction")
+                "translations.chapter", "translations.chunk", "translations.translatedVerses",
+                "translations.eventID", "languages.direction")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
@@ -79,24 +81,24 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translators");
 
         $builder->select("translations.chapter", "translations.chunk", "translations.translateDone",
+                "translations.translatedVerses",
                 "translations.firstvs", "translations.dateUpdate", "translators.memberID", "translators.step",
                 "translators.verbCheck", "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
-                "translators.currentChapter", "translators.checkerID")
+                "translators.otherCheck", "translators.currentChapter", "translators.checkerID")
             ->leftJoin("translations", "translators.trID", "=", "translations.trID")
             ->where("translators.eventID", $eventID)
             //->where("translators.step", "!=", EventSteps::NONE) TODO check for bugs
             ->orderBy("translations.chapter")
             ->orderBy("translations.chunk");
 
-        if($chapter != null)
+        if($chapter !== null)
             $builder->where("translations.chapter", $chapter);
-
         return $builder->get();
     }
 
 
     /** Get translation of translator in event
-     * (all - if tID and chapter null, chunk - if tID not null, chapter - if chapter not null)
+     * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
      * @param int $tID
      * @param int $chapter
@@ -108,9 +110,32 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translations")
             ->where("trID", $trID);
 
-        if($chapter) {
+        if($chapter !== null) {
             $builder->where("chapter", $chapter);
-            if($chunk) {
+            if($chunk !== null) {
+                $builder->where("chunk", $chunk);
+            }
+        }
+
+        return $builder->get();
+    }
+
+    /** Get translation of translator/checker in event by eventID
+     * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
+     * @param int $trID
+     * @param int $tID
+     * @param int $chapter
+     * @param int $chunk
+     * @return array
+     */
+    public function getEventTranslationByEventID($eventID, $chapter = null, $chunk = null)
+    {
+        $builder = $this->db->table("translations")
+            ->where("eventID", $eventID);
+
+        if($chapter !== null) {
+            $builder->where("chapter", $chapter);
+            if($chunk !== null) {
                 $builder->where("chunk", $chunk);
             }
         }
@@ -154,18 +179,18 @@ class TranslationsModel extends Model
      * Get source translations
      * @return array
      */
-    public function getSourceTranslations()
+    public function getSourceTranslations($catalog)
     {
-        $langNames = $this->db->table("languages")
+        /*$langNames = $this->db->table("languages")
             ->whereIn("langID", array_keys(BookSources::catalog))
             ->select("langID", "langName")->get();
 
-        $langs = array();
+        $langs = [];
         foreach ($langNames as $langName) {
             $langs[$langName->langID] = $langName->langName;
         }
 
-        $sls = array();
+        $sls = [];
         foreach (BookSources::catalog as $lang => $books) {
             foreach ($books as $book) {
                 $elm = new \stdClass();
@@ -174,6 +199,44 @@ class TranslationsModel extends Model
                 $elm->bookProject = $book;
 
                 $sls[] = $elm;
+            }
+        }
+
+        return $sls;*/
+
+
+        $sls = [];
+
+        foreach ($catalog as $key => $data) {
+            if($key == "languages")
+            {
+                foreach ($data as $lang)
+                {
+                    $tmp = [];
+                    $tmp["langID"] = $lang->identifier;
+                    $tmp["langName"] = $lang->title;
+                    $tmp["bookProjects"] = [];
+
+                    foreach ($lang->resources as $resource) {
+                        if(in_array($resource->identifier, [
+                            "ta",
+                            "obs-tn",
+                            "obs",
+                            "tq",
+                            "tn",
+                            "tw",
+                            "obs-tq"
+                        ])) continue;
+
+                        $res = [];
+                        $res["resName"] = $resource->title;
+                        $res["resType"] = $resource->identifier;
+                        $tmp["bookProjects"][] = $res;
+                    }
+
+                    if(!empty($tmp["bookProjects"]))
+                        $sls[] = $tmp;
+                }
             }
         }
 
@@ -228,27 +291,33 @@ class TranslationsModel extends Model
             ->delete();
     }
 
-    public function getComment($eventID, $chapter, $chunk, $memberID)
+    public function getComment($eventID, $chapter, $chunk, $memberID, $level)
     {
         return $this->db->table("comments")
             ->where("eventID", $eventID)
             ->where("chapter", $chapter)
             ->where("chunk", $chunk)
-            ->where("memberID", $memberID)->get();
+            ->where("memberID", $memberID)
+            ->where("level", $level)
+            ->get();
     }
 
-    public function getCommentsByEvent($eventID, $chapter = null)
+    public function getCommentsByEvent($eventID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("comments")
-            ->select("comments.*", "members.userName")
+            ->select("comments.*", "members.userName", "members.firstName", "members.lastName")
             ->leftJoin("members", "comments.memberID", "=", "members.memberID")
             ->where("comments.eventID", $eventID)
             ->orderBy("comments.chapter")
             ->orderBy("comments.chunk")
             ->orderBy("comments.cID");
 
-        if($chapter != null)
+        if($chapter !== null)
+        {
             $builder->where("comments.chapter", $chapter);
+            if($chunk !== null)
+                $builder->where("comments.chunk", $chunk);
+        }
 
         return $builder->get();
     }
@@ -258,7 +327,7 @@ class TranslationsModel extends Model
         $builder = $this->db->table("comments");
 
         $builder->where("eventID", $eventID);
-        if($chapter != null)
+        if($chapter !== null)
             $builder->where("chapter", $chapter);
 
         return $builder->delete();

@@ -6,7 +6,8 @@ $(document).ready(function () {
     socket.on('connect', OnConnected);
     socket.on('reconnect', OnConnected);
     socket.on('chat message', OnChatMessage);
-    socket.on('room update', OnRoomUpdate);
+    socket.on('event room update', OnEventRoomUpdate);
+    socket.on('project room update', OnProjectRoomUpdate);
     socket.on('system message', OnSystemMessage);
     socket.on('checking request', OnCheckingRequest);
 
@@ -31,6 +32,7 @@ function OnConnected()
     var data = {
         memberID: memberID,
         eventID: eventID,
+        projectID: projectID,
         aT: aT,
         step: step,
         chkMemberID: chkMemberID,
@@ -43,7 +45,7 @@ function OnChatMessage(data)
     $("#chat_container").chat("newMessageArrived", data);
 }
 
-function OnRoomUpdate(roomMates)
+function OnEventRoomUpdate(roomMates)
 {
     var membersObj = $(".member_item");
     if(membersObj.length > 0)
@@ -67,6 +69,30 @@ function OnRoomUpdate(roomMates)
     $("#chat_container").chat("updateChatMembers", roomMates);
 }
 
+function OnProjectRoomUpdate(roomMates)
+{
+    var membersObj = $(".member_item");
+    if(membersObj.length > 0)
+    {
+        // $(".online_indicator", membersObj).removeClass("online");
+        // $(".online_status", membersObj).hide();
+        // $(".offline_status", membersObj).show();
+    }
+
+    for(var rm in roomMates)
+    {
+        var memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
+        if(memberObj.length > 0)
+        {
+            // $(".online_indicator", memberObj).addClass("online");
+            // $(".online_status", memberObj).show();
+            // $(".offline_status", memberObj).hide();
+        }
+    }
+
+    // $("#chat_container").chat("updateChatMembers", roomMates);
+}
+
 function OnSystemMessage(data)
 {
     var msg = "";
@@ -77,11 +103,13 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
+            var t_mode = typeof tMode != "undefined" ? tMode : "";
             var data = {
                 eventID: eventID,
                 step: step,
                 chkMemberID: chkMemberID,
-                isChecker: isChecker};
+                isChecker: isChecker,
+                tMode: t_mode};
             this.emit('step enter', data);
             break;
 
@@ -115,6 +143,10 @@ function OnSystemMessage(data)
 
         case "evntMsgs":
             $("#chat_container").chat("updateEventMessages", data);
+            break;
+
+        case "projMsgs":
+            $("#chat_container").chat("updateProjectMessages", data);
             break;
 
         case "checkDone":
@@ -209,7 +241,8 @@ function OnSystemMessage(data)
 
         case "keyword":
             if(typeof isInfoPage == "undefined" &&
-                (typeof step != "undefined" && step == EventSteps.KEYWORD_CHECK))
+                (typeof step != "undefined"
+                    && (step == EventSteps.KEYWORD_CHECK || EventCheckSteps.PEER_REVIEW_L2)))
                 highlightKeyword(data.verseID, data.text, data.index, data.remove == "true");
             break;
 
@@ -236,7 +269,7 @@ function OnCheckingRequest(data)
 {
     if($.inArray(memberID.toString(), data.excludes) >= 0)
         return false;
-
+    
     $.ajax({
         url: "/events/rpc/get_notifications",
         method: "post",
@@ -252,7 +285,7 @@ function OnCheckingRequest(data)
                 $(".notif_count").remove();
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
                 var notifs = "";
-                $.each(data.notifs, function(i, note) {
+                $.each(data.notifs, function(i, note) {console.log(note);
                     if($("a[data='"+note.anchor+"']").length <= 0)
                         notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
                                 '<li class="'+note.step+'_checker">'+note.text+'</li>'+

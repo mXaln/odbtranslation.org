@@ -1,7 +1,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [3]) . ": "   . __("chunking")?></div>
         </div>
         <div class="demo_video">
@@ -146,7 +146,6 @@
                         <input name="verse" class="verse_number" value="26" type="checkbox">
                         <strong><sup>26</sup></strong> They may become sober again and leave the devil's trap, after they have been captured by him for his will.                        </label>
                 </p>
-                <div class="chunks_reset"><?php echo __("reset_chunks") ?></div>
             </div>
 
             <div class="main_content_footer row">
@@ -165,6 +164,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -185,9 +185,12 @@
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
-<span class="create_chunk"><?php echo __("make_chunk") ?></span>
+<span class="clone create_chunk" title="<?php echo __("make_chunk") ?>">Make chunk</span>
+<span class="clone chunks_reset glyphicon glyphicon-ban-circle" title="<?php echo __("reset_chunks") ?>"></span>
 
 
 <div class="tutorial_container">

@@ -85,10 +85,10 @@ $numValues = [
                     <label><?php echo __('language_fluency_public'); ?>:</label>
                     <?php echo $numValues[$values["lang_fluency"]]["lang"]?>
                 </div>
-                <div class="languages_public_years">
+                <!--<div class="languages_public_years">
                     <label><?php echo __('lang_geographic_years_public'); ?>:</label>
                     <?php echo $numValues[$values["geo_lang_yrs"]]["geo"]?>
-                </div>
+                </div>-->
                 <div class="clear"></div>
             <?php endforeach; ?>
         </div>

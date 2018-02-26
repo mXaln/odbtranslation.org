@@ -12,13 +12,27 @@ namespace Helpers\Constants;
 class BookSources
 {
     const catalog = array(
-        "en" => array("ulb", "udb"),
-        "ru" => array("rsb"),
-        "ar" => array("avd"),
-        //"hwc" => array("hce"),
-        //"hu" => array("kar"),
-        //"sr-Latn" => array("dkl"),
-        "ceb" => array("ulb", "udb"),
-        "id" => array("ulb")
+        "en" => ["ulb", "udb"],
+        "ru" => ["rsb"],
+        "ar" => ["avd"],
+        "ceb" => ["ulb", "udb"],
+        "id" => ["ulb", "ayt"],
+        "hwc" => ["hce"],
+        "fr" => ["ulb"],
+        "hu" => ["kar"],
+        "sr-Latn" => ["dkl","stf"],
+        "as" => ["ulb"],
+        "bn" => ["ulb"],
+        "gu" => ["ulb"],
+        "hi" => ["ulb"],
+        "hr" => ["src"],
+        "kn" => ["ulb"],
+        "ml" => ["ulb"],
+        "mr" => ["ulb"],
+        "or" => ["ulb"],
+        "pmy" => ["ulb"],
+        "pa" => ["ulb"],
+        "ta" => ["ulb"],
+        "te" => ["ulb"],
     );
 }

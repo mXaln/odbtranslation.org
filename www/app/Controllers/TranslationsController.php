@@ -3,22 +3,33 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\TranslationsModel;
+use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Shared\Legacy\Error;
 use View;
-use Helpers\Data;
-use Helpers\Gump;
+use Config\Config;
 use Helpers\Session;
 use Helpers\Url;
+use Helpers\Parsedown;
+use Helpers\ZipStream\ZipStream;
 
 class TranslationsController extends Controller
 {
     private $_model;
+    private $_eventModel;
 
     public function __construct()
     {
         parent::__construct();
+
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         $this->_model = new TranslationsModel();
+        $this->_eventModel = new EventsModel();
 
         if (!Session::get('loggedin'))
         {
@@ -61,31 +72,92 @@ class TranslationsController extends Controller
         else
         {
             $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
-            $data["data"] = $book[0];
-            $data['title'] = $data['data']->bookName;
-            $data['book'] = "";
-            $lastChapter = 0;
 
-            foreach ($book as $chunk) {
-                $verses = json_decode($chunk->translatedVerses);
+            if(!empty($book))
+            {
+                $data["data"] = $book[0];
+                $data['title'] = $data['data']->bookName;
+                $data['book'] = "";
+                $data["mode"] = "bible";
+                $lastChapter = -1;
+                $chapter = [];
 
-                if($verses == null) continue;
+                foreach ($book as $chunk) {
+                    $verses = json_decode($chunk->translatedVerses);
 
-                if($chunk->chapter != $lastChapter)
-                {
-                    $data['book'] .= '<h2>'.__("chapter", [$chunk->chapter]).'</h2>';
-                    $lastChapter = $chunk->chapter;
+                    if($verses == null) continue;
+
+                    if($chunk->chapter != $lastChapter)
+                    {
+                        $lastChapter = $chunk->chapter;
+
+                        $chapters = $this->_eventModel->getChapters(
+                            $chunk->eventID,
+                            null,
+                            $chunk->chapter
+                        );
+                        $chapter = $chapters[0];
+
+                        $level = "";
+                        if(!in_array($chunk->bookProject, ["tn"]))
+                        {
+                            $level = " [".($chapter["l2checked"] ? "L2" : "L1")."]";
+                        }
+
+                        $data['book'] .= $chunk->chapter > 0
+                            ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
+                            : '<h2 class="chapter_title">'.__("front").'</h2>';
+                    }
+
+                    // Start of chunk
+                    $data['book'] .= '<p>';
+
+                    if(!in_array($chunk->bookProject, ["tn"]))
+                    {
+                        if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                        {
+                            foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                            }
+                        }
+                        elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                        {
+                            foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                            }
+                        }
+                        else
+                        {
+                            foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $chunks = (array)json_decode($chapter["chunks"], true);
+                        $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
+                        $versesLabel = "";
+
+                        if($currChunk[0] != $currChunk[sizeof($currChunk)-1])
+                            $versesLabel = __("chunk_verses", $currChunk[0] . "-" . $currChunk[sizeof($currChunk)-1]);
+                        else
+                            if($currChunk[0] == 0)
+                                $versesLabel = __("intro");
+                            else
+                                $versesLabel = __("chunk_verses", $currChunk[0]);
+
+                        $data["mode"] = $chunk->bookProject;
+
+                        $parsedown = new Parsedown();
+                        $text = $parsedown->text($verses->checker->verses);
+
+                        $data['book'] .= '<br><strong class="note_chunk_verses">'.$versesLabel.'</strong> '.$text." ";
+                    }
+
+                    // End of chunk
+                    $data['book'] .= '</p>';
                 }
-
-                // Start of chunk
-                $data['book'] .= '<p>';
-
-                foreach ($verses->translator->verses as $verse => $text) {
-                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                }
-
-                // End of chunk
-                $data['book'] .= '</p>';
             }
         }
 
@@ -99,46 +171,117 @@ class TranslationsController extends Controller
         if($lang != null && $bookProject != null && $bookCode != null)
         {
             $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
-            $data["usfm"] = "";
-            $lastChapter = 0;
-            $chapterStarted = false;
 
-            $data["usfm"] = "\\id ".strtoupper($book[0]->bookCode)." ".__($book[0]->bookProject)."\n";
-            $data["usfm"] .= "\\ide UTF-8 \n";
-            $data["usfm"] .= "\\h ".strtoupper($book[0]->bookName)."\n";
-            $data["usfm"] .= "\\toc1 ".$book[0]->bookName."\n";
-            $data["usfm"] .= "\\toc2 ".$book[0]->bookName."\n";
-            $data["usfm"] .= "\\toc3 ".ucfirst($book[0]->bookCode)."\n";
-            $data["usfm"] .= "\\mt1 ".strtoupper($book[0]->bookName)."\n\n\n\n";
-
-            foreach ($book as $chunk) {
-                $verses = json_decode($chunk->translatedVerses);
-
-                if($chunk->chapter != $lastChapter)
-                {
-                    $data["usfm"] .= "\\s5 \n";
-                    $data["usfm"] .= "\\c ".$chunk->chapter." \n";
-
-                    $lastChapter = $chunk->chapter;
-                    $chapterStarted = true;
-                }
-
-                // Start of chunk
-                if(!$chapterStarted)
-                    $data["usfm"] .= "\\s5 \n";
-
+            if(!empty($book))
+            {
+                $data["usfm"] = "";
+                $lastChapter = 0;
                 $chapterStarted = false;
 
-                foreach ($verses->translator->verses as $verse => $text) {
-                    $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
-                }
-                // End of chunk
-                $data["usfm"] .= "\n\n";
-            }
+                $data["usfm"] = "\\id ".strtoupper($book[0]->bookCode)." ".__($book[0]->bookProject)."\n";
+                $data["usfm"] .= "\\ide UTF-8 \n";
+                $data["usfm"] .= "\\h ".strtoupper($book[0]->bookName)."\n";
+                $data["usfm"] .= "\\toc1 ".$book[0]->bookName."\n";
+                $data["usfm"] .= "\\toc2 ".$book[0]->bookName."\n";
+                $data["usfm"] .= "\\toc3 ".ucfirst($book[0]->bookCode)."\n";
+                $data["usfm"] .= "\\mt1 ".strtoupper($book[0]->bookName)."\n\n\n\n";
 
-            header('Content-type: text/plain');
-            header("Content-Disposition: attachment; filename=".$book[0]->abbrID."-".strtoupper($book[0]->bookCode).".usfm");
-            echo $data["usfm"];
+                foreach ($book as $chunk) {
+                    $verses = json_decode($chunk->translatedVerses);
+
+                    if($chunk->chapter != $lastChapter)
+                    {
+                        $data["usfm"] .= "\\s5 \n";
+                        $data["usfm"] .= "\\c ".$chunk->chapter." \n";
+
+                        $lastChapter = $chunk->chapter;
+                        $chapterStarted = true;
+                    }
+
+                    // Start of chunk
+                    if(!$chapterStarted)
+                        $data["usfm"] .= "\\s5 \n";
+
+                    $chapterStarted = false;
+
+                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                            $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                        }
+                    }
+                    elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                            $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                        }
+                    }
+                    else
+                    {
+                        foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                            $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                        }
+                    }
+
+                    // End of chunk
+                    $data["usfm"] .= "\n\n";
+                }
+
+                header('Content-type: text/plain');
+                header("Content-Disposition: attachment; filename=".$book[0]->abbrID."-".strtoupper($book[0]->bookCode).".usfm");
+                echo $data["usfm"];
+            }
+            else
+            {
+                echo "An error occurred";
+            }
         }
+    }
+
+    public function getMd($lang, $bookProject, $bookCode)
+    {
+        if($lang != null && $bookProject != null && $bookCode != null)
+        {
+            $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            $lastChapter = -1;
+            $chapter = [];
+
+            if(!empty($book) && isset($book[0]))
+            {
+                $zip = new ZipStream("tn.zip");
+                $root = "".$book[0]->targetLang."_tn/".$book[0]->bookCode;
+
+                foreach ($book as $chunk) {
+                    $verses = json_decode($chunk->translatedVerses);
+    
+                    if($chunk->chapter != $lastChapter)
+                    {
+                        $lastChapter = $chunk->chapter;
+                        
+                        $chapters = $this->_eventModel->getChapters(
+                            $chunk->eventID,
+                            null,
+                            $chunk->chapter
+                        );
+                        $chapter = $chapters[0];
+                    }
+                    
+                    $chunks = (array)json_decode($chapter["chunks"], true);
+                    $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
+                    
+                    $chapPath = $chunk->chapter > 0 ? sprintf("%02d", $chunk->chapter) : "front";
+                    $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
+                    $filePath = $root."/".$chapPath."/".$chunkPath.".md";
+
+                    $text = $verses->checker->verses;
+
+                    $zip->addFile($filePath, $text);
+                }
+
+                $zip->finish();
+            }
+        }
+
+        echo "An error ocurred! Contact with administartor.";
     }
 }

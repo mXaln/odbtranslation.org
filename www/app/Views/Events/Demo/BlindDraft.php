@@ -1,7 +1,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [4]) . ": " . __("blind-draft")?></div>
         </div>
         <div class="demo_video">
@@ -16,7 +16,7 @@
                 <div class="main_content_text">
                     <div class="row">
                         <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-3</span></h4>
-                        
+                        <!--
                         &nbsp;&nbsp;&nbsp;
                         <button class="spec_char" data="D̃">D̃</button>
                         <button class="spec_char" data="d̃">d̃</button>&nbsp;&nbsp;
@@ -27,7 +27,7 @@
                         <button class="spec_char" data="Ṽ">Ṽ</button>
                         <button class="spec_char" data="ṽ">ṽ</button>&nbsp;&nbsp;
                         <button class="spec_char" data="W̃">W̃</button>
-                        <button class="spec_char" data="w̃">w̃</button>
+                        <button class="spec_char" data="w̃">w̃</button>-->
                     </div>
 
                     <div class="row">
@@ -51,6 +51,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -71,6 +72,8 @@
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 

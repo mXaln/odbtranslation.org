@@ -1,19 +1,18 @@
-<div class="editor">
-    <div class="comment_div panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("write_note_title", array(""))?></h1>
-            <span class="editor-close glyphicon glyphicon-floppy-disk"></span>
-        </div>
-        <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
-        <div class="other_comments_list"></div>
-        <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
+<div class="comment_div panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
+        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
+    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <div class="other_comments_list"></div>
+    <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
             <div><?php echo __("step_num", [8]), ": " . __("content-review")?></div>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
@@ -34,12 +33,15 @@
                             <div class="vnote">
                                 <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
 
-                                <div class="comments_number hasComment">1</div>
+                                <div class="comments_number hasComment">2</div>
 
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
 
                                 <div class="comments">
                                     <div class="my_comment">This is translator's comment on this chunk</div>
+                                    <div class="other_comments">
+                                        <div><span>John B. (L1):</span> This is checker's comment on this chunk</div>
+                                    </div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -191,6 +193,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
+                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
@@ -219,6 +222,8 @@
             </div>
         </div>
     </div>
+
+    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
 

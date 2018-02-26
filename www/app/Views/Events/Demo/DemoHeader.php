@@ -61,6 +61,8 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     var chkMemberID = <?php echo $isCheckPage? "1" : "0"; ?>;
     var step = '<?php echo $data["step"]; ?>';
     var isDemo = true;
+    var myChapter = 2;
+    var tMode = "ulb";
 </script>
 
 <div style="position: fixed; right: 0;">
@@ -100,8 +102,12 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
                     <div>Marge S.</div>
                     <div class="missed"></div>
                 </div>
-                <div id="evnt" class="col-sm-4 chat_tab active">
+                <div id="evnt" class="col-sm-2 chat_tab active">
                     <div><?php echo __("event_tab_title") ?></div>
+                    <div class="missed"></div>
+                </div>
+                <div id="proj" class="col-sm-2 chat_tab">
+                    <div><?php echo __("project_tab_title") ?></div>
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; padding: 2px 20px 0 0">
@@ -121,11 +127,21 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
         <ul id="evnt_messages" class="chat_msgs">
             <li class="message msg_other" data="16">
                 <div class="msg_name">Marge S.</div>
-                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message</div>
+                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test event message</div>
             </li>
             <li class="message msg_my" data="7">
                 <div class="msg_name">You</div>
-                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test group message 2</div>
+                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test event message 2</div>
+            </li>
+        </ul>
+        <ul id="proj_messages" class="chat_msgs">
+            <li class="message msg_other" data="16">
+                <div class="msg_name">Marge S.</div>
+                <div data-original-title="30.06.2016, 18:38:09" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test project message</div>
+            </li>
+            <li class="message msg_my" data="7">
+                <div class="msg_name">You</div>
+                <div data-original-title="01.07.2016, 18:22:02" class="msg_text" data-toggle="tooltip" data-placement="top" title="">Hi, this a test project message 2</div>
             </li>
         </ul>
         <form action="" class="form-inline">
@@ -138,7 +154,11 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
 
     <div class="members_online panel panel-info">
         <div class="panel-heading"><?php echo __("members_online_title") ?></div>
-        <ul id="online" class="panel-body"><li>Genry M.</li><li>Mark P.</li><li class="mine">Marge S. (facilitator)</li></ul>
+        <ul id="online" class="panel-body">
+            <li>Genry M.</li>
+            <li>Mark P.</li>
+            <li class="mine">Marge S. (<?php echo __("facilitator"); ?>)</li>
+        </ul>
     </div>
 
     <div class="clear"></div>
@@ -149,7 +169,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     <source src="<?php echo template_url("sounds/missed.ogg")?>" type="audio/ogg">
 </audio>
 
-<script src="<?php echo template_url("js/chat-plugin.js")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
 
 <script>
     (function($) {
@@ -185,7 +205,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     }
 </style>
 
-<div class="buttons_spec">
+<!--<div class="buttons_spec">
     <button class="spec_char" data="D̃">D̃</button>
     <button class="spec_char" data="d̃">d̃</button>&nbsp;&nbsp;
     <button class="spec_char" data="Õ">Õ</button>
@@ -196,7 +216,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     <button class="spec_char" data="ṽ">ṽ</button>&nbsp;&nbsp;
     <button class="spec_char" data="W̃">W̃</button>
     <button class="spec_char" data="w̃">w̃</button>
-</div>
+</div>-->
 
 <script>
     $(document).ready(function () {

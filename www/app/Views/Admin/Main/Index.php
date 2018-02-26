@@ -25,7 +25,8 @@
                         <tr>
                             <td><?php echo "[" . $gwProject->langID . "] " 
                                 . $gwProject->langName 
-                                . ($gwProject->angName != $gwProject->langName 
+                                . ($gwProject->angName != $gwProject->langName
+                                    && $gwProject->angName != "" 
                                     ? " (" . $gwProject->angName . ")"
                                     : "") ?></td>
                         </tr>
@@ -54,7 +55,9 @@
                         <option value=""></option>
                         <?php foreach ($data["gwLangs"] as $targetLang):?>
                         <option value="<?php echo $targetLang->langID; ?>">
-                            <?php echo "[".$targetLang->langID."] " . $targetLang->langName . ($targetLang->langName != $targetLang->angName ? " ( ".$targetLang->angName." )" : ""); ?>
+                            <?php echo "[".$targetLang->langID."] " . $targetLang->langName . 
+                                ($targetLang->langName != $targetLang->angName && $targetLang->angName != "" 
+                                    ? " ( ".$targetLang->angName." )" : ""); ?>
                         </option>
                         <?php endforeach; ?>
                     </select>
@@ -101,14 +104,14 @@
                                 <a href="/admin/project/<?php echo $project->projectID ?>">
                                     <?php echo "[" . $project->targetLang . "] " . 
                                         $project->tLang . 
-                                        ($project->tLang != $project->tAng 
+                                        ($project->tLang != $project->tAng && $project->tAng != "" 
                                             ? " (" . $project->tAng . ")" : "") ?>
                                 </a>
                             </td> 
                             <td><?php echo "[" . $project->gwLang . "] " . 
                                 $project->sLang . 
-                                ($project->sLang != $project->sAng 
-                                ? " (" . $project->sAng . ")" : "") ?></td>
+                                ($project->sLang != $project->sAng && $project->sAng != "" 
+                                    ? " (" . $project->sAng . ")" : "") ?></td>
                             <td><?php echo __($project->bookProject) ?></td>
                             <td><?php echo __($project->sourceBible). " (".$project->sourceLangID.")"  ?></td>
                         </tr>
@@ -131,13 +134,25 @@
             <div class="subErrors"></div>
 
             <form action="/admin/rpc/create_project" method="post" id="project" style="width: 400px;">
+                
+                <div class="form-group">
+                    <label for="projectMode"><?php echo __('project_mode'); ?></label>
+                    <select name="projectMode" id="projectMode" class="form-control" data-placeholder="<?php echo __('choose_project_mode'); ?>">
+                        <option value=""></option>
+                        <option value="bible"><?php echo __("bible_mode") ?></option>
+                        <option value="tn"><?php echo __("notes_mode") ?></option>
+                    </select>
+                </div>
+            
                 <div class="form-group">
                     <label for="subGwLangs"><?php echo __('gw_language'); ?></label>
                     <select class="form-control" id="subGwLangs" name="subGwLangs" data-placeholder="<?php echo __('choose_gw_lang'); ?>">
                         <option value=""></option>
                         <?php foreach ($data["gwProjects"] as $gwLang): ?>
                             <option value="<?php echo $gwLang->langID ."|".$gwLang->gwProjectID ?>">
-                                <?php echo "[".$gwLang->langID."] " . $gwLang->langName . ($gwLang->langName != $gwLang->angName ? " ( ".$gwLang->angName." )" : ""); ?>
+                                <?php echo "[".$gwLang->langID."] " . $gwLang->langName . 
+                                    ($gwLang->langName != $gwLang->angName && $gwLang->angName != "" 
+                                        ? " ( ".$gwLang->angName." )" : ""); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -152,23 +167,36 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="projects"><?php echo __('book_project'); ?></label>
+                    <label for="sourceTranslation"><?php echo __('book_project'); ?></label>
                     <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
                         <option value=""></option>
                         <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
-                            <option value="<?php echo $sourceTranslation->bookProject . "|" . $sourceTranslation->langID; ?>">
-                                <?php echo $sourceTranslation->langName . " - " . __($sourceTranslation->bookProject) ?>
+                            <?php foreach ($sourceTranslation["bookProjects"] as $project):?>
+                            <option value="<?php echo $project["resType"] . "|" . $sourceTranslation["langID"]; ?>">
+                                <?php echo "[".$sourceTranslation["langID"]."] "
+                                    . $sourceTranslation["langName"] . " - "
+                                    . $project["resName"] . " [".$project["resType"]."]" ?>
                             </option>
+                            <?php endforeach; ?>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
-                <div class="form-group projectType hidden">
+                <div class="form-group projectType">
                     <label for="projectType"><?php echo __('project_type'); ?></label>
                     <select name="projectType" id="projectType" class="form-control" data-placeholder="<?php echo __('choose_project_type'); ?>">
                         <option value=""></option>
                         <option value="udb"><?php echo __("udb") ?></option>
                         <option value="ulb"><?php echo __("ulb") ?></option>
+                        <option value="sun"><?php echo __("sun") ?></option>
+                    </select>
+                </div>
+
+                <div class="form-group sourceTranslationNotes hidden">
+                    <label for="sourceTranslationNotes"><?php echo __('book_notes'); ?></label>
+                    <select name="sourceTranslationNotes" id="sourceTranslationNotes" class="form-control" data-placeholder="<?php echo __('choose_source_notes'); ?>">
+                        <option value=""></option>
+                        <option value="en">English</option>
                     </select>
                 </div>
 

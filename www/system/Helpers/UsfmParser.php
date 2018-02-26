@@ -91,14 +91,22 @@ class UsfmParser
 
                     $vText = join(" ", $vData);
 
+                    // Word listing (remove - beginning)
+                    $vText = preg_replace("/\s?\|strong=\"[A-Z0-9]+\"\s?/Uui", "", $vText);
+                    $vText = preg_replace("/\s?x-morph=\"strongMorph:[A-Z0-9]+\"\s?/Uui", "", $vText);
+
                     $vText = htmlspecialchars($vText, ENT_COMPAT | ENT_SUBSTITUTE, "UTF-8");
 
                     // Italic style
-                    $vText = preg_replace("/\\\\it (.*)\\\\it\\*/", "<em>$1</em>", $vText);
+                    $vText = preg_replace("/\\\\it (.*)\\\\it\\*/U", "<em>$1</em>", $vText);
+
+                    // Word listing (remove - continue)
+                    $vText = preg_replace("/\\\\w\s?(.*)\s?\\\\w\\*/U", "$1", $vText);
 
                     // Footnotes
+                    $vText = preg_replace("/\\\\fqa\s?(.*)\s?\\\\fqa\\*/U", "$1", $vText);
                     $replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"booknote glyphicon glyphicon-file\"></span>";
-                    $vText = preg_replace("/\\\\f \\+ \\\\ft (.*)\s?\\\\f\\*/u", $replacement, $vText);
+                    $vText = preg_replace("/\\\\f\s?\\+\s?\\\\ft\s?(.*)\s?\\\\f\\*/uU", $replacement, $vText);
 
                     // Remove all other usfm tags
                     // TODO Parse other usfm tags

@@ -2,12 +2,13 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\NewsModel;
 use View;
 use Helpers\Constants\EventMembers;
 use Helpers\Csrf;
-use Helpers\Data;
 use Helpers\Gump;
 use Mailer;
+use Config\Config;
 use Helpers\Password;
 use Helpers\ReCaptcha;
 use Helpers\Session;
@@ -17,22 +18,41 @@ use App\Models\MembersModel;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Config\Config;
 
 class MembersController extends Controller
 {
     private $_model;
     private $_eventModel;
+    private $_newsModel;
     private $_notifications;
+    private $_news;
+    private $_newNewsCount;
 
     public function __construct()
     {
         parent::__construct();
+
+        if(Config::get("app.isMaintenance")
+            && !in_array(Session::get("memberID"), Config::get("app.admins")))
+        {
+            Url::redirect("maintenance");
+        }
+
         $this->_model = new MembersModel();
 
         $this->_eventModel = new EventsModel();
+        $this->_newsModel = new NewsModel();
+
         if(Session::get("loggedin"))
+        {
             $this->_notifications = $this->_eventModel->getNotifications();
+            $this->_news = $this->_newsModel->getNews();
+            $this->_newNewsCount = 0;
+            foreach ($this->_news as $news) {
+                if (!isset($_COOKIE["newsid" . $news->id]))
+                    $this->_newNewsCount++;
+            }
+        }
     }
 
     /**
@@ -121,12 +141,13 @@ class MembersController extends Controller
                 $langArr = array();
                 foreach ($langs as $lang) {
                     $arr = explode(":", $lang);
+                    $arr[2] = 4; // To support old version, when geo years were saved
 
                     if(sizeof($arr) != 3) continue;
 
                     $langID = preg_match("/^[a-z-]{2,22}$/", $arr[0]) ? $arr[0] : null;
 
-                    if($langID === null || (integer)$arr[1] == 0 || (integer)$arr[2] == 0) continue;
+                    if($langID === null || (integer)$arr[1] < 0 || (integer)$arr[2] == 0) continue;
                     if((integer)$arr[1] > 5 || (integer)$arr[2] > 4) continue;
 
                     $languages[$langID] = array((integer)$arr[1], (integer)$arr[2]);
@@ -313,6 +334,9 @@ class MembersController extends Controller
             }
         }
 
+        $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
         $data['csrfToken'] = Csrf::makeToken();
 
         return View::make('Members/Profile')
@@ -408,6 +432,10 @@ class MembersController extends Controller
             $error[] = __("empty_profile_error");
         }
 
+        $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+
         return View::make('Members/PublicProfile')
             ->shares("title", __("member_profile_message"))
             ->shares("data", $data)
@@ -475,14 +503,14 @@ class MembersController extends Controller
                     if(in_array($language, $admLangs))
                     {
                         $count = $this->_model->searchMembers($name, $role, [$language], true);
-                        $members = $this->_model->searchMembers($name, $role, [$language], false, $page);
+                        $members = $this->_model->searchMembers($name, $role, [$language], false, true, $page);
                     }
                 }
                 else
                 {
                     if($searchExt) $admLangs = [];
                     $count = $this->_model->searchMembers($name, $role, $admLangs, true);
-                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, $page);
+                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, true, $page);
                 }
 
                 $response["success"] = true;
@@ -508,7 +536,11 @@ class MembersController extends Controller
         $data["languages"] = $this->_eventModel->getAllLanguages(null, $admLangs);
 
         $data["count"] = $this->_model->searchMembers(null, "all", $admLangs, true);
-        $data["members"] = $this->_model->searchMembers(null, "all", $admLangs, false);
+        $data["members"] = $this->_model->searchMembers(null, "all", $admLangs, false, true);
+
+        $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Members/Search')
             ->shares("title", __("admin_members_title"))
@@ -951,7 +983,7 @@ class MembersController extends Controller
                 }
             }
 
-            if (strlen($password) < 5)
+            if (strlen($password) < 6)
             {
                 $error['password'] = __('password_short_error');
             }

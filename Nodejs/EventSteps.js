@@ -30,6 +30,7 @@ var EventSteps = function() {
 	var CONTENT_REVIEW;
 	var FINAL_REVIEW;
 	var FINISHED;
+	var PEER_REVIEW_L2;
 
 	// Define which variables and methods can be accessed
 	return {
@@ -46,6 +47,7 @@ var EventSteps = function() {
 		CONTENT_REVIEW: "content-review",
 		FINAL_REVIEW: "final-review",
 		FINISHED: "finished",
+        PEER_REVIEW_L2: "peer-review-l2",
 	}
 };
 
