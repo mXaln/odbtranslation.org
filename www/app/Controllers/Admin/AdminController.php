@@ -961,7 +961,8 @@ class AdminController extends Controller {
             $origDir = "../app/Templates/Default/Assets/source/".$sourceLangID."_".$sourceBible;
 
             //File::deleteDirectory($renDir);
-            File::move($origDir, $renDir);
+            if(File::exists($origDir))
+                File::move($origDir, $renDir);
 
             foreach ($books as $book)
             {

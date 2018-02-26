@@ -1379,7 +1379,7 @@ class EventsModel extends Model
             {
                 preg_match("/([0-9]{2,3})-(.*).usfm$/", $file, $matches);
 
-                if(!isset($matches[1]) || !isset($matches[2])) return false;
+                if(!isset($matches[1]) || !isset($matches[2])) continue;
 
                 if((integer)$matches[1] == $bookNum && strtolower($matches[2]) == $bookCode)
                 {
