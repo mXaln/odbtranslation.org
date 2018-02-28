@@ -180,11 +180,11 @@ class TranslationsController extends Controller
 
                 $data["usfm"] = "\\id ".strtoupper($book[0]->bookCode)." ".__($book[0]->bookProject)."\n";
                 $data["usfm"] .= "\\ide UTF-8 \n";
-                $data["usfm"] .= "\\h ".strtoupper($book[0]->bookName)."\n";
-                $data["usfm"] .= "\\toc1 ".$book[0]->bookName."\n";
-                $data["usfm"] .= "\\toc2 ".$book[0]->bookName."\n";
+                $data["usfm"] .= "\\h ".mb_strtoupper(__($book[0]->bookCode))."\n";
+                $data["usfm"] .= "\\toc1 ".__($book[0]->bookCode)."\n";
+                $data["usfm"] .= "\\toc2 ".__($book[0]->bookCode)."\n";
                 $data["usfm"] .= "\\toc3 ".ucfirst($book[0]->bookCode)."\n";
-                $data["usfm"] .= "\\mt1 ".strtoupper($book[0]->bookName)."\n\n\n\n";
+                $data["usfm"] .= "\\mt1 ".mb_strtoupper(__($book[0]->bookCode))."\n\n\n\n";
 
                 foreach ($book as $chunk) {
                     $verses = json_decode($chunk->translatedVerses);
@@ -193,6 +193,7 @@ class TranslationsController extends Controller
                     {
                         $data["usfm"] .= "\\s5 \n";
                         $data["usfm"] .= "\\c ".$chunk->chapter." \n";
+                        $data["usfm"] .= "\\p \n";
 
                         $lastChapter = $chunk->chapter;
                         $chapterStarted = true;

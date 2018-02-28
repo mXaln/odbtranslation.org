@@ -1,8 +1,15 @@
 @font-face {
     font-family: "SUN3";
-    src: url("../fonts/SUN3.woff2?1") format('woff2'),
-    url("../fonts/SUN3.woff?1") format("woff"),
-    url("../fonts/SUN3.ttf?1") format("truetype")
+    src: url("../fonts/SUN3.woff2?2") format('woff2'),
+    url("../fonts/SUN3.woff?2") format("woff"),
+    url("../fonts/SUN3.ttf?2") format("truetype")
+}
+
+@font-face {
+    font-family: "BACKSUN3";
+    src: url("../fonts/BackSUN3W.woff2?2") format('woff2'),
+    url("../fonts/BackSUN3W.woff?2") format("woff"),
+    url("../fonts/BackSUN3W.ttf?2") format("truetype")
 }
 
 .sun_content {

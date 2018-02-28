@@ -21,7 +21,7 @@ if(isset($data['books'])) {
     echo __($data['books'][0]->bookProject).'</a><br><br>';
 
     foreach ($data['books'] as $book) {
-        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">". $book->bookName . "</a><br>";
+        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">". __($book->bookCode) . "</a><br>";
     }
 }
 
@@ -29,9 +29,9 @@ if(isset($data['book'])) {
     echo '<a href="'.SITEURL.'translations">'.__("bible").'</a> → ';
     echo '<a href="'.SITEURL.'translations/'.$data['data']->targetLang.'">'.$data['data']->angName . ' ('.$data['data']->langName.')</a> → ';
     echo '<a href="'.SITEURL.'translations/'.$data['data']->targetLang.'/'.$data['data']->bookProject.'">'.__($data["data"]->bookProject).'</a> → ';
-    echo $data['data']->bookName.'</a><br><br>';
+    echo __($data['data']->bookCode).'</a><br><br>';
 
-    echo '<h1 style="text-align: center">—— '.$data['data']->bookName.' ——</h1>';
+    echo '<h1 style="text-align: center">—— '.__($data['data']->bookCode).' ——</h1>';
 
     if(!in_array($data["mode"], ["tn"]))
         echo "<h4 style=\"text-align: right\"><a href='".$data['data']->bookCode."/usfm'>".__("download_usfm")."</a></h4>";
