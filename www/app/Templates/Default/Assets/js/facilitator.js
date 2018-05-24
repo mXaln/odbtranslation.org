@@ -536,8 +536,49 @@ $(function () {
         var memberID = $(this).parent().data("member");
         var chapter = $(this).parent().data("chapter");
         var name = "<span class='l2_checker_name'>"+$(this).data("name")+"</span>";
+        var message = Language.remove_l2_checker + name;
 
-        renderConfirmPopup(Language.attention, Language.remove_l2_checker + name, function() {
+        if(id == "other_checker")
+        {
+            var level = $(this).data("level");
+            var prev_level = level - 1;
+            var disabled = prev_level < 0 || prev_level > 4 ? "disabled" : "";
+            var prev_step = "n/a";
+
+            switch (prev_level) {
+                case 0:
+                    prev_step = Language.tn_other_pray;
+                    break;
+                case 1:
+                    prev_step = Language.tn_other_consume;
+                    break;
+                case 2:
+                    prev_step = Language.tn_other_highlight;
+                    break;
+                case 3:
+                    prev_step = Language.tn_other_self_check;
+                    break;
+                case 4:
+                    prev_step = Language.tn_other_keyword_check;
+                    break;
+            }
+
+            var html = "" +
+                "<div class='other_check_remove'>" +
+                    "<h5>" + Language.remove_other_checker_opt + name + "</h5>" +
+                    "<label>" +
+                        "<input type='radio' name='other_option' value='remove' checked /> " +
+                            Language.remove_checker + "</label>" +
+                    "<label class='" + disabled + "'>" +
+                        "<input type='radio' name='other_option' value='move_back' " + disabled + " /> " +
+                            Language.move_to_step + prev_step + "</label>" +
+                "</div>";
+            message = html;
+        }
+
+        renderConfirmPopup(Language.attention, message, function() {
+            var other_check = $(".other_check_remove input:checked").val();
+
             $.ajax({
                 url: "/events/rpc/move_step_back_alt",
                 method: "post",
@@ -545,7 +586,8 @@ $(function () {
                     eventID : eventID,
                     memberID : memberID,
                     chapter: chapter,
-                    mode: id
+                    mode: id,
+                    otherChk: other_check
                 },
                 dataType: "json",
                 beforeSend: function() {
@@ -683,7 +725,7 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    $this.prop("checked", true);
+                    $this.prop("checked", !$this.prop("checked"));
                 }
                 else
                 {
