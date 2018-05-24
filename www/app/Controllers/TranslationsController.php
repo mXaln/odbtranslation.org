@@ -5,7 +5,6 @@ use App\Core\Controller;
 use App\Models\TranslationsModel;
 use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
-use Helpers\Data;
 use Shared\Legacy\Error;
 use View;
 use Config\Config;

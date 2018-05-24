@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\NewsModel;
-use Helpers\Data;
 use View;
 use Helpers\Constants\EventMembers;
 use Helpers\Csrf;

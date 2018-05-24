@@ -7,7 +7,6 @@ namespace App\Controllers;
 
 use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
-use Helpers\Data;
 use Support\Facades\Cookie;
 use View;
 use Config\Config;
@@ -156,7 +155,6 @@ class EventsController extends Controller
         $sunCheckers = $this->_model->getMemberEventsForCheckerSun(Session::get("memberID"));
         $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers, $sunCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
-        //Data::pr($notesCheckers);exit;
         $data["myCheckerL3Events"] = [];
         //$data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
