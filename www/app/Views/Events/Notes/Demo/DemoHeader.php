@@ -1,11 +1,11 @@
 <?php
 use Helpers\Constants\EventSteps;
 
-$chk = $data["stage"] == "checking" ? "_chk" : "";
+$chk = $data["isCheckerPage"] ? "_chk" : "";
 ?>
 
-<div id="translator_steps" class="open pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page".(isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page".(isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>"></div>
+<div id="translator_steps" class="open pray <?php echo $data["isCheckerPage"] ? " is_checker_page".($data["isPeerPage"] ? " isPeer" : "") : "" ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo $data["isCheckerPage"] ? " is_checker_page".($data["isPeerPage"] ? " isPeer" : "") : "" ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
@@ -16,13 +16,13 @@ $chk = $data["stage"] == "checking" ? "_chk" : "";
             <a href="/events/demo-tn/consume<?php echo $chk ?>"><span><?php echo __(EventSteps::CONSUME . "_tn")?></span></a>
         </li>
 
-        <?php if($data["stage"] == "checking"): ?>
+        <?php if($data["isCheckerPage"]): ?>
             <li class="highlight-step <?php echo $data["step"] == EventSteps::HIGHLIGHT ? "active" : "" ?>">
                 <a href="/events/demo-tn/highlight"><span><?php echo __(EventSteps::HIGHLIGHT . "_tn")?></span></a>
             </li>
         <?php endif; ?>
 
-        <?php if($data["stage"] == "translation"): ?>
+        <?php if(!$data["isCheckerPage"]): ?>
             <li class="read-chunk-step <?php echo $data["step"] == EventSteps::READ_CHUNK ? "active" : "" ?>">
                 <a href="/events/demo-tn/read_chunk"><span><?php echo __(EventSteps::READ_CHUNK . "_tn")?></span></a>
             </li>
@@ -35,7 +35,7 @@ $chk = $data["stage"] == "checking" ? "_chk" : "";
             <a href="/events/demo-tn/self_check<?php echo $chk ?>"><span><?php echo __(EventSteps::SELF_CHECK . "_tn".$chk)?></span></a>
         </li>
 
-        <?php if($data["stage"] == "checking"): ?>
+        <?php if($data["isCheckerPage"]): ?>
             <li class="keyword-check-step <?php echo $data["step"] == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
                 <a href="/events/demo-tn/highlight_chk"><span><?php echo __(EventSteps::KEYWORD_CHECK . "_tn")?></span></a>
             </li>

@@ -283,6 +283,6 @@ class TranslationsController extends Controller
             }
         }
 
-        echo "An error ocurred! Contact with administartor.";
+        echo "An error ocurred! Contact administrator.";
     }
 }

@@ -235,10 +235,10 @@ class EventsModel extends Model
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, "
                 .PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, "
-                .PREFIX."translators.translateDone, ".PREFIX."translators.stage, "
+                .PREFIX."translators.translateDone, "
                 .PREFIX."translators.verbCheck, ".PREFIX."translators.peerCheck, "
                 .PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
-                .PREFIX."translators.otherCheck, ".PREFIX."translators.nTranslator, "
+                .PREFIX."translators.otherCheck, "
                 .PREFIX."translators.isChecker, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
                 ."mems.lastName AS checkerLName, chapters.chunks, "
@@ -257,7 +257,7 @@ class EventsModel extends Model
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, "
                 .PREFIX."projects.sourceBible, t_lang.langName as tLang, "
-                ."t_lang.direction as tLangDir, ".PREFIX."projects.notesLangID, "
+                ."t_lang.direction as tLangDir, ".PREFIX."projects.notesLangID, notes_lang.direction as notesLangDir, "
                 ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".
                 PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".
                 PREFIX."abbr.chaptersNum FROM ";
@@ -267,7 +267,6 @@ class EventsModel extends Model
         {
             case EventMembers::TRANSLATOR:
                 $mainTable = PREFIX."translators ";
-                $stage = $tnChk ? "checking" : "translation";
                 break;
 
             case EventMembers::L2_CHECKER:
@@ -289,12 +288,12 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."projects ON evnt.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS notes_lang ON ".PREFIX."projects.notesLangID = notes_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
             ($memberType == EventMembers::TRANSLATOR && !$includeNone ? "AND ".PREFIX."translators.step != 'none' " : "").
             ($memberType == EventMembers::TRANSLATOR && !$includeFinished ? " AND ".PREFIX."translators.step != 'finished' " : " ").
-            ($memberType == EventMembers::TRANSLATOR ? "AND ".PREFIX."translators.stage = '".$stage."' " : "").
             "ORDER BY tLang, ".PREFIX."projects.sourceBible, ".PREFIX."abbr.abbrID";
 
         $prepare = array();
@@ -346,42 +345,158 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-    public function getMemberEventsForCheckerNotes($memberID, $eventID = null, $includeFinished = true, $includeNone = true)
+
+    /**
+     * Get Notes checker event/s
+     * @param $memberID Notes Checker member ID
+     * @param null $eventID event ID
+     * @param null $chkMemberID Notes translator member ID
+     * @return array
+     */
+    public function getMemberEventsForNotes($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
     {
-        $prepare = array(":memberID" => $memberID);
+        $prepare = [];
         if($eventID)
             $prepare[":eventID"] = $eventID;
+        if($chkMemberID)
+            $prepare[":chkMemberID"] = $chkMemberID;
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
-                .PREFIX."members.lastName, evnt.bookCode, evnt.admins, "
-                ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
-                .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
-                .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
-                .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-                .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, "
-                ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
-                .PREFIX."chapters.chunks, ".PREFIX."abbr.chaptersNum, "
-                ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
-                ."mems.lastName AS checkerLName ".
+            .PREFIX."members.lastName, evnt.bookCode, evnt.admins, "
+            ."evnt.dateFrom, evnt.dateTo, evnt.state, "
+            ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
+            .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
+            .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, notes_lang.direction as notesLangDir, ".
+            "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
-                "LEFT JOIN ".PREFIX."chapters ON trs.eventID = ".PREFIX."chapters.eventID AND trs.currentChapter = ".PREFIX."chapters.chapter ".
-                "LEFT JOIN ".PREFIX."translators AS trschk ON trschk.trID = trs.nTranslator ".
-                "LEFT JOIN ".PREFIX."members ON trschk.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = trs.checkerID ".
-                "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
-                "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
-                "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
-                "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
-                "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE trs.memberID = :memberID AND trs.stage = 'checking' ".
-                ($eventID ? "AND trs.eventID = :eventID " : " ").
-                (!$includeNone ? "AND trs.step != 'none' " : " ").
-                (!$includeFinished ? " AND trs.step != 'finished' " : " ").
-                "AND trs.step != 'finished' AND trs.step != 'none' ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS notes_lang ON ".PREFIX."projects.notesLangID = notes_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
+            "WHERE ".PREFIX."projects.bookProject = 'tn' ".
+            ($eventID ? "AND trs.eventID = :eventID " : " ").
+            ($chkMemberID ? "AND trs.memberID = :chkMemberID " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
 
-        return $this->db->select($sql, $prepare);
+        $events = $this->db->select($sql, $prepare);
+        $filtered = [];
+
+        foreach($events as $event)
+        {
+            // Checker event
+            $otherCheck = (array)json_decode($event->otherCheck, true);
+            $peerCheck = (array)json_decode($event->peerCheck, true);
+            foreach ($otherCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] != 6)
+                    {
+                        $ev = clone $event;
+
+                        $checkerFName = null;
+                        $checkerLName = null;
+                        $checkerID = 0;
+                        $ev->step = EventSteps::PRAY;
+                        $ev->checkDone = false;
+
+                        if(isset($peerCheck[$chap]) && $peerCheck[$chap]["memberID"] != 0)
+                        {
+                            $memberModel = new MembersModel();
+                            $member = $memberModel->getMember([
+                                "firstName",
+                                "lastName"
+                            ], ["memberID", $peerCheck[$chap]["memberID"]]);
+                            if(!empty($member))
+                            {
+                                $checkerFName = $member[0]->firstName;
+                                $checkerLName = $member[0]->lastName;
+                                $checkerID = $peerCheck[$chap]["memberID"];
+                            }
+
+                            $ev->checkDone = $peerCheck[$chap]["done"] > 0;
+                        }
+
+                        switch ($data["done"])
+                        {
+                            case 1:
+                                $ev->step = EventSteps::CONSUME;
+                                break;
+                            case 2:
+                                $ev->step = EventSteps::HIGHLIGHT;
+                                break;
+                            case 3:
+                                $ev->step = EventSteps::SELF_CHECK;
+                                break;
+                            case 4:
+                                $ev->step = EventSteps::KEYWORD_CHECK;
+                                break;
+                            case 5:
+                                $ev->step = EventSteps::PEER_REVIEW;
+                                break;
+                        }
+
+                        $ev->currentChapter = $chap;
+                        $ev->peer = 1;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->checkerFName = $checkerFName;
+                        $ev->checkerLName = $checkerLName;
+                        $ev->checkerID = $checkerID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $ev->isCheckerPage = true;
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+
+            // Peer check event
+            foreach ($peerCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] == 0)
+                    {
+                        $ev = clone $event;
+                        $checkerFName = null;
+                        $checkerLName = null;
+                        $checkerID = 0;
+
+                        $memberModel = new MembersModel();
+                        $member = $memberModel->getMember([
+                            "firstName",
+                            "lastName"
+                        ], ["memberID", $otherCheck[$chap]["memberID"]]);
+                        if(!empty($member))
+                        {
+                            $checkerFName = $member[0]->firstName;
+                            $checkerLName = $member[0]->lastName;
+                            $checkerID = $otherCheck[$chap]["memberID"];
+                        }
+
+                        $ev->step = EventSteps::PEER_REVIEW;
+                        $ev->currentChapter = $chap;
+                        $ev->peer = 2;
+                        $ev->myMemberID = $memberID;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->checkerFName = $checkerFName;
+                        $ev->checkerLName = $checkerLName;
+                        $ev->checkerID = $checkerID;
+                        $ev->isContinue = true;
+                        $ev->isCheckerPage = true;
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+        }
+
+        return $filtered;
     }
+
 
     /**
      * Get L2 checker event/s
@@ -887,7 +1002,6 @@ class EventsModel extends Model
                 "trs.currentChapter AS notesChapters ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."translators AS nTrs ON nTrs.trID = trs.nTranslator ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -896,7 +1010,6 @@ class EventsModel extends Model
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
                 "OR ".PREFIX."events.admins LIKE :adminID) ".
             "AND trs.memberID != :memberID ".
-            "AND (nTrs.memberID IS NULL OR nTrs.memberID != :memberID) ".
             "AND trs.step IN ($stepsIn) ".
             "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 
@@ -915,13 +1028,6 @@ class EventsModel extends Model
      */
     public function getNotificationsNotes()
     {
-        $projects = $this->db->quoteArray(["tn"]);
-        $stepsIn = $this->db->quoteArray([
-            EventSteps::NONE,
-            EventSteps::PRAY,
-            EventSteps::FINISHED,
-        ]);
-
         $sql = "SELECT trs.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
             PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
@@ -937,8 +1043,8 @@ class EventsModel extends Model
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
                 "OR ".PREFIX."events.admins LIKE :adminID) ".
                 "AND trs.otherCheck != '' AND trs.memberID != :memberID ".
-                "AND mytrs.isChecker = 1 AND mytrs.step IN ($stepsIn) ".
-                "AND ".PREFIX."projects.bookProject IN ($projects)";
+                "AND mytrs.isChecker = 1 ".
+                "AND ".PREFIX."projects.bookProject = 'tn'";
 
         $prepare = [
             ":memberID" => Session::get("memberID"),
@@ -950,17 +1056,45 @@ class EventsModel extends Model
 
         foreach ($notesNotifications as $notification)
         {
-            if($notification->stage == "checking") continue;
-            
             $otherCheck = (array)json_decode($notification->otherCheck, true);
-            
+            $peerCheck = (array)json_decode($notification->peerCheck, true);
+
             foreach ($otherCheck as $chapter => $data) {
-                // Exclude checked and current chapters
-                if($data["checkerID"] > 0) continue;
-                if($notification->currentChapter == $chapter) continue;
+                // Exclude taken chapters
+                if($data["memberID"] > 0) continue;
 
                 $note = clone $notification;
-                $note->notesChapter = $chapter;
+                $note->currentChapter = $chapter;
+                $note->step = "notes";
+                $note->manageMode = "tn";
+                $note->peer = 1;
+                $notifs[] = $note;
+            }
+
+            foreach ($peerCheck as $chapter => $data) {
+                // Exclude taken chapters
+                if($data["memberID"] > 0) continue;
+
+                // Exclude member that is already in otherCheck
+                if($otherCheck[$chapter]["memberID"] == Session::get("memberID")) continue;
+
+                $note = clone $notification;
+
+                $memberModel = new MembersModel();
+                $member = $memberModel->getMember([
+                    "firstName",
+                    "lastName"
+                ], ["memberID", $otherCheck[$chapter]["memberID"]]);
+                if(!empty($member))
+                {
+                    $note->firstName = $member[0]->firstName;
+                    $note->lastName = $member[0]->lastName;
+                }
+
+                $note->currentChapter = $chapter;
+                $note->step = EventSteps::PEER_REVIEW;
+                $note->manageMode = "tn";
+                $note->peer = 2;
                 $notifs[] = $note;
             }
         }
@@ -1126,7 +1260,6 @@ class EventsModel extends Model
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
                 "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."translators AS nTrs ON nTrs.trID = trs.nTranslator ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -1134,7 +1267,6 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
                 "WHERE (".PREFIX."projects.gwLang IN($langsIn) OR ".PREFIX."projects.targetLang IN($langsIn) OR ".PREFIX."events.admins LIKE :adminID) ".
                 "AND trs.memberID != :memberID ".
-                "AND nTrs.memberID != :memberID ".
                 "AND trs.step IN ($stepsIn) ".
                 "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 
@@ -1249,8 +1381,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT trs.memberID AS translator, chk.currentChapter AS chkChapter, ".
             "chk.step AS checkerStep, chk.checkerID AS checker, ".
-            "proj.bookProject, trs.isChecker, trs.currentChapter as tnChapter, ".
-            "trs.stage, trs.step AS nStep, ".
+            "proj.bookProject, trs.isChecker, ".
             "l2.memberID AS l2checker, l3.memberID AS l3checker ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."translators AS trs ON evnt.eventID = trs.eventID AND trs.memberID = :memberID ".
@@ -1509,6 +1640,7 @@ class EventsModel extends Model
                     if($ln["lc"] == $tmp["langID"])
                     {
                         $tmp["direction"] = $ln["ld"];
+                        break;
                     }
                     else
                     {
@@ -1525,16 +1657,8 @@ class EventsModel extends Model
 
             foreach($langsFinal as $lnf)
             {
-                $data = [];
-                $data["langID"] = $lnf["langID"];
-                $data["langName"] = $lnf["langName"];
-                $data["angName"] = $lnf["angName"];
-                $data["isGW"] = $lnf["isGW"];
-                $data["gwLang"] = $lnf["gwLang"];
-                $data["direction"] = $lnf["direction"];
-
                 $this->db->table("languages")
-                    ->insert($data);
+                    ->insert($lnf);
             }
 
             $response["success"] = true;
