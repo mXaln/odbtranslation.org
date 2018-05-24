@@ -288,7 +288,6 @@ $profile = Session::get("profile");
 <div id="my_translations_content" class="my_content">
     <?php foreach($data["myTranslatorEvents"] as $key => $event): ?>
         <?php
-        $role = $event->stage == "translation" ? "translator" : "checker";
         $mode = $event->bookProject;
         $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
         $eventImg = $mode != "sun"
@@ -352,7 +351,7 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="/events/<?php echo $role.(in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "") ?>/<?php echo $event->eventID ?>">
+                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -385,10 +384,9 @@ $profile = Session::get("profile");
                 <div class="event_type">
                     <div><?php echo __("step_num", EventSteps::enum($event->step, $event->bookProject, true)) ?></div>
                     <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
-                    <?php $chk = $event->stage == "checking" ?>
+                    <?php $chk = in_array($event->bookProject, ["tn"]) ?>
                     <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>
                     <?php $add = $event->step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add; ?>
-                    <?php $memberID = !$chk ? $event->memberID : ($event->checkerID == Session::get("memberID") ? $event->memberID : "")?>
                     <div><?php echo __($event->step.$add) ?></div>
                 </div>
                 <div class="event_img">
@@ -431,7 +429,7 @@ $profile = Session::get("profile");
             <div class="event_action check1">
                 <div class="event_link">
                     <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "")
-                            ."/".$event->eventID."/".$memberID
+                            ."/".$event->eventID."/".$event->memberID
                             .(isset($event->isContinue) ? "/".$event->currentChapter : "")?>"
                        data="<?php echo $event->eventID."_".$event->memberID?>">
                         <?php echo __("continue_alt") ?>

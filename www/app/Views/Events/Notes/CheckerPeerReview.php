@@ -12,7 +12,8 @@ use Helpers\Parsedown;
 if(empty($error) && empty($data["success"])):
 ?>
 
-<div class="comment_div panel panel-default">
+<div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
+     dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
         <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
@@ -37,12 +38,12 @@ if(empty($error) && empty($data["success"])):
         <div class="main_content col-sm-9">
             <div class="main_content_text row">
                 <h4><?php echo $data["event"][0]->tLang." - "
-                    .__($data["event"][0]->bookProject)." - "
-                    .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->bookName." ".
-                    (!$data["nosource"] 
-                        ? $data["currentChapter"].":1-".$data["totalVerses"]
-                        : __("front"))."</span>"?></h4>
+                        .__($data["event"][0]->bookProject)." - "
+                        .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
+                        ."<span class='book_name'>".$data["event"][0]->name." ".
+                        (!$data["nosource"]
+                            ? $data["currentChapter"].":1-".$data["totalVerses"]
+                            : __("front"))."</span>"?></h4>
 
                 <?php if(!$data["nosource"]): ?>
                 <ul class="nav nav-tabs">
@@ -54,7 +55,8 @@ if(empty($error) && empty($data["success"])):
                     </li>
                 </ul>
                 
-                <div id="my_scripture_content" class="my_content shown">
+                <div id="my_scripture_content" class="my_content shown"
+                     dir="<?php echo $data["event"][0]->sLangDir ?>">
                     <?php $key = 0; foreach($data["text"] as $chunk => $content): ?>
                         <div class="note_chunk chunk_verses">
                             <?php foreach($content as $verse => $text): ?>
@@ -71,7 +73,7 @@ if(empty($error) && empty($data["success"])):
                 <div id="my_notes_content" class="my_content">
                     <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                     <div class="row note_chunk">
-                        <div class="col-md-6">
+                        <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
                             <div class="note_chunk_verses">
                                 <?php 
                                 if(!$data["nosource"] && isset($data["text"][$fv]))
@@ -94,7 +96,8 @@ if(empty($error) && empty($data["success"])):
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <div class="col-md-6 vnote">
+                        <div class="col-md-6 vnote font_<?php echo $data["event"][0]->targetLang ?>"
+                             dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <?php 
                             $parsedown = new Parsedown();
                             $text = isset($data["translation"][$chunkNo]) 
@@ -178,7 +181,7 @@ if(empty($error) && empty($data["success"])):
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_translator") ?>:</span>
-                        <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
+                        <span><?php echo $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." ?></span>
                     </div>
                     <div class="additional_info">
                         <a href="/events/information-tn/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>

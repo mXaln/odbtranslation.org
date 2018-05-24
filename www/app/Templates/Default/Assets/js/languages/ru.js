@@ -87,4 +87,12 @@ var Language = {
     "books"                     : "книги",
     "remove_l2_checker"         : "Вы хотите удалить проверяющего ",
     "delSailword"               : "Вы хотите удалить слово: ",
+    "remove_other_checker_opt"  : "Выберите опцию для проверяющего ",
+    "move_to_step"              : "Переместить проверяющего на шаг ",
+    "remove_checker"            : "Удалить проверяющего",
+    "tn_other_pray"             : "Подготовка: Молитва",
+    "tn_other_consume"          : "Чтение Писания",
+    "tn_other_highlight"        : "Highlight",
+    "tn_other_self_check"       : "Правка заметок",
+    "tn_other_keyword_check"    : "Check Highlights",
 };

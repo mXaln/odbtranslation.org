@@ -4,7 +4,8 @@ use \Helpers\Parsedown;
 
 if(isset($data["error"])) return;
 ?>
-<div class="comment_div panel panel-default">
+<div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
+     dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
         <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
@@ -23,7 +24,7 @@ if(isset($data["error"])) return;
     <div class="row" style="position: relative">
         <div class="main_content col-sm-9">
             <form action="" id="main_form" method="post">
-            <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
+            <div class="main_content_text">
             
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
@@ -43,7 +44,8 @@ if(isset($data["error"])) return;
                     </li>
                 </ul>
                 
-                <div id="my_scripture_content" class="my_content shown">
+                <div id="my_scripture_content" class="my_content shown"
+                     dir="<?php echo $data["event"][0]->sLangDir ?>">
                     <?php $key = 0; foreach($data["text"] as $chunk => $content): ?>
                         <div class="note_chunk chunk_verses">
                             <?php foreach($content as $verse => $text): ?>
@@ -60,7 +62,7 @@ if(isset($data["error"])) return;
                 <div id="my_notes_content" class="my_content">
                     <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                     <div class="row note_chunk">
-                        <div class="col-md-6">
+                        <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
                             <div class="note_chunk_verses">
                                 <?php 
                                 if(!$data["nosource"] && isset($data["text"][$fv]))
@@ -86,7 +88,8 @@ if(isset($data["error"])) return;
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <div class="col-md-6 notes_editor" 
+                        <div class="col-md-6 notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                            dir="<?php echo $data["event"][0]->tLangDir ?>"
                             data-chunkno="<?php echo $chunkNo ?>">
                             <?php 
                             $parsedown = new Parsedown();
@@ -141,7 +144,12 @@ if(isset($data["error"])) return;
                     <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
                     <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                 </div>
+
                 <input type="hidden" name="chk" value="1">
+                <input type="hidden" name="level" value="tnContinue">
+                <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
+                <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+
                 <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
             </div>

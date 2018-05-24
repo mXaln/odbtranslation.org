@@ -4,7 +4,8 @@ use \Helpers\Parsedown;
 
 if(isset($data["error"])) return;
 ?>
-<div class="comment_div panel panel-default">
+<div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
+     dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
         <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
@@ -23,119 +24,120 @@ if(isset($data["error"])) return;
     <div class="row" style="position: relative">
         <div class="main_content col-sm-9">
             <form action="" id="main_form" method="post">
-            <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                <h4><?php echo $data["event"][0]->tLang." - "
-                        .__($data["event"][0]->bookProject)." - "
-                    .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".
-                    (!$data["nosource"] 
-                        ? $data["currentChapter"].":1-".$data["totalVerses"]
-                        : __("front"))."</span>"?></h4>
+                <div class="main_content_text">
+                    <h4><?php echo $data["event"][0]->tLang." - "
+                            .__($data["event"][0]->bookProject)." - "
+                        .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
+                        ."<span class='book_name'>".$data["event"][0]->name." ".
+                        (!$data["nosource"]
+                            ? $data["currentChapter"].":1-".$data["totalVerses"]
+                            : __("front"))."</span>"?></h4>
 
-                <?php if(!$data["nosource"]): ?>
-                <ul class="nav nav-tabs">
-                    <li role="presentation" id="my_scripture" class="my_tab">
-                        <a href="#"><?php echo __("bible_mode") ?></a>
-                    </li>
-                    <li role="presentation" id="my_notes" class="my_tab">
-                        <a href="#"><?php echo __("notes_mode") ?></a>
-                    </li>
-                </ul>
+                    <?php if(!$data["nosource"]): ?>
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" id="my_scripture" class="my_tab">
+                            <a href="#"><?php echo __("bible_mode") ?></a>
+                        </li>
+                        <li role="presentation" id="my_notes" class="my_tab">
+                            <a href="#"><?php echo __("notes_mode") ?></a>
+                        </li>
+                    </ul>
 
-                <div id="my_scripture_content" class="my_content shown">
-                    <?php foreach($data["text"] as $chunk => $content): ?>
-                        <div class="note_chunk">
-                            <?php foreach($content as $verse => $text): ?>
-                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                            <?php endforeach; ?>
-                        </div>    
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
-
-                <div id="my_notes_content" class="my_content">
-                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
-                        <div class="row note_chunk">
-                            <div class="col-md-6">
-                                <div class="note_chunk_verses">
-                                    <?php 
-                                    if(!$data["nosource"] && isset($data["text"][$fv]))
-                                    {
-                                        $verses = array_keys($data["text"][$fv]);
-                                        if($verses[0] != $verses[sizeof($verses)-1])
-                                            echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
-                                        else
-                                            echo __("chunk_verses", $verses[0]);
-                                    }
-                                    else 
-                                    {
-                                        echo __("intro");
-                                    }
-                                    ?>
-                                </div>
-                                <?php foreach($data["notes"][$fv] as $note): ?>
-                                    <div class="note_content">
-                                        <?php echo preg_replace(
-                                            "/(\[\[[a-z:\/\-]+\]\])/", 
-                                            "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
-                                            $note) ?>
-                                    </div>
+                    <div id="my_scripture_content" class="my_content shown" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                        <?php foreach($data["text"] as $chunk => $content): ?>
+                            <div class="note_chunk">
+                                <?php foreach($content as $verse => $text): ?>
+                                <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
                                 <?php endforeach; ?>
                             </div>
-                            <div class="col-md-6 notes_editor" 
-                                data-chunkno="<?php echo $chunkNo ?>">
-                                <?php 
-                                $parsedown = new Parsedown();
-                                $text = isset($data["translation"][$chunkNo]) 
-                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
-                                    : "";
-                                $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo]) 
-                                    ? $_POST["chunks"][$chunkNo] 
-                                    : $text;
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
 
-                                $text = preg_replace(
-                                    "/(\[\[[a-z:\/\-]+\]\])/", 
-                                    "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
-                                    $text);
-                                ?>
-                                <textarea 
-                                    name="chunks[<?php echo $chunkNo ?>]" 
-                                    class="add_notes_editor"><?php echo $text ?></textarea>
-
-                                <img class="editComment tncomm" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-                            
-                                <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                            <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments">
-                                                    <?php echo
-                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                    (L".$comment->level."):</span> 
-                                                                ".$comment->text; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                    <div id="my_notes_content" class="my_content">
+                        <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                            <div class="row note_chunk">
+                                <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
+                                    <div class="note_chunk_verses">
+                                        <?php
+                                        if(!$data["nosource"] && isset($data["text"][$fv]))
+                                        {
+                                            $verses = array_keys($data["text"][$fv]);
+                                            if($verses[0] != $verses[sizeof($verses)-1])
+                                                echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
+                                            else
+                                                echo __("chunk_verses", $verses[0]);
+                                        }
+                                        else
+                                        {
+                                            echo __("intro");
+                                        }
+                                        ?>
+                                    </div>
+                                    <?php foreach($data["notes"][$fv] as $note): ?>
+                                        <div class="note_content">
+                                            <?php echo preg_replace(
+                                                "/(\[\[[a-z:\/\-]+\]\])/",
+                                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                                $note) ?>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <div class="clear"></div>
+                                <div class="col-md-6 notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                                    dir="<?php echo $data["event"][0]->tLangDir ?>"
+                                    data-chunkno="<?php echo $chunkNo ?>">
+                                    <?php
+                                    $parsedown = new Parsedown();
+                                    $text = isset($data["translation"][$chunkNo])
+                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
+                                        : "";
+                                    $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
+                                        ? $_POST["chunks"][$chunkNo]
+                                        : $text;
+
+                                    $text = preg_replace(
+                                        "/(\[\[[a-z:\/\-]+\]\])/",
+                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                        $text);
+                                    ?>
+                                    <textarea
+                                        name="chunks[<?php echo $chunkNo ?>]"
+                                        class="add_notes_editor"><?php echo $text ?></textarea>
+
+                                    <img class="editComment tncomm" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                                        (L".$comment->level."):</span> 
+                                                                    ".$comment->text; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-            <div class="main_content_footer row">
-                <div class="form-group">
-                    <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
-                    <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
 
-                <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
-            </div>
+                <div class="main_content_footer row">
+                    <div class="form-group">
+                        <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
+                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
+                    </div>
+
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
+                </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [4])?></div>
         </div>

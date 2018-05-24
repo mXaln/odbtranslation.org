@@ -10,7 +10,7 @@ if(isset($data["success"]))
 
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
 
-$chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
+$chk = isset($data["event"][0]->isCheckerPage) && $data["event"][0]->isCheckerPage ? "_chk" : "";
 ?>
 
 <noscript>
@@ -37,13 +37,13 @@ $chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
             <span><?php echo __(EventSteps::CONSUME . "_tn")?></span>
         </li>
 
-        <?php if($data["event"][0]->stage == "checking"): ?>
+        <?php if($data["isCheckerPage"]): ?>
         <li class="highlight-step <?php echo $data["event"][0]->step == EventSteps::HIGHLIGHT ? "active" : "" ?>">
             <span><?php echo __(EventSteps::HIGHLIGHT . "_tn")?></span>
         </li>
         <?php endif; ?>
              
-        <?php if($data["event"][0]->stage == "translation"): ?>
+        <?php if(!$data["isCheckerPage"]): ?>
         <li class="read-chunk-step <?php echo $data["event"][0]->step == EventSteps::READ_CHUNK ? "active" : "" ?>">
             <span><?php echo __(EventSteps::READ_CHUNK . "_tn")?></span>
         </li>
@@ -56,7 +56,7 @@ $chk = $data["event"][0]->stage == "checking" ? "_chk" : "";
             <span><?php echo __(EventSteps::SELF_CHECK . "_tn".$chk)?></span>
         </li>
 
-        <?php if($data["event"][0]->stage == "checking"): ?>
+        <?php if($data["isCheckerPage"]): ?>
         <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
             <span><?php echo __(EventSteps::KEYWORD_CHECK . "_tn")?></span>
         </li>

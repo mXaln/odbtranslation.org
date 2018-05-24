@@ -83,4 +83,12 @@ var Language = {
     "books"                     : "books",
     "remove_l2_checker"         : "Do you want to remove the checker ",
     "delSailword"               : "Do you want to delete the word: ",
+    "remove_other_checker_opt"  : "Choose an option for checker ",
+    "move_to_step"              : "Move checker to step ",
+    "remove_checker"            : "Remove checker",
+    "tn_other_pray"             : "Preparation: Prayer",
+    "tn_other_consume"          : "Read Scripture",
+    "tn_other_highlight"        : "Highlight",
+    "tn_other_self_check"       : "Edit Notes",
+    "tn_other_keyword_check"    : "Check Highlights",
 };
