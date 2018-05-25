@@ -337,7 +337,7 @@ return array (
     "people_number" => "Людей: <span>{0}</span>",
     "add_person" => "Назначить главу",
     "add_translator" => "Добавить переводчиков/проверяющих",
-    "add_checker" => "Добавить проверяющих",
+    "add_checker" => "Добавить проверяющего",
     "assign_chapter_title" => "Назначить главу",
     "assign_pair_title" => "Назначить пару",
     "reset_pair_title" => "Удалить пару",

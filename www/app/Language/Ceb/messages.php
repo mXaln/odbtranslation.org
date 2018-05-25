@@ -340,7 +340,7 @@ return array (
     "people_number" => "Katawhan: <span>{0}</span>",
     "add_person" => "Ipabuhat nga Kapitulo",
     "add_translator" => "Add translators",
-    "add_checker" => "Add checkers",
+    "add_checker" => "Add checker",
     "assign_chapter_title" => "Ipabuhat nga Kapitulo",
     "assign_pair_title" => "Magbuhat og Pares",
     "reset_pair_title" => "Pag-usab sa Pares",

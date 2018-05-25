@@ -337,8 +337,7 @@ if(!isset($error)):
                             ?>
                             <button class="remove_checker btn btn-danger" style="margin-top: 22px;" 
                                     data="<?php echo $data["event"][0]->eventID.":".$member["memberID"] ?>" 
-                                    data2="<?php echo $member["step"] ?>"
-                                    data3="<?php echo $chk ?>">
+                                    data2="<?php echo $member["step"] ?>">
                                 <?php echo __("remove_checker") ?>
                             </button>
                             <?php endif; ?>

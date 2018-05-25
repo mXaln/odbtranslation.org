@@ -2636,7 +2636,7 @@ class EventsController extends Controller
                         $data = $sourceText;
                         $data["translation"] = $translation;
 
-                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK)
+                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
                             $data["keywords"] = $this->getUwKeyWords($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->currentChapter, $data["totalVerses"]);
                     } else {
                         $error[] = $sourceText["error"];
@@ -5090,6 +5090,7 @@ class EventsController extends Controller
             $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
                 $members[$member->memberID]["userName"] = $member->userName;
                 $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
@@ -8801,7 +8802,7 @@ class EventsController extends Controller
         {
             foreach ($this->_notifications as $notification)
             {
-                $text = $notification->manageMode == "tn" ? __("checker_notes_apply", [
+                $text = isset($notification->manageMode) && $notification->manageMode == "tn" ? __("checker_notes_apply", [
                     $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
                     __($notification->step.(in_array($notification->bookProject, ["tn"]) ? "_tn" : "")),
                     $notification->bookName,

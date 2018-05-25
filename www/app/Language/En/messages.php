@@ -340,7 +340,7 @@ return array (
     "people_number" => "People: <span>{0}</span>",
     "add_person" => "Assign chapter",
     "add_translator" => "Add translators/checkers",
-    "add_checker" => "Add checkers",
+    "add_checker" => "Add checker",
     "assign_chapter_title" => "Assign chapter",
     "assign_pair_title" => "Create pair",
     "reset_pair_title" => "Reset pair",
