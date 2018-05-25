@@ -24,6 +24,7 @@ use \Helpers\Constants\EventSteps;
 use \Helpers\Constants\BookSources;
 use \Helpers\Constants\EventStates;
 use \Helpers\Constants\EventMembers;
+use \Helpers\Spyc;
 
 class EventsModel extends Model
 {
@@ -1853,46 +1854,306 @@ class EventsModel extends Model
             $md = File::get($file);
             $html = $parsedown->text($md);
             $html = preg_replace("//", "", $html);
-            //$parsedown->clearBlocks();
-            
-            $result[$chapter][$chunk][] = $html;
-            /*$tmp = [];
-            foreach($md_arr as $elm)
-            {
-                if($elm["element"]["name"] == "h1")
-                {
-                    $tmp["ref"] = $elm["element"]["text"];
-                }
-                else if($elm["element"]["name"] == "p")
-                {
-                    $tmp["text"] = $elm["element"]["text"];
-                    
-                }
-                else if($elm["element"]["name"] == "ul")
-                {
-                    $tmp["text"] = [];
-                    $i = 0;
-                    foreach($elm["element"]["text"] as $li)
-                    {
-                        $tmp["text"][$i] = [];
-                        foreach($li["text"] as $txt)
-                        {
-                            $tmp["text"][$i][] = $txt;
-                        }
-                        $i++;
-                    }
-                }
 
-                if(sizeof($tmp) == 2)
-                {
-                    $result[$chapter][$chunk][] = $tmp;
-                    $tmp = [];
-                }
-            }*/
+            $result[$chapter][$chunk][] = $html;
         }
         
         ksort($result);
         return $result;
+    }
+
+
+    /**
+     * Download tWords from DCS and extract them
+     * @param string $lang
+     * @param bool $update
+     * @return bool|string
+     */
+    public function downloadAndExtractWords($lang = "en", $update = false)
+    {
+        $filepath = "../app/Templates/Default/Assets/source/".$lang."_words.zip";
+        $folderpath = "../app/Templates/Default/Assets/source/".$lang."_tw";
+
+        if(!File::exists($folderpath) || $update)
+        {
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if(empty($catalog)) return false;
+
+            $url = "";
+
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
+                {
+                    foreach($language->resources as $resource)
+                    {
+                        if($resource->identifier == "tw")
+                        {
+                            foreach ($resource->projects as $project)
+                            {
+                                foreach($project->formats as $format)
+                                {
+                                    $url = $format->url;
+                                    if(!preg_match("/\.zip$/", $url)) continue;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            $zip = curl_exec($ch);
+
+            if(curl_errno($ch))
+            {
+                return "error: " . curl_error($ch);
+            }
+
+            curl_close($ch);
+
+            File::put($filepath, $zip);
+
+            if(File::exists($filepath))
+            {
+                $zip = new ZipArchive();
+                $res = $zip->open($filepath);
+                $zip->extractTo("../app/Templates/Default/Assets/source/");
+                $zip->close();
+
+                File::delete($filepath);
+            }
+        }
+
+        return $folderpath;
+    }
+
+
+    /**
+     * Parses .md files of specified book and chapter and returns array
+     * @param $book
+     * @param $chapter
+     * @param $lang
+     * @return  array
+     **/
+    public function GetTranslationWords($book, $chapter, $lang = "en")
+    {
+        $folderpath = $this->downloadAndExtractWords($lang);
+
+        if(!$folderpath) return false;
+
+        // Get config.yaml catalog
+        $config = File::get($folderpath . "/bible/config.yaml");
+        $words = Spyc::YAMLLoad($config);
+
+        $filtered = [
+            "book" => $book,
+            "chapter" => $chapter,
+            "words" => []
+        ];
+
+        foreach ($words as $word => $item)
+        {
+            foreach ($item as $key => $occurrence) {
+                if($key == "false_positives" || $key == "occurrences") continue;
+
+                preg_match("/([a-z]{3})\/(\d+)\/(\d+)$/", $occurrence, $matches);
+
+                if(!empty($matches))
+                {
+                    if($matches[1] == $book && (int)$matches[2] == $chapter)
+                    {
+                        if(!isset($filtered["words"][$word]))
+                            $filtered["words"][$word] = [];
+
+                        if(!isset($filtered["words"][$word]["verses"]))
+                            $filtered["words"][$word]["verses"] = [];
+
+                        $filtered["words"][$word]["verses"][] = (int)$matches[3];
+                    }
+                }
+            }
+        }
+
+        $parsedown = new Parsedown();
+        $files = File::allFiles($folderpath);
+
+        foreach ($filtered["words"] as $key => &$word) {
+            $word["range"] = $this->getRanges($word["verses"]);
+
+            foreach ($files as $file) {
+                if(preg_match("/".$key.".md$/", $file))
+                {
+                    $md = File::get($file);
+                    $html = $parsedown->text($md);
+                    $html = preg_replace("//", "", $html);
+
+                    $word["text"] = $html;
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+
+    /**
+     * Download questions from DCS and extract them
+     * @param string $lang
+     * @param bool $update
+     * @return bool|string
+     */
+    public function downloadAndExtractQuestions($lang = "en", $update = false)
+    {
+        $filepath = "../app/Templates/Default/Assets/source/".$lang."_questions.zip";
+        $folderpath = "../app/Templates/Default/Assets/source/".$lang."_tq";
+
+        if(!File::exists($folderpath) || $update)
+        {
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if(empty($catalog)) return false;
+
+            $url = "";
+
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
+                {
+                    foreach($language->resources as $resource)
+                    {
+                        if($resource->identifier == "tq")
+                        {
+                            foreach($resource->formats as $format)
+                            {
+                                $url = $format->url;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            $zip = curl_exec($ch);
+
+            if(curl_errno($ch))
+            {
+                return "error: " . curl_error($ch);
+            }
+
+            curl_close($ch);
+
+            File::put($filepath, $zip);
+
+            if(File::exists($filepath))
+            {
+                $zip = new ZipArchive();
+                $res = $zip->open($filepath);
+                $zip->extractTo("../app/Templates/Default/Assets/source/");
+                $zip->close();
+
+                File::delete($filepath);
+            }
+        }
+
+        return $folderpath;
+    }
+
+
+    /**
+     * Parses .md files of specified book and returns array
+     * @param $book
+     * @param $lang
+     * @return  array
+     **/
+    public function getTranslationQuestions($book, $lang ="en")
+    {
+        $folderpath = $this->downloadAndExtractQuestions($lang);
+
+        if(!$folderpath) return false;
+
+        // Get book folder
+        $dirs = File::directories($folderpath);
+        foreach($dirs as $dir)
+        {
+            preg_match("/[1-3a-z]{3}$/", $dir, $matches);
+            if($matches[0] == $book)
+            {
+                $folderpath = $dir;
+                break;
+            }
+        }
+
+        $parsedown = new Parsedown();
+
+        $result = [];
+        $files = File::allFiles($folderpath);
+        foreach($files as $file)
+        {
+            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).md$/", $file, $matches);
+
+            if(!isset($matches[1]) || !isset($matches[2])) return false;
+
+            $chapter = (int)$matches[1];
+            $chunk = (int)$matches[2];
+
+            if(!isset($result[$chapter]))
+                $result[$chapter] = [];
+            if(isset($result[$chapter]) && !isset($result[$chapter][$chunk]))
+                $result[$chapter][$chunk] = [];
+
+            $md = File::get($file);
+            $html = $parsedown->text($md);
+            $html = preg_replace("//", "", $html);
+
+            $result[$chapter][$chunk][] = $html;
+        }
+
+        ksort($result);
+        return $result;
+    }
+
+
+    public function getRanges($arr)
+    {
+        if(sizeof($arr) == 1)
+            return [$arr[0]];
+
+        $ranges = [];
+        for ($i = 0; $i < sizeof($arr); $i++) {
+            $rstart = $arr[$i];
+            $rend = $rstart;
+
+            if(!isset($arr[$i]))
+            {
+                $ranges[] = $rstart == $rend ? $rstart : $rstart . '-' . $rend;
+                continue;
+            }
+
+            while (isset($arr[$i + 1]) && ($arr[$i + 1] - $arr[$i]) == 1) {
+                $rend = $arr[$i + 1];
+                $i++;
+            }
+            $ranges[] = $rstart == $rend ? $rstart : $rstart . '-' . $rend;
+        }
+        return $ranges;
     }
 
     /**

@@ -118,19 +118,26 @@ if(empty($error) && empty($data["success"])):
 
         <div class="content_help col-sm-3">
             <?php if($data["event"][0]->sourceBible == "ulb"): ?>
-                <div class="keywords_list">
-                    <h3><?php echo __("show_keywords") ?></h3>
+                <ul class="nav nav-tabs t_tools_nav">
+                    <li role="presentation" id="my_twords" class="my_tab">
+                        <a href="#"><?php echo __("show_keywords") ?></a>
+                    </li>
+                </ul>
+
+                <div id="my_twords_content" class="my_content shown">
                     <div class="labels_list">
-                        <?php if(isset($data["keywords"])): ?>
-                            <?php foreach ($data["keywords"] as $keyword): ?>
-                                <label><?php echo __("verses")." ".$keyword["id"]?>
+                        <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
+                            <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
+                                <?php if(!isset($tWord["text"])) continue; ?>
+                                <label>
                                     <ul>
-                                        <?php foreach ($keyword["terms"] as $term):?>
-                                            <li>
-                                                <div class="word_term"><?php echo $term["word"]; ?></div>
-                                                <div class="word_def"><?php echo $term["def"]; ?></div>
-                                            </li>
-                                        <?php endforeach; ?>
+                                        <li>
+                                            <div class="word_term">
+                                                <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
+                                                (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
+                                            </div>
+                                            <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
+                                        </li>
                                     </ul>
                                 </label>
                             <?php endforeach; ?>

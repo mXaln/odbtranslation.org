@@ -175,19 +175,91 @@ if(empty($error) && empty($data["success"])):
 
         <div class="content_help col-sm-3">
             <?php if($data["event"][0]->sourceBible == "ulb"): ?>
-                <div class="keywords_list">
-                    <h3><?php echo __("show_keywords") ?></h3>
+                <ul class="nav nav-tabs t_tools_nav">
+                    <li role="presentation" id="my_twords" class="my_tab">
+                        <a href="#"><?php echo __("show_keywords") ?></a>
+                    </li>
+                    <li role="presentation" id="my_tquestions" class="my_tab">
+                        <a href="#"><?php echo __("show_questions") ?></a>
+                    </li>
+                    <li role="presentation" id="my_tnotes" class="my_tab">
+                        <a href="#"><?php echo __("show_notes") ?></a>
+                    </li>
+                </ul>
+
+                <div id="my_twords_content" class="my_content shown">
                     <div class="labels_list">
-                        <?php if(isset($data["keywords"])): ?>
-                            <?php foreach ($data["keywords"] as $keyword): ?>
-                                <label><?php echo __("verses")." ".$keyword["id"]?>
+                        <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
+                            <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
+                                <?php if(!isset($tWord["text"])) continue; ?>
+                                <label>
                                     <ul>
-                                        <?php foreach ($keyword["terms"] as $term):?>
-                                            <li>
-                                                <div class="word_term"><?php echo $term["word"]; ?></div>
-                                                <div class="word_def"><?php echo $term["def"]; ?></div>
-                                            </li>
-                                        <?php endforeach; ?>
+                                        <li>
+                                            <div class="word_term">
+                                                <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
+                                                (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
+                                            </div>
+                                            <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
+                                        </li>
+                                    </ul>
+                                </label>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="word_def_popup">
+                        <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                        <div class="word_def_title"></div>
+                        <div class="word_def_content"></div>
+                    </div>
+                </div>
+                <div id="my_tquestions_content" class="my_content">
+                    <div class="labels_list">
+                        <?php if(isset($data["questions"])): ?>
+                            <?php foreach ($data["questions"] as $verse => $questions): ?>
+                                <label>
+                                    <ul>
+                                        <li>
+                                            <div class="word_term">
+                                                <span style="font-weight: bold;"><?php echo __("verse_number", $verse) ?> </span>
+                                            </div>
+                                            <div class="word_def">
+                                                <?php foreach ($questions as $question): ?>
+                                                <?php echo preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $question) ?>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </label>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="word_def_popup">
+                        <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                        <div class="word_def_title"></div>
+                        <div class="word_def_content"></div>
+                    </div>
+                </div>
+                <div id="my_tnotes_content" class="my_content">
+                    <div class="labels_list">
+                        <?php if(isset($data["notes"])): ?>
+                            <?php foreach ($data["notes"] as $verse => $notes): ?>
+                                <label>
+                                    <ul>
+                                        <li>
+                                            <div class="word_term">
+                                                <span style="font-weight: bold;">
+                                                    <?php echo $verse > 0 ? __("verse_number", $verse) :
+                                                        __("intro")?>
+                                                </span>
+                                            </div>
+                                            <div class="word_def">
+                                                <?php foreach ($notes as $note): ?>
+                                                    <?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $note) ?>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </label>
                             <?php endforeach; ?>

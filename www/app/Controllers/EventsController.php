@@ -7,6 +7,7 @@ namespace App\Controllers;
 
 use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
+use Helpers\Data;
 use Support\Facades\Cookie;
 use View;
 use Config\Config;
@@ -648,6 +649,16 @@ class EventsController extends Controller
 
                                     $data["words"] = json_encode($words->toArray());
                                 }
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -758,6 +769,16 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -882,6 +903,11 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -1008,6 +1034,21 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -2636,8 +2677,31 @@ class EventsController extends Controller
                         $data = $sourceText;
                         $data["translation"] = $translation;
 
-                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
-                            $data["keywords"] = $this->getUwKeyWords($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->currentChapter, $data["totalVerses"]);
+
+
+                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK
+                            || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
+                        {
+                            $data["keywords"] = $this->getTranslationWords(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->sourceLangID);
+                        }
+
+                        if($data["event"][0]->step == EventSteps::PEER_REVIEW
+                            || $data["event"][0]->step == EventSteps::SELF_CHECK
+                            || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
+                        {
+                            $data["questions"] = $this->getTranslationQuestions(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->sourceLangID);
+
+                            $data["notes"] = $this->getTranslationNotes(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->sourceLangID);
+                        }
                     } else {
                         $error[] = $sourceText["error"];
                     }
@@ -9564,7 +9628,6 @@ class EventsController extends Controller
     private function getNotesChunks($notes)
     {
         $chunks = array_keys($notes["notes"]);
-        $firstVerse = 0;
         $totalVerses = isset($notes["totalVerses"]) ? $notes["totalVerses"] : 0;
         $arr = [];
         $tmp = [];
@@ -9596,6 +9659,31 @@ class EventsController extends Controller
         }
 
         return $arr;
+    }
+
+    private function getTranslationNotes($book, $chapter, $lang = "en")
+    {
+        $tn_cache_notes = "tn_".$lang."_".$book;
+        $tNotes = [];
+
+        if(Cache::has($tn_cache_notes))
+        {
+            $tn_source = Cache::get($tn_cache_notes);
+            $tNotes = json_decode($tn_source, true);
+        }
+        else
+        {
+            $tNotesBook = $this->_model->getTranslationNotes($book, $lang);
+            if(isset($tNotesBook[$chapter]))
+                $tNotes = $tNotesBook[$chapter];
+
+            ksort($tNotes);
+
+            if(!empty($tNotes))
+                Cache::add($tn_cache_notes, json_encode($tNotes), 365*24*7);
+        }
+
+        return $tNotes;
     }
 
     private function testChunks($chunks, $totalVerses)
@@ -9643,75 +9731,54 @@ class EventsController extends Controller
         return $chunks;
     }
 
-    private function getUwKeyWords($book, $lang = "en", $chapter, $versesCount)
+    private function getTranslationWords($book, $chapter, $lang = "en")
     {
-        $result = array();
+        $tw_cache_words = "tn_".$lang."_".$book."_".$chapter;
 
-        $cat_lang = $lang;
-
-        if($lang == "ceb")
-            $cat_lang = "en";
-
-        // Get catalog
-        $cat_cache_keyword = "catalog_".$book."_".$cat_lang;
-
-        if(Cache::has($cat_cache_keyword))
+        if(Cache::has($tw_cache_words))
         {
-            $cat_source = Cache::get($cat_cache_keyword);
-            $cat_json = json_decode($cat_source, true);
+            $tw_source = Cache::get($tw_cache_words);
+            $tWords = json_decode($tw_source, true);
         }
         else
         {
-            $cat_source = $this->_model->getTWcatalog($book, $cat_lang);
-            $cat_json = json_decode($cat_source, true);
+            $tWords = $this->_model->getTranslationWords($book, $chapter, $lang);
 
-            if(!empty($cat_json))
-                Cache::add($cat_cache_keyword, $cat_source, 60*24*7);
+            if(!empty($tWords))
+                Cache::add($tw_cache_words, json_encode($tWords), 365*24*7);
         }
 
-        // Get keywords
-        $tw_cache_keyword = "tw_".$lang;
+        return $tWords;
+    }
 
-        if(Cache::has($tw_cache_keyword))
+
+    private function getTranslationQuestions($book, $chapter, $lang = "en")
+    {
+        $tq_cache_questions = "tq_".$lang."_".$book."_".$chapter;
+
+        $tQuestions = [];
+
+        if(Cache::has($tq_cache_questions))
         {
-            $tw_source = Cache::get($tw_cache_keyword);
-            $tw_json = json_decode($tw_source, true);
+            $tq_source = Cache::get($tq_cache_questions);
+            $tQuestions = json_decode($tq_source, true);
         }
         else
         {
-            $tw_source = $this->_model->getTWords($lang);
-            $tw_json = json_decode($tw_source, true);
-
-            if(!empty($tw_json))
-                Cache::add($tw_cache_keyword, $tw_source, 60*24*7);
-        }
-
-        if(!empty($cat_json) && !empty($tw_json))
-        {
-            foreach ($cat_json["chapters"][$chapter - 1]["frames"] as $key => $frame) {
-                $result[$key]["id"] = (integer)$frame["id"];
-                $result[$key]["terms"] = array();
-
-                if(isset($result[$key-1]))
-                    $result[$key-1]["id"] .= "-".((integer)$frame["id"] - 1);
-
-                $i=0;
-                foreach ($frame["items"] as $item) {
-                    $term_index = array_search($item["id"], array_column($tw_json, "id"));
-                    if($term_index)
-                    {
-                        $result[$key]["terms"][$i]["word"] = $tw_json[$term_index]["term"];
-                        $result[$key]["terms"][$i]["def"] = $tw_json[$term_index]["def"];
-                        $i++;
-                    }
-                }
+            $tQuestionsBook = $this->_model->getTranslationQuestions($book, $lang);
+            if(isset($tQuestionsBook[$chapter]))
+            {
+                $tQuestions = $tQuestionsBook[$chapter];
+                ksort($tQuestions);
             }
 
-            $result[sizeof($result)-1]["id"] .= "-".$versesCount;
+            if(!empty($tQuestions))
+                Cache::add($tq_cache_questions, json_encode($tQuestions), 365*24*7);
         }
 
-        return $result;
+        return $tQuestions;
     }
+
 
     private function moveMemberStepBack($member, $toStep, $confirm, $prevChunk = false)
     {
