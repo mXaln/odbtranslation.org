@@ -1768,6 +1768,8 @@ class EventsModel extends Model
                     }
                 }
             }
+
+            if($url == "") return false;
             
             $ch = curl_init();
             
@@ -1813,7 +1815,7 @@ class EventsModel extends Model
     {
         $folderpath = $this->downloadAndExtractNotes($lang);
         
-        if(!$folderpath) return false;
+        if(!$folderpath) return [];
         
         // Get book folder
         $dirs = File::directories($folderpath);
@@ -1904,6 +1906,8 @@ class EventsModel extends Model
                 }
             }
 
+            if($url == "") return false;
+
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -1949,7 +1953,7 @@ class EventsModel extends Model
     {
         $folderpath = $this->downloadAndExtractWords($lang);
 
-        if(!$folderpath) return false;
+        if(!$folderpath) return [];
 
         // Get config.yaml catalog
         $config = File::get($folderpath . "/bible/config.yaml");
@@ -2043,6 +2047,8 @@ class EventsModel extends Model
                 }
             }
 
+            if($url == "") return false;
+
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -2087,7 +2093,7 @@ class EventsModel extends Model
     {
         $folderpath = $this->downloadAndExtractQuestions($lang);
 
-        if(!$folderpath) return false;
+        if(!$folderpath) return [];
 
         // Get book folder
         $dirs = File::directories($folderpath);
