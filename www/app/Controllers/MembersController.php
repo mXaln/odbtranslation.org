@@ -568,7 +568,7 @@ class MembersController extends Controller
                 ["activationToken", $activationToken]
             ]);
 
-            if ($user[0]->memberID == 0)
+            if (!$user || $user[0]->memberID == 0)
             {
                 $error[] = __('no_account_error');
             }
@@ -1315,7 +1315,7 @@ class MembersController extends Controller
                     array("resetToken", $resetToken)
             ));
 
-            if ($user[0]->memberID == 0)
+            if (!$user || $user[0]->memberID == 0)
             {
                 $error[] = __('no_account_error');
             }
