@@ -56,6 +56,11 @@ class MainController extends Controller
 
     public function maintenance()
     {
+        if(!Config::get("app.isMaintenance"))
+        {
+            Url::redirect("/");
+        }
+
         return View::make('Main/Maintenance')
             ->shares("title", __("maintenance_work"));
     }
