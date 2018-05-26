@@ -4,7 +4,7 @@ use Helpers\Constants\EventMembers;
 if(isset($data["error"])) return;
 ?>
 
-<div class="comment_div panel panel-default">
+<div class="comment_div panel panel-default font_sun">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
         <span class="editor-close btn btn-success"><?php echo __("save") ?></span>

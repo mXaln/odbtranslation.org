@@ -24,6 +24,7 @@ use \Helpers\Constants\EventSteps;
 use \Helpers\Constants\BookSources;
 use \Helpers\Constants\EventStates;
 use \Helpers\Constants\EventMembers;
+use \Helpers\Spyc;
 
 class EventsModel extends Model
 {
@@ -235,10 +236,10 @@ class EventsModel extends Model
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, "
                 .PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
                 .PREFIX."translators.currentChunk, ".PREFIX."translators.currentChapter, "
-                .PREFIX."translators.translateDone, ".PREFIX."translators.stage, "
+                .PREFIX."translators.translateDone, "
                 .PREFIX."translators.verbCheck, ".PREFIX."translators.peerCheck, "
                 .PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
-                .PREFIX."translators.otherCheck, ".PREFIX."translators.nTranslator, "
+                .PREFIX."translators.otherCheck, "
                 .PREFIX."translators.isChecker, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
                 ."mems.lastName AS checkerLName, chapters.chunks, "
@@ -257,7 +258,7 @@ class EventsModel extends Model
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, "
                 .PREFIX."projects.sourceBible, t_lang.langName as tLang, "
-                ."t_lang.direction as tLangDir, ".PREFIX."projects.notesLangID, "
+                ."t_lang.direction as tLangDir, ".PREFIX."projects.notesLangID, notes_lang.direction as notesLangDir, "
                 ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".
                 PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".
                 PREFIX."abbr.chaptersNum FROM ";
@@ -267,7 +268,6 @@ class EventsModel extends Model
         {
             case EventMembers::TRANSLATOR:
                 $mainTable = PREFIX."translators ";
-                $stage = $tnChk ? "checking" : "translation";
                 break;
 
             case EventMembers::L2_CHECKER:
@@ -289,12 +289,12 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."projects ON evnt.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS notes_lang ON ".PREFIX."projects.notesLangID = notes_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
             ($memberType == EventMembers::TRANSLATOR && !$includeNone ? "AND ".PREFIX."translators.step != 'none' " : "").
             ($memberType == EventMembers::TRANSLATOR && !$includeFinished ? " AND ".PREFIX."translators.step != 'finished' " : " ").
-            ($memberType == EventMembers::TRANSLATOR ? "AND ".PREFIX."translators.stage = '".$stage."' " : "").
             "ORDER BY tLang, ".PREFIX."projects.sourceBible, ".PREFIX."abbr.abbrID";
 
         $prepare = array();
@@ -346,42 +346,158 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
-    public function getMemberEventsForCheckerNotes($memberID, $eventID = null, $includeFinished = true, $includeNone = true)
+
+    /**
+     * Get Notes checker event/s
+     * @param $memberID Notes Checker member ID
+     * @param null $eventID event ID
+     * @param null $chkMemberID Notes translator member ID
+     * @return array
+     */
+    public function getMemberEventsForNotes($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
     {
-        $prepare = array(":memberID" => $memberID);
+        $prepare = [];
         if($eventID)
             $prepare[":eventID"] = $eventID;
+        if($chkMemberID)
+            $prepare[":chkMemberID"] = $chkMemberID;
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
-                .PREFIX."members.lastName, evnt.bookCode, evnt.admins, "
-                ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
-                .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
-                .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
-                .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-                .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, "
-                ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
-                .PREFIX."chapters.chunks, ".PREFIX."abbr.chaptersNum, "
-                ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
-                ."mems.lastName AS checkerLName ".
+            .PREFIX."members.lastName, evnt.bookCode, evnt.admins, "
+            ."evnt.dateFrom, evnt.dateTo, evnt.state, "
+            ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
+            .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
+            .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, notes_lang.direction as notesLangDir, ".
+            "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
-                "LEFT JOIN ".PREFIX."chapters ON trs.eventID = ".PREFIX."chapters.eventID AND trs.currentChapter = ".PREFIX."chapters.chapter ".
-                "LEFT JOIN ".PREFIX."translators AS trschk ON trschk.trID = trs.nTranslator ".
-                "LEFT JOIN ".PREFIX."members ON trschk.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = trs.checkerID ".
-                "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
-                "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
-                "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
-                "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
-                "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE trs.memberID = :memberID AND trs.stage = 'checking' ".
-                ($eventID ? "AND trs.eventID = :eventID " : " ").
-                (!$includeNone ? "AND trs.step != 'none' " : " ").
-                (!$includeFinished ? " AND trs.step != 'finished' " : " ").
-                "AND trs.step != 'finished' AND trs.step != 'none' ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS notes_lang ON ".PREFIX."projects.notesLangID = notes_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
+            "WHERE ".PREFIX."projects.bookProject = 'tn' ".
+            ($eventID ? "AND trs.eventID = :eventID " : " ").
+            ($chkMemberID ? "AND trs.memberID = :chkMemberID " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
 
-        return $this->db->select($sql, $prepare);
+        $events = $this->db->select($sql, $prepare);
+        $filtered = [];
+
+        foreach($events as $event)
+        {
+            // Checker event
+            $otherCheck = (array)json_decode($event->otherCheck, true);
+            $peerCheck = (array)json_decode($event->peerCheck, true);
+            foreach ($otherCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] != 6)
+                    {
+                        $ev = clone $event;
+
+                        $checkerFName = null;
+                        $checkerLName = null;
+                        $checkerID = 0;
+                        $ev->step = EventSteps::PRAY;
+                        $ev->checkDone = false;
+
+                        if(isset($peerCheck[$chap]) && $peerCheck[$chap]["memberID"] != 0)
+                        {
+                            $memberModel = new MembersModel();
+                            $member = $memberModel->getMember([
+                                "firstName",
+                                "lastName"
+                            ], ["memberID", $peerCheck[$chap]["memberID"]]);
+                            if(!empty($member))
+                            {
+                                $checkerFName = $member[0]->firstName;
+                                $checkerLName = $member[0]->lastName;
+                                $checkerID = $peerCheck[$chap]["memberID"];
+                            }
+
+                            $ev->checkDone = $peerCheck[$chap]["done"] > 0;
+                        }
+
+                        switch ($data["done"])
+                        {
+                            case 1:
+                                $ev->step = EventSteps::CONSUME;
+                                break;
+                            case 2:
+                                $ev->step = EventSteps::HIGHLIGHT;
+                                break;
+                            case 3:
+                                $ev->step = EventSteps::SELF_CHECK;
+                                break;
+                            case 4:
+                                $ev->step = EventSteps::KEYWORD_CHECK;
+                                break;
+                            case 5:
+                                $ev->step = EventSteps::PEER_REVIEW;
+                                break;
+                        }
+
+                        $ev->currentChapter = $chap;
+                        $ev->peer = 1;
+                        $ev->myMemberID = 0;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->checkerFName = $checkerFName;
+                        $ev->checkerLName = $checkerLName;
+                        $ev->checkerID = $checkerID;
+                        $ev->isContinue = true; // Means not owner of chapter
+                        $ev->isCheckerPage = true;
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+
+            // Peer check event
+            foreach ($peerCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] == 0)
+                    {
+                        $ev = clone $event;
+                        $checkerFName = null;
+                        $checkerLName = null;
+                        $checkerID = 0;
+
+                        $memberModel = new MembersModel();
+                        $member = $memberModel->getMember([
+                            "firstName",
+                            "lastName"
+                        ], ["memberID", $otherCheck[$chap]["memberID"]]);
+                        if(!empty($member))
+                        {
+                            $checkerFName = $member[0]->firstName;
+                            $checkerLName = $member[0]->lastName;
+                            $checkerID = $otherCheck[$chap]["memberID"];
+                        }
+
+                        $ev->step = EventSteps::PEER_REVIEW;
+                        $ev->currentChapter = $chap;
+                        $ev->peer = 2;
+                        $ev->myMemberID = $memberID;
+                        $ev->myChkMemberID = $memberID;
+                        $ev->checkerFName = $checkerFName;
+                        $ev->checkerLName = $checkerLName;
+                        $ev->checkerID = $checkerID;
+                        $ev->isContinue = true;
+                        $ev->isCheckerPage = true;
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+        }
+
+        return $filtered;
     }
+
 
     /**
      * Get L2 checker event/s
@@ -887,7 +1003,6 @@ class EventsModel extends Model
                 "trs.currentChapter AS notesChapters ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."translators AS nTrs ON nTrs.trID = trs.nTranslator ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -896,7 +1011,6 @@ class EventsModel extends Model
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
                 "OR ".PREFIX."events.admins LIKE :adminID) ".
             "AND trs.memberID != :memberID ".
-            "AND (nTrs.memberID IS NULL OR nTrs.memberID != :memberID) ".
             "AND trs.step IN ($stepsIn) ".
             "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 
@@ -915,13 +1029,6 @@ class EventsModel extends Model
      */
     public function getNotificationsNotes()
     {
-        $projects = $this->db->quoteArray(["tn"]);
-        $stepsIn = $this->db->quoteArray([
-            EventSteps::NONE,
-            EventSteps::PRAY,
-            EventSteps::FINISHED,
-        ]);
-
         $sql = "SELECT trs.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
             PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
@@ -937,8 +1044,8 @@ class EventsModel extends Model
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
                 "OR ".PREFIX."events.admins LIKE :adminID) ".
                 "AND trs.otherCheck != '' AND trs.memberID != :memberID ".
-                "AND mytrs.isChecker = 1 AND mytrs.step IN ($stepsIn) ".
-                "AND ".PREFIX."projects.bookProject IN ($projects)";
+                "AND mytrs.isChecker = 1 ".
+                "AND ".PREFIX."projects.bookProject = 'tn'";
 
         $prepare = [
             ":memberID" => Session::get("memberID"),
@@ -950,17 +1057,45 @@ class EventsModel extends Model
 
         foreach ($notesNotifications as $notification)
         {
-            if($notification->stage == "checking") continue;
-            
             $otherCheck = (array)json_decode($notification->otherCheck, true);
-            
+            $peerCheck = (array)json_decode($notification->peerCheck, true);
+
             foreach ($otherCheck as $chapter => $data) {
-                // Exclude checked and current chapters
-                if($data["checkerID"] > 0) continue;
-                if($notification->currentChapter == $chapter) continue;
+                // Exclude taken chapters
+                if($data["memberID"] > 0) continue;
 
                 $note = clone $notification;
-                $note->notesChapter = $chapter;
+                $note->currentChapter = $chapter;
+                $note->step = "notes";
+                $note->manageMode = "tn";
+                $note->peer = 1;
+                $notifs[] = $note;
+            }
+
+            foreach ($peerCheck as $chapter => $data) {
+                // Exclude taken chapters
+                if($data["memberID"] > 0) continue;
+
+                // Exclude member that is already in otherCheck
+                if($otherCheck[$chapter]["memberID"] == Session::get("memberID")) continue;
+
+                $note = clone $notification;
+
+                $memberModel = new MembersModel();
+                $member = $memberModel->getMember([
+                    "firstName",
+                    "lastName"
+                ], ["memberID", $otherCheck[$chapter]["memberID"]]);
+                if(!empty($member))
+                {
+                    $note->firstName = $member[0]->firstName;
+                    $note->lastName = $member[0]->lastName;
+                }
+
+                $note->currentChapter = $chapter;
+                $note->step = EventSteps::PEER_REVIEW;
+                $note->manageMode = "tn";
+                $note->peer = 2;
                 $notifs[] = $note;
             }
         }
@@ -1126,7 +1261,6 @@ class EventsModel extends Model
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
                 "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
-                "LEFT JOIN ".PREFIX."translators AS nTrs ON nTrs.trID = trs.nTranslator ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
                 "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
                 "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
@@ -1134,7 +1268,6 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
                 "WHERE (".PREFIX."projects.gwLang IN($langsIn) OR ".PREFIX."projects.targetLang IN($langsIn) OR ".PREFIX."events.admins LIKE :adminID) ".
                 "AND trs.memberID != :memberID ".
-                "AND nTrs.memberID != :memberID ".
                 "AND trs.step IN ($stepsIn) ".
                 "AND trs.checkerID = 0 AND trs.hideChkNotif = false";
 
@@ -1249,8 +1382,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT trs.memberID AS translator, chk.currentChapter AS chkChapter, ".
             "chk.step AS checkerStep, chk.checkerID AS checker, ".
-            "proj.bookProject, trs.isChecker, trs.currentChapter as tnChapter, ".
-            "trs.stage, trs.step AS nStep, ".
+            "proj.bookProject, trs.isChecker, ".
             "l2.memberID AS l2checker, l3.memberID AS l3checker ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."translators AS trs ON evnt.eventID = trs.eventID AND trs.memberID = :memberID ".
@@ -1509,6 +1641,7 @@ class EventsModel extends Model
                     if($ln["lc"] == $tmp["langID"])
                     {
                         $tmp["direction"] = $ln["ld"];
+                        break;
                     }
                     else
                     {
@@ -1525,16 +1658,8 @@ class EventsModel extends Model
 
             foreach($langsFinal as $lnf)
             {
-                $data = [];
-                $data["langID"] = $lnf["langID"];
-                $data["langName"] = $lnf["langName"];
-                $data["angName"] = $lnf["angName"];
-                $data["isGW"] = $lnf["isGW"];
-                $data["gwLang"] = $lnf["gwLang"];
-                $data["direction"] = $lnf["direction"];
-
                 $this->db->table("languages")
-                    ->insert($data);
+                    ->insert($lnf);
             }
 
             $response["success"] = true;
@@ -1643,6 +1768,8 @@ class EventsModel extends Model
                     }
                 }
             }
+
+            if($url == "") return false;
             
             $ch = curl_init();
             
@@ -1688,7 +1815,7 @@ class EventsModel extends Model
     {
         $folderpath = $this->downloadAndExtractNotes($lang);
         
-        if(!$folderpath) return false;
+        if(!$folderpath) return [];
         
         // Get book folder
         $dirs = File::directories($folderpath);
@@ -1729,46 +1856,310 @@ class EventsModel extends Model
             $md = File::get($file);
             $html = $parsedown->text($md);
             $html = preg_replace("//", "", $html);
-            //$parsedown->clearBlocks();
-            
-            $result[$chapter][$chunk][] = $html;
-            /*$tmp = [];
-            foreach($md_arr as $elm)
-            {
-                if($elm["element"]["name"] == "h1")
-                {
-                    $tmp["ref"] = $elm["element"]["text"];
-                }
-                else if($elm["element"]["name"] == "p")
-                {
-                    $tmp["text"] = $elm["element"]["text"];
-                    
-                }
-                else if($elm["element"]["name"] == "ul")
-                {
-                    $tmp["text"] = [];
-                    $i = 0;
-                    foreach($elm["element"]["text"] as $li)
-                    {
-                        $tmp["text"][$i] = [];
-                        foreach($li["text"] as $txt)
-                        {
-                            $tmp["text"][$i][] = $txt;
-                        }
-                        $i++;
-                    }
-                }
 
-                if(sizeof($tmp) == 2)
-                {
-                    $result[$chapter][$chunk][] = $tmp;
-                    $tmp = [];
-                }
-            }*/
+            $result[$chapter][$chunk][] = $html;
         }
         
         ksort($result);
         return $result;
+    }
+
+
+    /**
+     * Download tWords from DCS and extract them
+     * @param string $lang
+     * @param bool $update
+     * @return bool|string
+     */
+    public function downloadAndExtractWords($lang = "en", $update = false)
+    {
+        $filepath = "../app/Templates/Default/Assets/source/".$lang."_words.zip";
+        $folderpath = "../app/Templates/Default/Assets/source/".$lang."_tw";
+
+        if(!File::exists($folderpath) || $update)
+        {
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if(empty($catalog)) return false;
+
+            $url = "";
+
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
+                {
+                    foreach($language->resources as $resource)
+                    {
+                        if($resource->identifier == "tw")
+                        {
+                            foreach ($resource->projects as $project)
+                            {
+                                foreach($project->formats as $format)
+                                {
+                                    $url = $format->url;
+                                    if(!preg_match("/\.zip$/", $url)) continue;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if($url == "") return false;
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            $zip = curl_exec($ch);
+
+            if(curl_errno($ch))
+            {
+                return "error: " . curl_error($ch);
+            }
+
+            curl_close($ch);
+
+            File::put($filepath, $zip);
+
+            if(File::exists($filepath))
+            {
+                $zip = new ZipArchive();
+                $res = $zip->open($filepath);
+                $zip->extractTo("../app/Templates/Default/Assets/source/");
+                $zip->close();
+
+                File::delete($filepath);
+            }
+        }
+
+        return $folderpath;
+    }
+
+
+    /**
+     * Parses .md files of specified book and chapter and returns array
+     * @param $book
+     * @param $chapter
+     * @param $lang
+     * @return  array
+     **/
+    public function GetTranslationWords($book, $chapter, $lang = "en")
+    {
+        $folderpath = $this->downloadAndExtractWords($lang);
+
+        if(!$folderpath) return [];
+
+        // Get config.yaml catalog
+        $config = File::get($folderpath . "/bible/config.yaml");
+        $words = Spyc::YAMLLoad($config);
+
+        $filtered = [
+            "book" => $book,
+            "chapter" => $chapter,
+            "words" => []
+        ];
+
+        foreach ($words as $word => $item)
+        {
+            foreach ($item as $key => $occurrence) {
+                if($key == "false_positives" || $key == "occurrences") continue;
+
+                preg_match("/([a-z]{3})\/(\d+)\/(\d+)$/", $occurrence, $matches);
+
+                if(!empty($matches))
+                {
+                    if($matches[1] == $book && (int)$matches[2] == $chapter)
+                    {
+                        if(!isset($filtered["words"][$word]))
+                            $filtered["words"][$word] = [];
+
+                        if(!isset($filtered["words"][$word]["verses"]))
+                            $filtered["words"][$word]["verses"] = [];
+
+                        $filtered["words"][$word]["verses"][] = (int)$matches[3];
+                    }
+                }
+            }
+        }
+
+        $parsedown = new Parsedown();
+        $files = File::allFiles($folderpath);
+
+        foreach ($filtered["words"] as $key => &$word) {
+            $word["range"] = $this->getRanges($word["verses"]);
+
+            foreach ($files as $file) {
+                if(preg_match("/".$key.".md$/", $file))
+                {
+                    $md = File::get($file);
+                    $html = $parsedown->text($md);
+                    $html = preg_replace("//", "", $html);
+
+                    $word["text"] = $html;
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+
+    /**
+     * Download questions from DCS and extract them
+     * @param string $lang
+     * @param bool $update
+     * @return bool|string
+     */
+    public function downloadAndExtractQuestions($lang = "en", $update = false)
+    {
+        $filepath = "../app/Templates/Default/Assets/source/".$lang."_questions.zip";
+        $folderpath = "../app/Templates/Default/Assets/source/".$lang."_tq";
+
+        if(!File::exists($folderpath) || $update)
+        {
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if(empty($catalog)) return false;
+
+            $url = "";
+
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
+                {
+                    foreach($language->resources as $resource)
+                    {
+                        if($resource->identifier == "tq")
+                        {
+                            foreach($resource->formats as $format)
+                            {
+                                $url = $format->url;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if($url == "") return false;
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            $zip = curl_exec($ch);
+
+            if(curl_errno($ch))
+            {
+                return "error: " . curl_error($ch);
+            }
+
+            curl_close($ch);
+
+            File::put($filepath, $zip);
+
+            if(File::exists($filepath))
+            {
+                $zip = new ZipArchive();
+                $res = $zip->open($filepath);
+                $zip->extractTo("../app/Templates/Default/Assets/source/");
+                $zip->close();
+
+                File::delete($filepath);
+            }
+        }
+
+        return $folderpath;
+    }
+
+
+    /**
+     * Parses .md files of specified book and returns array
+     * @param $book
+     * @param $lang
+     * @return  array
+     **/
+    public function getTranslationQuestions($book, $lang ="en")
+    {
+        $folderpath = $this->downloadAndExtractQuestions($lang);
+
+        if(!$folderpath) return [];
+
+        // Get book folder
+        $dirs = File::directories($folderpath);
+        foreach($dirs as $dir)
+        {
+            preg_match("/[1-3a-z]{3}$/", $dir, $matches);
+            if($matches[0] == $book)
+            {
+                $folderpath = $dir;
+                break;
+            }
+        }
+
+        $parsedown = new Parsedown();
+
+        $result = [];
+        $files = File::allFiles($folderpath);
+        foreach($files as $file)
+        {
+            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).md$/", $file, $matches);
+
+            if(!isset($matches[1]) || !isset($matches[2])) return false;
+
+            $chapter = (int)$matches[1];
+            $chunk = (int)$matches[2];
+
+            if(!isset($result[$chapter]))
+                $result[$chapter] = [];
+            if(isset($result[$chapter]) && !isset($result[$chapter][$chunk]))
+                $result[$chapter][$chunk] = [];
+
+            $md = File::get($file);
+            $html = $parsedown->text($md);
+            $html = preg_replace("//", "", $html);
+
+            $result[$chapter][$chunk][] = $html;
+        }
+
+        ksort($result);
+        return $result;
+    }
+
+
+    public function getRanges($arr)
+    {
+        if(sizeof($arr) == 1)
+            return [$arr[0]];
+
+        $ranges = [];
+        for ($i = 0; $i < sizeof($arr); $i++) {
+            $rstart = $arr[$i];
+            $rend = $rstart;
+
+            if(!isset($arr[$i]))
+            {
+                $ranges[] = $rstart == $rend ? $rstart : $rstart . '-' . $rend;
+                continue;
+            }
+
+            while (isset($arr[$i + 1]) && ($arr[$i + 1] - $arr[$i]) == 1) {
+                $rend = $arr[$i + 1];
+                $i++;
+            }
+            $ranges[] = $rstart == $rend ? $rstart : $rstart . '-' . $rend;
+        }
+        return $ranges;
     }
 
     /**

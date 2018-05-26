@@ -269,7 +269,7 @@ function OnCheckingRequest(data)
 {
     if($.inArray(memberID.toString(), data.excludes) >= 0)
         return false;
-    
+
     $.ajax({
         url: "/events/rpc/get_notifications",
         method: "post",
@@ -285,7 +285,7 @@ function OnCheckingRequest(data)
                 $(".notif_count").remove();
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
                 var notifs = "";
-                $.each(data.notifs, function(i, note) {console.log(note);
+                $.each(data.notifs, function(i, note) {
                     if($("a[data='"+note.anchor+"']").length <= 0)
                         notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
                                 '<li class="'+note.step+'_checker">'+note.text+'</li>'+

@@ -1,4 +1,9 @@
 @font-face {
+    font-family: "Jameel Noori Nastaleeq";
+    src: url("../fonts/jameel_noori_nastaleeq.ttf") format("truetype")
+}
+
+@font-face {
     font-family: "SUN3";
     src: url("../fonts/SUN3.woff2?2") format('woff2'),
     url("../fonts/SUN3.woff?2") format("woff"),
@@ -19,6 +24,14 @@
     word-wrap: break-word;
     padding: 4px 8px !important;
     text-align: inherit !important;
+}
+
+.font_fa {
+    /*font-family: Jameel Noori Nastaleeq;*/
+}
+
+.font_sun {
+    font-family: SUN3;
 }
 
 html, body, .container {
@@ -1769,7 +1782,7 @@ mark {
 .textarea_editor {
     width: 503px;
     min-height: 100px;
-    font-family: SUN3, Serif;
+    /*font-family: SUN3, Serif;*/
     font-size: 20px;
 }
 
@@ -1778,7 +1791,7 @@ mark {
     text-align: left;
     max-height: 300px;
     overflow-y: auto;
-    font-family: SUN3, Serif;
+    /*font-family: SUN3, Serif;*/
     font-size: 20px;
 }
 
@@ -1921,18 +1934,17 @@ mark {
     padding: 0;
 }
 
-.keywords_list {
-    padding: 10px 0;
+.word_def_content h1 {
+    font-size: 26px;
 }
 
-.keywords_list h3 {
-    margin-top: 0px;
-    color: #337ab7;
-    font-weight: bold;
+#my_twords_content, #my_tquestions_content, #my_tnotes_content {
+    margin-top: 10px;
+    padding: 0 10px;
 }
 
 .labels_list {
-    height: 600px;
+    max-height: 600px;
     overflow-y: auto;
     padding: 0px;
     font-size: 14px;
@@ -2018,6 +2030,10 @@ mark {
     font-size: 14px;
     max-height: 550px;
     overflow-y: auto;
+}
+
+.t_tools_nav {
+    margin-top: 10px;
 }
 
 
@@ -4036,7 +4052,7 @@ button.startEvnt, button.editEvnt {
     position:absolute; 
     right: 20px; 
     top: 15px; 
-    z-index: 99
+    z-index: 80
 }
 
 .button_copy_notes {
@@ -4569,4 +4585,12 @@ button.startEvnt, button.editEvnt {
 @-ms-keyframes rotation {
     0%   { -ms-transform: rotate(0deg); }
     100% { -ms-transform: rotate(360deg); }
+}
+
+.other_check_remove label {
+    display: block;
+}
+
+.other_check_remove label.disabled {
+    color: #ccc;
 }

@@ -7,6 +7,7 @@ namespace App\Controllers;
 
 use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
+use Helpers\Data;
 use Support\Facades\Cookie;
 use View;
 use Config\Config;
@@ -151,24 +152,16 @@ class EventsController extends Controller
         $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
         $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
-        $notesCheckers = $this->_model->getMemberEventsForCheckerNotes(Session::get("memberID"));
+        $notesCheckers = $this->_model->getMemberEventsForNotes(Session::get("memberID"));
         $sunCheckers = $this->_model->getMemberEventsForCheckerSun(Session::get("memberID"));
         $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers, $sunCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
-
         $data["myCheckerL3Events"] = [];
         //$data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
         // Extract facilitators from events
         $admins = [];
         foreach ($data["myTranslatorEvents"] as $key => $event) {
-            if(in_array($event->bookProject, ["tn"]) && $event->stage == "checking")
-            {
-                $event->bookName = $event->name;
-                $data["myCheckerL1Events"][] = $event;
-                unset($data["myTranslatorEvents"][$key]);
-                continue;
-            }
             $admins = array_merge($admins, (array)json_decode($event->admins, true));
         }
         foreach ($data["newEvents"] as $event) {
@@ -656,6 +649,16 @@ class EventsController extends Controller
 
                                     $data["words"] = json_encode($words->toArray());
                                 }
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -766,6 +769,16 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -890,6 +903,11 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -1016,6 +1034,21 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    $data["event"][0]->sourceLangID);
                             }
                             else
                             {
@@ -1338,8 +1371,7 @@ class EventsController extends Controller
             $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if(($data["event"][0]->state == EventStates::TRANSLATING 
-                || $data["event"][0]->state == EventStates::TRANSLATED) 
-                && $data["event"][0]->stage == "translation")
+                || $data["event"][0]->state == EventStates::TRANSLATED))
             {
                 if($data["event"][0]->step == EventSteps::NONE)
                     Url::redirect("events/information-tn/".$eventID);
@@ -1372,7 +1404,7 @@ class EventsController extends Controller
                         $sourceText = $this->getSourceText($data);
                         if($sourceText !== false && !array_key_exists("error", $sourceText))
                             $data = $sourceText;
-                        
+
                         // Get notes
                         $sourceTextNotes = $this->getNotesSourceText($data);
                         
@@ -1390,7 +1422,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED], ["trID" => $data["event"][0]->trID]);
                             Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
                         }
                         
@@ -1453,7 +1485,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED], ["trID" => $data["event"][0]->trID]);
                             Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
                         }
                         
@@ -1519,7 +1551,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED], ["trID" => $data["event"][0]->trID]);
                             Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
                         }
                         
@@ -1574,10 +1606,10 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
+                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED], ["trID" => $data["event"][0]->trID]);
                             Url::redirect('events/translator-tn/' . $data["event"][0]->eventID);
                         }
-                        
+
                         if (isset($_POST) && !empty($_POST))
                         {
                             $chunk = isset($_POST["draft"]) ? $_POST["draft"] : "";
@@ -1803,17 +1835,15 @@ class EventsController extends Controller
                                     if(!array_key_exists($data['currentChapter'], $otherCheck))
                                     {
                                         $otherCheck[$data['currentChapter']] = [
-                                            "checkerID" => 0,
+                                            "memberID" => 0,
                                             "done" => 0
                                         ];
                                     }
 
                                     $postdata = [
-                                        "step" => EventSteps::FINISHED,
+                                        "step" => EventSteps::NONE,
                                         "currentChapter" => -1,
                                         "currentChunk" => 0,
-                                        "translateDone" => true,
-                                        "hideChkNotif" => false,
                                         "otherCheck" => json_encode($otherCheck)
                                     ];
 
@@ -1821,7 +1851,6 @@ class EventsController extends Controller
                                     {
                                         $postdata["step"] = EventSteps::PRAY;
                                         $postdata["currentChapter"] = $nextChapter;
-                                        $postdata["translateDone"] = false;
                                     }
 
                                     setcookie("temp_tutorial", false, time() - 24*3600, "/");
@@ -2648,8 +2677,31 @@ class EventsController extends Controller
                         $data = $sourceText;
                         $data["translation"] = $translation;
 
-                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK)
-                            $data["keywords"] = $this->getUwKeyWords($data["event"][0]->bookCode, $data["event"][0]->sourceLangID, $data["event"][0]->currentChapter, $data["totalVerses"]);
+
+
+                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK
+                            || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
+                        {
+                            $data["keywords"] = $this->getTranslationWords(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->sourceLangID);
+                        }
+
+                        if($data["event"][0]->step == EventSteps::PEER_REVIEW
+                            || $data["event"][0]->step == EventSteps::SELF_CHECK
+                            || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
+                        {
+                            $data["questions"] = $this->getTranslationQuestions(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->sourceLangID);
+
+                            $data["notes"] = $this->getTranslationNotes(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->sourceLangID);
+                        }
                     } else {
                         $error[] = $sourceText["error"];
                     }
@@ -2683,30 +2735,33 @@ class EventsController extends Controller
             ->shares("error", @$error);
     }
 
-    public function checkerNotes($eventID)
+    public function checkerNotes($eventID, $memberID, $chapter)
     {
-        $data["menu"] = 1;
-        $data["isCheckerPage"] = true;
-        $title = "";
+        $isAjax = false;
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $isAjax = true;
+            $response["success"] = false;
+        }
 
-        $data["event"] = $this->_model->getMemberEvents(
-            Session::get("memberID"),
-            EventMembers::TRANSLATOR,
-            $eventID, 
-            true, 
-            false,
-            true);
+        $data["menu"] = 1;
+        $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+        $data["event"] = $this->_model->getMemberEventsForNotes(
+            Session::get("memberID"), $eventID, $memberID, $chapter);
 
         if(!empty($data["event"]))
         {
-            if($data["event"][0]->stage == "checking" && 
-                $data["event"][0]->currentChapter > -1)
+            if(!in_array($data["event"][0]->bookProject, ["tn"]))
             {
-                if($data["event"][0]->step == EventSteps::NONE)
-                    Url::redirect("events/information-tn/".$eventID);
+                Url::redirect("events/");
+            }
 
-                $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
+            if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
+            {
                 $turnSecret = $this->_membersModel->getTurnSecret();
                 $turnUsername = (time() + 3600) . ":vmast";
                 $turnPassword = "";
@@ -2728,9 +2783,17 @@ class EventsController extends Controller
                 $data["turn"][] = $turnUsername;
                 $data["turn"][] = base64_encode($turnPassword);
 
+                $chapters = $this->_model->getChapters($eventID, null, $chapter);
+                $data["event"][0]->chunks = [];
+                if(!empty($chapters))
+                {
+                    $data["event"][0]->chunks = $chapters[0]["chunks"];
+                }
+                $data["isCheckerPage"] = true;
+                $otherCheck = (array)json_decode($data["event"][0]->otherCheck, true);
+
                 switch ($data["event"][0]->step) {
                     case EventSteps::PRAY:
-                        
                         // Get scripture text
                         $sourceText = $this->getSourceText($data);
                         if($sourceText !== false && !array_key_exists("error", $sourceText))
@@ -2753,22 +2816,29 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
-                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                            $otherCheck[$data["event"][0]->currentChapter]["done"] = 6;
+                            $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                         }
-                        
+
                         if (isset($_POST) && !empty($_POST))
                         {
                             if (isset($_POST["confirm_step"]))
                             {
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
+
+                                if(array_key_exists($data["event"][0]->currentChapter, $otherCheck))
+                                {
+                                    $otherCheck[$data["event"][0]->currentChapter]["done"] = !$data["nosource"] ? 1 : 3;
+                                }
+
+                                $this->_model->updateTranslator([
+                                    "otherCheck" => json_encode($otherCheck)
+                                ], ["trID" => $data["event"][0]->trID]);
                                 
-                                $postdata = [
-                                    "step" => !$data["nosource"] ? EventSteps::CONSUME : EventSteps::SELF_CHECK
-                                ];
-                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                
-                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                    "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                             }
                         }
 
@@ -2797,8 +2867,11 @@ class EventsController extends Controller
 
                                 if(isset($data["nosource"]) && $data["nosource"])
                                 {
-                                    $this->_model->updateTranslator(["step" => EventSteps::SELF_CHECK], ["trID" => $data["event"][0]->trID]);
-                                    Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                    // 3 for SELF-CHECK step
+                                    $otherCheck[$data["event"][0]->currentChapter]["done"] = 3;
+                                    $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                                    Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                        "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                                 }
                             }
                             else
@@ -2809,21 +2882,26 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
-                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                            // 6 for the chapter finished
+                            $otherCheck[$data["event"][0]->currentChapter]["done"] = 6;
+                            $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                         }
                         
                         if (isset($_POST) && !empty($_POST))
                         {
                             if (isset($_POST["confirm_step"]))
                             {
-                                $postdata = [
-                                    "step" => EventSteps::HIGHLIGHT,
-                                ];
+                                // 2 for HIGHLIGHT step
+                                $otherCheck[$data["event"][0]->currentChapter]["done"] = 2;
 
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                $this->_model->updateTranslator([
+                                    "otherCheck" => json_encode($otherCheck)
+                                ], ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                    "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                             }
                         }
 
@@ -2851,8 +2929,10 @@ class EventsController extends Controller
                                 
                                 if(isset($data["nosource"]) && $data["nosource"])
                                 {
-                                    $this->_model->updateTranslator(["step" => EventSteps::SELF_CHECK], ["trID" => $data["event"][0]->trID]);
-                                    Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                    $otherCheck[$data["event"][0]->currentChapter]["done"] = 3;
+                                    $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                                    Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                        "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                                 }
                             }
                             else
@@ -2863,21 +2943,25 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
-                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                            $otherCheck[$data["event"][0]->currentChapter]["done"] = 6;
+                            $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                         }
                         
                         if (isset($_POST) && !empty($_POST))
                         {
                             if (isset($_POST["confirm_step"]))
                             {
-                                $postdata = [
-                                    "step" => EventSteps::SELF_CHECK,
-                                ];
+                                // 3 for SELF_CHECK step
+                                $otherCheck[$data["event"][0]->currentChapter]["done"] = 3;
 
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                $this->_model->updateTranslator([
+                                    "otherCheck" => json_encode($otherCheck)
+                                ], ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                    "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                             }
                         }
 
@@ -2907,7 +2991,7 @@ class EventsController extends Controller
                                     $data["event"][0]->currentChapter);
 
                                 $translationData = $this->_translationModel->getEventTranslation(
-                                    $data["event"][0]->nTranslator,
+                                    $data["event"][0]->trID,
                                     $data["event"][0]->currentChapter);
                                 
                                 $translation = array();
@@ -2928,8 +3012,10 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
-                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                            $otherCheck[$data["event"][0]->currentChapter]["done"] = 6;
+                            $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                         }
                         
                         if (isset($_POST) && !empty($_POST))
@@ -2980,18 +3066,31 @@ class EventsController extends Controller
 
                             if (!isset($error) && isset($_POST["confirm_step"]))
                             {
-                                $postdata["step"] = EventSteps::KEYWORD_CHECK;
+                                $postdata = [];
+
+                                // 4 for KEYWORD_CHECK step
+                                $otherCheck[$data["event"][0]->currentChapter]["done"] = 4;
+                                $postdata["otherCheck"] = json_encode($otherCheck);
+
                                 if(isset($data["nosource"]) && $data["nosource"])
                                 {
-                                    $postdata["step"] = EventSteps::PEER_REVIEW;
-                                    $postdata["checkerID"] = 0;
-                                    $postdata["checkDone"] = false;
-                                    $postdata["hideChkNotif"] = false;
+                                    // 5 for PEER_REVIEW step
+                                    $otherCheck[$data["event"][0]->currentChapter]["done"] = 5;
+
+                                    $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
+                                    $peerCheck[$data["event"][0]->currentChapter] = [
+                                        "memberID" => 0,
+                                        "done" => 0
+                                    ];
+
+                                    $postdata["otherCheck"] = json_encode($otherCheck);
+                                    $postdata["peerCheck"] = json_encode($peerCheck);
                                 }
                                 
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                 $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                    "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                             }
                         }
 
@@ -3021,7 +3120,7 @@ class EventsController extends Controller
                                     $data["event"][0]->currentChapter);
 
                                 $translationData = $this->_translationModel->getEventTranslation(
-                                    $data["event"][0]->nTranslator,
+                                    $data["event"][0]->trID,
                                     $data["event"][0]->currentChapter);
                                 
                                 $translation = array();
@@ -3042,15 +3141,16 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
-                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                            $otherCheck[$data["event"][0]->currentChapter]["done"] = 6;
+                            $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                         }
                         
                         if (isset($_POST) && !empty($_POST))
                         {
                             $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
                             $chunks = $this->testChunkNotes($chunks, $data["notes"], $data["currentChapter"]);
-                            $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : "";
 
                             if(!$chunks === false)
                             {
@@ -3095,14 +3195,23 @@ class EventsController extends Controller
 
                             if (!isset($error) && isset($_POST["confirm_step"]))
                             {
-                                $postdata["step"] = EventSteps::PEER_REVIEW;
-                                $postdata["checkerID"] = 0;
-                                $postdata["checkDone"] = false;
-                                $postdata["hideChkNotif"] = false;
-                                
+                                // 5 for PEER_REVIEW step
+                                $otherCheck[$data["event"][0]->currentChapter]["done"] = 5;
+
+                                $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
+                                $peerCheck[$data["event"][0]->currentChapter] = [
+                                    "memberID" => 0,
+                                    "done" => 0
+                                ];
+
+                                $postdata = [];
+                                $postdata["otherCheck"] = json_encode($otherCheck);
+                                $postdata["peerCheck"] = json_encode($peerCheck);
+
                                 setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                    "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                             }
                         }
                         
@@ -3132,7 +3241,7 @@ class EventsController extends Controller
                                     $data["event"][0]->currentChapter);
 
                                 $translationData = $this->_translationModel->getEventTranslation(
-                                    $data["event"][0]->nTranslator,
+                                    $data["event"][0]->trID,
                                     $data["event"][0]->currentChapter);
                                 
                                 $translation = array();
@@ -3153,110 +3262,106 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $this->_model->updateTranslator(["step" => EventSteps::FINISHED, "translateDone" => true], ["trID" => $data["event"][0]->trID]);
-                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID);
+                            $otherCheck[$data["event"][0]->currentChapter]["done"] = 6;
+                            $this->_model->updateTranslator(["otherCheck" => json_encode($otherCheck)], ["trID" => $data["event"][0]->trID]);
+                            Url::redirect('events/checker-tn/' . $data["event"][0]->eventID .
+                                "/".$data["event"][0]->memberID."/".$data["event"][0]->currentChapter);
                         }
                         
                         if (isset($_POST) && !empty($_POST)) {
                             if (isset($_POST["confirm_step"]))
                             {
-                                if($data["event"][0]->checkDone)
+                                $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
+
+                                if($data["event"][0]->peer == 1)
                                 {
-                                    $translator = $this->_model->getEventTranslator(
-                                        $data["event"][0]->eventID,
-                                        $data["event"][0]->nTranslator
-                                    );
-
-                                    if(!empty($translator))
+                                    if(isset($peerCheck[$data['currentChapter']]) &&
+                                        $peerCheck[$data['currentChapter']]["done"])
                                     {
-                                        $otherCheck = (array)json_decode($translator[0]->otherCheck, true);
-                                        $otherCheck[$data['currentChapter']]["done"] = 1;
-                                        
+                                        // 6 for chapter finished
+                                        $otherCheck[$data['currentChapter']]["done"] = 6;
+
                                         $this->_model->updateTranslator(
-                                            ["otherCheck" => json_encode($otherCheck)], 
-                                            ["trID" => $translator[0]->trID]);
+                                            ["otherCheck" => json_encode($otherCheck)],
+                                            ["trID" => $data["event"][0]->trID]);
+
+                                        $chapters = [];
+                                        for($i=0; $i <= $data["event"][0]->chaptersNum; $i++)
+                                        {
+                                            $data["chapters"][$i] = [];
+                                        }
+
+                                        $chaptersDB = $this->_model->getChapters($data["event"][0]->eventID);
+
+                                        foreach ($chaptersDB as $chapter) {
+                                            $tmp["trID"] = $chapter["trID"];
+                                            $tmp["memberID"] = $chapter["memberID"];
+                                            $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                                            $tmp["done"] = $chapter["done"];
+                                            $tmp["checked"] = $chapter["checked"];
+
+                                            $chapters[$chapter["chapter"]] = $tmp;
+                                        }
+
+                                        $chapters[$data["event"][0]->currentChapter]["checked"] = true;
+                                        $this->_model->updateChapter(["checked" => true], [
+                                            "eventID" => $data["event"][0]->eventID,
+                                            "chapter" => $data["event"][0]->currentChapter]);
+
+                                        // Set all event translations as Done
+                                        foreach ($translationData as $key => $chunk) {
+                                            $tID = $chunk->tID;
+                                            $trID = $chunk->trID;
+                                            $trData = array(
+                                                "translateDone" => true
+                                            );
+
+                                            $this->_translationModel->updateTranslation(
+                                                $trData,
+                                                array(
+                                                    "trID" => $trID,
+                                                    "tID" => $tID));
+                                        }
+
+                                        // Check if whole book is finished
+                                        if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum+1, true))
+                                            $this->_model->updateEvent([
+                                                "state" => EventStates::TRANSLATED,
+                                                "dateTo" => date("Y-m-d H:i:s", time())],
+                                                ["eventID" => $data["event"][0]->eventID]);
+
+                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                        Url::redirect('events');
                                     }
-
-                                    $chapters = [];
-                                    for($i=0; $i <= $data["event"][0]->chaptersNum; $i++)
-                                    {
-                                        $data["chapters"][$i] = [];
+                                    else {
+                                        $error[] = __("checker_not_ready_error");
                                     }
-
-                                    $chaptersDB = $this->_model->getChapters($data["event"][0]->eventID);
-
-                                    foreach ($chaptersDB as $chapter) {
-                                        $tmp["trID"] = $chapter["trID"];
-                                        $tmp["memberID"] = $chapter["memberID"];
-                                        $tmp["chunks"] = json_decode($chapter["chunks"], true);
-                                        $tmp["done"] = $chapter["done"];
-                                        $tmp["checked"] = $chapter["checked"];
-
-                                        $chapters[$chapter["chapter"]] = $tmp;
-                                    }
-                                    
-                                    $chapters[$data["event"][0]->currentChapter]["checked"] = true;
-                                    $this->_model->updateChapter(["checked" => true], [
-                                        "eventID" => $data["event"][0]->eventID, 
-                                        "chapter" => $data["event"][0]->currentChapter]);
-                                    
-                                    // Set all event translations as Done
-                                    foreach ($translationData as $key => $chunk) {
-                                        $tID = $chunk->tID;
-                                        $trID = $chunk->trID;
-                                        $trData = array(
-                                            "translateDone" => true
-                                        );
-                                        
-                                        $this->_translationModel->updateTranslation(
-                                            $trData, 
-                                            array(
-                                                "trID" => $trID, 
-                                                "tID" => $tID));
-                                    }
-                                    
-                                    // Check if whole book is finished
-                                    if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum+1, true))
-                                        $this->_model->updateEvent([
-                                            "state" => EventStates::TRANSLATED,
-                                            "dateTo" => date("Y-m-d H:i:s", time())],
-                                            ["eventID" => $data["event"][0]->eventID]);
-
-                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                    $postdata = [
-                                        "step" => EventSteps::PRAY,
-                                        "checkerID" => 0,
-                                        "checkDone" => false,
-                                        "stage" => "translation",
-                                        "currentChapter" => -1,
-                                        "currentChunk" => 0,
-                                        "translateDone" => true,
-                                        "nTranslator" => 0
-                                    ];
-
+                                }
+                                else
+                                {
+                                    $peerCheck[$data['currentChapter']]["done"] = 1;
                                     $this->_model->updateTranslator(
-                                        $postdata, 
+                                        ["peerCheck" => json_encode($peerCheck)],
                                         ["trID" => $data["event"][0]->trID]);
-                                    Url::redirect('events');
+
+                                    $response["success"] = true;
+                                    echo json_encode($response);
+                                    exit;
                                 }
-                                else {
-                                    $error[] = __("checker_not_ready_error");
-                                }
+
                             }
                         }
 
-                        return View::make('Events/Notes/Translator')
-                            ->nest('page', 'Events/Notes/PeerReview')
-                            ->shares("title", $title)
-                            ->shares("data", $data)
-                            ->shares("error", @$error);
-                        break;
+                        if($data["event"][0]->peer == 1)
+                            $page = "Events/Notes/PeerReview";
+                        else
+                        {
+                            $page = "Events/Notes/CheckerPeerReview";
+                            $data["isPeerPage"] = true;
+                        }
 
-                    case EventSteps::FINISHED:
-                        $data["success"] = __("you_event_finished_success");
-                        
                         return View::make('Events/Notes/Translator')
-                            ->nest('page', 'Events/Notes/Finished')
+                            ->nest('page', $page)
                             ->shares("title", $title)
                             ->shares("data", $data)
                             ->shares("error", @$error);
@@ -3281,141 +3386,6 @@ class EventsController extends Controller
         $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Events/Notes/Translator')
-            ->shares("title", $title)
-            ->shares("data", $data)
-            ->shares("error", @$error);
-    }
-
-    public function checkerNotesPeer($eventID, $memberID)
-    {
-        $data["event"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"), $eventID, $memberID);
-
-        if(!empty($data["event"]))
-        {
-            if($data["event"][0]->step != EventSteps::FINISHED && !$data["event"][0]->checkDone)
-            {
-                if($data["event"][0]->step == EventSteps::PEER_REVIEW)
-                {
-                    $turnSecret = $this->_membersModel->getTurnSecret();
-                    $turnUsername = (time() + 3600) . ":vmast";
-                    $turnPassword = "";
-
-                    if(!empty($turnSecret))
-                    {
-                        if(($turnSecret[0]->expire - time()) < 0)
-                        {
-                            $pass = $this->_membersModel->generateStrongPassword(22);
-                            if($this->_membersModel->updateTurnSecret(array("value" => $pass, "expire" => time() + (30*24*3600)))) // Update turn secret each month
-                            {
-                                $turnSecret[0]->value = $pass;
-                            }
-                        }
-
-                        $turnPassword = hash_hmac("sha1", $turnUsername, $turnSecret[0]->value, true);
-                    }
-
-                    $data["turn"][] = $turnUsername;
-                    $data["turn"][] = base64_encode($turnPassword);
-
-                    $data["comments"] = $this->getComments($data["event"][0]->eventID, $data["event"][0]->currentChapter);
-
-                    if (isset($_POST) && !empty($_POST)) {
-                        $_POST = Gump::xss_clean($_POST);
-
-                        if (isset($_POST["confirm_step"])) {
-                            $postdata = array("checkDone" => true);
-
-                            $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
-                            if(!array_key_exists($data["event"][0]->currentChapter, $peerCheck))
-                            {
-                                $peerCheck[$data["event"][0]->currentChapter] = Session::get("memberID");
-                                $postdata["peerCheck"] = json_encode($peerCheck);
-                            }
-
-                            $this->_model->updateTranslator($postdata, array("trID" => $data["event"][0]->trID));
-
-                            $response["success"] = true;
-                            echo json_encode($response);
-                            exit;
-                        }
-                    }
-
-                    if($data["event"][0]->checkDone)
-                    {
-                        $data["success"] = __("checker_translator_finished_error");
-                    }
-                    else
-                    {
-                        $sourceText = $this->getSourceText($data);
-                        if($sourceText !== false && !array_key_exists("error", $sourceText))
-                            $data = $sourceText;
-                        
-                        // Get notes
-                        $sourceTextNotes = $this->getNotesSourceText($data);
-
-                        if($sourceTextNotes !== false)
-                        {
-                            if (!array_key_exists("error", $sourceTextNotes))
-                            {
-                                $data = $sourceTextNotes;
-
-                                $data["comments"] = $this->getComments(
-                                    $data["event"][0]->eventID, 
-                                    $data["event"][0]->currentChapter);
-                                
-                                $translationData = $this->_translationModel->getEventTranslation(
-                                    $data["event"][0]->nTranslator,
-                                    $data["event"][0]->currentChapter);
-                                
-                                $translation = array();
-                                
-                                foreach ($translationData as $tv)
-                                {
-                                    $arr = (array)json_decode($tv->translatedVerses, true);
-                                    $arr["tID"] = $tv->tID;
-                                    $translation[] = $arr;
-                                }
-                                $data["translation"] = $translation;
-                            }
-                            else
-                            {
-                                $error[] = $sourceTextNotes["error"];
-                            }
-                        }
-                        else
-                        {
-                            $error[] = $sourceTextNotes["error"];
-                        }
-                    }
-                }
-                else
-                {
-                    $error[] = __("checker_translator_not_ready_error");
-                }
-            }
-            else
-            {
-                $data["success"] = __("translator_event_finished_success");
-                $data["error"] = "";
-            }
-
-            $title = $data["event"][0]->bookName ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
-        }
-        else
-        {
-            $error[] = __("checker_event_error");
-            $title = "Error";
-        }
-
-        $data["menu"] = 1;
-        $data["isCheckerPage"] = true;
-        $data["isPeerPage"] = true;
-        $data["notifications"] = $this->_notifications;
-        $data["news"] = $this->_news;
-        $data["newNewsCount"] = $this->_newNewsCount;
-
-        return View::make('Events/Notes/Translator')
-            ->nest('page', 'Events/Notes/CheckerPeerReview')
             ->shares("title", $title)
             ->shares("data", $data)
             ->shares("error", @$error);
@@ -5184,6 +5154,7 @@ class EventsController extends Controller
             $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
                 $members[$member->memberID]["userName"] = $member->userName;
                 $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
@@ -5345,7 +5316,7 @@ class EventsController extends Controller
                 $tmp["memberID"] = $chapter["memberID"];
                 $tmp["chunks"] = json_decode($chapter["chunks"], true);
                 $tmp["done"] = $chapter["done"];
-        
+
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
         
@@ -5361,6 +5332,7 @@ class EventsController extends Controller
                 {
                     $memberSteps[$chunk->memberID]["step"] = $chunk->step;
                     $memberSteps[$chunk->memberID]["otherCheck"] = $chunk->otherCheck;
+                    $memberSteps[$chunk->memberID]["peerCheck"] = $chunk->peerCheck;
                     $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
                     $members[$chunk->memberID] = "";
                 }
@@ -5394,7 +5366,8 @@ class EventsController extends Controller
         
                 $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
                 $otherCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["otherCheck"], true);
-        
+                $peerCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["peerCheck"], true);
+
                 // Set default values
                 $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
                 $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::NOT_STARTED;
@@ -5474,81 +5447,75 @@ class EventsController extends Controller
                     $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
                     $data["chapters"][$key]["step"] = EventSteps::FINISHED;
                     
-                    if($otherCheck[$key]["checkerID"] > 0)
+                    if($otherCheck[$key]["memberID"] > 0)
                     {
-                        $checker = $this->_model->getEventMember($eventID, $otherCheck[$key]["checkerID"]);
+                        $data["chapters"][$key]["checkerID"] = $otherCheck[$key]["memberID"];
 
-                        if(!empty($checker))
+                        if($otherCheck[$key]["done"] == 6)
                         {
-                            $peerCheck = (array)json_decode($checker[0]->peerCheck, true);
-                            $data["chapters"][$key]["checkerID"] = $otherCheck[$key]["checkerID"];
-                            
-                            if($otherCheck[$key]["done"])
+                            $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["peerChk"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
+                            $members[$otherCheck[$key]["memberID"]] = "";
+                            $data["chapters"][$key]["stepChk"] = EventSteps::FINISHED;
+                        }
+                        else
+                        {
+                            switch ($otherCheck[$key]["done"])
                             {
-                                $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
-                                $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
-                                $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
-                                $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
-                                $data["chapters"][$key]["peerChk"]["state"] = StepsStates::FINISHED;
-                                $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key];
-                                $members[$otherCheck[$key]["checkerID"]] = "";
-                                $data["chapters"][$key]["stepChk"] = EventSteps::FINISHED;
-                            }
-                            else
-                            {
-                                $stepChk = $checker[0]->step;
-                                $chapterChk = $checker[0]->currentChapter;
-                                $checkerChk = $checker[0]->checkerID;
-                                
-                                $data["chapters"][$key]["stepChk"] = $stepChk;
-    
-                                if($stepChk == EventSteps::CONSUME)
-                                {
+                                case 1:
+                                    //$stepChk = EventSteps::CONSUME;
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::IN_PROGRESS;
-                                }
-                                else if($stepChk == EventSteps::HIGHLIGHT)
-                                {
+                                    break;
+                                case 2:
+                                    //$stepChk = EventSteps::HIGHLIGHT;
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::IN_PROGRESS;
-                                }
-                                else if($stepChk == EventSteps::SELF_CHECK)
-                                {
+                                    break;
+                                case 3:
+                                    $stepChk = EventSteps::SELF_CHECK;
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::IN_PROGRESS;
-                                }
-                                else if($stepChk == EventSteps::KEYWORD_CHECK)
-                                {
+                                    break;
+                                case 4:
+                                    //$stepChk = EventSteps::KEYWORD_CHECK;
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["kwc"]["state"] = StepsStates::IN_PROGRESS;
-                                }
-                                else if($stepChk == EventSteps::PEER_REVIEW)
-                                {
+                                    break;
+                                case 5:
+                                    //$stepChk = EventSteps::PEER_REVIEW;
                                     $data["chapters"][$key]["consumeChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["highlightChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["selfEditChk"]["state"] = StepsStates::FINISHED;
                                     $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
-                                    
-                                    if(array_key_exists($key, $peerCheck))
+
+                                    if(array_key_exists($key, $peerCheck) && $peerCheck[$key]["done"])
                                     {
                                         $data["chapters"][$key]["peerChk"]["state"] = StepsStates::CHECKED;
-                                        $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key];
-                                        $members[$peerCheck[$key]] = "";
+                                        $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
+                                        $members[$peerCheck[$key]["memberID"]] = "";
                                     }
-                                    else if($checkerChk <= 0)
+                                    else if(!array_key_exists($key, $peerCheck) || $peerCheck[$key]["memberID"] == 0)
                                     {
                                         $data["chapters"][$key]["peerChk"]["state"] = StepsStates::WAITING;
                                     }
-                                    else if($checkerChk > 0)
+                                    else
                                     {
                                         $data["chapters"][$key]["peerChk"]["state"] = StepsStates::IN_PROGRESS;
-                                        $data["chapters"][$key]["peerChk"]["checkerID"] = $checkerChk;
-                                        $members[$checkerChk] = "";
+                                        $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
+                                        $members[$peerCheck[$key]["memberID"]] = "";
                                     }
-                                }
+                                    break;
                             }
+
+                            //$data["chapters"][$key]["stepChk"] = $stepChk;
+
                         }
                     }
                 }
@@ -5605,6 +5572,7 @@ class EventsController extends Controller
             $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
                 $members[$member->memberID]["userName"] = $member->userName;
                 $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
@@ -5627,7 +5595,7 @@ class EventsController extends Controller
             $data["admins"] = $admins;
             $data["members"] = $members;
         }
-        
+
         $data["notifications"] = $this->_notifications;
         $data["news"] = $this->_news;
         $data["newNewsCount"] = $this->_newNewsCount;
@@ -5920,6 +5888,7 @@ class EventsController extends Controller
             $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
 
             foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
                 $members[$member->memberID]["userName"] = $member->userName;
                 $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
                 $members[$member->memberID]["avatar"] = $member->avatar;
@@ -6421,6 +6390,8 @@ class EventsController extends Controller
                 $tmp["done"] = $chapter["done"];
                 $tmp["kwCheck"] = (array)json_decode($chapter["kwCheck"], true);
                 $tmp["crCheck"] = (array)json_decode($chapter["crCheck"], true);
+                $tmp["peerCheck"] = (array)json_decode($chapter["peerCheck"], true);
+                $tmp["otherCheck"] = (array)json_decode($chapter["otherCheck"], true);
 
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
@@ -6428,7 +6399,7 @@ class EventsController extends Controller
             $data["members"] = $this->_model->getMembersForEvent($data["event"][0]->eventID, $data["event"][0]->bookProject);
             $data["out_members"] = [];
 
-            // Include sun checkers that are not in the list of participants (ususally superadmins)
+            // Include sun checkers that are not in the list of participants (usually superadmins)
             if($data["event"][0]->bookProject == "sun")
             {
                 $tmpmems = [];
@@ -6441,6 +6412,24 @@ class EventsController extends Controller
                     }
 
                     foreach ($cr as $chap) {
+                        $tmpmems[] = $chap["memberID"];
+                    }
+                }
+
+                $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
+            }
+            elseif ($data["event"][0]->bookProject == "tn")
+            {
+                $tmpmems = [];
+                foreach ($data["members"] as $key => $member) {
+                    $other = (array)json_decode($member["otherCheck"], true);
+                    $peer = (array)json_decode($member["peerCheck"], true);
+
+                    foreach ($other as $chap) {
+                        $tmpmems[] = $chap["memberID"];
+                    }
+
+                    foreach ($peer as $chap) {
                         $tmpmems[] = $chap["memberID"];
                     }
                 }
@@ -6588,7 +6577,6 @@ class EventsController extends Controller
         $to_step = isset($_POST["to_step"]) && $_POST["to_step"] != "" ? $_POST["to_step"] : null;
         $prev_chunk = isset($_POST["prev_chunk"]) && $_POST["prev_chunk"] != "" ? filter_var($_POST["prev_chunk"], FILTER_VALIDATE_BOOLEAN) : false;
         $confirm = isset($_POST["confirm"]) && $_POST["confirm"] != "" ? filter_var($_POST["confirm"], FILTER_VALIDATE_BOOLEAN) : false;
-        $tnChk = isset($_POST["chk"]) && $_POST["chk"] != "" ? filter_var($_POST["chk"], FILTER_VALIDATE_BOOLEAN) : false;
         $manageMode = isset($_POST["manageMode"]) && $_POST["manageMode"] != "" ? $_POST["manageMode"] : "l1";
 
         if($eventID !== null && $memberID !== null &&
@@ -6598,19 +6586,15 @@ class EventsController extends Controller
             if($manageMode == "l2")
                 $userType = EventMembers::L2_CHECKER;
 
-            $member = $this->_model->getMemberEvents($memberID, $userType, $eventID, true, false, $tnChk);
+            $member = $this->_model->getMemberEvents($memberID, $userType, $eventID, true, false);
 
             if(!empty($member))
             {
                 if(EventStates::enum($member[0]->state) < EventStates::enum(EventStates::TRANSLATED))
                 {
                     $mode = $member[0]->bookProject;
-                    $chk = in_array($mode, ["tn"]) && $member[0]->stage == "checking"
-                        && $member[0]->isChecker
-                        && $member[0]->currentChapter > -1;
-                    $member[0]->chk = $chk;
 
-                    if(array_key_exists($to_step, EventSteps::enumArray($mode, $chk))
+                    if(array_key_exists($to_step, EventSteps::enumArray($mode))
                         || array_key_exists($to_step, EventCheckSteps::enumArray("l2")))
                     {
                         $postData = $this->moveMemberStepBack(
@@ -6689,6 +6673,7 @@ class EventsController extends Controller
         $memberID = isset($_POST["memberID"]) && $_POST["memberID"] != "" ? (integer)$_POST["memberID"] : null;
         $chapter = isset($_POST["chapter"]) && $_POST["chapter"] != "" ? (integer)$_POST["chapter"] : null;
         $mode = isset($_POST["mode"]) && $_POST["mode"] != "" ? $_POST["mode"] : "snd_checker";
+        $otherChk = isset($_POST["otherChk"]) && $_POST["otherChk"] != "" ? $_POST["otherChk"] : "";
 
         if($eventID !== null && $memberID !== null &&
             $chapter !== null)
@@ -6762,6 +6747,103 @@ class EventsController extends Controller
                                 ]);
 
                                 $response["message"] = __("checker_removed_success");
+                                $response["success"] = true;
+                            }
+                        }
+                        else
+                        {
+                            $response["error"] = __("wrong_parameters");
+                        }
+                    }
+                    else
+                    {
+                        $response["error"] = __("event_is_finished");
+                    }
+                }
+                elseif ($event[0]->bookProject == "tn")
+                {
+                    if(EventStates::enum($event[0]->state) < EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $chapters = $this->_model->getChapters($eventID, $memberID, $chapter, "tn");
+                        $chap = [];
+
+                        if(!empty($chapters))
+                        {
+                            $chap["trID"] = $chapters[0]["trID"];
+                            $chap["memberID"] = $chapters[0]["memberID"];
+                            $chap["chunks"] = json_decode($chapters[0]["chunks"], true);
+                            $chap["checked"] = $chapters[0]["checked"];
+                            $chap["otherCheck"] = (array)json_decode($chapters[0]["otherCheck"], true);
+                            $chap["peerCheck"] = (array)json_decode($chapters[0]["peerCheck"], true);
+
+                            $peer = !empty($chap["peerCheck"])
+                                && array_key_exists($chapter, $chap["peerCheck"])
+                                && $chap["peerCheck"][$chapter]["memberID"] > 0;
+
+                            switch ($mode)
+                            {
+                                case "other_checker":
+                                    if(!$peer)
+                                    {
+                                        if($otherChk == "remove")
+                                        {
+                                            $chap["otherCheck"][$chapter]["memberID"] = 0;
+                                            $chap["otherCheck"][$chapter]["done"] = 0;
+                                            unset($chap["peerCheck"][$chapter]);
+
+                                            $response["message"] = __("checker_removed_success");
+                                        }
+                                        else
+                                        {
+                                            $chap["otherCheck"][$chapter]["done"] -= 1;
+
+                                            $response["message"] = __("moved_back_success");
+
+                                            if($chap["otherCheck"][$chapter]["done"] < 0)
+                                            {
+                                                $response["error"] = __("wrong_parameters");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
+
+                                case "peer_checker":
+                                    if($peer)
+                                    {
+                                        $chap["peerCheck"][$chapter]["memberID"] = 0;
+                                        $chap["peerCheck"][$chapter]["done"] = 0;
+                                        // Set first checker back to PEER_REVIEW step
+                                        $chap["otherCheck"][$chapter]["done"] = 5;
+
+                                        $response["message"] = __("checker_removed_success");
+                                    }
+                                    else
+                                    {
+                                        $response["error"] = __("wrong_parameters");
+                                    }
+                                    break;
+
+                                default:
+                                    $response["error"] = __("wrong_parameters");
+                                    break;
+                            }
+
+                            if(!isset($response["error"]))
+                            {
+                                $postData = [
+                                    "otherCheck" => json_encode($chap["otherCheck"]),
+                                    "peerCheck" => json_encode($chap["peerCheck"]),
+                                ];
+
+                                $this->_model->updateTranslator($postData, [
+                                    "eventID" => $eventID,
+                                    "memberID" => $memberID
+                                ]);
+
                                 $response["success"] = true;
                             }
                         }
@@ -6909,17 +6991,10 @@ class EventsController extends Controller
             {
                 $isChecker = $member[0]->isChecker;
 
-                if(!$isChecker)
-                {
-                    $this->_model->updateTranslator(
-                        ["isChecker" => true], 
-                        ["trID" => $member[0]->trID]);
-                    $response["success"] = true;
-                }
-                else
-                {
-                    $response["error"] = __("cannot_undo_action");
-                }
+                $this->_model->updateTranslator(
+                    ["isChecker" => !$isChecker],
+                    ["trID" => $member[0]->trID]);
+                $response["success"] = true;
             }
             else
             {
@@ -7071,13 +7146,15 @@ class EventsController extends Controller
 
             if($i == 0)
             {
-                $notifObj->notesChapter = 1;
+                $notifObj->currentChapter = 1;
                 $notifObj->firstName = "Mark";
                 $notifObj->lastName = "Patton";
                 $notifObj->bookCode = "act";
                 $notifObj->bookProject = "tn";
                 $notifObj->tLang = "Bahasa Indonesia";
                 $notifObj->bookName = "Acts";
+                $notifObj->step = "notes";
+                $notifObj->manageMode = "tn";
             }
             else
             {
@@ -7100,10 +7177,11 @@ class EventsController extends Controller
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["isDemo"] = true;
         $data["menu"] = 1;
+        $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
 
         $view = View::make("Events/Notes/Demo/DemoHeader");
         $data["step"] = "";
-        $data["stage"] = "translation";
 
         switch ($page)
         {
@@ -7135,49 +7213,42 @@ class EventsController extends Controller
             case "pray_chk":
                 $view->nest("page", "Events/Notes/Demo/PrayChk");
                 $data["step"] = EventSteps::PRAY;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "consume_chk":
                 $view->nest("page", "Events/Notes/Demo/ConsumeChk");
                 $data["step"] = EventSteps::CONSUME;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "highlight":
                 $view->nest("page", "Events/Notes/Demo/Highlight");
                 $data["step"] = EventSteps::HIGHLIGHT;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "self_check_chk":
                 $view->nest("page", "Events/Notes/Demo/SelfEditChk");
                 $data["step"] = EventSteps::SELF_CHECK;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "highlight_chk":
                 $view->nest("page", "Events/Notes/Demo/HighlightChk");
                 $data["step"] = EventSteps::KEYWORD_CHECK;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "peer_review":
                 $view->nest("page", "Events/Notes/Demo/PeerReview");
                 $data["step"] = EventSteps::PEER_REVIEW;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 break;
 
             case "peer_review_checker":
                 $view->nest("page", "Events/Notes/Demo/PeerReviewChecker");
                 $data["step"] = EventSteps::PEER_REVIEW;
-                $data["stage"] = "checking";
                 $data["isCheckerPage"] = true;
                 $data["isPeerPage"] = true;
                 break;
@@ -7668,6 +7739,15 @@ class EventsController extends Controller
                     $post["chapter"]
                 );
             }
+            elseif ($level == "tnContinue")
+            {
+                $event = $this->_model->getMemberEventsForNotes(
+                    Session::get("memberID"),
+                    $eventID,
+                    $post["memberID"],
+                    $post["chapter"]
+                );
+            }
 
             if(!empty($event))
             {
@@ -7695,24 +7775,14 @@ class EventsController extends Controller
                             
                             $role = EventMembers::TRANSLATOR;
 
-                            if($event[0]->stage == "translation")
+                            $translationData = $this->_translationModel->getEventTranslationByEventID(
+                                $event[0]->eventID,
+                                $event[0]->currentChapter,
+                                $event[0]->currentChunk
+                            );
+
+                            if(in_array($mode, ["tn"]) && isset($event[0]->isCheckerPage) && $event[0]->isCheckerPage)
                             {
-                                $trID = $event[0]->trID;
-                                $translationData = $this->_translationModel->getEventTranslationByEventID(
-                                    $event[0]->eventID,
-                                    $event[0]->currentChapter,
-                                    $event[0]->currentChunk
-                                );
-                                //$translationData = $this->_translationModel->getLastEventTranslation($trID);
-                            }
-                            else
-                            {
-                                $trID = $event[0]->nTranslator;
-                                $translationData = $this->_translationModel->getEventTranslation(
-                                    $trID,
-                                    $event[0]->currentChapter,
-                                    $event[0]->currentChunk
-                                );
                                 $role = EventMembers::CHECKER;
                             }
 
@@ -7758,7 +7828,7 @@ class EventsController extends Controller
                                     ),
                                 );
 
-                                if(in_array($mode, ["tn"]) && $event[0]->stage == "translation")
+                                if(in_array($mode, ["tn"]))
                                     $translationVerses[EventMembers::CHECKER] = [
                                         "verses" => array()
                                     ];
@@ -7770,7 +7840,7 @@ class EventsController extends Controller
                                     $trData = array(
                                         "projectID" => $event[0]->projectID,
                                         "eventID" => $event[0]->eventID,
-                                        "trID" => $trID,
+                                        "trID" => $event[0]->trID,
                                         "targetLang" => $event[0]->targetLang,
                                         "bookProject" => $event[0]->bookProject,
                                         "abbrID" => $event[0]->abbrID,
@@ -7850,14 +7920,10 @@ class EventsController extends Controller
                             }
                             
                             $role = EventMembers::TRANSLATOR;
+                            $trID = $event[0]->trID;
 
-                            if($event[0]->stage == "translation")
+                            if(in_array($mode, ["tn"]) && isset($event[0]->isCheckerPage) && $event[0]->isCheckerPage)
                             {
-                                $trID = $event[0]->trID;
-                            }
-                            else
-                            {
-                                $trID = $event[0]->nTranslator;
                                 $role = EventMembers::CHECKER;
                             }
 
@@ -8247,14 +8313,21 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    foreach ($memberInfo as $item) {
-                        if($item->isChecker
-                            && $item->nStep == EventSteps::HIGHLIGHT 
-                            && $chapter == $item->tnChapter
-                            && $item->stage == "checking")
+                    $events = $this->_model->getMemberEventsForNotes(
+                        $memberID,
+                        $eventID,
+                        null,
+                        $chapter
+                    );
+
+                    foreach ($events as $event) {
+                        if($event->step == EventSteps::HIGHLIGHT)
                         {
-                            $canKeyword = true;
-                            break;	
+                            if($chapter == $event->currentChapter)
+                            {
+                                $canKeyword = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -8373,50 +8446,50 @@ class EventsController extends Controller
     public function applyCheckerNotes($eventID, $memberID, $chapter)
     {
         $canApply = false;
-        $isBusy = false;
-        
-        $myEvent = $this->_model->getEventMember(
-            $eventID, 
-            Session::get("memberID"));
 
-        if(!empty($myEvent) && $myEvent[0]->step != EventSteps::NONE
-            && $myEvent[0]->step != EventSteps::PRAY
-            && $myEvent[0]->step != EventSteps::FINISHED)
-        {
-            $isBusy = true;
+        $profile = Session::get("profile");
+        $langs = [];
+        foreach ($profile["languages"] as $lang => $item) {
+            $langs[] = $lang;
         }
 
-        if(!$isBusy)
-        {
-            $profile = Session::get("profile");
-            $langs = [];
-            foreach ($profile["languages"] as $lang => $item) {
-                $langs[] = $lang;
-            }
-            $allNotifications = $this->_model->getAllNotifications($langs);
-            $allNotifications = array_merge(
-                array_values($allNotifications),
-                array_values($this->_notifications));
-            
-            $notif = null;
-            $otherCheck = [];
-            foreach ($this->_notifications as $event) {
-                if($eventID == $event->eventID
-                    && $memberID == $event->memberID
-                    && $chapter == $event->notesChapter)
+        $allNotifications = $this->_model->getAllNotifications($langs);
+        $allNotifications = array_merge(
+            array_values($allNotifications),
+            array_values($this->_notifications));
+        $notif = null;
+
+        foreach ($allNotifications as $notification) {
+            if($eventID == $notification->eventID
+                && $memberID == $notification->memberID
+                && $chapter == $notification->currentChapter)
+            {
+                $postdata = [];
+
+                if($notification->peer == 1)
                 {
-                    $otherCheck = (array)json_decode($event->otherCheck, true);
-                    foreach ($otherCheck as $chap => $data) {
-                        if($chap != $chapter) continue;
-                        if($chap == $event->currentChapter) continue;
-    
-                        if($data["checkerID"] <= 0)
-                        {
-                            $otherCheck[$chapter]["checkerID"] = Session::get("memberID");
-                            $canApply = true;
-                            $notif = $event;
-                            break;
-                        }
+                    $otherCheck = (array)json_decode($notification->otherCheck, true);
+                    if(isset($otherCheck[$chapter]) && $otherCheck[$chapter]["memberID"] == 0)
+                    {
+                        $otherCheck[$chapter]["memberID"] = Session::get("memberID");
+                        $notification->otherCheck = json_encode($otherCheck);
+                        $notif = $notification;
+
+                        $postdata = ["otherCheck" => $notif->otherCheck];
+                        $canApply = true;
+                    }
+                }
+                else
+                {
+                    $peerCheck = (array)json_decode($notification->peerCheck, true);
+                    if(isset($peerCheck[$chapter]) && $peerCheck[$chapter]["memberID"] == 0)
+                    {
+                        $peerCheck[$chapter]["memberID"] = Session::get("memberID");
+                        $notification->peerCheck = json_encode($peerCheck);
+                        $notif = $notification;
+
+                        $postdata = ["peerCheck" => $notif->peerCheck];
+                        $canApply = true;
                     }
                 }
             }
@@ -8424,26 +8497,13 @@ class EventsController extends Controller
         
         if($canApply && $notif !== null)
         {
-            $postdata = [
-                "step" => EventSteps::PRAY, 
-                "currentChapter" => $chapter,
-                "currentChunk" => 0,
-                "nTranslator" => $notif->trID,
-                "stage" => "checking"
-            ];
             $this->_model->updateTranslator(
-                $postdata, 
-                array(
-                    "eventID" => $eventID, 
-                    "memberID" => Session::get("memberID")));
-
-            $this->_model->updateTranslator(
-                ["otherCheck" => json_encode($otherCheck)], 
+                $postdata,
                 array(
                     "eventID" => $eventID, 
                     "memberID" => $memberID));
 
-            Url::redirect('events/checker-tn/'.$eventID);
+            Url::redirect('events/checker-tn/'.$eventID.'/'.$memberID.'/'.$chapter);
             exit;
         }
         else
@@ -8578,7 +8638,9 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
+        $allNotifications = array_merge(
+            array_values($allNotifications),
+            array_values($this->_notifications));
         $notif = null;
 
         foreach ($allNotifications as $notification) {
@@ -8804,46 +8866,33 @@ class EventsController extends Controller
         {
             foreach ($this->_notifications as $notification)
             {
-                if(!in_array($notification->bookProject, ["tn"]) 
-                    || !isset($notification->notesChapter))
-                {
-                    $notification->notesChapter = !isset($notification->notesChapter)
-                        ? $notification->currentChapter : $notification->notesChapter;
-                    
-                    $text = __("checker_apply", [
-                        $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
-                        __($notification->step.(in_array($notification->bookProject, ["tn"]) ? "_tn" : "")),
-                        $notification->bookName,
-                        ($notification->currentChapter == 0 ? __("intro") : $notification->notesChapter),
-                        $notification->tLang,
-                        __($notification->bookProject)
-                    ]);
-    
-                    $note["link"] = "/events/checker/".$notification->eventID."/"
-                        .$notification->memberID."/".$notification->step."/"
-                        .(isset($notification->manageMode) ? $notification->currentChapter."/" : "")
-                        ."apply";
-                    $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
-                    $note["text"] = $text;
-                    $note["step"] = $notification->step;
-                }
-                else  
-                {
-                    $text = __("checker_notes_apply", [
-                        $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
-                        $notification->bookName,
-                        ($notification->notesChapter == 0 ? __("front") : $notification->notesChapter),
-                        $notification->tLang,
-                        __($notification->bookProject)
-                    ]);
-    
-                    $note["link"] = "/events/checker/".$notification->eventID."/"
-                        .$notification->memberID."/notes/"
-                        .$notification->notesChapter."/apply";
-                    $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
-                    $note["text"] = $text;
-                }
-                
+                $text = isset($notification->manageMode) && $notification->manageMode == "tn" ? __("checker_notes_apply", [
+                    $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
+                    __($notification->step.(in_array($notification->bookProject, ["tn"]) ? "_tn" : "")),
+                    $notification->bookName,
+                    ($notification->currentChapter == 0 ? __("intro") : $notification->currentChapter),
+                    $notification->tLang,
+                    __($notification->bookProject)
+                ]) : __("checker_apply", [
+                    $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
+                    __($notification->step),
+                    $notification->bookName,
+                    $notification->currentChapter,
+                    $notification->tLang,
+                    __($notification->bookProject)
+                ]);
+
+                $note["link"] = "/events/checker".(isset($notification->manageMode)
+                    && in_array($notification->manageMode, ["sun","tn"]) ? "-".$notification->manageMode : "")
+                    ."/".$notification->eventID."/"
+                    .$notification->memberID."/".$notification->step."/"
+                    .(isset($notification->manageMode) ? $notification->currentChapter."/" : "")
+                    ."apply";
+
+                $note["anchor"] = "check:".$notification->eventID.":".$notification->memberID;
+                $note["text"] = $text;
+                $note["step"] = $notification->step;
+
                 $data["notifs"][] = $note;
             }
         }
@@ -9378,7 +9427,7 @@ class EventsController extends Controller
             $data["event"][0]->bookCode, 
             $data["event"][0]->sourceLangID,
             $data["event"][0]->abbrID);
-        
+
         if($usfm && !empty($usfm["chapters"]))
         {
             $initChapter = $data["event"][0]->bookProject != "tn" ? 0 : -1;
@@ -9579,7 +9628,6 @@ class EventsController extends Controller
     private function getNotesChunks($notes)
     {
         $chunks = array_keys($notes["notes"]);
-        $firstVerse = 0;
         $totalVerses = isset($notes["totalVerses"]) ? $notes["totalVerses"] : 0;
         $arr = [];
         $tmp = [];
@@ -9611,6 +9659,31 @@ class EventsController extends Controller
         }
 
         return $arr;
+    }
+
+    private function getTranslationNotes($book, $chapter, $lang = "en")
+    {
+        $tn_cache_notes = "tn_".$lang."_".$book;
+        $tNotes = [];
+
+        if(Cache::has($tn_cache_notes))
+        {
+            $tn_source = Cache::get($tn_cache_notes);
+            $tNotes = json_decode($tn_source, true);
+        }
+        else
+        {
+            $tNotesBook = $this->_model->getTranslationNotes($book, $lang);
+            if(isset($tNotesBook[$chapter]))
+                $tNotes = $tNotesBook[$chapter];
+
+            ksort($tNotes);
+
+            if(!empty($tNotes))
+                Cache::add($tn_cache_notes, json_encode($tNotes), 365*24*7);
+        }
+
+        return $tNotes;
     }
 
     private function testChunks($chunks, $totalVerses)
@@ -9658,80 +9731,58 @@ class EventsController extends Controller
         return $chunks;
     }
 
-    private function getUwKeyWords($book, $lang = "en", $chapter, $versesCount)
+    private function getTranslationWords($book, $chapter, $lang = "en")
     {
-        $result = array();
+        $tw_cache_words = "tn_".$lang."_".$book."_".$chapter;
 
-        $cat_lang = $lang;
-
-        if($lang == "ceb")
-            $cat_lang = "en";
-
-        // Get catalog
-        $cat_cache_keyword = "catalog_".$book."_".$cat_lang;
-
-        if(Cache::has($cat_cache_keyword))
+        if(Cache::has($tw_cache_words))
         {
-            $cat_source = Cache::get($cat_cache_keyword);
-            $cat_json = json_decode($cat_source, true);
+            $tw_source = Cache::get($tw_cache_words);
+            $tWords = json_decode($tw_source, true);
         }
         else
         {
-            $cat_source = $this->_model->getTWcatalog($book, $cat_lang);
-            $cat_json = json_decode($cat_source, true);
+            $tWords = $this->_model->getTranslationWords($book, $chapter, $lang);
 
-            if(!empty($cat_json))
-                Cache::add($cat_cache_keyword, $cat_source, 60*24*7);
+            if(!empty($tWords))
+                Cache::add($tw_cache_words, json_encode($tWords), 365*24*7);
         }
 
-        // Get keywords
-        $tw_cache_keyword = "tw_".$lang;
+        return $tWords;
+    }
 
-        if(Cache::has($tw_cache_keyword))
+
+    private function getTranslationQuestions($book, $chapter, $lang = "en")
+    {
+        $tq_cache_questions = "tq_".$lang."_".$book."_".$chapter;
+
+        $tQuestions = [];
+
+        if(Cache::has($tq_cache_questions))
         {
-            $tw_source = Cache::get($tw_cache_keyword);
-            $tw_json = json_decode($tw_source, true);
+            $tq_source = Cache::get($tq_cache_questions);
+            $tQuestions = json_decode($tq_source, true);
         }
         else
         {
-            $tw_source = $this->_model->getTWords($lang);
-            $tw_json = json_decode($tw_source, true);
-
-            if(!empty($tw_json))
-                Cache::add($tw_cache_keyword, $tw_source, 60*24*7);
-        }
-
-        if(!empty($cat_json) && !empty($tw_json))
-        {
-            foreach ($cat_json["chapters"][$chapter - 1]["frames"] as $key => $frame) {
-                $result[$key]["id"] = (integer)$frame["id"];
-                $result[$key]["terms"] = array();
-
-                if(isset($result[$key-1]))
-                    $result[$key-1]["id"] .= "-".((integer)$frame["id"] - 1);
-
-                $i=0;
-                foreach ($frame["items"] as $item) {
-                    $term_index = array_search($item["id"], array_column($tw_json, "id"));
-                    if($term_index)
-                    {
-                        $result[$key]["terms"][$i]["word"] = $tw_json[$term_index]["term"];
-                        $result[$key]["terms"][$i]["def"] = $tw_json[$term_index]["def"];
-                        $i++;
-                    }
-                }
+            $tQuestionsBook = $this->_model->getTranslationQuestions($book, $lang);
+            if(isset($tQuestionsBook[$chapter]))
+            {
+                $tQuestions = $tQuestionsBook[$chapter];
+                ksort($tQuestions);
             }
 
-            $result[sizeof($result)-1]["id"] .= "-".$versesCount;
+            if(!empty($tQuestions))
+                Cache::add($tq_cache_questions, json_encode($tQuestions), 365*24*7);
         }
 
-        return $result;
+        return $tQuestions;
     }
+
 
     private function moveMemberStepBack($member, $toStep, $confirm, $prevChunk = false)
     {
         $mode = $member->bookProject;
-        $chk = $member->chk;
         $manageMode = "l1";
 
         if(isset($member->state) && $member->state == EventStates::L2_CHECK)
@@ -9766,15 +9817,15 @@ class EventsController extends Controller
 
         // Level 1
         // do not allow move from "none" and "preparation" steps
-        if(EventSteps::enum($member->step, $mode, $chk) < 2)
+        if(EventSteps::enum($member->step, $mode) < 2)
             return [];
 
         // Do not allow to move back more than one step at a time
-        if((EventSteps::enum($member->step, $mode, $chk) - EventSteps::enum($toStep, $mode, $chk)) > 1)
+        if((EventSteps::enum($member->step, $mode) - EventSteps::enum($toStep, $mode)) > 1)
             return [];
 
         // Do not allow to move forward, exclusion from READ_CHUNK to BLIND_DRAFT of previous chunk
-        if(EventSteps::enum($toStep, $mode, $chk) >= EventSteps::enum($member->step, $mode, $chk)
+        if(EventSteps::enum($toStep, $mode) >= EventSteps::enum($member->step, $mode)
             && ($toStep == EventSteps::BLIND_DRAFT && !$prevChunk))
             return [];
 
@@ -9782,14 +9833,6 @@ class EventsController extends Controller
         {
             case EventSteps::PRAY:
                 $postData["step"] = EventSteps::PRAY;
-
-                if(in_array($mode, ["tn"]))
-                {
-                    $otherCheck = (array)json_decode($member->otherCheck, true);
-                    if(array_key_exists($member->currentChapter, $otherCheck))
-                        unset($otherCheck[$member->currentChapter]);
-                    $postData["otherCheck"] = json_encode($otherCheck);
-                }
                 break;
 
             case EventSteps::CONSUME:
@@ -9812,24 +9855,13 @@ class EventsController extends Controller
                     if(!empty($trans) && !$confirm)
                         return ["hasTranslation"];
                     
-                    if($member->stage != "checking")
-                        $this->_model->updateChapter(["chunks" => "[]"], ["eventID" => $member->eventID, "chapter" => $member->currentChapter]);
+                    $this->_model->updateChapter(["chunks" => "[]"], [
+                        "eventID" => $member->eventID,
+                        "chapter" => $member->currentChapter]);
     
                     $postData["step"] = EventSteps::CONSUME;
                     $postData["currentChunk"] = 0;
                     $postData["translations"] = true;
-                }
-                break;
-
-            case EventSteps::HIGHLIGHT:
-                $postData["step"] = EventSteps::HIGHLIGHT;
-                $postData["checkerID"] = 0;
-                $postData["checkDone"] = false;
-                $postData["hideChkNotif"] = true;
-                
-                if(in_array($mode, ["tn"]))
-                {
-                    $postData["currentChunk"] = 0;
                 }
                 break;
 
@@ -9853,7 +9885,9 @@ class EventsController extends Controller
                 if(!empty($trans) && !$confirm)
                     return ["hasTranslation"];
 
-				$this->_model->updateChapter(["chunks" => "[]"], ["eventID" => $member->eventID, "chapter" => $member->currentChapter]);
+				$this->_model->updateChapter(["chunks" => "[]"], [
+				    "eventID" => $member->eventID,
+                    "chapter" => $member->currentChapter]);
 
                 $postData["step"] = EventSteps::CHUNKING;
                 $postData["currentChunk"] = 0;
@@ -9960,24 +9994,10 @@ class EventsController extends Controller
                 $postData["kwCheck"] = json_encode($kwCheck);
                 $postData["hideChkNotif"] = true;
 
-                if(in_array($mode, ["tn"]))
-                {
-                    $peerCheck = (array)json_decode($member->peerCheck, true);
-                    if(array_key_exists($member->currentChapter, $peerCheck))
-                    {
-                        $postData["checkerID"] = $peerCheck[$member->currentChapter];
-                        unset($peerCheck[$member->currentChapter]);
-                    }
-                    $postData["peerCheck"] = json_encode($peerCheck);
-                }
-                
                 if($confirm)
                 {
                     $postData["checkerID"] = 0;
                     $postData["hideChkNotif"] = false;
-                    
-                    if(in_array($mode, ["tn"])) // In tN remove notification
-                        $postData["hideChkNotif"] = true;
                 }
 
                 $postData["checkDone"] = false;
@@ -10020,7 +10040,9 @@ class EventsController extends Controller
                 $postData["currentChunk"] = $lastChunk;
                 $postData["translateDone"] = false;
 
-                $this->_model->updateChapter(["done" => false], ["eventID" => $member->eventID, "chapter" => $member->currentChapter]);
+                $this->_model->updateChapter(["done" => false], [
+                    "eventID" => $member->eventID,
+                    "chapter" => $member->currentChapter]);
                 break;
         }
         
