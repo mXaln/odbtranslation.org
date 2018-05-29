@@ -870,7 +870,7 @@ $(function () {
                 .done(function(data) {
                     if(data.success)
                     {
-                        renderPopup(Language.verifySuccess);
+                        // renderPopup(Language.verifySuccess);
                         parent.remove();
                     }
                     else

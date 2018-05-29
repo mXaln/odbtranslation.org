@@ -2,7 +2,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tn").")" ?></div>
-            <div><?php echo __("step_num", [1]) . ": " . __("consume")?></div>
+            <div><?php echo __("step_num", [1]) . ": " . __("consume_tn_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -83,7 +83,7 @@
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [1])?>:</span> <?php echo __("consume")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [1])?>:</span> <?php echo __("consume_tn")?></div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("consume_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -115,7 +115,7 @@
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("consume")?></h3>
+            <h3><?php echo __("consume_tn")?></h3>
             <ul><?php echo __("consume_desc")?></ul>
         </div>
     </div>

@@ -288,6 +288,8 @@ if(!isset($error)):
                                         {
                                             $add = in_array($mode, ["tn"]) ? "_tn" : "";
                                         }
+                                        if($step == EventSteps::CHUNKING && $mode == "sun")
+                                            $add = "_sun";
                                         echo EventSteps::enum($step, $mode) == $altStep ? __($step."-alt") : __($step.$add)
                                         ?>
                                     </option>

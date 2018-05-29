@@ -29,10 +29,13 @@ if(isset($data["error"])) return;
                             .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
+                    <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
+
                     <div class="col-sm-12 no_padding">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
                             <div class="row chunk_block words_block">
-                                <div class="chunk_verses col-sm-6 sun_content" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <?php
                                     $verse = "";
                                     if(is_array($chunk) && !empty($chunk))
@@ -45,7 +48,10 @@ if(isset($data["error"])) return;
                                     <strong class="<?php echo $data["event"][0]->sLangDir ?>">
                                         <sup><?php echo $verse; ?></sup>
                                     </strong>
-                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
+                                    <?php //echo $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
+                                    <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"><?php
+                                        echo isset($_POST["symbols"]) && isset($_POST["symbols"][$key]) ? $_POST["symbols"][$key] : $text
+                                        ?></textarea>
                                 </div>
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"]; ?>
@@ -140,8 +146,32 @@ if(isset($data["error"])) return;
     </div>
 </div>
 
-<?php if(isset($data["words"])): ?>
-<script>
-var almaWords = <?php echo $data["words"] ?>;
-</script>
-<?php endif; ?>
+<div class="saildict_panel panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("sail_dictionary") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove"></span>
+    </div>
+
+    <div class="sun_content saildict page-content panel-body">
+        <div class="sail_filter">
+            <div class="form-group">
+                <label for="sailfilter" class="sr-only">Filter</label>
+                <input type="text" class="form-control input-lg" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
+            </div>
+        </div>
+        <div class="sail_list">
+            <ul>
+                <?php foreach ($data["saildict"] as $word): ?>
+                    <li id="<?php echo $word->word ?>" title="<?php echo __("copy_symbol_tip") ?>">
+                        <div class="sail_word"><?php echo $word->word ?></div>
+                        <div class="sail_symbol"><?php echo $word->symbol ?></div>
+                        <input type="text" value="<?php echo $word->symbol ?>" />
+                        <div class="clear"></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="copied_tooltip"><?php echo __("copied_tip") ?></div>
+</div>

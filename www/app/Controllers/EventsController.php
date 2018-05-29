@@ -659,6 +659,30 @@ class EventsController extends Controller
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
                                     $data["event"][0]->sourceLangID);
+
+                                $tnVerses = [];
+                                $fv = 1;
+                                $i = 0;
+                                foreach (array_keys($data["notes"]) as $key) {
+                                    $i++;
+                                    if($key == 0)
+                                    {
+                                        $tnVerses[] = $key;
+                                        continue;
+                                    }
+
+                                    if(($key - $fv) > 1)
+                                    {
+                                        $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                        $fv = $key;
+
+                                        if($i == sizeof($data["notes"]))
+                                            $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                        continue;
+                                    }
+                                }
+
+                                $data["notesVerses"] = $tnVerses;
                             }
                             else
                             {
@@ -779,6 +803,30 @@ class EventsController extends Controller
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
                                     $data["event"][0]->sourceLangID);
+
+                                $tnVerses = [];
+                                $fv = 1;
+                                $i = 0;
+                                foreach (array_keys($data["notes"]) as $key) {
+                                    $i++;
+                                    if($key == 0)
+                                    {
+                                        $tnVerses[] = $key;
+                                        continue;
+                                    }
+
+                                    if(($key - $fv) > 1)
+                                    {
+                                        $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                        $fv = $key;
+
+                                        if($i == sizeof($data["notes"]))
+                                            $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                        continue;
+                                    }
+                                }
+
+                                $data["notesVerses"] = $tnVerses;
                             }
                             else
                             {
@@ -1049,6 +1097,30 @@ class EventsController extends Controller
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
                                     $data["event"][0]->sourceLangID);
+
+                                $tnVerses = [];
+                                $fv = 1;
+                                $i = 0;
+                                foreach (array_keys($data["notes"]) as $key) {
+                                    $i++;
+                                    if($key == 0)
+                                    {
+                                        $tnVerses[] = $key;
+                                        continue;
+                                    }
+
+                                    if(($key - $fv) > 1)
+                                    {
+                                        $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                        $fv = $key;
+
+                                        if($i == sizeof($data["notes"]))
+                                            $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                        continue;
+                                    }
+                                }
+
+                                $data["notesVerses"] = $tnVerses;
                             }
                             else
                             {
@@ -2500,6 +2572,8 @@ class EventsController extends Controller
                             }
                         }
 
+                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
+
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/SelfCheck')
                             ->shares("title", $title)
@@ -2701,6 +2775,30 @@ class EventsController extends Controller
                                 $data["event"][0]->bookCode,
                                 $data["event"][0]->currentChapter,
                                 $data["event"][0]->sourceLangID);
+
+                            $tnVerses = [];
+                            $fv = 1;
+                            $i = 0;
+                            foreach (array_keys($data["notes"]) as $key) {
+                                $i++;
+                                if($key == 0)
+                                {
+                                    $tnVerses[] = $key;
+                                    continue;
+                                }
+
+                                if(($key - $fv) > 1)
+                                {
+                                    $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                    $fv = $key;
+
+                                    if($i == sizeof($data["notes"]))
+                                        $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                    continue;
+                                }
+                            }
+
+                            $data["notesVerses"] = $tnVerses;
                         }
                     } else {
                         $error[] = $sourceText["error"];
@@ -7937,13 +8035,24 @@ class EventsController extends Controller
                                 $arr["tID"] = $tv->tID;
                                 $translation[] = $arr;
                             }
-                            
+
                             if(!empty($translation))
                             {
                                 $post["chunks"] = array_map("trim", $post["chunks"]);
                                 $post["chunks"] = array_filter($post["chunks"], function($v) {
                                     return !empty(strip_tags($v));
                                 });
+
+                                $symbols = [];
+                                if($mode == "sun" && is_array($post["symbols"]) && !empty($post["symbols"]))
+                                {
+                                    $post["symbols"] = array_map("trim", $post["symbols"]);
+                                    $post["symbols"] = array_filter($post["symbols"], function($v) {
+                                        return !empty(strip_tags($v));
+                                    });
+
+                                    $symbols = $post["symbols"];
+                                }
                                 
                                 $updated = 0;
                                 foreach ($translation as $key => $chunk) {
@@ -7968,6 +8077,14 @@ class EventsController extends Controller
                                     $shouldUpdate = false;
                                     if($chunk[$role][$section] != $post["chunks"][$key])
                                         $shouldUpdate = true;
+
+                                    if($mode == "sun" && !empty($symbols))
+                                    {
+                                        if($chunk[$role]["symbols"] != $symbols[$key])
+                                            $shouldUpdate = true;
+
+                                        $translation[$key][$role]["symbols"] = $symbols[$key];
+                                    }
 
                                     $translation[$key][$role][$section] = $post["chunks"][$key];
 
