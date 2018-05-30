@@ -9042,6 +9042,16 @@ class EventsController extends Controller
         $data["all_notifications"] = array_merge($data["all_notifications"],
             $this->_notifications);
 
+        $distinct = [];
+        foreach($data["all_notifications"] as $notification)
+        {
+            $unique_key = $notification->eventID."_".$notification->step
+                ."_".$notification->memberID."_".$notification->currentChapter;
+            $distinct[$unique_key] = $notification;
+        }
+
+        $data["all_notifications"] = $distinct;
+
         return View::make("Events/Notifications")
             ->shares("title", __("all_notifications_title"))
             ->shares("data", $data);
