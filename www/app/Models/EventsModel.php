@@ -999,8 +999,7 @@ class EventsModel extends Model
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
                 PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
-                "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName, ".
-                "trs.currentChapter AS notesChapters ".
+                "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
                 "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
