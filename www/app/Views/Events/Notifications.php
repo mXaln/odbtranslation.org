@@ -21,36 +21,29 @@ use \Helpers\Constants\EventSteps;
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($data["all_notifications"] as $event): ?>
+                    <?php foreach($data["all_notifications"] as $notification): ?>
                         <tr>
                             <?php
-                            $step = $event->step;
+                            $step = $notification->step;
                             $link = "";
-                            if(!in_array($event->bookProject, ["tn"]) 
-                                || !isset($event->notesChapter))
-                            {
-                                $step = isset($event->translateDone) && $event->translateDone ? EventSteps::FINISHED :$event->step;
-                                $link = "/events/checker/".$event->eventID."/"
-                                    .$event->memberID."/".$event->step."/"
-                                    .(isset($event->manageMode) ? $event->currentChapter."/" : "")
-                                    ."apply";
-                            }
-                            else 
-                            {
-                                $step = "not_available";
-                                $link = "/events/checker/".$event->eventID."/"
-                                    .$event->memberID."/notes/"
-                                    .$event->notesChapter."/apply";
-                            }
+
+                            $step = isset($notification->translateDone) && $notification->translateDone ? EventSteps::FINISHED :$notification->step;
+                            $link = "/events/checker".(isset($notification->manageMode)
+                                && in_array($notification->manageMode, ["sun","tn"]) ? "-".$notification->manageMode : "")
+                                ."/".$notification->eventID."/"
+                                .$notification->memberID."/"
+                                .$notification->step."/"
+                                .(isset($notification->manageMode) ? $notification->currentChapter."/" : "")
+                                ."apply";
                             ?>
-                            <td><?php echo $event->bookName.", chapter ".
-                                ($event->currentChapter > 0 ? $event->currentChapter : __("intro")) ?></td>
-                            <td><?php echo $event->tLang ?></td>
-                            <td><?php echo __($event->bookProject) ?></td>
+                            <td><?php echo $notification->bookName.", chapter ".
+                                ($notification->currentChapter > 0 ? $notification->currentChapter : __("intro")) ?></td>
+                            <td><?php echo $notification->tLang ?></td>
+                            <td><?php echo __($notification->bookProject) ?></td>
                             <td><?php echo __($step)?></td>
-                            <td><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></td>
+                            <td><?php echo $notification->firstName . " " . mb_substr($notification->lastName, 0, 1)."." ?></td>
                             <td><a href="<?php echo $link ?>"
-                                   data="check:<?php echo $event->eventID.":".$event->memberID ?>">
+                                   data="check:<?php echo $notification->eventID.":".$notification->memberID ?>">
                                     <?php echo __("apply") ?>
                                 </a>
                             </td>
