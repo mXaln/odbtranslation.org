@@ -6459,16 +6459,19 @@ class EventsController extends Controller
         if(!empty($data["event"]))
         {
             $superadmins = (array)json_decode($data["event"][0]->superadmins, true);
-            if(Session::get("isSuperAdmin") && !in_array(Session::get("memberID"), $superadmins))
-                Url::redirect("events");
+            $adms = (array)json_decode($data["event"][0]->admins, true);
 
-            if(!Session::get("isSuperAdmin"))
+            if(Session::get("isAdmin") || Session::get("isSuperAdmin"))
             {
-                $adms = (array)json_decode($data["event"][0]->admins, true);
-                if(!in_array(Session::get("memberID"), $adms))
+                if(!in_array(Session::get("memberID"), $superadmins)
+                    && !in_array(Session::get("memberID"), $adms))
                 {
-                    Url::redirect("/events");
+                    Url::redirect("events");
                 }
+            }
+            else
+            {
+                Url::redirect("events");
             }
 
             $data["chapters"] = [];
