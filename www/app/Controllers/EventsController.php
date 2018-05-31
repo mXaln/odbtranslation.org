@@ -1109,13 +1109,14 @@ class EventsController extends Controller
                                         continue;
                                     }
 
-                                    if(($key - $fv) > 1)
+                                    if(($key - $fv) >= 1)
                                     {
-                                        $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                        $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
                                         $fv = $key;
 
                                         if($i == sizeof($data["notes"]))
-                                            $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                            $tnVerses[$fv] = $fv != $data["totalVerses"] ?
+                                                $fv . "-" . $data["totalVerses"] : $fv;
                                         continue;
                                     }
                                 }

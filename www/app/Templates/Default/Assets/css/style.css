@@ -4606,3 +4606,7 @@ button.startEvnt, button.editEvnt {
 .other_check_remove label.disabled {
     color: #ccc;
 }
+
+.scripture_chunk {
+    margin: 40px 0;
+}
