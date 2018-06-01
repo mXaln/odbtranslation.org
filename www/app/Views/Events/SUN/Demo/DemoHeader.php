@@ -15,7 +15,7 @@ use Helpers\Constants\EventSteps;
         </li>
 
         <li class="chunking-step <?php echo $data["step"] == EventSteps::CHUNKING ? "active" : "" ?>">
-            <a href="/events/demo-sun/chunking"><span><?php echo __(EventSteps::CHUNKING)?></span></a>
+            <a href="/events/demo-sun/chunking"><span><?php echo __(EventSteps::CHUNKING . "_sun")?></span></a>
         </li>
 
         <li class="rearrange-step <?php echo $data["step"] == EventSteps::REARRANGE ? "active" : "" ?>">

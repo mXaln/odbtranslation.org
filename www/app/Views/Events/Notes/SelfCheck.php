@@ -33,47 +33,17 @@ if(isset($data["error"])) return;
                             ? $data["currentChapter"].":1-".$data["totalVerses"]
                             : __("front"))."</span>"?></h4>
 
-                    <?php if(!$data["nosource"]): ?>
-                    <ul class="nav nav-tabs">
-                        <li role="presentation" id="my_scripture" class="my_tab">
-                            <a href="#"><?php echo __("bible_mode") ?></a>
-                        </li>
-                        <li role="presentation" id="my_notes" class="my_tab">
-                            <a href="#"><?php echo __("notes_mode") ?></a>
-                        </li>
-                    </ul>
-
-                    <div id="my_scripture_content" class="my_content shown" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                        <?php foreach($data["text"] as $chunk => $content): ?>
-                            <div class="note_chunk">
-                                <?php foreach($content as $verse => $text): ?>
-                                <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <?php endif; ?>
-
                     <div id="my_notes_content" class="my_content">
                         <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                             <div class="row note_chunk">
+                                <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                    <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
+                                        <?php foreach($data["text"][$fv] as $verse => $text): ?>
+                                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
-                                    <div class="note_chunk_verses">
-                                        <?php
-                                        if(!$data["nosource"] && isset($data["text"][$fv]))
-                                        {
-                                            $verses = array_keys($data["text"][$fv]);
-                                            if($verses[0] != $verses[sizeof($verses)-1])
-                                                echo __("chunk_verses", $verses[0] . "-" . $verses[sizeof($verses)-1]);
-                                            else
-                                                echo __("chunk_verses", $verses[0]);
-                                        }
-                                        else
-                                        {
-                                            echo __("intro");
-                                        }
-                                        ?>
-                                    </div>
                                     <?php foreach($data["notes"][$fv] as $note): ?>
                                         <div class="note_content">
                                             <?php echo preg_replace(
