@@ -1,7 +1,12 @@
-@font-face {
+/*@font-face {
     font-family: "Jameel Noori Nastaleeq";
     src: url("../fonts/jameel_noori_nastaleeq.ttf") format("truetype")
-}
+}*/
+
+/*@font-face {
+    font-family: "Lateef";
+    src: url("../fonts/lateef.ttf") format("truetype")
+}*/
 
 @font-face {
     font-family: "SUN3";
@@ -26,8 +31,8 @@
     text-align: inherit !important;
 }
 
-.font_fa {
-    /*font-family: Jameel Noori Nastaleeq;*/
+.font_fa, .font_ar {
+   /*font-family: Lateef;*/
 }
 
 .font_sun {
@@ -36,6 +41,7 @@
 
 html, body, .container {
     height: 100%;
+    font-family: arial, sans-serif;
 }
 
 .clear {
@@ -4609,4 +4615,6 @@ button.startEvnt, button.editEvnt {
 
 .scripture_chunk {
     margin: 40px 0;
+    font-size: 16px;
+    padding: 20px;
 }
