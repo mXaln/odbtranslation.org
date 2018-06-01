@@ -886,7 +886,7 @@ class AdminController extends Controller {
 
         if(Cache::has($cache_keyword))
             Cache::forget($cache_keyword);
-        
+
         $source = $this->_eventsModel->getCachedSourceBookFromApi(
                 $sourceBible,
                 $bookCode, 
@@ -894,37 +894,8 @@ class AdminController extends Controller {
                 $abbrID);
 
         if($source)
-        {
-            // Words source
-            $cat_lang = $sourceLangID;
-            if($sourceLangID == "ceb")
-                $cat_lang = "en";
-
-            // Get catalog
-            $cat_cache_keyword = "catalog_".$bookCode."_".$cat_lang;
-            if(Cache::has($cat_cache_keyword))
-                Cache::forget($cat_cache_keyword);
-
-            $cat_source = $this->_eventsModel->getTWcatalog($bookCode, $cat_lang);
-            $cat_json = json_decode($cat_source, true);
-
-            if(!empty($cat_json))
-                Cache::add($cat_cache_keyword, $cat_source, 60*24*365);
-
-            // Get keywords
-            $tw_cache_keyword = "tw_".$sourceLangID;
-            if(Cache::has($tw_cache_keyword))
-                Cache::forget($tw_cache_keyword);
-
-            $tw_source = $this->_eventsModel->getTWords($sourceLangID);
-            $tw_json = json_decode($tw_source, true);
-
-            if(!empty($tw_json))
-                Cache::add($tw_cache_keyword, $tw_source, 60*24*365);
-            
             $response["success"] = true;
-        }
-        
+
         echo json_encode($response);
     }
     

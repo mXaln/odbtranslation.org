@@ -4615,5 +4615,6 @@ button.startEvnt, button.editEvnt {
 
 .scripture_chunk {
     margin: 40px 0;
-    font-size: 20px;
+    font-size: 16px;
+    padding: 20px;
 }
