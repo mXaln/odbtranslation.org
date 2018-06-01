@@ -295,7 +295,7 @@ $(function () {
             });
     }
 
-    $("#startTranslation").click(function (e) {
+    /*$("#startTranslation").click(function (e) {
         var $this = $(this);
 
         renderConfirmPopup(Language.startTranslation, Language.startTranslationConfirm, function () {
@@ -307,7 +307,7 @@ $(function () {
 
         if(typeof $this.data("yes") == "undefined")
             e.preventDefault();
-    });
+    });*/
 
     // Show info tip
     $(".create_info_tip a").click(function () {

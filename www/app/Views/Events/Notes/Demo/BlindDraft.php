@@ -15,56 +15,50 @@
             <div class="main_content_text" dir="ltr">
                 <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1-3</span></h4>
 
+                <div class="scripture_chunk">
+                    <p> <strong><sup>1</sup></strong> Teofilus, dalam buku pertama yang saya tuliskan, dijelaskan semua yang telah dilakukan dan diajarkan Yesus, </p>
+                    <p> <strong><sup>2</sup></strong> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui Roh Kudus kepada rasul-rasul yang telah dipilihNya. </p>
+                    <p> <strong><sup>3</sup></strong> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </p>
+                </div>
+
                 <ul class="nav nav-tabs">
-                    <li role="presentation" id="my_scripture" class="my_tab">
-                        <a href="#"><?php echo __("bible_mode") ?></a>
+                    <li role="presentation" id="my_read_chunk" class="my_tab">
+                        <a href="#"><?php echo __("read_chunk") ?></a>
                     </li>
-                    <li role="presentation" id="my_notes" class="my_tab">
-                        <a href="#"><?php echo __("notes_mode") ?></a>
+                    <li role="presentation" id="my_translate_chunk" class="my_tab">
+                        <a href="#"><?php echo __("translate_chunk") ?></a>
                     </li>
                 </ul>
 
-                <div id="my_scripture_content" class="my_content shown">
-                    <div class="note_chunk">
-                        <p> <strong><sup>1</sup></strong> Teofilus, dalam buku pertama yang saya tuliskan, dijelaskan semua yang telah dilakukan dan diajarkan Yesus, </p>
-                        <p> <strong><sup>2</sup></strong> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui Roh Kudus kepada rasul-rasul yang telah dipilihNya. </p>
-                        <p> <strong><sup>3</sup></strong> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </p>
+                <div id="my_read_chunk_content" class="my_content shown">
+                    <div class="note_content" id="read_chunk_0">
+                        <h1>The former book I wrote</h1>
+                        <p>The former book is the Gospel of Luke.</p>
+                        <h1>Theophilus</h1>
+                        <p>Luke wrote this book to a man named Theophilus. Some translations follow their own culture's way of addressing a letter and write "Dear Theophilus" at the beginning of the sentence. Theophilus means "friend of God" (See: <span class="uwlink" title="Leave it as it is">[[rc://en/ta/man/translate/translate-names]]</span>)</p>
+                        <h1>until the day that he was taken up</h1>
+                        <p>This refers to Jesus' ascension into heaven. AT: "until the day on which God took him up to heaven" or "until the day that he ascended into heaven" (See: <span class="uwlink" title="Leave it as it is">[[rc://en/ta/man/translate/figs-activepassive]]</span>)</p>
+                        <h1>commands through the Holy Spirit</h1>
+                        <p>The Holy Spirit led Jesus to instruct his apostles on certain things.</p>
+                        <h1>After his suffering</h1>
+                        <p>This refers to Jesus' suffering and death on the cross.</p>
+                        <h1>he presented himself alive to them</h1>
+                        <p>Jesus appeared to his apostles and to many other disciples.</p>
+                        <h1>translationWords</h1>
+                        <ul>
+                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/jesus]]</span></li>
+                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/command]]</span></li>
+                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/holyspirit]]</span></li>
+                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/apostle]]</span></li>
+                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/other/suffer]]</span></li>
+                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/kingdomofgod]]</span></li>
+                        </ul>
                     </div>
                 </div>
 
-                <div id="my_notes_content" class="my_content">
-                    <div class="button_copy_notes">
-                        <button data-pasted="false" class="btn btn-primary glyphicon glyphicon-arrow-right"> <?php echo __("copy") ?> </button>
-                    </div>
-                    <div class="row note_chunk">
-                        <div class="col-md-6">
-                            <div class="note_content">
-                                <h1>The former book I wrote</h1>
-                                <p>The former book is the Gospel of Luke.</p>
-                                <h1>Theophilus</h1>
-                                <p>Luke wrote this book to a man named Theophilus. Some translations follow their own culture's way of addressing a letter and write "Dear Theophilus" at the beginning of the sentence. Theophilus means "friend of God" (See: <span class="uwlink" title="Leave it as it is">[[rc://en/ta/man/translate/translate-names]]</span>)</p>
-                                <h1>until the day that he was taken up</h1>
-                                <p>This refers to Jesus' ascension into heaven. AT: "until the day on which God took him up to heaven" or "until the day that he ascended into heaven" (See: <span class="uwlink" title="Leave it as it is">[[rc://en/ta/man/translate/figs-activepassive]]</span>)</p>
-                                <h1>commands through the Holy Spirit</h1>
-                                <p>The Holy Spirit led Jesus to instruct his apostles on certain things.</p>
-                                <h1>After his suffering</h1>
-                                <p>This refers to Jesus' suffering and death on the cross.</p>
-                                <h1>he presented himself alive to them</h1>
-                                <p>Jesus appeared to his apostles and to many other disciples.</p>
-                                <h1>translationWords</h1>
-                                <ul>
-                                    <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/jesus]]</span></li>
-                                    <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/command]]</span></li>
-                                    <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/holyspirit]]</span></li>
-                                    <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/apostle]]</span></li>
-                                    <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/other/suffer]]</span></li>
-                                    <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/kingdomofgod]]</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-6 notes_editor">
-                            <textarea name="draft" class="add_notes_editor blind_ta"></textarea>
-                        </div>
+                <div id="my_translate_chunk_content" class="my_content">
+                    <div class="notes_editor">
+                        <textarea name="draft" class="add_notes_editor blind_ta" data-key="0"></textarea>
                     </div>
                 </div>
             </div>
@@ -136,6 +130,19 @@
             window.location.href = '/events/demo-tn/self_check';
 
             return false;
+        });
+
+        $("#my_translate_chunk").click(function () {
+            $(".add_notes_editor").each(function() {
+                var key = $(this).data("key");
+                var noteContent = $("#read_chunk_" + key);
+                var height = noteContent.actual("height");
+                var parent = $(this).parents(".notes_editor");
+
+                setTimeout(function () {
+                    parent.css("min-height", height);
+                }, 10);
+            })
         });
     });
 </script>

@@ -30,7 +30,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </li>
 
         <li class="chunking-step <?php echo $data["event"][0]->step == EventSteps::CHUNKING ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CHUNKING)?></span>
+            <span><?php echo __(EventSteps::CHUNKING . "_sun")?></span>
         </li>
 
         <li class="rearrange-step <?php echo $data["event"][0]->step == EventSteps::REARRANGE ? "active" : "" ?>">

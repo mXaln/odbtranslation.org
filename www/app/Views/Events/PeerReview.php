@@ -119,27 +119,31 @@ if(isset($data["error"])) return;
         <div class="content_help col-sm-3">
             <?php if($data["event"][0]->sourceBible == "ulb"): ?>
                 <ul class="nav nav-tabs t_tools_nav">
-                    <li role="presentation" id="my_tquestions" class="my_tab">
-                        <a href="#"><?php echo __("show_questions") ?></a>
-                    </li>
                     <li role="presentation" id="my_tnotes" class="my_tab">
                         <a href="#"><?php echo __("show_notes") ?></a>
                     </li>
+                    <li role="presentation" id="my_tquestions" class="my_tab">
+                        <a href="#"><?php echo __("show_questions") ?></a>
+                    </li>
                 </ul>
 
-                <div id="my_tquestions_content" class="my_content shown">
+                <div id="my_tnotes_content" class="my_content shown">
                     <div class="labels_list">
-                        <?php if(isset($data["questions"])): ?>
-                            <?php foreach ($data["questions"] as $verse => $questions): ?>
+                        <?php if(isset($data["notes"])): ?>
+                            <?php foreach ($data["notes"] as $verse => $notes): ?>
+                                <?php $chunkVerses = $data["notesVerses"][$verse]; ?>
                                 <label>
                                     <ul>
                                         <li>
                                             <div class="word_term">
-                                                <span style="font-weight: bold;"><?php echo __("verse_number", $verse) ?> </span>
+                                                <span style="font-weight: bold;">
+                                                    <?php echo $chunkVerses > 0 ? __("chunk_verses", $chunkVerses) :
+                                                        __("intro")?>
+                                                </span>
                                             </div>
                                             <div class="word_def">
-                                                <?php foreach ($questions as $question): ?>
-                                                    <?php echo preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $question) ?>
+                                                <?php foreach ($notes as $note): ?>
+                                                    <?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $note) ?>
                                                 <?php endforeach; ?>
                                             </div>
                                         </li>
@@ -155,22 +159,19 @@ if(isset($data["error"])) return;
                         <div class="word_def_content"></div>
                     </div>
                 </div>
-                <div id="my_tnotes_content" class="my_content">
+                <div id="my_tquestions_content" class="my_content">
                     <div class="labels_list">
-                        <?php if(isset($data["notes"])): ?>
-                            <?php foreach ($data["notes"] as $verse => $notes): ?>
+                        <?php if(isset($data["questions"])): ?>
+                            <?php foreach ($data["questions"] as $verse => $questions): ?>
                                 <label>
                                     <ul>
                                         <li>
                                             <div class="word_term">
-                                                <span style="font-weight: bold;">
-                                                    <?php echo $verse > 0 ? __("verse_number", $verse) :
-                                                        __("intro")?>
-                                                </span>
+                                                <span style="font-weight: bold;"><?php echo __("verse_number", $verse) ?> </span>
                                             </div>
                                             <div class="word_def">
-                                                <?php foreach ($notes as $note): ?>
-                                                    <?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $note) ?>
+                                                <?php foreach ($questions as $question): ?>
+                                                    <?php echo preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $question) ?>
                                                 <?php endforeach; ?>
                                             </div>
                                         </li>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 22, 2018 at 11:40 PM
+-- Generation Time: May 27, 2018 at 04:42 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.2.2-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -9886,7 +9886,7 @@ ALTER TABLE `vm_projects`
 ALTER TABLE `vm_translations`
   ADD CONSTRAINT `event_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
   ADD CONSTRAINT `project_cscd` FOREIGN KEY (`projectID`) REFERENCES `vm_projects` (`projectID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `trans_cscd` FOREIGN KEY (`trID`) REFERENCES `vm_translators` (`trID`);
+  ADD CONSTRAINT `trans_cscd` FOREIGN KEY (`trID`) REFERENCES `vm_translators` (`trID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vm_translators`

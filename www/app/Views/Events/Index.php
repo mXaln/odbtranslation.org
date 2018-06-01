@@ -345,7 +345,8 @@ $profile = Session::get("profile");
                         <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
                         <?php echo ($event->currentChapter > 0 ? __("chapter_number", 
                             array($event->currentChapter)). ", " : "")
-                                .__($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" : "")) ?>
+                                .__($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" :
+                                    ($event->bookProject == "sun" && $event->step == EventSteps::CHUNKING ? "_sun" : ""))) ?>
                     </div>
                 <?php endif; ?>
             </div>
