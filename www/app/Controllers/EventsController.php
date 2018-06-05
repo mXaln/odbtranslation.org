@@ -150,7 +150,7 @@ class EventsController extends Controller
         $myLangs = array_keys(Session::get("profile")["languages"]);
         
         $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
-        $data["newEvents"] = $this->_model->getNewEvents($myLangs, Session::get("memberID"));
+        $data["newEvents"] = []; //$this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
         $notesCheckers = $this->_model->getMemberEventsForNotes(Session::get("memberID"));
         $sunCheckers = $this->_model->getMemberEventsForCheckerSun(Session::get("memberID"));
@@ -8048,7 +8048,7 @@ class EventsController extends Controller
                                 });
 
                                 $symbols = [];
-                                if($mode == "sun" && is_array($post["symbols"]) && !empty($post["symbols"]))
+                                if($mode == "sun" && isset($post["symbols"]) && is_array($post["symbols"]) && !empty($post["symbols"]))
                                 {
                                     $post["symbols"] = array_map("trim", $post["symbols"]);
                                     $post["symbols"] = array_filter($post["symbols"], function($v) {
@@ -8987,21 +8987,16 @@ class EventsController extends Controller
         {
             foreach ($this->_notifications as $notification)
             {
-                $text = isset($notification->manageMode) && $notification->manageMode == "tn" ? __("checker_notes_apply", [
-                    $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
-                    __($notification->step.(in_array($notification->bookProject, ["tn"]) ? "_tn" : "")),
-                    $notification->bookName,
-                    ($notification->currentChapter == 0 ? __("intro") : $notification->currentChapter),
-                    $notification->tLang,
-                    __($notification->bookProject)
-                ]) : __("checker_apply", [
-                    $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
-                    __($notification->step),
-                    $notification->bookName,
-                    $notification->currentChapter,
-                    $notification->tLang,
-                    __($notification->bookProject)
-                ]);
+                $text = __('checker_apply', array(
+                        $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
+                        ($notification->step != "notes" ? "(".__($notification->step).")" : ""),
+                        $notification->bookName,
+                        ($notification->currentChapter == 0 ? __("intro") : $notification->currentChapter),
+                        $notification->tLang,
+                        __($notification->bookProject)
+                    )).(
+                    $notification->bookProject == "tn" ? " (".($notification->step == "notes" ? "#1" : "#2").")" : ""
+                    );
 
                 $note["link"] = "/events/checker".(isset($notification->manageMode)
                     && in_array($notification->manageMode, ["sun","tn"]) ? "-".$notification->manageMode : "")

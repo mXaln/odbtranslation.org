@@ -42,11 +42,11 @@ $profile = Session::get("profile");
                     sizeof($data["myCheckerL2Events"]) + sizeof($data["myCheckerL3Events"])?>)</span>
         </a>
     </li>
-    <li role="presentation" id="new_events" class="my_tab">
+    <!--<li role="presentation" id="new_events" class="my_tab">
         <a href="#"><?php echo __("new_events") ?>
             <span class="<?php echo sizeof($data["newEvents"]) > 0 ? "hasEvents" : "" ?>">(<?php echo sizeof($data["newEvents"]) ?>)</span>
         </a>
-    </li>
+    </li>-->
 </ul>
 
 <?php if(Session::get("isAdmin")): ?>
