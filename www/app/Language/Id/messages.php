@@ -239,7 +239,6 @@ return array (
     "old_test" => "Perjanjian Lama",
     "new_test" => "Perjanjian Baru",
     "checker_apply" => "<b>{0}</b> sudah siap untuk diperiksa <b>({1})</b> buku <b>{2}</b>, pasal <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
-    "checker_notes_apply" => "<b>{0}</b> is ready for checking book of <b>{1}</b>, chapter <b>{2}</b> - <b>{3}</b> - <b>{4}</b>",
     "apply_to_check" => "Terapkan untuk memeriksa",
     "notifications" => "Notifikasi",
     "see_all" => "Lihat semua",

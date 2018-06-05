@@ -959,10 +959,12 @@ class EventsModel extends Model
                 "events.eventID","events.admins",
                 "translators.verbCheck","translators.peerCheck",
                 "translators.kwCheck","translators.crCheck",
-                "abbr.chaptersNum"
+                "translators.otherCheck", "abbr.chaptersNum",
+                "projects.bookProject"
             ])
             ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
             ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+            ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
             ->where("events.eventID", $eventID)
             ->get();
 

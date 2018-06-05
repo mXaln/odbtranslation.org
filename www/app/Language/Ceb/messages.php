@@ -241,7 +241,6 @@ return array (
     "old_test" => "Daang Kasabotan",
     "new_test" => "Bag-ong Kasabotan",
     "checker_apply" => "<b>{0}</b> andam na para sa pagsusi <b>({1})</b> libro sa <b>{2}</b>, kapitulo <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
-    "checker_notes_apply" => "<b>{0}</b> is ready for checking book of <b>{1}</b>, chapter <b>{2}</b> - <b>{3}</b> - <b>{4}</b>",
     "apply_to_check" => "Ipatsek",
     "notifications" => "Mga Pahibalo",
     "see_all" => "Tan-awa tanan",

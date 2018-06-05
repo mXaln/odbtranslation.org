@@ -8,6 +8,7 @@ use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
 use File;
+use Helpers\Data;
 use View;
 use Config\Config;
 use Helpers\Password;
@@ -428,6 +429,8 @@ class AdminController extends Controller {
 
                 if(!empty($event))
                 {
+                    $mode = $event[0]->bookProject;
+
                     $admins = [];
                     $translators = [];
                     $checkers = [];
@@ -442,11 +445,30 @@ class AdminController extends Controller {
                         $peerCheck = (array)json_decode($translator->peerCheck);
                         $kwCheck = (array)json_decode($translator->kwCheck);
                         $crCheck = (array)json_decode($translator->crCheck);
+                        $otherCheck = (array)json_decode($translator->otherCheck);
 
-                        $checkersArr = array_merge($checkersArr, array_values($verbCheck));
-                        $checkersArr = array_merge($checkersArr, array_values($peerCheck));
-                        $checkersArr = array_merge($checkersArr, array_values($kwCheck));
-                        $checkersArr = array_merge($checkersArr, array_values($crCheck));
+                        if(in_array($mode, ["tn", "sun"]))
+                        {
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $peerCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $kwCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $crCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $otherCheck)));
+                        }
+                        else
+                        {
+                            $checkersArr = array_merge($checkersArr, array_values($verbCheck));
+                            $checkersArr = array_merge($checkersArr, array_values($peerCheck));
+                            $checkersArr = array_merge($checkersArr, array_values($kwCheck));
+                            $checkersArr = array_merge($checkersArr, array_values($crCheck));
+                        }
                     }
                     $checkersArr = array_unique($checkersArr);
 
