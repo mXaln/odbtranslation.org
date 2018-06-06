@@ -36,7 +36,7 @@ if(empty($error) && empty($data["success"])):
 
     <div class="row">
         <div class="main_content col-sm-9">
-            <div class="main_content_text row">
+            <div class="main_content_text">
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
@@ -50,20 +50,24 @@ if(empty($error) && empty($data["success"])):
                     <div class="row note_chunk">
                         <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
                             <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
-                                <?php foreach($data["text"][$fv] as $verse => $text): ?>
+                                <?php foreach(array_values($chunk) as $verse): ?>
                                     <div class="chunk_verses">
                                         <strong><sup><?php echo $verse ?></sup></strong>
                                         <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>">
-                                            <?php echo $text; ?>
+                                            <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
-                            <?php foreach($data["notes"][$fv] as $note): ?>
+                            <?php foreach(array_values($chunk) as $verse): ?>
                                 <div class="note_content">
-                                    <?php echo $note ?>
+                                    <?php if (isset($data["notes"][$verse])): ?>
+                                        <?php foreach ($data["notes"][$verse] as $note): ?>
+                                            <?php echo $note ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>

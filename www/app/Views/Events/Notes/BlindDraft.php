@@ -20,18 +20,18 @@ if(isset($data["error"])) return;
                             ."<span class='book_name'>".$data["event"][0]->name." "
                                 .($data["currentChapter"] > 0 ? $data["currentChapter"].":"
                                 .(!$data["no_chunk_source"]
-                                    ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
+                                    ? ($data["chunk"][0] != $data["chunk"][sizeof($data["chunk"])-1]
+                                        ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
+                                        : $data["chunk"][0])
                                     : " ".__("intro")) : __("front"))."</span>"?></h4>
 
                     <?php if(isset($data["no_chunk_source"]) && !$data["no_chunk_source"]): ?>
                         <div class="scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                            <?php foreach($data["text"] as $chunk => $content): ?>
-                                <?php foreach($content as $verse => $text): ?>
-                                    <p>
-                                        <strong><sup><?php echo $verse ?></sup></strong>
-                                        <?php echo $text; ?>
-                                    </p>
-                                <?php endforeach; ?>
+                            <?php foreach($data["text"] as $verse => $text): ?>
+                                <p>
+                                    <strong><sup><?php echo $verse ?></sup></strong>
+                                    <?php echo $text; ?>
+                                </p>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
@@ -46,8 +46,8 @@ if(isset($data["error"])) return;
                     </ul>
 
                     <div id="my_read_chunk_content" class="my_content shown" dir="<?php echo $data["event"][0]->notesLangDir ?>">
-                        <?php foreach($data["notes"] as $key => $note): ?>
-                            <div class="note_content" id="read_chunk_<?php echo $key ?>">
+                        <?php foreach($data["notes"] as $note): ?>
+                            <div class="note_content" id="read_chunk_verse">
                                 <?php echo preg_replace(
                                     "/(\[\[[a-z:\/\-]+\]\])/",
                                     "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
@@ -58,7 +58,7 @@ if(isset($data["error"])) return;
 
 
                     <div id="my_translate_chunk_content" class="my_content" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                        <?php foreach($data["notes"] as $key => $note): ?>
+                        <?php $key=$data["chunk"][0]; //foreach($data["notes"] as $key => $note): ?>
                             <div class="notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
                                  dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php
@@ -75,9 +75,9 @@ if(isset($data["error"])) return;
                                 ?>
                                 <textarea
                                         name="draft"
-                                        class="add_notes_editor blind_ta" data-key="<?php echo $key ?>"><?php echo $text ?></textarea>
+                                        class="add_notes_editor blind_ta" data-key="verse"><?php echo $text ?></textarea>
                             </div>
-                        <?php endforeach; ?>
+                        <?php //endforeach; ?>
                     </div>
                 </div>
 

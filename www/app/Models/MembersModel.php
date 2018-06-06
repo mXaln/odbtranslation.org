@@ -121,18 +121,25 @@ class MembersModel extends Model {
      * @param $role
      * @param $languages
      * @param bool $count return total rows
+     * @param bool $admin get sensitive info
+     * @param bool $verified get verified members
      * @param int $page page number
      * @param int $take items per page
      * @return array|int|static[]
      */
-    public function searchMembers($name, $role, $languages, $count = false, $isAdmin = false, $page = 1, $take = 50)
+    public function searchMembers($name, $role, $languages, $count = false, $admin = false, $verified = false, $page = 1, $take = 50)
     {
         $skip = ($page-1) * $take; // Skip 50 (default) rows every page
 
-        $builder = $this->db->table("members")
-            ->leftJoin("profile", "members.memberID", "=", "profile.mID")
-            ->where("members.isDemo", "=", false) // exclude demo accounts
-            ->distinct();
+        $builder = $this->db->table("members");
+
+        $builder->leftJoin("profile", "members.memberID", "=", "profile.mID")
+            ->where("members.isDemo", "=", false); // exclude demo accounts
+
+        if($verified) // Exclude non-verified accounts
+            $builder->where("members.verified", true);
+
+        $builder->distinct();
 
         if(!$count)
         {
@@ -146,7 +153,7 @@ class MembersModel extends Model {
                 "blocked"
             ];
 
-            if($isAdmin)
+            if($admin)
                 $select[] = "members.email";
 
             $builder->select($select)

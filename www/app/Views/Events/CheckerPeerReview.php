@@ -136,7 +136,7 @@ if(empty($error) && empty($data["success"])):
                                         <li>
                                             <div class="word_term">
                                                 <span style="font-weight: bold;">
-                                                    <?php echo $chunkVerses > 0 ? __("chunk_verses", $chunkVerses) :
+                                                    <?php echo $chunkVerses > 0 ? __("verse_number", $chunkVerses) :
                                                         __("intro")?>
                                                 </span>
                                             </div>
