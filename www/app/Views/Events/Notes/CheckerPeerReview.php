@@ -46,14 +46,14 @@ if(empty($error) && empty($data["success"])):
                             : __("front"))."</span>"?></h4>
 
                 <div id="my_notes_content" class="my_content">
-                    <?php $key=-1; foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                     <div class="row note_chunk">
                         <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
                             <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
                                 <?php foreach(array_values($chunk) as $verse): ?>
                                     <div class="chunk_verses">
                                         <strong><sup><?php echo $verse ?></sup></strong>
-                                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>">
+                                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$chunkNo."_".$verse ?>">
                                             <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@ if(empty($error) && empty($data["success"])):
                             ?>
                         </div>
                     </div>
-                    <?php $key++; endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
