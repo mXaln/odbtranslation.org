@@ -75,6 +75,9 @@ if(empty($error) && empty($data["success"])):
                              dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <?php 
                             $parsedown = new Parsedown();
+                            $parsedown->setBreaksEnabled(true);
+                            $parsedown->setSafeMode(true);
+                            $parsedown->setMarkupEscaped(true);
                             $text = isset($data["translation"][$chunkNo]) 
                                 ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
                                 : "";
@@ -108,8 +111,7 @@ if(empty($error) && empty($data["success"])):
                         </div>
                         <div class="notes_translator">
                             <?php 
-                            $parsedown = new Parsedown();
-                            $text = isset($data["translation"][$chunkNo]) 
+                            $text = isset($data["translation"][$chunkNo])
                                 ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
                                 : "";
                             echo preg_replace('/( title=".*")/', '', $text);
@@ -188,7 +190,7 @@ if(empty($error) && empty($data["success"])):
     </div>
 </div>
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?4")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?5")?>"></script>
 <script>
     var isChecker = true;
     var disableHighlight = true;

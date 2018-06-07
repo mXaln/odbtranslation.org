@@ -4,7 +4,7 @@
 function diff(text1, text2, out) {
     var dmp = new diff_match_patch();
     var d = dmp.diff_lineMode_(text1, text2);
-    /*var d = dmp.diff_main(text1, text2);*/
+    // var d = dmp.diff_main(text1, text2);
     dmp.diff_cleanupSemantic(d);
     var ds = dmp.diff_prettyHtml(d);
 
@@ -12,6 +12,9 @@ function diff(text1, text2, out) {
     var html = "";
 
     dom.each(function() {
+        // Remove annoying paragraph symbol
+        this.innerText = this.innerText.replace(/¶/g, "");
+
         switch(this.nodeName) {
             case "SPAN":
                 html += $(this).text();
