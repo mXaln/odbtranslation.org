@@ -17,12 +17,10 @@ if(isset($data["error"])) return;
                         ? $data["currentChapter"].":1-".$data["totalVerses"]
                         : "(".__("front").")")."</span>"?></h4>
 
-                    <?php foreach($data["text"] as $chunk => $content): ?>
-                    <div class="note_chunk">
-                        <?php foreach($content as $verse => $text): ?>
+                    <?php foreach($data["text"] as $verse => $text): ?>
+                    <div>
                         <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                        <?php endforeach; ?>
-                    </div>    
+                    </div>
                     <?php endforeach; ?>
             </div>
 

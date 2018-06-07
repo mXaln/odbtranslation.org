@@ -1464,6 +1464,7 @@ div.ui-datepicker {
 
 .sun_ta strong {
     flex: 1;
+    font-size: 16px;
 }
 
 .sun_ta textarea {
@@ -4018,7 +4019,7 @@ button.startEvnt, button.editEvnt {
 
 .note_chunk {
     border-top: 1px solid #f00;
-    padding-top: 10px; 
+    padding: 10px 0;
 }
 
 .notes_content_block {
@@ -4364,7 +4365,7 @@ button.startEvnt, button.editEvnt {
     z-index: 102;
     position: absolute;
     left: calc(50% - 200px);
-    top: calc(50% - 150px);
+    top: 150px;
     box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
     display: none;
 }
@@ -4614,7 +4615,7 @@ button.startEvnt, button.editEvnt {
 }
 
 .scripture_chunk {
-    margin: 40px 0;
+    margin: 10px 0;
     font-size: 16px;
-    padding: 20px;
+    padding: 0 20px;
 }

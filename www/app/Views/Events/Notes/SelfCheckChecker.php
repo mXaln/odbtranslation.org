@@ -39,18 +39,25 @@ if(isset($data["error"])) return;
                     <div class="row note_chunk">
                         <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
                             <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
-                                <?php foreach($data["text"][$fv] as $verse => $text): ?>
-                                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                                <?php foreach(array_values($chunk) as $verse): ?>
+                                    <p>
+                                        <strong><sup><?php echo $verse ?></sup></strong>
+                                        <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
+                                    </p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
-                            <?php foreach($data["notes"][$fv] as $note): ?>
+                            <?php foreach(array_values($chunk) as $verse): ?>
                                 <div class="note_content">
-                                    <?php echo preg_replace(
-                                        "/(\[\[[a-z:\/\-]+\]\])/", 
-                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
-                                        $note) ?>
+                                    <?php if (isset($data["notes"][$verse])): ?>
+                                        <?php foreach ($data["notes"][$verse] as $note): ?>
+                                            <?php echo preg_replace(
+                                                "/(\[\[[a-z:\/\-]+\]\])/",
+                                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                                $note) ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -86,7 +93,7 @@ if(isset($data["error"])) return;
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">

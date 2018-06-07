@@ -28,17 +28,20 @@
                                         
                     <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class='book_name'>2 Timothy 2:1-26</span></h4>
 
+                    <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
+
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr">
-                                    <sup>1-3</sup> </strong>
-                                                            </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>1-3</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >                             </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea"
                                               style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;">You are like a son to me. So I urge also that you let God empower you as a result of Christ Jesus acting kindly toward you. Command and trust faithful men to teach the things you heard from me and from many others who have testified in the same way to others, too. Endure as I do what we suffer for Christ Jesus, like a good soldier endures what he suffers.</textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -46,11 +49,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>4-7</sup> </strong>             </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>4-7</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >             </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -58,11 +64,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>8-10</sup> </strong>                  </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>8-10</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >                  </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -70,11 +79,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>11-14</sup> </strong>             </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>11-14</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >             </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -82,11 +94,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>15-17</sup> </strong>              </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>15-17</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >              </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -94,11 +109,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>18-20</sup> </strong>              </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>18-20</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >              </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -106,11 +124,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>21-23</sup> </strong>            </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>21-23</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >            </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -118,11 +139,14 @@
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content" dir="ltr"> <strong class="ltr"> <sup>24-26</sup> </strong>             </div>
+                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                                <strong class="ltr"> <sup>24-26</sup> </strong>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >            </textarea>
+                            </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
-                                    <img class="editComment" data="2:0" width="16" src="https://v-mast.mvc/templates/default/assets/img/edit.png" title="Write a note to the chunk">
+                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
                                 </div>
@@ -176,7 +200,6 @@
     <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
-
 <div class="tutorial_container">
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
@@ -193,6 +216,36 @@
             <ul><?php echo __("self-edit_sun_desc")?></ul>
         </div>
     </div>
+</div>
+
+<div class="saildict_panel panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("sail_dictionary") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove"></span>
+    </div>
+
+    <div class="sun_content saildict page-content panel-body">
+        <div class="sail_filter">
+            <div class="form-group">
+                <label for="sailfilter" class="sr-only">Filter</label>
+                <input type="text" class="form-control input-lg" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
+            </div>
+        </div>
+        <div class="sail_list">
+            <ul>
+                <?php foreach ($data["saildict"] as $word): ?>
+                    <li id="<?php echo $word->word ?>" title="<?php echo __("copy_symbol_tip") ?>">
+                        <div class="sail_word"><?php echo $word->word ?></div>
+                        <div class="sail_symbol"><?php echo $word->symbol ?></div>
+                        <input type="text" value="<?php echo $word->symbol ?>" />
+                        <div class="clear"></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="copied_tooltip"><?php echo __("copied_tip") ?></div>
 </div>
 
 <script>

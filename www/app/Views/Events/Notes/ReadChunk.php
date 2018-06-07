@@ -15,7 +15,9 @@ if(isset($data["error"])) return;
                         ."<span class='book_name'>".$data["event"][0]->name." "
                             .($data["currentChapter"] > 0 ? $data["currentChapter"].":"
                             .(!$data["no_chunk_source"] 
-                                ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
+                                ? ($data["chunk"][0] != $data["chunk"][sizeof($data["chunk"])-1]
+                                    ? $data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]
+                                    : $data["chunk"][0])
                                 : " ".__("intro")) : __("front"))."</span>"?></h4>
 
                 <?php //foreach($data["text"] as $verse => $text): ?>

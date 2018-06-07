@@ -35,27 +35,31 @@ if(isset($data["error"])) return;
                         : __("front"))."</span>"?></h4>
 
                 <div id="my_notes_content" class="my_content">
-                    <?php $key = -1; foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                     <div class="row note_chunk">
                         <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
                             <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
-                                <?php foreach($data["text"][$fv] as $verse => $text): ?>
+                                <?php foreach(array_values($chunk) as $verse): ?>
                                     <div class="chunk_verses">
                                         <strong><sup><?php echo $verse ?></sup></strong>
-                                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>">
-                                            <?php echo $text; ?>
+                                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$chunkNo."_".$verse ?>">
+                                            <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
-                            <?php foreach($data["notes"][$fv] as $note): ?>
+                            <?php foreach(array_values($chunk) as $verse): ?>
                                 <div class="note_content">
-                                    <?php echo preg_replace(
-                                        "/(\[\[[a-z:\/\-]+\]\])/", 
-                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>", 
-                                        $note) ?>
+                                    <?php if (isset($data["notes"][$verse])): ?>
+                                        <?php foreach ($data["notes"][$verse] as $note): ?>
+                                            <?php echo preg_replace(
+                                                "/(\[\[[a-z:\/\-]+\]\])/",
+                                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                                $note) ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -90,7 +94,7 @@ if(isset($data["error"])) return;
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">
@@ -106,7 +110,7 @@ if(isset($data["error"])) return;
                             <div class="clear"></div>
                         </div>
                     </div>
-                    <?php $key++; endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 

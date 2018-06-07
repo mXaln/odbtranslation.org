@@ -6,6 +6,7 @@
 namespace App\Controllers;
 
 use App\Models\NewsModel;
+use App\Models\ApiModel;
 use App\Models\SailDictionaryModel;
 use Helpers\Data;
 use Support\Facades\Cookie;
@@ -31,6 +32,7 @@ class EventsController extends Controller
     private $_model;
     private $_translationModel;
     private $_saildictModel;
+    private $_apiModel;
     private $_newsModel;
     private $_membersModel;
     private $_notifications;
@@ -50,6 +52,7 @@ class EventsController extends Controller
         $this->_model = new EventsModel();
         $this->_translationModel = new TranslationsModel();
         $this->_saildictModel = new SailDictionaryModel();
+        $this->_apiModel = new ApiModel();
         $this->_newsModel = new NewsModel();
         $this->_membersModel = new MembersModel();
         
@@ -671,13 +674,13 @@ class EventsController extends Controller
                                         continue;
                                     }
 
-                                    if(($key - $fv) > 1)
+                                    if(($key - $fv) >= 1)
                                     {
-                                        $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                        $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
                                         $fv = $key;
 
                                         if($i == sizeof($data["notes"]))
-                                            $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                            $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
                                         continue;
                                     }
                                 }
@@ -815,13 +818,13 @@ class EventsController extends Controller
                                         continue;
                                     }
 
-                                    if(($key - $fv) > 1)
+                                    if(($key - $fv) >= 1)
                                     {
-                                        $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                        $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
                                         $fv = $key;
 
                                         if($i == sizeof($data["notes"]))
-                                            $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                            $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
                                         continue;
                                     }
                                 }
@@ -1115,8 +1118,7 @@ class EventsController extends Controller
                                         $fv = $key;
 
                                         if($i == sizeof($data["notes"]))
-                                            $tnVerses[$fv] = $fv != $data["totalVerses"] ?
-                                                $fv . "-" . $data["totalVerses"] : $fv;
+                                            $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
                                         continue;
                                     }
                                 }
@@ -2788,13 +2790,13 @@ class EventsController extends Controller
                                     continue;
                                 }
 
-                                if(($key - $fv) > 1)
+                                if(($key - $fv) >= 1)
                                 {
-                                    $tnVerses[$fv] = $fv . "-" . ($key - 1);
+                                    $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
                                     $fv = $key;
 
                                     if($i == sizeof($data["notes"]))
-                                        $tnVerses[$fv] = $fv . "-" . $data["totalVerses"];
+                                        $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
                                     continue;
                                 }
                             }
@@ -3077,6 +3079,7 @@ class EventsController extends Controller
                             $data = $sourceText;
 
                         // Get notes
+
                         $sourceTextNotes = $this->getNotesSourceText($data);
 
                         if($sourceTextNotes !== false)
@@ -7517,6 +7520,7 @@ class EventsController extends Controller
             case "self-check":
                 $view->nest("page", "Events/SUN/Demo/SelfCheck");
                 $data["step"] = EventSteps::SELF_CHECK;
+                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "theo-check":
@@ -9548,7 +9552,7 @@ class EventsController extends Controller
         $currentChunk = $data["event"][0]->state == EventStates::TRANSLATING
             ? $data["event"][0]->currentChunk : 0;
 
-        $usfm = $this->_model->getCachedSourceBookFromApi(
+        $usfm = $this->_apiModel->getCachedSourceBookFromApi(
             $data["event"][0]->sourceBible,
             $data["event"][0]->bookCode, 
             $data["event"][0]->sourceLangID,
@@ -9663,9 +9667,9 @@ class EventsController extends Controller
     {
         $currentChapter = $data["event"][0]->currentChapter;
         $currentChunk = $data["event"][0]->currentChunk;
-        $eventTrID = $data["event"][0]->trID;
+        // $eventTrID = $data["event"][0]->trID;
         
-        $notes = $this->_model->getTranslationNotes(
+        $notes = $this->_apiModel->getTranslationNotes(
             $data["event"][0]->bookCode, 
             $data["event"][0]->notesLangID);
 
@@ -9692,31 +9696,8 @@ class EventsController extends Controller
                 
                 if($currentChapter > 0)
                 {
-                    $chunk_keys = array_keys($notes[$currentChapter]);
-                    $tmp = [];
-                    $chunkNo = 0;
-
                     if(isset($data["text"]) && $data["text"] != "")
                     {
-                        foreach($data["text"] as $v => $text)
-                        {
-                            if(!isset($chunk_keys[$chunkNo])) continue;
-                            if($v >= $chunk_keys[$chunkNo] 
-                                && (isset($chunk_keys[$chunkNo+1])
-                                    && $v < $chunk_keys[$chunkNo+1]))
-                                {
-                                    $tmp[$chunk_keys[$chunkNo]][$v] = $text;
-                                }
-                            else
-                            {
-                                $chunkNo++;
-                                if(!isset($chunk_keys[$chunkNo]))
-                                    $chunkNo--;
-                                $tmp[$chunk_keys[$chunkNo]][$v] = $text;
-                            }
-                        }
-    
-                        $data["text"] = $tmp;
                         $data["nosource"] = false;
                     }
                     else 
@@ -9731,10 +9712,22 @@ class EventsController extends Controller
 
                 if($getChunk)
                 {
-                    $keys = array_keys($notes[$currentChapter]);
-                    $currentChunk = $keys[$currentChunk];
-                    $data["chunk"][0] = $currentChunk;
-                    $data["notes"] = $notes[$currentChapter][$currentChunk];
+                    $data["notes"] = [];
+
+                    if(isset($data["chunk"]))
+                    {
+                        foreach ($data["chunk"] as $verse) {
+                            foreach ($notes[$currentChapter][$verse] as $note)
+                            {
+                                $data["notes"][] = $note;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $data["notes"] = $notes[$currentChapter][$currentChunk];
+                        $data["chunk"][0] = $currentChunk;
+                    }
                 }
 
                 return $data;
@@ -9799,7 +9792,7 @@ class EventsController extends Controller
         }
         else
         {
-            $tNotesBook = $this->_model->getTranslationNotes($book, $lang);
+            $tNotesBook = $this->_apiModel->getTranslationNotes($book, $lang);
             if(isset($tNotesBook[$chapter]))
                 $tNotes = $tNotesBook[$chapter];
 
@@ -9868,7 +9861,7 @@ class EventsController extends Controller
         }
         else
         {
-            $tWords = $this->_model->getTranslationWords($book, $chapter, $lang);
+            $tWords = $this->_apiModel->getTranslationWords($book, $chapter, $lang);
 
             if(!empty($tWords))
                 Cache::add($tw_cache_words, json_encode($tWords), 365*24*7);
@@ -9891,7 +9884,7 @@ class EventsController extends Controller
         }
         else
         {
-            $tQuestionsBook = $this->_model->getTranslationQuestions($book, $lang);
+            $tQuestionsBook = $this->_apiModel->getTranslationQuestions($book, $lang);
             if(isset($tQuestionsBook[$chapter]))
             {
                 $tQuestions = $tQuestionsBook[$chapter];

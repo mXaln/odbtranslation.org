@@ -21,6 +21,7 @@ use Helpers\Session;
 use Redirect;
 use Response;
 use App\Models\EventsModel;
+use App\Models\ApiModel;
 use Support\Facades\Cache;
 use Helpers\UsfmParser;
 use Helpers\Url;
@@ -30,12 +31,14 @@ class AlmaController extends Controller
 {
     private $translationModel;
     private $eventsModel;
+    private $apiModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->translationModel = new TranslationsModel();
         $this->eventsModel = new EventsModel();
+        $this->apiModel = new ApiModel();
     }
 
     public function index($bookCode = null)
@@ -396,7 +399,7 @@ class AlmaController extends Controller
         $cache_keyword = $bookCode."_".$sourceLang."_".$bookProject."_usfm";
         $bookText = __("no_source_error");
 
-		$usfm = $this->eventsModel->getCachedSourceBookFromApi(
+		$usfm = $this->apiModel->getCachedSourceBookFromApi(
             $bookProject, 
             $bookCode, 
             $sourceLang,

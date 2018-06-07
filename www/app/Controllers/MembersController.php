@@ -485,6 +485,7 @@ class MembersController extends Controller
             $language = isset($_POST["language"]) && $_POST["language"] != "" ? $_POST["language"] : false;
             $page = isset($_POST["page"]) ? (integer)$_POST["page"] : 1;
             $searchExt = isset($_POST["ext"]) ? $_POST["ext"] : false;
+            $verified = isset($_POST["verified"]) ? $_POST["verified"] : false;
 
             if(empty($admLangs) && !$searchExt)
             {
@@ -502,15 +503,15 @@ class MembersController extends Controller
                 {
                     if(in_array($language, $admLangs))
                     {
-                        $count = $this->_model->searchMembers($name, $role, [$language], true);
-                        $members = $this->_model->searchMembers($name, $role, [$language], false, true, $page);
+                        $count = $this->_model->searchMembers($name, $role, [$language], true, false, $verified);
+                        $members = $this->_model->searchMembers($name, $role, [$language], false, true, $verified, $page);
                     }
                 }
                 else
                 {
                     if($searchExt) $admLangs = [];
-                    $count = $this->_model->searchMembers($name, $role, $admLangs, true);
-                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, true, $page);
+                    $count = $this->_model->searchMembers($name, $role, $admLangs, true, false, $verified);
+                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, true, $verified, $page);
                 }
 
                 $response["success"] = true;

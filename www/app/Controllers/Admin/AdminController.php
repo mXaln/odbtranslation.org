@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 use App\Core\Controller;
 use App\Models\EventsModel;
 use App\Models\MembersModel;
+use App\Models\ApiModel;
 use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
@@ -28,6 +29,7 @@ class AdminController extends Controller {
 
     private $_membersModel;
     private $_eventsModel;
+    private $_apiModel;
     private $_translationModel;
     private $_saildictModel;
     private $_newsModel;
@@ -45,6 +47,7 @@ class AdminController extends Controller {
 
         $this->_membersModel = new MembersModel();
         $this->_eventsModel = new EventsModel();
+        $this->_apiModel = new ApiModel();
         $this->_translationModel = new TranslationsModel();
         $this->_saildictModel = new SailDictionaryModel();
         $this->_newsModel = new NewsModel();
@@ -65,7 +68,7 @@ class AdminController extends Controller {
 		
         $data['menu'] = 1;
 
-        $catalog = $this->_eventsModel->getCachedFullCatalog();
+        $catalog = $this->_apiModel->getCachedFullCatalog();
 
         $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
@@ -909,7 +912,7 @@ class AdminController extends Controller {
         if(Cache::has($cache_keyword))
             Cache::forget($cache_keyword);
 
-        $source = $this->_eventsModel->getCachedSourceBookFromApi(
+        $source = $this->_apiModel->getCachedSourceBookFromApi(
                 $sourceBible,
                 $bookCode, 
                 $sourceLangID,
@@ -968,7 +971,7 @@ class AdminController extends Controller {
                 if(Cache::has($cache_keyword))
                     Cache::forget($cache_keyword);
 
-                $source = $this->_eventsModel->getCachedSourceBookFromApi(
+                $source = $this->_apiModel->getCachedSourceBookFromApi(
                         $sourceBible,
                         $bookCode, 
                         $sourceLangID,
@@ -976,33 +979,6 @@ class AdminController extends Controller {
 
                 if($source)
                 {
-                    // Words source
-                    $cat_lang = $sourceLangID;
-                    if($sourceLangID == "ceb")
-                        $cat_lang = "en";
-
-                    // Get catalog
-                    $cat_cache_keyword = "catalog_".$bookCode."_".$cat_lang;
-                    if(Cache::has($cat_cache_keyword))
-                        Cache::forget($cat_cache_keyword);
-
-                    $cat_source = $this->_eventsModel->getTWcatalog($bookCode, $cat_lang);
-                    $cat_json = json_decode($cat_source, true);
-
-                    if(!empty($cat_json))
-                        Cache::add($cat_cache_keyword, $cat_source, 365*24*60);
-
-                    // Get keywords
-                    $tw_cache_keyword = "tw_".$sourceLangID;
-                    if(Cache::has($tw_cache_keyword))
-                        Cache::forget($tw_cache_keyword);
-
-                    $tw_source = $this->_eventsModel->getTWords($sourceLangID);
-                    $tw_json = json_decode($tw_source, true);
-
-                    if(!empty($tw_json))
-                        Cache::add($tw_cache_keyword, $tw_source, 365*24*60);
-
                     $response["success"] = true;
                     $booksUpdated++;
                 }
@@ -1170,7 +1146,7 @@ class AdminController extends Controller {
 
                         if(!Cache::has($cache_keyword))
                         {
-                            $usfm = $this->_eventsModel->getCachedSourceBookFromApi(
+                            $usfm = $this->_apiModel->getCachedSourceBookFromApi(
                                 $project[0]->sourceBible, 
                                 $bookInfo[0]->code, 
                                 $project[0]->sourceLangID,
@@ -1366,7 +1342,7 @@ class AdminController extends Controller {
             }
             else
             {
-                $source = $this->_eventsModel->getSourceBookFromApi($bookCode, $sourceLangID, $bookProject);
+                $source = $this->_apiModel->getSourceBookFromApi($bookCode, $sourceLangID, $bookProject);
                 $json = json_decode($source, true);
 
                 if(!empty($json))
@@ -1656,7 +1632,7 @@ class AdminController extends Controller {
             exit;
         }
 
-        $result = $this->_eventsModel->insertLangsFromTD();
+        $result = $this->_apiModel->insertLangsFromTD();
 
         echo json_encode($result);
     }

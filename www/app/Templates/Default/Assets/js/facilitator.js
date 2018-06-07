@@ -90,6 +90,7 @@ $(function () {
                 data: {
                     name: name,
                     ext: true,
+                    verified: true
                 },
                 dataType: "json",
                 beforeSend: function() {

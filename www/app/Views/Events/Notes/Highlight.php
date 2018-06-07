@@ -17,16 +17,17 @@ if(isset($data["error"])) return;
                         ? $data["currentChapter"].":1-".$data["totalVerses"]
                         : "(".__("front").")")."</span>"?></h4>
 
-                    <?php $key = 0; foreach($data["text"] as $chunk => $content): ?>
-                    <div class="note_chunk chunk_verses">
-                        <?php foreach($content as $verse => $text): ?>
-                        <strong><sup><?php echo $verse; ?></sup></strong>
-                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>">
-                            <?php echo $text; ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                        <?php if($fv == 0) continue; ?>
+                        <?php foreach(array_values($chunk) as $verse): ?>
+                        <div class="chunk_verses" style="padding: 5px 0">
+                            <strong><sup><?php echo $verse; ?></sup></strong>
+                            <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$chunkNo."_".$verse ?>">
+                                <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
+                            </div>
                         </div>
                         <?php endforeach; ?>
-                    </div>    
-                    <?php $key++; endforeach; ?>
+                    <?php endforeach; ?>
             </div>
 
             <?php //if(empty($error)):?>
