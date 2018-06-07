@@ -75,9 +75,6 @@ if(empty($error) && empty($data["success"])):
                              dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <?php 
                             $parsedown = new Parsedown();
-                            $parsedown->setBreaksEnabled(true);
-                            $parsedown->setSafeMode(true);
-                            $parsedown->setMarkupEscaped(true);
                             $text = isset($data["translation"][$chunkNo]) 
                                 ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
                                 : "";
