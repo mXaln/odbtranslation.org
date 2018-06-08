@@ -79,16 +79,21 @@ class MembersModel extends Model {
 
     /** Get member data
      * @param $emailOrUnameOrId
-     * @return array
+     * @param  $login boolean Do not get user by ID during login
+     * @return array User info with profile
      */
-    public function getMemberWithProfile($emailOrUnameOrId)
+    public function getMemberWithProfile($emailOrUnameOrId, $login = false)
     {
-        return $this->db->table("members")
-            ->leftJoin("profile", "members.memberID", "=", "profile.mID")
+        $builder = $this->db->table("members");
+
+        $builder->leftJoin("profile", "members.memberID", "=", "profile.mID")
             ->where("members.userName", $emailOrUnameOrId)
-            ->orWhere("members.email", $emailOrUnameOrId)
-            ->orWhere("members.memberID", $emailOrUnameOrId)
-            ->get();
+            ->orWhere("members.email", $emailOrUnameOrId);
+
+        if(!$login)
+            $builder->orWhere("members.memberID", $emailOrUnameOrId);
+
+        return $builder->get();
     }
 
     /**

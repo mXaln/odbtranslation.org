@@ -679,7 +679,7 @@ class MembersController extends Controller
 
             if(!isset($error))
             {
-                $data = $this->_model->getMemberWithProfile($_POST['email']);
+                $data = $this->_model->getMemberWithProfile($_POST['email'], true);
 
                 if(!empty($data))
                 {
