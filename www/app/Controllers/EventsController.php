@@ -9089,12 +9089,14 @@ class EventsController extends Controller
                 $userType = EventMembers::L2_CHECKER;
             
             $data["event"] = $this->_model->getMemberEvents($memberID, $userType, $eventID, true);
-            
+
             if(!empty($data["event"]))
             {
-                $admins = (array)json_decode($data["event"][0]->admins, true);
+                $admins = $userType == EventMembers::L2_CHECKER ?
+                    (array)json_decode($data["event"][0]->admins_l2, true) :
+                    (array)json_decode($data["event"][0]->admins, true);
                 $mode = $data["event"][0]->bookProject;
-                
+
                 if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $data["chapters"] = [];

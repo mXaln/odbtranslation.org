@@ -245,7 +245,7 @@ class EventsModel extends Model
                 ."(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chkrs WHERE all_chkrs.eventID = ".PREFIX."checkers_l2.eventID ) AS currChkrs, " 
             : "")
                 ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, "
-                ."evnt.dateTo, evnt.admins, "
+                ."evnt.dateTo, evnt.admins, evnt.admins_l2, "
                 .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, "
