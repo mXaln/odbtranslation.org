@@ -67,7 +67,7 @@ use Helpers\Constants\EventMembers;
                                     $bt = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"];
                                     ?>
                                     <div class="vnote">
-                                        <div class="verse_block">
+                                        <div class="verse_block font_backsun">
                                             <p><?php echo $bt; ?></p>
                                         </div>
 

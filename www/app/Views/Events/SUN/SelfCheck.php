@@ -33,7 +33,7 @@ if(isset($data["error"])) return;
 
                     <div class="col-sm-12 no_padding">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                            <div class="row chunk_block words_block">
+                            <div class="row chunk_block words_block verse" style="width: 100%;">
                                 <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <?php
@@ -54,9 +54,11 @@ if(isset($data["error"])) return;
                                         ?></textarea>
                                 </div>
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] != "" ?
+                                        $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] :
+                                        $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea"><?php
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun"><?php
                                             echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
                                         ?></textarea>
 

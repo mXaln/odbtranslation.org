@@ -9,21 +9,21 @@
 }*/
 
 @font-face {
-    font-family: "SUN3";
-    src: url("../fonts/SUN3.woff2?2") format('woff2'),
-    url("../fonts/SUN3.woff?2") format("woff"),
-    url("../fonts/SUN3.ttf?2") format("truetype")
+    font-family: "SUN4";
+    src: url("../fonts/SUN4.woff2?2") format('woff2'),
+    url("../fonts/SUN4.woff?2") format("woff"),
+    url("../fonts/SUN4.ttf?2") format("truetype")
 }
 
 @font-face {
-    font-family: "BACKSUN3";
-    src: url("../fonts/BackSUN3W.woff2?2") format('woff2'),
-    url("../fonts/BackSUN3W.woff?2") format("woff"),
-    url("../fonts/BackSUN3W.ttf?2") format("truetype")
+    font-family: "BACKSUN4";
+    src: url("../fonts/BackSUN4.woff2?2") format('woff2'),
+    url("../fonts/BackSUN4.woff?2") format("woff"),
+    url("../fonts/BackSUN4.ttf?2") format("truetype")
 }
 
 .sun_content {
-    font-family: SUN3, serif;
+    font-family: SUN4, serif;
     font-size: 26px;
     font-weight: bold;
     word-wrap: break-word;
@@ -36,7 +36,13 @@
 }
 
 .font_sun {
-    font-family: SUN3;
+    font-family: SUN4;
+}
+
+.font_backsun {
+    font-family: BACKSUN4;
+    font-size: 40px;
+    line-height: 25px;
 }
 
 html, body, .container {
