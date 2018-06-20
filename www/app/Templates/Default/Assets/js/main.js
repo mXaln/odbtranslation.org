@@ -759,7 +759,7 @@ $(document).ready(function() {
             var height = $(this).height()/verseTa.length;
             verseTa.css("min-height", height);
         });
-    }, 100);
+    }, 300);
 
     if(typeof autosize == "function")
         autosize($('textarea'));

@@ -31,7 +31,7 @@
                     <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
 
                     <div class="col-sm-12 no_padding">
-                        <div class="row chunk_block words_block">
+                        <div class="row chunk_block words_block verse" style="width: 100%;">
                             <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
                                 <strong class="ltr"> <sup>1-3</sup> </strong>
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" >                             </textarea>
@@ -39,8 +39,8 @@
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
-                                              class="col-sm-6 peer_verse_ta textarea"
-                                              style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;">You are like a son to me. So I urge also that you let God empower you as a result of Christ Jesus acting kindly toward you. Command and trust faithful men to teach the things you heard from me and from many others who have testified in the same way to others, too. Endure as I do what we suffer for Christ Jesus, like a good soldier endures what he suffers.</textarea>
+                                              class="col-sm-6 peer_verse_ta textarea font_backsun"
+                                              style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;">                             </textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -130,7 +130,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -145,7 +145,7 @@
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
-                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
+                                    <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun" style="overflow: hidden; word-wrap: break-word; height: 80px; min-height: 37px;"></textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
