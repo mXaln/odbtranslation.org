@@ -1656,7 +1656,7 @@ class EventsModel extends Model
             if($memberID !== null)
                 $builder->where(["chapters.l2memberID" => $memberID]);
         }
-        if($manageMode != null)
+        else if($manageMode != null)
         {
             $builder->leftJoin("translators", function($join){
                 $join->on("chapters.eventID", "=", "translators.eventID")
