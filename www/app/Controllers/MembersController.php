@@ -145,7 +145,7 @@ class MembersController extends Controller
 
                     if(sizeof($arr) != 3) continue;
 
-                    $langID = preg_match("/^[a-z-]{2,22}$/", $arr[0]) ? $arr[0] : null;
+                    $langID = preg_match("/^[0-9A-Za-z-]{2,40}$/", $arr[0]) ? $arr[0] : null;
 
                     if($langID === null || (integer)$arr[1] < 0 || (integer)$arr[2] == 0) continue;
                     if((integer)$arr[1] > 5 || (integer)$arr[2] > 4) continue;
