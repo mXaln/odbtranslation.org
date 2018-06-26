@@ -154,8 +154,8 @@ class MembersModel extends Model {
                 "members.firstName",
                 "members.lastName",
                 "members.isAdmin",
-                "profile.prefered_roles",
-                "blocked"
+                "members.blocked",
+                "profile.prefered_roles"
             ];
 
             if($admin)
@@ -201,7 +201,12 @@ class MembersModel extends Model {
                     foreach ($languages as $language)
                         $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
                 });
-            elseif($role == "all" || $role == "facilitators")
+            elseif($role == "facilitators")
+                $builder->where(function($query) use ($languages) {
+                    foreach ($languages as $language)
+                        $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
+                });
+            else
                 $builder->orWhere(function ($query) use ($languages) {
                     $query->where(function($query) use ($languages) {
                         foreach ($languages as $language)
