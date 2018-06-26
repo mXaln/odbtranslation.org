@@ -201,13 +201,12 @@ class MembersModel extends Model {
                     foreach ($languages as $language)
                         $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
                 });
-            elseif($role == "all")
+            elseif($role == "all" || $role == "facilitators")
                 $builder->orWhere(function ($query) use ($languages) {
                     $query->where(function($query) use ($languages) {
                         foreach ($languages as $language)
                             $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
-                    })
-                        ->where("members.isAdmin", false);
+                    });
                 });
         }
 
