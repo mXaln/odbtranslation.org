@@ -341,9 +341,7 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    renderPopup(data.success, function () {
-                        location.reload();
-                    });
+                    location.reload();
                 }
                 else
                 {

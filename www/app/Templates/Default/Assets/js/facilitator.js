@@ -655,13 +655,7 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    renderPopup(data.message,
-                        function () {
-                            $( this ).dialog( "close" );
-                        },
-                        function () {
-                            window.location.reload();
-                        });
+                    window.location.reload();
                 }
                 else
                 {
