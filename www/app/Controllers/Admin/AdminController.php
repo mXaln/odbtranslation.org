@@ -833,8 +833,8 @@ class AdminController extends Controller {
         if($name || $role || $language)
         {
             $response["success"] = true;
-            $response["count"] = $this->_membersModel->searchMembers($name, $role, $language, true);
-            $response["members"] = $this->_membersModel->searchMembers($name, $role, $language, false, true, $page);
+            $response["count"] = $this->_membersModel->searchMembers($name, $role, $language, true, false, true);
+            $response["members"] = $this->_membersModel->searchMembers($name, $role, $language, false, true, true, $page);
         }
         else
         {
