@@ -20,6 +20,11 @@ if(isset($data['books'])) {
     echo '<a href="'.SITEURL.'translations/'.$data['books'][0]->targetLang.'">'.$data['books'][0]->angName . ' ('.$data['books'][0]->langName.')</a> → ';
     echo __($data['books'][0]->bookProject).'</a><br><br>';
 
+    if(!in_array($data["mode"], ["tn"]) && sizeof($data['books']) > 0)
+        echo "<h4 style=\"text-align: right\"><a href='".$data['books'][0]->bookProject."/dl/usfm'>".__("download_usfm")."</a></h4>";
+    else
+        echo "<h4 style=\"text-align: right\"><a href='".$data['books'][0]->bookProject."/dl/md'>".__("download_markdown")."</a></h4>";
+
     foreach ($data['books'] as $book) {
         echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">". __($book->bookCode) . "</a><br>";
     }

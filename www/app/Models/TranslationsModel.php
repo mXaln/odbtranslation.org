@@ -48,14 +48,15 @@ class TranslationsModel extends Model
     }
 
     /**
-     * For getting data of a translation
-     * @param $fields Requested fields could be * for all or comma separated list
-     * @param $where array Example: array('id' => array('=', 1), 'name' => array('!=', 'John'))
+     * Get translation work
+     * @param $lang Language ID
+     * @param $bookProject book project type (ulb, udb, tn, sun, l2)
+     * @param $bookCode Book slug
      * @return array
      */
-    public function getTranslation($lang, $bookProject, $bookCode)
+    public function getTranslation($lang, $bookProject, $bookCode = null)
     {
-        return $this->db->table("translations")
+        $builder = $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
                 "translations.chapter", "translations.chunk", "translations.translatedVerses",
@@ -64,14 +65,19 @@ class TranslationsModel extends Model
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
-            ->where("translations.bookCode", $bookCode)
             ->where("translations.translateDone", true)
+            ->orderBy("abbr.abbrID")
             ->orderBy("translations.chapter")
-            ->orderBy("translations.chunk")->get();
+            ->orderBy("translations.chunk");
+
+        if($bookCode)
+            $builder->where("translations.bookCode", $bookCode);
+
+        return $builder->get();
     }
 
     /**
-     * Get translations information
+     * Get translation work information
      * @param $eventID
      * @param null $chapter
      * @return array|static[]
@@ -87,7 +93,7 @@ class TranslationsModel extends Model
                 "translators.otherCheck", "translators.currentChapter", "translators.checkerID")
             ->leftJoin("translations", "translators.trID", "=", "translations.trID")
             ->where("translators.eventID", $eventID)
-            //->where("translators.step", "!=", EventSteps::NONE) TODO check for bugs
+            //->where("translators.step", "!=", EventSteps::NONE)
             ->orderBy("translations.chapter")
             ->orderBy("translations.chunk");
 
@@ -97,7 +103,7 @@ class TranslationsModel extends Model
     }
 
 
-    /** Get translation of translator in event
+    /** Get translation work of translator in event
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
      * @param int $tID
@@ -120,7 +126,7 @@ class TranslationsModel extends Model
         return $builder->get();
     }
 
-    /** Get translation of translator/checker in event by eventID
+    /** Get translation work of translator/checker in event by eventID
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
      * @param int $tID
