@@ -1434,6 +1434,10 @@ $(document).ready(function() {
                         var html = (e.originalEvent || e).clipboardData.getData('text/html');
                         var dom = $(html);
 
+                        dom.each(function () {
+                            $(this).attr("style", "");
+                        });
+
                         // Replace absolute urls by relative ones when using keyboard to paste
                         $("a", dom).each(function() {
                             $(this).attr("href", $(this).attr("title"));
@@ -1534,8 +1538,6 @@ $(document).ready(function() {
                 if(typeof autosize == "function")
                     autosize.update($('textarea'));
             }
-
-            //$(this).text(Language.showHelp);
         }
         else 
         {
@@ -1554,8 +1556,6 @@ $(document).ready(function() {
                 if(typeof autosize == "function")
                     autosize.update($('textarea'));
             }
-
-            //$(this).text(Language.hideHelp);
         }
     });
 
@@ -1568,45 +1568,6 @@ $(document).ready(function() {
         var content = $(".note_content").clone();
         $(".add_notes_editor").summernote("insertNode", content[0]);
     });
-
-    /*var chunkNotesIncr = [];
-    $(".add_notes button").click(function(e) {
-        e.preventDefault();
-        
-        var parent = $(this).parents(".notes_editor");
-        var chunkNo = parent.data("chunkno");
-
-        if(typeof chunkNotesIncr[chunkNo] == "undefined")
-            chunkNotesIncr[chunkNo] = 0;
-        
-        var editor = "" + 
-            "<div class='notes_chunk_editor'>" +
-                "<button class='btn btn-danger notes_chunk_remove glyphicon glyphicon-remove'></button>" +
-                "<label>ref:" +
-                    "<textarea name='chunks["+chunkNo+"]["+chunkNotesIncr[chunkNo]+"][ref]' "+
-                        "class='textarea' rows='1'></textarea>" +
-                "</label>" + 
-                "<label>text:" +
-                    "<textarea name='chunks["+chunkNo+"]["+chunkNotesIncr[chunkNo]+"][text]' "+
-                        "class='textarea' rows='1'></textarea>" +
-                "</label>"
-            "</div>"
-        "";
-
-        $(".add_notes_editor", parent).append(editor);
-        autosize($('textarea'));
-        chunkNotesIncr[chunkNo]++;
-    });
-
-    $(document).on("click", ".notes_chunk_remove", function() {
-        var parent = $(this).parents(".notes_chunk_editor");
-        var chunkParent = $(this).parents(".notes_editor");
-        var chunkno = chunkParent.data("chunkno");
-        parent.remove();
-        
-        if(typeof chunkNotesIncr[chunkNo] == "undefined")
-            chunkNotesIncr[chunkNo]--;
-    });*/
 
 
     // ---------------------  Verse markers setting start -------------------- //

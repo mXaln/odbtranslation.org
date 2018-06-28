@@ -15,12 +15,6 @@ Router::get("maintenance", "App\Controllers\MainController@maintenance");
 
 // TRANSLATIONS
 Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], function() {
-    Router::any("{lang?}/{bookProject?}/{bookCode?}", "TranslationsController@index")
-        ->where([
-            "lang" => "[a-z0-9-]+",
-            "bookProject" => "[a-z0-9]+",
-            "bookCode" => "[a-z0-9]+"
-        ]);
     Router::any("{lang}/{bookProject}/{bookCode}/usfm", "TranslationsController@getUsfm")
         ->where([
             "lang" => "[a-z0-9-]+",
@@ -28,6 +22,12 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang}/{bookProject}/{bookCode}/md", "TranslationsController@getMd")
+        ->where([
+            "lang" => "[a-z0-9-]+",
+            "bookProject" => "[a-z0-9]+",
+            "bookCode" => "[a-z0-9]+"
+        ]);
+    Router::any("{lang?}/{bookProject?}/{bookCode?}", "TranslationsController@index")
         ->where([
             "lang" => "[a-z0-9-]+",
             "bookProject" => "[a-z0-9]+",

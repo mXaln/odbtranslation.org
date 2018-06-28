@@ -68,6 +68,12 @@ class TranslationsController extends Controller
         {
             $data['title'] = __('choose_book');
             $data['books'] = $this->_model->getTranslationBooks($lang, $bookProject);
+            $data["mode"] = "bible";
+
+            if(sizeof($data['books']) > 0)
+            {
+                $data["mode"] = $data['books'][0]->bookProject;
+            }
         }
         else
         {
@@ -170,30 +176,45 @@ class TranslationsController extends Controller
     {
         if($lang != null && $bookProject != null && $bookCode != null)
         {
-            $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            // If bookcode is "dl" then include all the books in archive
+            $bookCode = $bookCode != "dl" ? $bookCode : null;
 
-            if(!empty($book))
+            $books = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+
+            if(!empty($books) && isset($books[0]))
             {
-                $data["usfm"] = "";
+                $usfm_books = [];
                 $lastChapter = 0;
+                $lastCode = null;
                 $chapterStarted = false;
 
-                $data["usfm"] = "\\id ".strtoupper($book[0]->bookCode)." ".__($book[0]->bookProject)."\n";
-                $data["usfm"] .= "\\ide UTF-8 \n";
-                $data["usfm"] .= "\\h ".mb_strtoupper(__($book[0]->bookCode))."\n";
-                $data["usfm"] .= "\\toc1 ".__($book[0]->bookCode)."\n";
-                $data["usfm"] .= "\\toc2 ".__($book[0]->bookCode)."\n";
-                $data["usfm"] .= "\\toc3 ".ucfirst($book[0]->bookCode)."\n";
-                $data["usfm"] .= "\\mt1 ".mb_strtoupper(__($book[0]->bookCode))."\n\n\n\n";
+                foreach ($books as $chunk) {
+                    $code = sprintf('%02d', $chunk->abbrID)."-".strtoupper($chunk->bookCode);
 
-                foreach ($book as $chunk) {
+                    if($code != $lastCode)
+                    {
+                        $lastChapter = 0;
+                        $chapterStarted = false;
+                    }
+
+                    if(!isset($usfm_books[$code]))
+                    {
+                        $usfm_books[$code] = "\\id ".strtoupper($chunk->bookCode)." ".__($chunk->bookProject)."\n";
+                        $usfm_books[$code] .= "\\ide UTF-8 \n";
+                        $usfm_books[$code] .= "\\h ".mb_strtoupper(__($chunk->bookCode))."\n";
+                        $usfm_books[$code] .= "\\toc1 ".__($chunk->bookCode)."\n";
+                        $usfm_books[$code] .= "\\toc2 ".__($chunk->bookCode)."\n";
+                        $usfm_books[$code] .= "\\toc3 ".ucfirst($chunk->bookCode)."\n";
+                        $usfm_books[$code] .= "\\mt1 ".mb_strtoupper(__($chunk->bookCode))."\n\n\n\n";
+                    }
+
                     $verses = json_decode($chunk->translatedVerses);
 
                     if($chunk->chapter != $lastChapter)
                     {
-                        $data["usfm"] .= "\\s5 \n";
-                        $data["usfm"] .= "\\c ".$chunk->chapter." \n";
-                        $data["usfm"] .= "\\p \n";
+                        $usfm_books[$code] .= "\\s5 \n";
+                        $usfm_books[$code] .= "\\c ".$chunk->chapter." \n";
+                        $usfm_books[$code] .= "\\p \n";
 
                         $lastChapter = $chunk->chapter;
                         $chapterStarted = true;
@@ -201,36 +222,55 @@ class TranslationsController extends Controller
 
                     // Start of chunk
                     if(!$chapterStarted)
-                        $data["usfm"] .= "\\s5 \n";
+                        $usfm_books[$code] .= "\\s5 \n";
 
                     $chapterStarted = false;
 
                     if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
                     {
                         foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
-                            $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                            $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
                         }
                     }
                     elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
                     {
                         foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
-                            $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                            $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
                         }
                     }
                     else
                     {
                         foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                            $data["usfm"] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                            $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
                         }
                     }
 
                     // End of chunk
-                    $data["usfm"] .= "\n\n";
+                    $usfm_books[$code] .= "\n\n";
+
+                    $lastCode = $code;
                 }
 
-                header('Content-type: text/plain');
-                header("Content-Disposition: attachment; filename=".$book[0]->abbrID."-".strtoupper($book[0]->bookCode).".usfm");
-                echo $data["usfm"];
+                if($bookCode)
+                {
+                    $filename = array_keys($usfm_books)[0];
+
+                    header('Content-type: text/plain');
+                    header("Content-Disposition: attachment; filename=".$filename.".usfm");
+                    echo $usfm_books[$filename];
+                }
+                else
+                {
+                    $zip = new ZipStream("".$books[0]->targetLang."_" . $bookProject . ".zip");
+
+                    foreach ($usfm_books as $filename => $content)
+                    {
+                        $filePath = $filename.".usfm";
+                        $zip->addFile($filePath, $content);
+                    }
+
+                    $zip->finish();
+                }
             }
             else
             {
@@ -243,22 +283,25 @@ class TranslationsController extends Controller
     {
         if($lang != null && $bookProject != null && $bookCode != null)
         {
-            $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            // If bookcode is "dl" then include all the books in archive
+            $bookCode = $bookCode != "dl" ? $bookCode : null;
+
+            $books = $this->_model->getTranslation($lang, $bookProject, $bookCode);
             $lastChapter = -1;
             $chapter = [];
 
-            if(!empty($book) && isset($book[0]))
+            if(!empty($books) && isset($books[0]))
             {
                 $zip = new ZipStream("tn.zip");
-                $root = "".$book[0]->targetLang."_tn/".$book[0]->bookCode;
+                $root = "".$books[0]->targetLang."_tn";
 
-                foreach ($book as $chunk) {
+                foreach ($books as $chunk) {
                     $verses = json_decode($chunk->translatedVerses);
-    
+
                     if($chunk->chapter != $lastChapter)
                     {
                         $lastChapter = $chunk->chapter;
-                        
+
                         $chapters = $this->_eventModel->getChapters(
                             $chunk->eventID,
                             null,
@@ -266,13 +309,14 @@ class TranslationsController extends Controller
                         );
                         $chapter = $chapters[0];
                     }
-                    
+
                     $chunks = (array)json_decode($chapter["chunks"], true);
                     $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
-                    
+
+                    $bookPath = $chunk->bookCode;
                     $chapPath = $chunk->chapter > 0 ? sprintf("%02d", $chunk->chapter) : "front";
                     $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
-                    $filePath = $root."/".$chapPath."/".$chunkPath.".md";
+                    $filePath = $root. "/" . $bookPath ."/".$chapPath."/".$chunkPath.".md";
 
                     $text = $verses->checker->verses;
 
