@@ -3306,7 +3306,11 @@ div[class^="member_usname mid"] {
 
 .event_mode.tn {
     font-style: italic;
-    color: #be00ee;
+    color: #2030ff;
+}
+
+.event_mode.sun {
+    color: #af00cc;
 }
 
 .event_img {
