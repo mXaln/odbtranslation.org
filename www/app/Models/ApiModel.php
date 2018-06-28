@@ -423,7 +423,7 @@ class ApiModel extends Model
         $files = File::allFiles($folderpath);
         foreach($files as $file)
         {
-            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro).md$/", $file, $matches);
+            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro|index).md$/", $file, $matches);
 
             if(!isset($matches[1]) || !isset($matches[2])) return false;
 
@@ -432,6 +432,9 @@ class ApiModel extends Model
 
             if($matches[2] == "intro")
                 $matches[2] = 0;
+
+            if($matches[2] == "index")
+                continue;
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
