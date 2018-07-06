@@ -427,14 +427,14 @@ class ApiModel extends Model
 
             if(!isset($matches[1]) || !isset($matches[2])) return false;
 
+            if($matches[2] == "index")
+                continue;
+
             if($matches[1] == "front")
                 $matches[1] = 0;
 
             if($matches[2] == "intro")
                 $matches[2] = 0;
-
-            if($matches[2] == "index")
-                continue;
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];

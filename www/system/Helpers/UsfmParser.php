@@ -106,7 +106,10 @@ class UsfmParser
                     // Footnotes
                     $vText = preg_replace("/\\\\fqa\s?(.*)\s?\\\\fqa\\*/U", "$1", $vText);
                     $replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"booknote glyphicon glyphicon-file\"></span>";
-                    $vText = preg_replace("/\\\\f\s?\\+\s?\\\\ft\s?(.*)\s?\\\\f\\*/uU", $replacement, $vText);
+                    $vText = preg_replace("/\\\\f(.*)\\\\f\\*/uU", $replacement, $vText);
+
+                    // Proper names
+                    $vText = preg_replace("/\\\\pn\s?(.*)\s?\\\\pn\\*/U", "$1", $vText);
 
                     // Remove all other usfm tags
                     // TODO Parse other usfm tags
