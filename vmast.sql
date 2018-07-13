@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 27, 2018 at 04:42 AM
+-- Generation Time: Jul 11, 2018 at 01:02 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.2.2-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -138,7 +138,7 @@ CREATE TABLE `turn_secret` (
 --
 
 INSERT INTO `turn_secret` (`id`, `realm`, `value`, `expire`) VALUES
-(1, 'v-mast.com', '62tQ9CQQ&95u2ry#zsTbYZ', 1529537006);
+(1, 'v-mast.com', 'Dg6#4YnUj&dbdFmR-u9*@9', 1532693171);
 
 -- --------------------------------------------------------
 
@@ -8559,6 +8559,13 @@ CREATE TABLE `vm_members` (
   `logins` smallint(6) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `vm_members`
+--
+
+INSERT INTO `vm_members` (`memberID`, `userName`, `firstName`, `lastName`, `password`, `email`, `authToken`, `active`, `verified`, `blocked`, `activationToken`, `resetToken`, `resetDate`, `isAdmin`, `isSuperAdmin`, `isDemo`, `logins`) VALUES
+(1, 'superadmin', 'Vmast', 'Admin', '$2y$10$UhIaYzIwYemo12nUeuQKuuwQcYkXnDA8H4VrQGXe/FMnYfWJvou0O', 'superadmin@v-mast.com', 'd39bdc5f9e33d4103d34e662ba5503a9', 1, 1, 0, '81b0a129622f1d682490ebde9eaec754', NULL, NULL, 1, 1, 0, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -8603,6 +8610,13 @@ CREATE TABLE `vm_profile` (
   `church_role` char(160) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `vm_profile`
+--
+
+INSERT INTO `vm_profile` (`pID`, `mID`, `avatar`, `prefered_roles`, `bbl_trans_yrs`, `othr_trans_yrs`, `bbl_knwlg_degr`, `languages`, `mast_evnts`, `mast_role`, `teamwork`, `mast_facilitator`, `org`, `ref_person`, `ref_email`, `education`, `ed_area`, `ed_place`, `hebrew_knwlg`, `greek_knwlg`, `church_role`) VALUES
+(1, 1, 'm1', '[\"translator\"]', '1', '1', '1', '{\"en\":[3,3]}', '1', '', '1', 0, '', '', '', '', '', '', '0', '0', '');
+
 -- --------------------------------------------------------
 
 --
@@ -8616,7 +8630,7 @@ CREATE TABLE `vm_projects` (
   `targetLang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `bookProject` enum('udb','ulb','tn','sun','tn_sun') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
   `sourceLangID` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `sourceBible` enum('udb','ulb','rsb','avd','ayt','hce','kar','dkl','stf','src') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
+  `sourceBible` char(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'udb',
   `notesLangID` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -9565,8 +9579,8 @@ ALTER TABLE `vm_chapters`
   ADD PRIMARY KEY (`chapterID`),
   ADD UNIQUE KEY `Unique` (`eventID`,`memberID`,`chapter`) USING BTREE,
   ADD KEY `eventID` (`eventID`),
-  ADD KEY `member_chapter_cscd` (`memberID`),
-  ADD KEY `trans_chapter_cscd` (`trID`);
+  ADD KEY `trans_chapter_cscd` (`trID`),
+  ADD KEY `member_chapter_cscd` (`memberID`);
 
 --
 -- Indexes for table `vm_checkers_l2`
@@ -9700,85 +9714,85 @@ ALTER TABLE `vm_alma_synonyms`
 -- AUTO_INCREMENT for table `vm_alma_translations`
 --
 ALTER TABLE `vm_alma_translations`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=795;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_alma_votes_track`
 --
 ALTER TABLE `vm_alma_votes_track`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_alma_words`
 --
 ALTER TABLE `vm_alma_words`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3527;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_chapters`
 --
 ALTER TABLE `vm_chapters`
-  MODIFY `chapterID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1698;
+  MODIFY `chapterID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_checkers_l2`
 --
 ALTER TABLE `vm_checkers_l2`
-  MODIFY `l2chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `l2chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
-  MODIFY `l3chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `l3chID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_comments`
 --
 ALTER TABLE `vm_comments`
-  MODIFY `cID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11067;
+  MODIFY `cID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_events`
 --
 ALTER TABLE `vm_events`
-  MODIFY `eventID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `eventID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_gateway_projects`
 --
 ALTER TABLE `vm_gateway_projects`
-  MODIFY `gwProjectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `gwProjectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_keywords`
 --
 ALTER TABLE `vm_keywords`
-  MODIFY `kID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214104;
+  MODIFY `kID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_members`
 --
 ALTER TABLE `vm_members`
-  MODIFY `memberID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `memberID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vm_news`
 --
 ALTER TABLE `vm_news`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_profile`
 --
 ALTER TABLE `vm_profile`
-  MODIFY `pID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `pID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vm_projects`
 --
 ALTER TABLE `vm_projects`
-  MODIFY `projectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `projectID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_sail_dict`
@@ -9790,13 +9804,13 @@ ALTER TABLE `vm_sail_dict`
 -- AUTO_INCREMENT for table `vm_translations`
 --
 ALTER TABLE `vm_translations`
-  MODIFY `tID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10978;
+  MODIFY `tID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vm_translators`
 --
 ALTER TABLE `vm_translators`
-  MODIFY `trID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=413;
+  MODIFY `trID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -9831,7 +9845,7 @@ ALTER TABLE `vm_alma_words`
 --
 ALTER TABLE `vm_chapters`
   ADD CONSTRAINT `event_chapter_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `member_chapter_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `member_chapter_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`),
   ADD CONSTRAINT `trans_chapter_cscd` FOREIGN KEY (`trID`) REFERENCES `vm_translators` (`trID`) ON DELETE CASCADE;
 
 --
@@ -9839,14 +9853,14 @@ ALTER TABLE `vm_chapters`
 --
 ALTER TABLE `vm_checkers_l2`
   ADD CONSTRAINT `event_l2_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `member_l2_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `member_l2_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`);
 
 --
 -- Constraints for table `vm_checkers_l3`
 --
 ALTER TABLE `vm_checkers_l3`
   ADD CONSTRAINT `event_l3_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `member_l3_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `member_l3_cscd` FOREIGN KEY (`memberID`) REFERENCES `vm_members` (`memberID`);
 
 --
 -- Constraints for table `vm_comments`
@@ -9886,7 +9900,7 @@ ALTER TABLE `vm_projects`
 ALTER TABLE `vm_translations`
   ADD CONSTRAINT `event_cscd` FOREIGN KEY (`eventID`) REFERENCES `vm_events` (`eventID`) ON DELETE CASCADE,
   ADD CONSTRAINT `project_cscd` FOREIGN KEY (`projectID`) REFERENCES `vm_projects` (`projectID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `trans_cscd` FOREIGN KEY (`trID`) REFERENCES `vm_translators` (`trID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `trans_cscd` FOREIGN KEY (`trID`) REFERENCES `vm_translators` (`trID`);
 
 --
 -- Constraints for table `vm_translators`
