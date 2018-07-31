@@ -822,7 +822,7 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [5])?>:</span> <?php echo __("peer-review_tn")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review_tn_desc")?></ul>
+                    <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -863,7 +863,7 @@
 
         <div class="tutorial_content">
             <h3><?php echo __("peer-review_tn")?></h3>
-            <ul><?php echo __("peer-review_tn_desc")?></ul>
+            <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
         </div>
     </div>
 </div>

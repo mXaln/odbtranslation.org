@@ -4629,3 +4629,21 @@ button.startEvnt, button.editEvnt {
     font-size: 16px;
     padding: 0 20px;
 }
+
+.reset_info {
+    background: url("/templates/default/assets/img/resetb.jpg") center/100% no-repeat;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: bottom;
+    border-radius: 4px;
+}
+
+.make_chunk_info {
+    background: url("/templates/default/assets/img/chunk.jpg") center/100% no-repeat;
+    width: 30px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: bottom;
+    border-radius: 4px;
+}

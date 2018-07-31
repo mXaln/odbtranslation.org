@@ -85,7 +85,7 @@
 
                 <div class="help_name_steps"><span><?php echo __("step_num", [1])?>:</span> <?php echo __("consume_tn")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("consume_desc")?></ul>
+                    <ul><?php echo __("consume_tn_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
 
         <div class="tutorial_content">
             <h3><?php echo __("consume_tn")?></h3>
-            <ul><?php echo __("consume_desc")?></ul>
+            <ul><?php echo __("consume_tn_desc")?></ul>
         </div>
     </div>
 </div>
