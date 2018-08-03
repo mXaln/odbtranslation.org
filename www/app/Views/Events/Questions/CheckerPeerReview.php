@@ -28,9 +28,8 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [5]). ": " . __("peer-review_tn")?></div>
-            <div class="action_type type_checking <?php echo isset($data["isPeerPage"]) ? "isPeer" : "" ?>">
-            <?php echo __("type_checking"); ?></div>
+            <div><?php echo __("step_num", [4]). ": " . __("peer-review_tq")?></div>
+            <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
     </div>
 
@@ -40,45 +39,28 @@ if(empty($error) && empty($data["success"])):
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                        ."<span class='book_name'>".$data["event"][0]->name." ".
-                        (!$data["nosource"]
-                            ? $data["currentChapter"].":1-".$data["totalVerses"]
-                            : __("front"))."</span>"?></h4>
+                        ."<span class='book_name'>".$data["event"][0]->name." "
+                        .$data["currentChapter"]."</span>"?></h4>
 
                 <div id="my_notes_content" class="my_content">
-                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $verse = $chunk[0]; ?>
                     <div class="row note_chunk">
-                        <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                            <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
-                                <?php foreach(array_values($chunk) as $verse): ?>
-                                    <div class="chunk_verses">
-                                        <strong><sup><?php echo $verse ?></sup></strong>
-                                        <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$chunkNo."_".$verse ?>">
-                                            <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
-                            <?php foreach(array_values($chunk) as $verse): ?>
-                                <div class="note_content">
-                                    <?php if (isset($data["notes"][$verse])): ?>
-                                        <?php foreach ($data["notes"][$verse] as $note): ?>
-                                            <?php echo $note ?>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endforeach; ?>
+                            <div class="note_content">
+                                <?php if (isset($data["questions"][$verse])): ?>
+                                    <?php foreach ($data["questions"][$verse] as $note): ?>
+                                        <?php echo $note ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                         <div class="col-md-6 vnote font_<?php echo $data["event"][0]->targetLang ?>"
                              dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <?php 
                             $parsedown = new Parsedown();
                             $text = isset($data["translation"][$chunkNo]) 
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
                                 : "";
-                            $text = preg_replace('/( title=".*")/', '', $text);
                             ?>
                             <div class="notes_target"><?php echo $text ?></div>
 
@@ -106,14 +88,6 @@ if(empty($error) && empty($data["success"])):
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="notes_translator">
-                            <?php 
-                            $text = isset($data["translation"][$chunkNo])
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
-                                : "";
-                            echo preg_replace('/( title=".*")/', '', $text);
-                            ?>
-                        </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -129,36 +103,36 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [5])?></div>
+                <div class="step_right chk"><?php echo __("step_num", [4])?></div>
             </div>
             <?php //endif; ?>
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps
-                <?php echo $data["isCheckerPage"] ? " is_checker_page_help".
-                    (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
+            <div class="help_info_steps is_checker_page_help">
                 <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [5])?>: </span> <?php echo __("peer-review_tn")?></div>
+                <div class="help_name_steps">
+                    <span><?php echo __("step_num", [4])?>: </span>
+                    <?php echo __("peer-review_tq")?>
+                </div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
+                    <ul><?php echo __("peer-review_tq_chk_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
 
-            <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help".
-                (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
+            <div class="event_info is_checker_page_help">
                 <div class="participant_info">
                     <div class="participant_name">
                         <span><?php echo __("your_translator") ?>:</span>
-                        <span><?php echo $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." ?></span>
+                        <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
                     </div>
                     <div class="additional_info">
-                        <a href="/events/information-tn/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        <a href="/events/information-tq/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>
@@ -173,24 +147,22 @@ if(empty($error) && empty($data["success"])):
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/peer-review.png") ?>" width="100" height="100">
-            <img src="<?php echo template_url("img/steps/big/peer-review.png") ?>" width="280" height="280">
+            <img src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>" width="100" height="100">
+            <img src="<?php echo template_url("img/steps/big/keyword-check.png") ?>" width="280" height="280">
             <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="<?php echo "peer-review_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
+                <label><input id="hide_tutorial" data="<?php echo "keyword-check_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
-        <div class="tutorial_content <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
-            <h3><?php echo __("peer-review_tn")?></h3>
-            <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
+        <div class="tutorial_content is_checker_page_help">
+            <h3><?php echo __("peer-review_tq")?></h3>
+            <ul><?php echo __("peer-review_tq_chk_desc")?></ul>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?5")?>"></script>
+
 <script>
-    var isChecker = true;
-    var disableHighlight = true;
+    isChecker = true;
 
     $(document).ready(function() {
         $("#next_step").click(function (e) {
@@ -211,19 +183,6 @@ if(empty($error) && empty($data["success"])):
 
             e.preventDefault();
         });
-
-        $(".note_chunk").each(function(i, v) {
-            var elm1 = $(".notes_translator", this).html();
-            var elm2 = $(".notes_target", this).html();
-            var out = $(".notes_target", this);
-
-            if(typeof elm1 == "undefined") return true;
-
-            out.html(elm1);
-            diff(elm1, elm2, out);
-        });
     });
-
-    
 </script>
 <?php endif; ?>

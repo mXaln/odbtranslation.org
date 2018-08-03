@@ -57,6 +57,8 @@ return array (
     "choose_project_mode" => "Выберите режим проекта",
     "bible_mode" => "Библия",
     "notes_mode" => "Заметки",
+    "questions_mode" => "Вопросы",
+    "words_mode" => "Слова",
     "project_exists" => "Проект существует",
 
     // Activate method
@@ -222,6 +224,8 @@ return array (
     "gw_language" => "Ключевой язык",
     "book_project" => "Источник перевода",
     "book_notes" => "Источник заметок",
+    "book_questions" => "Источник вопросов",
+    "book_words" => "Источник слов",
     "udb" => "Динамическая Библия",
     "ulb" => "Дословная Библия",
     "sun" => "SUN",
@@ -233,7 +237,8 @@ return array (
     "src" => "Šarić Hrvatski",
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Заметки для перевода",
-    "tn_sun" => "Заметки для перевода (SUN)",
+    "tq" => "Вопросы для перевода",
+    "tw" => "Слова для перевода",
     "vsail" => "vSUN",
     "old_test" => "Ветхий Завет",
     "new_test" => "Новый Завет",
@@ -383,6 +388,8 @@ return array (
     "choose_target_lang" => "Выберите целевой язык",
     "choose_source_trans" => "Выберите источник перевода",
     "choose_source_notes" => "Выберите источник заметок",
+    "choose_source_questions" => "Выберите источник вопросов",
+    "choose_source_words" => "Выберите источник слов",
     "choose_project_type" => "Выберите тип проекта",
     "gw_projects" => "Проекты ключевых языков",
     "gw_project" => "Ключевой язык",
@@ -444,6 +451,7 @@ return array (
     "l2_p1_checker" => "Удалить 1-ого парного проверяющего",
     "l2_p2_checker" => "Удалить 2-ого парного проверяющего",
     "news" => "Новости",
+    "draft" => "Черновик",
     
     // Steps
     "pray" => "Подготовка: Молитва",

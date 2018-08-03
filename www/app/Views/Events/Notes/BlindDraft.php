@@ -45,7 +45,7 @@ if(isset($data["error"])) return;
                         </li>
                     </ul>
 
-                    <div id="my_read_chunk_content" class="my_content shown" dir="<?php echo $data["event"][0]->notesLangDir ?>">
+                    <div id="my_read_chunk_content" class="my_content shown" dir="<?php echo $data["event"][0]->resLangDir ?>">
                         <?php foreach($data["notes"] as $note): ?>
                             <div class="note_content" id="read_chunk_verse">
                                 <?php echo preg_replace(

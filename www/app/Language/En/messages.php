@@ -59,6 +59,8 @@ return array (
     "choose_project_mode" => "Choose Project Mode",
     "bible_mode" => "Bible",
     "notes_mode" => "Notes",
+    "questions_mode" => "Questions",
+    "words_mode" => "Words",
     "project_exists" => "Project exists",
 
     // Activate method
@@ -90,8 +92,6 @@ return array (
     "avatar" => "Choose avatar",
     "male" => "Men",
     "female" => "Women",
-    "translator_rating" => "Rating",
-    "translator_rating_tip" => "Score given to translator based on profile information (from 1 to 4)",
     "save" => "Save",
     "delete" => "Delete",
     "weak" => "weak",
@@ -225,6 +225,8 @@ return array (
     "gw_language" => "Gateway Language",
     "book_project" => "Source Translation",
     "book_notes" => "Source Notes",
+    "book_questions" => "Source Questions",
+    "book_words" => "Source Words",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
     "sun" => "Unlocked Literal Bible (SUN)",
@@ -236,7 +238,8 @@ return array (
     "src" => "Šarić Hrvatski",
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
-    "tn_sun" => "Translation Notes (SUN)",
+    "tq" => "Translation Questions",
+    "tw" => "Translation Words",
     "vsail" => "vSUN",
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
@@ -343,10 +346,7 @@ return array (
     "add_translator" => "Add translators/checkers",
     "add_checker" => "Add checker",
     "assign_chapter_title" => "Assign chapter",
-    "assign_pair_title" => "Create pair",
-    "reset_pair_title" => "Reset pair",
     "assign" => "Assign",
-    "check_pair_members" => "Check members to create pair",
     "start_translation" => "Start translation",
     "start_checking" => "Start Checking",
     "checkers_l2" => "Level 2 checkers",
@@ -385,6 +385,8 @@ return array (
     "choose_target_lang" => "Choose Target Language",
     "choose_source_trans" => "Choose Source Translation",
     "choose_source_notes" => "Choose Source Notes",
+    "choose_source_questions" => "Choose Source Questions",
+    "choose_source_words" => "Choose Source Words",
     "choose_project_type" => "Choose Project Type",
     "gw_projects" => "Gateway Projects",
     "gw_project" => "Gateway Project",
@@ -432,7 +434,7 @@ return array (
     "repository" => "Repository",
     "updated_at" => "Updated at",
     "cancel" => "Cancel",
-    "sail_dictionary" => "SAIL Dictionary",
+    "sail_dictionary" => "SUN Dictionary",
     "filter_by_word" => "Filter by word",
     "copy_symbol_tip" => "Click to copy symbol to clipboard",
     "copied_tip" => "Copied!",
@@ -446,6 +448,7 @@ return array (
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
     "news" => "News",
+    "draft" => "Draft",
 
     // Steps
     "pray" => "Preparation: Prayer",
@@ -453,7 +456,7 @@ return array (
                     <li>Take as long as you would like to for this step.</li>
                     <li>Pray by yourself or pray together as a group.</li>
                     <li>This step is as important as any of the others.</li>
-                    <li>Click \"yes I did\" and “next step” to move to the next step.</li>",
+                    <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
     "pray_text" => "God created all the languages of the world and has given us the ability to learn and use them. 
                     He has also given us His Spirit to help us in everything we do.  
                     Therefore, let us begin by spending time in prayer, giving thanks to the Lord and asking that 
@@ -980,7 +983,7 @@ return array (
                                 <ol>
                                     <li>Can the word be attached to existing symbol?</li>
                                     <li>Can an extension be made instead of a new character?</li>
-                                    <li>If the answers to the above questions are negative, contact the SAIL Director to create a 
+                                    <li>If the answers to the above questions are negative, contact the SUN Director to create a 
                                         new symbol that follows the 3 golden rules of SUN (Simple, Intuitive, Universal), then type the word and 
                                         continue the translation into symbols.  The word will be changed to a symbol in step 7.</li>
                                     <li>Proper nouns are created using the meaning of the name or something significant about the person or place.</li>
@@ -1036,11 +1039,6 @@ return array (
     "event_chapters_error" => "You have to assign at least one chapter to start translation.",
     "peer_check_not_done_error" => "Your previous chapter hasn't been checked by your partner.",
     "cannot_apply_checker" => "An error occured. You cannot apply to check this chapter.",
-    "enter_translators" => "Enter the number of translators.",
-    "enter_checkers_l2" => "Enter the number of level 2 checkers",
-    "enter_checkers_l3" => "Enter the number of level 3 checkers",
-    "wrong_date_from" => "Wrong date of start",
-    "wrong_date_to" => "Wrong date of finish",
     "enter_admins" => "Assign at least one facilitator for this book",
     "empty_draft_verses_error" => "You haven't translated all the verses",
     "empty_words_error" => "An error occurred: empty input",
@@ -1201,7 +1199,7 @@ return array (
     "enter_value" => "Enter a value",
     "tools_member_language" => "Languages (comma separated, default: en)",
     "enter_lang_codes" => "Enter language code(s)",
-    "sail_dictionary_editor" => "SAIL Dictionary Editor",
+    "sail_dictionary_editor" => "SUN Dictionary Editor",
     "create_news" => "Create News",
     "tools_news_title" => "News title",
     "enter_news_title" => "Enter text",

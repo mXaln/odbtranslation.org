@@ -16,6 +16,7 @@ var EventSteps = {
     CHUNKING: "chunking",
     READ_CHUNK: "read-chunk",
     BLIND_DRAFT: "blind-draft",
+    MULTI_DRAFT: "multi-draft",
     REARRANGE: "rearrange",
     SYMBOL_DRAFT : "symbol-draft",
     THEO_CHECK: "theo-check",
@@ -362,7 +363,7 @@ $(document).ready(function() {
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW || step == EventSteps.REARRANGE ||
-            step == EventSteps.SYMBOL_DRAFT ||
+            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.MULTI_DRAFT ||
             step == EventCheckSteps.FST_CHECK || // For Level 2 Check
             step == EventCheckSteps.SND_CHECK ||
             step == EventCheckSteps.PEER_REVIEW_L2)
@@ -1402,7 +1403,7 @@ $(document).ready(function() {
 
     // Summernote text editor for notes
     $(document).ready(function() {
-        $(".add_notes_editor").each(function() {
+        $(".add_notes_editor, .add_questions_editor").each(function() {
             $(this).summernote({
                 lang: siteLang,
                 airMode: true,
@@ -1420,10 +1421,16 @@ $(document).ready(function() {
                 },
                 callbacks: {
                     onInit: function() {
-                        var parent = $(this).parents(".note_chunk");
-                        var noteContent = $(".note_content", parent);
+                        var parent = $(this).parents(".note_chunk, .questions_chunk");
+                        var noteContent = $(".note_content, .question_content", parent);
                         var height = noteContent.actual("height");
-                        $(".notes_editor", parent).css("min-height", height);
+                        $(".notes_editor, .questions_editor", parent).css("min-height", height);
+
+                        if($(this).hasClass("draft_question"))
+                        {
+                            $(this).summernote("disable");
+                            $(".questions_editor", parent).addClass("locked");
+                        }
                     },
                     onPaste: function(e) {
                         e.preventDefault();
@@ -2234,6 +2241,82 @@ $(document).ready(function() {
 
     $("body").on("click", ".saildict_panel .panel-close", function () {
         $(".saildict_panel").hide();
+    });
+
+    // ################ Question Editor ############### //
+
+    $(".consume_q, .verbalize_q, .draft_q").click(function () {
+        var parent = $(this).parents(".parent_q");
+        var verse = parent.data("question");
+        var chapter = parent.data("chapter");
+        var event = parent.data("event");
+        var checked = $(this).is(":checked");
+        var type = $(this).attr("class");
+        var text = $(".add_questions_editor", parent).val();
+
+        if(checked)
+        {
+            switch (type) {
+                case "consume_q":
+                    window.localStorage.setItem("consume_" + event + "_" + chapter + "_" + verse, "done");
+                    $(".verbalize_q", parent).prop("disabled", false);
+                    return true;
+                case "verbalize_q":
+                    window.localStorage.setItem("verbalize_" + event + "_" + chapter + "_" + verse, "done");
+                    $(".draft_q", parent).prop("disabled", false);
+                    $(".add_questions_editor", parent).summernote("enable");
+                    $(".questions_editor", parent).removeClass("locked");
+                    return true;
+                case "draft_q":
+                    if(text != "")
+                    {
+                        window.localStorage.setItem("draft_" + event + "_" + chapter + "_" + verse, "done");
+                        return true;
+                    }
+                    break;
+            }
+        }
+
+        return false;
+    });
+
+    $(".consume_q, .verbalize_q, .draft_q").each(function () {
+        var parent = $(this).parents(".parent_q");
+        var verse = parent.data("question");
+        var chapter = parent.data("chapter");
+        var event = parent.data("event");
+        var type = $(this).attr("class");
+        var text = $(".add_questions_editor", parent).val();
+
+        switch (type) {
+            case "consume_q":
+                var consume = localStorage.getItem("consume_" + event + "_" + chapter + "_" + verse);
+                if(consume == "done")
+                {
+                    $(".consume_q", parent).prop("checked", true);
+                    $(".verbalize_q", parent).prop("disabled", false);
+                }
+                break;
+            case "verbalize_q":
+                var verbalize = localStorage.getItem("verbalize_" + event + "_" + chapter + "_" + verse);
+                if(verbalize == "done")
+                {
+                    $(".verbalize_q", parent).prop("checked", true);
+                    $(".draft_q", parent).prop("disabled", false);
+
+                    // Wait until summernote plugin loads completely
+                    setTimeout(function () {
+                        $(".add_questions_editor", parent).summernote("enable");
+                        $(".questions_editor", parent).removeClass("locked");
+                    }, 1000);
+                }
+                break;
+            case "draft_q":
+                var draft = localStorage.getItem("draft_" + event + "_" + chapter + "_" + verse);
+                if(draft == "done")
+                    $(".draft_q", parent).prop("checked", true);
+                break;
+        }
     });
 });
 

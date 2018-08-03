@@ -1303,6 +1303,14 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/blind-drafting-active.png") no-repeat;
 }
 
+.multi-draft {background-color: #4596cc;}
+.multi-draft-step {
+    background: url("/templates/default/assets/img/steps/verse-by-verse-inactive.png") no-repeat;
+}
+.multi-draft-step.active {
+    background: url("/templates/default/assets/img/steps/verse-by-verse-active.png") no-repeat;
+}
+
 .self-check, .self-check-full {background-color: #4596cc;}
 .self-check-step {
     background: url("/templates/default/assets/img/steps/self-edit-inactive.png") no-repeat;
@@ -1450,6 +1458,11 @@ div.ui-datepicker {
 }
 
 .notes_editor {
+    border: 1px solid #4596cc;
+    background-color: #fff9e4;
+}
+
+.questions_editor {
     border: 1px solid #4596cc;
     background-color: #fff9e4;
 }
@@ -4646,4 +4659,24 @@ button.startEvnt, button.editEvnt {
     display: inline-block;
     vertical-align: bottom;
     border-radius: 4px;
+}
+
+.questions_chunk {
+    margin-left: 15px;
+}
+
+.questions_bd h1 {
+    /*font-size: 20px;*/
+}
+
+.questions_bd {
+    margin-top: 20px;
+}
+
+.questions_editor.locked {
+    background: #fff9e4 url("/templates/default/assets/img/lock.png") no-repeat center/30px;
+}
+
+.buttons_chunk label, .buttons_chunk input {
+    cursor: pointer;
 }

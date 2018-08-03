@@ -43,6 +43,10 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-tn/{eventID}", "EventsController@translatorNotes")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-tq/{eventID}", "EventsController@translatorQuestions")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-tw/{eventID}", "EventsController@translatorWords")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-sun/{eventID}", "EventsController@translatorSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
@@ -52,6 +56,10 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information/{eventID}", "EventsController@information")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-tn/{eventID}", "EventsController@informationNotes")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-tq/{eventID}", "EventsController@informationQuestions")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-tw/{eventID}", "EventsController@informationWords")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-l2/{eventID}", "EventsController@informationL2")
         ->where(["eventID" => "[0-9]+"]);
@@ -87,6 +95,10 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
+    Router::any("checker-tq/{eventID}/{memberID}/{chapter}", "EventsController@checkerQuestions")
+        ->where([
+            "eventID" => "[0-9]+"
+        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
@@ -113,6 +125,13 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "step" => "[2a-z\-]+"
         ]);
     Router::any("checker-sun/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerSun")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+",
+            "step" => "[2a-z\-]+"
+        ]);
+    Router::any("checker-tq/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerQuestions")
         ->where([
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",

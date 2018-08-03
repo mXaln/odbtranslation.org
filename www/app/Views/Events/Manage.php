@@ -281,12 +281,19 @@ if(!isset($error)):
 
                                     <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
                                         <?php
-                                        $altStep = in_array($mode, ["tn"]) ? 3 : ($mode == "sun" ? 4 : 5);
+                                        $altStep = 5;
+                                        if($mode == "tn")
+                                            $altStep = 3;
+                                        elseif($mode == "sun")
+                                            $altStep = 4;
+                                        elseif($mode == "tq" || $mode == "tw")
+                                            $altStep = 0;
+
                                         $add = "";
 
                                         if($step != EventSteps::PRAY && $step != EventSteps::FINISHED)
                                         {
-                                            $add = in_array($mode, ["tn"]) ? "_tn" : "";
+                                            $add = in_array($mode, ["tn"]) ? "_" . $mode : "";
                                         }
                                         if($step == EventSteps::CHUNKING && $mode == "sun")
                                             $add = "_sun";

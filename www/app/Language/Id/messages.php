@@ -59,6 +59,8 @@ return array (
     "choose_project_mode" => "Choose Project Mode",
     "bible_mode" => "Bible",
     "notes_mode" => "Notes",
+    "questions_mode" => "Questions",
+    "words_mode" => "Words",
     "project_exists" => "Project exists",
 
     // Activate method
@@ -223,6 +225,8 @@ return array (
     "gw_language" => "Bahasa Gateway",
     "book_project" => "Sumber Penterjemahan",
     "book_notes" => "Source Notes",
+    "book_questions" => "Source Questions",
+    "book_words" => "Source Words",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
     "sun" => "SUN",
@@ -234,7 +238,8 @@ return array (
     "src" => "Šarić Hrvatski",
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
-    "tn_sun" => "Translation Notes (SUN)",
+    "tq" => "Translation Questions",
+    "tw" => "Translation Words",
     "vsail" => "vSUN",
     "old_test" => "Perjanjian Lama",
     "new_test" => "Perjanjian Baru",
@@ -383,6 +388,8 @@ return array (
     "choose_target_lang" => "Pilih Bahasa Tujuan",
     "choose_source_trans" => "Pilih Terjemahan Sumber",
     "choose_source_notes" => "Choose Source Notes",
+    "choose_source_questions" => "Choose Source Questions",
+    "choose_source_words" => "Choose Source Words",
     "choose_project_type" => "Pilih Jenis Proyek",
     "gw_projects" => "Proyek-proyek Gateway",
     "gw_project" => "Proyek Gateway",
@@ -444,6 +451,7 @@ return array (
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
     "news" => "News",
+    "draft" => "Draft",
     
     // Steps
     "pray" => "Persiapan: Berdoa",

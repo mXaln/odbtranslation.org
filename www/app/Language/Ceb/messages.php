@@ -59,6 +59,8 @@ return array (
     "choose_project_mode" => "Choose Project Mode",
     "bible_mode" => "Bible",
     "notes_mode" => "Notes",
+    "questions_mode" => "Questions",
+    "words_mode" => "Words",
     "project_exists" => "Project exists",
 
     // Activate method
@@ -225,6 +227,8 @@ return array (
     "gw_language" => "Gateway nga Pinulongan",
     "book_project" => "Gigikanan sa Hinubad",
     "book_notes" => "Source Notes",
+    "book_questions" => "Source Questions",
+    "book_words" => "Source Words",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
     "sun" => "SUN",
@@ -236,7 +240,8 @@ return array (
     "src" => "Šarić Hrvatski",
     "ayt" => "SABDA’s Literal Bible",
     "tn" => "Translation Notes",
-    "tn_sun" => "Translation Notes (SUN)",
+    "tq" => "Translation Questions",
+    "tw" => "Translation Words",
     "vsail" => "vSUN",
     "old_test" => "Daang Kasabotan",
     "new_test" => "Bag-ong Kasabotan",
@@ -385,6 +390,8 @@ return array (
     "choose_target_lang" => "Choose Target Language",
     "choose_source_trans" => "Choose Source Translation",
     "choose_source_notes" => "Choose Source Notes",
+    "choose_source_questions" => "Choose Source Questions",
+    "choose_source_words" => "Choose Source Words",
     "choose_project_type" => "Choose Project Type",
     "gw_projects" => "Gateway Projects",
     "gw_project" => "Gateway Project",
@@ -446,6 +453,7 @@ return array (
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
     "news" => "News",
+    "draft" => "Draft",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

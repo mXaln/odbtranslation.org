@@ -18,6 +18,7 @@ class EventSteps
     const CHUNKING              = "chunking";
     const READ_CHUNK            = "read-chunk";
     const BLIND_DRAFT           = "blind-draft";
+    const MULTI_DRAFT           = "multi-draft";
     const REARRANGE             = "rearrange";
     const SYMBOL_DRAFT          = "symbol-draft";
     const SELF_CHECK            = "self-check";
@@ -79,6 +80,26 @@ class EventSteps
         "finished" => 10,
     ];
 
+    private static $enumQuestions = [
+        "none" => 0,
+        "pray" => 1,
+        "multi-draft" => 2,
+        "self-check" => 3,
+        "keyword-check" => 4,
+        "peer-review" => 5,
+        "finished" => 6,
+    ];
+
+    private static $enumWords = [
+        "none" => 0,
+        "pray" => 1,
+        "multi-draft" => 2,
+        "self-check" => 3,
+        "keyword-check" => 4,
+        "peer-review" => 5,
+        "finished" => 6,
+    ];
+
     public static function enum($step, $mode = null, $chk = false)
     {
         switch($mode)
@@ -92,6 +113,14 @@ class EventSteps
 
             case "sun":
                 return self::$enumSun[$step];
+                break;
+
+            case "tq":
+                return self::$enumQuestions[$step];
+                break;
+
+            case "tw":
+                return self::$enumWords[$step];
                 break;
 
             default:
@@ -113,6 +142,14 @@ class EventSteps
 
             case "sun":
                 return self::$enumSun;
+                break;
+
+            case "tq":
+                return self::$enumQuestions;
+                break;
+
+            case "tw":
+                return self::$enumWords;
                 break;
 
             default:

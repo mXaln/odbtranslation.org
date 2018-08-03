@@ -687,13 +687,16 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
         $sourceTranslationNotes = isset($_POST['sourceTranslationNotes']) && $_POST['sourceTranslationNotes'] != "" ? $_POST['sourceTranslationNotes'] : null;
+        $sourceTranslationQuestions = isset($_POST['sourceTranslationQuestions']) && $_POST['sourceTranslationQuestions'] != "" ? $_POST['sourceTranslationQuestions'] : null;
+        $sourceTranslationWords = isset($_POST['sourceTranslationWords']) && $_POST['sourceTranslationWords'] != "" ? $_POST['sourceTranslationWords'] : null;
         $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
-        
+        $resSourceTranslation = null;
+
         if($subGwLangs == null)
         {
             $error[] = __('choose_gw_lang');
@@ -706,24 +709,41 @@ class AdminController extends Controller {
 
         if($sourceTranslation == null)
         {
-            $error[] = __("choose_source_trans");
+            if($projectMode != "tq" && $projectMode != "tw")
+                $error[] = __("choose_source_trans");
         }
-        /*else
-        {
-            if(($sourceTranslation != "ulb|en" && $sourceTranslation != "udb|en") && $projectType == null)
-            {
-                $error[] = __("choose_project_type");
-            }
-        }*/
 
         if($projectType == null)
         {
-            $error[] = __("choose_project_type");
+            if($projectMode != "tq" && $projectMode != "tw")
+                $error[] = __("choose_project_type");
         }
 
         if($projectMode == "tn" && $sourceTranslationNotes == null)
         {
             $error[] = __("choose_source_notes");
+        }
+        else if($projectMode == "tq" && $sourceTranslationQuestions == null)
+        {
+            $error[] = __("choose_source_questions");
+        }
+        else if($projectMode == "tw" && $sourceTranslationWords == null)
+        {
+            $error[] = __("choose_source_words");
+        }
+
+        if($projectMode == "tq" || $projectMode == "tw")
+        {
+            $sourceTranslation = "ulb|en";
+            $projectType = "ulb";
+            if($projectMode == "tq")
+                $resSourceTranslation = $sourceTranslationQuestions;
+            elseif($projectMode == "tw")
+                $resSourceTranslation = $sourceTranslationWords;
+        }
+        elseif($projectMode == "tn")
+        {
+            $resSourceTranslation = $sourceTranslationNotes;
         }
 
         if(!isset($error))
@@ -731,8 +751,8 @@ class AdminController extends Controller {
             $sourceTrPair = explode("|", $sourceTranslation);
             $gwLangsPair = explode("|", $subGwLangs);
 
-            $projType = in_array($projectMode, ['tn']) ?
-                $projectMode . ($projectType == "sun" ? "_sun" : "") : $projectType;
+            $projType = in_array($projectMode, ['tn','tq','tw']) ?
+                $projectMode : $projectType;
             
             $exist = $this->_eventsModel->getProject(["projects.projectID"], [
                 ["projects.gwLang", $gwLangsPair[0]],
@@ -754,7 +774,7 @@ class AdminController extends Controller {
                 "bookProject" => $projType,
                 "sourceBible" => $sourceTrPair[0],
                 "sourceLangID" => $sourceTrPair[1],
-                "notesLangID" => $sourceTranslationNotes
+                "resLangID" => $resSourceTranslation
             );
             
             $id = $this->_eventsModel->createProject($postdata);

@@ -53,7 +53,7 @@ if(isset($data["error"])) return;
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
-                        <div class="col-md-6" dir="<?php echo $data["event"][0]->notesLangDir ?>">
+                        <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <?php foreach(array_values($chunk) as $verse): ?>
                                 <div class="note_content">
                                     <?php if (isset($data["notes"][$verse])): ?>

@@ -77,11 +77,45 @@ $(function () {
         {
             $("#sourceTranslationNotes").val('').trigger("chosen:updated");
             $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
+            $(".sourceTranslationQuestions").addClass("hidden");
+            $("#sourceTranslationWords").val('').trigger("chosen:updated");
+            $(".sourceTranslationWords").addClass("hidden");
+            $(".projectType").removeClass("hidden");
+            $(".sourceTranslation").removeClass("hidden");
         }
         else if($(this).val() == "tn")
         {
             $(".sourceTranslationNotes").removeClass("hidden");
             $("#sourceTranslationNotes").chosen();
+            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
+            $(".sourceTranslationQuestions").addClass("hidden");
+            $("#sourceTranslationWords").val('').trigger("chosen:updated");
+            $(".sourceTranslationWords").addClass("hidden");
+            $(".projectType").removeClass("hidden");
+            $(".sourceTranslation").removeClass("hidden");
+        }
+        else if($(this).val() == "tq")
+        {
+            $(".sourceTranslationQuestions").removeClass("hidden");
+            $("#sourceTranslationQuestions").chosen();
+            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
+            $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslationWords").val('').trigger("chosen:updated");
+            $(".sourceTranslationWords").addClass("hidden");
+            $(".projectType").addClass("hidden");
+            $(".sourceTranslation").addClass("hidden");
+        }
+        else if($(this).val() == "tw")
+        {
+            $(".sourceTranslationWords").removeClass("hidden");
+            $("#sourceTranslationWords").chosen();
+            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
+            $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
+            $(".sourceTranslationQuestions").addClass("hidden");
+            $(".projectType").addClass("hidden");
+            $(".sourceTranslation").addClass("hidden");
         }
     });
     
