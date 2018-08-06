@@ -1792,6 +1792,8 @@ class EventsModel extends Model
      * Get all assigned chapters of event of a translator
      * @param $eventID
      * @param $memberID
+     * @param $chapter
+     * @param $manageMode
      * @return array|static[]
      */
     public function getChapters($eventID, $memberID = null, $chapter = null, $manageMode = "l1")

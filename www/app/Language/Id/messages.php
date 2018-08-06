@@ -607,6 +607,7 @@ return array (
     "event_has_translations_error" => "The event has translation started, so you cannot import another project",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
+    "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
 
     // Success messages
     "you_event_finished_success" => "Anda telah menyelesaikan penerjemahan semua pasal Anda.",

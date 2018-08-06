@@ -87,7 +87,6 @@ class EventSteps
         "self-check" => 3,
         "keyword-check" => 4,
         "peer-review" => 5,
-        "finished" => 6,
     ];
 
     private static $enumWords = [
@@ -97,7 +96,6 @@ class EventSteps
         "self-check" => 3,
         "keyword-check" => 4,
         "peer-review" => 5,
-        "finished" => 6,
     ];
 
     public static function enum($step, $mode = null, $chk = false)
