@@ -498,7 +498,7 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             var add = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn"]) > -1 ? "-tn"
+                && $.inArray(tMode, ["tn","tq","tw"]) > -1 ? "-" + tMode
                     : (typeof manageMode != "undefined" ? "-"+manageMode : "");
 
             $.ajax({

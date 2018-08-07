@@ -48,7 +48,7 @@ if(isset($data["error"])) return;
             <div class="event_info">
                 <div class="participant_info">
                     <div class="additional_info">
-                        <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        <a href="/events/information-tq/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>

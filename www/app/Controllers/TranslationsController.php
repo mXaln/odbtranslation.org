@@ -105,7 +105,7 @@ class TranslationsController extends Controller
                         $chapter = $chapters[0];
 
                         $level = "";
-                        if(!in_array($chunk->bookProject, ["tn"]))
+                        if(!in_array($chunk->bookProject, ["tn","tq","tw"]))
                         {
                             $level = " [".($chapter["l2checked"] ? "L2" : "L1")."]";
                         }
@@ -118,7 +118,7 @@ class TranslationsController extends Controller
                     // Start of chunk
                     $data['book'] .= '<p>';
 
-                    if(!in_array($chunk->bookProject, ["tn"]))
+                    if(!in_array($chunk->bookProject, ["tn","tq","tw"]))
                     {
                         if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
                         {
@@ -143,7 +143,6 @@ class TranslationsController extends Controller
                     {
                         $chunks = (array)json_decode($chapter["chunks"], true);
                         $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
-                        $versesLabel = "";
 
                         if($currChunk[0] != $currChunk[sizeof($currChunk)-1])
                             $versesLabel = __("chunk_verses", $currChunk[0] . "-" . $currChunk[sizeof($currChunk)-1]);
@@ -156,7 +155,11 @@ class TranslationsController extends Controller
                         $data["mode"] = $chunk->bookProject;
 
                         $parsedown = new Parsedown();
-                        $text = $parsedown->text($verses->checker->verses);
+
+                        if($chunk->bookProject == "tn")
+                            $text = $parsedown->text($verses->checker->verses);
+                        else
+                            $text = $parsedown->text($verses->translator->verses);
 
                         $data['book'] .= '<br><strong class="note_chunk_verses">'.$versesLabel.'</strong> '.$text." ";
                     }
@@ -292,8 +295,8 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
-                $zip = new ZipStream("tn.zip");
-                $root = "".$books[0]->targetLang."_tn";
+                $zip = new ZipStream($bookProject . ".zip");
+                $root = "".$books[0]->targetLang."_" . $bookProject;
 
                 foreach ($books as $chunk) {
                     $verses = json_decode($chunk->translatedVerses);
@@ -318,7 +321,10 @@ class TranslationsController extends Controller
                     $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
                     $filePath = $root. "/" . $bookPath ."/".$chapPath."/".$chunkPath.".md";
 
-                    $text = $verses->checker->verses;
+                    if($bookProject == "tn")
+                        $text = $verses->checker->verses;
+                    else
+                        $text = $verses->translator->verses;
 
                     $zip->addFile($filePath, $text);
                 }

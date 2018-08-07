@@ -151,14 +151,19 @@ class EventsController extends Controller
             }
         }
 
-        $myLangs = array_keys(Session::get("profile")["languages"]);
+        //$myLangs = array_keys(Session::get("profile")["languages"]);
         
         $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
         $data["newEvents"] = []; //$this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
         $notesCheckers = $this->_model->getMemberEventsForNotes(Session::get("memberID"));
         $sunCheckers = $this->_model->getMemberEventsForCheckerSun(Session::get("memberID"));
-        $data["myCheckerL1Events"] = array_merge($data["myCheckerL1Events"], $notesCheckers, $sunCheckers);
+        $tqCheckers = $this->_model->getCheckerEventsForQuestions(Session::get("memberID"));
+        $data["myCheckerL1Events"] = array_merge(
+            $data["myCheckerL1Events"],
+            $notesCheckers,
+            $sunCheckers,
+            $tqCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
         $data["myCheckerL3Events"] = [];
         //$data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
@@ -2079,7 +2084,7 @@ class EventsController extends Controller
                         }
 
                         // Check if translator just started translating of this book
-                        $data["event"][0]->justStarted = $data["event"][0]->otherCheck == "";
+                        $data["event"][0]->justStarted = $data["event"][0]->kwCheck == "";
 
                         return View::make('Events/Questions/Translator')
                             ->nest('page', 'Events/Questions/Pray')
@@ -2468,6 +2473,14 @@ class EventsController extends Controller
                                 {
                                     if(!isset($error))
                                     {
+                                        $this->_translationModel->updateTranslation(
+                                            ["translateDone" => true],
+                                            array(
+                                                "trID" => $data["event"][0]->trID,
+                                                )
+                                        );
+
+
                                         $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
 
                                         if(!array_key_exists($data['currentChapter'], $peerCheck))
@@ -6526,6 +6539,350 @@ class EventsController extends Controller
             $response["admins"] = $data["admins"];
             $response["members"] = $data["members"];
             $response["html"] = View::make("Events/Notes/GetInfo")
+                ->shares("data", $data)
+                ->renderContents();
+
+            echo json_encode($response);
+        }
+    }
+
+
+    public function informationQuestions($eventID)
+    {
+        $data["menu"] = 1;
+        $data["event"] = $this->_model->getEventMember($eventID, Session::get("memberID"), true);
+        $data["isAdmin"] = false;
+        $canViewInfo = false;
+        $isAjax = false;
+
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+        {
+            $isAjax = true;
+            $response = ["success" => false];
+        }
+
+        if(!empty($data["event"]))
+        {
+            if(!in_array($data["event"][0]->bookProject, ["tq"]))
+            {
+                Url::redirect("events/");
+            }
+
+            $admins = (array)json_decode($data["event"][0]->admins, true);
+
+            if($data["event"][0]->translator === null && $data["event"][0]->checker === null
+                && $data["event"][0]->checker_l2 === null && $data["event"][0]->checker_l3 === null)
+            {
+                // If member is not a participant of the event, check if he is a facilitator
+                if(Session::get("isAdmin"))
+                {
+                    $data["isAdmin"] = $canViewInfo = in_array(Session::get("memberID"), $admins);
+
+                    if(!$data["isAdmin"])
+                    {
+                        if(Session::get("isSuperAdmin")) // Or superadmin
+                        {
+                            $data["isAdmin"] = $canViewInfo = true;
+                        }
+                        else
+                        {
+                            if(!$isAjax)
+                                $error[] = __("empty_or_not_permitted_event_error");
+                            else
+                            {
+                                $response["errorType"] = "empty_no_permission";
+                                echo json_encode($response);
+                                exit;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if(!$isAjax)
+                        $error[] = __("empty_or_not_permitted_event_error");
+                    else
+                    {
+                        $response["errorType"] = "empty_no_permission";
+                        echo json_encode($response);
+                        exit;
+                    }
+                }
+            }
+            else
+            {
+                $canViewInfo = true;
+                if(Session::get("isAdmin"))
+                {
+                    $data["isAdmin"] = in_array(Session::get("memberID"), $admins)
+                        || Session::get("isSuperAdmin");
+                }
+            }
+
+            if($data["event"][0]->state == "started" && $canViewInfo)
+            {
+                if(!$isAjax)
+                    $error[] = __("not_started_event_error", array($data["event"][0]->eventID));
+                else
+                {
+                    $response["errorType"] = "not_started";
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+        }
+        else
+        {
+            if(!$isAjax)
+                $error[] = __("empty_or_not_permitted_event_error");
+            else
+            {
+                $response["errorType"] = "empty_no_permission";
+                echo json_encode($response);
+                exit;
+            }
+        }
+
+        if(!isset($error))
+        {
+            $data["chapters"] = [];
+            for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
+            {
+                $data["chapters"][$i] = [];
+            }
+
+            $chapters = $this->_model->getChapters($data["event"][0]->eventID);
+
+            foreach ($chapters as $chapter) {
+                $tmp["trID"] = $chapter["trID"];
+                $tmp["memberID"] = $chapter["memberID"];
+                $tmp["chunks"] = json_decode($chapter["chunks"], true);
+                $tmp["done"] = $chapter["done"];
+
+                $data["chapters"][$chapter["chapter"]] = $tmp;
+            }
+
+            $members = [];
+            $overallProgress = 0;
+
+            $chunks = $this->_translationModel->getTranslationByEventID($data["event"][0]->eventID);
+
+            $memberSteps = [];
+
+            foreach ($chunks as $chunk) {
+                if(!array_key_exists($chunk->memberID, $memberSteps))
+                {
+                    $memberSteps[$chunk->memberID]["step"] = $chunk->step;
+                    $memberSteps[$chunk->memberID]["kwCheck"] = $chunk->kwCheck;
+                    $memberSteps[$chunk->memberID]["peerCheck"] = $chunk->peerCheck;
+                    $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
+                    $members[$chunk->memberID] = "";
+                }
+
+                if($chunk->chapter == null)
+                    continue;
+
+                $verses = (array) json_decode($chunk->translatedVerses, true);
+                $hasVerse = !empty($verses)
+                    && isset($verses[EventMembers::TRANSLATOR])
+                    && $verses[EventMembers::TRANSLATOR]["verses"] != "";
+
+                if(!$hasVerse) continue;
+
+                $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
+
+                if(!isset($data["chapters"][$chunk->chapter]["lastEdit"]))
+                {
+                    $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+                }
+                else
+                {
+                    $prevDate = strtotime($data["chapters"][$chunk->chapter]["lastEdit"]);
+                    if($prevDate < strtotime($chunk->dateUpdate))
+                        $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+                }
+            }
+
+            foreach ($data["chapters"] as $key => $chapter) {
+                if(empty($chapter)) continue;
+
+                $multiState = StepsStates::NOT_STARTED;
+
+                $members[$chapter["memberID"]] = "";
+                $data["chapters"][$key]["progress"] = 0;
+
+                $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
+                $kwCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["kwCheck"], true);
+                $peerCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["peerCheck"], true);
+
+                // Set default values
+                $data["chapters"][$key]["multi"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["kwc"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["kwc"]["checkerID"] = "na";
+                $data["chapters"][$key]["peer"]["state"] = StepsStates::NOT_STARTED;
+                $data["chapters"][$key]["peer"]["checkerID"] = "na";
+
+                // When no chunks created or translation not started
+                if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
+                {
+                    $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+                    $data["chapters"][$key]["step"] = $currentStep;
+
+                    if($currentStep == EventSteps::MULTI_DRAFT)
+                        $multiState = StepsStates::IN_PROGRESS;
+                    $data["chapters"][$key]["multi"]["state"] = $multiState;
+
+                    $overallProgress += $data["chapters"][$key]["progress"];
+
+                    $data["chapters"][$key]["chunksData"] = [];
+                    continue;
+                }
+
+                $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+
+                // Total translated chunks are 25% of all chapter progress
+                $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 25 / sizeof($chapter["chunks"]);
+                $data["chapters"][$key]["step"] = $currentChapter == $key ? $currentStep : EventSteps::FINISHED;
+
+                $kw = !empty($kwCheck)
+                    && array_key_exists($key, $kwCheck);
+                $peer = !empty($peerCheck)
+                    && array_key_exists($key, $peerCheck);
+
+                if($kw)
+                {
+                    // Keyword check
+                    $data["chapters"][$key]["multi"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                    if($kwCheck[$key]["memberID"] > 0)
+                    {
+                        $members[$kwCheck[$key]["memberID"]] = "";
+                        $data["chapters"][$key]["kwc"]["checkerID"] = $kwCheck[$key]["memberID"];
+
+                        if($kwCheck[$key]["done"] == 1)
+                        {
+                            if($currentChapter == $key && $currentStep == EventSteps::KEYWORD_CHECK)
+                                $data["chapters"][$key]["kwc"]["state"] = StepsStates::CHECKED;
+                            else
+                                $data["chapters"][$key]["kwc"]["state"] = StepsStates::FINISHED;
+
+                            // Peer check
+                            if($peer)
+                            {
+                                $members[$peerCheck[$key]["memberID"]] = "";
+                                $data["chapters"][$key]["peer"]["checkerID"] = $peerCheck[$key]["memberID"];
+
+                                if($peerCheck[$key]["done"] == 1)
+                                {
+                                    if($currentChapter == $key && $currentStep == EventSteps::PEER_REVIEW)
+                                        $data["chapters"][$key]["peer"]["state"] = StepsStates::CHECKED;
+                                    else
+                                        $data["chapters"][$key]["peer"]["state"] = StepsStates::FINISHED;
+                                }
+                                elseif($peerCheck[$key]["memberID"] > 0)
+                                {
+                                    $data["chapters"][$key]["peer"]["state"] = StepsStates::IN_PROGRESS;
+                                }
+                                else
+                                {
+                                    $data["chapters"][$key]["peer"]["state"] = StepsStates::WAITING;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["kwc"]["state"] = StepsStates::IN_PROGRESS;
+                        }
+                    }
+                    else
+                    {
+                        $data["chapters"][$key]["kwc"]["state"] = StepsStates::WAITING;
+                    }
+                }
+                else
+                {
+                    if($currentStep == EventSteps::MULTI_DRAFT)
+                    {
+                        $data["chapters"][$key]["multi"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::SELF_CHECK)
+                    {
+                        $data["chapters"][$key]["multi"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                }
+
+
+                // Progress checks
+                if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 25;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 12;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 25;
+                if($data["chapters"][$key]["peer"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 12;
+                if($data["chapters"][$key]["peer"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 25;
+
+                $overallProgress += $data["chapters"][$key]["progress"];
+            }
+
+            $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
+
+            $empty = array_fill(0, sizeof($admins), "");
+            $adminsArr = array_combine($admins, $empty);
+
+            $members += $adminsArr;
+            $membersArray = (array)$this->_membersModel->getMembers(array_filter(array_keys($members)));
+
+            foreach ($membersArray as $member) {
+                $members[$member->memberID] = [];
+                $members[$member->memberID]["userName"] = $member->userName;
+                $members[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                $members[$member->memberID]["avatar"] = $member->avatar;
+            }
+
+            foreach ($members as $key => $member) {
+                if(!is_numeric($key) && $key != "na")
+                {
+                    $name = $members[$key];
+                    $members[$key] = [];
+                    $members[$key]["userName"] = $key;
+                    $members[$key]["name"] = $name;
+                    $members[$key]["avatar"] = "n1";
+                }
+            }
+
+            $members["na"] = __("not_available");
+            $members = array_filter($members);
+
+            $data["admins"] = $admins;
+            $data["members"] = $members;
+        }
+
+        $data["notifications"] = $this->_notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+
+        if(!$isAjax)
+        {
+            return View::make('Events/Questions/Information')
+                ->shares("title", __("event_info"))
+                ->shares("data", $data)
+                ->shares("error", @$error);
+        }
+        else
+        {
+            $this->layout = "dummy";
+            $response["success"] = true;
+            $response["progress"] = $data["overall_progress"];
+            $response["admins"] = $data["admins"];
+            $response["members"] = $data["members"];
+            $response["html"] = View::make("Events/Questions/GetInfo")
                 ->shares("data", $data)
                 ->renderContents();
 

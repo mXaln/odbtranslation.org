@@ -112,7 +112,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
-                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
+                        (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
             }
@@ -220,7 +220,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
-                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
+                        (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
             }
@@ -352,7 +352,7 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
+                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -429,9 +429,9 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action check1">
                 <div class="event_link">
-                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "")
+                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "")
                             ."/".$event->eventID."/".$event->memberID
-                            .(isset($event->isContinue) ? "/".$event->currentChapter : "")?>"
+                            .(isset($event->isContinue) || in_array($event->bookProject, ["tq","tw"]) ? "/".$event->currentChapter : "")?>"
                        data="<?php echo $event->eventID."_".$event->memberID?>">
                         <?php echo __("continue_alt") ?>
                     </a>
