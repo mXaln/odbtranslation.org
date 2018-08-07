@@ -339,7 +339,7 @@ $(function () {
         $(".event-content").css("left", 0);
         $("#adminsSelect").empty().trigger("chosen:updated");
 
-        if(["tn"].indexOf(bookProject) > -1)
+        if(["tn","tq","tw"].indexOf(bookProject) > -1)
         {
             $(".importTranslation").hide();
             $(".importInfo").hide();
@@ -421,7 +421,7 @@ $(function () {
                 if(data.success)
                 {
                     if(EventStates.states[data.event.state] >= EventStates.states.translating
-                        || ["tn"].indexOf(data.event.bookProject) > -1)
+                        || ["tn","tq","tw"].indexOf(data.event.bookProject) > -1)
                     {
                         $(".importTranslation").hide();
                         $(".importInfo").hide();
