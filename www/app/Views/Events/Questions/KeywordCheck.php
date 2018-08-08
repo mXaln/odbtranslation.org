@@ -19,7 +19,7 @@ if(isset($data["error"])) return;
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <?php echo __("step_num", [3]) . ": " . __("keyword-check_tq")?>
+            <?php echo __("step_num", [3]) . ": " . __("keyword-check")?>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
@@ -42,6 +42,11 @@ if(isset($data["error"])) return;
                 <div id="my_notes_content" class="my_content">
                     <?php foreach($data["chunks"] as $chunkNo => $chunk): $verse = $chunk[0]; ?>
                     <div class="row note_chunk">
+                        <div class="row">
+                            <div class="col-md-4" style="color: #00a74d; font-weight: bold;">
+                                <?php echo __("verse_number", $verse) ?>
+                            </div>
+                        </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <div class="note_content">
                                 <?php if (isset($data["questions"][$verse])): ?>
@@ -120,7 +125,7 @@ if(isset($data["error"])) return;
 
                 <div class="help_name_steps">
                     <span><?php echo __("step_num", [3])?>: </span>
-                    <?php echo __("keyword-check_tq")?>
+                    <?php echo __("keyword-check")?>
                 </div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("keyword-check_tq_desc")?></ul>
@@ -162,7 +167,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("keyword-check_tq")?></h3>
+            <h3><?php echo __("keyword-check")?></h3>
             <ul><?php echo __("keyword-check_tq_desc")?></ul>
         </div>
     </div>

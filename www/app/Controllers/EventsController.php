@@ -8393,6 +8393,8 @@ class EventsController extends Controller
         if(!isset($page))
             Url::redirect("events/demo/pray");
 
+        $notifications = [];
+
         for($i=0; $i<3; $i++)
         {
             $notifObj = new \stdClass();
@@ -8521,6 +8523,241 @@ class EventsController extends Controller
     {
         if(!isset($page))
             Url::redirect("events/demo-tn/pray");
+
+        $notifications = [];
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new \stdClass();
+
+            if($i == 0)
+            {
+                $notifObj->currentChapter = 1;
+                $notifObj->firstName = "Mark";
+                $notifObj->lastName = "Patton";
+                $notifObj->bookCode = "act";
+                $notifObj->bookProject = "tn";
+                $notifObj->tLang = "Bahasa Indonesia";
+                $notifObj->bookName = "Acts";
+                $notifObj->step = "notes";
+                $notifObj->manageMode = "tn";
+            }
+            else
+            {
+                $notifObj->step = EventSteps::PEER_REVIEW;
+                $notifObj->currentChapter = 1;
+                $notifObj->firstName = "Genry";
+                $notifObj->lastName = "Miller";
+                $notifObj->bookCode = "act";
+                $notifObj->bookProject = "tn";
+                $notifObj->tLang = "Bahasa Indonesia";
+                $notifObj->bookName = "Acts";
+                $notifObj->manageMode = "tn";
+            }
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isDemo"] = true;
+        $data["menu"] = 1;
+        $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
+
+        $view = View::make("Events/Notes/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/Notes/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/Notes/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "read_chunk":
+                $view->nest("page", "Events/Notes/Demo/ReadChunk");
+                $data["step"] = EventSteps::READ_CHUNK;
+                break;
+
+            case "blind_draft":
+                $view->nest("page", "Events/Notes/Demo/BlindDraft");
+                $data["step"] = EventSteps::BLIND_DRAFT;
+                break;
+
+            case "self_check":
+                $view->nest("page", "Events/Notes/Demo/SelfEdit");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "pray_chk":
+                $view->nest("page", "Events/Notes/Demo/PrayChk");
+                $data["step"] = EventSteps::PRAY;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "consume_chk":
+                $view->nest("page", "Events/Notes/Demo/ConsumeChk");
+                $data["step"] = EventSteps::CONSUME;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "highlight":
+                $view->nest("page", "Events/Notes/Demo/Highlight");
+                $data["step"] = EventSteps::HIGHLIGHT;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "self_check_chk":
+                $view->nest("page", "Events/Notes/Demo/SelfEditChk");
+                $data["step"] = EventSteps::SELF_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "highlight_chk":
+                $view->nest("page", "Events/Notes/Demo/HighlightChk");
+                $data["step"] = EventSteps::KEYWORD_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "peer_review":
+                $view->nest("page", "Events/Notes/Demo/PeerReview");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "peer_review_checker":
+                $view->nest("page", "Events/Notes/Demo/PeerReviewChecker");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
+                $data["isPeerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/Notes/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
+    public function demoTq($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-tq/pray");
+
+        $notifications = [];
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new \stdClass();
+
+            if($i == 0)
+            {
+                $notifObj->currentChapter = 1;
+                $notifObj->firstName = "Антон";
+                $notifObj->lastName = "Шилов";
+                $notifObj->bookCode = "3jn";
+                $notifObj->bookProject = "tq";
+                $notifObj->tLang = "Русский";
+                $notifObj->bookName = "3 John";
+                $notifObj->step = EventSteps::KEYWORD_CHECK;
+                $notifObj->manageMode = "tq";
+            }
+            else
+            {
+                $notifObj->step = EventSteps::PEER_REVIEW;
+                $notifObj->currentChapter = 1;
+                $notifObj->firstName = "Антон";
+                $notifObj->lastName = "Шилов";
+                $notifObj->bookCode = "3jn";
+                $notifObj->bookProject = "tq";
+                $notifObj->tLang = "Русский";
+                $notifObj->bookName = "3 John";
+                $notifObj->manageMode = "tq";
+            }
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isDemo"] = true;
+        $data["menu"] = 1;
+        $data["isCheckerPage"] = false;
+
+        $view = View::make("Events/Questions/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/Questions/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "multi_draft":
+                $view->nest("page", "Events/Questions/Demo/MultiDraft");
+                $data["step"] = EventSteps::MULTI_DRAFT;
+                break;
+
+            case "self_check":
+                $view->nest("page", "Events/Questions/Demo/SelfEdit");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "keyword_check":
+                $view->nest("page", "Events/Questions/Demo/KeywordCheck");
+                $data["step"] = EventSteps::KEYWORD_CHECK;
+                break;
+
+            case "keyword_check_checker":
+                $view->nest("page", "Events/Questions/Demo/KeywordCheckChecker");
+                $data["step"] = EventSteps::KEYWORD_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "peer_review":
+                $view->nest("page", "Events/Questions/Demo/PeerReview");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                break;
+
+            case "peer_review_checker":
+                $view->nest("page", "Events/Questions/Demo/PeerReviewChecker");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/Questions/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
+    public function demoTw($page = null)
+    {
+        echo "Not implemented...";
+        exit;
+
+        if(!isset($page))
+            Url::redirect("events/demo-tw/pray");
+
+        $notifications = [];
 
         for($i=0; $i<2; $i++)
         {

@@ -42,6 +42,11 @@ if(isset($data["error"])) return;
                 <div id="my_notes_content" class="my_content">
                     <?php foreach($data["chunks"] as $chunkNo => $chunk): $verse = $chunk[0]; ?>
                     <div class="row note_chunk">
+                        <div class="row">
+                            <div class="col-md-4" style="color: #00a74d; font-weight: bold;">
+                                <?php echo __("verse_number", $verse) ?>
+                            </div>
+                        </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <div class="note_content">
                                 <?php if (isset($data["questions"][$verse])): ?>

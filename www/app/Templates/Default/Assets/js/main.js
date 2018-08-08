@@ -2258,11 +2258,13 @@ $(document).ready(function() {
         {
             switch (type) {
                 case "consume_q":
-                    window.localStorage.setItem("consume_" + event + "_" + chapter + "_" + verse, "done");
+                    if(event > 0)
+                        window.localStorage.setItem("consume_" + event + "_" + chapter + "_" + verse, "done");
                     $(".verbalize_q", parent).prop("disabled", false);
                     return true;
                 case "verbalize_q":
-                    window.localStorage.setItem("verbalize_" + event + "_" + chapter + "_" + verse, "done");
+                    if(event > 0)
+                        window.localStorage.setItem("verbalize_" + event + "_" + chapter + "_" + verse, "done");
                     $(".draft_q", parent).prop("disabled", false);
                     $(".add_questions_editor", parent).summernote("enable");
                     $(".questions_editor", parent).removeClass("locked");
@@ -2270,7 +2272,8 @@ $(document).ready(function() {
                 case "draft_q":
                     if(text != "")
                     {
-                        window.localStorage.setItem("draft_" + event + "_" + chapter + "_" + verse, "done");
+                        if(event > 0)
+                            window.localStorage.setItem("draft_" + event + "_" + chapter + "_" + verse, "done");
                         return true;
                     }
                     break;
@@ -2287,6 +2290,8 @@ $(document).ready(function() {
         var event = parent.data("event");
         var type = $(this).attr("class");
         var text = $(".add_questions_editor", parent).val();
+
+        if(event == 0) return true;
 
         switch (type) {
             case "consume_q":

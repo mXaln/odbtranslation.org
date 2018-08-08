@@ -16,6 +16,8 @@ $profile = Session::get("profile");
                 <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
                 <a href="/events/demo-l2"><li><?php echo __("l2_3_events", [2]); ?></li></a>
                 <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
+                <a href="/events/demo-tq"><li><?php echo __("tq") ?></li></a>
+                <a href="/events/demo-tw"><li><?php echo __("tw") ?></li></a>
                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
             </ul>
         </div>
