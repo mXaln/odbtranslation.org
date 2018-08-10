@@ -18,15 +18,9 @@ if(!empty($data["project"])):
 
     <div class="form-inline dt-bootstrap no-footer">
         <div class="row">
-            <div class="col-sm-6">
-                <ul class="nav nav-pills book-parts">
-                    <li role="presentation" class="active"><a href="#old_test"><?php echo __("old_test") ?></a></li>
-                    <li role="presentation"><a href="#new_test"><?php echo __("new_test") ?></a></li>
-                </ul>
-            </div>
             <div class="add-event-btn col-sm-5">
                 <img class="cacheLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
-                <button style="margin-top: 12px" class="btn btn-danger" 
+                <button style="margin-top: 12px;" class="btn btn-danger"
                         name="updateAllCache"
                         data-sourcelangid="<?php echo $data["project"][0]->sourceLangID ?>"
                         data-sourcebible="<?php echo $data["project"][0]->sourceBible ?>"><?php echo __("update_cache_all") ?></button>
@@ -34,10 +28,10 @@ if(!empty($data["project"])):
         </div>
 
         <?php foreach($data["events"] as $event): ?>
-            <?php if($event->abbrID > 67) continue; ?>
-            <?php if($event->abbrID == 1): ?>
+            <?php if($event->abbrID < 68 || $event->abbrID > 70) continue; ?>
             <div class="row" id="old_test">
-                <div class="project_progress progress <?php echo $data["OTprogress"] <= 0 ? "zero" : ""?>">
+                <div class="project_progress progress <?php echo $data["TWprogress"] <= 0 ? "zero" : ""?>"
+                     style="left: 30px;">
                     <div class="progress-bar progress-bar-success" role="progressbar"
                          aria-valuenow="<?php echo floor($data["OTprogress"]) ?>"
                          aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["OTprogress"])."%" ?>">
@@ -45,32 +39,20 @@ if(!empty($data["project"])):
                     </div>
                 </div>
                 <div class="col-sm-12">
-            <?php elseif($event->abbrID == 41): ?>
-            <div class="row" id="new_test">
-                <div class="project_progress progress <?php echo $data["NTprogress"] <= 0 ? "zero" : ""?>">
-                    <div class="progress-bar progress-bar-success" role="progressbar"
-                         aria-valuenow="<?php echo floor($data["NTprogress"]) ?>"
-                         aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["NTprogress"])."%" ?>">
-                        <?php echo floor($data["NTprogress"])."%" ?>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-            <?php endif; ?>
-                <?php if($event->abbrID == 1 || $event->abbrID == 41): ?>
-
-                <table class="table table-bordered table-hover" role="grid">
-                    <thead>
-                    <tr>
-                        <th><?php echo __("book") ?></th>
-                        <th><?php echo __("time_start") ?></th>
-                        <th><?php echo __("time_end") ?></th>
-                        <th><?php echo __("state") ?></th>
-                        <th><?php echo __("contributors") ?></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                <?php endif; ?>
+                    <?php if($event->abbrID == 68): ?>
+                    <table class="table table-bordered table-hover" role="grid">
+                        <thead>
+                        <tr>
+                            <th><?php echo __("book") ?></th>
+                            <th><?php echo __("time_start") ?></th>
+                            <th><?php echo __("time_end") ?></th>
+                            <th><?php echo __("state") ?></th>
+                            <th><?php echo __("contributors") ?></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                    <?php endif; ?>
                         <tr>
                             <td><?php echo $event->name ?></td>
                             <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
@@ -115,12 +97,7 @@ if(!empty($data["project"])):
                             </td>
                         </tr>
 
-            <?php if($event->abbrID == 39): ?>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-            <?php elseif($event->abbrID == 67): ?>
+            <?php if($event->abbrID == 70): ?>
                     </tbody>
                 </table>
                 </div>
@@ -141,14 +118,13 @@ if(!empty($data["project"])):
 
         <div class="page-content row panel-body">
             <div class="bookName"></div>
-            <div class="book_info_content"></div>
             <div class="clear"></div>
 
             <div class="errors"></div>
 
             <div class="row">
                 <div class="col-sm-12">
-                    <form action="/admin/rpc/create_event" method="post" id="startEvent">
+                    <form action="/admin/rpc/create_tw_event" method="post" id="startEvent">
                         <div class="form-group" style="width: 450px;">
                             <label for="adminsSelect" style="width: 100%; display: block"><?php echo __('facilitators'); ?></label>
                             <select class="form-control" name="admins[]" id="adminsSelect" multiple data-placeholder="<?php echo __("add_admins_by_username") ?>">
@@ -180,7 +156,7 @@ if(!empty($data["project"])):
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button name="progressEvent" data-mode="<?php echo $data["project"][0]->bookProject?>" class="btn btn-success"><?php echo __("progress"); ?></button>
-                        <button name="manageEvent" class="btn btn-warning"><?php echo __("manage"); ?></button>
+                        <button name="manageEvent" data-mode="<?php echo $data["project"][0]->bookProject?>" class="btn btn-warning"><?php echo __("manage"); ?></button>
                         &nbsp;&nbsp;
                         <button name="clearCache" class="btn btn-danger" title="<?php echo __("clear_cache_info") ?>"><?php echo __("clear_cache"); ?></button>
 
@@ -199,74 +175,6 @@ if(!empty($data["project"])):
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="import_menu_content form-panel">
-    <div class="import_menu_content_body panel panel-default">
-        <div class="import_menu">
-            <ul>
-                <li><?php echo __("import_options") ?></li>
-                <li data-type="dcs">
-                    <label role="button"><?php echo __("import_from_dcs") ?></label>
-                </li>
-                <li data-type="usfm">
-                    <form id="usfm_form">
-                        <label for="usfm_import" role="button"><?php echo __("import_from_usfm") ?>
-                            <input type="file" name="import" id="usfm_import" accept=".usfm" />
-                            <input type="hidden" name="type" value="usfm" />
-                        </label>
-                    </form>
-                </li>
-                <li data-type="ts">
-                    <form id="ts_form">
-                        <label for="ts_import" role="button"><?php echo __("import_from_ts") ?>
-                            <input type="file" name="import" id="ts_import" accept=".tstudio" />
-                            <input type="hidden" name="type" value="ts" />
-                        </label>
-                    </form>
-                </li>
-                <li>
-                    <img class="importLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
-                    <?php echo __("cancel") ?>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-<div class="dcs_import_menu_content form-panel">
-    <div class="dcs_import_menu_content_body panel panel-default">
-        <div class="dcs_import_menu">
-            <ul>
-                <li><?php echo __("import_from_dcs") ?></li>
-                <li data-type="dcs">
-                    <form id="dcs_form">
-                        <input class="form-control" type="text" name="dcs_repo_name" placeholder="<?php echo __("repository_name") ?>" />
-                        <div class="dcs_list">
-                            <table class="table table-hover" role="grid">
-                                <thead>
-                                <tr>
-                                    <th><?php echo __("userName") ?></th>
-                                    <th><?php echo __("repository") ?></th>
-                                    <th><?php echo __("updated_at") ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <input type="hidden" name="import" value="" />
-                    </form>
-                </li>
-                <li>
-                    <img class="importLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
-                    <?php echo __("cancel") ?>
-                </li>
-            </ul>
         </div>
     </div>
 </div>

@@ -500,7 +500,7 @@ class EventsModel extends Model
      * @param $chapter
      * @return array
      */
-    public function getCheckerEventsForQuestions($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
+    public function getCheckerEventsForQuestionsWords($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
     {
         $prepare = [];
         if($eventID)
@@ -526,7 +526,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS res_lang ON ".PREFIX."projects.resLangID = res_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE ".PREFIX."projects.bookProject = 'tq' ".
+            "WHERE (".PREFIX."projects.bookProject = 'tq' OR ".PREFIX."projects.bookProject = 'tw') ".
             ($eventID ? "AND trs.eventID = :eventID " : " ").
             ($chkMemberID ? "AND trs.memberID = :chkMemberID " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
@@ -938,7 +938,7 @@ class EventsModel extends Model
             "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt, ".
-            "gwproj.admins AS superadmins ".
+            "gwproj.admins AS superadmins, proj.resLangID ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
             "LEFT JOIN ".PREFIX."gateway_projects AS gwproj ON proj.gwProjectID = gwproj.gwProjectID ".
@@ -1187,7 +1187,7 @@ class EventsModel extends Model
     }
 
 
-    public function getNotificationsQuestions()
+    public function getNotificationsQuestionsWords()
     {
         $sql = "SELECT trs.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
@@ -1204,7 +1204,7 @@ class EventsModel extends Model
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
             "OR ".PREFIX."events.admins LIKE :adminID) ".
             "AND trs.kwCheck != '' AND trs.memberID != :memberID ".
-            "AND ".PREFIX."projects.bookProject = 'tq'";
+            "AND (".PREFIX."projects.bookProject = 'tq' OR ".PREFIX."projects.bookProject = 'tw')";
 
         $prepare = [
             ":memberID" => Session::get("memberID"),
@@ -1223,10 +1223,20 @@ class EventsModel extends Model
                 // Exclude taken chapters
                 if($data["memberID"] > 0) continue;
 
+                if($notification->bookProject == "tw")
+                {
+                    $group = $this->getTwGroups([
+                        "groupID" => $chapter,
+                        "eventID" => $notification->eventID]);
+
+                    $words = (array) json_decode($group[0]->words, true);
+                    $notification->group = $words[0] . "..." . $words[sizeof($words)-1];
+                }
+
                 $note = clone $notification;
                 $note->currentChapter = $chapter;
                 $note->step = EventSteps::KEYWORD_CHECK;
-                $note->manageMode = "tq";
+                $note->manageMode = $notification->bookProject;
                 $notifs[] = $note;
             }
 
@@ -1237,11 +1247,21 @@ class EventsModel extends Model
                 // Exclude member that is already in otherCheck
                 //if($kwCheck[$chapter]["memberID"] == Session::get("memberID")) continue;
 
+                if($notification->bookProject == "tw")
+                {
+                    $group = $this->getTwGroups([
+                        "groupID" => $chapter,
+                        "eventID" => $notification->eventID]);
+
+                    $words = (array) json_decode($group[0]->words, true);
+                    $notification->group = $words[0] . "..." . $words[sizeof($words)-1];
+                }
+
                 $note = clone $notification;
 
                 $note->currentChapter = $chapter;
                 $note->step = EventSteps::PEER_REVIEW;
-                $note->manageMode = "tq";
+                $note->manageMode = $note->manageMode = $notification->bookProject;
                 $notifs[] = $note;
             }
         }
@@ -1874,6 +1894,56 @@ class EventsModel extends Model
         return $this->db->table("chapters")
             ->where($where)
             ->update($data);
+    }
+
+
+    /**
+     * Get tW groups
+     * @param $where
+     * @return mixed
+     */
+    public function getTwGroups($where)
+    {
+        return $this->db->table("tw_groups")
+            ->where($where)
+            ->orderBy("groupID")
+            ->get();
+    }
+
+    /**
+     * Update tW group
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateTwGroups($data, $where)
+    {
+        return $this->db->table("tw_groups")
+            ->where($where)
+            ->update($data);
+    }
+
+    /**
+     * Delete tW group
+     * @param array $where
+     * @return int
+     */
+    public function deleteTwGroups($where)
+    {
+        return $this->db->table("tw_groups")
+            ->where($where)
+            ->delete();
+    }
+
+    /**
+     * Create tW group
+     * @param $data
+     * @return int
+     */
+    public function createTwGroup($data)
+    {
+        return $this->db->table("tw_groups")
+            ->insertGetId($data);
     }
 
 }

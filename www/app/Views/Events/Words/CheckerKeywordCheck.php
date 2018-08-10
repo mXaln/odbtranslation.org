@@ -28,7 +28,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [4]). ": " . __("peer-review_tq")?></div>
+            <div><?php echo __("step_num", [3]). ": " . __("keyword-check")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
     </div>
@@ -39,24 +39,25 @@ if(empty($error) && empty($data["success"])):
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                        ."<span class='book_name'>".$data["event"][0]->name." "
-                        .$data["currentChapter"]."</span>"?></h4>
+                        ."<span class='book_name'>".$data["event"][0]->name
+                        ." [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]</span>"?></h4>
 
                 <div id="my_notes_content" class="my_content">
-                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $verse = $chunk[0]; ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): ?>
                     <div class="row note_chunk">
                         <div class="row">
                             <div class="col-md-4" style="color: #00a74d; font-weight: bold;">
-                                <?php echo __("verse_number", $verse) ?>
+                                <?php //echo $data["words"][$chunkNo]["word"] ?>
                             </div>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <div class="note_content">
-                                <?php if (isset($data["questions"][$verse])): ?>
-                                    <?php foreach ($data["questions"][$verse] as $note): ?>
-                                        <?php echo $note ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                                <?php
+                                $source = $data["words"][$chunkNo]["text"];
+                                $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
+                                $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
+                                echo $source
+                                ?>
                             </div>
                         </div>
                         <div class="col-md-6 vnote font_<?php echo $data["event"][0]->targetLang ?>"
@@ -108,7 +109,7 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [4])?></div>
+                <div class="step_right chk"><?php echo __("step_num", [3])?></div>
             </div>
             <?php //endif; ?>
         </div>
@@ -121,11 +122,11 @@ if(empty($error) && empty($data["success"])):
                 <div class="clear"></div>
 
                 <div class="help_name_steps">
-                    <span><?php echo __("step_num", [4])?>: </span>
-                    <?php echo __("peer-review_tq")?>
+                    <span><?php echo __("step_num", [3])?>: </span>
+                    <?php echo __("keyword-check")?>
                 </div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review_tq_chk_desc")?></ul>
+                    <ul><?php echo __("keyword-check_tw_chk_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -137,7 +138,7 @@ if(empty($error) && empty($data["success"])):
                         <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
                     </div>
                     <div class="additional_info">
-                        <a href="/events/information-tq/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        <a href="/events/information-tw/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                     </div>
                 </div>
             </div>
@@ -152,16 +153,16 @@ if(empty($error) && empty($data["success"])):
     <div class="tutorial_popup">
         <div class="tutorial-close glyphicon glyphicon-remove"></div>
         <div class="tutorial_pic">
-            <img src="<?php echo template_url("img/steps/icons/peer-review.png") ?>" width="100" height="100">
-            <img src="<?php echo template_url("img/steps/big/peer-review.png") ?>" width="280" height="280">
+            <img src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>" width="100" height="100">
+            <img src="<?php echo template_url("img/steps/big/keyword-check.png") ?>" width="280" height="280">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="<?php echo "keyword-check_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
             </div>
         </div>
 
         <div class="tutorial_content is_checker_page_help">
-            <h3><?php echo __("peer-review_tq")?></h3>
-            <ul><?php echo __("peer-review_tq_chk_desc")?></ul>
+            <h3><?php echo __("keyword-check")?></h3>
+            <ul><?php echo __("keyword-check_tw_chk_desc")?></ul>
         </div>
     </div>
 </div>

@@ -95,5 +95,7 @@ var Language = {
     "tn_other_highlight"        : "Highlight",
     "tn_other_self_check"       : "Правка заметок",
     "tn_other_keyword_check"    : "Check Highlights",
-    "tq_drafts_not_checked"     : "Вам необходимо отметить галочками все черновики перед тем, как переходить на следующий шаг."
+    "tq_drafts_not_checked"     : "Вам необходимо отметить галочками все черновики перед тем, как переходить на следующий шаг.",
+    "deleteGroupConfirmTitle"   : "Удаление группы",
+    "deleteGroupConfirm"        : "Вы действительно хотите удалить эту группу?",
 };

@@ -73,6 +73,12 @@ class TranslationsModel extends Model
         if($bookCode)
             $builder->where("translations.bookCode", $bookCode);
 
+        if($bookProject == "tw")
+        {
+            $builder->addSelect("tw_groups.words")
+                ->leftJoin("tw_groups", "translations.chapter", "=", "tw_groups.groupID");
+        }
+
         return $builder->get();
     }
 

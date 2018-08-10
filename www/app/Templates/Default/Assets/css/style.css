@@ -3072,6 +3072,74 @@ div[class^="member_usname mid"] {
     margin-left: 5px
 }
 
+.words_group_dialog {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.words_group_dialog_div {
+    margin: 0px auto;
+    position: fixed;
+    width: 450px;
+    left: calc(50% - 250px);
+    top: calc(50% - 300px);
+}
+
+.words-group-dialog-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.group_delete {
+    margin-left: 5px;
+    border-radius: 4px;
+    background-color: #666666;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.openWordsGroup {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    width: 100%;
+    height: calc(100% - 40px);
+    z-index: 99;
+}
+
+.words-group-dialog-content {
+    padding: 10px;
+}
+
+#word_group {
+    height: 500px;
+}
+
+.word_group_hint {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#word_group option:disabled {
+    color: #ccc;
+}
+
 .assign_chapter {
     float: right;
 }

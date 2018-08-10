@@ -110,9 +110,9 @@ class TranslationsController extends Controller
                             $level = " [".($chapter["l2checked"] ? "L2" : "L1")."]";
                         }
 
-                        $data['book'] .= $chunk->chapter > 0
+                        $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
                             ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
-                            : '<h2 class="chapter_title">'.__("front").'</h2>';
+                            : '<h2 class="chapter_title">'.__("front").'</h2>') : "";
                     }
 
                     // Start of chunk
@@ -144,13 +144,17 @@ class TranslationsController extends Controller
                         $chunks = (array)json_decode($chapter["chunks"], true);
                         $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
 
-                        if($currChunk[0] != $currChunk[sizeof($currChunk)-1])
-                            $versesLabel = __("chunk_verses", $currChunk[0] . "-" . $currChunk[sizeof($currChunk)-1]);
-                        else
-                            if($currChunk[0] == 0)
-                                $versesLabel = __("intro");
+                        $versesLabel = "";
+                        if($chunk->bookProject != "tw")
+                        {
+                            if($currChunk[0] != $currChunk[sizeof($currChunk)-1])
+                                $versesLabel = __("chunk_verses", $currChunk[0] . "-" . $currChunk[sizeof($currChunk)-1]);
                             else
-                                $versesLabel = __("chunk_verses", $currChunk[0]);
+                                if($currChunk[0] == 0)
+                                    $versesLabel = __("intro");
+                                else
+                                    $versesLabel = __("chunk_verses", $currChunk[0]);
+                        }
 
                         $data["mode"] = $chunk->bookProject;
 
@@ -264,7 +268,7 @@ class TranslationsController extends Controller
                 }
                 else
                 {
-                    $zip = new ZipStream("".$books[0]->targetLang."_" . $bookProject . ".zip");
+                    $zip = new ZipStream($books[0]->targetLang . "_" . $bookProject . ".zip");
 
                     foreach ($usfm_books as $filename => $content)
                     {
@@ -319,12 +323,52 @@ class TranslationsController extends Controller
                     $bookPath = $chunk->bookCode;
                     $chapPath = $chunk->chapter > 0 ? sprintf("%02d", $chunk->chapter) : "front";
                     $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
-                    $filePath = $root. "/" . $bookPath ."/".$chapPath."/".$chunkPath.".md";
+                    $filePath = $root. "/" . $bookPath . "/" . $chapPath . "/" . $chunkPath . ".md";
 
                     if($bookProject == "tn")
                         $text = $verses->checker->verses;
                     else
                         $text = $verses->translator->verses;
+
+                    $zip->addFile($filePath, $text);
+                }
+
+                $zip->finish();
+            }
+        }
+
+        echo "An error ocurred! Contact administrator.";
+    }
+
+    public function getMdTw($lang, $bookCode)
+    {
+        if($lang != null && $bookCode != null)
+        {
+            // If bookcode is "dl" then include all the books in archive
+            $bookCode = $bookCode != "dl" ? $bookCode : null;
+
+            $books = $this->_model->getTranslation($lang, "tw", $bookCode);
+            $lastChapter = -1;
+            $chapter = [];
+
+            if(!empty($books) && isset($books[0]))
+            {
+                $zip = new ZipStream("tw.zip");
+                $root = $books[0]->targetLang."_tw/bible";
+
+                foreach ($books as $chunk) {
+                    $verses = json_decode($chunk->translatedVerses);
+                    $words = (array) json_decode($chunk->words, true);
+
+                    $currWord = isset($words[$chunk->chunk]) ? $words[$chunk->chunk] : null;
+
+                    if(!$currWord) continue;
+
+                    $bookPath = $chunk->bookName;
+                    $chunkPath = $currWord;
+                    $filePath = $root. "/" . $bookPath ."/". $chunkPath.".md";
+
+                    $text = $verses->translator->verses;
 
                     $zip->addFile($filePath, $text);
                 }

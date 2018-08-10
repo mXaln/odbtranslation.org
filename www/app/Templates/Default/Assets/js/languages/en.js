@@ -96,4 +96,6 @@ var Language = {
     "tn_other_self_check"       : "Edit Notes",
     "tn_other_keyword_check"    : "Check Highlights",
     "tq_drafts_not_checked"     : "You need to check all the draft checkboxes before proceeding to the next step.",
+    "deleteGroupConfirmTitle"   : "Remove group",
+    "deleteGroupConfirm"        : "Remove this group?",
 };

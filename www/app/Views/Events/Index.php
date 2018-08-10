@@ -112,7 +112,7 @@ $profile = Session::get("profile");
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
                     $members = __("translators");
-                    $manageLink = "/events/manage/".$event->eventID;
+                    $manageLink = "/events/manage".($mode == "tw" ? "-tw" : "")."/".$event->eventID;
                     $progressLink = "/events/information".
                         (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;

@@ -602,6 +602,51 @@ class ApiModel extends Model
 
 
     /**
+     * Parses .md files of specified category and returns array
+     * @param $category
+     * @param $onlyNames
+     * @param $lang
+     * @return  array
+     **/
+    public function getTranslationWordsByCategory($category, $lang = "en", $onlyNames = false)
+    {
+        $folderpath = $this->downloadAndExtractWords($lang);
+
+        if(!$folderpath) return [];
+
+        $parsedown = new Parsedown();
+        $files = File::allFiles($folderpath);
+
+        $words = [];
+
+        foreach ($files as $file) {
+            if(preg_match("/bible\/".$category."/", $file))
+            {
+                $word = [];
+
+                if(!$onlyNames)
+                {
+                    $md = File::get($file);
+
+                    $html = $parsedown->text($md);
+                    $html = preg_replace("//", "", $html);
+                    $word["text"] = $html;
+                }
+
+                preg_match("/\/([0-9a-z-_]+).md$/", $file, $matches);
+                $word["word"] = $matches[1];
+                $words[] = $word;
+            }
+        }
+
+        usort($words, function($a, $b) {
+            return strcmp($a["word"], $b["word"]);
+        });
+
+        return $words;
+    }
+
+    /**
      * Download questions from DCS and extract them
      * @param string $lang
      * @param bool $update

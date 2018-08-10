@@ -101,8 +101,10 @@ class AdminController extends Controller {
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID);
             $otDone = 0;
             $ntDone = 0;
+            $twDone = 0;
             $data["OTprogress"] = 0;
             $data["NTprogress"] = 0;
+            $data["TWprogress"] = 0;
 
             foreach ($data["events"] as $event)
             {
@@ -114,7 +116,7 @@ class AdminController extends Controller {
                         $otDone++;
                     }
                 }
-                else // New testament
+                else if($event->abbrID < 68) // New testament
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -122,13 +124,26 @@ class AdminController extends Controller {
                         $ntDone++;
                     }
                 }
+                else if($event->abbrID < 71)
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $twDone++;
+                    }
+                }
             }
 
             $data["OTprogress"] = 100*$otDone/39;
             $data["NTprogress"] = 100*$ntDone/27;
+            $data["TWprogress"] = 100*$twDone/3;
         }
 
-        return View::make('Admin/Main/Project')
+        $page = 'Admin/Main/Project';
+        if($data["project"][0]->bookProject == "tw")
+            $page = 'Admin/Main/ProjectTW';
+
+        return View::make($page)
             ->shares("title", __("admin_events_title"))
             ->shares("data", $data);
     }
@@ -1327,6 +1342,150 @@ class AdminController extends Controller {
                         echo json_encode(array("success" => __("successfully_deleted")));
                     }
                     elseif ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
+                    {
+                        $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
+                        echo json_encode(array("success" => __("successfully_deleted")));
+                    }
+
+                    break;
+            }
+        }
+        else
+        {
+            echo json_encode(array("error" => Error::display($error)));
+        }
+    }
+
+
+    public function createEventTw()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $bookCode = isset($_POST['book_code']) && $_POST['book_code'] != "" ? $_POST['book_code'] : null;
+        $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : null;
+        $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : [];
+        $act = isset($_POST['act']) && preg_match("/^(create|edit|delete)$/", $_POST['act']) ? $_POST['act'] : "create";
+
+        if($bookCode == null)
+        {
+            $error[] = __('wrong_book_code');
+        }
+
+        if($projectID == null)
+        {
+            $error[] = __('wrong_project_id');
+        }
+
+        if(empty($admins))
+        {
+            $error[] = __('enter_admins');
+        }
+
+        if(!isset($error))
+        {
+            $exist = $this->_eventsModel->getEvent(null, $projectID, $bookCode);
+            $project = $this->_eventsModel->getProject(
+                ["sourceLangID", "sourceBible"],
+                ["projectID", $projectID]
+            );
+
+            $postdata = [];
+
+            switch($act)
+            {
+                case "create":
+                    if(!empty($exist) &&
+                        $exist[0]->state != EventStates::TRANSLATED &&
+                        $exist[0]->state != EventStates::L2_CHECKED)
+                    {
+                        $error[] = __("event_already_exists");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $postdata["projectID"] = $projectID;
+                    $postdata["bookCode"] = $bookCode;
+
+                    foreach ($admins as $admin) {
+                        $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                    }
+
+                    $postdata["admins"] = json_encode($admins);
+                    $postdata["dateFrom"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                    $postdata["dateTo"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                    $eventID = $this->_eventsModel->createEvent($postdata);
+
+                    if($eventID)
+                        echo json_encode(array("success" => __("successfully_created")));
+                    break;
+
+                case "edit":
+                    if(empty($exist))
+                    {
+                        $error[] = __("event_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                    if(!in_array(Session::get("memberID"), $superadmins))
+                    {
+                        $error[] = __("wrong_project_id");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $dbAdmins = (array)json_decode($exist[0]->admins, true);
+                    $postdata["admins"] = json_encode($admins);
+
+                    $oldAdmins = $dbAdmins;
+                    $deletedAdmins = array_diff($oldAdmins, $admins);
+                    $addedAdmins = array_diff($admins, $oldAdmins);
+
+                    // Remove facilitator role from member if he is not in any events
+                    foreach ($deletedAdmins as $admin) {
+                        $events = $this->_eventsModel->getMemberEventsForAdmin($admin);
+                        if(sizeof($events) == 1)
+                            $this->_membersModel->updateMember(array("isAdmin" => false), array("memberID" => $admin));
+                    }
+
+                    // Assign facilitator role to added member
+                    foreach ($addedAdmins as $admin) {
+                        $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                    }
+
+                    $this->_eventsModel->updateEvent($postdata, ["projectID" => $projectID, "bookCode" => $bookCode]);
+                    echo json_encode(array("success" => __("successfully_updated")));
+                    break;
+
+                case "delete":
+                    if(empty($exist))
+                    {
+                        $error[] = __("event_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                    if(!in_array(Session::get("memberID"), $superadmins))
+                    {
+                        $error[] = __("wrong_project_id");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
                     {
                         $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
                         echo json_encode(array("success" => __("successfully_deleted")));

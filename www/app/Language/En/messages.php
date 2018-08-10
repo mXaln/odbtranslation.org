@@ -244,6 +244,7 @@ return array (
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
     "checker_apply" => "<b>{0}</b> is ready for checking <b>{1}</b> book of <b>{2}</b>, chapter <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
+    "checker_apply_tw" => "<b>{0}</b> is ready for checking <b>{1}</b> category <b>{2}</b>, group <b>{3}</b> - <b>{4}</b> - <b>{5}</b>",
     "apply_to_check" => "Apply to check",
     "notifications" => "Notifications",
     "see_all" => "See all",
@@ -449,6 +450,12 @@ return array (
     "l2_p2_checker" => "Remove 2nd peer checker",
     "news" => "News",
     "draft" => "Draft",
+    "create_words_group" => "Create group of words",
+    "create_group" => "Create group",
+    "word_group_hint" => "Select the words to create a group by holding CTRL + left button click or SHIFT + left button click",
+    "group_id" => "Group {0}",
+    "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
+    "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
 
     // Steps
     "pray" => "Preparation: Prayer",
@@ -1190,6 +1197,9 @@ return array (
     "3jn" => "3 John",
     "jud" => "Jude",
     "rev" => "Revelation",
+    "wkt" => "kt",
+    "wns" => "names",
+    "wot" => "other",
 
     // Admin Controller
     "admin_tools_title" => "Administrator Tools",

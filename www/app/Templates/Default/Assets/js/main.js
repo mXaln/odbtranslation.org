@@ -1447,6 +1447,7 @@ $(document).ready(function() {
 
                         // Replace absolute urls by relative ones when using keyboard to paste
                         $("a", dom).each(function() {
+
                             $(this).attr("href", $(this).attr("title"));
                             $(this).removeAttr("title");
                         });
@@ -1482,10 +1483,8 @@ $(document).ready(function() {
                             });
 
                             // Replace absolute urls by relative ones when using button to paste
-                            $("a", dom).each(function() {
-                                $(this).attr("href", $(this).attr("title"));
-                                $(this).removeAttr("title");
-                            });
+                            $(this).attr("href", $(this).attr("title"));
+                            $(this).removeAttr("title");
 
                             // Fix bold links that come without spaces
                             $("strong", dom).each(function() {
@@ -2247,7 +2246,7 @@ $(document).ready(function() {
 
     $(".consume_q, .verbalize_q, .draft_q").click(function () {
         var parent = $(this).parents(".parent_q");
-        var verse = parent.data("question");
+        var verse = parent.data("verse");
         var chapter = parent.data("chapter");
         var event = parent.data("event");
         var checked = $(this).is(":checked");
@@ -2285,7 +2284,7 @@ $(document).ready(function() {
 
     $(".consume_q, .verbalize_q, .draft_q").each(function () {
         var parent = $(this).parents(".parent_q");
-        var verse = parent.data("question");
+        var verse = parent.data("verse");
         var chapter = parent.data("chapter");
         var event = parent.data("event");
         var type = $(this).attr("class");
