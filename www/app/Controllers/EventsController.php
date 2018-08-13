@@ -10025,9 +10025,6 @@ class EventsController extends Controller
 
     public function demoTw($page = null)
     {
-        echo "Not implemented...";
-        exit;
-
         if(!isset($page))
             Url::redirect("events/demo-tw/pray");
 
@@ -10040,26 +10037,28 @@ class EventsController extends Controller
             if($i == 0)
             {
                 $notifObj->currentChapter = 1;
-                $notifObj->firstName = "Mark";
-                $notifObj->lastName = "Patton";
-                $notifObj->bookCode = "act";
-                $notifObj->bookProject = "tn";
-                $notifObj->tLang = "Bahasa Indonesia";
-                $notifObj->bookName = "Acts";
-                $notifObj->step = "notes";
-                $notifObj->manageMode = "tn";
+                $notifObj->firstName = "Антон";
+                $notifObj->lastName = "Шилов";
+                $notifObj->bookCode = "wns";
+                $notifObj->bookProject = "tw";
+                $notifObj->tLang = "Русский";
+                $notifObj->bookName = "names";
+                $notifObj->step = EventSteps::KEYWORD_CHECK;
+                $notifObj->manageMode = "tw";
+                $notifObj->group = "aaron...adam";
             }
             else
             {
                 $notifObj->step = EventSteps::PEER_REVIEW;
                 $notifObj->currentChapter = 1;
-                $notifObj->firstName = "Genry";
-                $notifObj->lastName = "Miller";
-                $notifObj->bookCode = "act";
-                $notifObj->bookProject = "tn";
-                $notifObj->tLang = "Bahasa Indonesia";
-                $notifObj->bookName = "Acts";
-                $notifObj->manageMode = "tn";
+                $notifObj->firstName = "Антон";
+                $notifObj->lastName = "Шилов";
+                $notifObj->bookCode = "wns";
+                $notifObj->bookProject = "tw";
+                $notifObj->tLang = "Русский";
+                $notifObj->bookName = "names";
+                $notifObj->manageMode = "tw";
+                $notifObj->group = "aaron...adam";
             }
 
             $notifications[] = $notifObj;
@@ -10071,83 +10070,51 @@ class EventsController extends Controller
         $data["isDemo"] = true;
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
-        $data["isPeerPage"] = false;
 
-        $view = View::make("Events/Notes/Demo/DemoHeader");
+        $view = View::make("Events/Words/Demo/DemoHeader");
         $data["step"] = "";
 
         switch ($page)
         {
             case "pray":
-                $view->nest("page", "Events/Notes/Demo/Pray");
+                $view->nest("page", "Events/Words/Demo/Pray");
                 $data["step"] = EventSteps::PRAY;
                 break;
 
-            case "consume":
-                $view->nest("page", "Events/Notes/Demo/Consume");
-                $data["step"] = EventSteps::CONSUME;
-                break;
-
-            case "read_chunk":
-                $view->nest("page", "Events/Notes/Demo/ReadChunk");
-                $data["step"] = EventSteps::READ_CHUNK;
-                break;
-
-            case "blind_draft":
-                $view->nest("page", "Events/Notes/Demo/BlindDraft");
-                $data["step"] = EventSteps::BLIND_DRAFT;
+            case "multi_draft":
+                $view->nest("page", "Events/Words/Demo/MultiDraft");
+                $data["step"] = EventSteps::MULTI_DRAFT;
                 break;
 
             case "self_check":
-                $view->nest("page", "Events/Notes/Demo/SelfEdit");
+                $view->nest("page", "Events/Words/Demo/SelfEdit");
                 $data["step"] = EventSteps::SELF_CHECK;
                 break;
 
-            case "pray_chk":
-                $view->nest("page", "Events/Notes/Demo/PrayChk");
-                $data["step"] = EventSteps::PRAY;
-                $data["isCheckerPage"] = true;
+            case "keyword_check":
+                $view->nest("page", "Events/Words/Demo/KeywordCheck");
+                $data["step"] = EventSteps::KEYWORD_CHECK;
                 break;
 
-            case "consume_chk":
-                $view->nest("page", "Events/Notes/Demo/ConsumeChk");
-                $data["step"] = EventSteps::CONSUME;
-                $data["isCheckerPage"] = true;
-                break;
-
-            case "highlight":
-                $view->nest("page", "Events/Notes/Demo/Highlight");
-                $data["step"] = EventSteps::HIGHLIGHT;
-                $data["isCheckerPage"] = true;
-                break;
-
-            case "self_check_chk":
-                $view->nest("page", "Events/Notes/Demo/SelfEditChk");
-                $data["step"] = EventSteps::SELF_CHECK;
-                $data["isCheckerPage"] = true;
-                break;
-
-            case "highlight_chk":
-                $view->nest("page", "Events/Notes/Demo/HighlightChk");
+            case "keyword_check_checker":
+                $view->nest("page", "Events/Words/Demo/KeywordCheckChecker");
                 $data["step"] = EventSteps::KEYWORD_CHECK;
                 $data["isCheckerPage"] = true;
                 break;
 
             case "peer_review":
-                $view->nest("page", "Events/Notes/Demo/PeerReview");
+                $view->nest("page", "Events/Words/Demo/PeerReview");
                 $data["step"] = EventSteps::PEER_REVIEW;
-                $data["isCheckerPage"] = true;
                 break;
 
             case "peer_review_checker":
-                $view->nest("page", "Events/Notes/Demo/PeerReviewChecker");
+                $view->nest("page", "Events/Words/Demo/PeerReviewChecker");
                 $data["step"] = EventSteps::PEER_REVIEW;
                 $data["isCheckerPage"] = true;
-                $data["isPeerPage"] = true;
                 break;
 
             case "information":
-                return View::make("Events/Notes/Demo/Information")
+                return View::make("Events/Words/Demo/Information")
                     ->shares("title", __("event_info"));
                 break;
         }
