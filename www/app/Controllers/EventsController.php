@@ -12797,6 +12797,7 @@ class EventsController extends Controller
                             {
                                 $data["notes"][] = $note;
                             }
+                            break;
                         }
                     }
                     else
