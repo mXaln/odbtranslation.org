@@ -22,6 +22,7 @@ if(isset($data["error"])) return;
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tq").")" ?></div>
             <div><?php echo __("step_num", [4]). ": " . __("peer-review")?></div>
+            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
 

@@ -12,7 +12,7 @@ use Helpers\Constants\StepsStates;
 
 <div>
     <div class="book_title">3 John</div>
-    <div class="project_title"><?php echo __("tq") ?> - English</div>
+    <div class="project_title"><?php echo __("tq") ?> - Русский</div>
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">

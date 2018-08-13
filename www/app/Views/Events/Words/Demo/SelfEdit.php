@@ -204,11 +204,11 @@ if(isset($data["error"])) return;
                                         <li>Из-за этого царь Соломон отстранил Авиафара от должности священника.</li>
                                     </ul>
                                     <p>(См. также:&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/zadok.md">Садок</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/saul.md">Саул (ВЗ)</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/david.md">Давид</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/solomon.md">Соломон</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/adonijah.md">Адония</a>)</p></textarea>
+                                        <a href="../names/zadok.md">Садок</a>,&nbsp;
+                                        <a href="../names/saul.md">Саул (ВЗ)</a>,&nbsp;
+                                        <a href="../names/david.md">Давид</a>,&nbsp;
+                                        <a href="../names/solomon.md">Соломон</a>,&nbsp;
+                                        <a href="../names/adonijah.md">Адония</a>)</p></textarea>
 
                                 <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
@@ -326,11 +326,11 @@ if(isset($data["error"])) return;
                                     </ul>
                                     <p>(Варианты перевода: Как переводить имена)</p>
                                     <p>(См. также:&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/beersheba.md">Беэр-Шева (Вирсавия)</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/gerar.md">Герар</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/gideon.md">Гедеон</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/jotham.md">Иофам</a>,&nbsp;
-                                        <a href="https://git.door43.org/ru_gl/ru_tw_2lv/src/branch/master/bible/names/philistines.md">филистимляне</a>)</p></textarea>
+                                        <a href="../names/beersheba.md">Беэр-Шева (Вирсавия)</a>,&nbsp;
+                                        <a href="../names/gerar.md">Герар</a>,&nbsp;
+                                        <a href="../names/gideon.md">Гедеон</a>,&nbsp;
+                                        <a href="../names/jotham.md">Иофам</a>,&nbsp;
+                                        <a href="../names/philistines.md">филистимляне</a>)</p></textarea>
 
                                 <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
@@ -355,7 +355,8 @@ if(isset($data["error"])) return;
                                         Israel, while David was appointed king in Judah.</li>
                                     <li>Later, Abner was treacherously killed by David's chief commander, Joab.</li>
                                 </ul>
-                                <p>(Translation suggestions:&nbsp;<a title="rc://en/ta/man/translate/translate-names" href="rc://en/ta/man/translate/translate-names">How to Translate Names</a>)</p>
+                                <p>(Translation suggestions:&nbsp;
+                                    <a title="rc://en/ta/man/translate/translate-names" href="rc://en/ta/man/translate/translate-names">How to Translate Names</a>)</p>
                                 <h2>Bible References:</h2>
                                 <ul>
                                     <li><a title="rc://en/tn/help/1ch/26/26" href="rc://en/tn/help/1ch/26/26">1 Chronicles 26:26-28</a></li>
@@ -489,8 +490,11 @@ if(isset($data["error"])) return;
                                     <li>Absalom turned some of the people against King David and led a revolt against him.</li>
                                     <li>David's army fought against Absalom and killed him. David was very grieved when this happened.</li>
                                 </ul>
-                                <p>(Translation suggestions:&nbsp;<a title="rc://en/ta/man/translate/translate-names" href="rc://en/ta/man/translate/translate-names">How to Translate Names</a>)</p>
-                                <p>(See also:&nbsp;<a title="../names/geshur.md" href="../names/geshur.md">Geshur</a>,&nbsp;<a title="../names/amnon.md" href="../names/amnon.md">Amnon</a>)</p>
+                                <p>(Translation suggestions:&nbsp;
+                                    <a title="rc://en/ta/man/translate/translate-names" href="rc://en/ta/man/translate/translate-names">How to Translate Names</a>)</p>
+                                <p>(See also:&nbsp;
+                                    <a title="../names/geshur.md" href="../names/geshur.md">Geshur</a>,&nbsp;
+                                    <a title="../names/amnon.md" href="../names/amnon.md">Amnon</a>)</p>
                                 <h2>Bible References:</h2>
                                 <ul>
                                     <li><a title="rc://en/tn/help/1ch/03/01" href="rc://en/tn/help/1ch/03/01">1 Chronicles 03:1-3</a></li>
@@ -506,12 +510,20 @@ if(isset($data["error"])) return;
                                 </ul>
                             </div>
                             <div class="col-md-6 questions_editor font_ru" dir="ltr">
-                                <textarea name="chunks[7]" class="add_questions_editor blind_ta"><h1>Что намерен сделать Иоанн, когда придет к Гаию и другим членам общины?</h1>
-                                    <p>Он разоблачит Диотрефа.</p>
-                                    <h1>Как Диотреф поступает с братьями, которые служат Богу?</h1>
-                                    <p>Диотреф их не принимает.</p>
-                                    <h1>Как Диотреф поступает с теми, кто принимает Божьих служителей?</h1>
-                                    <p>Он запрещает братьям принимать Божьих служителей, а тех, кто его ослушался, выгоняет из общины.</p></textarea>
+                                <textarea name="chunks[7]" class="add_questions_editor blind_ta"><h1>Авессалом</h1>
+                                    <h2>Факты:</h2>
+                                    <p>Авесалом был третьим сыном царя Давида. Он прославился своей красотой и вспыльчивым характером.</p>
+                                    <ul>
+                                        <li>Когда сводный брат Авессалома Амнон изнасиловал его сестру Фамарь, Авессалом замыслил убить Амнона.</li>
+                                        <li>После убийства Амнона Авессалом скрылся в Гессуре, откуда была родом его
+                                            мать Мааха, и прожил там три года. Потом царь Давид позволил Авессалому
+                                            вернуться в Иерусалим, но в течении двух лет не разрешал ему появляться перед ним.</li>
+                                        <li>Авессалом настроил часть народа против царя Давида и поднял мятеж против него.</li>
+                                        <li>Армия Давида выступила против Авессалома, и он был убит. Давид очень горевал о гибели сына.</li>
+                                    </ul>
+                                    <p>(Варианты перевода: Как переводить имена)</p>
+                                    <p>(См. также:&nbsp;
+                                        <a href="../names/geshur.md">Гессур</a>,&nbsp;<a href="../names/amnon.md">Амнон</a>)</p></textarea>
 
                                 <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
@@ -549,13 +561,21 @@ if(isset($data["error"])) return;
                                 </ul>
                                 <h2>Examples from the Bible stories:</h2>
                                 <ul>
-                                    <li><strong><a title="rc://en/tn/help/obs/01/09" href="rc://en/tn/help/obs/01/09">01:09</a></strong>&nbsp;Then God said, "Let us make human beings in our image to be like us."</li>
-                                    <li><strong><a title="rc://en/tn/help/obs/01/10" href="rc://en/tn/help/obs/01/10">01:10</a></strong>&nbsp;This man's name was&nbsp;<strong>Adam</strong>. God planted a garden where&nbsp;<strong>Adam</strong>&nbsp;could live, and put him there to care for it.</li>
-                                    <li><strong><a title="rc://en/tn/help/obs/01/12" href="rc://en/tn/help/obs/01/12">01:12</a></strong>&nbsp;Then God said, "It is not good for man to be alone." But none of the animals could be&nbsp;<strong>Adam's</strong>helper.</li>
-                                    <li><strong><a title="rc://en/tn/help/obs/02/11" href="rc://en/tn/help/obs/02/11">02:11</a></strong>&nbsp;And God clothed&nbsp;<strong>Adam</strong>&nbsp;and Eve with animal skins.</li>
-                                    <li><strong><a title="rc://en/tn/help/obs/02/12" href="rc://en/tn/help/obs/02/12">02:12</a></strong>&nbsp;So God sent&nbsp;<strong>Adam</strong>&nbsp;and Eve away from the beautiful garden.</li>
-                                    <li><strong><a title="rc://en/tn/help/obs/49/08" href="rc://en/tn/help/obs/49/08">49:08</a></strong>&nbsp;When&nbsp;<strong>Adam</strong>&nbsp;and Eve sinned, it affected all of their descendants.</li>
-                                    <li><strong><a title="rc://en/tn/help/obs/50/16" href="rc://en/tn/help/obs/50/16">50:16</a></strong>&nbsp;Because&nbsp;<strong>Adam</strong>&nbsp;and Eve disobeyed God and brought sin into this world, God cursed it and decided to destroy it.</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/01/09" href="rc://en/tn/help/obs/01/09">01:09</a></strong>&nbsp;
+                                        Then God said, "Let us make human beings in our image to be like us."</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/01/10" href="rc://en/tn/help/obs/01/10">01:10</a></strong>&nbsp;
+                                        This man's name was&nbsp;<strong>Adam</strong>. God planted a garden where&nbsp;<strong>Adam</strong>&nbsp;could
+                                        live, and put him there to care for it.</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/01/12" href="rc://en/tn/help/obs/01/12">01:12</a></strong>&nbsp;
+                                        Then God said, "It is not good for man to be alone." But none of the animals could be&nbsp;<strong>Adam's</strong>helper.</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/02/11" href="rc://en/tn/help/obs/02/11">02:11</a></strong>&nbsp;
+                                        And God clothed&nbsp;<strong>Adam</strong>&nbsp;and Eve with animal skins.</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/02/12" href="rc://en/tn/help/obs/02/12">02:12</a></strong>&nbsp;
+                                        So God sent&nbsp;<strong>Adam</strong>&nbsp;and Eve away from the beautiful garden.</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/49/08" href="rc://en/tn/help/obs/49/08">49:08</a></strong>&nbsp;
+                                        When&nbsp;<strong>Adam</strong>&nbsp;and Eve sinned, it affected all of their descendants.</li>
+                                    <li><strong><a title="rc://en/tn/help/obs/50/16" href="rc://en/tn/help/obs/50/16">50:16</a></strong>&nbsp;
+                                        Because&nbsp;<strong>Adam</strong>&nbsp;and Eve disobeyed God and brought sin into this world, God cursed it and decided to destroy it.</li>
                                 </ul>
                                 <h2>Word Data:</h2>
                                 <ul>
@@ -563,8 +583,26 @@ if(isset($data["error"])) return;
                                 </ul>
                             </div>
                             <div class="col-md-6 questions_editor font_ru" dir="ltr">
-                                <textarea name="chunks[8]" class="add_questions_editor blind_ta"><h1>Чему должен подражать Гаий?</h1>
-                                    <p>Гаий должен подражать добру.</p></textarea>
+                                <textarea name="chunks[8]" class="add_questions_editor blind_ta"><h1>Адам</h1>
+                                    <h2>Факты:</h2>
+                                    <p>Адам был первым человеком, которого создал Бог. Адам и его жена Ева
+                                        были сотворены по Божьему образу.</p>
+                                    <ul>
+                                        <li>Бог создал Адама из пыли и вдохнул в него жизнь.</li>
+                                        <li>Имя &laquo;Адам&raquo; созвучно с еврейскими словами &laquo;красная глина&raquo;
+                                            или &laquo;земля&raquo;.</li>
+                                        <li>Имя &laquo;Адам&raquo; одновременно является ветхозаветным словом,
+                                            означающим &laquo;человечество&raquo; или &laquo;человек&raquo;.</li>
+                                        <li>Все люди &mdash; потомки Адама и Евы.</li>
+                                        <li>Адам и Ева ослушались Бога. Это привело к разделению их с Богом, а также к появлению греха и смерти в мире.</li>
+                                    </ul>
+                                    <p>(Варианты перевода: Как переводить имена)</p>
+                                    <p>(См. Также:&nbsp;
+                                        <a href="../other/death.md">смерть, умирать, мертвый</a>,&nbsp;
+                                        <a href="../other/descendant.md">потомок</a>,&nbsp;
+                                        <a href="../names/eve.md">Ева</a>,&nbsp;
+                                        <a href="../kt/imageofgod.md">образ Божий, образ</a>,&nbsp;
+                                        <a href="../kt/life.md">жизнь, жить, живой, живущий</a>)</p></textarea>
 
                                 <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 

@@ -9,23 +9,23 @@ $chk = $data["isCheckerPage"] ? "_chk" : "";
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
-            <a href="/events/demo-tq/pray<?php echo $chk ?>"><span><?php echo __(EventSteps::PRAY)?></span></a>
+            <a href="/events/demo-tw/pray<?php echo $chk ?>"><span><?php echo __(EventSteps::PRAY)?></span></a>
         </li>
 
         <li class="consume-step <?php echo $data["step"] == EventSteps::MULTI_DRAFT ? "active" : "" ?>">
-            <a href="/events/demo-tq/multi_draft"><span><?php echo __(EventSteps::MULTI_DRAFT)?></span></a>
+            <a href="/events/demo-tw/multi_draft"><span><?php echo __(EventSteps::MULTI_DRAFT)?></span></a>
         </li>
 
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-tq/self_check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
+            <a href="/events/demo-tw/self_check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
         </li>
 
         <li class="keyword-check-step <?php echo $data["step"] == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-tq/keyword_check"><span><?php echo __(EventSteps::KEYWORD_CHECK)?></span></a>
+            <a href="/events/demo-tw/keyword_check"><span><?php echo __(EventSteps::KEYWORD_CHECK)?></span></a>
         </li>
 
         <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-tq/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW)?></span></a>
+            <a href="/events/demo-tw/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW)?></span></a>
         </li>
     </ul>
 </div>

@@ -11,8 +11,8 @@ use Helpers\Constants\StepsStates;
 </div>
 
 <div>
-    <div class="book_title">3 John</div>
-    <div class="project_title"><?php echo __("tq") ?> - English</div>
+    <div class="book_title">names</div>
+    <div class="project_title"><?php echo __("tw") ?> - Русский</div>
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">
@@ -30,7 +30,13 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_1">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [1]) ?></div>
+                    <div class="chapter_number section_title">
+                        <?php echo __("group_id", [1]) ?>
+                        <span class='glyphicon glyphicon-info-sign'
+                              data-toggle='tooltip'
+                              title='aaron...adam'
+                              style='font-size: 16px;'></span>
+                    </div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 75%">75%</div>
@@ -49,42 +55,30 @@ use Helpers\Constants\StepsStates;
                     </div>
                     <div class="section_steps">
                         <!-- Multi Draft Step -->
-                        <div class="section_step finished">
+                        <div class="section_step finished" style="width: 200px;">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/content-review.png") ?>"></div>
                             <div class="step_name">1. <?php echo __(EventSteps::MULTI_DRAFT) ?></div>
                             <div class="step_chunks more_chunks">
                                 <div class="section_translator_chunk">
-                                    1 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    aaron &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    2 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    abel &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    4 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    abiathar &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    6 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    abijah &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    7 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    abimelech &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    8 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    abner &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    9 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    abraham &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    10 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    absalom &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="section_translator_chunk">
-                                    11 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
-                                <div class="section_translator_chunk">
-                                    14 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span>
-                                </div>
+                                    adam &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span></div>
                                 <div class="chunks_blind glyphicon glyphicon-triangle-bottom"></div>
                             </div>
                         </div>
