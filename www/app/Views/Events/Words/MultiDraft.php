@@ -7,7 +7,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [1]). ": " . __("multi-draft")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [1]). ": " . __("multi-draft_full")?></div>
     </div>
 
     <div class="row">
@@ -129,7 +129,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("multi-draft")?></h3>
+            <h3><?php echo __("multi-draft_full")?></h3>
             <ul><?php echo __("multi-draft_tw_desc")?></ul>
         </div>
     </div>

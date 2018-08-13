@@ -38,7 +38,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </li>
 
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::PEER_REVIEW)?></span>
+            <span><?php echo __(EventSteps::PEER_REVIEW . "_tw")?></span>
         </li>
     </ul>
 </div>

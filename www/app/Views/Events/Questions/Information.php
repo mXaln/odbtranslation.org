@@ -133,7 +133,7 @@ if(!isset($error)):
                                     </div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::PEER_REVIEW.".png") ?>"></div>
-                                    <div class="step_name">6. <?php echo __(EventSteps::PEER_REVIEW); ?></div>
+                                    <div class="step_name">6. <?php echo __(EventSteps::PEER_REVIEW . "_tq"); ?></div>
                                     <?php if($chapter["peer"]["checkerID"] != "na"): ?>
                                         <div class="step_checker">
                                             <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["peer"]["checkerID"]]["avatar"].".png") ?>">

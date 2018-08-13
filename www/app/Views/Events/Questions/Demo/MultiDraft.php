@@ -9,7 +9,7 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tq").")" ?></div>
-            <div><?php echo __("step_num", [1]). ": " . __("multi-draft")?></div>
+            <div><?php echo __("step_num", [1]). ": " . __("multi-draft_full")?></div>
         </div>
     </div>
 
@@ -311,7 +311,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("multi-draft")?></h3>
+            <h3><?php echo __("multi-draft_full")?></h3>
             <ul><?php echo __("multi-draft_tq_desc")?></ul>
         </div>
     </div>

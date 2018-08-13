@@ -19,7 +19,7 @@ if(isset($data["error"])) return;
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <?php echo __("step_num", [4]) . ": " . __("peer-review")?>
+            <?php echo __("step_num", [4]) . ": " . __("peer-review_tq")?>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
@@ -125,7 +125,7 @@ if(isset($data["error"])) return;
 
                 <div class="help_name_steps">
                     <span><?php echo __("step_num", [4])?>: </span>
-                    <?php echo __("peer-review")?>
+                    <?php echo __("peer-review_tq")?>
                 </div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("peer-review_tq_desc")?></ul>
@@ -167,7 +167,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review")?></h3>
+            <h3><?php echo __("peer-review_tq")?></h3>
             <ul><?php echo __("peer-review_tq_desc")?></ul>
         </div>
     </div>

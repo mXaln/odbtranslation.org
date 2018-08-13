@@ -25,7 +25,7 @@ $chk = $data["isCheckerPage"] ? "_chk" : "";
         </li>
 
         <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-tw/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW)?></span></a>
+            <a href="/events/demo-tw/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW . "_tw")?></span></a>
         </li>
     </ul>
 </div>

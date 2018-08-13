@@ -21,7 +21,7 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tq").")" ?></div>
-            <div><?php echo __("step_num", [4]). ": " . __("peer-review")?></div>
+            <div><?php echo __("step_num", [4]). ": " . __("peer-review_tq")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
     </div>
@@ -291,9 +291,9 @@ if(isset($data["error"])) return;
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("peer-review")?></div>
+                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("peer-review_tq")?></div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review_tq_desc")?></ul>
+                    <ul><?php echo __("peer-review_tq_chk_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -332,8 +332,8 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review")?></h3>
-            <ul><?php echo __("peer-review_tq_desc")?></ul>
+            <h3><?php echo __("peer-review_tq")?></h3>
+            <ul><?php echo __("peer-review_tq_chk_desc")?></ul>
         </div>
     </div>
 </div>

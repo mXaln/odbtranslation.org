@@ -28,7 +28,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [4]). ": " . __("peer-review")?></div>
+            <div><?php echo __("step_num", [4]). ": " . __("peer-review_tw")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
     </div>
@@ -123,7 +123,7 @@ if(empty($error) && empty($data["success"])):
 
                 <div class="help_name_steps">
                     <span><?php echo __("step_num", [4])?>: </span>
-                    <?php echo __("peer-review")?>
+                    <?php echo __("peer-review_tw")?>
                 </div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("peer-review_tw_chk_desc")?></ul>
@@ -161,7 +161,7 @@ if(empty($error) && empty($data["success"])):
         </div>
 
         <div class="tutorial_content is_checker_page_help">
-            <h3><?php echo __("peer-review")?></h3>
+            <h3><?php echo __("peer-review_tw")?></h3>
             <ul><?php echo __("peer-review_tw_chk_desc")?></ul>
         </div>
     </div>

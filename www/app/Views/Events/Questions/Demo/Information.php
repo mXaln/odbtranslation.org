@@ -112,7 +112,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_status"><?php echo __("step_status_".StepsStates::WAITING) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/peer-review.png") ?>"></div>
-                            <div class="step_name">4. <?php echo __(EventSteps::PEER_REVIEW) ?></div>
+                            <div class="step_name">4. <?php echo __(EventSteps::PEER_REVIEW . "_tq") ?></div>
                             <div class="step_checker">
                             </div>
                             <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
