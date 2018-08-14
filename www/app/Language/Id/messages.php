@@ -664,6 +664,105 @@ return array (
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
+    "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> o read the source text, to say it aloud to engage your memory, and 
+                                    draft the text in the target language.</li>
+                                <li>Read the assigned Words, Definitions/Facts & Translation Suggestions carefully in the source text.</li>
+                                <li>Click on the \"Consume\" box to indicate this step is completed.</li>
+                                <li>Say the Words, Definitions/Facts & Translation Suggestions aloud to engage your memory in the process.</li>
+                                <li>Click on the \"Verbalize\" box to indicate this step is completed. This will \"unlock\" the text box.</li>
+                                <li>Translate the Words, Definitions/Facts & Translation Suggestions in the text box.
+                                    <ol>
+                                        <li>As much as possible, translate phrase by phrase and not word for word, to preserve 
+                                            naturalness of the target language when translating the Definitions/Facts & Translation Suggestions.</li>
+                                        <li>All formatting is done by double clicking the word or any word in the line. 
+                                            The formatting box will pop up for you to choose font size or bullet points.</li>
+                                        <li>To format Translation Word, double click the word and select \"Header 1\".</li>
+                                        <li>To format subtitles, such as \"Facts\", \"Definitions\", \"Translation Suggestions\"; double click and select \"Header 2\".</li>
+                                        <li>You should not need to change the format of the content. It is the \"normal\" font.</li>
+                                    </ol>
+                                </li>
+                                <li>You do not need to translate the following sections: Bible References, Examples from the Bible Stories, or Word Data.</li>
+                                <li>When you finish translating, click on the \"Draft\" box to indicate this step is completed. 
+                                    You can go back and edit at any time, if needed.</li>
+                                <li>Go to the next Word and start the process again with \"Consume\", then \"Verbalize\", and \"Draft\" until all Words are translated for the chapter.</li>
+                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+
+    "self-check_tw_desc" => "<li><b>PURPOSE:</b> to edit your translated Words and check accuracy while maintaining naturalness.</li>
+                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
+                        <li>Look for any missing portions of text or missing or added facts.</li>
+                        <li>Check the accuracy of your translation in detail.</li>
+                        <li>If you have additional thoughts or questions about your translation, click the note 
+                            icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and 
+                            click save. The checkers will see this note and help resolve the question or problem.</li>
+                        <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>",
+
+    "keyword-check_tw_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Words and accurately expressed.</li>
+                        <li>The checker will look for Keywords and compare them to the 
+                            translated Words to ensure the meaning is represented properly.</li>
+                        <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms.</li>
+                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
+                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
+                        <li>When the checker has finished checking the text, they will contact you to discuss keyword 
+                            and recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                        <li>The checker’s comments on corrections will be in the notes which you can see by clicking the 
+                            note icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk.</li>
+                        <li>You and the checker should discuss any changes they think should be made. 
+                            If you agree to the changes, the translator should make the changes right away. 
+                            If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
+                            make a note on the chunk. It will be resolved in the next step.</li>
+                        <li>When all changes and notes have been made, the checker will click, \"yes I did\" and \"continue\", 
+                            then you should click \"yes I did\" and \"next step\", to move to the next step.</li>",
+
+    "keyword-check_tw_chk_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Words and accurately expressed.</li>
+                        <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
+                        <li>You will look for keywords and compare them to the 
+                            translated Words to ensure the meaning is represented properly.</li>
+                        <li>If you think changes should be made, click the note 
+                            icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
+                        <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
+                        <li><b>The point is not word for word translation, it is to see if the word/meaning is 
+                            represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
+                        <li>When you finish checking the text, contact the translator to discuss keyword and 
+                            recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                        <li>You and the translator should discuss any changes you think should be made. 
+                            If you agree to the changes, the translator should make the changes right away. 
+                            If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make 
+                            a note on the chunk noting the disagreement. It will be resolved in the next step.</li>
+                        <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" 
+                            Do not simply close the page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
+
+    "peer-review_tw_desc" => "<li><b>PURPOSE:</b> to review the Words and check accuracy while maintaining naturalness.</li>
+                        <li>The reviewer will look for spelling, punctuation, flow/naturalness errors, as well as, 
+                            missing portions of text or missing or added facts.</li>
+                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
+                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
+                        <li>When the reviewer has finished checking the text, they will contact you to 
+                            discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                        <li>The reviewer’s comments on corrections will be in the notes which you can see by 
+                            clicking the note icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk.</li>
+                        <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
+                            make the changes right away.  If you disagree, discuss the issue with your facilitator 
+                            and resolve before you complete this step.</li>
+                        <li>When all changes have been made, the checker will click, \"yes I did\" and \"continue,\" 
+                            then you should click \"yes I did\" and \"next step,\" to complete the step.</li>
+                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
+
+    "peer-review_tw_chk_desc" => "<li><b>PURPOSE:</b> to review the Words and check accuracy while maintaining naturalness.</li>
+                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
+                        <li>Look for any missing portions of text or missing or added facts.</li>
+                        <li>Check the accuracy of translation in detail.</li>
+                        <li>Make sure to look at previous translator and checker’s notes on the chunk for any questions or unresolved problems.</li>
+                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
+                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
+                        <li>When you have finished checking the text, contact the translator to discuss recommended 
+                            changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                        <li>You should discuss any changes you think should be made.  If you agree to the changes, the 
+                            translator should make the changes right away.  If you disagree, discuss the issue with your 
+                            facilitator and resolve before you complete this step.</li>
+                        <li>When all changes have been made click, \"yes I did\" and \"continue.\" Do not simply close the 
+                            page by clicking the \"x\" or the translator will not be able to complete the step.</li>
+                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
+
     // Errors
     "checker_translator_not_ready_error" => "Penerjemah tidak siap untuk langkah ini, mohon tunggu. Halaman akan dimuat ulang ketika penerjemah sudah siap.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Pemeriksa belum menyetujui langkah ini. Mohon tunggu.",
