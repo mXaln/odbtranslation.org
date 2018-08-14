@@ -31,7 +31,7 @@
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>6</sup></strong>
-                    <div class="kwverse_1_2_6"> Ketika mereka berkumpul bersama-sama, mereka bertanya kepadaNya, "<b data="0">Tuhan, inikah waktunya Engkau</b> akan memulihkan Kerajaan Israel?" </div>
+                    <div class="kwverse_1_2_6"> Ketika mereka berkumpul bersama-sama, mereka bertanya kepadaNya, "Tuhan, inikah waktunya Engkau akan memulihkan Kerajaan Israel?" </div>
                     <strong><sup>7</sup></strong>
                     <div class="kwverse_1_2_7"> Ia berkata kepada mereka, "Kamu tidak perlu mengetahui waktu dan masa yang telah ditetapkan Allah dengan kuasaNya sendiri. </div>
                     <strong><sup>8</sup></strong>
@@ -47,43 +47,43 @@
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>12</sup></strong>
-                    <div class="kwverse_1_4_12"> Kemudian mereka kembali ke <b data="0">Yerusalem dari Bukit Zaitun</b>, yang dekat ke Yerusalem, seperjalanan hari Sabat jauhnya. </div>
+                    <div class="kwverse_1_4_12"> Kemudian mereka kembali ke Yerusalem dari Bukit Zaitun, yang dekat ke Yerusalem, seperjalanan hari Sabat jauhnya. </div>
                     <strong><sup>13</sup></strong>
-                    <div class="kwverse_1_4_13"> Ketika mereka tiba, mereka naik ke ruang atas, tempat mereka tinggal. <b data="0">Mereka adalah Petrus, Yohanes, Yakobus, Andreas, Filipus, Tomas, Bartolomeus, Matius, Yakobus putra Alfeus, Simon orang Zelot, dan Yudas putra Yakobus</b>. </div>
+                    <div class="kwverse_1_4_13"> Ketika mereka tiba, mereka naik ke ruang atas, tempat mereka tinggal. Mereka adalah Petrus, Yohanes, Yakobus, Andreas, Filipus, Tomas, Bartolomeus, Matius, Yakobus putra Alfeus, Simon orang Zelot, dan Yudas putra Yakobus. </div>
                     <strong><sup>14</sup></strong>
                     <div class="kwverse_1_4_14"> Mereka semua berkumpul menjadi satu, sebagaimana mereka bertekun dalam doa. Termasuk adalah para perempuan, Maria ibu Yesus, dan saudara-saudara Yesus. </div>
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>15</sup></strong>
-                    <div class="kwverse_1_5_15"> Pada hari-hari itu <b data="0">berdirilah Petrus di tengah-tengah</b> para saudara, sekitar seratus dua puluh orang, dan berkata, </div>
+                    <div class="kwverse_1_5_15"> Pada hari-hari itu berdirilah Petrus di tengah-tengah para saudara, sekitar seratus dua puluh orang, dan berkata, </div>
                     <strong><sup>16</sup></strong>
-                    <div class="kwverse_1_5_16"> "Saudara-saudara, adalah penting agar tulisan firman harus digenapi, bahwa <b data="0">Roh Kudus</b> telah berkata melalui mulut Daud mengenai Yudas Iskariot, yang telah menuntun mereka yang menangkap Yesus. </div>
+                    <div class="kwverse_1_5_16"> "Saudara-saudara, adalah penting agar tulisan firman harus digenapi, bahwa Roh Kudus telah berkata melalui mulut Daud mengenai Yudas Iskariot, yang telah menuntun mereka yang menangkap Yesus. </div>
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>17</sup></strong>
                     <div class="kwverse_1_6_17"> Karena ia dahulu adalah salah satu dari antara kita dan telah menerima bagian dari manfaat pelayanan ini." </div>
                     <strong><sup>18</sup></strong>
-                    <div class="kwverse_1_6_18"> (Sekarang orang ini membeli sebidang tanah <b data="0">dengan hasil yang ia dapatkan</b> dari kejahatannya, dan di situlah ia jatuh dengan kepalanya terlebih dahulu, dan tubuhnya terbelah, serta seluruh isi perutnya terhambur keluar. </div>
+                    <div class="kwverse_1_6_18"> (Sekarang orang ini membeli sebidang tanah dengan hasil yang ia dapatkan dari kejahatannya, dan di situlah ia jatuh dengan kepalanya terlebih dahulu, dan tubuhnya terbelah, serta seluruh isi perutnya terhambur keluar. </div>
                     <strong><sup>19</sup></strong>
-                    <div class="kwverse_1_6_19"> <b data="0">Semua yang hidup di Yerusalem</b> telah mendengar tentang hal ini, sebab itulah mereka menyebut ladang itu dalam bahasa mereka "Hakal-Dama," yaitu, "Tanah Darah.") </div>
+                    <div class="kwverse_1_6_19"> Semua yang hidup di Yerusalem telah mendengar tentang hal ini, sebab itulah mereka menyebut ladang itu dalam bahasa mereka "Hakal-Dama," yaitu, "Tanah Darah.") </div>
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>20</sup></strong>
-                    <div class="kwverse_1_7_20"> Karena ada tertulis dalam <b data="0">Kitab Mazmur, 'Biarlah ladangnya menjadi terlantar</b>, dan jangan biarkan seorangpun menetap di sana'; dan, <b data="0">'Biarlah orang lain</b> mengambil kedudukannya dalam kepemimpinan.' </div>
+                    <div class="kwverse_1_7_20"> Karena ada tertulis dalam Kitab Mazmur, 'Biarlah ladangnya menjadi terlantar, dan jangan biarkan seorangpun menetap di sana'; dan, 'Biarlah orang lain mengambil kedudukannya dalam kepemimpinan.' </div>
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>21</sup></strong>
-                    <div class="kwverse_1_8_21"> Karena itulah, suatu keharusan, bahwa salah satu dari mereka yang telah bergabung dengan kita terus menerus ketika <b data="0">Tuhan Yesus berada di antara kita</b>, </div>
+                    <div class="kwverse_1_8_21"> Karena itulah, suatu keharusan, bahwa salah satu dari mereka yang telah bergabung dengan kita terus menerus ketika Tuhan Yesus berada di antara kita, </div>
                     <strong><sup>22</sup></strong>
                     <div class="kwverse_1_8_22"> mulai dari baptisan Yohanes hingga pada hari Ia diangkat dari antara kita, haruslah menjadi saksi bersama-sama dengan kita mengenai kebangkitanNya. </div>
                     <strong><sup>23</sup></strong>
-                    <div class="kwverse_1_8_23"> Mereka mengajukan dua orang, <b data="0">Yusuf yang disebut Barsabas</b>, yang juga bernama Yustus, dan Matias. </div>
+                    <div class="kwverse_1_8_23"> Mereka mengajukan dua orang, Yusuf yang disebut Barsabas, yang juga bernama Yustus, dan Matias. </div>
                 </div>
                 <div class="note_chunk chunk_verses">
                     <strong><sup>24</sup></strong>
-                    <div class="kwverse_1_9_24"> <b data="0">Mereka berdoa dan berkata</b>, "Engkau, Tuhan, yang mengetahui hati semua orang, nyatakanlah yang mana dari antara kedua ini yang Engkau pilih, </div>
+                    <div class="kwverse_1_9_24"> Mereka berdoa dan berkata, "Engkau, Tuhan, yang mengetahui hati semua orang, nyatakanlah yang mana dari antara kedua ini yang Engkau pilih, </div>
                     <strong><sup>25</sup></strong>
-                    <div class="kwverse_1_9_25"> untuk menggantikan tempat dalam pelayanan ini dan kerasulan yang mana <b data="0">Yudas Iskariot</b> telah melanggarnya untuk pergi ke tempat yang telah menjadi miliknya. </div>
+                    <div class="kwverse_1_9_25"> untuk menggantikan tempat dalam pelayanan ini dan kerasulan yang mana Yudas Iskariot telah melanggarnya untuk pergi ke tempat yang telah menjadi miliknya. </div>
                     <strong><sup>26</sup></strong>
                     <div class="kwverse_1_9_26"> Mereka membuang undi terhadap keduanya; undi itu jatuh pada Matias sehingga ia telah terhitung di antara kesebelas rasul. </div>
                 </div>

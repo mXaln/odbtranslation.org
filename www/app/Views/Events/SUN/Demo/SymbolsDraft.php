@@ -17,15 +17,16 @@ use Helpers\Constants\EventMembers;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
-                    <h4 dir="ltr">English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-3</span> </h4>
+                    <h4 dir="ltr">English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">Matthew 17:1-2</span> </h4>
 
                     <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
 
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
                             <div class="chunk_verses col-sm-6" dir="ltr">
-                                You child strengthened grace Christ Jesus. things you heard among many witnesses
-                                entrust them faithful people teach others. Suffer hardship me, good soldier Christ Jesus.
+                                Six days later Jesus carry Simon_Peter, James(the_Disciple). Jesus carry James(the_Disciple)
+                                * brother John(the_Disciple). Jesus bring them up high mountain alone. Jesus transfigure
+                                before them.. Jesus face same sun. Jesus clothing same sun.
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <textarea name="symbols"

@@ -1332,7 +1332,7 @@ $(document).ready(function() {
                 var confirmTxt = Language.delKeywordL2;
             }
 
-            renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>?', function () {
+            renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>', function () {
                 $(this).dialog("close");
 
                 var parent = $this.parents("div[class^=kwverse]");

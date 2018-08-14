@@ -14,137 +14,160 @@
         <div class="main_content col-sm-9">
             <div class="main_content_text">
 
-                <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">Matthew 17:1-27</span></h4>
 
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="1" type="checkbox">
-                        <strong><sup>1</sup></strong> You therefore, my child, be strengthened in the grace that is in Christ Jesus.                        </label>
+                        <strong><sup>1</sup></strong> Six days later Jesus took with him Peter, James, and John his brother,
+                        and brought them up a high mountain by themselves.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="2" type="checkbox">
-                        <strong><sup>2</sup></strong> And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.                        </label>
+                        <strong><sup>2</sup></strong> He was transfigured before them. His face shone like the sun, and
+                        his garments became as brilliant as the light.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="3" type="checkbox">
-                        <strong><sup>3</sup></strong> Suffer hardship with me, as a good soldier of Christ Jesus.                        </label>
+                        <strong><sup>3</sup></strong> Behold, there appeared to them Moses and Elijah talking with him.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="4" type="checkbox">
-                        <strong><sup>4</sup></strong> No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.                        </label>
+                        <strong><sup>4</sup></strong> Peter answered and said to Jesus, "Lord, it is good for us to be here.
+                        If you desire, I will make here three shelters—one for you, and one for Moses, and one for Elijah."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="5" type="checkbox">
-                        <strong><sup>5</sup></strong> Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.                        </label>
+                        <strong><sup>5</sup></strong> While he was still speaking, behold, a bright cloud overshadowed them,
+                        and behold, there was a voice out of the cloud, saying, "This is my beloved Son, in whom I am
+                        well pleased. Listen to him."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="6" type="checkbox">
-                        <strong><sup>6</sup></strong> It is necessary that the hardworking farmer receive his share of the crops first.                        </label>
+                        <strong><sup>6</sup></strong> When the disciples heard it, they fell on their face and were very afraid.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="7" type="checkbox">
-                        <strong><sup>7</sup></strong> Think about what I am saying, for the Lord will give you understanding in everything.                        </label>
+                        <strong><sup>7</sup></strong> Then Jesus came and touched them and said, "Get up and do not be afraid."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="8" type="checkbox">
-                        <strong><sup>8</sup></strong> Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,                        </label>
+                        <strong><sup>8</sup></strong> Then they looked up but saw no one except Jesus only.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="9" type="checkbox">
-                        <strong><sup>9</sup></strong> for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.                        </label>
+                        <strong><sup>9</sup></strong> As they were coming down the mountain, Jesus commanded them, saying,
+                        "Report this vision to no one until the Son of Man has risen from the dead."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="10" type="checkbox">
-                        <strong><sup>10</sup></strong> Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.                        </label>
+                        <strong><sup>10</sup></strong> His disciples asked him, saying, "Why then do the scribes say that
+                        Elijah must come first?"</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="11" type="checkbox">
-                        <strong><sup>11</sup></strong> This saying is trustworthy:   "If we have died with him, we will also live with him.                         </label>
+                        <strong><sup>11</sup></strong> Jesus answered and said, "Elijah will indeed come and restore all things.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="12" type="checkbox">
-                        <strong><sup>12</sup></strong> If we endure, we will also reign with him. If we deny him, he also will deny us.                         </label>
+                        <strong><sup>12</sup></strong> But I tell you, Elijah has already come, but they did not recognize him.
+                        Instead, they did whatever they wanted to him. In the same way, the Son of Man will also suffer at their hands."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="13" type="checkbox">
-                        <strong><sup>13</sup></strong> if we are unfaithful, he remains faithful,  for he cannot deny himself."                         </label>
+                        <strong><sup>13</sup></strong> Then the disciples understood that he was speaking to them about John the Baptist.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="14" type="checkbox">
-                        <strong><sup>14</sup></strong> Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen. <note data-original-title="Some versions read, Warn them before the Lord " data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note>                        </label>
+                        <strong><sup>14</sup></strong> When they had come to the crowd, a man came to him, knelt before him, and said,</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="15" type="checkbox">
-                        <strong><sup>15</sup></strong> Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.                        </label>
+                        <strong><sup>15</sup></strong> "Lord, have mercy on my son, for he is epileptic and suffers severely. For he often falls into the fire or the water.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="16" type="checkbox">
-                        <strong><sup>16</sup></strong> Avoid profane talk, which leads to more and more godlessness.                        </label>
+                        <strong><sup>16</sup></strong> I brought him to your disciples, but they could not cure him."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="17" type="checkbox">
-                        <strong><sup>17</sup></strong> Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.                        </label>
+                        <strong><sup>17</sup></strong> Jesus answered and said, "Unbelieving and corrupt generation,
+                        how long will I have to stay with you? How long must I bear with you? Bring him here to me."</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="18" type="checkbox">
-                        <strong><sup>18</sup></strong> These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.                        </label>
+                        <strong><sup>18</sup></strong> Jesus rebuked the demon, and it came out of him, and the boy was healed from that hour.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="19" type="checkbox">
-                        <strong><sup>19</sup></strong> However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."                        </label>
+                        <strong><sup>19</sup></strong> Then the disciples came to Jesus privately and said, "Why could we not cast it out?"</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="20" type="checkbox">
-                        <strong><sup>20</sup></strong> In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.                        </label>
+                        <strong><sup>20</sup></strong> Jesus said to them, "Because of your small faith. For I truly say to
+                        you, if you have faith even as small as a grain of mustard seed, you can say to this mountain,
+                        'Move from here to there,' and it will move, and nothing will be impossible for you.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="21" type="checkbox">
-                        <strong><sup>21</sup></strong> If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.                        </label>
+                        <strong><sup>21</sup></strong> <note data-original-title="The best ancient copies do not have v. 21, 'But
+                                                            this kind of demon does not go out except with prayer and fasting'"
+                                                             data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note></label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="22" type="checkbox">
-                        <strong><sup>22</sup></strong> Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.                        </label>
+                        <strong><sup>22</sup></strong> While they stayed in Galilee, Jesus said to his disciples, "The Son of Man will be delivered into the hands of people,</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="23" type="checkbox">
-                        <strong><sup>23</sup></strong> But refuse foolish and ignorant questions. You know that they give birth to arguments.                        </label>
+                        <strong><sup>23</sup></strong> and they will kill him, and the third day he will be raised up." The disciples became very upset.</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="24" type="checkbox">
-                        <strong><sup>24</sup></strong> The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.                        </label>
+                        <strong><sup>24</sup></strong> When they had come to Capernaum, the men who collected the
+                        two-drachma tax came to Peter and said, "Does not your teacher pay the two-drachma tax?"</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="25" type="checkbox">
-                        <strong><sup>25</sup></strong> He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.                        </label>
+                        <strong><sup>25</sup></strong> He said, "Yes." When Peter came into the house, Jesus spoke to him
+                        first and said, "What do you think, Simon? From whom do the kings of the earth collect tolls or
+                        taxes? From their sons or from others?"</label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="26" type="checkbox">
-                        <strong><sup>26</sup></strong> They may become sober again and leave the devil's trap, after they have been captured by him for his will.                        </label>
+                        <strong><sup>26</sup></strong> When he said, "From others," Jesus said to him, "Then the sons are free..</label>
+                </p>
+                <p class="verse_p">
+                    <label class="verse_number_label">
+                        <input name="verse" class="verse_number" value="26" type="checkbox">
+                        <strong><sup>26</sup></strong> But so that we do not cause the tax collectors to sin, go to the sea,
+                        throw in a hook, and draw in the fish that comes up first. When you have opened its mouth, you
+                        will find a shekel. Take it and give it to the tax collectors for me and you."</label>
                 </p>
             </div>
 

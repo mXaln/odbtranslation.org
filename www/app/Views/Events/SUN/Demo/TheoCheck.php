@@ -29,13 +29,19 @@
                 <div class="no_padding">
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in <b data="0">Christ Jesus</b>.</div></div>
-                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to <b data="0">faithful</b> people who will be able to teach others also.</div></div>
-                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of <b data="0">Christ Jesus</b>.</div></div>
+                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">Six days later
+                                    Jesus took with him Peter, James, and <b data="0">John his brother</b>, and <b data="0">brought</b> them up a high
+                                    mountain by themselves.</div></div>
+                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">He was <b data="0">transfigured</b>
+                                    before them. His face shone like the sun, and his garments became as brilliant as the light.</div></div>
+                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Behold, there appeared
+                                    to them Moses and Elijah talking with him.</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"><p>                             </p></div>
+                                <div class="verse_block font_backsun"><p> 
+                                            ,                          
+                                              ,  ,              </p></div>
                                 <div class="comments_number hasComment">2 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments">
@@ -51,14 +57,24 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No <b data="0">soldier</b> serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
-                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an <b data="0">athlete</b>, he is not crowned unless he competes by the rules.</div></div>
-                            <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
-                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what <b data="0">I</b> am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
+                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">Peter answered and
+                                    said to Jesus, "<b data="0">Lord</b>, it is good for us to be here. If you desire, I will make here
+                                    three shelters—one for you, and one for Moses, and one for Elijah."</div></div>
+                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">While he was still
+                                    speaking, behold, a bright cloud overshadowed them, and behold, there was a voice
+                                    out of the cloud, saying, "This is my beloved Son, in whom I am well pleased.
+                                    Listen to him."</div></div>
+                            <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">When the disciples
+                                    heard it, they fell on their face and were very afraid.</div></div>
+                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Then Jesus came
+                                    and touched them and said, "Get up and do not be afraid."</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p>     ”  ,  
+                                             ,                     ,       
+                                           ”                  ,           
+                                              ”      ” </p> </div>
                                 <div class="comments_number hasComment">1 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments">
@@ -74,13 +90,18 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</div></div>
-                            <div> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</div></div>
-                            <div> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</div></div>
+                            <div> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Then they looked
+                                    up but saw no one except Jesus only.</div></div>
+                            <div> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">As they were coming
+                                    down the mountain, Jesus commanded them, saying, "Report this vision to no one until
+                                    the Son of Man has risen from the dead."</div></div>
+                            <div> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">His disciples
+                                    asked him, saying, "Why then do the scribes say that Elijah must come first?"</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p>                  ”  
+                                                ”       ? “ </p> </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments"> </div>
@@ -91,14 +112,21 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">This saying is trustworthy: "If we have died with him, we will also live with him.</div></div>
-                            <div> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">If we endure, we will also reign with him. If we deny him, he also will deny us.</div></div>
-                            <div> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">if we are unfaithful, he remains faithful, for he cannot deny himself."</div></div>
-                            <div> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen.</div></div>
+                            <div> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">Jesus answered
+                                    and said, "Elijah will indeed come and restore all things.</div></div>
+                            <div> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">But I tell you,
+                                    Elijah has already come, but they did not recognize him. Instead, they did whatever
+                                    they wanted to him. In the same way, the Son of Man will also suffer at their hands."</div></div>
+                            <div> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">Then the disciples
+                                    understood that he was speaking to them about John the Baptist.</div></div>
+                            <div> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">When they had
+                                    come to the crowd, a man came to him, knelt before him, and said,</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p>    ”           ,         
+                                                                         
+                                           </p> </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments"> </div>
@@ -109,13 +137,19 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</div></div>
-                            <div> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">Avoid profane talk, which leads to more and more godlessness.</div></div>
-                            <div> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</div></div>
+                            <div> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">"Lord, have mercy
+                                    on my son, for he is epileptic and suffers severely. For he often falls into the fire or the water.</div></div>
+                            <div> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">I brought him
+                                    to your disciples, but they could not cure him."</div></div>
+                            <div> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Jesus answered and said,
+                                    "Unbelieving and corrupt generation, how long will I have to stay with you? How long
+                                    must I bear with you? Bring him here to me."</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p> ”  ,                  
+                                                       ”    ”            
+                                        ?        ” </p> </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments"> </div>
@@ -126,13 +160,20 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</div></div>
-                            <div> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</div></div>
-                            <div> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.</div></div>
+                            <div> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">Jesus rebuked the demon,
+                                    and it came out of him, and the boy was healed from that hour.</div></div>
+                            <div> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">Then the disciples
+                                    came to Jesus privately and said, "Why could we not cast it out?"</div></div>
+                            <div> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">Jesus said to them,
+                                    "Because of your small faith. For I truly say to you, if you have faith even as small
+                                    as a grain of mustard seed, you can say to this mountain, 'Move from here to there,'
+                                    and it will move, and nothing will be impossible for you.</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p>                    
+                                            ”        ? “   ”                
+                                              ’       ’         ” </p> </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments"> </div>
@@ -143,13 +184,19 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21">If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</div></div>
-                            <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</div></div>
-                            <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">But refuse foolish and ignorant questions. You know that they give birth to arguments.</div></div>
+                            <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21"><note
+                                            data-original-title="The best ancient copies do not have v. 21, 'But
+                                                            this kind of demon does not go out except with prayer and fasting'"
+                                             data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note></div></div>
+                            <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">While they stayed
+                                    in Galilee, Jesus said to his disciples, "The Son of Man will be delivered into the hands of people,</div></div>
+                            <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">and they will kill him,
+                                    and the third day he will be raised up." The disciples became very upset.</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p> Verse 21 removed in ULB.         
+                                          ”                ”     </p> </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments"> </div>
@@ -160,13 +207,26 @@
                     <div class="chunk_divider col-sm-12"></div>
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</div></div>
-                            <div> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</div></div>
-                            <div> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">They may become sober again and leave the devil's trap, after they have been captured by him for his will.</div></div>
+                            <div> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">When they had come to
+                                    Capernaum, the men who collected the two-drachma tax came to Peter and said,
+                                    "Does not your teacher pay the two-drachma tax?"</div></div>
+                            <div> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He said, "Yes."
+                                    When Peter came into the house, Jesus spoke to him first and said, "What do you think,
+                                    Simon? From whom do the kings of the earth collect tolls or taxes? From their sons
+                                    or from others?"</div></div>
+                            <div> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">When he said,
+                                    "From others," Jesus said to him, "Then the sons are free..</div></div>
+                            <div> <strong class="ltr"> <sup>27</sup> </strong> <div class="kwverse_2_0_27">But so that
+                                    we do not cause the tax collectors to sin, go to the sea, throw in a hook, and draw
+                                    in the fish that comes up first. When you have opened its mouth, you will find a shekel.
+                                    Take it and give it to the tax collectors for me and you."</div></div>
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block font_backsun"> <p>                             </p> </div>
+                                <div class="verse_block font_backsun"> <p>                 ? “ 
+                                          ”  ”     ,      "    ?      ? 
+                                          , “  ”    ,                      
+                                                             ” </p> </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments"> </div>

@@ -593,8 +593,9 @@ return array (
                                 <li>Type or copy and paste the scripture, and then translate the Note that goes with the scripture on the next line.</li>
                                 <li>Format the text by double clicking the line to format and selecting the format. 
                                     <ol>
-                                        <li>Scripture is the larger text. For formatting double click and select \"Header 1.\"</li>
-                                        <li>The translated Note is the smaller text. For formatting double click and select \"Normal.\"</li>
+                                        <li>Scripture is the larger text. To format double click and select \"Header 1.\"</li>
+                                        <li>The translated Note is the smaller text. To format double click and select \"Normal.\"</li>
+                                        <li>To format subtitles in  “Intro” sections, double click and select \"Header 4.\"</li>
                                     </ol>
                                 </li>
                                 <li>No need to translate links.</li>
@@ -735,6 +736,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>
                                 <li>WARNING: This is the last chance you will have to check the Notes.  
                                     Do not click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
+
     "peer-review_tn_chk_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                     <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
                                     <li>You will see all changes the 1st checker made to the Notes. 
@@ -1006,17 +1008,170 @@ return array (
 
     "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",
 
+    "consume_l2_desc" => "<li><b>PURPOSE:</b> to intake source text to become familiar with text you will check.</li>
+                <li>Read the assigned chapter carefully in the source text AND in the target text.
+                    Switch between source and target text by clicking on the tabs.</li>
+                <li>Try to understand the meaning and details of the text to get a general overview.</li>
+                <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over it with your mouse.  It is a translator’s note for that verse.</li>
+                <li>This step should take about 10 minutes.</li>
+                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+
     "fst-check" => "Check Text",
     "fst-check_full" => "1st Check: Check Target Text",
+    "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
+                        <li>The column on the left is the source text and the right is editable target text.</li>
+                        <li>Any changes made on this step by the checker will be reflected in the next checking steps:
+                            <ol>
+                                <li>Added text will show in green.</li>
+                                <li>Deleted text will show in red.</li>
+                            </ol>
+                        </li>
+                        <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
+                        <li>The primary purpose is to check the accuracy of the translation in detail.</li>
+                        <li>If you see errors in spelling, punctuation, flow/naturalness, please correct it.</li>
+                        <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
+                            <ol>
+                                <li>If there is a note, there will be a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
+                                <li>Notes are viewed per \"chunk\" because notes are carried from the translation process 
+                                    where they translated chunks instead of verses. </li>
+                                <li>If you have questions or thoughts for the next checkers, you can leave a note for the chunk.</li>
+                            </ol>
+                        </li>
+                        <li>Any resources can be used for checking.</li>
+                        <li>Spend about 30 minutes on this step. </li>
+                        <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
 
     "snd-check" => "Peer Check",
     "snd-check_full" => "2nd Check: Peer-Check Target Text",
+    "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
+                    <li>This is the second check on this chapter of target text.</li>
+                    <li>There are two tabs: The Source text tab is the source text for checker to review before checking.
+                        <ol>
+                            <li>The LEFT column is the source text. There will be green and red highlights in the text. 
+                                Green is text added by the 1st checker. Red is text deleted by the 1st checker. 
+                                If there are no green or red highlights the 1st checker did not make changes to the text.</li>
+                            <li>The RIGHT column is editable target text. Any changes made on this step by the checker will 
+                                be reflected in the next checking steps:
+                                <ul>
+                                    <li>Added text will show in green.</li>
+                                    <li>Deleted text will show in red.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </li>
+                    <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
+                    <li>The primary purpose is to check the accuracy of the translation in detail.</li>
+                    <li>If you see errors in spelling, punctuation, flow/naturalness, please correct it.</li>
+                    <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
+                        <ol>
+                            <li>If there is a note, there will be a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
+                            <li>Notes are viewed per “chunk” because notes are carried from the translation process where they translated chunks instead of verses.</li>
+                            <li>If you have questions or thoughts for the next checkers, you can leave a note for the chunk.</li>
+                        </ol>
+                    </li>
+                    <li>Any resources can be used for checking.</li>
+                    <li>Spend about 30 minutes on this step. </li>
+                    <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
     "keyword-check-l2_full" => "2nd Check: Keyword Check",
+    "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
+                            <li><b>This step will be faster if you use a mouse instead of touchpad.</b></li>
+                            <li>The LEFT column is the source text with yellow highlighted words.
+                                <ol>
+                                    <li>The checker should click on each yellow highlighted word.</li>
+                                    <li>A message will pop up that says, \"Click 'Yes' if this keyword is in target text 
+                                        and accurate. Otherwise click 'No'. The keyword is: _____\"</li>
+                                    <li>If the keyword is represented correctly click 'YES' and the highlighting will disappear.</li>
+                                    <li>If the keyword is not represented correctly click 'No' and the highlighting will stay. 
+                                        Click the note icon (<span class='glyphicon glyphicon-pencil'></span>) next 
+                                        to the chunk and add a note regarding the incorrect word and click save.</li>
+                                </ol>
+                            </li>
+                            <li>The RIGHT column is target text and cannot be edited. Any changes to keywords should 
+                                be added to the notes by clicking the note icon 
+                                (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add a note.</li>
+                            <li>Any resources can be used.	</li>
+                            <li><b>The point is not word for word translation, it is to see if the word/meaning is 
+                                represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
+                            <li>Spend about 10 minutes on this step.</li>
+                            <li>If there are additional thoughts or questions about the translation, click the note 
+                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
+                            <li>When all highlighted words have been checked, click \"yes I did\" and \"next step\".</li>",
 
     "peer-review-l2" => "Discrepancies",
     "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
+    "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
+                        <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
+                        <li>After you have looked over the text, contact the peer-checker to discuss discrepancies via: 
+                            Skype, Messenger, WhatsApp, phone, etc…</li>
+                        <li>The Source text tab has text with yellow highlighted words.
+                            <ol>
+                                <li>Click on each yellow highlighted word that is remaining and discuss with the 
+                                    peer-checker if the word in the target text is accurate.</li>
+                                <li>A message will pop up that says, \"Click 'Yes' if this keyword is in target text 
+                                    and accurate. Otherwise click 'No'. The keyword is: _____\"</li>
+                                <li>If the keyword is represented correctly click 'YES' and the highlighting will disappear.</li>
+                                <li>If the keyword is not represented correctly, make appropriate changes to the target text. 
+                                    Do not forget to check the notes from previous translators and checkers for discussion on this chunk.</li>
+                                <li><b>All highlights have to be resolved on this step. You cannot complete this step 
+                                    until all highlights are removed.</b></li>
+                            </ol>
+                        </li>
+                        <li>The Target text tab:
+                            <ol>
+                                <li>The LEFT column is the source text. There will be green and red highlights in the text. 
+                                    Green is text added by the checkers. Red is text deleted by the checkers. If there 
+                                    are no green or red highlights the checkers did not make changes to the text.</li>
+                                <li>The RIGHT column is editable (the peer-checker cannot edit, but they can see 
+                                    all changes made as they are made by refreshing their screen).</li>
+                            </ol>
+                        </li>
+                        <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
+                        <li>You and the peer-checker should discuss any changes you think should be made. 
+                            If you agree to the changes, you should make the changes right away. If you do not agree, 
+                            contact your facilitator to discuss the disagreement. DO NOT complete this step until 
+                            discrepancies are resolved and changed.</li>
+                        <li>Any resources can be used for checking.</li>
+                        <li>Spend about 30 minutes on this step.</li>
+                        <li>When all changes and notes have been made click, \"yes I did\" and \"next step.\"</li>",
+
+    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies 
+                                    with a peer-checker.</li>
+                            <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
+                            <li>After you have looked over the text, contact the peer-checker to discuss discrepancies 
+                                via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                            <li>Your peer-checker will make all edits to the target text.  You can see all edits 
+                                by clicking refresh on your browser as they make changes.</li>
+                            <li>The Source text tab has text with yellow highlighted words.
+                                <ol>
+                                    <li>Discuss with the peer-checker if the word in the target text is accurate.</li>
+                                    <li>If the keyword is represented correctly the peer-checker will click 'YES' 
+                                        on a pop-up message on their page, and the highlighting will disappear.</li>
+                                    <li>If the keyword is not represented correctly, the peer-checker will make 
+                                        appropriate changes to the target text. Do not forget to check the notes from 
+                                        previous translators and checkers for discussion on this chunk.</li>
+                                    <li><b>All highlights have to be resolved on this step. You cannot complete this step 
+                                        until all highlights are removed.</b></li>
+                                </ol>
+                            </li>
+                            <li>The Target text tab:
+                                <ol>
+                                    <li>The LEFT column is the source text. There will be green and red highlights in the text. 
+                                        Green is text added by the checkers. Red is text deleted by the checkers. 
+                                        If there are no green or red highlights the checkers did not make changes to the text.</li>
+                                    <li>The RIGHT column <b>can be edited by your peer-checker</b> (again, you can see all 
+                                        changes made as they are made by refreshing your screen).</li>
+                                </ol>
+                            </li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>You and the peer-checker should discuss any changes you think should be made. If you 
+                                agree to the changes, your peer-checker will make the changes right away. If you do 
+                                not agree, contact your facilitator to discuss the disagreement. DO NOT complete 
+                                this step until discrepancies are resolved and changed.</li>
+                            <li>Any resources can be used for checking.</li>
+                            <li>Spend about 30 minutes on this step.</li>
+                            <li>When all changes and notes have been made click, \"yes I did\" and \"next step.\"</li>",
 
     "multi-draft" => "Draft",
     "multi-draft_full" => "Consume, Verbalize, and Draft",
@@ -1120,7 +1275,7 @@ return array (
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
-    "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> o read the source text, to say it aloud to engage your memory, and 
+    "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> To read the source text, to say it aloud to engage your memory, and 
                                     draft the text in the target language.</li>
                                 <li>Read the assigned Words, Definitions/Facts & Translation Suggestions carefully in the source text.</li>
                                 <li>Click on the \"Consume\" box to indicate this step is completed.</li>

@@ -176,7 +176,7 @@ use Helpers\Constants\EventMembers;
                     <?php echo __("peer-review-l2")?>
                 </div>
                 <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review-l2_desc")?></ul>
+                    <ul><?php echo $data["event"][0]->peer == 1 ? __("peer-review-l2_desc") : __("peer-review-l2_chk_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                 </div>
             </div>
@@ -218,7 +218,7 @@ use Helpers\Constants\EventMembers;
 
         <div class="tutorial_content">
             <h3><?php echo __("peer-review-l2_full")?></h3>
-            <ul><?php echo __("peer-review-l2_desc")?></ul>
+            <ul><?php echo $data["event"][0]->peer == 1 ? __("peer-review-l2_desc") : __("peer-review-l2_chk_desc")?></ul>
         </div>
     </div>
 </div>

@@ -10225,10 +10225,10 @@ class EventsController extends Controller
             $notifObj->currentChapter = 2;
             $notifObj->firstName = "Mark";
             $notifObj->lastName = "Patton";
-            $notifObj->bookCode = "2ti";
+            $notifObj->bookCode = "mat";
             $notifObj->bookProject = "sun";
             $notifObj->tLang = "English";
-            $notifObj->bookName = "2 Timothy";
+            $notifObj->bookName = "Matthew";
             $notifObj->manageMode = "sun";
 
             $notifications[] = $notifObj;
