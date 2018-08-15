@@ -34,8 +34,9 @@
                         <div class="row chunk_block words_block verse" style="width: 100%;">
                             <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
                                 <strong class="ltr"> <sup>1-2</sup> </strong>
-                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea" style="min-height: 200px">  
-                                       ,                               </textarea>
+                                <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
+                                          style="min-height: 200px">      ,                  
+                                                </textarea>
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
@@ -62,7 +63,7 @@
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 200px;">  ,  ,              
-                                           ”  ,        ,                 </textarea>
+                                           ”  ,        ,                  </textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -123,8 +124,8 @@
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
-                                              style="min-height: 260px;">                  
-                                          ”  ,                                  ” </textarea>
+                                              style="min-height: 260px;">                     ”  , 
+                                                                        ” </textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -163,8 +164,8 @@
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
-                                              style="min-height: 260px;">          ”        ?
-                                        “   ”                       ’       ’         ” </textarea>
+                                              style="min-height: 260px;">          ”        ? “   ”  
+                                                            ’       ’         ” </textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
                                     <div class="clear"></div>
@@ -176,14 +177,14 @@
                             <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
                                 <strong class="ltr"> <sup>21-23</sup> </strong>
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
-                                          style="min-height: 200px;"> Verse removed in ULB.         
+                                          style="min-height: 200px;"> Verse 21 removed in ULB.         
                                       ”                ”     </textarea>
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
-                                              style="min-height: 200px;"> Verse removed in ULB.        
+                                              style="min-height: 200px;"> Verse 21 removed in ULB.        
                                            ”                ”     </textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>
@@ -207,7 +208,7 @@
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 450px;">                 ? “ 
                                           ”  ”     ,      "    ?      ?  
-                                        , “  ”    ,     27                    
+                                        , “  ”    ,                        
                                                            ” </textarea>
                                     <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
                                     <div class="comments"> </div>

@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [2]).")" ?></div>
-            <div><?php echo __("step_num", [5]) . ": " . __("peer-review-l2_full")?></div>
+            <div><?php echo __("peer-review-l2_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -278,7 +278,7 @@
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [5])?></div>
+                <div class="step_right"></div>
             </div>
         </div>
 
@@ -289,7 +289,7 @@
 
                 <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [5])?>:</span> <?php echo __("peer-review-l2")?></div>
+                <div class="help_name_steps"><span><?php echo __("peer-review-l2")?></span> </div>
                 <div class="help_descr_steps">
                     <ul><?php echo __("peer-review-l2_desc")?></ul>
                     <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
