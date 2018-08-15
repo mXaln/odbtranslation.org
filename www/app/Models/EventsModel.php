@@ -1289,7 +1289,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE (chks.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l2 WHERE memberID = :memberID) ".
-            "OR ".PREFIX."events.admins LIKE :adminID) ".
+            "OR ".PREFIX."events.admins_l2 LIKE :adminID) ".
             "AND chks.sndCheck != '' ";
 
         $prepare = [

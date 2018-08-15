@@ -72,30 +72,30 @@ if(!isset($error)):
                             && array_key_exists($chapter, $chapData["crCheck"])
                             && $chapData["crCheck"][$chapter]["memberID"] > 0;
 
-                        $kwName = "";
-                        $crName = "";
+                        $kwName = $kw ? "Unknown: " . $chapData["kwCheck"][$chapter]["memberID"] : "";
+                        $crName = $cr ? "Unknown: " . $chapData["crCheck"][$chapter]["memberID"] : "";
                         if($kw)
                         {
                             $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                            if($kwKey)
+                            if($kwKey !== false)
                                 $kwName = $data["members"][$kwKey]["firstName"] . " " . mb_substr($data["members"][$kwKey]["lastName"], 0, 1).".";
-
-                            if(!$kwKey)
+                            else
                             {
                                 $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                $kwName = $data["out_members"][$kwKey]->firstName . " " . mb_substr($data["out_members"][$kwKey]->lastName, 0, 1).".";
+                                if($kwKey !== false)
+                                    $kwName = $data["out_members"][$kwKey]->firstName . " " . mb_substr($data["out_members"][$kwKey]->lastName, 0, 1).".";
                             }
                         }
                         if($cr)
                         {
                             $crKey = array_search($chapData["crCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                            if($crKey)
+                            if($crKey !== false)
                                 $crName = $data["members"][$crKey]["firstName"] . " " . mb_substr($data["members"][$crKey]["lastName"], 0, 1).".";
-
-                            if(!$crKey)
+                            else
                             {
                                 $crKey = array_search($chapData["crCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                $crName = $data["out_members"][$crKey]->firstName . " " . mb_substr($data["out_members"][$crKey]->lastName, 0, 1).".";
+                                if($crKey !== false)
+                                    $crName = $data["out_members"][$crKey]->firstName . " " . mb_substr($data["out_members"][$crKey]->lastName, 0, 1).".";
                             }
 
                         }
@@ -124,30 +124,30 @@ if(!isset($error)):
                             && array_key_exists($chapter, $chapData["peerCheck"])
                             && $chapData["peerCheck"][$chapter]["memberID"] > 0;
 
-                        $otherName = "";
-                        $peerName = "";
+                        $otherName = $other ? "Unknown: " . $chapData["otherCheck"][$chapter]["memberID"] : "";
+                        $peerName = $peer ? "Unknown: " . $chapData["peerCheck"][$chapter]["memberID"] : "";
                         if($other)
                         {
                             $otherKey = array_search($chapData["otherCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                            if($otherKey)
+                            if($otherKey !== false)
                                 $otherName = $data["members"][$otherKey]["firstName"] . " " . mb_substr($data["members"][$otherKey]["lastName"], 0, 1).".";
-
-                            if(!$otherKey)
+                            else
                             {
                                 $otherKey = array_search($chapData["otherCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                $otherName = $data["out_members"][$otherKey]->firstName . " " . mb_substr($data["out_members"][$otherKey]->lastName, 0, 1).".";
+                                if($otherKey !== false)
+                                    $otherName = $data["out_members"][$otherKey]->firstName . " " . mb_substr($data["out_members"][$otherKey]->lastName, 0, 1).".";
                             }
                         }
                         if($peer)
                         {
                             $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                            if($peerKey)
+                            if($peerKey !== false)
                                 $peerName = $data["members"][$peerKey]["firstName"] . " " . mb_substr($data["members"][$peerKey]["lastName"], 0, 1).".";
-
-                            if(!$peerKey)
+                            else
                             {
                                 $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                $peerName = $data["out_members"][$peerKey]->firstName . " " . mb_substr($data["out_members"][$peerKey]->lastName, 0, 1).".";
+                                if($peerKey !== false)
+                                    $peerName = $data["out_members"][$peerKey]->firstName . " " . mb_substr($data["out_members"][$peerKey]->lastName, 0, 1).".";
                             }
 
                         }
@@ -177,30 +177,30 @@ if(!isset($error)):
                             && array_key_exists($chapter, $chapData["peerCheck"])
                             && $chapData["peerCheck"][$chapter]["memberID"] > 0;
 
-                        $kwName = "";
-                        $peerName = "";
+                        $kwName = $kw ? "Unknown: " . $chapData["kwCheck"][$chapter]["memberID"] : "";
+                        $peerName = $peer ? "Unknown: " . $chapData["peerCheck"][$chapter]["memberID"] : "";
                         if($kw)
                         {
                             $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                            if($kwKey)
+                            if($kwKey !== false)
                                 $kwName = $data["members"][$kwKey]["firstName"] . " " . mb_substr($data["members"][$kwKey]["lastName"], 0, 1).".";
-
-                            if(!$kwKey)
+                            else
                             {
                                 $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                $kwName = $data["out_members"][$kwKey]->firstName . " " . mb_substr($data["out_members"][$kwKey]->lastName, 0, 1).".";
+                                if($kwKey !== false)
+                                    $kwName = $data["out_members"][$kwKey]->firstName . " " . mb_substr($data["out_members"][$kwKey]->lastName, 0, 1).".";
                             }
                         }
                         if($peer)
                         {
                             $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                            if($peerKey)
+                            if($peerKey !== false)
                                 $peerName = $data["members"][$peerKey]["firstName"] . " " . mb_substr($data["members"][$peerKey]["lastName"], 0, 1).".";
-
-                            if(!$peerKey)
+                            else
                             {
                                 $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                $peerName = $data["out_members"][$peerKey]->firstName . " " . mb_substr($data["out_members"][$peerKey]->lastName, 0, 1).".";
+                                if($peerKey !== false)
+                                    $peerName = $data["out_members"][$peerKey]->firstName . " " . mb_substr($data["out_members"][$peerKey]->lastName, 0, 1).".";
                             }
 
                         }

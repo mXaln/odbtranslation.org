@@ -8824,7 +8824,9 @@ class EventsController extends Controller
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
 
-            $data["members"] = $this->_model->getMembersForEvent($data["event"][0]->eventID, $data["event"][0]->bookProject);
+            $data["members"] = $this->_model->getMembersForEvent(
+                $data["event"][0]->eventID,
+                $data["event"][0]->bookProject);
             $data["out_members"] = [];
 
             // Include sun checkers that are not in the list of participants (usually superadmins)
@@ -8864,7 +8866,7 @@ class EventsController extends Controller
 
                 $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
             }
-            elseif ($data["event"][0]->bookProject == "tq" || $data["event"][0]->bookProject == "tw")
+            elseif ($data["event"][0]->bookProject == "tq")
             {
                 $tmpmems = [];
                 foreach ($data["members"] as $key => $member) {
@@ -9091,7 +9093,32 @@ class EventsController extends Controller
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
 
-            $data["members"] = $this->_model->getMembersForL2Event($data["event"][0]->eventID, $data["event"][0]->bookProject);
+            $data["members"] = $this->_model->getMembersForL2Event(
+                $data["event"][0]->eventID,
+                $data["event"][0]->bookProject);
+            $data["out_members"] = [];
+
+            // Include l2 checkers that are not in the list of participants (usually superadmins)
+            $tmpmems = [];
+            foreach ($data["members"] as $key => $member) {
+                $snd = (array)json_decode($member["sndCheck"], true);
+                $peer1 = (array)json_decode($member["peer1Check"], true);
+                $peer2 = (array)json_decode($member["peer2Check"], true);
+
+                foreach ($snd as $chap) {
+                    $tmpmems[] = $chap["memberID"];
+                }
+
+                foreach ($peer1 as $chap) {
+                    $tmpmems[] = $chap["memberID"];
+                }
+
+                foreach ($peer2 as $chap) {
+                    $tmpmems[] = $chap["memberID"];
+                }
+            }
+
+            $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
             
             if (isset($_POST) && !empty($_POST)) {
                 if(!empty(array_filter($data["chapters"])))
