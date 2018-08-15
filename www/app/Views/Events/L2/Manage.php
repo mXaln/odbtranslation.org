@@ -84,7 +84,7 @@ if(!isset($error)):
                             else {
                                 $sndKey = array_search($chapData["sndCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($sndKey !== false)
-                                    $sndName = $data["out_members"][$sndKey]->firstName . " " . mb_substr($data["out_members"][$sndKey]->lastName, 0, 1).".";
+                                    $sndName = $data["out_members"][$sndKey]["firstName"] . " " . mb_substr($data["out_members"][$sndKey]["lastName"], 0, 1).".";
                             }
                         }
                         if($p1)
@@ -95,7 +95,7 @@ if(!isset($error)):
                             else {
                                 $p1Key = array_search($chapData["peer1Check"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($p1Key !== false)
-                                    $p1Name = $data["out_members"][$p1Key]->firstName . " " . mb_substr($data["out_members"][$p1Key]->lastName, 0, 1).".";
+                                    $p1Name = $data["out_members"][$p1Key]["firstName"] . " " . mb_substr($data["out_members"][$p1Key]["lastName"], 0, 1).".";
                             }
                         }
                         if($p2)
@@ -106,7 +106,7 @@ if(!isset($error)):
                             else {
                                 $p2Key = array_search($chapData["peer2Check"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($p2Key !== false)
-                                    $p2Name = $data["out_members"][$p2Key]->firstName . " " . mb_substr($data["out_members"][$p2Key]->lastName, 0, 1).".";
+                                    $p2Name = $data["out_members"][$p2Key]["firstName"] . " " . mb_substr($data["out_members"][$p2Key]["lastName"], 0, 1).".";
                             }
                         }
                         ?>

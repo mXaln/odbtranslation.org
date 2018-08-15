@@ -8847,6 +8847,7 @@ class EventsController extends Controller
                 }
 
                 $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
+                $data["out_members"] = array_map(function ($item){ return (array)$item;}, $data["out_members"]);
             }
             elseif ($data["event"][0]->bookProject == "tn")
             {
@@ -8865,6 +8866,7 @@ class EventsController extends Controller
                 }
 
                 $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
+                $data["out_members"] = array_map(function ($item){ return (array)$item;}, $data["out_members"]);
             }
             elseif ($data["event"][0]->bookProject == "tq")
             {
@@ -8883,6 +8885,7 @@ class EventsController extends Controller
                 }
 
                 $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
+                $data["out_members"] = array_map(function ($item){ return (array)$item;}, $data["out_members"]);
             }
 
             if (isset($_POST) && !empty($_POST)) {
@@ -9000,6 +9003,7 @@ class EventsController extends Controller
                 }
 
                 $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
+                $data["out_members"] = array_map(function ($item){ return (array)$item;}, $data["out_members"]);
             }
 
             if (isset($_POST) && !empty($_POST)) {
@@ -9118,8 +9122,9 @@ class EventsController extends Controller
                 }
             }
 
-            $data["out_members"] = (array)$this->_membersModel->getMembers($tmpmems);
-            
+            $data["out_members"] = $this->_membersModel->getMembers($tmpmems);
+            $data["out_members"] = array_map(function ($item){ return (array)$item;}, $data["out_members"]);
+
             if (isset($_POST) && !empty($_POST)) {
                 if(!empty(array_filter($data["chapters"])))
                 {

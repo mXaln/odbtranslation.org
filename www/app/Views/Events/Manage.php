@@ -83,7 +83,7 @@ if(!isset($error)):
                             {
                                 $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($kwKey !== false)
-                                    $kwName = $data["out_members"][$kwKey]->firstName . " " . mb_substr($data["out_members"][$kwKey]->lastName, 0, 1).".";
+                                    $kwName = $data["out_members"][$kwKey]["firstName"] . " " . mb_substr($data["out_members"][$kwKey]["lastName"], 0, 1).".";
                             }
                         }
                         if($cr)
@@ -95,7 +95,7 @@ if(!isset($error)):
                             {
                                 $crKey = array_search($chapData["crCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($crKey !== false)
-                                    $crName = $data["out_members"][$crKey]->firstName . " " . mb_substr($data["out_members"][$crKey]->lastName, 0, 1).".";
+                                    $crName = $data["out_members"][$crKey]["firstName"] . " " . mb_substr($data["out_members"][$crKey]["lastName"], 0, 1).".";
                             }
 
                         }
@@ -135,7 +135,7 @@ if(!isset($error)):
                             {
                                 $otherKey = array_search($chapData["otherCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($otherKey !== false)
-                                    $otherName = $data["out_members"][$otherKey]->firstName . " " . mb_substr($data["out_members"][$otherKey]->lastName, 0, 1).".";
+                                    $otherName = $data["out_members"][$otherKey]["firstName"] . " " . mb_substr($data["out_members"][$otherKey]["lastName"], 0, 1).".";
                             }
                         }
                         if($peer)
@@ -147,7 +147,7 @@ if(!isset($error)):
                             {
                                 $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($peerKey !== false)
-                                    $peerName = $data["out_members"][$peerKey]->firstName . " " . mb_substr($data["out_members"][$peerKey]->lastName, 0, 1).".";
+                                    $peerName = $data["out_members"][$peerKey]["firstName"] . " " . mb_substr($data["out_members"][$peerKey]["lastName"], 0, 1).".";
                             }
 
                         }
@@ -188,7 +188,7 @@ if(!isset($error)):
                             {
                                 $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($kwKey !== false)
-                                    $kwName = $data["out_members"][$kwKey]->firstName . " " . mb_substr($data["out_members"][$kwKey]->lastName, 0, 1).".";
+                                    $kwName = $data["out_members"][$kwKey]["firstName"] . " " . mb_substr($data["out_members"][$kwKey]["lastName"], 0, 1).".";
                             }
                         }
                         if($peer)
@@ -200,7 +200,7 @@ if(!isset($error)):
                             {
                                 $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                 if($peerKey !== false)
-                                    $peerName = $data["out_members"][$peerKey]->firstName . " " . mb_substr($data["out_members"][$peerKey]->lastName, 0, 1).".";
+                                    $peerName = $data["out_members"][$peerKey]["firstName"] . " " . mb_substr($data["out_members"][$peerKey]["lastName"], 0, 1).".";
                             }
 
                         }
