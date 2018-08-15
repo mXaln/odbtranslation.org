@@ -24,7 +24,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text row" style="padding-left: 15px">
-                <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">Matthew 17:1-27</span></h4>
 
                 <ul class="nav nav-tabs">
                     <li role="presentation" id="source_scripture" class="my_tab">
@@ -48,8 +48,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 verse_ta textarea sun_content"
-                                          style="min-height: 140px;">      ,                
-                                                  </textarea>
+                                          style="min-height: 140px;">      ,                               </textarea>
                                 <div class="comments_number hasComment">2 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -76,8 +75,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 140px;">  ,  ,                  ”  , 
-                                          ,                 </textarea>
+                                          style="min-height: 140px;">  ,  ,                  ”  ,        ,                 </textarea>
                                 <div class="comments_number hasComment">1 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -112,9 +110,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 150px;">    ,           ”          
-                                           ,                  ”      ” 
-                                                     ”        </textarea>
+                                          style="min-height: 150px;">    ,           ”                  ,                  ”      ”                  ”        </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -140,8 +136,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 170px;">    ”       ? “    ”         
-                                     ,                           </textarea>
+                                          style="min-height: 170px;">    ”       ? “    ”           ,                           </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -164,8 +159,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 170px;">                     ”  ,  
-                                                                  ” </textarea>
+                                          style="min-height: 170px;">                     ”  ,                                 ” </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -187,8 +181,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 140px;">    ”             ?        ” 
-                                                  </textarea>
+                                          style="min-height: 140px;">    ”             ?        ”                </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -211,8 +204,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 140px;">          ”        ? “   ”   
-                                                       ’       ’         ” </textarea>
+                                          style="min-height: 140px;">          ”        ? “   ”                       ’       ’         ” </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -237,8 +229,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 140px;"> Verse 21 removed in ULB.         
-                                      ”                ”     </textarea>
+                                          style="min-height: 140px;"> Verse 21 removed in ULB.            ”                ”     </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -268,10 +259,7 @@
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 330px;">                 ? “ 
-                                      ”  ”     ,      "    ?      ?   , “
-                                     ”    ,                            
-                                                   ” </textarea>
+                                          style="min-height: 330px;">                 ? “   ”  ”     ,      "    ?      ?   , “  ”    ,                                            ” </textarea>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">

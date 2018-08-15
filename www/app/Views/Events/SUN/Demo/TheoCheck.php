@@ -24,7 +24,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">Matthew 17:1-27</span></h4>
 
                 <div class="no_padding">
                     <div class="row chunk_block">
