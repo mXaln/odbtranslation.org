@@ -124,7 +124,6 @@ use Helpers\Constants\EventMembers;
         <div class="content_help col-sm-3">
             <div class="help_info_steps">
                 <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
-                     data-mode="l2"
                      title="<?php echo __("hide_help") ?>"></div>
                 <div class="help_title_steps"><?php echo __("help") ?></div>
 
