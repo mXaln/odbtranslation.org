@@ -1438,25 +1438,25 @@ $(document).ready(function() {
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
                         
-                        var html = (e.originalEvent || e).clipboardData.getData('text/html');
-                        var dom = $(html);
+                        var html = (e.originalEvent || e).clipboardData.getData('text/html') || (e.originalEvent || e).clipboardData.getData('text/plain');
+                        var dom = $("<div>" + html + "</div>");
 
-                        dom.each(function () {
-                            $(this).attr("style", "");
-                        });
+                        $("*", dom).each(function() {
+							// Replace absolute urls by relative ones when using keyboard to paste
+							if($(this).is("a"))
+								$(this).attr("href", $(this).attr("title"));
+							
+							// Fix when bold links come without spaces
+							if($(this).is("strong"))
+								$("<span> </span>").insertAfter($(this));
+							
+							$(this).removeAttr("style")
+								.removeAttr("class")
+								.removeAttr("id")
+								.removeAttr("rel")
+								.removeAttr("title");
+						});
 
-                        // Replace absolute urls by relative ones when using keyboard to paste
-                        $("a", dom).each(function() {
-
-                            $(this).attr("href", $(this).attr("title"));
-                            $(this).removeAttr("title");
-                        });
-
-                        // Fix when bold links come without spaces
-                        $("strong", dom).each(function() {
-                            $("<span> </span>").insertAfter(this);
-                        });
-                        
                         var container = $("<div>").append(dom.clone()).html();
 
                         window.document.execCommand('insertHtml', false, container);
@@ -1464,36 +1464,6 @@ $(document).ready(function() {
                     onChange: function(contents, $editable) {
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
-                        
-                        var pasted = $(".button_copy_notes button").data("pasted");
-
-                        if(pasted)
-                        {
-                            $(".button_copy_notes button").data("pasted", false)
-
-                            var dom = $(contents);
-                            
-                            // Clear break paragraphs
-                            $(this).summernote("reset");
-                            dom.each(function() {
-                                if(this.nodeName == "P")
-                                {
-                                    $(this).empty();
-                                }
-                            });
-
-                            // Replace absolute urls by relative ones when using button to paste
-                            $(this).attr("href", $(this).attr("title"));
-                            $(this).removeAttr("title");
-
-                            // Fix bold links that come without spaces
-                            $("strong", dom).each(function() {
-                                $("<span> </span>").insertAfter(this);
-                            });
-
-                            var container = $("<div>").append(dom.clone()).html();
-                            window.document.execCommand('insertHtml', false, container);
-                        }
                     }
                 }
             });
