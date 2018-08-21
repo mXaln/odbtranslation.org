@@ -1442,7 +1442,15 @@ $(document).ready(function() {
                         var dom = $("<div>" + html + "</div>");
 
                         $("*", dom).each(function() {
-							// Unwrap pre if any
+							// Remove style tag
+							if($(this).is("style"))
+								$(this).remove();
+							
+							// Unwrap font tag if any
+							if($(this).is("font"))
+								$(this).contents().unwrap();
+							
+							// Unwrap pre tag if any
 							if($(this).parent().is("pre"))
 								$(this).unwrap();
 							
