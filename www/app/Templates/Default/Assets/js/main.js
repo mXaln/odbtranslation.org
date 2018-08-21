@@ -1466,7 +1466,8 @@ $(document).ready(function() {
 								.removeAttr("class")
 								.removeAttr("id")
 								.removeAttr("rel")
-								.removeAttr("title");
+								.removeAttr("title")
+								.removeAttr("bgcolor");
 						});
 
                         var container = $("<div>").append(dom.clone()).html();
