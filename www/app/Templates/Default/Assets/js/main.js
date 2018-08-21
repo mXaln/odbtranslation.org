@@ -1442,6 +1442,10 @@ $(document).ready(function() {
                         var dom = $("<div>" + html + "</div>");
 
                         $("*", dom).each(function() {
+							// Unwrap pre if any
+							if($(this).parent().is("pre"))
+								$(this).unwrap();
+							
 							// Replace absolute urls by relative ones when using keyboard to paste
 							if($(this).is("a"))
 								$(this).attr("href", $(this).attr("title"));
