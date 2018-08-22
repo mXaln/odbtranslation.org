@@ -1442,7 +1442,11 @@ $(document).ready(function() {
                         var dom = $("<div>" + html + "</div>");
 
                         $("*", dom).each(function() {
-							// Remove style tag
+							// Remove colgroup tag
+                            if($(this).is("colgroup"))
+                                $(this).remove();
+
+                            // Remove style tag
 							if($(this).is("style"))
 								$(this).remove();
 							

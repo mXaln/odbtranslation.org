@@ -1700,6 +1700,7 @@ class EventsController extends Controller
                                 if(trim(strip_tags($chunk)) != "")
                                 {
                                     $converter = new \Helpers\Markdownify\Converter;
+                                    $converter->setKeepHTML(false);
                                     $chunk = $converter->parseString($chunk);
 
                                     $translationVerses = [
@@ -10663,6 +10664,7 @@ class EventsController extends Controller
                             if(in_array($mode, ["tn"]))
                             {
                                 $converter = new \Helpers\Markdownify\Converter;
+                                $converter->setKeepHTML(false);
                                 $post["draft"] = $converter->parseString($post["draft"]);
                             }
                             
@@ -10929,6 +10931,7 @@ class EventsController extends Controller
                                     if(in_array($mode, ["tn","tq","tw"]))
                                     {
                                         $converter = new \Helpers\Markdownify\Converter;
+                                        $converter->setKeepHTML(false);
                                         $post["chunks"][$key] = $converter->parseString($post["chunks"][$key]);
                                         $section = "verses";
                                     }
