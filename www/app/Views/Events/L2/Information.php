@@ -35,7 +35,7 @@ if(!isset($error)):
         <div class="chapter_list">
             <?php foreach ($data["chapters"] as $key => $chapter):?>
                 <?php
-                if($chapter["l2memberID"] == 0) {
+                if(empty($chapter) || $chapter["l2memberID"] == 0) {
                     echo '<div class="chapter_item">
                             <div class="chapter_number nofloat">'.__("chapter_number", [$key]).'</div>
                         </div>';

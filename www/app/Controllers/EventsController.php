@@ -8172,7 +8172,7 @@ class EventsController extends Controller
             $overallProgress = 0;
 
             foreach ($data["chapters"] as $key => $chapter) {
-                if($chapter["l2memberID"] == 0) continue;
+                if(empty($chapter) || $chapter["l2memberID"] == 0) continue;
 
                 $snd = !empty($chapter["sndCheck"])
                     && array_key_exists($key, $chapter["sndCheck"]);
