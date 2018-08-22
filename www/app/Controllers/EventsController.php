@@ -12082,6 +12082,13 @@ class EventsController extends Controller
                     {
                         if($action == "add")
                         {
+                            if($manageMode == "l2")
+                            {
+                                $response["error"] = __("error_ocured", ["This chapter hasn't been translated."]);
+                                echo json_encode($response);
+                                exit;
+                            }
+
                             $postdata = [
                                 "eventID" => $eventID,
                                 "trID" => $data["event"][0]->trID,
