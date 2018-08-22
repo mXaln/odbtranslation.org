@@ -2602,7 +2602,7 @@ function highlightKeyword(verseID, text, index, remove) {
     }
     else
     {
-        var verseText = verseEl.html();
+        var verseText = verseEl.html().trim();
         var regex = new RegExp("("+text+")", "gmi");
 
         var nth = -1;
