@@ -709,69 +709,15 @@ class EventsController extends Controller
                         {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if(isset($_POST["save"]))
+                            if (isset($_POST["confirm_step"]))
                             {
-								$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
-                                $chunks = array_map("trim", $chunks);
-                                $chunks = array_filter($chunks, function($v) {
-                                    return !empty($v);
-                                });
-
-                                if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
-                                    $error[] = __("empty_verses_error");
-
-                                if(!isset($error))
-                                {
-                                    if(!empty($translation))
-                                    {
-                                        foreach ($translation as $key => $chunk)
-                                        {
-                                            $shouldUpdate = false;
-                                            if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
-                                                $shouldUpdate = true;
-
-                                            $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
-
-                                            if($shouldUpdate)
-                                            {
-                                                $tID = $translation[$key]["tID"];
-                                                unset($translation[$key]["tID"]);
-                                                
-                                                $encoded = json_encode($translation[$key]);
-                                                $json_error = json_last_error();
-                                                
-                                                if($json_error == JSON_ERROR_NONE)
-                                                {
-                                                    $trData = array(
-                                                        "translatedVerses"  => $encoded
-                                                    );
-                                                    $this->_translationModel->updateTranslation(
-                                                        $trData, 
-                                                        array(
-                                                            "trID" => $data["event"][0]->trID, 
-                                                            "tID" => $tID));
-                                                }
-                                                else 
-                                                {
-                                                    $error[] = __("error_ocured", array($tID));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (isset($_POST["confirm_step"]))
-                                {
-                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                    $postdata = [
-                                        "step" => EventSteps::PEER_REVIEW,
-                                        "hideChkNotif" => false,
-                                    ];
-                                    $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                }
+                                setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                $postdata = [
+                                    "step" => EventSteps::PEER_REVIEW,
+                                    "hideChkNotif" => false,
+                                ];
+                                $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                Url::redirect('events/translator/' . $data["event"][0]->eventID);
                             }
                         }
 
@@ -852,83 +798,22 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST)) {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if(isset($_POST["save"]))
+                            if (isset($_POST["confirm_step"]))
                             {
-                                if(!$data["event"][0]->checkDone)
+                                if($data["event"][0]->checkDone)
                                 {
-									$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
-                                    $chunks = array_map("trim", $chunks);
-                                    $chunks = array_filter($chunks, function($v) {
-                                        return !empty($v);
-                                    });
-
-                                    if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
-                                        $error[] = __("empty_verses_error");
-
-                                    if(!isset($error))
-                                    {
-                                        if(!empty($translation))
-                                        {
-                                            foreach ($translation as $key => $chunk)
-                                            {
-                                                $shouldUpdate = false;
-                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
-                                                    $shouldUpdate = true;
-
-                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
-
-                                                if($shouldUpdate)
-                                                {
-                                                    $tID = $translation[$key]["tID"];
-                                                    unset($translation[$key]["tID"]);
-                                                    
-                                                    $encoded = json_encode($translation[$key]);
-                                                    $json_error = json_last_error();
-                                                    
-                                                    if($json_error == JSON_ERROR_NONE)
-                                                    {
-                                                        $trData = array(
-                                                            "translatedVerses"  => $encoded
-                                                        );
-                                                        $this->_translationModel->updateTranslation(
-                                                            $trData, 
-                                                            array(
-                                                                "trID" => $data["event"][0]->trID, 
-                                                                "tID" => $tID));
-                                                    }
-                                                    else 
-                                                    {
-                                                        $error[] = __("error_ocured", array($tID));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                    $postdata = [
+                                        "step" => EventSteps::KEYWORD_CHECK,
+                                        "checkerID" => 0,
+                                        "checkDone" => false,
+                                        "hideChkNotif" => false
+                                    ];
+                                    $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                 }
-                                else
-                                {
-                                    $error[] = __("not_possible_to_save_error");
-                                }
-                            }
-                            else
-                            {
-                                if (isset($_POST["confirm_step"]))
-                                {
-                                    if($data["event"][0]->checkDone)
-                                    {
-                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                        $postdata = [
-                                            "step" => EventSteps::KEYWORD_CHECK,
-                                            "checkerID" => 0,
-                                            "checkDone" => false,
-                                            "hideChkNotif" => false
-                                        ];
-                                        $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                        Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                    }
-                                    else {
-                                        $error[] = __("checker_not_ready_error");
-                                    }
+                                else {
+                                    $error[] = __("checker_not_ready_error");
                                 }
                             }
                         }
@@ -982,85 +867,24 @@ class EventsController extends Controller
                         {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if(isset($_POST["save"]))
+                            if (isset($_POST["confirm_step"]))
                             {
-                                if(!$data["event"][0]->checkDone)
+                                if($data["event"][0]->checkDone)
                                 {
-									$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
-                                    $chunks = array_map("trim", $chunks);
-                                    $chunks = array_filter($chunks, function($v) {
-                                        return !empty($v);
-                                    });
-
-                                    if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
-                                        $error[] = __("empty_verses_error");
-
-                                    if(!isset($error))
-                                    {
-                                        if(!empty($translation))
-                                        {
-                                            foreach ($translation as $key => $chunk)
-                                            {
-                                                $shouldUpdate = false;
-                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
-                                                    $shouldUpdate = true;
-
-                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
-
-                                                if($shouldUpdate)
-                                                {
-                                                    $tID = $translation[$key]["tID"];
-                                                    unset($translation[$key]["tID"]);
-                                                    
-                                                    $encoded = json_encode($translation[$key]);
-                                                    $json_error = json_last_error();
-                                                    
-                                                    if($json_error == JSON_ERROR_NONE)
-                                                    {
-                                                        $trData = array(
-                                                            "translatedVerses"  => $encoded
-                                                        );
-                                                        $this->_translationModel->updateTranslation(
-                                                            $trData, 
-                                                            array(
-                                                                "trID" => $data["event"][0]->trID, 
-                                                                "tID" => $tID));
-                                                    }
-                                                    else 
-                                                    {
-                                                        $error[] = __("error_ocured", array($tID));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                    $postdata = array(
+                                        "step" => EventSteps::CONTENT_REVIEW,
+                                        "checkerID" => 0,
+                                        "checkDone" => false,
+                                        "hideChkNotif" => false
+                                    );
+                                    $this->_model->updateTranslator($postdata, array("trID" => $data["event"][0]->trID));
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
+                                    exit;
                                 }
                                 else
                                 {
-                                    $error[] = __("not_possible_to_save_error");
-                                }
-                            }
-                            else
-                            {
-                                if (isset($_POST["confirm_step"]))
-                                {
-                                    if($data["event"][0]->checkDone)
-                                    {
-                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                        $postdata = array(
-                                            "step" => EventSteps::CONTENT_REVIEW,
-                                            "checkerID" => 0,
-                                            "checkDone" => false,
-                                            "hideChkNotif" => false
-                                        );
-                                        $this->_model->updateTranslator($postdata, array("trID" => $data["event"][0]->trID));
-                                        Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                        exit;
-                                    }
-                                    else
-                                    {
-                                        $error[] = __("checker_not_ready_error");
-                                    }
+                                    $error[] = __("checker_not_ready_error");
                                 }
                             }
                         }
@@ -1147,84 +971,23 @@ class EventsController extends Controller
                         {
                             $_POST = Gump::xss_clean($_POST);
 
-                            if(isset($_POST["save"]))
+                            if (isset($_POST["confirm_step"]))
                             {
-                                if(!$data["event"][0]->checkDone)
+                                if($data["event"][0]->checkDone)
                                 {
-									$chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
-                                    $chunks = array_map("trim", $chunks);
-                                    $chunks = array_filter($chunks, function($v) {
-                                        return !empty($v);
-                                    });
-
-                                    if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
-                                        $error[] = __("empty_verses_error");
-
-                                    if(!isset($error))
-                                    {
-                                        if(!empty($translation))
-                                        {
-                                            foreach ($translation as $key => $chunk)
-                                            {
-                                                $shouldUpdate = false;
-                                                if($chunk[EventMembers::TRANSLATOR]["blind"] != $chunks[$key])
-                                                    $shouldUpdate = true;
-
-                                                $translation[$key][EventMembers::TRANSLATOR]["blind"] = $chunks[$key];
-
-                                                if($shouldUpdate)
-                                                {
-                                                    $tID = $translation[$key]["tID"];
-                                                    unset($translation[$key]["tID"]);
-                                                    
-                                                    $encoded = json_encode($translation[$key]);
-                                                    $json_error = json_last_error();
-                                                    
-                                                    if($json_error == JSON_ERROR_NONE)
-                                                    {
-                                                        $trData = array(
-                                                            "translatedVerses"  => $encoded
-                                                        );
-                                                        $this->_translationModel->updateTranslation(
-                                                            $trData, 
-                                                            array(
-                                                                "trID" => $data["event"][0]->trID, 
-                                                                "tID" => $tID));
-                                                    }
-                                                    else 
-                                                    {
-                                                        $error[] = __("error_ocured", array($tID));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    setcookie("temp_tutorial", false, time() - 24*3600, "/");
+                                    $postdata = array(
+                                        "step" => EventSteps::FINAL_REVIEW,
+                                        "checkerID" => 0,
+                                        "checkDone" => false,
+                                        "hideChkNotif" => true
+                                    );
+                                    $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
+                                    Url::redirect('events/translator/' . $data["event"][0]->eventID);
                                 }
                                 else
                                 {
-                                    $error[] = __("not_possible_to_save_error");
-                                }
-                            }
-                            else
-                            {
-                                if (isset($_POST["confirm_step"]))
-                                {
-                                    if($data["event"][0]->checkDone)
-                                    {
-                                        setcookie("temp_tutorial", false, time() - 24*3600, "/");
-                                        $postdata = array(
-                                            "step" => EventSteps::FINAL_REVIEW,
-                                            "checkerID" => 0,
-                                            "checkDone" => false,
-                                            "hideChkNotif" => true
-                                        );
-                                        $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
-                                        Url::redirect('events/translator/' . $data["event"][0]->eventID);
-                                    }
-                                    else
-                                    {
-                                        $error[] = __("checker_not_ready_error");
-                                    }
+                                    $error[] = __("checker_not_ready_error");
                                 }
                             }
                         }

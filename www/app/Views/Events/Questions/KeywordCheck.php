@@ -117,30 +117,32 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps">
-                    <span><?php echo __("step_num", [3])?>: </span>
-                    <?php echo __("keyword-check")?>
+                    <div class="help_name_steps">
+                        <span><?php echo __("step_num", [3])?>: </span>
+                        <?php echo __("keyword-check")?>
+                    </div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("keyword-check_tq_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    </div>
                 </div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("keyword-check_tq_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
 
-            <div class="event_info">
-                <div class="participant_name">
-                    <span><?php echo __("your_checker") ?>:</span>
-                    <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>
-                </div>
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/information-tq/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                <div class="event_info">
+                    <div class="participant_name">
+                        <span><?php echo __("your_checker") ?>:</span>
+                        <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>
+                    </div>
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/information-tq/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        </div>
                     </div>
                 </div>
             </div>

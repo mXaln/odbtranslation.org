@@ -647,18 +647,18 @@ $(document).ready(function() {
     $(".word_term").click(function () {
         var word = $("span", this).text();
         var def = $(this).next(".word_def").html();
-        var parent = $(this).parents(".my_content");
+        var parent = $(this).parents(".ttools_content");
 
-        $(".word_def_title").text(word);
-        $(".word_def_content").html(def);
+        $(".word_def_title", parent).text(word);
+        $(".word_def_content", parent).html(def);
 
-        $(".labels_list").children().hide();
+        //$(".labels_list").children().hide();
         $(".word_def_popup", parent).show("slide", {direction: "left"}, 300);
     });
 
     $(".word_def-close").click(function() {
         $(".labels_list").children().show();
-        var parent = $(this).parents(".my_content");
+        var parent = $(this).parents(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
         $(".word_def_popup", parent).hide("slide", {direction: "right"}, 300);
@@ -2170,10 +2170,55 @@ $(document).ready(function() {
     });
 
     $(window).scroll(function () {
-        if($(this).scrollTop() > 70)
-            $(".save_profile_container").removeClass("unlinked");
-        else
-            $(".save_profile_container").addClass("unlinked");
+
+        $this = $(this);
+
+        if($(".save_profile_container").length > 0)
+        {
+            if($(this).scrollTop() > 70)
+                $(".save_profile_container").removeClass("unlinked");
+            else
+                $(".save_profile_container").addClass("unlinked");
+        }
+
+        if($('.saildict_panel').length > 0)
+        {
+            var elementTop = $('.saildict_panel').offset().top;
+            var elementBottom = elementTop + $('.saildict_panel').outerHeight();
+            var viewportTop = $(window).scrollTop();
+            var viewportBottom = viewportTop + $(window).height();
+
+            if(viewportTop > elementTop)
+                $(".saildict_panel").css("top", $this.scrollTop());
+            else if(viewportBottom < elementBottom)
+                $(".saildict_panel").css("top", elementTop - 150);
+        }
+
+        if($('.ttools_panel').length > 0)
+        {
+            $('.ttools_panel').each(function () {
+                if($(this).is(":visible"))
+                {
+                    var elementTop = $(this).offset().top;
+                    var elementBottom = elementTop + $(this).outerHeight();
+                    var viewportTop = $(window).scrollTop();
+                    var viewportBottom = viewportTop + $(window).height();
+
+                    if(viewportTop > elementTop)
+                        $(this).css("top", $this.scrollTop());
+                    else if(viewportBottom < elementBottom)
+                        $(this).css("top", elementTop - 150);
+                }
+            });
+        }
+
+        if($(".help_float").length > 0)
+        {
+            if($(this).scrollTop() > 150)
+                $(".help_float").css("top", 10);
+            else
+                $(".help_float").css("top", 170 - $this.scrollTop());
+        }
     });
 
     $("#refresh").click(function() {
@@ -2220,13 +2265,51 @@ $(document).ready(function() {
     $(".saildict_panel").draggable({snap: 'inner'});
 
     $(".show_saildict").click(function (e) {
-        $(".saildict_panel").show();
+        $(".saildict_panel").css("top", $(window).scrollTop() + 100).show();
 
         e.preventDefault();
     });
 
     $("body").on("click", ".saildict_panel .panel-close", function () {
         $(".saildict_panel").hide();
+    });
+
+
+    // Translation tools
+    $(".ttools_panel").draggable({snap: 'inner'});
+
+    $(".ttools").click(function (e) {
+        var tool = $(this).data("tool");
+
+        switch (tool) {
+            case "tn":
+                $(".ttools_panel.tn_tool").css("top", $(window).scrollTop() + 100).show();
+                break;
+            case "tq":
+                $(".ttools_panel.tq_tool").css("top", $(window).scrollTop() + 100).show();
+                break;
+            case "tw":
+                $(".ttools_panel.tw_tool").css("top", $(window).scrollTop() + 100).show();
+                break;
+        }
+
+        e.preventDefault();
+    });
+
+    $("body").on("click", ".ttools_panel .panel-close", function () {
+        var tool = $(this).data("tool");
+
+        switch (tool) {
+            case "tn":
+                $(".ttools_panel.tn_tool").hide();
+                break;
+            case "tq":
+                $(".ttools_panel.tq_tool").hide();
+                break;
+            case "tw":
+                $(".ttools_panel.tw_tool").hide();
+                break;
+        }
     });
 
     // ################ Question Editor ############### //

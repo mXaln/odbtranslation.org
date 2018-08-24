@@ -94,23 +94,25 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [3])?>: </span><?php echo __("blind-draft_tn")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("blind-draft_tn_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [3])?>: </span><?php echo __("blind-draft_tn")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("blind-draft_tn_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="event_info<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/information-tn/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                <div class="event_info<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/information-tn/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        </div>
                     </div>
                 </div>
             </div>

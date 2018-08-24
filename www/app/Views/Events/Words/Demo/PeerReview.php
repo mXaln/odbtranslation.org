@@ -641,33 +641,35 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("peer-review")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review_tw_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
-
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span">Tanya E.</span>
-                    </div>
-                    <div class="additional_info">
-                        <a href="/events/demo-tw/information"><?php echo __("event_info") ?></a>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("peer-review")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("peer-review_tw_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
-            </div>
 
-            <div class="checker_view">
-                <a href="<?php echo SITEURL ?>events/demo-tw/peer_review_checker"><?php echo __("checker_view") ?></a>
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="participant_name">
+                            <span><?php echo __("your_checker") ?>:</span>
+                            <span class="checker_name_span">Tanya E.</span>
+                        </div>
+                        <div class="additional_info">
+                            <a href="/events/demo-tw/information"><?php echo __("event_info") ?></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checker_view">
+                    <a href="<?php echo SITEURL ?>events/demo-tw/peer_review_checker"><?php echo __("checker_view") ?></a>
+                </div>
             </div>
         </div>
     </div>
