@@ -10,16 +10,16 @@
 
 @font-face {
     font-family: "SUN4";
-    src: url("../fonts/SUN4.woff2?2") format('woff2'),
-    url("../fonts/SUN4.woff?2") format("woff"),
-    url("../fonts/SUN4.ttf?2") format("truetype")
+    src: url("../fonts/SUN4.woff2?3") format('woff2'),
+    url("../fonts/SUN4.woff?3") format("woff"),
+    url("../fonts/SUN4.ttf?3") format("truetype")
 }
 
 @font-face {
     font-family: "BACKSUN4";
-    src: url("../fonts/BackSUN4.woff2?2") format('woff2'),
-    url("../fonts/BackSUN4.woff?2") format("woff"),
-    url("../fonts/BackSUN4.ttf?2") format("truetype")
+    src: url("../fonts/BackSUN4.woff2?3") format('woff2'),
+    url("../fonts/BackSUN4.woff?3") format("woff"),
+    url("../fonts/BackSUN4.ttf?3") format("truetype")
 }
 
 .sun_content {
@@ -4781,4 +4781,10 @@ button.startEvnt, button.editEvnt {
     cursor: move;
     background-color: #0096c3;
     color: #fff;
+}
+
+.tools_font {
+    font-weight: bold;
+    margin: 10px 5px 10px 0;
+    text-align: right;
 }
