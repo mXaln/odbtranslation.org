@@ -2895,6 +2895,7 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     float: left;
     overflow: hidden;
     max-width: 120px;
+    white-space: nowrap;
 }
 
 .uname_delete {
@@ -4783,8 +4784,28 @@ button.startEvnt, button.editEvnt {
     color: #fff;
 }
 
-.tools_font {
-    font-weight: bold;
-    margin: 10px 5px 10px 0;
-    text-align: right;
+.notes_editor, .questions_editor {
+    padding: 5px;
 }
+
+.note-editor.note-frame {
+    border: none !important;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable {
+    background-color: #fff9e4 !important;
+}
+
+.note-editor.panel {
+    box-shadow: none;
+}
+
+.note-editor .note-statusbar {
+    display: none;
+}
+
+/*.tools_font {*/
+    /*font-weight: bold;*/
+    /*margin: 10px 5px 10px 0;*/
+    /*text-align: right;*/
+/*}*/

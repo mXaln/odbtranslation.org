@@ -182,7 +182,8 @@ if(empty($error) && empty($data["success"])):
             </div>
         </div>
 
-        <div class="tutorial_content <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+        <div class="tutorial_content<?php echo $data["isCheckerPage"] ? " is_checker_page_help" .
+            (isset($data["isPeerPage"]) ? " isPeer" : ""): "" ?>">
             <h3><?php echo __("peer-review_tn")?></h3>
             <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
         </div>

@@ -142,7 +142,7 @@
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content is_checker_page_help">
             <h3><?php echo __("highlight_tn")?></h3>
             <ul><?php echo __("highlight_tn_desc")?></ul>
         </div>

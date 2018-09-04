@@ -845,7 +845,7 @@
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content is_checker_page_help">
             <h3><?php echo __("peer-review")?></h3>
             <ul><?php echo __("peer-review_checker_desc")?></ul>
         </div>

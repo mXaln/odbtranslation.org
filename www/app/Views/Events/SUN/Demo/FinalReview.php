@@ -395,7 +395,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps">
+                <div class="help_info_steps is_checker_page_help">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
@@ -408,7 +408,7 @@
                     </div>
                 </div>
 
-                <div class="event_info">
+                <div class="event_info is_checker_page_help">
                     <div class="participant_info">
                         <div class="additional_info">
                             <a href="/events/demo-sun/information"><?php echo __("event_info") ?></a>
@@ -434,7 +434,7 @@
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content is_checker_page_help">
             <h3><?php echo __("final-review")?></h3>
             <ul><?php echo __("final-review_desc")?></ul>
         </div>

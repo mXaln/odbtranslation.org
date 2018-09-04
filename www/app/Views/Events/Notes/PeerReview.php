@@ -188,7 +188,7 @@ if(isset($data["error"])) return;
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
             <h3><?php echo __("peer-review_tn")?></h3>
             <ul><?php echo __("peer-review_tn_desc")?></ul>
         </div>

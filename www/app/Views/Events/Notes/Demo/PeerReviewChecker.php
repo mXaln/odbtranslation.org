@@ -863,7 +863,7 @@
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content is_checker_page_help isPeer">
             <h3><?php echo __("peer-review_tn")?></h3>
             <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
         </div>

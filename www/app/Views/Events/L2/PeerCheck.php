@@ -217,7 +217,7 @@ use Helpers\Constants\EventMembers;
             </div>
         </div>
 
-        <div class="tutorial_content">
+        <div class="tutorial_content <?php echo $data["event"][0]->peer == 2 ? "is_checker_page_help" : "" ?>">
             <h3><?php echo __("peer-review-l2_full")?></h3>
             <ul><?php echo $data["event"][0]->peer == 1 ? __("peer-review-l2_desc") : __("peer-review-l2_chk_desc")?></ul>
         </div>

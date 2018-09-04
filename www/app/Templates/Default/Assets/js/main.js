@@ -1026,8 +1026,7 @@ $(document).ready(function() {
 
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
-        var level = $(this).data("level") != "undefined"
-            ? $(this).data("level") : 1;
+        var level = $(this).data("level") || 1;
 
         chapchunk = lastCommentEditor.attr("data").split(":");
 
@@ -1106,7 +1105,7 @@ $(document).ready(function() {
 		}
     });
 
-    $(".comment_div").draggable({snap: 'inner'});
+    $(".comment_div").draggable({snap: 'inner', handle: '.panel-heading'});
 
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
@@ -1406,7 +1405,7 @@ $(document).ready(function() {
         $(".add_notes_editor, .add_questions_editor").each(function() {
             $(this).summernote({
                 lang: siteLang,
-                airMode: true,
+                airMode: false,
                 placeholder: Language.notesPlaceholder,
                 popover: {
                     link: [
@@ -1419,6 +1418,12 @@ $(document).ready(function() {
                         ['misc', ['undo', 'redo']]
                     ]
                 },
+                toolbar: [
+                    ['para', ['style', 'ul', 'ol']],
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['link', ['linkDialogShow', 'unlink']],
+                    ['misc', ['undo', 'redo']]
+                ],
                 callbacks: {
                     onInit: function() {
                         var parent = $(this).parents(".note_chunk, .questions_chunk");
@@ -2392,6 +2397,37 @@ $(document).ready(function() {
                 break;
         }
     });
+
+    // Text editor font size changer
+    // $(".tools_font button").click(function () {
+    //     var size = $(this).data("size");
+    //     var contentEditable = $("div[contenteditable=true]");
+    //     var toolFontElements = [];
+    //
+    //     contentEditable.each(function () {
+    //         if($(this).data("orig-size") == undefined)
+    //             $(this).data("orig-size", $(this).css("font-size"));
+    //         toolFontElements.push($(this));
+    //     });
+    //
+    //     switch (size) {
+    //         case "-":
+    //             $.each(toolFontElements, function () {
+    //                 $(this).css("font-size", parseInt($(this).css("font-size")) - 1);
+    //             });
+    //             break;
+    //         case "+":
+    //             $.each(toolFontElements, function () {
+    //                 $(this).css("font-size", parseInt($(this).css("font-size")) + 1);
+    //             });
+    //             break;
+    //         case 0:
+    //             $.each(toolFontElements, function () {
+    //                 $(this).css("font-size", $(this).data("orig-size"));
+    //             });
+    //             break;
+    //     }
+    // });
 });
 
 function animateIntro() {

@@ -27,6 +27,12 @@
                 <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1-26</span></h4>
 
                 <div id="my_notes_content" class="my_content">
+                    <!--<div class="tools_font">
+                        <button class="btn btn-primary" data-size="-">A-</button>
+                        <button class="btn btn-primary" data-size="0">A</button>
+                        <button class="btn btn-primary" data-size="+">A+</button>
+                    </div>-->
+
                     <div class="row note_chunk">
                         <div class="row scripture_chunk"> </div>
                         <div class="col-md-6">

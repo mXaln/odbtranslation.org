@@ -6,7 +6,7 @@ var Language = {
     "yes"                       : "Yes",
     "no"                        : "No",
     "noKeywords"                : "There are no keywords for this language.",
-    "checkBookConfirm"          : "Do you really want to check this book? The page will be opened in new tab/window.",
+    "checkBookConfirm"          : "Do you really want to check this chapter? The page will be opened in new tab/window.",
     "checkBookConfirmTitle"     : "Checking request",
     "saveChangesConfirm"        : "There are some changes made on this page. Do you want to continue without saving?",
     "saveChangesConfirmTitle"   : "Changes made",
