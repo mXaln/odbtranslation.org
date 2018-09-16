@@ -97,23 +97,25 @@
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [1])?>:</span> <?php echo __("consume")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("consume_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [1])?>:</span> <?php echo __("consume")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("consume_l2_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/demo-l2/information"><?php echo __("event_info") ?></a>
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/demo-l2/information"><?php echo __("event_info") ?></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,7 +138,7 @@
 
         <div class="tutorial_content">
             <h3><?php echo __("consume")?></h3>
-            <ul><?php echo __("consume_desc")?></ul>
+            <ul><?php echo __("consume_l2_desc")?></ul>
         </div>
     </div>
 </div>

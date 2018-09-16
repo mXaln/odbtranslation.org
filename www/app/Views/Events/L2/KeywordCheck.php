@@ -16,7 +16,7 @@ use Helpers\Constants\EventMembers;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(4)) . ": " . __("keyword-check-l2_full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("keyword-check-l2_full")?></div>
     </div>
 
     <div class="row" style="position: relative">
@@ -115,32 +115,34 @@ use Helpers\Constants\EventMembers;
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [4])?></div>
+            <div class="step_right alt"><?php echo __("step_num", [2])?></div>
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
-                     data-mode="l2continue"
-                     title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
+                         data-mode="l2continue"
+                         title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps">
-                    <span><?php echo __("step_num", [4])?>: </span>
-                    <?php echo __("keyword-check-l2")?>
+                    <div class="help_name_steps">
+                        <span><?php echo __("step_num", [2])?>: </span>
+                        <?php echo __("keyword-check-l2")?>
+                    </div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("keyword-check-l2_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    </div>
                 </div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("keyword-check-l2_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
 
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/information-l2/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/information-l2/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        </div>
                     </div>
                 </div>
             </div>

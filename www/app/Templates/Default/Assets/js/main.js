@@ -16,6 +16,7 @@ var EventSteps = {
     CHUNKING: "chunking",
     READ_CHUNK: "read-chunk",
     BLIND_DRAFT: "blind-draft",
+    MULTI_DRAFT: "multi-draft",
     REARRANGE: "rearrange",
     SYMBOL_DRAFT : "symbol-draft",
     THEO_CHECK: "theo-check",
@@ -362,7 +363,7 @@ $(document).ready(function() {
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW || step == EventSteps.REARRANGE ||
-            step == EventSteps.SYMBOL_DRAFT ||
+            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.MULTI_DRAFT ||
             step == EventCheckSteps.FST_CHECK || // For Level 2 Check
             step == EventCheckSteps.SND_CHECK ||
             step == EventCheckSteps.PEER_REVIEW_L2)
@@ -497,7 +498,7 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             var add = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn"]) > -1 ? "-tn"
+                && $.inArray(tMode, ["tn","tq","tw"]) > -1 ? "-" + tMode
                     : (typeof manageMode != "undefined" ? "-"+manageMode : "");
 
             $.ajax({
@@ -646,18 +647,18 @@ $(document).ready(function() {
     $(".word_term").click(function () {
         var word = $("span", this).text();
         var def = $(this).next(".word_def").html();
-        var parent = $(this).parents(".my_content");
+        var parent = $(this).parents(".ttools_content");
 
-        $(".word_def_title").text(word);
-        $(".word_def_content").html(def);
+        $(".word_def_title", parent).text(word);
+        $(".word_def_content", parent).html(def);
 
-        $(".labels_list").children().hide();
+        //$(".labels_list").children().hide();
         $(".word_def_popup", parent).show("slide", {direction: "left"}, 300);
     });
 
     $(".word_def-close").click(function() {
         $(".labels_list").children().show();
-        var parent = $(this).parents(".my_content");
+        var parent = $(this).parents(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
         $(".word_def_popup", parent).hide("slide", {direction: "right"}, 300);
@@ -1025,8 +1026,7 @@ $(document).ready(function() {
 
         var comment = $(".my_comment", comments);
         var text = $("textarea", $(".comment_div")).val().trim();
-        var level = $(this).data("level") != "undefined"
-            ? $(this).data("level") : 1;
+        var level = $(this).data("level") || 1;
 
         chapchunk = lastCommentEditor.attr("data").split(":");
 
@@ -1105,7 +1105,7 @@ $(document).ready(function() {
 		}
     });
 
-    $(".comment_div").draggable({snap: 'inner'});
+    $(".comment_div").draggable({snap: 'inner', handle: '.panel-heading'});
 
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
@@ -1331,7 +1331,7 @@ $(document).ready(function() {
                 var confirmTxt = Language.delKeywordL2;
             }
 
-            renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>?', function () {
+            renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>', function () {
                 $(this).dialog("close");
 
                 var parent = $this.parents("div[class^=kwverse]");
@@ -1402,10 +1402,10 @@ $(document).ready(function() {
 
     // Summernote text editor for notes
     $(document).ready(function() {
-        $(".add_notes_editor").each(function() {
+        $(".add_notes_editor, .add_questions_editor").each(function() {
             $(this).summernote({
                 lang: siteLang,
-                airMode: true,
+                airMode: false,
                 placeholder: Language.notesPlaceholder,
                 popover: {
                     link: [
@@ -1418,12 +1418,24 @@ $(document).ready(function() {
                         ['misc', ['undo', 'redo']]
                     ]
                 },
+                toolbar: [
+                    ['para', ['style', 'ul', 'ol']],
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['link', ['linkDialogShow', 'unlink']],
+                    ['misc', ['undo', 'redo']]
+                ],
                 callbacks: {
                     onInit: function() {
-                        var parent = $(this).parents(".note_chunk");
-                        var noteContent = $(".note_content", parent);
+                        var parent = $(this).parents(".note_chunk, .questions_chunk");
+                        var noteContent = $(".note_content, .question_content", parent);
                         var height = noteContent.actual("height");
-                        $(".notes_editor", parent).css("min-height", height);
+                        $(".notes_editor, .questions_editor", parent).css("min-height", height);
+
+                        if($(this).hasClass("draft_question"))
+                        {
+                            $(this).summernote("disable");
+                            $(".questions_editor", parent).addClass("locked");
+                        }
                     },
                     onPaste: function(e) {
                         e.preventDefault();
@@ -1431,24 +1443,42 @@ $(document).ready(function() {
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
                         
-                        var html = (e.originalEvent || e).clipboardData.getData('text/html');
-                        var dom = $(html);
+                        var html = (e.originalEvent || e).clipboardData.getData('text/html') || (e.originalEvent || e).clipboardData.getData('text/plain');
+                        var dom = $("<div>" + html + "</div>");
 
-                        dom.each(function () {
-                            $(this).attr("style", "");
-                        });
+                        $("*", dom).each(function() {
+							// Remove colgroup tag
+                            if($(this).is("colgroup"))
+                                $(this).remove();
 
-                        // Replace absolute urls by relative ones when using keyboard to paste
-                        $("a", dom).each(function() {
-                            $(this).attr("href", $(this).attr("title"));
-                            $(this).removeAttr("title");
-                        });
+                            // Remove style tag
+							if($(this).is("style"))
+								$(this).remove();
+							
+							// Unwrap font tag if any
+							if($(this).is("font"))
+								$(this).contents().unwrap();
+							
+							// Unwrap pre tag if any
+							if($(this).parent().is("pre"))
+								$(this).unwrap();
+							
+							// Replace absolute urls by relative ones when using keyboard to paste
+							if($(this).is("a"))
+								$(this).attr("href", $(this).attr("title"));
+							
+							// Fix when bold links come without spaces
+							if($(this).is("strong"))
+								$("<span> </span>").insertAfter($(this));
+							
+							$(this).removeAttr("style")
+								.removeAttr("class")
+								.removeAttr("id")
+								.removeAttr("rel")
+								.removeAttr("title")
+								.removeAttr("bgcolor");
+						});
 
-                        // Fix when bold links come without spaces
-                        $("strong", dom).each(function() {
-                            $("<span> </span>").insertAfter(this);
-                        });
-                        
                         var container = $("<div>").append(dom.clone()).html();
 
                         window.document.execCommand('insertHtml', false, container);
@@ -1456,38 +1486,6 @@ $(document).ready(function() {
                     onChange: function(contents, $editable) {
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
-                        
-                        var pasted = $(".button_copy_notes button").data("pasted");
-
-                        if(pasted)
-                        {
-                            $(".button_copy_notes button").data("pasted", false)
-
-                            var dom = $(contents);
-                            
-                            // Clear break paragraphs
-                            $(this).summernote("reset");
-                            dom.each(function() {
-                                if(this.nodeName == "P")
-                                {
-                                    $(this).empty();
-                                }
-                            });
-
-                            // Replace absolute urls by relative ones when using button to paste
-                            $("a", dom).each(function() {
-                                $(this).attr("href", $(this).attr("title"));
-                                $(this).removeAttr("title");
-                            });
-
-                            // Fix bold links that come without spaces
-                            $("strong", dom).each(function() {
-                                $("<span> </span>").insertAfter(this);
-                            });
-
-                            var container = $("<div>").append(dom.clone()).html();
-                            window.document.execCommand('insertHtml', false, container);
-                        }
                     }
                 }
             });
@@ -2177,10 +2175,55 @@ $(document).ready(function() {
     });
 
     $(window).scroll(function () {
-        if($(this).scrollTop() > 70)
-            $(".save_profile_container").removeClass("unlinked");
-        else
-            $(".save_profile_container").addClass("unlinked");
+
+        $this = $(this);
+
+        if($(".save_profile_container").length > 0)
+        {
+            if($(this).scrollTop() > 70)
+                $(".save_profile_container").removeClass("unlinked");
+            else
+                $(".save_profile_container").addClass("unlinked");
+        }
+
+        if($('.saildict_panel').length > 0)
+        {
+            var elementTop = $('.saildict_panel').offset().top;
+            var elementBottom = elementTop + $('.saildict_panel').outerHeight();
+            var viewportTop = $(window).scrollTop();
+            var viewportBottom = viewportTop + $(window).height();
+
+            if(viewportTop > elementTop)
+                $(".saildict_panel").css("top", $this.scrollTop());
+            else if(viewportBottom < elementBottom)
+                $(".saildict_panel").css("top", elementTop - 150);
+        }
+
+        if($('.ttools_panel').length > 0)
+        {
+            $('.ttools_panel').each(function () {
+                if($(this).is(":visible"))
+                {
+                    var elementTop = $(this).offset().top;
+                    var elementBottom = elementTop + $(this).outerHeight();
+                    var viewportTop = $(window).scrollTop();
+                    var viewportBottom = viewportTop + $(window).height();
+
+                    if(viewportTop > elementTop)
+                        $(this).css("top", $this.scrollTop());
+                    else if(viewportBottom < elementBottom)
+                        $(this).css("top", elementTop - 150);
+                }
+            });
+        }
+
+        if($(".help_float").length > 0)
+        {
+            if($(this).scrollTop() > 150)
+                $(".help_float").css("top", 10);
+            else
+                $(".help_float").css("top", 170 - $this.scrollTop());
+        }
     });
 
     $("#refresh").click(function() {
@@ -2227,7 +2270,7 @@ $(document).ready(function() {
     $(".saildict_panel").draggable({snap: 'inner'});
 
     $(".show_saildict").click(function (e) {
-        $(".saildict_panel").show();
+        $(".saildict_panel").css("top", $(window).scrollTop() + 100).show();
 
         e.preventDefault();
     });
@@ -2235,6 +2278,156 @@ $(document).ready(function() {
     $("body").on("click", ".saildict_panel .panel-close", function () {
         $(".saildict_panel").hide();
     });
+
+
+    // Translation tools
+    $(".ttools_panel").draggable({snap: 'inner'});
+
+    $(".ttools").click(function (e) {
+        var tool = $(this).data("tool");
+
+        switch (tool) {
+            case "tn":
+                $(".ttools_panel.tn_tool").css("top", $(window).scrollTop() + 100).show();
+                break;
+            case "tq":
+                $(".ttools_panel.tq_tool").css("top", $(window).scrollTop() + 100).show();
+                break;
+            case "tw":
+                $(".ttools_panel.tw_tool").css("top", $(window).scrollTop() + 100).show();
+                break;
+        }
+
+        e.preventDefault();
+    });
+
+    $("body").on("click", ".ttools_panel .panel-close", function () {
+        var tool = $(this).data("tool");
+
+        switch (tool) {
+            case "tn":
+                $(".ttools_panel.tn_tool").hide();
+                break;
+            case "tq":
+                $(".ttools_panel.tq_tool").hide();
+                break;
+            case "tw":
+                $(".ttools_panel.tw_tool").hide();
+                break;
+        }
+    });
+
+    // ################ Question Editor ############### //
+
+    $(".consume_q, .verbalize_q, .draft_q").click(function () {
+        var parent = $(this).parents(".parent_q");
+        var verse = parent.data("verse");
+        var chapter = parent.data("chapter");
+        var event = parent.data("event");
+        var checked = $(this).is(":checked");
+        var type = $(this).attr("class");
+        var text = $(".add_questions_editor", parent).val();
+
+        if(checked)
+        {
+            switch (type) {
+                case "consume_q":
+                    if(event > 0)
+                        window.localStorage.setItem("consume_" + event + "_" + chapter + "_" + verse, "done");
+                    $(".verbalize_q", parent).prop("disabled", false);
+                    return true;
+                case "verbalize_q":
+                    if(event > 0)
+                        window.localStorage.setItem("verbalize_" + event + "_" + chapter + "_" + verse, "done");
+                    $(".draft_q", parent).prop("disabled", false);
+                    $(".add_questions_editor", parent).summernote("enable");
+                    $(".questions_editor", parent).removeClass("locked");
+                    return true;
+                case "draft_q":
+                    if(text != "")
+                    {
+                        if(event > 0)
+                            window.localStorage.setItem("draft_" + event + "_" + chapter + "_" + verse, "done");
+                        return true;
+                    }
+                    break;
+            }
+        }
+
+        return false;
+    });
+
+    $(".consume_q, .verbalize_q, .draft_q").each(function () {
+        var parent = $(this).parents(".parent_q");
+        var verse = parent.data("verse");
+        var chapter = parent.data("chapter");
+        var event = parent.data("event");
+        var type = $(this).attr("class");
+        var text = $(".add_questions_editor", parent).val();
+
+        if(event == 0) return true;
+
+        switch (type) {
+            case "consume_q":
+                var consume = localStorage.getItem("consume_" + event + "_" + chapter + "_" + verse);
+                if(consume == "done")
+                {
+                    $(".consume_q", parent).prop("checked", true);
+                    $(".verbalize_q", parent).prop("disabled", false);
+                }
+                break;
+            case "verbalize_q":
+                var verbalize = localStorage.getItem("verbalize_" + event + "_" + chapter + "_" + verse);
+                if(verbalize == "done")
+                {
+                    $(".verbalize_q", parent).prop("checked", true);
+                    $(".draft_q", parent).prop("disabled", false);
+
+                    // Wait until summernote plugin loads completely
+                    setTimeout(function () {
+                        $(".add_questions_editor", parent).summernote("enable");
+                        $(".questions_editor", parent).removeClass("locked");
+                    }, 1000);
+                }
+                break;
+            case "draft_q":
+                var draft = localStorage.getItem("draft_" + event + "_" + chapter + "_" + verse);
+                if(draft == "done")
+                    $(".draft_q", parent).prop("checked", true);
+                break;
+        }
+    });
+
+    // Text editor font size changer
+    // $(".tools_font button").click(function () {
+    //     var size = $(this).data("size");
+    //     var contentEditable = $("div[contenteditable=true]");
+    //     var toolFontElements = [];
+    //
+    //     contentEditable.each(function () {
+    //         if($(this).data("orig-size") == undefined)
+    //             $(this).data("orig-size", $(this).css("font-size"));
+    //         toolFontElements.push($(this));
+    //     });
+    //
+    //     switch (size) {
+    //         case "-":
+    //             $.each(toolFontElements, function () {
+    //                 $(this).css("font-size", parseInt($(this).css("font-size")) - 1);
+    //             });
+    //             break;
+    //         case "+":
+    //             $.each(toolFontElements, function () {
+    //                 $(this).css("font-size", parseInt($(this).css("font-size")) + 1);
+    //             });
+    //             break;
+    //         case 0:
+    //             $.each(toolFontElements, function () {
+    //                 $(this).css("font-size", $(this).data("orig-size"));
+    //             });
+    //             break;
+    //     }
+    // });
 });
 
 function animateIntro() {
@@ -2532,7 +2725,7 @@ function highlightKeyword(verseID, text, index, remove) {
     }
     else
     {
-        var verseText = verseEl.html();
+        var verseText = verseEl.html().trim();
         var regex = new RegExp("("+text+")", "gmi");
 
         var nth = -1;

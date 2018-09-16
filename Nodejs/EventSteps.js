@@ -24,6 +24,7 @@ var EventSteps = function() {
 	var CHUNKING;
 	var READ_CHUNK;
 	var BLIND_DRAFT;
+	var MULTI_DRAFT;
 	var SELF_CHECK;
 	var PEER_REVIEW;
 	var KEYWORD_CHECK;
@@ -41,6 +42,7 @@ var EventSteps = function() {
 		CHUNKING: "chunking",
 		READ_CHUNK: "read-chunk",
 		BLIND_DRAFT: "blind-draft",
+        MULTI_DRAFT: "multi-draft",
 		SELF_CHECK: "self-check",
 		PEER_REVIEW: "peer-review",
 		KEYWORD_CHECK: "keyword-check",

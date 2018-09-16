@@ -141,6 +141,8 @@
                         <option value=""></option>
                         <option value="bible"><?php echo __("bible_mode") ?></option>
                         <option value="tn"><?php echo __("notes_mode") ?></option>
+                        <option value="tq"><?php echo __("questions_mode") ?></option>
+                        <option value="tw"><?php echo __("words_mode") ?></option>
                     </select>
                 </div>
             
@@ -166,7 +168,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group sourceTranslation">
                     <label for="sourceTranslation"><?php echo __('book_project'); ?></label>
                     <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
                         <option value=""></option>
@@ -195,6 +197,20 @@
                 <div class="form-group sourceTranslationNotes hidden">
                     <label for="sourceTranslationNotes"><?php echo __('book_notes'); ?></label>
                     <select name="sourceTranslationNotes" id="sourceTranslationNotes" class="form-control" data-placeholder="<?php echo __('choose_source_notes'); ?>">
+                        <option value=""></option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="form-group sourceTranslationQuestions hidden">
+                    <label for="sourceTranslationQuestions"><?php echo __('book_questions'); ?></label>
+                    <select name="sourceTranslationQuestions" id="sourceTranslationQuestions" class="form-control" data-placeholder="<?php echo __('choose_source_questions'); ?>">
+                        <option value=""></option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="form-group sourceTranslationWords hidden">
+                    <label for="sourceTranslationWords"><?php echo __('book_words'); ?></label>
+                    <select name="sourceTranslationWords" id="sourceTranslationWords" class="form-control" data-placeholder="<?php echo __('choose_source_words'); ?>">
                         <option value=""></option>
                         <option value="en">English</option>
                     </select>

@@ -191,9 +191,9 @@ class EventsModel extends Model
             .PREFIX."translators.checkerID, ".PREFIX."translators.peerCheck, ".PREFIX."translators.currentChapter, "
             .PREFIX."checkers_l2.memberID AS checker_l2, ".PREFIX."checkers_l3.memberID AS checker_l3, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
-            .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID "
+            .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, evnt.state "
             .($getInfo ?
-                ", evnt.eventID, evnt.state, evnt.bookCode, "
+                ", evnt.eventID, evnt.bookCode, "
                 ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".PREFIX."abbr.chaptersNum " : "")
             ."FROM ".PREFIX."events AS evnt "
             ."LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID = evnt.eventID AND ".PREFIX."translators.memberID = :memberID "
@@ -250,7 +250,7 @@ class EventsModel extends Model
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, "
                 .PREFIX."projects.sourceBible, t_lang.langName as tLang, "
-                ."t_lang.direction as tLangDir, ".PREFIX."projects.notesLangID, notes_lang.direction as notesLangDir, "
+                ."t_lang.direction as tLangDir, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, "
                 ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".
                 PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".
                 PREFIX."abbr.chaptersNum FROM ";
@@ -281,7 +281,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."projects ON evnt.projectID = ".PREFIX."projects.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
-            "LEFT JOIN ".PREFIX."languages AS notes_lang ON ".PREFIX."projects.notesLangID = notes_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS res_lang ON ".PREFIX."projects.resLangID = res_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".$mainTable.".memberID = :memberID ".
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
@@ -319,7 +319,7 @@ class EventsModel extends Model
                 .PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-                .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
+                .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
                 "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
                 .PREFIX."chapters.chunks, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
@@ -344,6 +344,7 @@ class EventsModel extends Model
      * @param $memberID Notes Checker member ID
      * @param null $eventID event ID
      * @param null $chkMemberID Notes translator member ID
+     * @param $chapter
      * @return array
      */
     public function getMemberEventsForNotes($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
@@ -361,7 +362,7 @@ class EventsModel extends Model
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, notes_lang.direction as notesLangDir, ".
+            .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
             .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
@@ -370,7 +371,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
-            "LEFT JOIN ".PREFIX."languages AS notes_lang ON ".PREFIX."projects.notesLangID = notes_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS res_lang ON ".PREFIX."projects.resLangID = res_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
             "WHERE ".PREFIX."projects.bookProject = 'tn' ".
             ($eventID ? "AND trs.eventID = :eventID " : " ").
@@ -492,6 +493,95 @@ class EventsModel extends Model
 
 
     /**
+     * Get Questions checker event/s
+     * @param $memberID Notes Checker member ID
+     * @param null $eventID event ID
+     * @param null $chkMemberID Notes translator member ID
+     * @param $chapter
+     * @return array
+     */
+    public function getCheckerEventsForQuestionsWords($memberID, $eventID = null, $chkMemberID = null, $chapter = null)
+    {
+        $prepare = [];
+        if($eventID)
+            $prepare[":eventID"] = $eventID;
+        if($chkMemberID)
+            $prepare[":chkMemberID"] = $chkMemberID;
+
+        $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, "
+            .PREFIX."members.lastName, evnt.bookCode, evnt.admins, "
+            ."evnt.dateFrom, evnt.dateTo, evnt.state, "
+            ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
+            .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
+            .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
+            "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = evnt.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS res_lang ON ".PREFIX."projects.resLangID = res_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
+            "WHERE (".PREFIX."projects.bookProject = 'tq' OR ".PREFIX."projects.bookProject = 'tw') ".
+            ($eventID ? "AND trs.eventID = :eventID " : " ").
+            ($chkMemberID ? "AND trs.memberID = :chkMemberID " : " ").
+            "ORDER BY tLang, ".PREFIX."abbr.abbrID";
+
+        $events = $this->db->select($sql, $prepare);
+        $filtered = [];
+
+        foreach($events as $event)
+        {
+            // Keyword check event
+            $kwCheck = (array)json_decode($event->kwCheck, true);
+            foreach ($kwCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] == 0)
+                    {
+                        $ev = clone $event;
+
+                        $checkerFName = null;
+                        $checkerLName = null;
+                        $ev->step = EventSteps::KEYWORD_CHECK;
+                        $ev->checkDone = false;
+                        $ev->currentChapter = $chap;
+                        $ev->isCheckerPage = true;
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+
+            // Peer check event
+            $peerCheck = (array)json_decode($event->peerCheck, true);
+            foreach ($peerCheck as $chap => $data) {
+                if(!isset($chapter) || $chapter == $chap &&
+                    array_key_exists($chap, $kwCheck) && $kwCheck[$chap]["done"] == 1)
+                {
+                    if($data["memberID"] == $memberID && $data["done"] == 0)
+                    {
+                        $ev = clone $event;
+                        $checkerFName = null;
+                        $checkerLName = null;
+
+                        $ev->step = EventSteps::PEER_REVIEW;
+                        $ev->currentChapter = $chap;
+                        $ev->isCheckerPage = true;
+                        $filtered[] = $ev;
+                    }
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+
+    /**
      * Get L2 checker event/s
      * @param $memberID 2nd Checker member ID
      * @param null $eventID event ID
@@ -513,7 +603,7 @@ class EventsModel extends Model
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
+            .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
             .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."checkers_l2 AS chks ".
@@ -672,7 +762,7 @@ class EventsModel extends Model
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
+            .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
             .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
@@ -761,7 +851,7 @@ class EventsModel extends Model
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-            .PREFIX."projects.targetLang, ".PREFIX."projects.notesLangID, ".
+            .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
             .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
@@ -848,7 +938,7 @@ class EventsModel extends Model
             "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
             "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt, ".
-            "gwproj.admins AS superadmins ".
+            "gwproj.admins AS superadmins, proj.resLangID ".
             "FROM ".PREFIX."events AS evnt ".
             "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
             "LEFT JOIN ".PREFIX."gateway_projects AS gwproj ON proj.gwProjectID = gwproj.gwProjectID ".
@@ -1097,6 +1187,89 @@ class EventsModel extends Model
     }
 
 
+    public function getNotificationsQuestionsWords()
+    {
+        $sql = "SELECT trs.*, ".
+            PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
+            "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."translators as mytrs ON mytrs.memberID = :memberID AND mytrs.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
+            "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
+            "OR ".PREFIX."events.admins LIKE :adminID) ".
+            "AND trs.kwCheck != '' AND trs.memberID != :memberID ".
+            "AND (".PREFIX."projects.bookProject = 'tq' OR ".PREFIX."projects.bookProject = 'tw')";
+
+        $prepare = [
+            ":memberID" => Session::get("memberID"),
+            ":adminID" => '%\"'.Session::get("memberID").'"%'
+        ];
+
+        $questionsNotifications = $this->db->select($sql, $prepare);
+        $notifs = [];
+
+        foreach ($questionsNotifications as $notification)
+        {
+            $kwCheck = (array)json_decode($notification->kwCheck, true);
+            $peerCheck = (array)json_decode($notification->peerCheck, true);
+
+            foreach ($kwCheck as $chapter => $data) {
+                // Exclude taken chapters
+                if($data["memberID"] > 0) continue;
+
+                if($notification->bookProject == "tw")
+                {
+                    $group = $this->getTwGroups([
+                        "groupID" => $chapter,
+                        "eventID" => $notification->eventID]);
+
+                    $words = (array) json_decode($group[0]->words, true);
+                    $notification->group = $words[0] . "..." . $words[sizeof($words)-1];
+                }
+
+                $note = clone $notification;
+                $note->currentChapter = $chapter;
+                $note->step = EventSteps::KEYWORD_CHECK;
+                $note->manageMode = $notification->bookProject;
+                $notifs[] = $note;
+            }
+
+            foreach ($peerCheck as $chapter => $data) {
+                // Exclude taken chapters
+                if($data["memberID"] > 0) continue;
+
+                // Exclude member that is already in otherCheck
+                //if($kwCheck[$chapter]["memberID"] == Session::get("memberID")) continue;
+
+                if($notification->bookProject == "tw")
+                {
+                    $group = $this->getTwGroups([
+                        "groupID" => $chapter,
+                        "eventID" => $notification->eventID]);
+
+                    $words = (array) json_decode($group[0]->words, true);
+                    $notification->group = $words[0] . "..." . $words[sizeof($words)-1];
+                }
+
+                $note = clone $notification;
+
+                $note->currentChapter = $chapter;
+                $note->step = EventSteps::PEER_REVIEW;
+                $note->manageMode = $note->manageMode = $notification->bookProject;
+                $notifs[] = $note;
+            }
+        }
+
+        return $notifs;
+    }
+
+
     /**
      * Get notifications for Level 2 events
      * @return array
@@ -1116,7 +1289,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE (chks.eventID IN(SELECT eventID FROM ".PREFIX."checkers_l2 WHERE memberID = :memberID) ".
-            "OR ".PREFIX."events.admins LIKE :adminID) ".
+            "OR ".PREFIX."events.admins_l2 LIKE :adminID) ".
             "AND chks.sndCheck != '' ";
 
         $prepare = [
@@ -1639,6 +1812,8 @@ class EventsModel extends Model
      * Get all assigned chapters of event of a translator
      * @param $eventID
      * @param $memberID
+     * @param $chapter
+     * @param $manageMode
      * @return array|static[]
      */
     public function getChapters($eventID, $memberID = null, $chapter = null, $manageMode = "l1")
@@ -1719,6 +1894,56 @@ class EventsModel extends Model
         return $this->db->table("chapters")
             ->where($where)
             ->update($data);
+    }
+
+
+    /**
+     * Get tW groups
+     * @param $where
+     * @return mixed
+     */
+    public function getTwGroups($where)
+    {
+        return $this->db->table("tw_groups")
+            ->where($where)
+            ->orderBy("groupID")
+            ->get();
+    }
+
+    /**
+     * Update tW group
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateTwGroups($data, $where)
+    {
+        return $this->db->table("tw_groups")
+            ->where($where)
+            ->update($data);
+    }
+
+    /**
+     * Delete tW group
+     * @param array $where
+     * @return int
+     */
+    public function deleteTwGroups($where)
+    {
+        return $this->db->table("tw_groups")
+            ->where($where)
+            ->delete();
+    }
+
+    /**
+     * Create tW group
+     * @param $data
+     * @return int
+     */
+    public function createTwGroup($data)
+    {
+        return $this->db->table("tw_groups")
+            ->insertGetId($data);
     }
 
 }

@@ -101,8 +101,10 @@ class AdminController extends Controller {
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID);
             $otDone = 0;
             $ntDone = 0;
+            $twDone = 0;
             $data["OTprogress"] = 0;
             $data["NTprogress"] = 0;
+            $data["TWprogress"] = 0;
 
             foreach ($data["events"] as $event)
             {
@@ -114,7 +116,7 @@ class AdminController extends Controller {
                         $otDone++;
                     }
                 }
-                else // New testament
+                else if($event->abbrID < 68) // New testament
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -122,13 +124,26 @@ class AdminController extends Controller {
                         $ntDone++;
                     }
                 }
+                else if($event->abbrID < 71)
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $twDone++;
+                    }
+                }
             }
 
             $data["OTprogress"] = 100*$otDone/39;
             $data["NTprogress"] = 100*$ntDone/27;
+            $data["TWprogress"] = 100*$twDone/3;
         }
 
-        return View::make('Admin/Main/Project')
+        $page = 'Admin/Main/Project';
+        if($data["project"][0]->bookProject == "tw")
+            $page = 'Admin/Main/ProjectTW';
+
+        return View::make($page)
             ->shares("title", __("admin_events_title"))
             ->shares("data", $data);
     }
@@ -687,13 +702,16 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
         $sourceTranslationNotes = isset($_POST['sourceTranslationNotes']) && $_POST['sourceTranslationNotes'] != "" ? $_POST['sourceTranslationNotes'] : null;
+        $sourceTranslationQuestions = isset($_POST['sourceTranslationQuestions']) && $_POST['sourceTranslationQuestions'] != "" ? $_POST['sourceTranslationQuestions'] : null;
+        $sourceTranslationWords = isset($_POST['sourceTranslationWords']) && $_POST['sourceTranslationWords'] != "" ? $_POST['sourceTranslationWords'] : null;
         $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
-        
+        $resSourceTranslation = null;
+
         if($subGwLangs == null)
         {
             $error[] = __('choose_gw_lang');
@@ -706,24 +724,41 @@ class AdminController extends Controller {
 
         if($sourceTranslation == null)
         {
-            $error[] = __("choose_source_trans");
+            if($projectMode != "tq" && $projectMode != "tw")
+                $error[] = __("choose_source_trans");
         }
-        /*else
-        {
-            if(($sourceTranslation != "ulb|en" && $sourceTranslation != "udb|en") && $projectType == null)
-            {
-                $error[] = __("choose_project_type");
-            }
-        }*/
 
         if($projectType == null)
         {
-            $error[] = __("choose_project_type");
+            if($projectMode != "tq" && $projectMode != "tw")
+                $error[] = __("choose_project_type");
         }
 
         if($projectMode == "tn" && $sourceTranslationNotes == null)
         {
             $error[] = __("choose_source_notes");
+        }
+        else if($projectMode == "tq" && $sourceTranslationQuestions == null)
+        {
+            $error[] = __("choose_source_questions");
+        }
+        else if($projectMode == "tw" && $sourceTranslationWords == null)
+        {
+            $error[] = __("choose_source_words");
+        }
+
+        if($projectMode == "tq" || $projectMode == "tw")
+        {
+            $sourceTranslation = "ulb|en";
+            $projectType = "ulb";
+            if($projectMode == "tq")
+                $resSourceTranslation = $sourceTranslationQuestions;
+            elseif($projectMode == "tw")
+                $resSourceTranslation = $sourceTranslationWords;
+        }
+        elseif($projectMode == "tn")
+        {
+            $resSourceTranslation = $sourceTranslationNotes;
         }
 
         if(!isset($error))
@@ -731,8 +766,8 @@ class AdminController extends Controller {
             $sourceTrPair = explode("|", $sourceTranslation);
             $gwLangsPair = explode("|", $subGwLangs);
 
-            $projType = in_array($projectMode, ['tn']) ?
-                $projectMode . ($projectType == "sun" ? "_sun" : "") : $projectType;
+            $projType = in_array($projectMode, ['tn','tq','tw']) ?
+                $projectMode : $projectType;
             
             $exist = $this->_eventsModel->getProject(["projects.projectID"], [
                 ["projects.gwLang", $gwLangsPair[0]],
@@ -754,7 +789,7 @@ class AdminController extends Controller {
                 "bookProject" => $projType,
                 "sourceBible" => $sourceTrPair[0],
                 "sourceLangID" => $sourceTrPair[1],
-                "notesLangID" => $sourceTranslationNotes
+                "resLangID" => $resSourceTranslation
             );
             
             $id = $this->_eventsModel->createProject($postdata);
@@ -1307,6 +1342,150 @@ class AdminController extends Controller {
                         echo json_encode(array("success" => __("successfully_deleted")));
                     }
                     elseif ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
+                    {
+                        $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
+                        echo json_encode(array("success" => __("successfully_deleted")));
+                    }
+
+                    break;
+            }
+        }
+        else
+        {
+            echo json_encode(array("error" => Error::display($error)));
+        }
+    }
+
+
+    public function createEventTw()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            return;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $bookCode = isset($_POST['book_code']) && $_POST['book_code'] != "" ? $_POST['book_code'] : null;
+        $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : null;
+        $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : [];
+        $act = isset($_POST['act']) && preg_match("/^(create|edit|delete)$/", $_POST['act']) ? $_POST['act'] : "create";
+
+        if($bookCode == null)
+        {
+            $error[] = __('wrong_book_code');
+        }
+
+        if($projectID == null)
+        {
+            $error[] = __('wrong_project_id');
+        }
+
+        if(empty($admins))
+        {
+            $error[] = __('enter_admins');
+        }
+
+        if(!isset($error))
+        {
+            $exist = $this->_eventsModel->getEvent(null, $projectID, $bookCode);
+            $project = $this->_eventsModel->getProject(
+                ["sourceLangID", "sourceBible"],
+                ["projectID", $projectID]
+            );
+
+            $postdata = [];
+
+            switch($act)
+            {
+                case "create":
+                    if(!empty($exist) &&
+                        $exist[0]->state != EventStates::TRANSLATED &&
+                        $exist[0]->state != EventStates::L2_CHECKED)
+                    {
+                        $error[] = __("event_already_exists");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $postdata["projectID"] = $projectID;
+                    $postdata["bookCode"] = $bookCode;
+
+                    foreach ($admins as $admin) {
+                        $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                    }
+
+                    $postdata["admins"] = json_encode($admins);
+                    $postdata["dateFrom"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                    $postdata["dateTo"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                    $eventID = $this->_eventsModel->createEvent($postdata);
+
+                    if($eventID)
+                        echo json_encode(array("success" => __("successfully_created")));
+                    break;
+
+                case "edit":
+                    if(empty($exist))
+                    {
+                        $error[] = __("event_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                    if(!in_array(Session::get("memberID"), $superadmins))
+                    {
+                        $error[] = __("wrong_project_id");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $dbAdmins = (array)json_decode($exist[0]->admins, true);
+                    $postdata["admins"] = json_encode($admins);
+
+                    $oldAdmins = $dbAdmins;
+                    $deletedAdmins = array_diff($oldAdmins, $admins);
+                    $addedAdmins = array_diff($admins, $oldAdmins);
+
+                    // Remove facilitator role from member if he is not in any events
+                    foreach ($deletedAdmins as $admin) {
+                        $events = $this->_eventsModel->getMemberEventsForAdmin($admin);
+                        if(sizeof($events) == 1)
+                            $this->_membersModel->updateMember(array("isAdmin" => false), array("memberID" => $admin));
+                    }
+
+                    // Assign facilitator role to added member
+                    foreach ($addedAdmins as $admin) {
+                        $this->_membersModel->updateMember(array("isAdmin" => true), array("memberID" => $admin));
+                    }
+
+                    $this->_eventsModel->updateEvent($postdata, ["projectID" => $projectID, "bookCode" => $bookCode]);
+                    echo json_encode(array("success" => __("successfully_updated")));
+                    break;
+
+                case "delete":
+                    if(empty($exist))
+                    {
+                        $error[] = __("event_not_exists_error");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                    if(!in_array(Session::get("memberID"), $superadmins))
+                    {
+                        $error[] = __("wrong_project_id");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
                     {
                         $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
                         echo json_encode(array("success" => __("successfully_deleted")));

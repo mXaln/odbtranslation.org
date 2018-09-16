@@ -117,64 +117,37 @@ if(empty($error) && empty($data["success"])):
         </div>
 
         <div class="content_help col-sm-3">
-            <?php if($data["event"][0]->sourceBible == "ulb"): ?>
-                <ul class="nav nav-tabs t_tools_nav">
-                    <li role="presentation" id="my_twords" class="my_tab">
-                        <a href="#"><?php echo __("show_keywords") ?></a>
-                    </li>
-                </ul>
+            <div class="help_float">
+                <div class="help_info_steps <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div id="my_twords_content" class="my_content shown">
-                    <div class="labels_list">
-                        <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
-                            <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
-                                <?php if(!isset($tWord["text"])) continue; ?>
-                                <label>
-                                    <ul>
-                                        <li>
-                                            <div class="word_term">
-                                                <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
-                                                (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
-                                            </div>
-                                            <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
-                                        </li>
-                                    </ul>
-                                </label>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
-                    <div class="word_def_popup">
-                        <div class="word_def-close glyphicon glyphicon-remove"></div>
+                    <div class="clear"></div>
 
-                        <div class="word_def_title"></div>
-                        <div class="word_def_content"></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [7])?>: </span> <?php echo __("keyword-check")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("keyword-check_checker_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
-            <?php endif; ?>
 
-            <div class="help_info_steps <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
-
-                <div class="clear"></div>
-
-                <div class="help_name_steps"><span><?php echo __("step_num", [7])?>: </span> <?php echo __("keyword-check")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("keyword-check_checker_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
-
-            <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
-                <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_translator") ?>:</span>
-                        <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
-                    </div>
-                    <div class="additional_info">
-                        <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
+                    <div class="participant_info">
+                        <div class="participant_name">
+                            <span><?php echo __("your_translator") ?>:</span>
+                            <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
+                        </div>
+                        <div class="additional_info">
+                            <a href="/events/information/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        </div>
                     </div>
                 </div>
+
+                <?php if($data["event"][0]->sourceBible == "ulb"): ?>
+                <div class="tr_tools">
+                    <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -182,6 +155,41 @@ if(empty($error) && empty($data["success"])):
     <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
+<?php if($data["event"][0]->sourceBible == "ulb"): ?>
+<div class="ttools_panel tw_tool panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("tw") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove" data-tool="tw"></span>
+    </div>
+
+    <div class="ttools_content page-content panel-body">
+        <div class="labels_list">
+            <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
+                <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
+                    <?php if(!isset($tWord["text"])) continue; ?>
+                    <label>
+                        <ul>
+                            <li>
+                                <div class="word_term">
+                                    <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
+                                    (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
+                                </div>
+                                <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
+                            </li>
+                        </ul>
+                    </label>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div class="word_def_popup">
+            <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+            <div class="word_def_title"></div>
+            <div class="word_def_content"></div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 
 <div class="tutorial_container">
     <div class="tutorial_popup">

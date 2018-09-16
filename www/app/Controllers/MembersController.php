@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\NewsModel;
+use Helpers\Constants\EventStates;
 use View;
 use Helpers\Constants\EventMembers;
 use Helpers\Csrf;
@@ -1383,6 +1384,7 @@ class MembersController extends Controller
     /**
      * Make rpc call from nodejs and send json string back
      * @param $memberID
+     * @param $eventID
      * @param $authToken
      */
     public function rpcAuth($memberID, $eventID, $authToken) {
@@ -1403,7 +1405,9 @@ class MembersController extends Controller
 
             if(!empty($member))
             {
-                $admins = (array)json_decode($event[0]->admins, true);
+                $admins = EventStates::enum($event[0]->state) <= EventStates::enum(EventStates::TRANSLATED) ?
+                    (array)json_decode($event[0]->admins, true)
+                    : (array)json_decode($event[0]->admins_l2, true);
 
                 if($event[0]->translator == null && $event[0]->checker == null
                     && $event[0]->checker_l2 == null && $event[0]->checker_l3 == null)

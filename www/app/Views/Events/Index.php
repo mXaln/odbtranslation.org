@@ -16,6 +16,8 @@ $profile = Session::get("profile");
                 <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
                 <a href="/events/demo-l2"><li><?php echo __("l2_3_events", [2]); ?></li></a>
                 <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
+                <a href="/events/demo-tq"><li><?php echo __("tq") ?></li></a>
+                <a href="/events/demo-tw"><li><?php echo __("tw") ?></li></a>
                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
             </ul>
         </div>
@@ -110,9 +112,9 @@ $profile = Session::get("profile");
                     $bgColor = "purple-marked";
                     $currentMembers = $event->trsCnt;
                     $members = __("translators");
-                    $manageLink = "/events/manage/".$event->eventID;
+                    $manageLink = "/events/manage".($mode == "tw" ? "-tw" : "")."/".$event->eventID;
                     $progressLink = "/events/information".
-                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
+                        (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
             }
@@ -220,7 +222,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
-                        (in_array($mode, ["tn","sun"]) ? "-".$mode : "").
+                        (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
             }
@@ -352,7 +354,7 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
+                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -429,9 +431,9 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action check1">
                 <div class="event_link">
-                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun"]) ? "-".$event->bookProject : "")
+                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "")
                             ."/".$event->eventID."/".$event->memberID
-                            .(isset($event->isContinue) ? "/".$event->currentChapter : "")?>"
+                            .(isset($event->isContinue) || in_array($event->bookProject, ["tq","tw"]) ? "/".$event->currentChapter : "")?>"
                        data="<?php echo $event->eventID."_".$event->memberID?>">
                         <?php echo __("continue_alt") ?>
                     </a>
