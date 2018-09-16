@@ -460,10 +460,9 @@ return array (
     // Steps
     "pray" => "Preparation: Prayer",
     "pray_desc" => "<li><b>PURPOSE:</b> to invite the Holy Spirit into the process as you translate.</li>
-                    <li>Take as long as you would like to for this step.</li>
-                    <li>Pray by yourself or pray together as a group.</li>
+                    <li>Pray by yourself or together as a group.</li>
                     <li>This step is as important as any of the others.</li>
-                    <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                    <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
     "pray_text" => "God created all the languages of the world and has given us the ability to learn and use them. 
                     He has also given us His Spirit to help us in everything we do.  
                     Therefore, let us begin by spending time in prayer, giving thanks to the Lord and asking that 
@@ -475,19 +474,19 @@ return array (
 
     "consume" => "Consume",
     "consume_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translation.</li>
+                        <li><b>LENGTH:</b> Take no more than 7-10 minutes on this step.</li>
                         <li>Read the assigned chapter carefully.</li>
-                        <li>Try to understand the meaning and details of the text to get a general overview.</li>
+                        <li>Try to understand the meaning and details of the text for a general overview.</li>
                         <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over it with your mouse. 
                             It is a translator’s note for that verse.</li>
-                        <li>Take no more than 7-10 minutes on this step.</li>
-                        <li>If the text is longer and needs more time, that is okay, but it is good to stop and 
-                            reflect in portions and then continue reading the next portion of the chapter.</li>
-                        <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                        <li>If the text is longer and needs more time, that is okay, but do stop and 
+                            reflect on portions and then continue reading the next portion of the chapter.</li>
+                        <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
     "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
                             <li>Pause, reflect, and re-read as necessary.</li>
-                            <li>Spend no more than 12 minutes on this activity.</li>",
+                            <li>Take 7-8 minutes for this step.</li>",
 
     "consume_tn" => "Read Scripture",
     "consume_tn_full" => "Read Scripture in Target Language",
@@ -496,67 +495,67 @@ return array (
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
                             <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over 
                                 it with your mouse.  It is a footnote to help you translate the (verse or note).</li>
-                            <li>Take no more than 7-10 minutes on this step.</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                            <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "verbalize" => "Verbalize",
     "verbalize_desc" => "<li><b>PURPOSE:</b> to express verbally what you have consumed to engage short-term memory.</li>
-                            <li>Choose your partner to verbalize with.  It does not have to be another translator in V-MAST. 
+                            <li><b>LENGTH:</b> Take 2-3 minutes on this step (per person).</li>
+                            <li>Choose a partner to verbalize with.  It does not have to be another translator in V-MAST. 
                                 <ol>
-                                    <li>If they are a translator in V-MAST start typing their name in the blank and choose 
+                                    <li>If they are a translator in V-MAST start typing their name in the blank field and choose 
                                         from the names that pop up.  Then click \"Add Checker.\"</li>
                                     <li>If they are not a translator in V-MAST, type in their name and click \"Add Checker.\"</li>
-                                    <li>You will see their name pop up in the side bar as \"Your checker:\"</li>
+                                    <li>You will see their name pop up in the side bar as \"Your checker:\".</li>
                                 </ol>
                             </li>
                             <li>Contact your partner on a conversation platform: Skype, Messenger, WhatsApp, phone, etc…</li>
-                            <li>Verbalize to your partner, \"this is what I read,\" followed by, \"the main points are…\"</li>
-                            <li>This is not a discussion of the text, but to verbalize naturally in the target language.</li>
+                            <li>Verbalize to your partner: \"This is what I read,\" followed by, \"The main points are…\" in the target language.</li>
+                            <li>This is not a discussion of the text, but to say aloud what you read.</li>
                             <li>Do this without looking back at the text, if possible.</li>
-                            <li>Spend no more than 2-3 minutes on this step (per person).</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                            <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "chunking" => "Chunk",
     "chunking_sun" => "Thought Chunk",
     "chunking_desc" => "<li><b>PURPOSE:</b> to divide the text into smaller pieces to help the brain work with it in detail.</li>
+                        <li><b>LENGTH:</b> Take about 5 minutes, depending on the number of verses in the chapter.</li>
                         <li>Click on 1-4 verses and then the orange icon (<span class='make_chunk_info'></span>) to create each chunk. 
                             <ol>
                                 <li>To change the last chunk (or few chunks), click on the last checked box(es) to un-chunk.</li>
-                                <li>To start chunking over from the start, click on the red icon (<span class='reset_info'></span>).</li>
+                                <li>To start chunking over from the beginning, click on the red icon (<span class='reset_info'></span>).</li>
                             </ol>
                         </li>
                         <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>
                         <li>Push for the maximum amount of text that can be remembered, but keep in mind you will draft the text without looking at it.</li>
                         <li>This should take about 5 minutes, depending on the number of verses in the chapter.</li>
-                        <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                        <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
     "chunking_sun_desc" => "<li><b>PURPOSE:</b> to divide the text into manageable portions for translation</li>
                             <li>Click on 2-5 verses and then \"make chunk\" for grouping into chunks to prepare for the next step.</li>
-                            <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>
-                            <li>Spend no more than 5 minutes on this exercise</li>",
+                            <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>",
 
     "read-chunk" => "Blind Draft",
     "read-chunk-alt" => "Read Chunk",
     "read-chunk_desc" => "<li><b>PURPOSE:</b> to review the chunk to prepare for the blind draft</li>
-                            <li>Read and absorb this chunk keeping the context of the whole chapter mind.</li>
+                            <li><b>LENGTH:</b> Take 2-3 minutes on each chunk.</li>
+                            <li>Read and absorb this chunk, keeping the whole chapter's context in mind.</li>
                             <li>Think through this chunk in the target language.</li>
                             <li>Do not make notes or open additional source text on this step.</li>
-                            <li>Spend no more than 2-3 minutes per chunk.</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                            <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
     
     "read-chunk_tn" => "Read Chunk",
     "read-chunk_tn_desc" => "<li><b>PURPOSE:</b> to read through the chunk of Notes you will translate.</li>
                                 <li>Read the assigned chunk of Notes carefully.</li>
                                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                                 <li>Take about 5 minutes on this step.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                                <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
     
     "blind-draft" => "Blind Draft",
     "blind-draft_previous" => "Blind Draft - Previous chunk",
     "blind-draft_desc" => "<li><b>PURPOSE:</b> to translate the source text as naturally as possible in the target language.</li>
-                            <li>Without looking at the source text, type your translation of the chunk as the best you 
-                                can remember it, in a natural way, using words that are clear and understandable</li>
+                            <li><b>LENGTH:</b> Take no more than 11 minutes for each chunk.</li>
+                            <li>Without looking at the source text, type your translation of the chunk as best you 
+                                can remember it, in a natural way, using words that are clear and understandable.</li>
                             <li>Do not refer to the source text. Just translate what you remember.</li>
-                            <li>Do not be concerned about marking verses. This will be done in the final step</li>
+                            <li>Do not be concerned about marking verses. This will be done in the final step.</li>
                             <li>One of the foundational characteristics of good translation is the naturalness of language. 
                                 The blind draft captures this and allows the brain/short term memory to quickly push out 
                                 the most natural text. This is not meant to be perfect and accurate text (the next four 
@@ -564,22 +563,21 @@ return array (
                                 absent, leads to extended error and long periods of foundational error correction.</li>
                             <li>Do not spend an extended amount of time trying to remember the source text. The next 
                                 step will catch what you do not remember and allow corrections.</li>
-                            <li>Each chunk should take approximately 11 minutes.</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>
+                            <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>
                             <li>Continue to blind draft each chunk until you finish the chapter.</li>
                             <li>Additional Notes to Translator: 
                                 <ol>
-                                    <li><b>Personal Benefit to you:</b> Those who follow the blind drafting conscientiously, 
-                                        will find that they are planting scripture in their long-term memory. As this 
+                                    <li><b>Personal benefit to you:</b> Those who conscientiously follow the blind drafting, 
+                                        will find that they are planting Scripture in their long-term memory. As this 
                                         happens, you have the benefit of keeping this text \"hidden away in your heart\" to a 
                                         much higher degree than those who do not.</li>
                                     <li><b>Those who cheat:</b> This is very often the step that many like to cheat on, 
                                         especially in those first days. We know that you want to make scripture accurate 
-                                        and your fears of blind drafting will produce error. We know this and promise to 
+                                        and your fears of blind drafting will produce error. We promise to 
                                         relieve those fears of inaccuracy through the whole process and ask that you work 
                                         through the process. You will struggle the first day and even the second day, but 
                                         as the days go on, you will find yourself increasing your memory capacity and accelerating 
-                                        in speed. Further, you will find yourself inserting ways to think through text better as you translate.</li>
+                                        in speed. Further, you will insert ways to think through text better as you translate.</li>
                                 </ol>
                             </li>",
 
@@ -588,38 +586,40 @@ return array (
                                 <li>Read the scripture and Note, keeping the context of the whole chapter mind.</li>
                                 <li>Think through the scripture and Note in the target language.</li>
                                 <li>Switch to the \"Translate\" tab and blind draft as much of the Note in the target language as you can.</li>
+                                <li>Type or copy/paste the scripture, and then translate the Note that goes with the scripture on the following line(s).</li>
                                 <li>Switch back and forth between the \"Read\" and \"Translate\" tab as much as needed.</li>
                                 <li>As much as possible, translate phrase by phrase and not word for word, to preserve naturalness of the target language.</li>
-                                <li>Type or copy and paste the scripture, and then translate the Note that goes with the scripture on the next line.</li>
-                                <li>Format the text by double clicking the line to format and selecting the format. 
+                                <li>Type or copy/paste the scripture, and then translate the Note that goes with the scripture on the next line.</li>
+                                <li>Format the text by clicking the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.. 
                                     <ol>
-                                        <li>Scripture is the larger text. To format double click and select \"Header 1.\"</li>
-                                        <li>The translated Note is the smaller text. To format double click and select \"Normal.\"</li>
-                                        <li>To format subtitles in  “Intro” sections, double click and select \"Header 4.\"</li>
+                                        <li>Scripture select: \"Header 1.\"</li>
+                                        <li>Translated Note select: \"Normal.\"</li>
+                                        <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
                                     </ol>
                                 </li>
                                 <li>No need to translate links.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next chunk to translate until the chapter is finished.</li>",
+                                <li>Click \"Yes I Did\" and \"Next Step\" to move to the next chunk, until the chapter is completed.</li>",
 
     "self-check" => "Self-Edit",
-    "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text accuracy 
-                                while maintaining the naturalness created by the blind draft.</li>
-                            <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                            <li>Look for any missing portions of text or missing or added facts.</li>
-                            <li>Check the accuracy of your translation in detail.</li>
+    "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text's accuracy 
+                                while maintaining the blind draft's naturalness.</li>
+                            <li><b>LENGTH:</b> Take about 30 minutes to edit your translation.</li>
+                            <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                            <li>Look for any missing portions of text or missing/added facts.</li>
+                            <li>Check in detail the accuracy of your translation.</li>
                             <li>The following resources can be used:
                                 <ol>
-                                    <li>Translation Notes in sidebar. To access the notes click the tN icon.</li>
-                                    <li>Translation Questions in sidebar. To access the questions click the tQ icon.</li>
+                                    <li>Translation Notes in sidebar: To access the notes, click the tN icon.</li>
+                                    <li>Translation Questions in sidebar: To access the questions, click the tQ icon.</li>
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
-                            <li>Do not delete or re-write the translated text. You will lose the naturalness of language.</li>
+                            <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
                             <li>If you have additional thoughts or questions about your translation, click the note 
-                                icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save. 
+                                icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note, and click Save. 
                                 The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
                             <li>This should take about 30 minutes.</li>
-                            <li>When all changes and notes have been made, click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                            <li>When all changes and notes have been made, click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "self-check_tn" => "Self-Edit",
     "self-check_tn_desc" => "<li><b>PURPOSE:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
@@ -627,14 +627,13 @@ return array (
                                 <li>Look for any missing portions of text or missing or added facts.</li>
                                 <li>Check the accuracy of your translation in detail.</li>
                                 <li>Any resources can be used.</li>
-                                <li>Do not delete or re-write the translated text.  You will lose the naturalness of language.</li>
+                                <li>Do not completely delete or re-write the translated text.  You will lose the language's naturalness.</li>
                                 <li>If you have additional thoughts or questions about your translation, click the note 
                                     icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the 
                                     note and click save. The checkers will see this note and help to resolve the question or problem.</li>
                                 <li>This should take about 30 minutes.</li>
                                 <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>
-                                <li>WARNING: This is the last chance you will have to change your translation.  
-                                    Do not click \"yes, I did\" and \"next step\" until you have made all changes.</li>",
+                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION.  DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
     "self-check_tn_chk" => "Edit Notes",
     "self-check_tn_chk_desc" => "<li><b>PURPOSE:</b> to edit the Notes translation and check accuracy while maintaining naturalness.</li>
                                     <li>Look for spelling, punctuation, flow/naturalness errors.</li>
@@ -642,18 +641,26 @@ return array (
                                     <li>Check the accuracy of translation in detail.</li>
                                     <li>Make sure to look at notes on the chunk of the translation Note.</li>
                                     <li>Any resources can be used.</li>
-                                    <li>Do not delete or re-write the translated text.  You will lose the naturalness of language.</li>
+                                    <li>Do not completely delete or re-write the translated text. You will lose the language's naturalness.</li>
                                     <li>If you have additional thoughts or questions about the translation, click the note 
                                         icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add 
                                         the note and click save. The 2nd checker will see this note and help to resolve the question or problem.</li>
+                                    <li>If the formatting needs to be corrected, use the following instructions to format.  Format the text by clicking 
+                                    the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.
+                                        <ol>
+                                            <li>Scripture select:  Header 1.</li>
+                                            <li>Translated Note select: Normal.</li>
+                                            <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
+                                        </ol>
+                                    </li>
                                     <li>This should take about 30 minutes.</li>
-                                    <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
+                                    <li>When all changes and notes have been made, click \"Yes I Did\" and \"Next Step.\"</li>",
 
     "highlight_tn" => "Highlight",
     "highlight_tn_full" => "Highlight Difficult Passages",
     "highlight_tn_desc" => "<li><b>PURPOSE:</b> to highlight passages that are considered theologically difficult.</li>
                             <li>Read the assigned chapter carefully.</li>
-                            <li>Double click to highlight words or select a phrase by left clicking and selecting the phrase. 
+                            <li>Double click to highlight words or to select a phrase left click and select the phrase. 
                                 <ol>
                                     <li>This is not a word or phrase that you think needs a Translation Note.</li>
                                     <li>It is to denote a particularly difficult passage you want to make sure has a Note.</li>
@@ -661,18 +668,19 @@ return array (
                             </li>
                             <li>Read through entire chapter and highlight as needed.</li>
                             <li>Take no more than 7-10 minutes on this step.</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                            <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "peer-review" => "Peer-Edit",
     "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
                                 text accuracy while maintaining the naturalness created by the blind draft.</li>
-                            <li>The checker will look for spelling, punctuation, flow/naturalness errors.</li>
+                            <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                            <li>The checker will look for spelling, punctuation, and flow/naturalness errors.</li>
                             <li>The checker will look for any missing portions of text or missing or added facts.</li>
                             <li>The checker will check the accuracy of your translation in detail.</li>
                             <li>The following resources can be used:
                                 <ol>
-                                    <li>Translation Notes in sidebar. To access the notes click the tN icon.</li>
-                                    <li>Translation Questions in sidebar. To access the questions click the tQ icon.</li>
+                                    <li>Translation Notes in sidebar: To access the notes, click the tN icon.</li>
+                                    <li>Translation Questions in sidebar: To access the questions, click the tQ icon.</li>
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
@@ -680,52 +688,58 @@ return array (
                             <li>When the checker has completed the check, they will contact you to discuss recommended changes via: 
                                 Skype, Messenger, WhatsApp, phone, etc…</li>
                             <li>You and the checker should discuss any changes they think should be made. 
-                                If you agree to the changes, the translator should make the changes right away.
+                                If you agree to the changes, you should make the changes right away.
                                 If you disagree, do not waste a lot of time discussing. 
                                 Leave the text as it is and make a note on the chunk noting the disagreement. 
                                 It can be discussed in later checking steps.</li>
                             <li>If there are additional thoughts or questions about the translation, click the note 
-                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
-                            <li>Discussion and correction section should take about 30 minutes.</li>
-                            <li>When all changes and notes have been made, the checker should click, \"yes I did\" and \"continue,\" then you 
-                                should click \"yes I did\" and \"next step,\" to move to the next step.</li>",
+                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and click Save.</li>
+                            <li>When all changes and notes have been made, the checker should click, \"Yes I Did\" and \"Continue,\" then you 
+                                should click \"Yes I Did\" and \"Next Step,\" to move to the next step.</li>",
 
     "peer-review_checker_desc" => "<li><b>PURPOSE:</b> to check the target language to ensure that the meaning of the source text accuracy while 
                                         maintaining the naturalness created by the blind draft.</li>
+                                    <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
                                     <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
-                                    <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
-                                    <li>Look for spelling, punctuation, flow/naturalness errors.</li>
+                                    <li>As the checker your screen will say \"Checking Mode\" and instructions will be in orange.</li>
+                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                                     <li>Look for any missing portions of text or missing or added facts.</li>
                                     <li>Check the accuracy of the translation in detail.</li>
                                     <li>If you find something you believe should be changed, write a note on the chunk by clicking the note 
-                                        icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, adding the note then clicking save. </li>
+                                        icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, adding the note, then clicking Save. </li>
                                     <li>The following resources can be used:
                                         <ol>
-                                            <li>Translation Notes in the sidebar. To access the notes click the tN icon.</li>
-                                            <li>Translation Questions in the sidebar. To access the questions click the tQ icon.</li>
+                                            <li>Translation Notes in the sidebar: To access the notes, click the tN icon.</li>
+                                            <li>Translation Questions in the sidebar: To access the questions, click the tQ icon.</li>
                                             <li>Any other resources you choose.</li>
                                         </ol>
                                     </li>
-                                    <li>You should spend about 30 minutes checking.</li>
-                                    <li>When you have completed the check, contact you to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                                    <li>When you have completed the check, contact translator to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
                                     <li>You and the translator should discuss any changes you think should be made. 
                                         If you agree to the changes, the translator should make the changes right away. 
                                         If you disagree, do not waste a lot of time discussing. 
                                         Leave the text as it is and make a note on the chunk noting the disagreement. 
                                         It can be discussed in later checking steps.</li>
-                                    <li>Discussion and correction section should take about 30 minutes.</li>
-                                    <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" 
+                                    <li>When all changes and notes have been made click, \"Yes I Did\" and \"Continue.\" 
                                         Do not simply close the page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
 
     "peer-review_tn" => "2<sup>nd</sup> Check",
     "peer-review_tn_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
-                                <li>Look for spelling, punctuation, flow/naturalness errors.</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                                 <li>Look for any missing portions of text or missing or added facts.</li>
                                 <li>Check the accuracy of translation in detail.</li>
                                 <li>Make sure to look at notes on the chunk of the translation Note.</li>
                                 <li>Any resources can be used.</li>
-                                <li>Do not delete or re-write the translated text. You will lose the naturalness of language.</li>
+                                <li>Do not completely delete or re-write the translated text. You will lose the language's naturalness.</li>
+                                <li>If the formatting needs to be corrected, use the following instructions to format.  Format the text by clicking 
+                                    the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.
+                                    <ol>
+                                        <li>Scripture select:  Header 1.</li>
+                                        <li>Translated Note select: Normal.</li>
+                                        <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
+                                    </ol>
+                                </li>
                                 <li>When you and the 2nd checker have completed the check, the checker will contact you to discuss 
                                     recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
                                 <li>You and the 2nd checker should discuss any changes they think should be made. 
@@ -733,9 +747,8 @@ return array (
                                     contact your facilitator to discuss the disagreement. 
                                     DO NOT continue to the next step until disagreements are resolved.</li>
                                 <li>This should take about 30 minutes.</li>
-                                <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>
-                                <li>WARNING: This is the last chance you will have to check the Notes.  
-                                    Do not click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
+                                <li>When all changes and notes have been made, click \"Yes I Did\" and \"Next Step.\" </li>
+                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION.  DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
 
     "peer-review_tn_chk_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                     <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
@@ -752,22 +765,22 @@ return array (
                                     <li>Any resources can be used.</li>
                                     <li>If you have recommended changes, click the note icon (<span class='glyphicon glyphicon-pencil'></span>) next 
                                         to the chunk and add the note and click save.</li>
-                                    <li>When you have completed the check, contact the 1st checker to discuss recommended 
+                                    <li>When you have completed the check, contact the other checker to discuss recommended 
                                         changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                                    <li>You and the 1st checker should discuss any changes you think should be made. 
-                                        If you agree to the changes, the 1st checker should make the changes right away. 
+                                    <li>You and the other checker should discuss any changes you think should be made. 
+                                        If you agree to the changes, the other checker should make the changes right away. 
                                         If you do not agree, contact your facilitator to discuss the disagreement. 
                                         DO NOT continue to the next step until disagreements are resolved.</li>
                                     <li>This should take about 30 minutes.</li>
-                                    <li>When all changes and notes have been made by the 1st checker, click \"yes I did\" and \"next step.\"</li>
-                                    <li>WARNING: This is the last chance you will have to check the Notes. Do not 
-                                        click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
+                                    <li>When all changes and notes have been made by the other checker, click \"Yes I Did\" and \"Next Step.\"</li>
+                                    <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION.  DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
 
     "keyword-check" => "Keyword Check",
     "keyword-check_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
+                            <li><b>LENGTH:</b> The checker will take about 5-10 minutes to highlight keywords throughout the chapter.</li>
                             <li>The checker will highlight keywords from the source text. Highlighted words will show on your source text, as well.</li>
                             <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms (if these terms were not present or 
-                                inaccurate the scripture meaning would be changed).</li>
+                                inaccurate, the scripture's meaning would be changed).</li>
                             <li>The following resources can be used:
                                 <ol>
                                     <li>Translation Words (tW) in sidebar.</li>
@@ -775,28 +788,27 @@ return array (
                                 </ol>
                             </li>
                             <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
-                            <li><b>The point is not word for word translation, it is to see if the word/meaning is represented in the text in a way 
+                            <li><b>The point is not word for word translation; rather, it is to see if the word/meaning is represented in the text in a way 
                                 that is grammatically and culturally appropriate in the target language.</b></li>
-                            <li>The checker should spend about 5-10 minutes highlighting keywords throughout the chapter.</li>
                             <li>When the checker has finished highlighting, they will contact you to discuss keyword and recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
                             <li>The checker will say aloud each highlighted word. You simply say how you translated it. The conversation should go very quickly.</li>
-                            <li>You and the checker should discuss any changes they think should be made. If you agree to the changes, the 
-                                translator should make the changes right away. If you disagree, do not waste a lot of time discussing. 
+                            <li>You and the checker should discuss any changes they think should be made. If you agree to the changes, you should make the changes right away. 
+                                If you disagree, do not waste a lot of time discussing. 
                                 Leave the text as it is and make a note on the chunk noting the disagreement. 
                                 It should be resolved in the next step.</li>
                             <li>If there are additional thoughts or questions about the translation, click the note 
-                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
-                            <li>Discussion and correction section should take about 30 minutes.</li>
-                            <li>When all changes and notes have been made, the checker should click, \"yes I did\" 
-                                and \"continue,\" then you should click \"yes I did\" and \"next step,\" to move to the next step.</li>",
+                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and click Save.</li>
+                            <li>When all changes and notes have been made, the checker should click, \"Yes I Did\" 
+                                and \"Continue,\" then you should click \"Yes I Did\" and \"Next Step,\" to move to the next step.</li>",
 
     "keyword-check_checker_desc" => "<li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed.</li>
-                                    <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
-                                    <li>You will see only the source text.</li>
-                                    <li>You will highlight all keywords in the source text by double-clicking the word or by selecting a word/phrase using your mouse. 
+                                    <li><b>LENGTH:</b> Take about 5-10 minutes to highlight keywords throughout the chapter.</li>
+                                    <li>As the checker your screen will say \"Checking Mode\" and instructions will be in orange.</li>
+                                    <li>You will only see the source text.</li>
+                                    <li>Highlight all keywords in the source text by double-clicking the word or by selecting a word/phrase with your mouse. 
                                         The translator will also see the highlighted source text on their screen. 
-                                        (Highlighting words is most common, highlighted phases should be few.)</li>
-                                    <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important terms 
+                                        (Highlighting words is most common: highlighted phrases should be few.)</li>
+                                    <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms 
                                         (if these terms were not present or inaccurate the scripture meaning would be changed).</li>
                                     <li>The following resources can be used:
                                         <ol>
@@ -805,7 +817,7 @@ return array (
                                         </ol>
                                     </li>
                                     <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
-                                    <li><b>The point is not word for word translation, it is to see if the word/meaning is represented in the text 
+                                    <li><b>The point is not word-for-word translation; rather, it is to see if the word/meaning is represented in the text 
                                         in a way that is grammatically and culturally appropriate in the target language.</b></li>
                                     <li>You should spend about 5-10 minutes highlighting keywords throughout the chapter.</li>
                                     <li>When you finish highlighting, contact the translator to discuss keyword and recommended changes via: 
@@ -816,10 +828,9 @@ return array (
                                         If you agree to the changes, the translator should make the changes right away. 
                                         If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make a 
                                         note on the chunk noting the disagreement. It should be resolved in the next step.</li>
-                                    <li>If there are additional thoughts or questions about the translation, click the note 
+                                    <li>If there are additional thoughts or questions about the translation, click the Note 
                                         icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
-                                    <li>Discussion and correction section should take about 30 minutes.</li>
-                                    <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" Do not simply close the 
+                                    <li>When all changes and notes have been made click, \"Yes I Did\" and \"Continue.\" Do not simply close the 
                                         page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
     
     "keyword-check_tn" => "Check Highlights",
@@ -832,11 +843,12 @@ return array (
                                     icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save. 
                                     The 2nd checker will see this note and help to resolve the question or problem.</li>
                                 <li>This should take about 15-20 minutes.</li>
-                                <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
+                                <li>When all changes and notes have been made, click \"Yes I Did\" and \"Next Step.\"</li>",
 
     "content-review" => "Verse-by-Verse Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
-                                <li>The checker will be looking for the following:
+                                <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. Discussion and correction section should take about 30-45 minutes.</li>
+                                <li>The checker will look for the following:
                                     <ol>
                                         <li>Is anything missing?</li>
                                         <li>Is it natural?</li>
@@ -858,25 +870,25 @@ return array (
                                 <li>The checker should spend about 30 minutes checking text.</li>
                                 <li>The following resources can be used:
                                     <ol>
-                                        <li>Translation Notes in the sidebar. To access the notes click the tN icon.</li>
-                                        <li>Translation Words in the sidebar. To access the words click the tW icon.</li>
+                                        <li>Translation Notes in the sidebar: To access the notes, click the tN icon.</li>
+                                        <li>Translation Words in the sidebar: To access the words, click the tW icon.</li>
                                         <li>Translation Questions in the sidebar. To access the questions click the tQ icon.</li>
                                         <li>Any other resources you choose.</li>
                                     </ol>
                                 </li>
                                 <li>When the checker has completed the check, they will contact you to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                                <li>You and the checker should discuss any changes they think should be made. 
+                                <li>You and the checker should discuss any changes you think should be made. 
                                     If you agree to the changes, the you should make the changes right away. Make sure to look at notes on 
                                     chunks to see if there are disagreements unresolved from the previous checking steps, and discuss those disagreements.</li>
                                 <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
                                     The facilitator may involve others, such as team lead, director, pastor or theologian.</li>
                                 <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
-                                <li>Discussion and correction section should take about 30-45 minutes.</li>
-                                <li>When all changes have been made, the checker should click, \"yes I did\" and \"continue\", then you should 
-                                    click \"yes I did\" and \"next step\", to move to the next step.</li>",
+                                <li>When all changes have been made, the checker should click, \"Yes I Did\" and \"Continue\", then you should 
+                                    click \"Yes I Did\" and \"Next Step\", to move to the next step.</li>",
 
     "content-review_checker_desc" => "<li><b>PURPOSE:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language.</li>
-                                        <li>As the checker your screen instructions will be in orange.</li>
+                                        <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. Discussion and correction section should take about 30-45 minutes.</li>
+                                        <li>As the checker, your on-screen instructions will be in orange.</li>
                                         <li>Questions to ask yourself as you are checking:
                                             <ol>
                                                 <li>Is anything missing?</li>
@@ -899,9 +911,9 @@ return array (
                                         <li>You should spend about 30 minutes checking text.</li>
                                         <li>The following resources can be used:
                                             <ol>
-                                                <li>Translation Notes in the sidebar. To access the notes click the tN icon.</li>
-                                                <li>Translation Words in the sidebar. To access the words click the tW icon.</li>
-                                                <li>Translation Questions in the sidebar. To access the questions click the tQ icon.</li>
+                                                <li>Translation Notes in the sidebar: To access the notes, click the tN icon.</li>
+                                                <li>Translation Words in the sidebar: To access the words, click the tW icon.</li>
+                                                <li>Translation Questions in the sidebar: To access the questions, click the tQ icon.</li>
                                                 <li>Any other resources you choose.</li>
                                             </ol>
                                         </li>
@@ -912,16 +924,16 @@ return array (
                                             Make sure to look at the notes on chunks to see if there are disagreements unresolved from the 
                                             previous checking steps, and discuss those disagreements.</li>
                                         <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
-                                            The facilitator may involve others, such as team lead, director, pastor or theologian.</li>
+                                            The facilitator may involve others, such as a team lead, director, pastor or theologian.</li>
                                         <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
-                                        <li>Discussion and correction section should take about 30-45 minutes.</li>
                                         <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" Do not simply close the page by 
                                             clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
     
     "final-review" => "Verse Markers",
     "final-review_desc" => "<li><b>PURPOSE:</b> this is where you will add verse markers to the translated text.</li>
-                            <li>Read through translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li>
-                            <li>Spend no more than 10 minutes on this exercise.</li>",
+                            <li><b>LENGTH:</b> Spend no more than 10 minutes on this exercise.</li>
+                            <li>Read through the translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li>
+                            <li>When all verse markers are in place click, \"Yes, I Did\" and \"Next Step\".</li>",
     "finished" => "Finished",
 
     "rearrange" => "Rearrange",
@@ -1008,13 +1020,13 @@ return array (
 
     "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",
 
-    "consume_l2_desc" => "<li><b>PURPOSE:</b> to intake source text to become familiar with text you will check.</li>
+    "consume_l2_desc" => "<li><b>PURPOSE:</b> to intake source text to become familiar with the text you will check.</li>
                 <li>Read the assigned chapter carefully in the source text AND in the target text.
                     Switch between source and target text by clicking on the tabs.</li>
                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                 <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over it with your mouse.  It is a translator’s note for that verse.</li>
-                <li>This step should take about 10 minutes.</li>
-                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                <li>Take about 10 minutes for this step.</li>
+                <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "fst-check" => "Check Text",
     "fst-check_full" => "1st Check: Check Target Text",
@@ -1028,18 +1040,18 @@ return array (
                         </li>
                         <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
                         <li>The primary purpose is to check the accuracy of the translation in detail.</li>
-                        <li>If you see errors in spelling, punctuation, flow/naturalness, please correct it.</li>
+                        <li>Correct errors in spelling, punctuation, and flow/naturalness.</li>
                         <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
                             <ol>
-                                <li>If there is a note, there will be a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
-                                <li>Notes are viewed per \"chunk\" because notes are carried from the translation process 
-                                    where they translated chunks instead of verses. </li>
-                                <li>If you have questions or thoughts for the next checkers, you can leave a note for the chunk.</li>
+                                <li>Notes are marked by a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
+                                <li>Notes are viewed per \"chunk\", because they are carried from the translation process, 
+                                    which is done in chunks rather than verses. </li>
+                                <li>If you have questions or thoughts for the next checkers, leave a note for the chunk.</li>
                             </ol>
                         </li>
                         <li>Any resources can be used for checking.</li>
                         <li>Spend about 30 minutes on this step. </li>
-                        <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
+                        <li>When all changes and notes have been made click, \"Yes I Did\" and \"Next Step\".</li>",
 
     "snd-check" => "Peer Check",
     "snd-check_full" => "2nd Check: Peer-Check Target Text",
@@ -1060,28 +1072,27 @@ return array (
                         </ol>
                     </li>
                     <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
-                    <li>The primary purpose is to check the accuracy of the translation in detail.</li>
                     <li>If you see errors in spelling, punctuation, flow/naturalness, please correct it.</li>
                     <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
                         <ol>
-                            <li>If there is a note, there will be a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
-                            <li>Notes are viewed per “chunk” because notes are carried from the translation process where they translated chunks instead of verses.</li>
+                            <li>Notes are marked by a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
+                            <li>Notes are viewed per \"chunk,\" because they are carried from the translation process, which is done in chunks rather than verses.</li>
                             <li>If you have questions or thoughts for the next checkers, you can leave a note for the chunk.</li>
                         </ol>
                     </li>
                     <li>Any resources can be used for checking.</li>
                     <li>Spend about 30 minutes on this step. </li>
-                    <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
+                    <li>When all changes and notes have been made click, \"Yes I Did\" and \"Next Step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
     "keyword-check-l2_full" => "2nd Check: Keyword Check",
     "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
-                            <li><b>This step will be faster if you use a mouse instead of touchpad.</b></li>
+                            <li><b>This step will be faster if you use a mouse instead of a touchpad.</b></li>
                             <li>The LEFT column is the source text with yellow highlighted words.
                                 <ol>
                                     <li>The checker should click on each yellow highlighted word.</li>
                                     <li>A message will pop up that says, \"Click 'Yes' if this keyword is in target text 
-                                        and accurate. Otherwise click 'No'. The keyword is: _____\"</li>
+                                        and accurate. Otherwise click 'No'. The keyword is: _____.</li>
                                     <li>If the keyword is represented correctly click 'YES' and the highlighting will disappear.</li>
                                     <li>If the keyword is not represented correctly click 'No' and the highlighting will stay. 
                                         Click the note icon (<span class='glyphicon glyphicon-pencil'></span>) next 
@@ -1097,12 +1108,12 @@ return array (
                             <li>Spend about 10 minutes on this step.</li>
                             <li>If there are additional thoughts or questions about the translation, click the note 
                                 icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
-                            <li>When all highlighted words have been checked, click \"yes I did\" and \"next step\".</li>",
+                            <li>When all highlighted words have been checked, click \"Yes I Did\" and \"Next Step\".</li>",
 
     "peer-review-l2" => "Discrepancies",
     "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
     "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
-                        <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
+                        <li><b>This is the final check; all changes should be made before you complete this step.</b></li>
                         <li>After you have looked over the text, contact the peer-checker to discuss discrepancies via: 
                             Skype, Messenger, WhatsApp, phone, etc…</li>
                         <li>The Source text tab has text with yellow highlighted words.
@@ -1110,7 +1121,7 @@ return array (
                                 <li>Click on each yellow highlighted word that is remaining and discuss with the 
                                     peer-checker if the word in the target text is accurate.</li>
                                 <li>A message will pop up that says, \"Click 'Yes' if this keyword is in target text 
-                                    and accurate. Otherwise click 'No'. The keyword is: _____\"</li>
+                                    and accurate. Otherwise click 'No'. The keyword is: _____.</li>
                                 <li>If the keyword is represented correctly click 'YES' and the highlighting will disappear.</li>
                                 <li>If the keyword is not represented correctly, make appropriate changes to the target text. 
                                     Do not forget to check the notes from previous translators and checkers for discussion on this chunk.</li>
@@ -1134,7 +1145,7 @@ return array (
                             discrepancies are resolved and changed.</li>
                         <li>Any resources can be used for checking.</li>
                         <li>Spend about 30 minutes on this step.</li>
-                        <li>When all changes and notes have been made click, \"yes I did\" and \"next step.\"</li>",
+                        <li>When all changes and notes have been made click, \"Yes I Did\" and \"Next Step.\"</li>",
 
     "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies 
                                     with a peer-checker.</li>
@@ -1171,7 +1182,7 @@ return array (
                                 this step until discrepancies are resolved and changed.</li>
                             <li>Any resources can be used for checking.</li>
                             <li>Spend about 30 minutes on this step.</li>
-                            <li>When all changes and notes have been made click, \"yes I did\" and \"next step.\"</li>",
+                            <li>When all changes and notes have been made click, \"Yes I Did\" and \"Next Step.\"</li>",
 
     "multi-draft" => "Draft",
     "multi-draft_full" => "Consume, Verbalize, and Draft",
@@ -1184,32 +1195,34 @@ return array (
                                 <li>Click on the \"Verbalize\" box to indicate this step is completed. This will \"unlock\" the text box.</li>
                                 <li>Translate the question and answer in the text box.
                                     <ol>
-                                        <li>As much as possible, translate phrase by phrase and not word for word, to preserve naturalness of the target language.</li>
+                                        <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness of the target language.</li>
                                         <li>Some verses have more than one question</li>
-                                        <li>The question is the larger text. To format double click and select \"Header 1.\"</li>
-                                        <li>The answer is the smaller text. The format for the answer should not need to be changed. It is the \"normal\" font.</li>
+                                        <li>Format the text by clicking the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.</li>
+                                        <li>Questions select: \"Header 1.\"</li>
+                                        <li>Answer select: normal. The format for the answer should not need to be changed.</li>
                                     </ol>
                                 </li>
                                 <li>When you finish translating that verse’s question(s) and answer(s), click on 
                                     the \"Draft\" box to indicate this step is completed. You can go back and edit at any time, if needed.</li>
                                 <li>Go to the next verse and start the process again with \"Consume,\" then \"Verbalize,\" 
                                     and \"Draft\" until all questions are translated for the chapter.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                                <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "self-check_tq_desc" => "<li><b>PURPOSE:</b> to edit your translated Questions/Answers and check accuracy while maintaining naturalness.</li>
-                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
+                        <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                         <li>Look for any missing portions of text or missing or added facts.</li>
                         <li>Check the accuracy of your translation in detail.</li>
                         <li>If you have additional thoughts or questions about your translation, click the note 
-                            icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and 
-                            click save. The checkers will see this note and help resolve the question or problem.</li>
-                        <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>",
+                            icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and 
+                            click Save. The checkers will see this note and help resolve the question or problem.</li>
+                        <li>When all changes and notes have been made, click \"Yes I Did\" and \"Next Step.\" </li>
+                        <li>WARNING: This is the last chance you will have to change your translation. Do not click \"Yes, I Did\" and \"Next Step\" until you have made all changes.</li>",
 
     "keyword-check_tq_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Questions/Answers and accurately expressed.</li>
                         <li>The checker will look for Keywords in the Questions and Answers and compare them to the 
                             translated Questions and Answers to ensure the meaning is represented properly.</li>
                         <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
+                        <li><b>The point is not word-for-word translation, it is to see if the word/meaning is represented 
                             in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
                         <li>When the checker has finished checking the text, they will contact you to discuss keyword 
                             and recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
@@ -1220,16 +1233,16 @@ return array (
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
                             make a note on the chunk. It will be resolved in the next step.</li>
                         <li>When all changes and notes have been made, the checker will click, \"yes I did\" and \"continue,\" 
-                            then you should click \"yes I did\" and \"next step,\" to move to the next step.</li>",
+                            then you should click \"Yes I Did\" and \"Next Step,\" to move to the next step.</li>",
 
     "keyword-check_tq_chk_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Questions/Answers and accurately expressed.</li>
-                        <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
+                        <li>As the checker your screen will say \"Checking Mode\" and instructions will be in orange.</li>
                         <li>You will look for Keywords in the Questions and Answers and compare them to the 
                             translated Questions and Answers to ensure the meaning is represented properly.</li>
                         <li>If you think changes should be made, click the note 
                             icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
                         <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is 
+                        <li><b>The point is not word-for-word translation, it is to see if the word/meaning is 
                             represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
                         <li>When you finish checking the text, contact the translator to discuss keyword and 
                             recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
@@ -1237,16 +1250,16 @@ return array (
                             If you agree to the changes, the translator should make the changes right away. 
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make 
                             a note on the chunk noting the disagreement. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" 
+                        <li>When all changes and notes have been made click, \"Yes I Did\" and \"Continue.\" 
                             Do not simply close the page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
 
     "peer-review_tq" => "Pastor Review",
     "peer-review_tw" => "Pastor Review",
 
     "peer-review_tq_desc" => "<li><b>PURPOSE:</b> to review the Questions/Answers and check accuracy while maintaining naturalness.</li>
-                        <li>The reviewer will look for spelling, punctuation, flow/naturalness errors, as well as, 
+                        <li>The reviewer will look for spelling, punctuation, and flow/naturalness errors, as well as, 
                             missing portions of text or missing or added facts.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
+                        <li><b>The point is not word-for-word translation, it is to see if the word/meaning is represented 
                             in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
                         <li>When the reviewer has finished checking the text, they will contact you to 
                             discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
@@ -1255,27 +1268,27 @@ return array (
                         <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
                             make the changes right away.  If you disagree, discuss the issue with your facilitator 
                             and resolve before you complete this step.</li>
-                        <li>When all changes have been made, the checker will click, \"yes I did\" and \"continue,\" 
-                            then you should click \"yes I did\" and \"next step,\" to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
+                        <li>When all changes have been made, the checker will click, \"Yes I Did\" and \"Continue,\" 
+                            then you should click \"Yes I Did\" and \"Next Step,\" to complete the step.</li>
+                        <li><b>Make sure all changes are made, as this is the last step and additional changes cannot be made.</b></li>",
 
     "peer-review_tq_chk_desc" => "<li><b>PURPOSE:</b> to review the Questions/Answers and check accuracy while maintaining naturalness.</li>
-                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
+                        <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                         <li>Look for any missing portions of text or missing or added facts.</li>
                         <li>Check the accuracy of translation in detail.</li>
                         <li>Make sure to look at previous translator and checker’s notes on the chunk for any questions or unresolved problems.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
+                        <li><b>The point is not word-for-word translation; it is to see if the word/meaning is represented 
                             in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
                         <li>When you have finished checking the text, contact the translator to discuss recommended 
                             changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
                         <li>You should discuss any changes you think should be made.  If you agree to the changes, the 
                             translator should make the changes right away.  If you disagree, discuss the issue with your 
                             facilitator and resolve before you complete this step.</li>
-                        <li>When all changes have been made click, \"yes I did\" and \"continue\". Do not simply close the 
+                        <li>When all changes have been made click, \"Yes I Did\" and \"Continue\". Do not simply close the 
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
-    "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> To read the source text, to say it aloud to engage your memory, and 
+    "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> to read the source text, to say it aloud to engage your memory, and 
                                     draft the text in the target language.</li>
                                 <li>Read the assigned Words, Definitions/Facts & Translation Suggestions carefully in the source text.</li>
                                 <li>Click on the \"Consume\" box to indicate this step is completed.</li>
@@ -1283,29 +1296,31 @@ return array (
                                 <li>Click on the \"Verbalize\" box to indicate this step is completed. This will \"unlock\" the text box.</li>
                                 <li>Translate the Words, Definitions/Facts & Translation Suggestions in the text box.
                                     <ol>
-                                        <li>As much as possible, translate phrase by phrase and not word for word, to preserve 
-                                            naturalness of the target language when translating the Definitions/Facts & Translation Suggestions.</li>
-                                        <li>All formatting is done by double clicking the word or any word in the line. 
-                                            The formatting box will pop up for you to choose font size or bullet points.</li>
-                                        <li>To format Translation Word, double click the word and select \"Header 1\".</li>
-                                        <li>To format subtitles, such as \"Facts\", \"Definitions\", \"Translation Suggestions\"; double click and select \"Header 2\".</li>
+                                        <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve 
+                                            the naturalness of the target language.</li>
+                                        <li>Format the text by clicking the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.</li>
+                                        <li>Translation Word select: \"Header 1\".</li>
+                                        <li>Subtitles, such as \"Facts\", \"Definitions\" or \"Translation Suggestions\" select: \"Header 2\".</li>
                                         <li>You should not need to change the format of the content. It is the \"normal\" font.</li>
                                     </ol>
                                 </li>
                                 <li>You do not need to translate the following sections: Bible References, Examples from the Bible Stories, or Word Data.</li>
                                 <li>When you finish translating, click on the \"Draft\" box to indicate this step is completed. 
                                     You can go back and edit at any time, if needed.</li>
-                                <li>Go to the next Word and start the process again with \"Consume\", then \"Verbalize\", and \"Draft\" until all Words are translated for the chapter.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
+                                <li>Go to the next Word and start the process again with \"Consume\", then \"Verbalize\", and \"Draft\" until all Words are translated.</li>
+                                <li>Click \"Yes I Did\" and \"Next Step\" to move to the next step.</li>",
 
     "self-check_tw_desc" => "<li><b>PURPOSE:</b> to edit your translated Words and check accuracy while maintaining naturalness.</li>
                         <li>Look for spelling, punctuation, flow/naturalness errors.</li>
                         <li>Look for any missing portions of text or missing or added facts.</li>
                         <li>Check the accuracy of your translation in detail.</li>
+                        <li>Format the text by clicking the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line. Translation Word select Header 1.</li>
+                        <li>Subtitles, such as Facts, Definitions, or Translation Suggestions select: Header 2.</li>
+                        <li>You should not need to change the format of the content. It is the \"normal\" font.</li>
                         <li>If you have additional thoughts or questions about your translation, click the note 
                             icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and 
                             click save. The checkers will see this note and help resolve the question or problem.</li>
-                        <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>",
+                        <li>When all changes and notes have been made, click \"Yes I Did\" and \"Next Step.\" </li>",
 
     "keyword-check_tw_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Words and accurately expressed.</li>
                         <li>The checker will look for Keywords and compare them to the 
@@ -1321,15 +1336,15 @@ return array (
                             If you agree to the changes, the translator should make the changes right away. 
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
                             make a note on the chunk. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made, the checker will click, \"yes I did\" and \"continue\", 
-                            then you should click \"yes I did\" and \"next step\", to move to the next step.</li>",
+                        <li>When all changes and notes have been made, the checker will click, \"Yes I Did\" and \"Continue\", 
+                            then you should click \"Yes I Did\" and \"Next Step\", to move to the next step.</li>",
 
     "keyword-check_tw_chk_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Words and accurately expressed.</li>
                         <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
                         <li>You will look for keywords and compare them to the 
                             translated Words to ensure the meaning is represented properly.</li>
                         <li>If you think changes should be made, click the note 
-                            icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
+                            icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and click Save.</li>
                         <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
                         <li><b>The point is not word for word translation, it is to see if the word/meaning is 
                             represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
@@ -1339,7 +1354,7 @@ return array (
                             If you agree to the changes, the translator should make the changes right away. 
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make 
                             a note on the chunk noting the disagreement. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" 
+                        <li>When all changes and notes have been made click, \"Yes I Did\" and \"Continue.\" 
                             Do not simply close the page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
 
     "peer-review_tw_desc" => "<li><b>PURPOSE:</b> to review the Words and check accuracy while maintaining naturalness.</li>
@@ -1354,9 +1369,9 @@ return array (
                         <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
                             make the changes right away.  If you disagree, discuss the issue with your facilitator 
                             and resolve before you complete this step.</li>
-                        <li>When all changes have been made, the checker will click, \"yes I did\" and \"continue,\" 
-                            then you should click \"yes I did\" and \"next step,\" to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
+                        <li>When all changes have been made, the checker will click, \"Yes I Did\" and \"Continue,\" 
+                            then you should click \"Yes I Did\" and \"Next Step,\" to complete the step.</li>
+                        <li><b>Make sure all changes are made as this is the last step and no more changes can be made!</b></li>",
 
     "peer-review_tw_chk_desc" => "<li><b>PURPOSE:</b> to review the Words and check accuracy while maintaining naturalness.</li>
                         <li>Look for spelling, punctuation, flow/naturalness errors.</li>
@@ -1370,9 +1385,9 @@ return array (
                         <li>You should discuss any changes you think should be made.  If you agree to the changes, the 
                             translator should make the changes right away.  If you disagree, discuss the issue with your 
                             facilitator and resolve before you complete this step.</li>
-                        <li>When all changes have been made click, \"yes I did\" and \"continue.\" Do not simply close the 
+                        <li>When all changes have been made click, \"Yes I Did\" and \"Continue.\" Do not simply close the 
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
+                        <li><b>Make sure all changes are made as this is the last step and no more changes can be made!</b></li>",
 
     // Errors
     "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is be ready.<span class=\"checker_waits\"></span>",
