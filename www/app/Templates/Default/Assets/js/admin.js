@@ -77,11 +77,45 @@ $(function () {
         {
             $("#sourceTranslationNotes").val('').trigger("chosen:updated");
             $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
+            $(".sourceTranslationQuestions").addClass("hidden");
+            $("#sourceTranslationWords").val('').trigger("chosen:updated");
+            $(".sourceTranslationWords").addClass("hidden");
+            $(".projectType").removeClass("hidden");
+            $(".sourceTranslation").removeClass("hidden");
         }
         else if($(this).val() == "tn")
         {
             $(".sourceTranslationNotes").removeClass("hidden");
             $("#sourceTranslationNotes").chosen();
+            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
+            $(".sourceTranslationQuestions").addClass("hidden");
+            $("#sourceTranslationWords").val('').trigger("chosen:updated");
+            $(".sourceTranslationWords").addClass("hidden");
+            $(".projectType").removeClass("hidden");
+            $(".sourceTranslation").removeClass("hidden");
+        }
+        else if($(this).val() == "tq")
+        {
+            $(".sourceTranslationQuestions").removeClass("hidden");
+            $("#sourceTranslationQuestions").chosen();
+            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
+            $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslationWords").val('').trigger("chosen:updated");
+            $(".sourceTranslationWords").addClass("hidden");
+            $(".projectType").addClass("hidden");
+            $(".sourceTranslation").addClass("hidden");
+        }
+        else if($(this).val() == "tw")
+        {
+            $(".sourceTranslationWords").removeClass("hidden");
+            $("#sourceTranslationWords").chosen();
+            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
+            $(".sourceTranslationNotes").addClass("hidden");
+            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
+            $(".sourceTranslationQuestions").addClass("hidden");
+            $(".projectType").addClass("hidden");
+            $(".sourceTranslation").addClass("hidden");
         }
     });
     
@@ -285,11 +319,9 @@ $(function () {
 
     // Open event form
     $(".startEvnt").click(function() {
-        var bookCode = $(this).attr("data");
-        var bookName = $(this).attr("data2");
-        var chapterNum = $(this).attr("data3");
-        var sourceLangID = $("#sourceLangID").val();
-        var sourceBible = $("#sourceBible").val();
+        var bookCode = $(this).data("bookcode");
+        var bookName = $(this).data("bookname");
+        var chapterNum = $(this).data("chapternum");
         var bookProject = $("#bookProject").val();
 
         $("button[name=startEvent]").text(Language.create);
@@ -305,7 +337,7 @@ $(function () {
         $(".event-content").css("left", 0);
         $("#adminsSelect").empty().trigger("chosen:updated");
 
-        if(["tn"].indexOf(bookProject) > -1)
+        if(["tn","tq","tw"].indexOf(bookProject) > -1)
         {
             $(".importTranslation").hide();
             $(".importInfo").hide();
@@ -357,9 +389,9 @@ $(function () {
 
     // Edit event form
     $(".editEvnt").click(function () {
-        var bookCode = $(this).attr("data");
-        var eventID = $(this).attr("data2");
-        var abbrID = $(this).attr("data4");
+        var bookCode = $(this).data("bookcode");
+        var eventID = $(this).data("eventid");
+        var abbrID = $(this).data("abbrid");
 
         $("#eID").val(eventID);
         $("#startEvent").trigger("reset");
@@ -387,7 +419,7 @@ $(function () {
                 if(data.success)
                 {
                     if(EventStates.states[data.event.state] >= EventStates.states.translating
-                        || ["tn"].indexOf(data.event.bookProject) > -1)
+                        || ["tn","tq","tw"].indexOf(data.event.bookProject) > -1)
                     {
                         $(".importTranslation").hide();
                         $(".importInfo").hide();
@@ -489,7 +521,7 @@ $(function () {
     $("button[name=progressEvent]").click(function (e) {
         var eventID = $("#eID").val();
         var mode = $(this).data("mode");
-        var add = ["tn","sun"].indexOf(mode) > -1 ? "-"+mode : "";
+        var add = ["tn","sun","tq","tw"].indexOf(mode) > -1 ? "-"+mode : "";
         window.location = "/events/information"+add+"/"+eventID;
         e.preventDefault();
     });
@@ -502,7 +534,9 @@ $(function () {
 
     $("button[name=manageEvent]").click(function (e) {
         var eventID = $("#eID").val();
-        window.location = "/events/manage/"+eventID;
+        var mode = $(this).data("mode");
+        var add = ["tw"].indexOf(mode) > -1 ? "-"+mode : "";
+        window.location = "/events/manage"+add+"/"+eventID;
         e.preventDefault();
     });
     

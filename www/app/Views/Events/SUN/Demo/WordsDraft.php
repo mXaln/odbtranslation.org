@@ -17,16 +17,15 @@ use Helpers\Constants\EventMembers;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
-                    <h4 dir="ltr">English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-3</span> </h4>
-
-                    <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
+                    <h4 dir="ltr">English - <?php echo __("sun") ?> - <?php echo __("new_test") ?> - <span class="book_name">Matthew 17:1-2</span> </h4>
 
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
                             <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p><strong><sup>1</sup></strong> You therefore, my child, be strengthened in the grace that is in Christ Jesus.</p>
-                                <p><strong><sup>2</sup></strong> The things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</p>
-                                <p><strong><sup>3</sup></strong> Suffer hardship with me, as a good soldier of Christ Jesus.</p>
+                                <p><strong><sup>1</sup></strong> Six days later Jesus took with him Peter, James, and John his brother,
+                                    and brought them up a high mountain by themselves.</p>
+                                <p><strong><sup>2</sup></strong> He was transfigured before them. His face shone like the sun, and
+                                    his garments became as brilliant as the light.</p>
                             </div>
                             <div class="col-sm-6 editor_area" dir="ltr">
                                 <textarea name="draft"
@@ -51,24 +50,30 @@ use Helpers\Constants\EventMembers;
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [3])?>:</span> <?php echo __("rearrange")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("rearrange_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
-
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/demo-sun/information"><?php echo __("event_info") ?></a>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [3])?>:</span> <?php echo __("rearrange")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("rearrange_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
+                </div>
+
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/demo-sun/information"><?php echo __("event_info") ?></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tr_tools">
+                    <button class="btn btn-primary show_saildict"><?php echo __("show_dictionary") ?></button>
                 </div>
             </div>
         </div>

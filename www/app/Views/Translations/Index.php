@@ -20,7 +20,7 @@ if(isset($data['books'])) {
     echo '<a href="'.SITEURL.'translations/'.$data['books'][0]->targetLang.'">'.$data['books'][0]->angName . ' ('.$data['books'][0]->langName.')</a> → ';
     echo __($data['books'][0]->bookProject).'</a><br><br>';
 
-    if(!in_array($data["mode"], ["tn"]) && sizeof($data['books']) > 0)
+    if(!in_array($data["mode"], ["tn","tq","tw"]) && sizeof($data['books']) > 0)
         echo "<h4 style=\"text-align: right\"><a href='".$data['books'][0]->bookProject."/dl/usfm'>".__("download_usfm")."</a></h4>";
     else
         echo "<h4 style=\"text-align: right\"><a href='".$data['books'][0]->bookProject."/dl/md'>".__("download_markdown")."</a></h4>";
@@ -38,7 +38,7 @@ if(isset($data['book'])) {
 
     echo '<h1 style="text-align: center">—— '.__($data['data']->bookCode).' ——</h1>';
 
-    if(!in_array($data["mode"], ["tn"]))
+    if(!in_array($data["mode"], ["tn","tq","tw"]))
         echo "<h4 style=\"text-align: right\"><a href='".$data['data']->bookCode."/usfm'>".__("download_usfm")."</a></h4>";
     else
         echo "<h4 style=\"text-align: right\"><a href='".$data['data']->bookCode."/md'>".__("download_markdown")."</a></h4>";

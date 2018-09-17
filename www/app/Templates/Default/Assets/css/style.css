@@ -10,16 +10,16 @@
 
 @font-face {
     font-family: "SUN4";
-    src: url("../fonts/SUN4.woff2?2") format('woff2'),
-    url("../fonts/SUN4.woff?2") format("woff"),
-    url("../fonts/SUN4.ttf?2") format("truetype")
+    src: url("../fonts/SUN4.woff2?3") format('woff2'),
+    url("../fonts/SUN4.woff?3") format("woff"),
+    url("../fonts/SUN4.ttf?3") format("truetype")
 }
 
 @font-face {
     font-family: "BACKSUN4";
-    src: url("../fonts/BackSUN4.woff2?2") format('woff2'),
-    url("../fonts/BackSUN4.woff?2") format("woff"),
-    url("../fonts/BackSUN4.ttf?2") format("truetype")
+    src: url("../fonts/BackSUN4.woff2?3") format('woff2'),
+    url("../fonts/BackSUN4.woff?3") format("woff"),
+    url("../fonts/BackSUN4.ttf?3") format("truetype")
 }
 
 .sun_content {
@@ -1042,15 +1042,35 @@ div.ui-datepicker {
     opacity: 1 !important;
 }
 
+.tr_tools {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tr_tools button {
+    flex: 1;
+}
+
+.tr_tools button:not(:last-child) {
+    margin-right: 10px;
+}
+
 .content_help {
     padding-right: 0px;
+    position: relative;
+}
+
+.help_float {
+    position: fixed;
+    width: 260px;
 }
 
 .help_info_steps {
     padding: 10px;
     background-color: #d6e8f3;
     border-radius: 5px;
-    margin-top: 70px;
+    margin-top: 10px;
     position: relative;
 }
 
@@ -1080,11 +1100,7 @@ div.ui-datepicker {
 .help_descr_steps ul {
     padding-left: 15px;
     max-height: 240px;
-    overflow: hidden;
-    /*text-overflow: ellipsis;
-    background: -webkit-linear-gradient(#000, #d6e8f3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;*/
+    overflow-y: auto;
 }
 
 /*.help_descr_steps ul, .help_descr_steps ol {
@@ -1303,6 +1319,14 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/blind-drafting-active.png") no-repeat;
 }
 
+.multi-draft {background-color: #4596cc;}
+.multi-draft-step {
+    background: url("/templates/default/assets/img/steps/verse-by-verse-inactive.png") no-repeat;
+}
+.multi-draft-step.active {
+    background: url("/templates/default/assets/img/steps/verse-by-verse-active.png") no-repeat;
+}
+
 .self-check, .self-check-full {background-color: #4596cc;}
 .self-check-step {
     background: url("/templates/default/assets/img/steps/self-edit-inactive.png") no-repeat;
@@ -1450,6 +1474,11 @@ div.ui-datepicker {
 }
 
 .notes_editor {
+    border: 1px solid #4596cc;
+    background-color: #fff9e4;
+}
+
+.questions_editor {
     border: 1px solid #4596cc;
     background-color: #fff9e4;
 }
@@ -1969,7 +1998,7 @@ mark {
 }
 
 .labels_list {
-    max-height: 300px;
+    height: 520px;
     overflow-y: auto;
     padding: 0px;
     font-size: 14px;
@@ -2006,15 +2035,18 @@ mark {
 }
 
 .word_def_popup {
-    width: 280px;
-    height: 620px;
+    width: 99%;
+    height: 536px;
     position: absolute;
-    top: 0;
-    left: 10px;
+    top: 40px;
+    left: 3px;
     background-color: #ffffff;
     z-index: 99;
     cursor: auto;
     display: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    overflow-y: auto;
 }
 
 .word_def_popup h2 {
@@ -2032,8 +2064,8 @@ mark {
     height: 24px;
     padding: 3px;
     position: absolute;
-    top: 10px;
-    right: 0px;
+    top: 2px;
+    right: 2px;
     text-align: center;
     width: 24px;
     cursor: pointer;
@@ -2054,7 +2086,6 @@ mark {
     padding: 0 10px;
     font-size: 14px;
     max-height: 550px;
-    overflow-y: auto;
 }
 
 .t_tools_nav {
@@ -2672,7 +2703,7 @@ mark {
 
 .unsaved_alert {
     display: none;
-    float: right;
+    /*float: right;*/
     margin: 7px 10px;
 }
 
@@ -2864,6 +2895,7 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     float: left;
     overflow: hidden;
     max-width: 120px;
+    white-space: nowrap;
 }
 
 .uname_delete {
@@ -3057,6 +3089,74 @@ div[class^="member_usname mid"] {
 .divvalue {
     float: left;
     margin-left: 5px
+}
+
+.words_group_dialog {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:0; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.words_group_dialog_div {
+    margin: 0px auto;
+    position: fixed;
+    width: 450px;
+    left: calc(50% - 250px);
+    top: calc(50% - 300px);
+}
+
+.words-group-dialog-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.group_delete {
+    margin-left: 5px;
+    border-radius: 4px;
+    background-color: #666666;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.openWordsGroup {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    width: 100%;
+    height: calc(100% - 40px);
+    z-index: 99;
+}
+
+.words-group-dialog-content {
+    padding: 10px;
+}
+
+#word_group {
+    height: 500px;
+}
+
+.word_group_hint {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#word_group option:disabled {
+    color: #ccc;
 }
 
 .assign_chapter {
@@ -4629,3 +4729,83 @@ button.startEvnt, button.editEvnt {
     font-size: 16px;
     padding: 0 20px;
 }
+
+.reset_info {
+    background: url("/templates/default/assets/img/resetb.jpg") center/100% no-repeat;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: bottom;
+    border-radius: 4px;
+}
+
+.make_chunk_info {
+    background: url("/templates/default/assets/img/chunk.jpg") center/100% no-repeat;
+    width: 30px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: bottom;
+    border-radius: 4px;
+}
+
+.questions_chunk {
+    margin-left: 15px;
+}
+
+.questions_bd h1 {
+    /*font-size: 20px;*/
+}
+
+.questions_bd {
+    margin-top: 20px;
+}
+
+.questions_editor.locked {
+    background: #fff9e4 url("/templates/default/assets/img/lock.png") no-repeat center/30px;
+}
+
+.buttons_chunk label, .buttons_chunk input {
+    cursor: pointer;
+}
+
+.ttools_panel {
+    width: 400px;
+    z-index: 102;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: 150px;
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.ttools_panel .panel-heading {
+    cursor: move;
+    background-color: #0096c3;
+    color: #fff;
+}
+
+.notes_editor, .questions_editor {
+    padding: 5px;
+}
+
+.note-editor.note-frame {
+    border: none !important;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable {
+    background-color: #fff9e4 !important;
+}
+
+.note-editor.panel {
+    box-shadow: none;
+}
+
+.note-editor .note-statusbar {
+    display: none;
+}
+
+/*.tools_font {*/
+    /*font-weight: bold;*/
+    /*margin: 10px 5px 10px 0;*/
+    /*text-align: right;*/
+/*}*/

@@ -168,6 +168,110 @@ $(function () {
         $(".chapter_"+chapter+" .uname_delete").trigger("click");
     });
 
+
+    // Show "Create words group" dialog
+    $("#word_group_create").click(function() {
+        $("#word_group").val("");
+
+        $(".words_group_dialog").show();
+
+        $('html, body').css({
+            'overflow': 'hidden',
+            'height': '100%'
+        });
+    });
+
+    // Close "Create words group" dialog
+    $(".words-group-dialog-close").click(function() {
+        $(".words_group_dialog").hide();
+
+        $('html, body').css({
+            'overflow': 'auto',
+            'height': 'auto'
+        });
+    });
+
+    // Create a group of translation words
+    $(document).on("click", "#create_group", function () {
+
+        var group = $("#word_group").val();
+        var eventID = $("#eventID").val();
+
+        $.ajax({
+            url: "/events/rpc/create_words_group",
+            method: "post",
+            data: {
+                group: group,
+                eventID: eventID
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $(".openWordsGroup.dialog_f").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $(".words_group_dialog").hide();
+                    window.location.reload();
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".openWordsGroup.dialog_f").hide();
+            });
+    });
+
+    // Delete a group of translation words
+    $(document).on("click", ".group_delete", function () {
+        var groupID = $(this).data("groupid");
+        var eventID = $("#eventID").val();
+        var $this = $(this);
+
+        renderConfirmPopup(Language.deleteGroupConfirmTitle, Language.deleteGroupConfirm, function () {
+            $( this ).dialog( "close" );
+
+            $.ajax({
+                url: "/events/rpc/delete_words_group",
+                method: "post",
+                data: {
+                    groupID: groupID,
+                    eventID: eventID
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $this.css("background-color", "#f00");
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        $(".words_group_dialog").hide();
+                        window.location.reload();
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                })
+                .always(function() {
+                    $this.css("background-color", "#666666");
+                });
+        }, function () {
+            $( this ).dialog( "close" );
+        });
+    });
+
+
     // Remove chapter from translator's chapter list
     $(document).on("click", ".uname_delete", function() {
         var parent = $(this).parents(".manage_chapters_user");

@@ -29,15 +29,17 @@ use \Helpers\Constants\EventSteps;
 
                             $step = isset($notification->translateDone) && $notification->translateDone ? EventSteps::FINISHED :$notification->step;
                             $link = "/events/checker".(isset($notification->manageMode)
-                                && in_array($notification->manageMode, ["sun","tn"]) ? "-".$notification->manageMode : "")
+                                && in_array($notification->manageMode, ["sun","tn","tq","tw"]) ? "-".$notification->manageMode : "")
                                 ."/".$notification->eventID."/"
                                 .$notification->memberID."/"
                                 .$notification->step."/"
                                 .(isset($notification->manageMode) ? $notification->currentChapter."/" : "")
                                 ."apply";
                             ?>
-                            <td><?php echo $notification->bookName.", chapter ".
-                                ($notification->currentChapter > 0 ? $notification->currentChapter : __("intro")) ?></td>
+                            <td><?php echo $notification->bookName . ($notification->bookProject == "tw"
+                                    ? " [".$notification->group."]"
+                                    : (", chapter ".
+                                        ($notification->currentChapter > 0 ? $notification->currentChapter : __("intro")))) ?></td>
                             <td><?php echo $notification->tLang ?></td>
                             <td><?php echo __($notification->bookProject) ?></td>
                             <td><?php echo __($step)?></td>

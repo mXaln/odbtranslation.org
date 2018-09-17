@@ -17,8 +17,6 @@ if(isset($data["error"])) return;
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?>
                     </h4>
 
-                    <button class="btn btn-primary show_saildict" style="margin: 0 0 0 15px"><?php echo __("show_dictionary") ?></button>
-
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
                             <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
@@ -50,24 +48,30 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [3])?>:</span> <?php echo __("rearrange")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("rearrange_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
-
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/information-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [3])?>:</span> <?php echo __("rearrange")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("rearrange_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
+                </div>
+
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/information-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tr_tools">
+                    <button class="btn btn-primary show_saildict"><?php echo __("show_dictionary") ?></button>
                 </div>
             </div>
         </div>

@@ -74,6 +74,8 @@ class MembersModel extends Model {
                 ->whereIn("memberID", $memberIDs)
                 ->orderBy("firstName")->get();
         }
+
+        return [];
     }
 
 

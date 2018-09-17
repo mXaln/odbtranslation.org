@@ -328,36 +328,40 @@ class ApiModel extends Model
 
         if(!File::exists($folderpath) || $update)
         {
-            // Do not get notes from catalog, instead get it from git.door43.org
-            // Should be temporarily
-
-            // Get catalog
-            /*$catalog = $this->getCachedFullCatalog();
-            if(empty($catalog)) return false;
-
-            $url = "";
-
-            foreach($catalog->languages as $language)
+            if($lang == "en")
             {
-                if($language->identifier == $lang)
+                // Do not get notes from catalog, instead get it from git.door43.org
+                // Should be temporarily
+                $url = "https://git.door43.org/WycliffeAssociates/en_tn/archive/master.zip";
+            }
+            else
+            {
+                // Get catalog
+                $catalog = $this->getCachedFullCatalog();
+                if(empty($catalog)) return false;
+
+                $url = "";
+
+                foreach($catalog->languages as $language)
                 {
-                    foreach($language->resources as $resource)
+                    if($language->identifier == $lang)
                     {
-                        if($resource->identifier == "tn")
+                        foreach($language->resources as $resource)
                         {
-                            foreach($resource->formats as $format)
+                            if($resource->identifier == "tn")
                             {
-                                $url = $format->url;
-                                break;
+                                foreach($resource->formats as $format)
+                                {
+                                    $url = $format->url;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
+
+                if($url == "") return false;
             }
-
-            if($url == "") return false;*/
-
-            $url = "https://git.door43.org/WycliffeAssociates/en_tn/archive/master.zip";
 
             $ch = curl_init();
 
@@ -600,6 +604,51 @@ class ApiModel extends Model
         return $filtered;
     }
 
+
+    /**
+     * Parses .md files of specified category and returns array
+     * @param $category
+     * @param $onlyNames
+     * @param $lang
+     * @return  array
+     **/
+    public function getTranslationWordsByCategory($category, $lang = "en", $onlyNames = false)
+    {
+        $folderpath = $this->downloadAndExtractWords($lang);
+
+        if(!$folderpath) return [];
+
+        $parsedown = new Parsedown();
+        $files = File::allFiles($folderpath);
+
+        $words = [];
+
+        foreach ($files as $file) {
+            if(preg_match("/bible\/".$category."/", $file))
+            {
+                $word = [];
+
+                if(!$onlyNames)
+                {
+                    $md = File::get($file);
+
+                    $html = $parsedown->text($md);
+                    $html = preg_replace("//", "", $html);
+                    $word["text"] = $html;
+                }
+
+                preg_match("/\/([0-9a-z-_]+).md$/", $file, $matches);
+                $word["word"] = $matches[1];
+                $words[] = $word;
+            }
+        }
+
+        usort($words, function($a, $b) {
+            return strcmp($a["word"], $b["word"]);
+        });
+
+        return $words;
+    }
 
     /**
      * Download questions from DCS and extract them

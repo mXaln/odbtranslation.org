@@ -6,7 +6,7 @@ var Language = {
     "yes"                       : "Да",
     "no"                        : "Нет",
     "noKeywords"                : "Для этого языка нет ключевых слов.",
-    "checkBookConfirm"          : "Вы действительно хотите начать проверку этой книги? Страница откроется в новой вкладке/окне.",
+    "checkBookConfirm"          : "Вы действительно хотите начать проверку этой главы? Страница откроется в новой вкладке/окне.",
     "checkBookConfirmTitle"     : "Запрос на проверку",
     "saveChangesConfirm"        : "Есть несохранённые изменения в тексте. Вы хотите продолжить без сохранения?",
     "saveChangesConfirmTitle"   : "Несохранённые данные",
@@ -95,4 +95,7 @@ var Language = {
     "tn_other_highlight"        : "Highlight",
     "tn_other_self_check"       : "Правка заметок",
     "tn_other_keyword_check"    : "Check Highlights",
+    "tq_drafts_not_checked"     : "Вам необходимо отметить галочками все черновики перед тем, как переходить на следующий шаг.",
+    "deleteGroupConfirmTitle"   : "Удаление группы",
+    "deleteGroupConfirm"        : "Вы действительно хотите удалить эту группу?",
 };

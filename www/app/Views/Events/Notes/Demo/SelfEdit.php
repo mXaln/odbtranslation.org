@@ -27,6 +27,12 @@
                 <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1-26</span></h4>
 
                 <div id="my_notes_content" class="my_content">
+                    <!--<div class="tools_font">
+                        <button class="btn btn-primary" data-size="-">A-</button>
+                        <button class="btn btn-primary" data-size="0">A</button>
+                        <button class="btn btn-primary" data-size="+">A+</button>
+                    </div>-->
+
                     <div class="row note_chunk">
                         <div class="row scripture_chunk"> </div>
                         <div class="col-md-6">
@@ -760,23 +766,25 @@
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("self-check_tn")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("self-check_tn_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("self-check_tn")?></div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("self-check_tn_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="additional_info">
-                        <a href="/events/demo-tn/information"><?php echo __("event_info") ?></a>
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="additional_info">
+                            <a href="/events/demo-tn/information"><?php echo __("event_info") ?></a>
+                        </div>
                     </div>
                 </div>
             </div>

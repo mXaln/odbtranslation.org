@@ -11,7 +11,7 @@ use Helpers\Constants\StepsStates;
 </div>
 
 <div>
-    <div class="book_title">2 Timothy</div>
+    <div class="book_title">Matthew</div>
     <div class="project_title"><?php echo __("sun") ?> - English</div>
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
@@ -401,6 +401,171 @@ use Helpers\Constants\StepsStates;
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [5]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [6]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [7]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [8]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [9]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [10]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [11]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [12]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [13]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [14]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [15]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [16]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_accordion">
+                <div class="section_header" data="sec_4">
+                    <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", [17]) ?></div>
+                    <div class="section_translator_progress_bar">
+                        <div class="progress ">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 25%"> 25% </div>
+                        </div>
+                        <div class=" finished_icon"></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div> <span style="font-weight: bold;"><?php echo __("last_edit") .": " ?> </span> <span class="datetime" data="Fri, 09 Feb 2018 14:19:23 +0000">Fri, February 9, 2018, 9:19 AM</span> </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="section_content">
+                    <div class="section_translator">
+                        <div class="section_translator_name tnleft sun"> <img src="<?php echo template_url("img/avatars/f10.png") ?>" width="50"> <span><b>Amy G.</b></span> </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="section_steps">
+                        <!-- Consume Step -->
+                        <div class="section_step finished">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/consume.png") ?>" width="40"></div>
+                            <div class="step_name">1. <?php echo __(EventSteps::CONSUME) ?></div>
+                        </div>
+                        <!-- Chunking Check Step -->
+                        <div class="section_step finished">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/chunking.png") ?>" width="40"></div>
+                            <div class="step_name">2. <?php echo __(EventSteps::CHUNKING); ?></div>
+                            <div class="step_chunks more_chunks">
+                                <div class="section_translator_chunk"> 1 - 3 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span> </div>
+                                <div class="section_translator_chunk"> 4 - 6 &nbsp;&nbsp;<span class="finished_msg glyphicon glyphicon-ok"></span> </div>
+                                <div class="section_translator_chunk"> 7 - 9 </div>
+                                <div class="section_translator_chunk"> 10 - 11 </div>
+                                <div class="section_translator_chunk"> 12 - 14 </div>
+                                <div class="section_translator_chunk"> 15 - 17 </div>
+                                <div class="section_translator_chunk"> 18 - 22 </div>
+                                <div class="chunks_blind glyphicon glyphicon-triangle-bottom"></div>
+                            </div>
+                        </div>
+                        <!-- Rearrange Step -->
+                        <div class="section_step in_progress">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::IN_PROGRESS) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/rearrange.png") ?>" width="40"></div>
+                            <div class="step_name">3. <?php echo __(EventSteps::REARRANGE); ?></div>
+                        </div>
+                        <!-- Symbol Draft Step -->
+                        <div class="section_step not_started">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/symbol-draft.png") ?>" width="40"></div>
+                            <div class="step_name">4. <?php echo __(EventSteps::SYMBOL_DRAFT); ?></div>
+                        </div>
+                        <!-- Self Check Step -->
+                        <div class="section_step not_started">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/self-check.png") ?>" width="40"></div>
+                            <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK); ?></div>
+                        </div>
+                        <!-- Checking stage -->
+                        <div class="section_step chk" style="width: 50px"> </div>
+                        <!-- Theo Check Step -->
+                        <div class="section_step chk not_started">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>" width="40"></div>
+                            <div class="step_name">6. <?php echo __(EventSteps::THEO_CHECK); ?></div>
+                        </div>
+                        <!-- Checking stage -->
+                        <div class="section_step chk" style="width: 50px"> </div>
+                        <!-- Verse-by-verse Check Step -->
+                        <div class="section_step chk not_started">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/content-review.png") ?>" width="40"></div>
+                            <div class="step_name">7. <?php echo __(EventSteps::CONTENT_REVIEW); ?></div>
+                        </div>
+                        <!-- Verse Markers Step -->
+                        <div class="section_step chk not_started">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img src="<?php echo template_url("img/steps/icons/final-review.png") ?>" width="40"></div>
+                            <div class="step_name"><?php echo __(EventSteps::FINAL_REVIEW); ?></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [18]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [19]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [20]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [21]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [22]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [23]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [24]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [25]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [26]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [27]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", [28]) ?></div>
         </div>
     </div>
 

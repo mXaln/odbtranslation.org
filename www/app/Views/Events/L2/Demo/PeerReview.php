@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [2]).")" ?></div>
-            <div><?php echo __("step_num", [5]) . ": " . __("peer-review-l2_full")?></div>
+            <div><?php echo __("peer-review-l2_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -278,40 +278,42 @@
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [5])?></div>
+                <div class="step_right"></div>
             </div>
         </div>
 
         <div class="content_help col-sm-3">
-            <div class="help_info_steps">
-                <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                <div class="help_title_steps"><?php echo __("help") ?></div>
+            <div class="help_float">
+                <div class="help_info_steps">
+                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
+                    <div class="help_title_steps"><?php echo __("help") ?></div>
 
-                <div class="clear"></div>
+                    <div class="clear"></div>
 
-                <div class="help_name_steps"><span><?php echo __("step_num", [5])?>:</span> <?php echo __("peer-review-l2")?></div>
-                <div class="help_descr_steps">
-                    <ul><?php echo __("peer-review-l2_desc")?></ul>
-                    <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                </div>
-            </div>
-
-            <div class="event_info">
-                <div class="participant_info">
-                    <div class="participant_name">
-                        <span><?php echo __("your_checker") ?>:</span>
-                        <span class="checker_name_span">
-                            Marge S.
-                        </span>
-                    </div>
-                    <div class="additional_info">
-                        <a href="/events/demo-l2/information"><?php echo __("event_info") ?></a>
+                    <div class="help_name_steps"><span><?php echo __("peer-review-l2")?></span> </div>
+                    <div class="help_descr_steps">
+                        <ul><?php echo __("peer-review-l2_desc")?></ul>
+                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
-            </div>
 
-            <div class="checker_view">
-                <a href="/events/demo-l2/peer_review_l2_checker"><?php echo __("checker_view") ?></a>
+                <div class="event_info">
+                    <div class="participant_info">
+                        <div class="participant_name">
+                            <span><?php echo __("your_checker") ?>:</span>
+                            <span class="checker_name_span">
+                                Marge S.
+                            </span>
+                        </div>
+                        <div class="additional_info">
+                            <a href="/events/demo-l2/information"><?php echo __("event_info") ?></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checker_view">
+                    <a href="/events/demo-l2/peer_review_l2_checker"><?php echo __("checker_view") ?></a>
+                </div>
             </div>
         </div>
     </div>

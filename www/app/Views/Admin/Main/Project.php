@@ -34,6 +34,7 @@ if(!empty($data["project"])):
         </div>
 
         <?php foreach($data["events"] as $event): ?>
+            <?php if($event->abbrID > 67) continue; ?>
             <?php if($event->abbrID == 1): ?>
             <div class="row" id="old_test">
                 <div class="project_progress progress <?php echo $data["OTprogress"] <= 0 ? "zero" : ""?>">
@@ -97,16 +98,17 @@ if(!empty($data["project"])):
                                 {
                                     case null:
                                         echo '<button 
-                                            data="'.$event->code.'" 
-                                            data2="'.$event->name.'" 
-                                            data3="'.$event->chaptersNum.'" 
+                                            data-bookcode="'.$event->code.'" 
+                                            data-bookname="'.$event->name.'" 
+                                            data-chapternum="'.$event->chaptersNum.'" 
                                                 class="btn btn-primary startEvnt">'.__("create").'</button>';
                                         break;
 
                                     default:
                                         echo '<button 
-                                            data="'.$event->code.'" data2="'.$event->eventID.'" 
-                                            data4="'.$event->abbrID.'"
+                                            data-bookcode="'.$event->code.'" 
+                                            data-eventid="'.$event->eventID.'" 
+                                            data-abbrid="'.$event->abbrID.'"
                                                 class="btn btn-success editEvnt">'.__("edit").'</button>';
                                 }
                                 ?>
