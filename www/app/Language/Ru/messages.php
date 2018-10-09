@@ -60,6 +60,7 @@ return array (
     "questions_mode" => "Вопросы",
     "words_mode" => "Слова",
     "project_exists" => "Проект существует",
+    "personal" => "Личные",
 
     // Activate method
     "activate_account_title" => "Активация учетной записи",
@@ -192,7 +193,7 @@ return array (
     "registration_local_success_message" => "Регистрация прошла успешно!",
 
     // Error messages
-    "required_fields_empty_error" => "Пожалуйста заполните все обязательные поля",
+    "required_fields_empty_error" => "Пожалуйста, верно заполните все обязательные поля",
     "update_profile_error" => "Профиль не может быть обновлен",
     "token_expired_error" => "Код сброса пароля просрочен",
     "update_table_error" => "Ошибка записи в базу данных. Пожалуйста, попробуйте снова.",

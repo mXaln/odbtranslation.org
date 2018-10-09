@@ -742,8 +742,29 @@ $(document).ready(function() {
                 $.each(data.errors, function(i, v) {
                     message += v + "<br>";
                 });
-                renderPopup(message);
-                console.log(data.errors);
+
+                if (data.kw_exist != undefined) {
+                    renderConfirmPopup(Language.skip_keywords, Language.skip_keywords_message,
+                        function () {
+                            $("input[name=skip_kw]").val(1);
+                            $("input[name=confirm_step]").prop("checked", true);
+                            $("#checker_submit").submit();
+                            $( this ).dialog("close");
+                        },
+                        function () {
+                            $("#confirm_step").prop("checked", false);
+                            $("#next_step").prop("disabled", true);
+                            $( this ).dialog("close");
+                        },
+                        function () {
+                            $("#confirm_step").prop("checked", false);
+                            $("#next_step").prop("disabled", true);
+                            $( this ).dialog("close");
+                        })
+                } else {
+                    renderPopup(message);
+                }
+                console.log(data);
             }
         })
         .always(function() {
