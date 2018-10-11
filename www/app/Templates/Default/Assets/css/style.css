@@ -4234,6 +4234,16 @@ button.startEvnt, button.editEvnt {
     margin-top: 20px;
 }
 
+.notes_target_compare {
+    margin-top: 20px;
+    display: none;
+}
+
+.compare_notes {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
 .notes_translator {
     display: none;
 }
