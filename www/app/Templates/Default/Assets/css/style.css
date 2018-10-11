@@ -2363,7 +2363,7 @@ mark {
 
 .save_profile_container.unlinked {
     position: absolute;
-    top: -175px;
+    top: -110px;
     left: auto;
     right: 0;
 }
@@ -4232,6 +4232,16 @@ button.startEvnt, button.editEvnt {
 
 .notes_target {
     margin-top: 20px;
+}
+
+.notes_target_compare {
+    margin-top: 20px;
+    display: none;
+}
+
+.compare_notes {
+    text-align: right;
+    margin-bottom: 20px;
 }
 
 .notes_translator {

@@ -9,11 +9,6 @@ use Shared\Legacy\Error;
 $profile = $data["profile"];
 ?>
 
-<div>
-    <div class="public_uname"><?php echo Session::get("userName") ?></div>
-    <div class="public_fname"><?php echo Session::get("firstName")." ".Session::get("lastName") ?></div>
-</div>
-
 <form action='' method='post' style="width: 900px" class="form-horizontal profile_form">
 
     <div class="profile_messages">
@@ -23,7 +18,28 @@ $profile = $data["profile"];
         ?>
     </div>
 
-    <h3><?php echo __('common_skills'); ?></h3>
+    <h3><?php echo __('personal'); ?></h3>
+
+    <div class="form-group">
+        <label class="<?php echo isset($data["errors"]["userName"]) ? "label_error" : "" ?>">
+            <?php echo __('userName'); ?>:
+            <input type="text" class="form-control" name="userName"
+                   value="<?php echo isset($_POST["userName"]) ? $_POST["userName"] : Session::get("userName") ?>">
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label class="<?php echo isset($data["errors"]["firstName"]) ? "label_error" : "" ?>">
+            <?php echo __('firstName'); ?>:
+            <input type="text" class="form-control" name="firstName"
+                   value="<?php echo isset($_POST["firstName"]) ? $_POST["firstName"] : Session::get("firstName") ?>">
+        </label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label class="<?php echo isset($data["errors"]["lastName"]) ? "label_error" : "" ?>">
+            <?php echo __('lastName'); ?>:
+            <input type="text" class="form-control" name="lastName"
+                   value="<?php echo isset($_POST["lastName"]) ? $_POST["lastName"] : Session::get("lastName") ?>">
+        </label>
+    </div>
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["avatar"]) ? "label_error" : "" ?>">
@@ -39,6 +55,8 @@ $profile = $data["profile"];
                    value="<?php echo isset($_POST["avatar"]) ? $_POST["avatar"] : (isset($profile["avatar"]) ? $profile["avatar"] : "m1") ?>">
         </div>
     </div>
+
+    <h3><?php echo __('common_skills'); ?></h3>
 
     <div class="form-group">
         <label class="<?php echo isset($data["errors"]["prefered_roles"]) ? "label_error" : "" ?>"><?php echo __('prefered_roles'); ?>: </label>

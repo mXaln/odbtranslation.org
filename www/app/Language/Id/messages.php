@@ -62,6 +62,7 @@ return array (
     "questions_mode" => "Questions",
     "words_mode" => "Words",
     "project_exists" => "Project exists",
+    "personal" => "Personal",
 
     // Activate method
     "activate_account_title" => "Aktivasi Akun",
@@ -459,6 +460,8 @@ return array (
     "group_id" => "Group {0}",
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
+    "compare" => "Compare",
+    "compare_hint" => "Compare checker's text with translator's text",
     
     // Steps
     "pray" => "Persiapan: Berdoa",

@@ -156,6 +156,7 @@ use Helpers\Constants\EventMembers;
                     <input type="hidden" name="level" value="l2continue">
                     <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
                     <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->l2memberID ?>">
+                    <input type="hidden" name="skip_kw" value="0">
                     <button id="next_step" type="submit" name="submit_chk" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </div>
             </form>
@@ -225,7 +226,7 @@ use Helpers\Constants\EventMembers;
 </div>
 
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?5")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?6")?>"></script>
 <script>
     (function() {
         $(".my_tab").click(function () {

@@ -62,6 +62,7 @@ return array (
     "questions_mode" => "Questions",
     "words_mode" => "Words",
     "project_exists" => "Project exists",
+    "personal" => "Personal",
 
     // Activate method
     "activate_account_title" => "Activate Account",
@@ -456,6 +457,8 @@ return array (
     "group_id" => "Group {0}",
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
+    "compare" => "Compare",
+    "compare_hint" => "Compare checker's text with translator's text",
 
     // Steps
     "pray" => "Preparation: Prayer",
@@ -1405,7 +1408,7 @@ return array (
     "error_member_in_event" => "You have already applied to this event.",
     "no_l2_3_checkers_available_error" => "No more vacancy available for level {0} checkers.",
     "no_translators_available_error" => "No more vacancy available for translators.",
-    "required_fields_empty_error" => "You haven't filled in required fields.",
+    "required_fields_empty_error" => "You haven't filled in required fields correctly.",
     "not_loggedin_error" => "You are not logged in.",
     "account_not_verirfied_error" => "Your account is not verified. Connect with the site administrator.",
     "event_notexist_error" => "Event does not exist.",

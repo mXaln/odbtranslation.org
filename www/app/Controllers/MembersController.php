@@ -109,6 +109,10 @@ class MembersController extends Controller
         {
             $_POST = Gump::xss_clean($_POST);
 
+            $userName = isset($_POST["userName"]) ? $_POST['userName'] : "";
+            $firstName = isset($_POST["firstName"]) ? $_POST['firstName'] : "";
+            $lastName = isset($_POST["lastName"]) ? $_POST['lastName'] : "";
+
             $avatar = isset($_POST["avatar"]) && preg_match("/^([f|m][1-9]|[f|m]1[0-9]|[f|m]20)$/", $_POST["avatar"]) ? $_POST["avatar"] : "m1";
             $prefered_roles = isset($_POST["prefered_roles"]) && !empty($_POST["prefered_roles"]) ? (array)$_POST["prefered_roles"] : null;
             $langs = isset($_POST["langs"]) && !empty($_POST["langs"]) ? (array)$_POST["langs"] : null;
@@ -130,6 +134,27 @@ class MembersController extends Controller
             $education = isset($_POST["education"]) && !empty($_POST["education"]) ? (array)$_POST["education"] : array();
             $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : array();
             $ed_place = isset($_POST["ed_place"]) && trim($_POST["ed_place"]) != "" ? trim($_POST["ed_place"]) : "";
+
+            if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
+            {
+                $data["errors"]['userName'] = true;
+            }
+
+            if (strlen($userName) < 5 || strlen($userName) > 20)
+            {
+                $data["errors"]['userName'] = true;
+            }
+
+            if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
+            {
+                $data["errors"]['firstName'] = true;
+            }
+
+            if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
+            {
+                $data["errors"]['lastName'] = true;
+            }
+
 
             if($prefered_roles == null)
             {
@@ -256,6 +281,18 @@ class MembersController extends Controller
 
             if(empty($data["errors"]))
             {
+                $this->_model->updateMember([
+                    "userName" => $userName,
+                    "firstName" => $firstName,
+                    "lastName" => $lastName
+                ], [
+                    "memberID" => Session::get("memberID")
+                ]);
+
+                Session::set("userName", $userName);
+                Session::set("firstName", $firstName);
+                Session::set("lastName", $lastName);
+
                 $postdata = array(
                     "mID" => Session::get("memberID"),
                     "avatar" => $avatar,

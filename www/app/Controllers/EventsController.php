@@ -6020,6 +6020,7 @@ class EventsController extends Controller
                         {
                             if (isset($_POST["confirm_step"]))
                             {
+                                $skip_kw = isset($_POST["skip_kw"]) && $_POST["skip_kw"] == 1 ? true : false;
                                 $peer1Check = (array)json_decode($data["event"][0]->peer1Check, true);
                                 $peer2Check = (array)json_decode($data["event"][0]->peer2Check, true);
 
@@ -6082,7 +6083,7 @@ class EventsController extends Controller
                                             "chapter" => $data["event"][0]->currentChapter
                                         ]);
 
-                                        if(empty($keywords))
+                                        if(empty($keywords) || $skip_kw)
                                         {
                                             $peer2Check[$data["event"][0]->currentChapter]["done"] = 1;
                                             $postdata = [
@@ -6091,6 +6092,7 @@ class EventsController extends Controller
                                         }
                                         else
                                         {
+                                            $response["kw_exist"] = true;
                                             $error[] = __("keywords_still_exist_error");
                                         }
                                     }

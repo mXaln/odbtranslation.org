@@ -297,7 +297,7 @@
 </div>
 
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?5")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?6")?>"></script>
 <script>
     $(document).ready(function () {
         $(".my_tab").click(function () {

@@ -38,6 +38,12 @@ if(isset($data["error"])) return;
 
                     <div class="col-sm-12">
                         <?php foreach($data["translation"] as $key => $chunk) : ?>
+                            <div style="color: #0089ff; font-weight: bold;"><?php echo isset($data["chunks"][$key])
+                                    ? ($data["chunks"][$key][0] != $data["chunks"][$key][sizeof($data["chunks"][$key])-1]
+                                        ? $data["chunks"][$key][0] . "-" . $data["chunks"][$key][sizeof($data["chunks"][$key])-1]
+                                        : $data["chunks"][$key][0])
+                                    : ""?></div>
+
                             <div class="chunk_verse editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <div class="vnote">
                                     <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
