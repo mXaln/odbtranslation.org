@@ -30,6 +30,10 @@
                 <div id="my_notes_content" class="my_content">
                     <div class="row note_chunk">
                         <div class="row scripture_chunk chunk_verses"> </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>Acts 01 General Notes</h1>
@@ -62,16 +66,16 @@
                             <div class="notes_target">
                                 <h1>Pendahuluan &nbsp;&nbsp;</h1>
                                 <h1>Catatan Umum Kisah Para Rasul 1&nbsp;</h1>
-                                <h4>Struktur dan format<ins class="ins"> (added some text during check)</ins></h4>
+                                <h4>Struktur dan format</h4>
                                 <p>Di pasal ini tercatat sebuah peristiwa, yang biasanya diketahui sebagai "Kenaikan" dimana Yesus kembali ke sorga setelah kebangkitanNya. Dia tidak akan kembali sampai kedatanganNya&nbsp; yang kedua kali ke bumi. (Lihat: [[rc://en/tw/dict/bible/kt/heaven]]&nbsp;dan&nbsp;[[rc://en/tw/dict/bible/kt/resurrection]])</p>
-                                <p>Berdasarkan hasil terjemahan yang lain, UDB memilih untuk memisahkan bagian salam ("Salam Teofilus"). <del class="del">Hasil terjemahan ini mengikuti gaya bahasa dalam surat, tapi ini dapat diubah dengan hal yang lain u</del><ins class="ins">U</ins>ntuk mengikuti kebiasaan yang ada di kebudayaan penerjemah.&nbsp;</p>
+                                <p>Berdasarkan hasil terjemahan yang lain, UDB memilih untuk memisahkan bagian salam ("Salam Teofilus"). Untuk mengikuti kebiasaan yang ada di kebudayaan penerjemah.&nbsp;</p>
                                 <p>Beberapa penerjemah memasukkan kutipan dari Perjanjian Lama. ULB memasukkan dua kutipan dari Mazmur 1:20</p>
                                 <h4>Gagasan khusus di pasal ini</h4>
                                 <p>Kerajaan Allah</p>
                                 <h5>Para ahli percaya bahwa Yesus menjelaskan kepada para murid mengapa kerajaan Allah tidak datang saat Dia masih hidup. orang-orang lain percaya bahwa kerajaan Allah baru saja dimulai.&nbsp;</h5>
                                 <h4>Beberapa kemungkinan kesulitan terjemahan dalam pasal ini&nbsp;</h4>
                                 <h5>kedua belas rasul</h5>
-                                <p>Berikut adalah <del class="del">daftar nama kedua belas rasul</del><ins class="ins">Text here is replaced</ins>: Di injil Matius: Simon (Petrus), Andreas, Yakobus anak Zebedeus, Yohanes anak Zebedeus, Filipus, Bartolomeus, Tomas, Matius, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.</p>
+                                <p>Berikut adalah Text here is replaced: Di injil Matius: Simon (Petrus), Andreas, Yakobus anak Zebedeus, Yohanes anak Zebedeus, Filipus, Bartolomeus, Tomas, Matius, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.</p>
                                 <p>Di injil Markus: Simon (Petrus), Andreas, Yakobus anak Zebedeus dan Yohanes saudaranya (yang keduanya diberi-Nya nama Boanerges, yang berarti anak-anak guruh), Filipus, Bartolomeus, Tomas, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.&nbsp;</p>
                                 <p>Di injil Lukas: Simon (Petrus), Andreas, Yakobus, Yohanes, Filipus, Bartolomeus, Matius, Tomas, Yakobus anak Alfeus, Simon, yang juga dipanggil Zelot, Yudas anak Yakobus, dan Yudas Iskariot.</p>
                                 <p>Kemungkinan bahwa Tadeus dan Yudas, anak Yakobus, adalah dua nama dari orang yang sama.&nbsp;</p>
@@ -86,6 +90,32 @@
                                 </ul>
                                 <p><strong>|</strong>&nbsp;<a href="../02/intro.md"><strong>&gt;&gt;</strong></a></p>
                             </div>
+                            <div class="notes_target_compare">
+                                Pendahuluan<br>
+                                Catatan Umum Kisah Para Rasul 1<br>
+                                Struktur dan format<ins class="ins"> (added some text during check)</ins><br>
+                                Di pasal ini tercatat sebuah peristiwa, yang biasanya diketahui sebagai "Kenaikan" dimana Yesus kembali ke sorga setelah kebangkitanNya. Dia tidak akan kembali sampai kedatanganNya&nbsp; yang kedua kali ke bumi. (Lihat: [[rc://en/tw/dict/bible/kt/heaven]]&nbsp;dan&nbsp;[[rc://en/tw/dict/bible/kt/resurrection]])<br>
+                                Berdasarkan hasil terjemahan yang lain, UDB memilih untuk memisahkan bagian salam ("Salam Teofilus"). <del class="del">Hasil terjemahan ini mengikuti gaya bahasa dalam surat, tapi ini dapat diubah dengan hal yang lain u</del><ins class="ins">U</ins>ntuk mengikuti kebiasaan yang ada di kebudayaan penerjemah.<br>
+                                Beberapa penerjemah memasukkan kutipan dari Perjanjian Lama. ULB memasukkan dua kutipan dari Mazmur 1:20<br>
+                                Gagasan khusus di pasal ini<br>
+                                Kerajaan Allah<br>
+                                Para ahli percaya bahwa Yesus menjelaskan kepada para murid mengapa kerajaan Allah tidak datang saat Dia masih hidup. orang-orang lain percaya bahwa kerajaan Allah baru saja dimulai.&nbsp;<br>
+                                Beberapa kemungkinan kesulitan terjemahan dalam pasal ini&nbsp;<br>
+                                kedua belas rasul<br>
+                                Berikut adalah <del class="del">daftar nama kedua belas rasul</del><ins class="ins">Text here is replaced</ins>: Di injil Matius: Simon (Petrus), Andreas, Yakobus anak Zebedeus, Yohanes anak Zebedeus, Filipus, Bartolomeus, Tomas, Matius, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.<br>
+                                Di injil Markus: Simon (Petrus), Andreas, Yakobus anak Zebedeus dan Yohanes saudaranya (yang keduanya diberi-Nya nama Boanerges, yang berarti anak-anak guruh), Filipus, Bartolomeus, Tomas, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.<br>
+                                Di injil Lukas: Simon (Petrus), Andreas, Yakobus, Yohanes, Filipus, Bartolomeus, Matius, Tomas, Yakobus anak Alfeus, Simon, yang juga dipanggil Zelot, Yudas anak Yakobus, dan Yudas Iskariot.<br>
+                                Kemungkinan bahwa Tadeus dan Yudas, anak Yakobus, adalah dua nama dari orang yang sama.&nbsp;<br>
+                                Perubahan bentuk kata kerja&nbsp;<br>
+                                Mungkin sulit untuk menerjemahkan kalimat, "Yesus mulai melakukan dan mengajarkan" karena itu mengubah kalimat atau waktu peristiwa di dalam kalimat yang sama (Kisah Para Rasul 1:1). Mungkin diperlukan untuk membuat segala pekerjaan saling berhubungan di dalam struktur kalimat. Penerjemahan lainnya yang dapat digunakan, "Yesus melakukan dan mengajar"&nbsp;<br>
+                                Hakal dama<br>
+                                Ini adalah sebuah ungkapan dari bahasa Ibrani atau bahasa Aram. Lukas menerjemahkan kata ini menggunakan huruf Yunani lalu menjelaskan artinya. Penerjemah dianjurkan untuk menerjemahkan kata ini menggunakan huruf dari bahasa sasaran lalu menjelaskan artinya.&nbsp;<br>
+                                Links:<br>
+                                Catatan Kis. 01:01<br>
+                                Pengantar Kisah Para Rasul<br>
+                                |&nbsp;&gt;&gt;<br>
+                            </div>
+
                             <div class="comments_number tncommpeer hasComment"> 2 </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments">
@@ -106,6 +136,10 @@
                             <div class="kwverse_1_0_2"> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui <b data="0">Roh Kudus kepada</b> rasul-rasul yang telah dipilihNya. </div>
                             <strong><sup>3</sup></strong>
                             <div class="kwverse_1_0_3"> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -156,6 +190,28 @@
                                     <li>[[rc://en/tw/dict/bible/kt/kingdomofgod]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Dalam buku yang aku tulis sebelumnya<br>
+                                Buku itu adalah Injil Lukas.&nbsp;<br>
+                                Teofilus<br>
+                                Lukas menulis buku ini untuk seseorang bernama Teofilus. Beberapa hasil terjemahan mengikuti kebudayaan mereka sendiri tentang bagaimana menulis dan menujukan surat "Salam Teofilus" di awal kalimat. Teofilus berarti "tesahabat Allah" (Lihat: [[rc://en/ta/man/translate/translate-names]])<br>
+                                Sampai pada hari ketika Ia diangkat<br>
+                                kalimat ini mengacu pada hari kenaikan Yesus ke sorga. AT: "sampai pada hari ketika Allah mengangkat Dia ke sorga" atau "sampai pada hari ketika Dia naik ke sorga" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Perintah melalui Roh Kudus<br>
+                                Roh Kudus menuntun Yesus untuk mengajar&nbsp; para rasul-rasul hal-hal tertentu.<br>
+                                Setelah penderitaanNya<br>
+                                Ini mengacu pada penderitaan Yesus dan kematiannya di kayu salib.<br>
+                                Dia menunjukkan diriNya hidup kepada mereka<br>
+                                Yesus menampakkan diriNya kepada kedua belas rasul dan murid-murid yang lain.<br>
+                                Kata-kata terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/jesus]]<br>
+                                    [[rc://en/tw/dict/bible/kt/command]]<br>
+                                    [[rc://en/tw/dict/bible/kt/holyspirit]]<br>
+                                    [[rc://en/tw/dict/bible/kt/apostle]]<br>
+                                    [[rc://en/tw/dict/bible/other/suffer]]<br>
+                                    [[rc://en/tw/dict/bible/kt/kingdomofgod]]<br>
+                            </div>
+
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -170,6 +226,11 @@
                             <div class="kwverse_1_1_4"> Ketika Ia berkumpul bersama mereka, Ia memerintahkan mereka untuk tidak meninggalkan Yerusalem, tetapi menantikan janji dari Bapa, dan tentang itu, Ia telah berkata, "<b data="0">Kamu telah mendengar dariKu</b> </div>
                             <strong><sup>5</sup></strong>
                             <div class="kwverse_1_1_5"> bahwa Yohanes membaptis dengan air, tetapi kamu akan dibaptis dengan <b data="0">Roh Kudus dalam</b> beberapa hari lagi." </div>
+                        </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -247,6 +308,11 @@
                             <strong><sup>8</sup></strong>
                             <div class="kwverse_1_2_8"> Tetapi kamu akan menerima kuasa, saat <b data="0">Roh Kudus</b> turun atas kamu, dan kamu akan menjadi saksiKu baik di Yerusalem dan di seluruh Yudea dan Samaria, dan sampai ke ujung bumi." </div>
                         </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>General Information:</h1>
@@ -319,6 +385,11 @@
                             <strong><sup>11</sup></strong>
                             <div class="kwverse_1_3_11"> Mereka berkata, "<b data="0">Kamu orang-orang Galilea</b>, mengapa kamu berdiri di sini memandang ke surga? Yesus yang terangkat ke surga akan kembali dengan cara yang sama sebagaimana kamu melihatNya naik ke surga." </div>
                         </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>as they were looking up</h1>
@@ -378,6 +449,11 @@
                             <div class="kwverse_1_4_13"> Ketika mereka tiba, mereka naik ke ruang atas, tempat mereka tinggal. <b data="0">Mereka adalah Petrus, Yohanes, Yakobus, Andreas, Filipus, Tomas, Bartolomeus, Matius, Yakobus putra Alfeus, Simon orang Zelot, dan Yudas putra Yakobus</b>. </div>
                             <strong><sup>14</sup></strong>
                             <div class="kwverse_1_4_14"> Mereka semua berkumpul menjadi satu, sebagaimana mereka bertekun dalam doa. Termasuk adalah para perempuan, Maria ibu Yesus, dan saudara-saudara Yesus. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -463,6 +539,11 @@
                             <strong><sup>16</sup></strong>
                             <div class="kwverse_1_5_16"> "Saudara-saudara, adalah penting agar tulisan firman harus digenapi, bahwa <b data="0">Roh Kudus</b> telah berkata melalui mulut Daud mengenai Yudas Iskariot, yang telah menuntun mereka yang menangkap Yesus. </div>
                         </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>Connecting Statement:</h1>
@@ -534,6 +615,11 @@
                             <strong><sup>19</sup></strong>
                             <div class="kwverse_1_6_19"> <b data="0">Semua yang hidup di Yerusalem</b> telah mendengar tentang hal ini, sebab itulah mereka menyebut ladang itu dalam bahasa mereka "Hakal-Dama," yaitu, "Tanah Darah.") </div>
                         </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>Connecting Statement:</h1>
@@ -596,6 +682,11 @@
                             <strong><sup>20</sup></strong>
                             <div class="kwverse_1_7_20"> Karena ada tertulis dalam <b data="0">Kitab Mazmur, 'Biarlah ladangnya menjadi terlantar</b>, dan jangan biarkan seorangpun menetap di sana'; dan, <b data="0">'Biarlah orang lain</b> mengambil kedudukannya dalam kepemimpinan.' </div>
                         </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>Connecting Statement:</h1>
@@ -653,6 +744,11 @@
                             <div class="kwverse_1_8_22"> mulai dari baptisan Yohanes hingga pada hari Ia diangkat dari antara kita, haruslah menjadi saksi bersama-sama dengan kita mengenai kebangkitanNya. </div>
                             <strong><sup>23</sup></strong>
                             <div class="kwverse_1_8_23"> Mereka mengajukan dua orang, <b data="0">Yusuf yang disebut Barsabas</b>, yang juga bernama Yustus, dan Matias. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -729,6 +825,11 @@
                             <div class="kwverse_1_9_25"> untuk menggantikan tempat dalam pelayanan ini dan kerasulan yang mana <b data="0">Yudas Iskariot</b> telah melanggarnya untuk pergi ke tempat yang telah menjadi miliknya. </div>
                             <strong><sup>26</sup></strong>
                             <div class="kwverse_1_9_26"> Mereka membuang undi terhadap keduanya; undi itu jatuh pada Matias sehingga ia telah terhitung di antara kesebelas rasul. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <button class="btn btn-primary"
+                                    data-demo="true"
+                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -882,6 +983,26 @@
             window.location.href = '/events/demo-tn/peer_review';
 
             return false;
+        });
+
+        $(".compare_notes button").click(function () {
+            var shown = $(this).data("shown");
+            var demo = $(this).data("demo");
+
+            if (demo) return;
+
+            var parent = $(this).parents(".note_chunk");
+            if (shown) {
+                $(".notes_target_compare", parent).hide();
+                $(".notes_target", parent).show();
+                $(this).data("shown", false);
+                $(this).removeClass("btn-danger").addClass("btn-primary");
+            } else {
+                $(".notes_target", parent).hide();
+                $(".notes_target_compare", parent).show();
+                $(this).data("shown", true);
+                $(this).removeClass("btn-primary").addClass("btn-danger");
+            }
         });
     });
 </script>
