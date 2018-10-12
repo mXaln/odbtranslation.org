@@ -61,14 +61,12 @@ if(empty($error) && empty($data["success"])):
                             <?php endif; ?>
                         </div>
                         <div class="compare_notes">
-                            <button class="btn btn-primary"
-                                    data-compare="<?php echo __("compare"); ?>"
-                                    data-latest="<?php echo __("latest_version"); ?>"
-                                    data-compare_hint="<?php echo __("compare_hint"); ?>"
-                                    data-latest_hint="<?php echo __("latest_version_hint"); ?>"
-                                    title="<?php echo __("latest_version_hint"); ?>">
-                                <?php echo __("latest_version"); ?>
-                            </button>
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <?php foreach(array_values($chunk) as $verse): ?>
@@ -241,24 +239,16 @@ if(empty($error) && empty($data["success"])):
             out.html(out.html().replace(/¶/g, ""));
         });
 
-        $(".compare_notes button").click(function () {
-            var shown = $(this).data("shown");
+        $(".compare_notes input").change(function () {
             var parent = $(this).parents(".note_chunk");
-            var compare = $(this).data("compare");
-            var compare_hint = $(this).data("compare_hint");
-            var latest = $(this).data("latest");
-            var latest_hint = $(this).data("latest_hint");
+            var active = $(this).prop('checked');
 
-            if (shown) {
+            if (active) {
                 $(".notes_target", parent).hide();
                 $(".notes_target_compare", parent).show();
-                $(this).data("shown", false).text(latest).prop("title", latest_hint);
-                $(this).removeClass("btn-danger").addClass("btn-primary");
             } else {
                 $(".notes_target_compare", parent).hide();
                 $(".notes_target", parent).show();
-                $(this).data("shown", true).text(compare).prop("title", compare_hint);
-                $(this).removeClass("btn-primary").addClass("btn-danger");
             }
         });
     });

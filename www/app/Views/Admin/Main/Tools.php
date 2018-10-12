@@ -49,6 +49,8 @@
                     <option value="vsail"><?php echo __("vsail") ?></option>
                     <option value="level2"><?php echo __("l2_3_events", [2]) ?></option>
                     <option value="notes"><?php echo __("tn") ?></option>
+                    <option value="questions"><?php echo __("tq") ?></option>
+                    <option value="words"><?php echo __("tw") ?></option>
                 </select>
             </div>
 

@@ -17,6 +17,8 @@ return array (
     "about_title" => "About",
     "bible" => "Bible",
     "members" => "Members",
+    "on" => "On",
+    "off" => "Off",
 
     // ------------ Members Controller ------------------ //
 

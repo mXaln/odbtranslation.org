@@ -17,6 +17,8 @@ return array (
     "about_title" => "Tentang",
     "bible" => "Alkitab",
     "members" => "Para Anggota",
+    "on" => "On",
+    "off" => "Off",
 
     // ------------ Members Controller ------------------ //
 

@@ -1988,7 +1988,7 @@ class AdminController extends Controller {
         $category = Input::get("category", "common");
         $text = Input::get("text", "");
 
-        if(trim($title) != "" && trim($text) != "" && preg_match("/^common|vmast|vsail|level2|notes$/", $category))
+        if(trim($title) != "" && trim($text) != "" && preg_match("/^common|vmast|vsail|level2|notes|questions|words$/", $category))
         {
             $data = [
                 "title" => $title,

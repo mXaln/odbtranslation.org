@@ -14,6 +14,8 @@ return array (
 	"about_title" => "О нас",
     "bible" => "Библия",
     "members" => "Пользователи",
+    "on" => "Вкл.",
+    "off" => "Выкл.",
 
     // ------------ Members Controller ------------------ //
 

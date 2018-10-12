@@ -17,6 +17,8 @@ return array (
     "about_title" => "Mahitungod",
     "bible" => "Bibliya",
     "members" => "Mga Miyembro",
+    "on" => "On",
+    "off" => "Off",
 
     // ------------ Members Controller ------------------ //
 
