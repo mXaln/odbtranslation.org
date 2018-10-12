@@ -61,8 +61,12 @@ if(empty($error) && empty($data["success"])):
                             <?php endif; ?>
                         </div>
                         <div class="compare_notes">
-                            <button class="btn btn-primary"
-                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <?php foreach(array_values($chunk) as $verse): ?>
@@ -235,19 +239,16 @@ if(empty($error) && empty($data["success"])):
             out.html(out.html().replace(/¶/g, ""));
         });
 
-        $(".compare_notes button").click(function () {
-            var shown = $(this).data("shown");
+        $(".compare_notes input").change(function () {
             var parent = $(this).parents(".note_chunk");
-            if (shown) {
-                $(".notes_target_compare", parent).hide();
-                $(".notes_target", parent).show();
-                $(this).data("shown", false);
-                $(this).removeClass("btn-danger").addClass("btn-primary");
-            } else {
+            var active = $(this).prop('checked');
+
+            if (active) {
                 $(".notes_target", parent).hide();
                 $(".notes_target_compare", parent).show();
-                $(this).data("shown", true);
-                $(this).removeClass("btn-primary").addClass("btn-danger");
+            } else {
+                $(".notes_target_compare", parent).hide();
+                $(".notes_target", parent).show();
             }
         });
     });

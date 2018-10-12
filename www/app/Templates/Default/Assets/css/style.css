@@ -4232,11 +4232,11 @@ button.startEvnt, button.editEvnt {
 
 .notes_target {
     margin-top: 20px;
+    display: none;
 }
 
 .notes_target_compare {
     margin-top: 20px;
-    display: none;
 }
 
 .compare_notes {
