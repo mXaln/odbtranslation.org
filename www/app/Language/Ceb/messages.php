@@ -462,8 +462,10 @@ return array (
     "group_id" => "Group {0}",
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
-    "compare" => "Compare",
-    "compare_hint" => "Compare checker's text with translator's text",
+    "compare" => "Comparison mode",
+    "compare_hint" => "Show the difference between the checker's version of the text and the translator's version of the text",
+    "latest_version" => "Latest Version",
+    "latest_version_hint" => "Show the checker's version of the translation only.",
     
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

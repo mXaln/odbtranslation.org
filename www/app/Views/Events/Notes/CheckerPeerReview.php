@@ -62,7 +62,13 @@ if(empty($error) && empty($data["success"])):
                         </div>
                         <div class="compare_notes">
                             <button class="btn btn-primary"
-                                    title="<?php echo __("compare_hint"); ?>"><?php echo __("compare"); ?></button>
+                                    data-compare="<?php echo __("compare"); ?>"
+                                    data-latest="<?php echo __("latest_version"); ?>"
+                                    data-compare_hint="<?php echo __("compare_hint"); ?>"
+                                    data-latest_hint="<?php echo __("latest_version_hint"); ?>"
+                                    title="<?php echo __("latest_version_hint"); ?>">
+                                <?php echo __("latest_version"); ?>
+                            </button>
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <?php foreach(array_values($chunk) as $verse): ?>
@@ -238,15 +244,20 @@ if(empty($error) && empty($data["success"])):
         $(".compare_notes button").click(function () {
             var shown = $(this).data("shown");
             var parent = $(this).parents(".note_chunk");
+            var compare = $(this).data("compare");
+            var compare_hint = $(this).data("compare_hint");
+            var latest = $(this).data("latest");
+            var latest_hint = $(this).data("latest_hint");
+
             if (shown) {
-                $(".notes_target_compare", parent).hide();
-                $(".notes_target", parent).show();
-                $(this).data("shown", false);
-                $(this).removeClass("btn-danger").addClass("btn-primary");
-            } else {
                 $(".notes_target", parent).hide();
                 $(".notes_target_compare", parent).show();
-                $(this).data("shown", true);
+                $(this).data("shown", false).text(latest).prop("title", latest_hint);
+                $(this).removeClass("btn-danger").addClass("btn-primary");
+            } else {
+                $(".notes_target_compare", parent).hide();
+                $(".notes_target", parent).show();
+                $(this).data("shown", true).text(compare).prop("title", compare_hint);
                 $(this).removeClass("btn-primary").addClass("btn-danger");
             }
         });
