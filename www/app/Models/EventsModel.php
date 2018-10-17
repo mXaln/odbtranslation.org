@@ -1448,6 +1448,7 @@ class EventsModel extends Model
 
     /** Get list of all languages
      * @param null $isGW (true - gateway, false - other, null - all)
+     * @param null $langs filter by list of lang ids
      * @return array
      */
     public function getAllLanguages($isGW = null, $langs = null)

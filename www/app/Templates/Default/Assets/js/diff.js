@@ -106,16 +106,14 @@ function htmlToText(html) {
     var match = re.exec(html);
     while (match != null) {
         html = html.replace(re, function(m, tag, text) {
-            console.log(m);
             var res = "";
             if(blocks.indexOf(tag) > -1) {
-                res += "\n";
+                res += "\n\n";
             }
             res += text + " ";
             return res;
         });
         match = re.exec(html);
     }
-    //alert(html.trim());
     return html.trim();
 }

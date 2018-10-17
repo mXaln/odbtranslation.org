@@ -176,6 +176,10 @@ return array (
     "all_members" => "Search members",
     "all_mems" => "All",
     "search_more" => "Load more...",
+    "proj_lang_select" => "Select the project language",
+    "select_project" => "Select the project",
+    "proj_lang_public" => "Project Language",
+    "projects_public" => "Projects",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",
@@ -460,9 +464,6 @@ return array (
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
     "compare" => "Comparison mode",
-    "compare_hint" => "Show the difference between the checker's version of the text and the translator's version of the text",
-    "latest_version" => "Latest Version",
-    "latest_version_hint" => "Show only the checker's version of the translation.",
 
     // Steps
     "pray" => "Preparation: Prayer",

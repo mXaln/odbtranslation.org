@@ -16,8 +16,9 @@
       }
     },
     validateForm: function(form) {
-      var inputs = form.find('input'),
+      var inputs = form.find('input,select'),
           valid = true;
+
       $(".popover").remove();
       $.each(inputs, function(index, val) {
         var input = $(val),
@@ -25,12 +26,22 @@
             formGroup = input.parents('.form-group'),
             label = input.parents('label'),
             emptyError = input.data("emptyError"),
-            inpytType = input.data("type"),
+            inputType = input.data("type"),
             errorVal = false;
-        if (val.length === 0) {
+
+        if (inputType == undefined) return true;
+
+        if (input.hasClass("select-chosen-single")) {
+            input = $(".chosen-single", formGroup);
+        }
+        if (input.hasClass("select-chosen-multiple")) {
+            input = $(".chosen-choices", formGroup);
+        }
+        
+        if (val == null || val.length === 0) {
           errorVal = emptyError;
         } else {
-          switch (inpytType) {
+          switch (inputType) {
           case 'login':
           if (!app.checkLogin(val)){
             errorVal = input.data("customError");

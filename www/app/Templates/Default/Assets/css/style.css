@@ -4225,6 +4225,10 @@ button.startEvnt, button.editEvnt {
     text-decoration: none; /*underline*/
 }
 
+.notes_target_compare br {
+    display:none;
+}
+
 .orig_text del {
     background: #ffd8d8;
     text-decoration: none; /*line-through*/

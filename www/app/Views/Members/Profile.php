@@ -380,7 +380,10 @@ $profile = $data["profile"];
         <select class="form-control language" data-placeholder="<?php echo __('select_search_lang_option'); ?>">
             <option></option>
             <?php foreach ($data["languages"] as $lang):?>
-                <option value="<?php echo $lang->langID; ?>"><?php echo "[".$lang->langID."] " . $lang->langName . ($lang->langName != $lang->angName ? " ( ".$lang->angName." )" : ""); ?></option>
+                <option value="<?php echo $lang->langID; ?>">
+                    <?php echo "[".$lang->langID."] " . $lang->langName .
+                        ($lang->angName != "" && $lang->langName != $lang->angName ? " ( ".$lang->angName." )" : ""); ?>
+                </option>
             <?php endforeach; ?>
         </select>
 
