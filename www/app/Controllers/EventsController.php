@@ -80,7 +80,7 @@ class EventsController extends Controller
             if(!preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
                 Url::redirect('events/demo');
         }
-        elseif(empty(Session::get("profile")))
+        elseif(!Session::get("profile")["complete"])
         {
             Url::redirect("members/profile");
         }

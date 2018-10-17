@@ -176,6 +176,10 @@ return array (
     "all_members" => "Поиск пользователей",
     "all_mems" => "Все",
     "search_more" => "Загрузить еще...",
+    "proj_lang_select" => "Выберите язык проекта",
+    "select_project" => "Выберите проект",
+    "proj_lang_public" => "Язык проекта",
+    "projects_public" => "Проекты",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -463,9 +467,6 @@ return array (
     "user_has_group_error" => "Вы не можете удалить эту группу, так как она назначена переводчику.",
     "tw_translate_hint" => "Внимание: Переводитк только Ключевые слова, Определения/Факты (Definitions/Facts) и Варианты перевода (Translation Suggestions).",
     "compare" => "Режим сравнения",
-    "compare_hint" => "Показать разницу между текстом проверяющего и текстом переводчика",
-    "latest_version" => "Последняя версия",
-    "latest_version_hint" => "Показать только версию перевода проверяющего.",
 
     // Steps
     "pray" => "Подготовка: Молитва",

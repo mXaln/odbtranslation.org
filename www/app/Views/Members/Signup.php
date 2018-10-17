@@ -25,6 +25,20 @@ use Shared\Legacy\Error;
               delay: 0,
               content:  "<?=$v?>"
             }).popover('show');
+    <?elseif(in_array($k, array('projects', 'proj_lang'))):?>
+        var formGroup = $("select#<?=$k?>").parents(".form-group");
+        formGroup.addClass('has-error');
+        var popover = $(".chosen-single", formGroup);
+        if ($("select#<?=$k?>").hasClass("select-chosen-multiple")) {
+            popover = $(".chosen-choices", formGroup);
+        }
+        popover.popover({
+            trigger: 'manual',
+            placement: 'right',
+            container: 'body',
+            delay: 0,
+            content:  "<?=$v?>"
+        }).popover('show');
     <?else:?>
       $("input[name=<?=$k?>]").popover({
               trigger: 'manual',
@@ -35,7 +49,7 @@ use Shared\Legacy\Error;
             }).popover('show');
     <?endif;?>
     <?endforeach;?>
-    })
+    });
     </script>
     <?endif;?>
     <form action='' method='post'>
@@ -67,6 +81,50 @@ use Shared\Legacy\Error;
         <div class="form-group">
             <label for="passwordConfirm" class="sr-only"><?php echo __('confirm_password'); ?></label>
             <input type="password" data-type="confirm" data-custom-error="<?=__('passwords_notmatch_error')?>" data-empty-error="<?=__('passwords_notmatch_error')?>" class="form-control input-lg" id="passwordConfirm" name="passwordConfirm" placeholder="<?php echo __('confirm_password'); ?>" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="projects" class="sr-only"><?php echo __('select_project'); ?>: </label>
+            <select id="projects"
+                    class="form-control input-lg select-chosen-multiple"
+                    name="projects[]"
+                    data-type="projects"
+                    data-empty-error="<?=__('projects_empty_error')?>"
+                    data-placeholder="<?php echo __("select_project") ?>"
+                    multiple>
+                <option></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("vmast", $_POST["projects"]) ? "selected" : "" ?>
+                        value="vmast"><?php echo __("8steps_vmast") ?></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("vsail", $_POST["projects"]) ? "selected" : "" ?>
+                        value="vsail"><?php echo __("vsail") ?></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("l2", $_POST["projects"]) ? "selected" : "" ?>
+                        value="l2"><?php echo __("l2_3_events", [2]) ?></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("tn", $_POST["projects"]) ? "selected" : "" ?>
+                        value="tn"><?php echo __("tn") ?></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("tq", $_POST["projects"]) ? "selected" : "" ?>
+                        value="tq"><?php echo __("tq") ?></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("tw", $_POST["projects"]) ? "selected" : "" ?>
+                        value="tw"><?php echo __("tw") ?></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="proj_lang" class="sr-only"><?php echo __('proj_lang_select'); ?>: </label>
+            <select id="proj_lang"
+                    class="form-control input-lg select-chosen-single"
+                    name="proj_lang"
+                    data-type="proj_lang"
+                    data-empty-error="<?=__('proj_lang_empty_error')?>"
+                    data-placeholder="<?php echo __('proj_lang_select'); ?>">
+                <option></option>
+                <?php foreach ($data["languages"] as $lang):?>
+                    <option <?php echo isset($_POST["proj_lang"]) && $lang->langID == $_POST["proj_lang"] ? "selected" : "" ?>
+                            value="<?php echo $lang->langID; ?>">
+                        <?php echo "[".$lang->langID."] " . $lang->langName .
+                            ($lang->angName != "" && $lang->langName != $lang->angName ? " ( ".$lang->angName." )" : ""); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <div class="form-group">
@@ -213,11 +271,53 @@ use Shared\Legacy\Error;
   </div>
 </div>
 <style>
-.popover {
-  z-index:5;
-}</style>
+    .popover {
+      z-index:5;
+    }
+    .chosen-choices {
+        min-height: 45px;
+    }
+    .chosen-single {
+        min-height: 45px;
+    }
+    .chosen-container {
+        font-size: 16px !important;
+    }
+    .search-choice {
+        line-height: 30px !important;
+    }
+    .chosen-container-single .chosen-single {
+        line-height: 42px !important;
+    }
+    .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+        height: 42px !important;
+    }
+    .has-error .chosen-choices, .has-error .chosen-single {
+        border-color: #a94442 !important;
+    }
+</style>
 <?
 Assets::js([
-    template_url('js/formvalidation.js')
+    template_url('js/formvalidation.js?2'),
+    template_url('js/chosen.jquery.min.js'),
+]);
+
+Assets::css([
+    template_url('css/chosen.min.css'),
 ]);
 ?>
+
+<script>
+    (function () {
+        $("select").chosen().change(function () {
+            formGroup = $(this).parents(".form-group");
+            formGroup.removeClass('has-error');
+            if ($(this).hasClass("select-chosen-single")) {
+                $(".chosen-single", formGroup).popover('destroy');
+            }
+            if ($(this).hasClass("select-chosen-multiple")) {
+                $(".chosen-choices", formGroup).popover('destroy');
+            }
+        });
+    })()
+</script>
