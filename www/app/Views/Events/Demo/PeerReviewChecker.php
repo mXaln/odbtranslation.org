@@ -240,6 +240,7 @@
                 <div class="tr_tools">
                     <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
                     <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
+                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
                 </div>
 
                 <div class="checker_view">
@@ -830,6 +831,243 @@
 
             <div class="word_def_title"></div>
             <div class="word_def_content"></div>
+        </div>
+    </div>
+</div>
+
+<div class="ttools_panel rubric_tool panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("show_rubric") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove" data-tool="rubric"></span>
+    </div>
+
+    <div class="ttools_content page-content panel-body">
+        <ul class="nav nav-tabs nav-justified read_rubric_tabs">
+            <li role="presentation" id="tab_orig" class="active"><a href="#">English demo1</a></li>
+            <li role="presentation" id='tab_eng'><a href="#">English</a></li>
+        </ul>
+        <div class="read_rubric_qualities">
+            <br>
+            <div class="read_rubric_quality orig" dir="ltr"> 1. Accessible </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Created in necessary formats. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it created in necessary formats? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Easily reproduced and distributed. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it easily reproduced? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                    <div class="read_rubric_measurement orig" dir="ltr"> 2. Is it easily distributed? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 3. Appropriate font, size and layout. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it in the appropriate font, size and layout? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 4. Editable. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it editable? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 2. Faithful </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Reflects Original Text. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does in reflect original text? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. True to Greek and Hebrew. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it true to Greek and Hebrew? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 3. Does not have additions or deletions. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it have additions or deletions? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 4. Names of God retained. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are the names of God retained? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 5. Accurate key terms/key words. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are key terms/words accurate? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 3. Culturally Relevant </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Idioms are understandable </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are idioms understandable? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Words and expressions appropriate for local culture. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are words and expressions appropriate for local culture? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 3. Reflects original language artistry. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it reflect original language artistry? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 4. Captures literary genres. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are literary genres captured accurately? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 4. Clear </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Meaning is clear. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is the meaning clear? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Uses common language. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it use common language? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 3. Easily understood by wide audience. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it easily understood by a wide audience? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 5. Proper Grammar </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Follows grammar norms. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it follow grammar norms? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Correct punctuation. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is correct punctuation used? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 6. Consistent </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Translation reflects contextual meaning. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the translation reflect contextual meaning? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Does not contradict itself. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the text contradict itself? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 3. Writing style consistent. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is the writing style consistent? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 7. Historically Accurate </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. All names, dates, places, events are accurately represented. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are all names accurately represented? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                    <div class="read_rubric_measurement orig" dir="ltr"> 2. Are all dates accurately represented? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                    <div class="read_rubric_measurement orig" dir="ltr"> 3. Are all places accurately represented? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                    <div class="read_rubric_measurement orig" dir="ltr"> 4. Are all events accurately represented? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 8. Natural </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Translation uses common and natural language. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the translation use common and natural language? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Pleasant to read/listen to. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. It is pleasant to read/listen to? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 3. Easy to read. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it easy to read? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 9. Objective </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Translation does not explain or commentate. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the translation explain or commentate? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+                <div class="read_rubric_def orig" dir="ltr"> 2. Translation is free of political, social, denominational bias. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is translation is free of political bias? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                    <div class="read_rubric_measurement orig" dir="ltr"> 2. Is translation is free of social bias? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                    <div class="read_rubric_measurement orig" dir="ltr"> 3. Is translation is free of denominational bias? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
+            <div class="read_rubric_quality orig" dir="ltr"> 10. Widely Accepted </div>
+            <div class="read_rubric_quality eng" style="display: none;"> </div>
+            <div class="read_rubric_defs">
+                <div class="read_rubric_def orig" dir="ltr"> 1. Translation is widely accepted by local church. </div>
+                <div class="read_rubric_def eng" style="display: none;"> </div>
+                <div class="read_rubric_measurements">
+                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is translation widely accepted by the local church? </div>
+                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

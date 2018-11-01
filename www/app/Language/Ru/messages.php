@@ -180,6 +180,7 @@ return array (
     "select_project" => "Выберите проект",
     "proj_lang_public" => "Язык проекта",
     "projects_public" => "Проекты",
+    "show_rubric" => "Рубрика",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -674,7 +675,7 @@ return array (
                 <li>This step should take about 10 minutes.</li>
                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
-    "fst-check" => "Провека текста",
+    "fst-check" => "Проверка текста",
     "fst-check_full" => "1ая проверка: Целевой текст",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                         <li>The column on the left is the source text and the right is editable target text.</li>

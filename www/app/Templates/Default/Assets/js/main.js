@@ -2302,24 +2302,39 @@ $(document).ready(function() {
 
 
     // Translation tools
-    $(".ttools_panel").draggable({snap: 'inner'});
+    $(".ttools_panel").draggable({snap: 'inner', handle: '.panel-heading'});
 
     $(".ttools").click(function (e) {
         var tool = $(this).data("tool");
+        var container = $(".ttools_panel."+tool+"_tool");
 
-        switch (tool) {
-            case "tn":
-                $(".ttools_panel.tn_tool").css("top", $(window).scrollTop() + 100).show();
-                break;
-            case "tq":
-                $(".ttools_panel.tq_tool").css("top", $(window).scrollTop() + 100).show();
-                break;
-            case "tw":
-                $(".ttools_panel.tw_tool").css("top", $(window).scrollTop() + 100).show();
-                break;
+        if (container.length <= 0) {
+            renderPopup(Language.resource_not_found);
+            return;
         }
 
+        container.css("top", $(window).scrollTop() + 50).show();
         e.preventDefault();
+    });
+
+    // Show/hide original/english content of a rubric
+    $(".read_rubric_tabs li").click(function(e) {
+        e.preventDefault();
+        var id = $(this).attr("id");
+        $(this).addClass("active");
+
+        if(id == "tab_orig")
+        {
+            $("#tab_eng").removeClass("active");
+            $(".read_rubric_qualities .orig").show();
+            $(".read_rubric_qualities .eng").hide();
+        }
+        else
+        {
+            $("#tab_orig").removeClass("active");
+            $(".read_rubric_qualities .orig").hide();
+            $(".read_rubric_qualities .eng").show();
+        }
     });
 
     $("body").on("click", ".ttools_panel .panel-close", function () {
@@ -2334,6 +2349,9 @@ $(document).ready(function() {
                 break;
             case "tw":
                 $(".ttools_panel.tw_tool").hide();
+                break;
+            case "rubric":
+                $(".ttools_panel.rubric_tool").hide();
                 break;
         }
     });
@@ -2574,7 +2592,7 @@ function parseCombinedVerses(verse)
     return versesArr;
 }
 
-function unEscapeStr(string) {
+function ttools(string) {
     return $('<div/>').html(string).text();
 }
 
