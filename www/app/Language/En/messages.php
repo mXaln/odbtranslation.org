@@ -180,6 +180,7 @@ return array (
     "select_project" => "Select the project",
     "proj_lang_public" => "Project Language",
     "projects_public" => "Projects",
+    "show_rubric" => "Rubric",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",

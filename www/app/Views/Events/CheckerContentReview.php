@@ -205,6 +205,7 @@ if(empty($error) && empty($data["success"])):
                     <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
                     <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
                     <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
                 </div>
                 <?php endif; ?>
             </div>
@@ -214,116 +215,169 @@ if(empty($error) && empty($data["success"])):
     <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
-<?php if($data["event"][0]->sourceBible == "ulb"): ?>
-<div class="ttools_panel tn_tool panel panel-default" draggable="true">
-    <div class="panel-heading">
-        <h1 class="panel-title"><?php echo __("tn") ?></h1>
-        <span class="panel-close glyphicon glyphicon-remove" data-tool="tn"></span>
-    </div>
-
-    <div class="ttools_content page-content panel-body">
-        <div class="labels_list">
-            <?php if(isset($data["notes"])): ?>
-                <?php foreach ($data["notes"] as $verse => $notes): ?>
-                    <?php $chunkVerses = $data["notesVerses"][$verse]; ?>
-                    <label>
-                        <ul>
-                            <li>
-                                <div class="word_term">
-                                    <span style="font-weight: bold;">
-                                        <?php echo $chunkVerses > 0 ? __("verse_number", $chunkVerses) :
-                                            __("intro")?>
-                                    </span>
-                                </div>
-                                <div class="word_def">
-                                    <?php foreach ($notes as $note): ?>
-                                        <?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $note) ?>
-                                    <?php endforeach; ?>
-                                </div>
-                            </li>
-                        </ul>
-                    </label>
-                <?php endforeach; ?>
-            <?php endif; ?>
+    <?php if(!empty($data["notes"])): ?>
+    <div class="ttools_panel tn_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("tn") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="tn"></span>
         </div>
-        <div class="word_def_popup">
-            <div class="word_def-close glyphicon glyphicon-remove"></div>
 
-            <div class="word_def_title"></div>
-            <div class="word_def_content"></div>
-        </div>
-    </div>
-</div>
+        <div class="ttools_content page-content panel-body">
+            <div class="labels_list">
+                <?php if(isset($data["notes"])): ?>
+                    <?php foreach ($data["notes"] as $verse => $notes): ?>
+                        <?php $chunkVerses = $data["notesVerses"][$verse]; ?>
+                        <label>
+                            <ul>
+                                <li>
+                                    <div class="word_term">
+                                <span style="font-weight: bold;">
+                                    <?php echo $chunkVerses > 0 ? __("verse_number", $chunkVerses) :
+                                        __("intro")?>
+                                </span>
+                                    </div>
+                                    <div class="word_def">
+                                        <?php foreach ($notes as $note): ?>
+                                            <?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $note) ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </li>
+                            </ul>
+                        </label>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div class="word_def_popup">
+                <div class="word_def-close glyphicon glyphicon-remove"></div>
 
-<div class="ttools_panel tq_tool panel panel-default" draggable="true">
-    <div class="panel-heading">
-        <h1 class="panel-title"><?php echo __("tq") ?></h1>
-        <span class="panel-close glyphicon glyphicon-remove" data-tool="tq"></span>
-    </div>
-
-    <div class="ttools_content my_content page-content panel-body">
-        <div class="labels_list">
-            <?php if(isset($data["questions"])): ?>
-                <?php foreach ($data["questions"] as $verse => $questions): ?>
-                    <label>
-                        <ul>
-                            <li>
-                                <div class="word_term">
-                                    <span style="font-weight: bold;"><?php echo __("verse_number", $verse) ?> </span>
-                                </div>
-                                <div class="word_def">
-                                    <?php foreach ($questions as $question): ?>
-                                        <?php echo preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $question) ?>
-                                    <?php endforeach; ?>
-                                </div>
-                            </li>
-                        </ul>
-                    </label>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
-        <div class="word_def_popup">
-            <div class="word_def-close glyphicon glyphicon-remove"></div>
-
-            <div class="word_def_title"></div>
-            <div class="word_def_content"></div>
+                <div class="word_def_title"></div>
+                <div class="word_def_content"></div>
+            </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
 
-<div class="ttools_panel tw_tool panel panel-default" draggable="true">
-    <div class="panel-heading">
-        <h1 class="panel-title"><?php echo __("tw") ?></h1>
-        <span class="panel-close glyphicon glyphicon-remove" data-tool="tw"></span>
-    </div>
-
-    <div class="ttools_content page-content panel-body">
-        <div class="labels_list">
-            <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
-                <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
-                    <?php if(!isset($tWord["text"])) continue; ?>
-                    <label>
-                        <ul>
-                            <li>
-                                <div class="word_term">
-                                    <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
-                                    (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
-                                </div>
-                                <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
-                            </li>
-                        </ul>
-                    </label>
-                <?php endforeach; ?>
-            <?php endif; ?>
+    <?php if(!empty($data["questions"])): ?>
+    <div class="ttools_panel tq_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("tq") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="tq"></span>
         </div>
-        <div class="word_def_popup">
-            <div class="word_def-close glyphicon glyphicon-remove"></div>
 
-            <div class="word_def_title"></div>
-            <div class="word_def_content"></div>
+        <div class="ttools_content my_content page-content panel-body">
+            <div class="labels_list">
+                <?php if(isset($data["questions"])): ?>
+                    <?php foreach ($data["questions"] as $verse => $questions): ?>
+                        <label>
+                            <ul>
+                                <li>
+                                    <div class="word_term">
+                                        <span style="font-weight: bold;"><?php echo __("verse_number", $verse) ?> </span>
+                                    </div>
+                                    <div class="word_def">
+                                        <?php foreach ($questions as $question): ?>
+                                            <?php echo preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $question) ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </li>
+                            </ul>
+                        </label>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div class="word_def_popup">
+                <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                <div class="word_def_title"></div>
+                <div class="word_def_content"></div>
+            </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
+
+    <?php if(!empty($data["keywords"])): ?>
+    <div class="ttools_panel tw_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("tw") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="tw"></span>
+        </div>
+
+        <div class="ttools_content page-content panel-body">
+            <div class="labels_list">
+                <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
+                    <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
+                        <?php if(!isset($tWord["text"])) continue; ?>
+                        <label>
+                            <ul>
+                                <li>
+                                    <div class="word_term">
+                                        <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
+                                        (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
+                                    </div>
+                                    <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
+                                </li>
+                            </ul>
+                        </label>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div class="word_def_popup">
+                <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                <div class="word_def_title"></div>
+                <div class="word_def_content"></div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+    <?php if (!empty($data["rubric"])): ?>
+    <div class="ttools_panel rubric_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("show_rubric") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="rubric"></span>
+        </div>
+
+        <div class="ttools_content page-content panel-body">
+            <ul class="nav nav-tabs nav-justified read_rubric_tabs">
+                <li role="presentation" id="tab_orig" class="active"><a href="#"><?php echo $data["rubric"]->language->langName ?></a></li>
+                <li role="presentation" id='tab_eng'><a href="#">English</a></li>
+            </ul>
+            <div class="read_rubric_qualities">
+                <br>
+                <?php $tr=1; foreach($data["rubric"]->qualities as $quality): ?>
+                    <div class="read_rubric_quality orig" dir="<?php echo $data['rubric']->language->direction ?>">
+                        <?php echo !empty($quality->content) ? sprintf('%01d', $tr) . ". " .  $quality->content : ""; ?>
+                    </div>
+                    <div class="read_rubric_quality eng">
+                        <?php echo !empty($quality->eng) ? sprintf('%01d', $tr) . ". " . $quality->eng : ""; ?>
+                    </div>
+
+                    <div class="read_rubric_defs">
+                        <?php $df=1; foreach($quality->defs as $def): ?>
+                            <div class="read_rubric_def orig" dir="<?php echo $data['rubric']->language->direction ?>">
+                                <?php echo !empty($def->content) ? sprintf('%01d', $df) . ". " . $def->content : ""; ?>
+                            </div>
+                            <div class="read_rubric_def eng">
+                                <?php echo !empty($def->eng) ? sprintf('%01d', $df) . ". " . $def->eng : ""; ?>
+                            </div>
+
+                            <div class="read_rubric_measurements">
+                                <?php $ms=1; foreach($def->measurements as $measurement): ?>
+                                    <div class="read_rubric_measurement orig" dir="<?php echo $data['rubric']->language->direction ?>">
+                                        <?php echo !empty($measurement->content) ? sprintf('%01d', $ms) . ". " . $measurement->content : ""; ?>
+                                    </div>
+                                    <div class="read_rubric_measurement eng">
+                                        <?php echo !empty($measurement->eng) ? sprintf('%01d', $ms) . ". " . $measurement->eng : ""; ?>
+                                    </div>
+                                    <?php $ms++; endforeach; ?>
+                            </div>
+                            <?php $df++; endforeach; ?>
+                    </div>
+                    <?php $tr++; endforeach; ?>
+            </div>
+        </div>
+    </div>
 <?php endif; ?>
 
 <div class="tutorial_container">

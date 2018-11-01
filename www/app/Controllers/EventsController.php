@@ -306,6 +306,7 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -348,6 +349,7 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -413,6 +415,7 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -471,6 +474,7 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -509,6 +513,7 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                                 $translationData = $this->_translationModel
                                     ->getEventTranslation($data["event"][0]->trID, $data["event"][0]->currentChapter, $data["event"][0]->currentChunk);
@@ -659,6 +664,8 @@ class EventsController extends Controller
                                     $data["words"] = json_encode($words->toArray());
                                 }
 
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
                                 $data["questions"] = $this->getTranslationQuestions(
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
@@ -748,6 +755,8 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                                 $data["questions"] = $this->getTranslationQuestions(
                                     $data["event"][0]->bookCode,
@@ -846,6 +855,8 @@ class EventsController extends Controller
                                 }
                                 $data["translation"] = $translation;
 
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
                                 $data["keywords"] = $this->getTranslationWords(
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
@@ -915,6 +926,8 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                                 $data["keywords"] = $this->getTranslationWords(
                                     $data["event"][0]->bookCode,
@@ -3716,7 +3729,7 @@ class EventsController extends Controller
                         $data = $sourceText;
                         $data["translation"] = $translation;
 
-
+                        $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                         if($data["event"][0]->step == EventSteps::KEYWORD_CHECK
                             || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
@@ -4884,7 +4897,7 @@ class EventsController extends Controller
                 $data["error"] = true;
                 $error[] = __("wrong_event_state_error");
 
-                return View::make('Events/L2/Checker')
+                return View::make('Events/SUN/Checker')
                     ->shares("title", $title)
                     ->shares("data", $data)
                     ->shares("error", @$error);
@@ -4895,7 +4908,7 @@ class EventsController extends Controller
             $error[] = __("not_in_event_error");
             $title = "Error";
 
-            return View::make('Events/L2/Checker')
+            return View::make('Events/SUN/Checker')
                 ->shares("title", $title)
                 ->shares("data", $data)
                 ->shares("error", @$error);
@@ -5432,6 +5445,8 @@ class EventsController extends Controller
                             {
                                 $data = $sourceText;
 
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
                                 $translationData = $this->_translationModel->getEventTranslationByEventID(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter
@@ -5491,6 +5506,8 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -5765,6 +5782,8 @@ class EventsController extends Controller
                             {
                                 $data = $sourceText;
 
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -5902,6 +5921,8 @@ class EventsController extends Controller
                             {
                                 $data = $sourceText;
 
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -5983,6 +6004,8 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
+
+                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -8944,14 +8967,17 @@ class EventsController extends Controller
             $to_step !== null)
         {
             $userType = EventMembers::TRANSLATOR;
-            if($manageMode == "l2")
+            $finishedState = EventStates::TRANSLATED;
+            if($manageMode == "l2") {
                 $userType = EventMembers::L2_CHECKER;
+                $finishedState = EventStates::L2_CHECKED;
+            }
 
             $member = $this->_model->getMemberEvents($memberID, $userType, $eventID, true, false);
 
             if(!empty($member))
             {
-                if(EventStates::enum($member[0]->state) < EventStates::enum(EventStates::TRANSLATED))
+                if(EventStates::enum($member[0]->state) < EventStates::enum($finishedState))
                 {
                     $mode = $member[0]->bookProject;
 

@@ -4792,6 +4792,50 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
+.ttools_panel.rubric_tool {
+    width: 800px;
+    left: calc(50% - 400px);
+}
+
+.read_rubric_qualities {
+    height: 600px;
+    overflow-y: auto;
+    margin: 20px;
+    font-size: 18px;
+}
+
+.read_rubric_qualities .eng {
+    display: none;
+}
+
+.read_rubric_quality {
+    color: #337ab7;
+    font-weight: bold;
+}
+
+.read_rubric_def {
+    margin: 10px 0 0 50px;
+    color: #449d44;
+}
+
+.read_rubric_def[dir="rtl"] {
+    margin: 10px 50px 0 0;
+}
+
+.read_rubric_measurement {
+    margin: 10px 0 0 100px;
+    color: #ec971f;
+    font-style: italic;
+}
+
+.read_rubric_measurement[dir="rtl"] {
+    margin: 10px 100px 0 0;
+}
+
+.read_rubric_tabs > .active {
+    font-weight: bold;
+}
+
 .ttools_panel .panel-heading {
     cursor: move;
     background-color: #0096c3;
