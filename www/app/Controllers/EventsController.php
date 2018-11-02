@@ -151,8 +151,6 @@ class EventsController extends Controller
             }
         }
 
-        //$myLangs = array_keys(Session::get("profile")["languages"]);
-        
         $data["myTranslatorEvents"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, null, false, false);
         $data["newEvents"] = []; //$this->_model->getNewEvents($myLangs, Session::get("memberID"));
         $data["myCheckerL1Events"] = $this->_model->getMemberEventsForChecker(Session::get("memberID"));
@@ -166,7 +164,6 @@ class EventsController extends Controller
             $tqCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
         $data["myCheckerL3Events"] = [];
-        //$data["myCheckerL3Events"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L3_CHECKER);
 
         // Extract facilitators from events
         $admins = [];
@@ -224,7 +221,10 @@ class EventsController extends Controller
                 Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
@@ -1225,7 +1225,11 @@ class EventsController extends Controller
                     Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > -1 ? ($data["event"][0]->currentChapter == 0
+                    ? __("front") : $data["event"][0]->currentChapter) : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if(($data["event"][0]->state == EventStates::TRANSLATING 
                 || $data["event"][0]->state == EventStates::TRANSLATED))
@@ -1779,7 +1783,10 @@ class EventsController extends Controller
                     Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if(($data["event"][0]->state == EventStates::TRANSLATING
                 || $data["event"][0]->state == EventStates::TRANSLATED))
@@ -2374,7 +2381,7 @@ class EventsController extends Controller
                     Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            //$title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
 
             if(($data["event"][0]->state == EventStates::TRANSLATING
                 || $data["event"][0]->state == EventStates::TRANSLATED))
@@ -2414,6 +2421,13 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceTextWords))
                             {
                                 $data = $sourceTextWords;
+
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
                             }
                             else
                             {
@@ -2474,6 +2488,13 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceTextWords))
                             {
                                 $data = $sourceTextWords;
+
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
 
                                 $translationData = $this->_translationModel->getEventTranslation(
                                     $data["event"][0]->trID,
@@ -2576,6 +2597,13 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceTextWords))
                             {
                                 $data = $sourceTextWords;
+
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -2697,6 +2725,13 @@ class EventsController extends Controller
                             {
                                 $data = $sourceTextWords;
 
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
+
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -2793,6 +2828,13 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceTextWords))
                             {
                                 $data = $sourceTextWords;
+
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -2972,7 +3014,10 @@ class EventsController extends Controller
                     Url::redirect("events/translator-".$data["event"][0]->bookProject."/".$eventID);
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
@@ -3834,7 +3879,11 @@ class EventsController extends Controller
                 Url::redirect("events/");
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > -1 ? ($data["event"][0]->currentChapter == 0
+                    ? __("front") : $data["event"][0]->currentChapter) : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
@@ -4492,7 +4541,10 @@ class EventsController extends Controller
                 Url::redirect("events/");
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
@@ -4946,7 +4998,10 @@ class EventsController extends Controller
                 Url::redirect("events/");
             }
 
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::TRANSLATING || $data["event"][0]->state == EventStates::TRANSLATED)
             {
@@ -5203,6 +5258,13 @@ class EventsController extends Controller
                             {
                                 $data = $sourceTextWords;
 
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
+
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -5267,6 +5329,13 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceTextWords))
                             {
                                 $data = $sourceTextWords;
+
+                                $title = $data["event"][0]->name
+                                    . " " . ($data["event"][0]->currentChapter > 0
+                                        ? " [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]"
+                                        : "")
+                                    . " - " . $data["event"][0]->tLang
+                                    . " - " . __($data["event"][0]->bookProject);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -5360,7 +5429,10 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::L2_CHECK || $data["event"][0]->state == EventStates::L2_CHECKED)
             {
@@ -5739,7 +5811,10 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
-            $title = $data["event"][0]->name ." - ". $data["event"][0]->tLang ." - ". __($data["event"][0]->bookProject);
+            $title = $data["event"][0]->name
+                . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
+                . " - " . $data["event"][0]->tLang
+                . " - " . __($data["event"][0]->bookProject);
 
             if($data["event"][0]->state == EventStates::L2_CHECK || $data["event"][0]->state == EventStates::L2_CHECKED)
             {
