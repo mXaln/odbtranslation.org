@@ -295,6 +295,7 @@ $profile = Session::get("profile");
         $eventImg = $mode != "sun"
             ? template_url("img/steps/big/peer-review.png")
             : template_url("img/steps/big/vsail.png");
+        $tw_group = $event->bookProject == "tw" ? json_decode($event->words, true) : [];
         ?>
         <div class="event_block <?php echo $key%2 == 0 ? "green-marked" : "" ?>">
             <div class="event_logo translation">
@@ -345,8 +346,11 @@ $profile = Session::get("profile");
                             $step = EventSteps::BLIND_DRAFT;
                         ?>
                         <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                        <?php echo ($event->currentChapter > 0 ? __("chapter_number", 
-                            array($event->currentChapter)). ", " : "")
+                        <?php echo ($event->currentChapter > 0
+                                ? ($event->bookProject == "tw"
+                                    ? "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
+                                    : __("chapter_number", array($event->currentChapter))). ", "
+                                : ($event->currentChapter == 0 && in_array($event->bookProject, ["tn"]) ? __("front") : ""))
                                 .__($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" :
                                     ($event->bookProject == "sun" && $event->step == EventSteps::CHUNKING ? "_sun" : ""))) ?>
                     </div>
@@ -381,6 +385,7 @@ $profile = Session::get("profile");
             $eventImg = $mode != "sun"
                 ? template_url("img/steps/icons/". $event->step ."-gray.png")
                 : template_url("img/steps/big/vsail.png");
+            $tw_group = $event->bookProject == "tw" ? json_decode($event->words, true) : [];
         ?>
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
@@ -426,7 +431,11 @@ $profile = Session::get("profile");
                         $step = EventSteps::BLIND_DRAFT;
                     ?>
                     <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                    <?php echo __("chapter_number", array($event->currentChapter)) ?>
+                    <?php echo ($event->currentChapter > 0
+                        ? ($event->bookProject == "tw" ?
+                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
+                            : __("chapter_number", array($event->currentChapter)))
+                        : __("front")) ?>
                 </div>
             </div>
             <div class="event_action check1">
