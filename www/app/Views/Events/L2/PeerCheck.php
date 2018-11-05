@@ -278,8 +278,8 @@ use Helpers\Constants\EventMembers;
     </div>
 </div>
 
-<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?6")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js?2")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?7")?>"></script>
 <script>
     (function() {
         $(".my_tab").click(function () {

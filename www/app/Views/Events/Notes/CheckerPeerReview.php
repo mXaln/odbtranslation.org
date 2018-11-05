@@ -198,8 +198,8 @@ if(empty($error) && empty($data["success"])):
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?6")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js?2")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?7")?>"></script>
 <script>
     var isChecker = true;
     var disableHighlight = true;
@@ -232,11 +232,6 @@ if(empty($error) && empty($data["success"])):
             if(typeof elm1 == "undefined") return true;
 
             diff_plain(htmlToText(elm1), htmlToText(elm2), out);
-
-            out.html(out.html().replace(/&amp;nbsp;/g, " "));
-            out.html(out.html().replace(/&amp;gt;/g, ">"));
-            out.html(out.html().replace(/&amp;lt;/g, "<"));
-            out.html(out.html().replace(/¶/g, ""));
         });
 
         $(".compare_notes input").change(function () {
