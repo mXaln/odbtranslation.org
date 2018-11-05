@@ -2592,7 +2592,7 @@ function parseCombinedVerses(verse)
     return versesArr;
 }
 
-function ttools(string) {
+function unEscapeStr(string) {
     return $('<div/>').html(string).text();
 }
 
