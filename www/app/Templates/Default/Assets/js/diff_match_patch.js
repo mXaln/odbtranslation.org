@@ -1267,7 +1267,7 @@ diff_match_patch.prototype.diff_prettyHtml = function(diffs) {
                 html[x] = '<del style="background:#ffe6e6;">' + text + '</del>';
                 break;
             case DIFF_EQUAL:
-                html[x] = '<div>' + text + '</div>';
+                html[x] = '<span>' + text + '</span>';
                 break;
         }
     }
