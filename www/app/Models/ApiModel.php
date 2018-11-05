@@ -167,6 +167,83 @@ class ApiModel extends Model
     }
 
 
+    public function downloadRubricFromApi($lang = "en") {
+        $folderPath = "../app/Templates/Default/Assets/source/".$lang."_rubric/";
+        $filepath = $folderPath . "rubric.json";
+        $url = "https://v-raft.com/api/rubric/" . $lang;
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+
+        $rubric = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            curl_close($ch);
+            return false;
+        }
+
+        curl_close($ch);
+
+        if ($rubric != "[]" && File::makeDirectory($folderPath, 0755, true)) {
+            File::put($filepath, $rubric);
+
+            if(File::exists($filepath))
+            {
+                return $filepath;
+            }
+        }
+
+        return false;
+    }
+
+
+    public function getRubricFromApi($lang = "en") {
+        $rubric = false;
+        $filepath = "../app/Templates/Default/Assets/source/".$lang."_rubric/rubric.json";
+
+        if(File::exists($filepath))
+        {
+            $rubric = File::get($filepath);
+        }
+        else
+        {
+            if ($this->downloadRubricFromApi($lang)) {
+                $rubric = File::get($filepath);
+            }
+        }
+
+        return $rubric;
+    }
+
+
+    public function getCachedRubricFromApi($lang = "en") {
+        $cache_keyword = $lang."_rubric";
+        $rubric = [];
+        if(Cache::has($cache_keyword))
+        {
+            $source = Cache::get($cache_keyword);
+            $rubric = json_decode($source);
+        }
+        else
+        {
+            $source = $this->getRubricFromApi($lang);
+            if($source)
+            {
+                Cache::add($cache_keyword, $source, 60*24*365);
+                $rubric = json_decode($source);
+            }
+        }
+
+        return $rubric;
+    }
+
 
     public function insertLangsFromTD()
     {

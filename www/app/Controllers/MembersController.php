@@ -109,6 +109,10 @@ class MembersController extends Controller
         {
             $_POST = Gump::xss_clean($_POST);
 
+            $userName = isset($_POST["userName"]) ? $_POST['userName'] : "";
+            $firstName = isset($_POST["firstName"]) ? $_POST['firstName'] : "";
+            $lastName = isset($_POST["lastName"]) ? $_POST['lastName'] : "";
+
             $avatar = isset($_POST["avatar"]) && preg_match("/^([f|m][1-9]|[f|m]1[0-9]|[f|m]20)$/", $_POST["avatar"]) ? $_POST["avatar"] : "m1";
             $prefered_roles = isset($_POST["prefered_roles"]) && !empty($_POST["prefered_roles"]) ? (array)$_POST["prefered_roles"] : null;
             $langs = isset($_POST["langs"]) && !empty($_POST["langs"]) ? (array)$_POST["langs"] : null;
@@ -130,6 +134,27 @@ class MembersController extends Controller
             $education = isset($_POST["education"]) && !empty($_POST["education"]) ? (array)$_POST["education"] : array();
             $ed_area = isset($_POST["ed_area"]) && !empty($_POST["ed_area"]) ? (array)$_POST["ed_area"] : array();
             $ed_place = isset($_POST["ed_place"]) && trim($_POST["ed_place"]) != "" ? trim($_POST["ed_place"]) : "";
+
+            if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
+            {
+                $data["errors"]['userName'] = true;
+            }
+
+            if (strlen($userName) < 5 || strlen($userName) > 20)
+            {
+                $data["errors"]['userName'] = true;
+            }
+
+            if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
+            {
+                $data["errors"]['firstName'] = true;
+            }
+
+            if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
+            {
+                $data["errors"]['lastName'] = true;
+            }
+
 
             if($prefered_roles == null)
             {
@@ -256,8 +281,19 @@ class MembersController extends Controller
 
             if(empty($data["errors"]))
             {
+                $this->_model->updateMember([
+                    "userName" => $userName,
+                    "firstName" => $firstName,
+                    "lastName" => $lastName
+                ], [
+                    "memberID" => Session::get("memberID")
+                ]);
+
+                Session::set("userName", $userName);
+                Session::set("firstName", $firstName);
+                Session::set("lastName", $lastName);
+
                 $postdata = array(
-                    "mID" => Session::get("memberID"),
                     "avatar" => $avatar,
                     "prefered_roles" => json_encode($prefered_roles),
                     "languages" => json_encode($languages),
@@ -276,58 +312,27 @@ class MembersController extends Controller
                     "ed_place" => $ed_place,
                     "hebrew_knwlg" => $hebrew_knwlg,
                     "greek_knwlg" => $greek_knwlg,
-                    "church_role" => json_encode($church_role)
+                    "church_role" => json_encode($church_role),
+                    "complete" => true
                 );
 
-                if(empty($profile))
-                {
-                    // Create new profile
-                    $pID = $this->_model->createProfile($postdata);
+                $this->_model->updateProfile($postdata, array("pID" => $profile["pID"]));
 
-                    if($pID)
-                    {
-                        $postdata["pID"] = $pID;
-                        $postdata["languages"] = $langArr;
-                        $postdata["prefered_roles"] = $prefered_roles;
-                        $postdata["mast_role"] = $mast_role;
-                        $postdata["education"] = $education;
-                        $postdata["ed_area"] = $ed_area;
-                        $postdata["church_role"] = $church_role;
+                $postdata["pID"] = $profile["pID"];
+                $postdata["languages"] = $langArr;
+                $postdata["prefered_roles"] = $prefered_roles;
+                $postdata["mast_role"] = $mast_role;
+                $postdata["education"] = $education;
+                $postdata["ed_area"] = $ed_area;
+                $postdata["church_role"] = $church_role;
 
-                        $profile = $postdata;
-                        $profile["rating"] = $this->calculateMemberRating($profile);
+                $profile = $postdata;
+                //$profile["rating"] = $this->calculateMemberRating($profile);
 
-                        Session::set("profile", $profile);
-                        Session::set("success", __("update_profile_success"));
+                Session::set("profile", $profile);
+                Session::set("success", __("update_profile_success"));
 
-                        Url::redirect("members/profile");
-                    }
-                    else
-                    {
-                        $error[] = __('update_profile_error');
-                    }
-                }
-                else
-                {
-                    // Update profile
-                    $this->_model->updateProfile($postdata, array("pID" => $profile["pID"]));
-
-                    $postdata["pID"] = $profile["pID"];
-                    $postdata["languages"] = $langArr;
-                    $postdata["prefered_roles"] = $prefered_roles;
-                    $postdata["mast_role"] = $mast_role;
-                    $postdata["education"] = $education;
-                    $postdata["ed_area"] = $ed_area;
-                    $postdata["church_role"] = $church_role;
-
-                    $profile = $postdata;
-                    $profile["rating"] = $this->calculateMemberRating($profile);
-
-                    Session::set("profile", $profile);
-                    Session::set("success", __("update_profile_success"));
-
-                    Url::redirect("members/profile");
-                }
+                Url::redirect("members/profile");
             }
             else
             {
@@ -372,65 +377,67 @@ class MembersController extends Controller
         $memberProfile = $this->_model->getMemberWithProfile($memberID);
 
         $profile = array();
-        if(!empty($memberProfile) && $memberProfile[0]->pID != null)
-        {
-            $profile["pID"] = $memberProfile[0]->pID;
-            $profile["memberID"] = $memberProfile[0]->mID;
-            $profile["avatar"] = $memberProfile[0]->avatar;
-            $profile["username"] = $memberProfile[0]->userName;
-            $profile["fullname"] = $memberProfile[0]->firstName." ".$memberProfile[0]->lastName;
-            $profile["prefered_roles"] = (array)json_decode($memberProfile[0]->prefered_roles, true);
-            $profile["bbl_trans_yrs"] = $memberProfile[0]->bbl_trans_yrs;
-            $profile["othr_trans_yrs"] = $memberProfile[0]->othr_trans_yrs;
-            $profile["bbl_knwlg_degr"] = $memberProfile[0]->bbl_knwlg_degr;
-            $profile["mast_evnts"] = $memberProfile[0]->mast_evnts;
-            $profile["mast_role"] = (array)json_decode($memberProfile[0]->mast_role, true);
-            $profile["teamwork"] = $memberProfile[0]->teamwork;
-            $profile["org"] = $memberProfile[0]->org;
-            $profile["ref_person"] = $memberProfile[0]->ref_person;
-            $profile["ref_email"] = $memberProfile[0]->ref_email;
-            $profile["mast_facilitator"] = $memberProfile[0]->mast_facilitator == 1;
-            $profile["education"] = (array)json_decode($memberProfile[0]->education, true);
-            $profile["ed_area"] = (array)json_decode($memberProfile[0]->ed_area, true);
-            $profile["ed_place"] = $memberProfile[0]->ed_place;
-            $profile["hebrew_knwlg"] = $memberProfile[0]->hebrew_knwlg;
-            $profile["greek_knwlg"] = $memberProfile[0]->greek_knwlg;
-            $profile["church_role"] = (array)json_decode($memberProfile[0]->church_role, true);
+        $data["profile"] = [];
 
-            $arr = (array)json_decode($memberProfile[0]->languages, true);
-            $languages = array();
-            foreach ($arr as $i => $item) {
-                $languages[$i]["lang_fluency"] = $item[0];
-                $languages[$i]["geo_lang_yrs"] = $item[1];
-            }
-            $profile["languages"] = $languages;
-            $profile["rating"] = $this->calculateMemberRating($profile);
+        $profile["pID"] = $memberProfile[0]->pID;
+        $profile["memberID"] = $memberProfile[0]->mID;
+        $profile["projects"] = (array)json_decode($memberProfile[0]->projects, true);
+        $profile["proj_lang"] = null;
+        $profile["avatar"] = $memberProfile[0]->avatar;
+        $profile["username"] = $memberProfile[0]->userName;
+        $profile["fullname"] = $memberProfile[0]->firstName." ".$memberProfile[0]->lastName;
+        $profile["prefered_roles"] = (array)json_decode($memberProfile[0]->prefered_roles, true);
+        $profile["bbl_trans_yrs"] = $memberProfile[0]->bbl_trans_yrs;
+        $profile["othr_trans_yrs"] = $memberProfile[0]->othr_trans_yrs;
+        $profile["bbl_knwlg_degr"] = $memberProfile[0]->bbl_knwlg_degr;
+        $profile["mast_evnts"] = $memberProfile[0]->mast_evnts;
+        $profile["mast_role"] = (array)json_decode($memberProfile[0]->mast_role, true);
+        $profile["teamwork"] = $memberProfile[0]->teamwork;
+        $profile["org"] = $memberProfile[0]->org;
+        $profile["ref_person"] = $memberProfile[0]->ref_person;
+        $profile["ref_email"] = $memberProfile[0]->ref_email;
+        $profile["mast_facilitator"] = $memberProfile[0]->mast_facilitator == 1;
+        $profile["education"] = (array)json_decode($memberProfile[0]->education, true);
+        $profile["ed_area"] = (array)json_decode($memberProfile[0]->ed_area, true);
+        $profile["ed_place"] = $memberProfile[0]->ed_place;
+        $profile["hebrew_knwlg"] = $memberProfile[0]->hebrew_knwlg;
+        $profile["greek_knwlg"] = $memberProfile[0]->greek_knwlg;
+        $profile["church_role"] = (array)json_decode($memberProfile[0]->church_role, true);
+        $profile["complete"] = $memberProfile[0]->complete;
 
-            $data["profile"] = $profile;
-
-            $langs = $this->_eventModel->getAllLanguages(null, array_keys($languages));
-            $data["languages"] = [];
-            foreach ($langs as $lang) {
-                $data["languages"][$lang->langID]["langName"] = $lang->langName;
-                $data["languages"][$lang->langID]["angName"] = $lang->angName;
-            }
-
-            $data["facilitation_activities"] = $this->_eventModel->getMemberEventsForAdmin($memberID);
-            $data["translation_activities"] = $this->_eventModel->getMemberEvents($memberID, EventMembers::TRANSLATOR, null, false);
-
-            foreach ($data["translation_activities"] as $translation_activity) {
-                $chapters = $this->_eventModel->getChapters($translation_activity->eventID, $memberProfile[0]->mID);
-
-                $arr = [];
-                foreach ($chapters as $chapter) {
-                    $arr[] = $chapter["chapter"];
-                }
-                $translation_activity->chapters = join(", ", array_values($arr));
-            }
+        $arr = (array)json_decode($memberProfile[0]->languages, true);
+        $languages = array();
+        foreach ($arr as $i => $item) {
+            $languages[$i]["lang_fluency"] = $item[0];
+            $languages[$i]["geo_lang_yrs"] = $item[1];
         }
-        else
-        {
-            $error[] = __("empty_profile_error");
+        $profile["languages"] = $languages;
+        $profile["rating"] = $this->calculateMemberRating($profile);
+
+        $proj_lang = $this->_eventModel->getAllLanguages(null, [$memberProfile[0]->proj_lang]);
+        if (!empty($proj_lang))
+            $profile["proj_lang"] = $proj_lang;
+
+        $data["profile"] = $profile;
+
+        $langs = $this->_eventModel->getAllLanguages(null, array_keys($languages));
+        $data["languages"] = [];
+        foreach ($langs as $lang) {
+            $data["languages"][$lang->langID]["langName"] = $lang->langName;
+            $data["languages"][$lang->langID]["angName"] = $lang->angName;
+        }
+
+        $data["facilitation_activities"] = $this->_eventModel->getMemberEventsForAdmin($memberID);
+        $data["translation_activities"] = $this->_eventModel->getMemberEvents($memberID, EventMembers::TRANSLATOR, null, false);
+
+        foreach ($data["translation_activities"] as $translation_activity) {
+            $chapters = $this->_eventModel->getChapters($translation_activity->eventID, $memberProfile[0]->mID);
+
+            $arr = [];
+            foreach ($chapters as $chapter) {
+                $arr[] = $chapter["chapter"];
+            }
+            $translation_activity->chapters = join(", ", array_values($arr));
         }
 
         $data["notifications"] = $this->_notifications;
@@ -700,37 +707,37 @@ class MembersController extends Controller
                             if($updated === 1)
                             {
                                 $profile = array();
-                                if($data[0]->pID != null)
-                                {
-                                    $profile["pID"] = $data[0]->pID;
-                                    $profile["avatar"] = $data[0]->avatar;
-                                    $profile["prefered_roles"] = json_decode($data[0]->prefered_roles, true);
-                                    $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
-                                    $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
-                                    $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
-                                    $profile["mast_evnts"] = $data[0]->mast_evnts;
-                                    $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
-                                    $profile["teamwork"] = $data[0]->teamwork;
-                                    $profile["org"] = $data[0]->org;
-                                    $profile["ref_person"] = $data[0]->ref_person;
-                                    $profile["ref_email"] = $data[0]->ref_email;
-                                    $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
-                                    $profile["education"] = (array)json_decode($data[0]->education, true);
-                                    $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
-                                    $profile["ed_place"] = $data[0]->ed_place;
-                                    $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
-                                    $profile["greek_knwlg"] = $data[0]->greek_knwlg;
-                                    $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+                                $profile["pID"] = $data[0]->pID;
+                                $profile["projects"] = json_decode($data[0]->projects, true);
+                                $profile["proj_lang"] = $data[0]->proj_lang;
+                                $profile["avatar"] = $data[0]->avatar;
+                                $profile["prefered_roles"] = json_decode($data[0]->prefered_roles, true);
+                                $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
+                                $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
+                                $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
+                                $profile["mast_evnts"] = $data[0]->mast_evnts;
+                                $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
+                                $profile["teamwork"] = $data[0]->teamwork;
+                                $profile["org"] = $data[0]->org;
+                                $profile["ref_person"] = $data[0]->ref_person;
+                                $profile["ref_email"] = $data[0]->ref_email;
+                                $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
+                                $profile["education"] = (array)json_decode($data[0]->education, true);
+                                $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
+                                $profile["ed_place"] = $data[0]->ed_place;
+                                $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
+                                $profile["greek_knwlg"] = $data[0]->greek_knwlg;
+                                $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
+                                $profile["complete"] = $data[0]->complete;
 
-                                    $arr = (array)json_decode($data[0]->languages, true);
-                                    $languages = array();
-                                    foreach ($arr as $i => $item) {
-                                        $languages[$i]["lang_fluency"] = $item[0];
-                                        $languages[$i]["geo_lang_yrs"] = $item[1];
-                                    }
-                                    $profile["languages"] = $languages;
-                                    $profile["rating"] = $this->calculateMemberRating($profile);
+                                $arr = (array)json_decode($data[0]->languages, true);
+                                $languages = array();
+                                foreach ($arr as $i => $item) {
+                                    $languages[$i]["lang_fluency"] = $item[0];
+                                    $languages[$i]["geo_lang_yrs"] = $item[1];
                                 }
+                                $profile["languages"] = $languages;
+                                $profile["rating"] = $this->calculateMemberRating($profile);
 
                                 Session::set('memberID', $data[0]->memberID);
                                 Session::set('userName', $data[0]->userName);
@@ -786,127 +793,6 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
-    public function loginDesktop()
-    {
-        $response = ["success" => false];
-
-        $email = isset($_POST["email"]) ? $_POST["email"] : "";
-        $password = isset($_POST["password"]) ? $_POST["password"] : "";
-
-        $data = $this->_model->getMemberWithProfile($email);
-
-        if(!empty($data))
-        {
-            if($data[0]->blocked)
-            {
-                $response["reason"] = "user_blocked_error";
-                echo "{//prefix".json_encode($response);
-                exit;
-            }
-
-            if (Password::verify($password, $data[0]->password))
-            {
-                if($data[0]->active)
-                {
-                    $authToken = md5(uniqid(rand(), true));
-                    $updateData = [
-                        "authToken" => $authToken,
-                        "logins" => $data[0]->logins + 1
-                    ];
-                    $updated = $this->_model->updateMember($updateData, ['memberID' => $data[0]->memberID]);
-
-                    if($updated === 1)
-                    {
-                        $profile = array();
-                        if($data[0]->pID != null)
-                        {
-                            $profile["pID"] = $data[0]->pID;
-                            $profile["avatar"] = $data[0]->avatar;
-                            $profile["prefered_roles"] = json_decode($data[0]->prefered_roles, true);
-                            $profile["bbl_trans_yrs"] = $data[0]->bbl_trans_yrs;
-                            $profile["othr_trans_yrs"] = $data[0]->othr_trans_yrs;
-                            $profile["bbl_knwlg_degr"] = $data[0]->bbl_knwlg_degr;
-                            $profile["mast_evnts"] = $data[0]->mast_evnts;
-                            $profile["mast_role"] = (array)json_decode($data[0]->mast_role, true);
-                            $profile["teamwork"] = $data[0]->teamwork;
-                            $profile["org"] = $data[0]->org;
-                            $profile["ref_person"] = $data[0]->ref_person;
-                            $profile["ref_email"] = $data[0]->ref_email;
-                            $profile["mast_facilitator"] = $data[0]->mast_facilitator == 1;
-                            $profile["education"] = (array)json_decode($data[0]->education, true);
-                            $profile["ed_area"] = (array)json_decode($data[0]->ed_area, true);
-                            $profile["ed_place"] = $data[0]->ed_place;
-                            $profile["hebrew_knwlg"] = $data[0]->hebrew_knwlg;
-                            $profile["greek_knwlg"] = $data[0]->greek_knwlg;
-                            $profile["church_role"] = (array)json_decode($data[0]->church_role, true);
-
-                            $arr = (array)json_decode($data[0]->languages, true);
-                            $languages = array();
-                            foreach ($arr as $i => $item) {
-                                $languages[$i]["lang_fluency"] = $item[0];
-                                $languages[$i]["geo_lang_yrs"] = $item[1];
-                            }
-                            $profile["languages"] = $languages;
-                            $profile["rating"] = $this->calculateMemberRating($profile);
-                        }
-
-                        $signer = new Sha256();
-
-                        $token = (new Builder())->setIssuer('https://v-mast.com')
-                            ->setAudience('https://v-mast.com')
-                            ->setId('7m8u22c80db', true)
-                            ->setIssuedAt(time())
-                            ->setNotBefore(time())
-                            ->setExpiration(time() + 3600)
-                            ->set('memberID', $data[0]->memberID)
-                            ->set('userName', $data[0]->userName)
-                            ->set('firstName', $data[0]->firstName)
-                            ->set('lastName', $data[0]->lastName)
-                            ->set('email', $data[0]->email)
-                            ->set('authToken', $data[0]->authToken)
-                            ->set('verified', $data[0]->verified)
-                            ->set('isAdmin', $data[0]->isAdmin)
-                            ->set('isSuperAdmin', $data[0]->isSuperAdmin)
-                            ->set('isDemo', $data[0]->isDemo)
-                            ->set('loggedin', 1)
-                            ->set('profile', json_encode($profile))
-                            ->sign($signer, 'Gsg-4hssh-hnjks-35')
-                            ->getToken();
-
-                        $response["success"] = true;
-                        $response["token"] = (string)$token;
-                        echo "{//prefix".json_encode($response);
-                        exit;
-                    }
-                    else
-                    {
-                        $response["reason"] = "user_login_error";
-                        echo "{//prefix".json_encode($response);
-                        exit;
-                    }
-                }
-                else
-                {
-                    $response["reason"] = "not_activated_email";
-                    echo "{//prefix".json_encode($response);
-                    exit;
-                }
-            }
-            else
-            {
-                $response["reason"] = "wrong_credentials_error";
-                echo "{//prefix".json_encode($response);
-                exit;
-            }
-        }
-        else
-        {
-            $response["reason"] = "wrong_credentials_error";
-            echo "{//prefix".json_encode($response);
-            exit;
-        }
-    }
-
     /**
      * Show signup view with form
      * @return mixed
@@ -915,6 +801,7 @@ class MembersController extends Controller
     {
         // Registration
         $data["menu"] = 1;
+        $data["languages"] = $this->_eventModel->getAllLanguages();
 
         if (Session::get('loggedin')) {
             Url::redirect("events");
@@ -940,6 +827,8 @@ class MembersController extends Controller
             $passwordConfirm = $_POST['passwordConfirm'];
             $tou = isset($_POST['tou']) ? (int)$_POST['tou'] == 1 : false;
             $sof = isset($_POST['sof']) ? (int)$_POST['sof'] == 1 : false;
+            $projects = $_POST['projects'];
+            $projLang = $_POST['proj_lang'];
 
             if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
             {
@@ -1012,6 +901,23 @@ class MembersController extends Controller
                 $error['sof'] = __('sof_accept_error');
             }
 
+            if(!empty($projects)) {
+                $projects = array_filter($projects, function ($elm) {
+                    return in_array($elm, ["vmast","vsail","l2","tn","tq","tw"]);
+                });
+                $projects = array_unique($projects);
+
+                if(empty($projects)) {
+                    $error["projects"] = __("projects_empty_error");
+                }
+            } else {
+                $error["projects"] = __("projects_empty_error");
+            }
+
+            if(!preg_match("/^[0-9A-Za-z-]{2,40}$/", $projLang)) {
+                $error["proj_lang"] = __("proj_lang_empty_error");
+            }
+
             if (!isset($error))
             {
                 $activationToken = md5(uniqid(rand(), true));
@@ -1019,14 +925,14 @@ class MembersController extends Controller
                 $hash = Password::make($password);
 
                 //insert
-                $postdata = array(
+                $postdata = [
                     "userName" => $userName,
                     "firstName" => $firstName,
                     "lastName" => $lastName,
                     "email" => $email,
                     "password" => $hash,
                     "activationToken" => $activationToken,
-                );
+                ];
 
                 if(Config::get("app.type") == "local")
                 {
@@ -1040,6 +946,19 @@ class MembersController extends Controller
                 ];
 
                 $id = $this->_model->createMember($postdata);
+
+                $profiledata = [
+                    "mID" => $id,
+                    "projects" => json_encode($projects),
+                    "proj_lang" => $projLang
+                ];
+                if(Config::get("app.type") != "remote") {
+                    $profiledata["prefered_roles"] = json_encode(["translator"]);
+                    $profiledata["languages"] = '{"en":[3,3]}';
+                    $profiledata["complete"] = true;
+                }
+
+                $this->_model->createProfile($profiledata);
 
                 if(Config::get("app.type") == "remote")
                 {
@@ -1062,14 +981,6 @@ class MembersController extends Controller
                 }
                 else
                 {
-                    $profiledata = array(
-                        "mID" => $id,
-                        "prefered_roles" => json_encode(["translator"]),
-                        "languages" => '{"en":[3,3]}',
-                    );
-
-                    $this->_model->createProfile($profiledata);
-                    
                     Session::set("success", __('registration_local_success_message'));
                     Url::redirect('members/login');
                 }
@@ -1084,140 +995,6 @@ class MembersController extends Controller
             ->shares("error", @$error);
     }
 
-    /**
-     * Show signup view with form
-     * @return mixed
-     */
-    public function signupDesktop()
-    {
-        $response = ["success" => false];
-
-        $_POST = Gump::xss_clean($_POST);
-
-        $_POST = Gump::filter_input($_POST, [
-            'userName' => 'trim',
-            'firstName' => 'trim',
-            'lastName' => 'trim',
-            'email' => 'trim',
-            'password' => 'trim'
-        ]);
-
-        $userName = $_POST['userName'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $passwordConfirm = $_POST['passwordConfirm'];
-        $tou = isset($_POST['tou']) ? (int)$_POST['tou'] == "on" : false;
-        $sof = isset($_POST['sof']) ? (int)$_POST['sof'] == "on" : false;
-
-        if(!preg_match("/^[a-z]+[a-z0-9]*$/i", $userName))
-        {
-            $error['userName'] = "userName_characters_error";
-        }
-
-        if (strlen($userName) < 5 || strlen($userName) > 20)
-        {
-            $error['userName'] = "userName_length_error";
-        }
-
-        if (mb_strlen($firstName) < 2 || mb_strlen($firstName) > 20)
-        {
-            $error['firstName'] = "firstName_length_error";
-        }
-
-        if (mb_strlen($lastName) < 2 || mb_strlen($lastName) > 20)
-        {
-            $error['lastName'] = "lastName_length_error";
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-        {
-            $error['email'] = "enter_valid_email_error";
-        }
-        else
-        {
-            $check = $this->_model->getMember(array("memberID", "userName", "email"),
-                array(
-                    array("email", $email),
-                    array("userName", $userName, "=", "OR")
-                ));
-
-            foreach ($check as $item) {
-                if (strtolower($item->email) == strtolower($email))
-                {
-                    $error['email'] = "email_taken_error";
-                }
-                if (strtolower($item->userName) == strtolower($userName))
-                {
-                    $error['email'] = "username_taken_error";
-                }
-            }
-        }
-
-        if (strlen($password) < 5)
-        {
-            $error['password'] = "password_short_error";
-        }
-        elseif ($password != $passwordConfirm)
-        {
-            $error['confirm'] = "passwords_notmatch_error";
-        }
-
-        if(!$tou)
-        {
-            $error['tou'] = "tou_accept_error";
-        }
-
-        if(!$sof)
-        {
-            $error['sof'] = "sof_accept_error";
-        }
-
-        if (!isset($error))
-        {
-            $activationToken = md5(uniqid(rand(), true));
-
-            $hash = Password::make($password);
-
-            //insert
-            $postdata = array(
-                "userName" => $userName,
-                "firstName" => $firstName,
-                "lastName" => $lastName,
-                "email" => $email,
-                "password" => $hash,
-                "activationToken" => $activationToken,
-            );
-
-            $data = [
-                "userName" => $userName,
-                "email" => $email
-            ];
-
-            $id = $this->_model->createMember($postdata);
-
-            Mailer::send('Emails/Auth/Activate', ["memberID" => $id, "token" => $activationToken], function($message) use($data)
-            {
-                $message->to($data["email"], $data["userName"])
-                    ->subject(__('activate_account_title'));
-            });
-
-            Mailer::send('Emails/Common/NotifyRegistration', ["userName" => $userName, "name" => $firstName." ".$lastName, "id" => $id], function($message)
-            {
-                $message->to("vmastteam@gmail.com")
-                    ->subject($this->_model->translate("new_account_title", "en"));
-            });
-
-            $response["success"] = true;
-        }
-        else
-        {
-            $response["error"] = $error;
-        }
-
-        echo "{//prefix".json_encode($response);
-    }
 
     /**
      * Show password reset view with email form

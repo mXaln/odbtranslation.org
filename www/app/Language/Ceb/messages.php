@@ -17,6 +17,8 @@ return array (
     "about_title" => "Mahitungod",
     "bible" => "Bibliya",
     "members" => "Mga Miyembro",
+    "on" => "On",
+    "off" => "Off",
 
     // ------------ Members Controller ------------------ //
 
@@ -62,6 +64,7 @@ return array (
     "questions_mode" => "Questions",
     "words_mode" => "Words",
     "project_exists" => "Project exists",
+    "personal" => "Personal",
 
     // Activate method
     "activate_account_title" => "Activate Account",
@@ -175,6 +178,11 @@ return array (
     "all_members" => "Pagpangita sa mga Miyembro",
     "all_mems" => "Tanan",
     "search_more" => "Ipadayon pa",
+    "proj_lang_select" => "Select the project language",
+    "select_project" => "Select the project",
+    "proj_lang_public" => "Project Language",
+    "projects_public" => "Projects",
+    "show_rubric" => "Rubric",
 
     // Passwordreset method
     "passwordreset_title" => "Iusab ang Password",
@@ -461,7 +469,8 @@ return array (
     "group_id" => "Group {0}",
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
-    
+    "compare" => "Comparison mode",
+
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",
     "pray_desc" => "<li><b>KATUYOUAN:</b> Pangayoa sa Dios nga tabangan ka niya sa imong paghubad.</li><li>Pag-ampo hangtod nakita nimo nga gikinahanglan kini niini nga lakang, apan kung mahimo mga 5-10 minuto ang imong kadugayon niini.</li><li>Kini lakang sama ka importante sa uban.</li>",

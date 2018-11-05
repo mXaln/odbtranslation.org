@@ -17,6 +17,8 @@ return array (
     "about_title" => "Tentang",
     "bible" => "Alkitab",
     "members" => "Para Anggota",
+    "on" => "On",
+    "off" => "Off",
 
     // ------------ Members Controller ------------------ //
 
@@ -62,6 +64,7 @@ return array (
     "questions_mode" => "Questions",
     "words_mode" => "Words",
     "project_exists" => "Project exists",
+    "personal" => "Personal",
 
     // Activate method
     "activate_account_title" => "Aktivasi Akun",
@@ -175,6 +178,11 @@ return array (
     "all_members" => "Cari anggota",
     "all_mems" => "Semua",
     "search_more" => "Munculkan lagi...",
+    "proj_lang_select" => "Select the project language",
+    "select_project" => "Select the project",
+    "proj_lang_public" => "Project Language",
+    "projects_public" => "Projects",
+    "show_rubric" => "Rubric",
 
     // Passwordreset method
     "passwordreset_title" => "Batalkan password",
@@ -459,7 +467,8 @@ return array (
     "group_id" => "Group {0}",
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
-    
+    "compare" => "Comparison mode",
+
     // Steps
     "pray" => "Persiapan: Berdoa",
     "pray_desc" => "<li><b>KEGUNAAN:</b> meminta Allah membantu Anda dalam pekerjaan terjemahan Anda.</li><li>Berdoalah sepanjang yang Anda rasa perlu untuk langkah ini, tapi coba ambil setidaknya 5-10 menit.</li><li>Langkah ini sama pentingnya dengan yang lain.</li>",

@@ -60,6 +60,14 @@ if(empty($error) && empty($data["success"])):
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
+                        </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <?php foreach(array_values($chunk) as $verse): ?>
                                 <div class="note_content">
@@ -81,6 +89,7 @@ if(empty($error) && empty($data["success"])):
                             $text = preg_replace('/( title=".*")/', '', $text);
                             ?>
                             <div class="notes_target"><?php echo $text ?></div>
+                            <div class="notes_target_compare"></div>
 
                             <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
                             <div class="comments_number tncommpeer <?php echo $hasComments ? "hasComment" : "" ?>">
@@ -190,7 +199,7 @@ if(empty($error) && empty($data["success"])):
     </div>
 </div>
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?5")?>"></script>
+<script type="text/javascript" src="<?php echo template_url("js/diff.js?6")?>"></script>
 <script>
     var isChecker = true;
     var disableHighlight = true;
@@ -218,12 +227,29 @@ if(empty($error) && empty($data["success"])):
         $(".note_chunk").each(function(i, v) {
             var elm1 = $(".notes_translator", this).html();
             var elm2 = $(".notes_target", this).html();
-            var out = $(".notes_target", this);
+            var out = $(".notes_target_compare", this);
 
             if(typeof elm1 == "undefined") return true;
 
-            out.html(elm1);
-            diff(elm1, elm2, out);
+            diff_plain(htmlToText(elm1), htmlToText(elm2), out);
+
+            out.html(out.html().replace(/&amp;nbsp;/g, " "));
+            out.html(out.html().replace(/&amp;gt;/g, ">"));
+            out.html(out.html().replace(/&amp;lt;/g, "<"));
+            out.html(out.html().replace(/¶/g, ""));
+        });
+
+        $(".compare_notes input").change(function () {
+            var parent = $(this).parents(".note_chunk");
+            var active = $(this).prop('checked');
+
+            if (active) {
+                $(".notes_target", parent).hide();
+                $(".notes_target_compare", parent).show();
+            } else {
+                $(".notes_target_compare", parent).hide();
+                $(".notes_target", parent).show();
+            }
         });
     });
 

@@ -14,6 +14,8 @@ return array (
 	"about_title" => "О нас",
     "bible" => "Библия",
     "members" => "Пользователи",
+    "on" => "Вкл.",
+    "off" => "Выкл.",
 
     // ------------ Members Controller ------------------ //
 
@@ -60,6 +62,7 @@ return array (
     "questions_mode" => "Вопросы",
     "words_mode" => "Слова",
     "project_exists" => "Проект существует",
+    "personal" => "Личные",
 
     // Activate method
     "activate_account_title" => "Активация учетной записи",
@@ -173,6 +176,11 @@ return array (
     "all_members" => "Поиск пользователей",
     "all_mems" => "Все",
     "search_more" => "Загрузить еще...",
+    "proj_lang_select" => "Выберите язык проекта",
+    "select_project" => "Выберите проект",
+    "proj_lang_public" => "Язык проекта",
+    "projects_public" => "Проекты",
+    "show_rubric" => "Рубрика",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -192,7 +200,7 @@ return array (
     "registration_local_success_message" => "Регистрация прошла успешно!",
 
     // Error messages
-    "required_fields_empty_error" => "Пожалуйста заполните все обязательные поля",
+    "required_fields_empty_error" => "Пожалуйста, верно заполните все обязательные поля",
     "update_profile_error" => "Профиль не может быть обновлен",
     "token_expired_error" => "Код сброса пароля просрочен",
     "update_table_error" => "Ошибка записи в базу данных. Пожалуйста, попробуйте снова.",
@@ -459,7 +467,8 @@ return array (
     "group_id" => "Группа {0}",
     "user_has_group_error" => "Вы не можете удалить эту группу, так как она назначена переводчику.",
     "tw_translate_hint" => "Внимание: Переводитк только Ключевые слова, Определения/Факты (Definitions/Facts) и Варианты перевода (Translation Suggestions).",
-    
+    "compare" => "Режим сравнения",
+
     // Steps
     "pray" => "Подготовка: Молитва",
     "pray_desc" => "<li><b>ЦЕЛЬ:</b> попросить у Господа помощи для осуществления перевода.</li><li>Молитесь столько времени, сколько вы считаете необходимым для этого шага, но постарайтесь провести в молитве, по крайней мере, 5-10 минут.</li><li>Этот шаг не менее важен, чем все последующие.</li>",
@@ -666,7 +675,7 @@ return array (
                 <li>This step should take about 10 minutes.</li>
                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
-    "fst-check" => "Провека текста",
+    "fst-check" => "Проверка текста",
     "fst-check_full" => "1ая проверка: Целевой текст",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                         <li>The column on the left is the source text and the right is editable target text.</li>

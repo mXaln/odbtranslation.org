@@ -233,6 +233,7 @@ class EventsModel extends Model
                 .PREFIX."translators.kwCheck, ".PREFIX."translators.crCheck, "
                 .PREFIX."translators.otherCheck, "
                 .PREFIX."translators.isChecker, "
+                ."tw_groups.words, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
                 ."mems.lastName AS checkerLName, chapters.chunks, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, " 
@@ -274,6 +275,7 @@ class EventsModel extends Model
         $sql .= $mainTable.
             ($memberType == EventMembers::TRANSLATOR ?
                 "LEFT JOIN ".PREFIX."members AS mems ON mems.memberID = ".PREFIX."translators.checkerID ".
+                "LEFT JOIN ".PREFIX."tw_groups AS tw_groups ON tw_groups.groupID = ".PREFIX."translators.currentChapter ".
                 "LEFT JOIN ".PREFIX."chapters AS chapters ON ".PREFIX."translators.eventID = chapters.eventID AND ".PREFIX."translators.currentChapter = chapters.chapter " : "").
             ($memberType == EventMembers::L2_CHECKER ?
                 "LEFT JOIN ".PREFIX."chapters AS chapters ON ".PREFIX."checkers_l2.eventID = chapters.eventID AND ".PREFIX."checkers_l2.currentChapter = chapters.chapter " : "").
@@ -319,8 +321,8 @@ class EventsModel extends Model
                 .PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
-                .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
-                "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+                .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, "
+                ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
                 .PREFIX."chapters.chunks, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."chapters ON trs.eventID = ".PREFIX."chapters.eventID AND trs.currentChapter = ".PREFIX."chapters.chapter ".
@@ -517,7 +519,8 @@ class EventsModel extends Model
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
-            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
+            .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID, "
+            .PREFIX."tw_groups.words ".
             "FROM ".PREFIX."translators AS trs ".
             "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
             "LEFT JOIN ".PREFIX."events AS evnt ON evnt.eventID = trs.eventID ".
@@ -526,6 +529,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS res_lang ON ".PREFIX."projects.resLangID = res_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
+            "LEFT JOIN ".PREFIX."tw_groups ON trs.currentChapter = ".PREFIX."tw_groups.groupID ".
             "WHERE (".PREFIX."projects.bookProject = 'tq' OR ".PREFIX."projects.bookProject = 'tw') ".
             ($eventID ? "AND trs.eventID = :eventID " : " ").
             ($chkMemberID ? "AND trs.memberID = :chkMemberID " : " ").
@@ -1448,6 +1452,7 @@ class EventsModel extends Model
 
     /** Get list of all languages
      * @param null $isGW (true - gateway, false - other, null - all)
+     * @param null $langs filter by list of lang ids
      * @return array
      */
     public function getAllLanguages($isGW = null, $langs = null)

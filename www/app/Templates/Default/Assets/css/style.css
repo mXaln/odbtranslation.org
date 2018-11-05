@@ -2363,7 +2363,7 @@ mark {
 
 .save_profile_container.unlinked {
     position: absolute;
-    top: -175px;
+    top: -110px;
     left: auto;
     right: 0;
 }
@@ -4225,6 +4225,10 @@ button.startEvnt, button.editEvnt {
     text-decoration: none; /*underline*/
 }
 
+.notes_target_compare br {
+    display:none;
+}
+
 .orig_text del {
     background: #ffd8d8;
     text-decoration: none; /*line-through*/
@@ -4232,6 +4236,16 @@ button.startEvnt, button.editEvnt {
 
 .notes_target {
     margin-top: 20px;
+    display: none;
+}
+
+.notes_target_compare {
+    margin-top: 20px;
+}
+
+.compare_notes {
+    text-align: right;
+    margin-bottom: 20px;
 }
 
 .notes_translator {
@@ -4776,6 +4790,50 @@ button.startEvnt, button.editEvnt {
     top: 150px;
     box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
     display: none;
+}
+
+.ttools_panel.rubric_tool {
+    width: 800px;
+    left: calc(50% - 400px);
+}
+
+.read_rubric_qualities {
+    height: 600px;
+    overflow-y: auto;
+    margin: 20px;
+    font-size: 18px;
+}
+
+.read_rubric_qualities .eng {
+    display: none;
+}
+
+.read_rubric_quality {
+    color: #337ab7;
+    font-weight: bold;
+}
+
+.read_rubric_def {
+    margin: 10px 0 0 50px;
+    color: #449d44;
+}
+
+.read_rubric_def[dir="rtl"] {
+    margin: 10px 50px 0 0;
+}
+
+.read_rubric_measurement {
+    margin: 10px 0 0 100px;
+    color: #ec971f;
+    font-style: italic;
+}
+
+.read_rubric_measurement[dir="rtl"] {
+    margin: 10px 100px 0 0;
+}
+
+.read_rubric_tabs > .active {
+    font-weight: bold;
 }
 
 .ttools_panel .panel-heading {

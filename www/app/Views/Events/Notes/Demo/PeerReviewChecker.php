@@ -30,6 +30,14 @@
                 <div id="my_notes_content" class="my_content">
                     <div class="row note_chunk">
                         <div class="row scripture_chunk chunk_verses"> </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
+                        </div>
                         <div class="col-md-6">
                             <div class="note_content">
                                 <h1>Acts 01 General Notes</h1>
@@ -62,16 +70,16 @@
                             <div class="notes_target">
                                 <h1>Pendahuluan &nbsp;&nbsp;</h1>
                                 <h1>Catatan Umum Kisah Para Rasul 1&nbsp;</h1>
-                                <h4>Struktur dan format<ins class="ins"> (added some text during check)</ins></h4>
+                                <h4>Struktur dan format</h4>
                                 <p>Di pasal ini tercatat sebuah peristiwa, yang biasanya diketahui sebagai "Kenaikan" dimana Yesus kembali ke sorga setelah kebangkitanNya. Dia tidak akan kembali sampai kedatanganNya&nbsp; yang kedua kali ke bumi. (Lihat: [[rc://en/tw/dict/bible/kt/heaven]]&nbsp;dan&nbsp;[[rc://en/tw/dict/bible/kt/resurrection]])</p>
-                                <p>Berdasarkan hasil terjemahan yang lain, UDB memilih untuk memisahkan bagian salam ("Salam Teofilus"). <del class="del">Hasil terjemahan ini mengikuti gaya bahasa dalam surat, tapi ini dapat diubah dengan hal yang lain u</del><ins class="ins">U</ins>ntuk mengikuti kebiasaan yang ada di kebudayaan penerjemah.&nbsp;</p>
+                                <p>Berdasarkan hasil terjemahan yang lain, UDB memilih untuk memisahkan bagian salam ("Salam Teofilus"). Untuk mengikuti kebiasaan yang ada di kebudayaan penerjemah.&nbsp;</p>
                                 <p>Beberapa penerjemah memasukkan kutipan dari Perjanjian Lama. ULB memasukkan dua kutipan dari Mazmur 1:20</p>
                                 <h4>Gagasan khusus di pasal ini</h4>
                                 <p>Kerajaan Allah</p>
                                 <h5>Para ahli percaya bahwa Yesus menjelaskan kepada para murid mengapa kerajaan Allah tidak datang saat Dia masih hidup. orang-orang lain percaya bahwa kerajaan Allah baru saja dimulai.&nbsp;</h5>
                                 <h4>Beberapa kemungkinan kesulitan terjemahan dalam pasal ini&nbsp;</h4>
                                 <h5>kedua belas rasul</h5>
-                                <p>Berikut adalah <del class="del">daftar nama kedua belas rasul</del><ins class="ins">Text here is replaced</ins>: Di injil Matius: Simon (Petrus), Andreas, Yakobus anak Zebedeus, Yohanes anak Zebedeus, Filipus, Bartolomeus, Tomas, Matius, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.</p>
+                                <p>Berikut adalah Text here is replaced: Di injil Matius: Simon (Petrus), Andreas, Yakobus anak Zebedeus, Yohanes anak Zebedeus, Filipus, Bartolomeus, Tomas, Matius, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.</p>
                                 <p>Di injil Markus: Simon (Petrus), Andreas, Yakobus anak Zebedeus dan Yohanes saudaranya (yang keduanya diberi-Nya nama Boanerges, yang berarti anak-anak guruh), Filipus, Bartolomeus, Tomas, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.&nbsp;</p>
                                 <p>Di injil Lukas: Simon (Petrus), Andreas, Yakobus, Yohanes, Filipus, Bartolomeus, Matius, Tomas, Yakobus anak Alfeus, Simon, yang juga dipanggil Zelot, Yudas anak Yakobus, dan Yudas Iskariot.</p>
                                 <p>Kemungkinan bahwa Tadeus dan Yudas, anak Yakobus, adalah dua nama dari orang yang sama.&nbsp;</p>
@@ -86,6 +94,32 @@
                                 </ul>
                                 <p><strong>|</strong>&nbsp;<a href="../02/intro.md"><strong>&gt;&gt;</strong></a></p>
                             </div>
+                            <div class="notes_target_compare">
+                                Pendahuluan<br>
+                                Catatan Umum Kisah Para Rasul 1<br>
+                                Struktur dan format<ins class="ins"> (added some text during check)</ins><br>
+                                Di pasal ini tercatat sebuah peristiwa, yang biasanya diketahui sebagai "Kenaikan" dimana Yesus kembali ke sorga setelah kebangkitanNya. Dia tidak akan kembali sampai kedatanganNya&nbsp; yang kedua kali ke bumi. (Lihat: [[rc://en/tw/dict/bible/kt/heaven]]&nbsp;dan&nbsp;[[rc://en/tw/dict/bible/kt/resurrection]])<br>
+                                Berdasarkan hasil terjemahan yang lain, UDB memilih untuk memisahkan bagian salam ("Salam Teofilus"). <del class="del">Hasil terjemahan ini mengikuti gaya bahasa dalam surat, tapi ini dapat diubah dengan hal yang lain u</del><ins class="ins">U</ins>ntuk mengikuti kebiasaan yang ada di kebudayaan penerjemah.<br>
+                                Beberapa penerjemah memasukkan kutipan dari Perjanjian Lama. ULB memasukkan dua kutipan dari Mazmur 1:20<br>
+                                Gagasan khusus di pasal ini<br>
+                                Kerajaan Allah<br>
+                                Para ahli percaya bahwa Yesus menjelaskan kepada para murid mengapa kerajaan Allah tidak datang saat Dia masih hidup. orang-orang lain percaya bahwa kerajaan Allah baru saja dimulai.&nbsp;<br>
+                                Beberapa kemungkinan kesulitan terjemahan dalam pasal ini&nbsp;<br>
+                                kedua belas rasul<br>
+                                Berikut adalah <del class="del">daftar nama kedua belas rasul</del><ins class="ins">Text here is replaced</ins>: Di injil Matius: Simon (Petrus), Andreas, Yakobus anak Zebedeus, Yohanes anak Zebedeus, Filipus, Bartolomeus, Tomas, Matius, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.<br>
+                                Di injil Markus: Simon (Petrus), Andreas, Yakobus anak Zebedeus dan Yohanes saudaranya (yang keduanya diberi-Nya nama Boanerges, yang berarti anak-anak guruh), Filipus, Bartolomeus, Tomas, Yakobus anak Alfeus, Tadeus, Simon orang Zelot dan Yudas Iskariot.<br>
+                                Di injil Lukas: Simon (Petrus), Andreas, Yakobus, Yohanes, Filipus, Bartolomeus, Matius, Tomas, Yakobus anak Alfeus, Simon, yang juga dipanggil Zelot, Yudas anak Yakobus, dan Yudas Iskariot.<br>
+                                Kemungkinan bahwa Tadeus dan Yudas, anak Yakobus, adalah dua nama dari orang yang sama.&nbsp;<br>
+                                Perubahan bentuk kata kerja&nbsp;<br>
+                                Mungkin sulit untuk menerjemahkan kalimat, "Yesus mulai melakukan dan mengajarkan" karena itu mengubah kalimat atau waktu peristiwa di dalam kalimat yang sama (Kisah Para Rasul 1:1). Mungkin diperlukan untuk membuat segala pekerjaan saling berhubungan di dalam struktur kalimat. Penerjemahan lainnya yang dapat digunakan, "Yesus melakukan dan mengajar"&nbsp;<br>
+                                Hakal dama<br>
+                                Ini adalah sebuah ungkapan dari bahasa Ibrani atau bahasa Aram. Lukas menerjemahkan kata ini menggunakan huruf Yunani lalu menjelaskan artinya. Penerjemah dianjurkan untuk menerjemahkan kata ini menggunakan huruf dari bahasa sasaran lalu menjelaskan artinya.&nbsp;<br>
+                                Links:<br>
+                                Catatan Kis. 01:01<br>
+                                Pengantar Kisah Para Rasul<br>
+                                |&nbsp;&gt;&gt;<br>
+                            </div>
+
                             <div class="comments_number tncommpeer hasComment"> 2 </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments">
@@ -106,6 +140,14 @@
                             <div class="kwverse_1_0_2"> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui <b data="0">Roh Kudus kepada</b> rasul-rasul yang telah dipilihNya. </div>
                             <strong><sup>3</sup></strong>
                             <div class="kwverse_1_0_3"> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -156,6 +198,28 @@
                                     <li>[[rc://en/tw/dict/bible/kt/kingdomofgod]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Dalam buku yang aku tulis sebelumnya<br>
+                                Buku itu adalah Injil Lukas.&nbsp;<br>
+                                Teofilus<br>
+                                Lukas menulis buku ini untuk seseorang bernama Teofilus. Beberapa hasil terjemahan mengikuti kebudayaan mereka sendiri tentang bagaimana menulis dan menujukan surat "Salam Teofilus" di awal kalimat. Teofilus berarti "tesahabat Allah" (Lihat: [[rc://en/ta/man/translate/translate-names]])<br>
+                                Sampai pada hari ketika Ia diangkat<br>
+                                kalimat ini mengacu pada hari kenaikan Yesus ke sorga. AT: "sampai pada hari ketika Allah mengangkat Dia ke sorga" atau "sampai pada hari ketika Dia naik ke sorga" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Perintah melalui Roh Kudus<br>
+                                Roh Kudus menuntun Yesus untuk mengajar&nbsp; para rasul-rasul hal-hal tertentu.<br>
+                                Setelah penderitaanNya<br>
+                                Ini mengacu pada penderitaan Yesus dan kematiannya di kayu salib.<br>
+                                Dia menunjukkan diriNya hidup kepada mereka<br>
+                                Yesus menampakkan diriNya kepada kedua belas rasul dan murid-murid yang lain.<br>
+                                Kata-kata terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/jesus]]<br>
+                                    [[rc://en/tw/dict/bible/kt/command]]<br>
+                                    [[rc://en/tw/dict/bible/kt/holyspirit]]<br>
+                                    [[rc://en/tw/dict/bible/kt/apostle]]<br>
+                                    [[rc://en/tw/dict/bible/other/suffer]]<br>
+                                    [[rc://en/tw/dict/bible/kt/kingdomofgod]]<br>
+                            </div>
+
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -170,6 +234,14 @@
                             <div class="kwverse_1_1_4"> Ketika Ia berkumpul bersama mereka, Ia memerintahkan mereka untuk tidak meninggalkan Yerusalem, tetapi menantikan janji dari Bapa, dan tentang itu, Ia telah berkata, "<b data="0">Kamu telah mendengar dariKu</b> </div>
                             <strong><sup>5</sup></strong>
                             <div class="kwverse_1_1_5"> bahwa Yohanes membaptis dengan air, tetapi kamu akan dibaptis dengan <b data="0">Roh Kudus dalam</b> beberapa hari lagi." </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -227,8 +299,31 @@
                                     <li>[[rc://en/tw/dict/bible/kt/baptize]]</li>
                                     <li>[[rc://en/tw/dict/bible/kt/holyspirit]]</li>
                                 </ul>
-
-
+                            </div>
+                            <div class="notes_target_compare">
+                                Pernyataan terkait:&nbsp;<br>
+                                Peristiwa ini terjadi semasa 40 hari ketika Yesus menampakkan diriNya kepada pengikut-pengikutNya setelah kebangkitanNya dari kematian.&nbsp;<br>
+                                Informasi umum:<br>
+                                Di sini, kata "Dia" mengacu pada Yesus. Kecuali ada sebaliknya ditulis, kata "kamu" di kitab Kisah Para Rasul mengacu pada banyak orang. (Lihat: [[rc://en/ta/man/translate/figs-you]])<br>
+                                Ketika Dia bertemu bersama-sama dengan mereka<br>
+                                "Ketika Yesus bertemu bersama-sama dengan para rasul-rasulNya"&nbsp;<br>
+                                Janji Bapa<br>
+                                Ini mengacu pada Roh Kudus. AT: "Roh Kudus yang dijanjikan oleh Bapa untuk dicurahkanNya"&nbsp; (Lihat: [[rc://en/ta/man/translate/figs-metonymy]])<br>
+                                Tentang apa, yang Dia katakan<br>
+                                Jika kamu menerjemahkan kalimat sebelumnya untuk memasukkan kata "Roh Kudus", kamu dapat mengganti kata "apa" menjadi "siapa". AT: "tentang siapa yang Yesus katakan"<br>
+                                Yohanes memang membaptis dengan air ... membaptis dalam Roh Kudus&nbsp;<br>
+                                Yesus membandingkan bagaimana Yohanes membaptis orang-orang dengan air dengan bagaimana Allah membaptis orang-orang percaya dalam Roh Kudus.&nbsp;<br>
+                                Yohanes memang membaptis dengan air<br>
+                                "Yohanes memang membaptis orang-orang dengan air"<br>
+                                Kamu akan dibaptis<br>
+                                Kalimat ini dapat ditulis dalam bentuk kalimat aktif. AT: "Allah akan membaptismu" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Kata-kata Terjemahan<br>
+                                    [[rc://en/tw/dict/bible/names/jerusalem]]<br>
+                                    [[rc://en/tw/dict/bible/kt/promise]]<br>
+                                    [[rc://en/tw/dict/bible/kt/godthefather]]<br>
+                                    [[rc://en/tw/dict/bible/names/johnthebaptist]]<br>
+                                    [[rc://en/tw/dict/bible/kt/baptize]]<br>
+                                    [[rc://en/tw/dict/bible/kt/holyspirit]]<br>
                             </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
@@ -246,6 +341,14 @@
                             <div class="kwverse_1_2_7"> Ia berkata kepada mereka, "Kamu tidak perlu mengetahui waktu dan masa yang telah ditetapkan Allah dengan kuasaNya sendiri. </div>
                             <strong><sup>8</sup></strong>
                             <div class="kwverse_1_2_8"> Tetapi kamu akan menerima kuasa, saat <b data="0">Roh Kudus</b> turun atas kamu, dan kamu akan menjadi saksiKu baik di Yerusalem dan di seluruh Yudea dan Samaria, dan sampai ke ujung bumi." </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -302,6 +405,30 @@
                                     <li>[[rc://en/tw/dict/bible/other/earth]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Informasi umum:&nbsp;<br>
+                                Di sini kata "mereka" mengacu pada para rasul.<br>
+                                Inilah waktunya Engkau akan memulihkan kerajaan Israel<br>
+                                "maukah Engkau sekarang menjadikan Israel menjadi kerajaan yang besar lagi"&nbsp;<br>
+                                Waktunya atau Masanya<br>
+                                Arti-arti yang memungkinkan 1) kata "waktu" dan "masa" mengacu pada jenis waktu yang berbeda. AT: "periode waktu umum atau tanggal tertentu" atau 2) kedua kata tersebut bersinonim. AT: "waktu yang tepat" (Lihat: [[rc://en/ta/man/translate/figs-doublet]])<br>
+                                Kamu akan menerima kuasa... dan kamu akan menjadi saksi-saksiKu<br>
+                                Para rasul akan menerima kuasa yang akan menyanggupkan mereka menjadi saksi-saksi Yesus. AT: "Tuhan akan memberi kuasa kepadamu... untuk menjadi saksi-saksiKu"<br>
+                                Sampai ke ujung bumi<br>
+                                Arti-arti yang memungkinkan 1) "di seluruh dunia" atau 2) "ke seluruh tempat-tempat yang terjauh di bumi" (Lihat: [[rc://en/ta/man/translate/figs-idiom]])<br>
+                                Kata-kata terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/lord]]<br>
+                                    [[rc://en/tw/dict/bible/kt/restore]]<br>
+                                    [[rc://en/tw/dict/bible/other/kingdom]]<br>
+                                    [[rc://en/tw/dict/bible/kt/israel]]<br>
+                                    [[rc://en/tw/dict/bible/other/time]]<br>
+                                    [[rc://en/tw/dict/bible/kt/authority]]<br>
+                                    [[rc://en/tw/dict/bible/kt/power]]<br>
+                                    [[rc://en/tw/dict/bible/kt/testimony]]<br>
+                                    [[rc://en/tw/dict/bible/names/judea]]<br>
+                                    [[rc://en/tw/dict/bible/names/samaria]]<br>
+                                    [[rc://en/tw/dict/bible/other/earth]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -318,6 +445,14 @@
                             <div class="kwverse_1_3_10"> Sementara mereka sedang menatap ke surga saat Ia terangkat, tiba-tiba, dua orang telah berdiri dekat mereka dalam pakaian berwarna putih. </div>
                             <strong><sup>11</sup></strong>
                             <div class="kwverse_1_3_11"> Mereka berkata, "<b data="0">Kamu orang-orang Galilea</b>, mengapa kamu berdiri di sini memandang ke surga? Yesus yang terangkat ke surga akan kembali dengan cara yang sama sebagaimana kamu melihatNya naik ke surga." </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -362,6 +497,24 @@
                                     <li>[[rc://en/tw/dict/bible/kt/heaven]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Sementara mereka melihat ke atas<br>
+                                "sementara mereka menyaksikan." Para rasul "memandang ke atas" kepada Yesus karena Yesus naik ke langit. AT: "sementara mereka memandang ke langit" (Lihat: [[rc://en/ta/man/translate/figs-explicit]])<br>
+                                Dia terangkat ke atas<br>
+                                "Angkat" di sini adalah ungkapan untuk "naik". Ini dapat ditulis dalam bentuk kalimat aktif. AT: "Dia terangkat ke atas" atau "Dia terangkat ke langit" atau "Tuhan mengangkat Dia ke langit"&nbsp; (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Awan membawaNya hilang dari pandangan mereka<br>
+                                "awan menutupi pandangan mereka sehingga mereka tidak dapat melihat Dia lagi"<br>
+                                Memandang ke sorga<br>
+                                "menatap ke langit" atau "memandang lama ke langit"<br>
+                                Kamu orang Galilea<br>
+                                Para malaikat menyebut para rasul sebagai orang-orang dari Galilea.<br>
+                                Akan datang kembali dengan cara yang sama<br>
+                                Yesus akan datang kembali di awan-awan, seperti ketika awan-awan menutupi Dia ketika Dia naik ke surga.<br>
+                                Kata-kata terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/jesus]]<br>
+                                    [[rc://en/tw/dict/bible/names/galilee]]<br>
+                                    [[rc://en/tw/dict/bible/kt/heaven]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -378,6 +531,14 @@
                             <div class="kwverse_1_4_13"> Ketika mereka tiba, mereka naik ke ruang atas, tempat mereka tinggal. <b data="0">Mereka adalah Petrus, Yohanes, Yakobus, Andreas, Filipus, Tomas, Bartolomeus, Matius, Yakobus putra Alfeus, Simon orang Zelot, dan Yudas putra Yakobus</b>. </div>
                             <strong><sup>14</sup></strong>
                             <div class="kwverse_1_4_14"> Mereka semua berkumpul menjadi satu, sebagaimana mereka bertekun dalam doa. Termasuk adalah para perempuan, Maria ibu Yesus, dan saudara-saudara Yesus. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -448,6 +609,38 @@
                                     <li>[[rc://en/tw/dict/bible/kt/pray]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Kemudian mereka kembali<br>
+                                "Para rasul kembali"<br>
+                                Perjalanan hari Sabat<br>
+                                Hal ini mengacu pada jarak, yang mana menurut tradisi ajaran nabi, seseorang diperbolehkan untuk berjalan kaki di hari Sabat. AT: "sekitar satu kilometer" (Lihat:[[rc://en/ta/man/translate/figs-explicit]])<br>
+                                Ketika mereka tiba<br>
+                                "Ketika mereka tiba di tempat tujuan." Ayat 12 berkata mereka kembali ke Yerusalem.&nbsp;<br>
+                                di ruang atas<br>
+                                "ruangan di lantai atas dalam rumah"&nbsp;<br>
+                                Mereka bergabung menjadi satu&nbsp;<br>
+                                Ini berarti para rasul dan orang-orang percaya berbagi dalam komitmen dan tujuan bersama, dan tidak ada perselisihan di antara mereka.<br>
+                                Mereka semua bertekun dalam doa&nbsp;<br>
+                                Ini berarti bahwa para murid berdoa bersama secara teratur dan sering.&nbsp;<br>
+                                Kata-kata terjemahan<br>
+                                
+                                    [[rc://en/tw/dict/bible/names/jerusalem]]<br>
+                                    [[rc://en/tw/dict/bible/names/mountofolives]]<br>
+                                    [[rc://en/tw/dict/bible/kt/sabbath]]<br>
+                                    [[rc://en/tw/dict/bible/names/peter]]<br>
+                                    [[rc://en/tw/dict/bible/names/johntheapostle]]<br>
+                                    [[rc://en/tw/dict/bible/names/jamessonofzebedee]]<br>
+                                    [[rc://en/tw/dict/bible/names/andrew]]<br>
+                                    [[rc://en/tw/dict/bible/names/philiptheapostle]]<br>
+                                    [[rc://en/tw/dict/bible/names/thomas]]<br>
+                                    [[rc://en/tw/dict/bible/names/bartholomew]]<br>
+                                    [[rc://en/tw/dict/bible/names/matthew]]<br>
+                                    [[rc://en/tw/dict/bible/names/jamessonofalphaeus]]<br>
+                                    [[rc://en/tw/dict/bible/names/simonthezealot]]<br>
+                                    [[rc://en/tw/dict/bible/names/judassonofjames]]<br>
+                                    [[rc://en/tw/dict/bible/names/mary]]<br>
+                                    [[rc://en/tw/dict/bible/kt/pray]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -462,6 +655,14 @@
                             <div class="kwverse_1_5_15"> Pada hari-hari itu <b data="0">berdirilah Petrus di tengah-tengah</b> para saudara, sekitar seratus dua puluh orang, dan berkata, </div>
                             <strong><sup>16</sup></strong>
                             <div class="kwverse_1_5_16"> "Saudara-saudara, adalah penting agar tulisan firman harus digenapi, bahwa <b data="0">Roh Kudus</b> telah berkata melalui mulut Daud mengenai Yudas Iskariot, yang telah menuntun mereka yang menangkap Yesus. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -517,6 +718,30 @@
                                     <li>[[rc://en/tw/dict/bible/kt/jesus]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Pernyataan terkait:&nbsp;<br>
+                                Peristiwa ini terjadi ketika Petrus dan orang- orang percaya lainnya berdiam bersama di ruangan di lantai atas.&nbsp;<br>
+                                Pada hari-hari itu<br>
+                                Kata-kata ini menandai awal mula yang menjadi bagian dari kisah itu. Mereka mengacu pada masa setelah kenaikan Yesus ketika para murid bertemu di ruangan di lantai atas. AT: "pada waktu itu" (Lihat:&nbsp;[[rc://en/ta/man/translate/writing-newevent]])<br>
+                                120 orang<br>
+                                "seratus dua puluh orang" (Lihat:&nbsp;&nbsp;[[rc://en/ta/man/translate/translate-numbers]])<br>
+                                Di antara saudara-saudara<br>
+                                kata "saudara" di sini mengacu pada sesama orang-orang percaya termasuk pria dan wanita.<br>
+                                Kitab suci harus digenapi<br>
+                                Ini dapat ditulis dalam bentuk kalimat aktif. AT: "hal-hal yang kita baca di kitab suci harus terlaksana" (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Melalui mulut Daud&nbsp;<br>
+                                Kata "mulut" mengacu pada kata-kata yang ditulis Daud. AT: "melalui perkataan Daud" (Lihat:&nbsp;<br>
+                                [[rc://en/ta/man/translate/figs-metonymy]])<br>
+                                Kata-kata terjemahan<br>
+                                    [[rc://en/tw/dict/bible/names/peter]]<br>
+                                    [[rc://en/tw/dict/bible/kt/brother]]<br>
+                                    [[rc://en/tw/dict/bible/kt/wordofgod]]<br>
+                                    [[rc://en/tw/dict/bible/kt/fulfill]]<br>
+                                    [[rc://en/tw/dict/bible/kt/holyspirit]]<br>
+                                    [[rc://en/tw/dict/bible/names/david]]<br>
+                                    [[rc://en/tw/dict/bible/names/judasiscariot]]<br>
+                                    [[rc://en/tw/dict/bible/kt/jesus]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -533,6 +758,14 @@
                             <div class="kwverse_1_6_18"> (Sekarang orang ini membeli sebidang tanah <b data="0">dengan hasil yang ia dapatkan</b> dari kejahatannya, dan di situlah ia jatuh dengan kepalanya terlebih dahulu, dan tubuhnya terbelah, serta seluruh isi perutnya terhambur keluar. </div>
                             <strong><sup>19</sup></strong>
                             <div class="kwverse_1_6_19"> <b data="0">Semua yang hidup di Yerusalem</b> telah mendengar tentang hal ini, sebab itulah mereka menyebut ladang itu dalam bahasa mereka "Hakal-Dama," yaitu, "Tanah Darah.") </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -583,6 +816,27 @@
                                     <li>[[rc://en/tw/dict/bible/kt/blood]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Pernyataan terkait:&nbsp;<br>
+                                Di dalam ayat 17 Petrus melanjutkan perkataannya pada orang- orang percaya yang bermula di Kisah Para Rasul 1:16<br>
+                                Informasi umum:&nbsp;<br>
+                                Di dalam ayat 18-19, si penulis menceritakan pada pembaca mengenai latar belakang tentang bagaimana Yudas mati dan sebutan untuk daerah tempat dia mati. Ini bukan&nbsp; bagian dari perkataan Petrus. (Lihat:&nbsp;&nbsp;[[rc://en/ta/man/translate/writing-background]])<br>
+                                Informasi umum:<br>
+                                Walaupun Petrus menujukan untuk ke semua orang, kata "kita" mengacu hanya pada para rasul. (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-exclusive]])<br>
+                                Sekarang orang ini<br>
+                                Kata "orang ini" mengacu pada Yudas Iskariot.&nbsp;<br>
+                                Hasil dari kejahatannya<br>
+                                "uang yang dia dapatkan dari hal jahat yang dia lakukan." Kata "kejahatannya" mengacu pada pengkhianatan Yudas Iskariot terhadap Yesus kepada orang-orang yang membunuh Dia. (Lihat:&nbsp;&nbsp;[[rc://en/ta/man/translate/figs-explicit]])<br>
+                                Di sana kepalanya jatuh lebih dulu, dan bagian tengah tubuhnya terbelah, dan semua isi perutnya terurai<br>
+                                Hal ini menunjukkan bahwa Yudas terjatuh dari tempat tinggi bukannya hanya terjatuh. Kejatuhannya cukup parah untuk membuat tubuhnya terbelah. Ayat lainnya di Kitab Suci menyebutkan kalau dia menggantung dirinya sendiri. (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-explicit]])<br>
+                                Tanah Darah<br>
+                                Ketika orang-orang yang tinggal di Yerusalem mendengar bagaimana Yudas mati, mereka menamakan kembali tanah tersebut.&nbsp;<br>
+                                Kata-kata terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/minister]]<br>
+                                    [[rc://en/tw/dict/bible/kt/evil]]<br>
+                                    [[rc://en/tw/dict/bible/names/jerusalem]]<br>
+                                    [[rc://en/tw/dict/bible/kt/blood]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -595,6 +849,14 @@
                         <div class="row scripture_chunk chunk_verses">
                             <strong><sup>20</sup></strong>
                             <div class="kwverse_1_7_20"> Karena ada tertulis dalam <b data="0">Kitab Mazmur, 'Biarlah ladangnya menjadi terlantar</b>, dan jangan biarkan seorangpun menetap di sana'; dan, <b data="0">'Biarlah orang lain</b> mengambil kedudukannya dalam kepemimpinan.' </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -637,6 +899,23 @@
                                     <li>[[rc://en/tw/dict/bible/other/desolate]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Pernyataan terkait:&nbsp;<br>
+                                Petrus melanjutkan perkataannya pada orang-orang percaya yang dimulai di Kisah Para Rasul 1:16<br>
+                                Informasi umum:<br>
+                                Berdasarkan kisah Yudas yang diceritakan kembali oleh Petrus, dia mengingat dua Mazmur Daud yang berhubungan dengan peristiwa itu. Kutipan itu menutup ayat tersebut.&nbsp;<br>
+                                Sebab telah tertulis di dalam Kitab Mazmur<br>
+                                Ini dapat ditulis dalam bentuk kalimat aktif. AT: "Seperti yang Daud tulis di Kitab Mazmur" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Biarlah tempatnya dijadikan sepi dan biarlah tidak ada seorang pun yang tinggal di sana<br>
+                                Dua ungkapan ini kurang lebih berarti sama. Ungkapan kedua menekankan arti dari ungkapan pertama dengan menggunakan kata-kata yang berbeda namun gagasan yang sama (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-parallelism]])<br>
+                                Biarlah tempatnya djadikan sepi<br>
+                                Arti-arti memungkinkan 1) bahwa kata "daerah" mengacu pada tempat Yudas mati atau 2) bahwa kata "daerah" mengacu pada tempat tinggal Yudas dan sebuah perumpamaan untuk garis keturunannya&nbsp;(Lihat:&nbsp;[[rc://en/ta/man/translate/figs-metaphor]])<br>
+                                Dijadikan sepi<br>
+                                "menjadi kosong"<br>
+                                translationWords<br>
+                                    [[rc://en/tw/dict/bible/other/written]]<br>
+                                    [[rc://en/tw/dict/bible/other/desolate]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -653,6 +932,14 @@
                             <div class="kwverse_1_8_22"> mulai dari baptisan Yohanes hingga pada hari Ia diangkat dari antara kita, haruslah menjadi saksi bersama-sama dengan kita mengenai kebangkitanNya. </div>
                             <strong><sup>23</sup></strong>
                             <div class="kwverse_1_8_23"> Mereka mengajukan dua orang, <b data="0">Yusuf yang disebut Barsabas</b>, yang juga bernama Yustus, dan Matias. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -713,6 +1000,32 @@
                                     <li>[[rc://en/tw/dict/bible/kt/resurrection]]</li>
                                 </ul>
                             </div>
+                            <div class="notes_target_compare">
+                                Pernyataan terkait:&nbsp;<br>
+                                Petrus menyelesaikan perkataannya pada orang-orang percaya yang dimulai dalam Kisah Para Rasul 1:16<br>
+                                Informasi Umum:<br>
+                                Kata "kita" mengacu pada para rasul dan tidak termasuk para pendengar yang mendengar Petrus berbicara. (Lihat: [[rc://en/ta/man/translate/figs-exclusive]])<br>
+                                Ini perlu, oleh karena itu<br>
+                                Berdasarkan apa yang dia kutip dari Kitab Suci, dan apa yang sudah dilakukan Yudas, Petrus memberitahu apa yang harus mereka lakukan.&nbsp;<br>
+                                Salah satu dari laki-laki yang telah bersama sama kita ... Harus menjadi saksi atas kebangkitanNya bersama kita&nbsp;<br>
+                                Petrus mendaftarkan nama yang sesuai degan kriteria untuk penggantikan Yudas sebagai rasul&nbsp;<br>
+                                Tuhan Yesus masuk dan keluar di antara kita<br>
+                                Masuk dan keluar di antara orang-orang adalah sebuah ungkapan untuk secara terbuka menjadi bagian dari kelompok. AT: "Tuhan Yesus tinggal di antara kita" (Lihat: [[rc://en/ta/man/translate/figs-idiom]])<br>
+                                Bermula dari baptisan Yohanes<br>
+                                kata benda "baptisan" dapat diterjemahkan menjadi kata kerja. Arti-arti yang memungkinkan 1) "bermula dari ketika Yohanes membaptis Yesus" atau 2) "bermula dari ketika Yohanes membaptis orang-orang" (Lihat: [[rc://en/ta/man/translate/figs-abstractnouns]])<br>
+                                Sampai hari ketika Ia diangkat dari antara kita<br>
+                                Ini dapat ditulis dalam bentuk kalimat aktif. AT: "sampai hari ketika Yesus meninggalkan kita dan naik ke surga" atau "sampai hari ketika Tuhan mengangkat Dia dari kita" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Mereka mengusulkan dua orang<br>
+                                Kata "mereka" mengacu pada semua orang percaya yang hadir. AT: "mereka mengusulkan dua orang yang memenuhi syarat yang diajukan Petrus" (Lihat: [[rc://en/ta/man/translate/figs-explicit]])<br>
+                                Yusuf yang disebut Barsabas yang juga dipanggil Yustus<br>
+                                Ini dapat diterjemahkan dalam bentuk kalimat aktif. AT: "Yusuf, yang orang-orang panggil Barsabas dan Yustus" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]] and [[rc://en/ta/man/translate/translate-names]])<br>
+                                Kata-kata Terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/lord]]<br>
+                                    [[rc://en/tw/dict/bible/kt/baptize]]<br>
+                                    [[rc://en/tw/dict/bible/names/johnthebaptist]]<br>
+                                    [[rc://en/tw/dict/bible/kt/testimony]]<br>
+                                    [[rc://en/tw/dict/bible/kt/resurrection]]<br>
+                            </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments"> </div>
@@ -729,6 +1042,14 @@
                             <div class="kwverse_1_9_25"> untuk menggantikan tempat dalam pelayanan ini dan kerasulan yang mana <b data="0">Yudas Iskariot</b> telah melanggarnya untuk pergi ke tempat yang telah menjadi miliknya. </div>
                             <strong><sup>26</sup></strong>
                             <div class="kwverse_1_9_26"> Mereka membuang undi terhadap keduanya; undi itu jatuh pada Matias sehingga ia telah terhitung di antara kesebelas rasul. </div>
+                        </div>
+                        <div class="compare_notes">
+                            <label>
+                                <?php echo __("compare"); ?>
+                                <input type="checkbox" checked data-toggle="toggle"
+                                       data-on="<?php echo __("on") ?>"
+                                       data-off="<?php echo __("off") ?>">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <div class="note_content">
@@ -790,6 +1111,32 @@
                                     <li>[[rc://en/tw/dict/bible/other/lots]]</li>
                                     <li>[[rc://en/tw/dict/bible/kt/thetwelve]]</li>
                                 </ul>
+                            </div>
+                            <div class="notes_target_compare">
+                                Mereka berdoa dan berkata<br>
+                                Kata "mereka" mengacu pada semua orang percaya tapi mungkin salah satu rasul yang mengatakan hal ini. AT: "Orang-orang percaya berdoa bersama dan salah satu rasul berkata" (Lihat: [[rc://en/ta/man/translate/figs-explicit]])<br>
+                                Engkau, Allah, yang mengenal hati setiap orang<br>
+                                Kata "hati" mengacu pada pikiran dan tujuan. AT: "Engkau, Allah, yang mengenal pikiran dan tujuan setiap orang" (Lihat: [[rc://en/ta/man/translate/figs-metonymy]])<br>
+                                Untuk menerima bagian pelayanan ini dan jabatan rasul<br>
+                                Kata "jabatan rasul" menjelaskan&nbsp; bentuk "pelayanan" apakah ini. AT: "untuk menerima bagian Yudas dalam pelayanan rasul ini" atau "untuk menerima bagian Yudas untuk melayani sebagai rasul" (Lihat: [[rc://en/ta/man/translate/figs-doublet]])<br>
+                                Dari Yudas yang telah menyimpang<br>
+                                Ungkapan "menyimpang" berarti Yudas berhenti melayani. AT: "Yudas berhenti melaksanakan (pelayanan)"<br>
+                                Untuk pergi ke tempatnya sendiri<br>
+                                Ungkapan ini mengacu pada kematian Yudas dan mungkin penghakimannya setelah kematian. AT: "untuk pergi kemana seharusnya ia pergi" (Lihat: [[rc://en/ta/man/translate/figs-euphemism]])<br>
+                                Mereka membuang undi untuk mereka<br>
+                                Para rasul membuang undi untuk menentukan Yusuf atau Matias<br>
+                                Ia terhitung bersama sebelas rasul<br>
+                                Ini dapat ditulis dalam bentuk kalimat aktif. AT: "orang-orang percaya menganggap dia sebagai salah satu rasul bersama sebelas rasul lainnya" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])<br>
+                                Kata-kata Terjemahan<br>
+                                    [[rc://en/tw/dict/bible/kt/pray]]<br>
+                                    [[rc://en/tw/dict/bible/kt/lord]]<br>
+                                    [[rc://en/tw/dict/bible/other/know]]<br>
+                                    [[rc://en/tw/dict/bible/kt/reveal]]<br>
+                                    [[rc://en/tw/dict/bible/kt/minister]]<br>
+                                    [[rc://en/tw/dict/bible/kt/apostle]]<br>
+                                    [[rc://en/tw/dict/bible/kt/transgression]]<br>
+                                    [[rc://en/tw/dict/bible/other/lots]]<br>
+                                    [[rc://en/tw/dict/bible/kt/thetwelve]]<br>
                             </div>
                             <div class="comments_number tncommpeer"> </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
@@ -882,6 +1229,19 @@
             window.location.href = '/events/demo-tn/peer_review';
 
             return false;
+        });
+
+        $(".compare_notes input").change(function () {
+            var parent = $(this).parents(".note_chunk");
+            var active = $(this).prop('checked');
+
+            if (active) {
+                $(".notes_target", parent).hide();
+                $(".notes_target_compare", parent).show();
+            } else {
+                $(".notes_target_compare", parent).hide();
+                $(".notes_target", parent).show();
+            }
         });
     });
 </script>
