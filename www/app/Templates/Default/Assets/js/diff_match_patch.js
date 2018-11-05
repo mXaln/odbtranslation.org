@@ -1257,8 +1257,8 @@ diff_match_patch.prototype.diff_prettyHtml = function(diffs) {
     for (var x = 0; x < diffs.length; x++) {
         var op = diffs[x][0];    // Operation (insert, delete, equal)
         var data = diffs[x][1];  // Text of change.
-         var text = data.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;')
-             .replace(pattern_gt, '&gt;').replace(pattern_para, '<br>');
+         var text = data./*replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;')
+             .replace(pattern_gt, '&gt;').*/replace(pattern_para, '<br>');
         switch (op) {
             case DIFF_INSERT:
                 html[x] = '<ins style="background:#e6ffe6;">' + text + '</ins>';
