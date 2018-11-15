@@ -4338,9 +4338,9 @@ button.startEvnt, button.editEvnt {
 
 .project_progress {
     position: absolute;
-    top: -40px;
-    left: 300px;
-    width: 240px;
+    top: -35px;
+    left: 40px;
+    width: 340px;
 }
 
 .importTranslation {
