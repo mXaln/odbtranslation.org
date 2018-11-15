@@ -17,7 +17,7 @@ if(!empty($data["project"])):
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
-        <div style="display: flex">
+        <div style="display: flex; margin-bottom: 50px; border-bottom: 1px solid #ccc;">
             <div style="flex: 2; display: flex; justify-content: flex-end">
                 <div class="add-event-btn">
                     <img class="contibLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">

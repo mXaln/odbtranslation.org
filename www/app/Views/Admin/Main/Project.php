@@ -17,7 +17,7 @@ if(!empty($data["project"])):
     </div>
 
     <div class="form-inline dt-bootstrap no-footer">
-        <div style="display: flex">
+        <div style="display: flex; margin-bottom: 50px; border-bottom: 1px solid #ccc;">
             <ul class="nav nav-pills book-parts">
                 <li role="presentation" class="active"><a href="#old_test"><?php echo __("old_test") ?></a></li>
                 <li role="presentation"><a href="#new_test"><?php echo __("new_test") ?></a></li>
