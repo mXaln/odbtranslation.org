@@ -1073,6 +1073,25 @@ class EventsModel extends Model
 
     }
 
+    public function getProjectWithContributors($projectID)
+    {
+        return $this->db->table("events")
+            ->select([
+                "events.eventID","events.admins", "events.admins_l2",
+                "translators.verbCheck","translators.peerCheck",
+                "translators.kwCheck","translators.crCheck",
+                "translators.otherCheck", "checkers_l2.sndCheck",
+                "checkers_l2.peer1Check", "checkers_l2.peer2Check",
+                "projects.bookProject"
+            ])
+            ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
+            ->leftJoin("checkers_l2", "events.eventID", "=", "checkers_l2.eventID")
+            ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
+            ->where("events.projectID", $projectID)
+            ->get();
+
+    }
+
     /**
      * Get notifications for assigned events
      * @return array

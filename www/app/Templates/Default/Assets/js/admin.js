@@ -872,6 +872,60 @@ $(function () {
     });
 
 
+    // Show event contributors
+    $(".showAllContibutors").click(function () {
+        var projectID = $(this).data("projectid");
+
+        $.ajax({
+            url: "/admin/rpc/get_project_contributors",
+            method: "post",
+            data: {projectID: projectID},
+            dataType: "json",
+            beforeSend: function() {
+                $(".contibLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    var html = "<ul>";
+
+                    $.each(data.contributors, function () {
+                        html += "<li>"+this+"</li>";
+                    });
+
+                    html += "</ul>";
+
+                    $(".contributors_title").hide();
+                    $(".contributors_title.proj").show();
+                    $(".contributors_content").html(html);
+                    $(".contributors_container").css("left", 0);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        if(data.error == "login" || data.error == "admin")
+                            window.location.href = "/members/login";
+                        else
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                }
+            })
+            .always(function() {
+                $(".contibLoader").hide();
+            });
+    });
+
+    $(".contributors-close").click(function () {
+        $(".contributors_container").css("left", -9999);
+        $(".contributors_title").show();
+        $(".contributors_title.proj").hide();
+    });
+
+
     // Activate/Verify member
     $(".verifyMember").click(function (e) {
         e.preventDefault();

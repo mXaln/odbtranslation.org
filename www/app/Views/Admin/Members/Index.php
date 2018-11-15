@@ -63,8 +63,8 @@
                                     ?>
                                 </td>
                                 <td><input type="checkbox" class="activateMember" data="<?php echo $member->memberID; ?>" <?php echo $member->active ? "checked='checked'" : "" ?> disabled='disabled'></td>
-                                <td><button class="btn btn-primary verifyMember" data="<?php echo $member->memberID; ?>"><?php echo __("verify") ?></button></td>
-                                <td><button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
+                                <td class="block_btn"><button class="btn btn-primary verifyMember" data="<?php echo $member->memberID; ?>"><?php echo __("verify") ?></button></td>
+                                <td class="block_btn"><button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
                                         <?php echo $member->blocked ? __("unblock") : __("block") ?>
                                     </button></td>
                             </tr>
@@ -148,7 +148,7 @@
                                     ?>
                                 </td>
                                 <td><input type='checkbox' <?php echo $member->isAdmin ? "checked" : "" ?> disabled></td>
-                                <td>
+                                <td class="block_btn">
                                     <button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
                                         <?php echo $member->blocked ? __("unblock") : __("block") ?>
                                     </button>
