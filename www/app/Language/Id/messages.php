@@ -388,7 +388,7 @@ return array (
     "vmast_events" => "Kegiatan V-MAST",
     "create_event" => "Buat kegiatan",
     "edit_event" => "Ubah kegiatan",
-    "create_info_tip" => "Jika anda ingin memulai suatu kegiatan, bacalah <a href=\"#\">instructions</a>!",
+    "create_info_tip" => "Click here to create projects and events",
     "new_events" => "Kegiatan baru",
     "choose_project" => "Pilih Proyek",
     "create_project" => "Buat Proyek",

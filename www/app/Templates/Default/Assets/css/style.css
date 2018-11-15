@@ -58,6 +58,7 @@ html, body, .container {
     margin: 10px auto;
     padding: 0;
     border: none;
+    display: flex;
 }
 
 .footer {
@@ -860,6 +861,7 @@ html, body, .container {
 
 .book-parts {
     margin: 10px;
+    flex: 2;
 }
 
 #new_test {
@@ -3260,6 +3262,7 @@ div[class^="member_usname mid"] {
 .profile-select {
     margin-top: 10px;
     cursor: pointer;
+    position: relative;
 }
 
 .profile-select li {
@@ -3281,15 +3284,19 @@ div[class^="member_usname mid"] {
     padding: 0;
     margin: 0;
     height: 50px;
+    flex: 4;
+    display: flex;
 }
 
 .header_menu_left .logo {
     margin-top: 5px;
+    flex: 1;
 }
 
 .header_menu_left .nav {
     font-weight: bold;
     height: 50px;
+    flex: 2;
 }
 
 .header_menu_left .nav li {
@@ -3318,6 +3325,11 @@ div[class^="member_usname mid"] {
     padding: 0;
     margin: 0;
     height: 50px;
+    flex: 3;
+}
+
+.header_menu_right.admin {
+    flex: 1;
 }
 
 .header_menu_right li {
@@ -3365,17 +3377,19 @@ div[class^="member_usname mid"] {
 }
 
 .event_block {
-    width: 1140px;
+    /*width: 1140px;*/
     border-top: 2px solid #e9e9e9;
     padding: 0px;
+    display: flex;
 }
 
 .event_logo {
-    float: left;
+    /*float: left;*/
     text-align: center;
     width: 170px;
     min-height: 190px;
     background-color: #fff;
+    flex: 1;
 }
 
 .event_logo.translation {
@@ -3419,8 +3433,9 @@ div[class^="member_usname mid"] {
 
 .event_project {
     width: 250px;
-    float: left;
+    /*float: left;*/
     margin: 10px;
+    flex: 2;
 }
 
 .event_book {
@@ -3517,10 +3532,11 @@ div[class^="member_usname mid"] {
 }
 
 .event_current_pos {
-    float: left;
+    /*float: left;*/
     width: 280px;
     margin-top: 45px;
     font-weight: bold;
+    flex: 2;
 }
 
 .event_current_title {
@@ -3534,11 +3550,13 @@ div[class^="member_usname mid"] {
 }
 
 .event_action {
-    float: left;
+    /*float: left;*/
     width: 180px;
     margin-top: 5px;
+    margin-right: 10px;
     text-align: center;
     font-weight: bold;
+    flex: 1;
 }
 
 .event_action.check1 {
@@ -3630,7 +3648,7 @@ div[class^="member_usname mid"] {
 }
 
 .create_event_block {
-    width: 1140px;
+    /*width: 1140px;*/
     height: 60px;
     background-color: #efefef;
     border-top: 1px solid #cecece;
@@ -3669,6 +3687,7 @@ div[class^="member_usname mid"] {
     font-size: 12px;
     font-weight: bold;
     margin-left: 10px;
+    text-align: center;
 }
 
 .create_event_link:hover {
@@ -3912,6 +3931,15 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
+#all_members_table td, #verify_members_content td {
+    overflow-wrap: break-word;
+    max-width: 150px;
+}
+
+#all_members_table .block_btn, #verify_members_content .block_btn {
+    text-align: center;
+}
+
 #search_empty {
     margin: 20px 0 0 10px;
     font-size: 18px;
@@ -3991,6 +4019,10 @@ button.startEvnt, button.editEvnt {
     font-weight: bold;
     font-size: 18px;
     margin-top: -10px;
+}
+
+.contributors_title.proj {
+    display: none;
 }
 
 .events_separator {
@@ -4269,7 +4301,7 @@ button.startEvnt, button.editEvnt {
     width: 150px;
 }
 
-.cacheLoader {
+.cacheLoader, .contibLoader {
     margin: 12px 10px 0 0;
     display: none;
 }

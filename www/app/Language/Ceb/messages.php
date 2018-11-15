@@ -390,7 +390,7 @@ return array (
     "vmast_events" => "Mga Bulohaton sa V-MAST",
     "create_event" => "Create event",
     "edit_event" => "Edit event",
-    "create_info_tip" => "If you want to start an event, read <a href=\"#\">instructions</a>!",
+    "create_info_tip" => "Click here to create projects and events",
     "new_events" => "New Events",
     "choose_project" => "Choose Project",
     "create_project" => "Create Project",
