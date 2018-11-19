@@ -1519,7 +1519,8 @@ class EventsModel extends Model
         return $this->db->table("events")
             ->select("projects.gwLang", "projects.targetLang")
             ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
-            ->where("events.admins", "LIKE", "%$memberID%")
+            ->where("events.admins", "LIKE", "%\"$memberID\"%")
+            ->orWhere("events.admins_l2", "LIKE", "%\"$memberID\"%")
             ->get();
     }
 

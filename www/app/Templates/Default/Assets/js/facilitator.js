@@ -479,12 +479,12 @@ $(function () {
                             "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
                             "<td>"+v.firstName+" "+v.lastName+"</td>" +
                             "<td>"+v.email+"</td>" +
-                            "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
-                                ? JSON.parse(v.prefered_roles).map(function(role) {
-                                return " "+Language[role];
-                            })
-                                : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
-                            "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                            "<td>"+(v.projects ? JSON.parse(v.projects).map(function (proj) {
+                                return Language[proj];
+                            }).join(", ") : "")+"</td>" +
+                            "<td>"+(v.proj_lang ? "["+v.langID+"] "+v.langName +
+                                (v.angName != "" && v.angName != v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
+                            "<td><input type='checkbox' "+(parseInt(v.complete) ? "checked" : "")+" disabled></td>" +
                             "</tr>";
                         $("#all_members_table tbody").append(row);
                     });
@@ -535,12 +535,12 @@ $(function () {
                                 "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
                                 "<td>"+v.firstName+" "+v.lastName+"</td>" +
                                 "<td>"+v.email+"</td>" +
-                                "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
-                                    ? JSON.parse(v.prefered_roles).map(function(role) {
-                                    return " "+Language[role];
-                                })
-                                    : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
-                                "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
+                                "<td>"+(v.projects ? JSON.parse(v.projects).map(function (proj) {
+                                    return Language[proj];
+                                }).join(", ") : "")+"</td>" +
+                                "<td>"+(v.proj_lang ? "["+v.langID+"] "+v.langName +
+                                    (v.angName != "" && v.angName != v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
+                                "<td><input type='checkbox' "+(parseInt(v.complete) ? "checked" : "")+" disabled></td>" +
                                 "</tr>";
                             $("#all_members_table tbody").append(row);
                         });

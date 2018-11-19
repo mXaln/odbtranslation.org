@@ -2,27 +2,26 @@
 namespace App\Controllers\Admin;
 
 use App\Core\Controller;
+use App\Models\ApiModel;
 use App\Models\EventsModel;
 use App\Models\MembersModel;
-use App\Models\ApiModel;
 use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
-use File;
-use Helpers\Data;
-use View;
 use Config\Config;
-use Helpers\Password;
+use File;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
 use Helpers\Gump;
+use Helpers\Password;
 use Helpers\Session;
 use Helpers\Url;
 use Helpers\UsfmParser;
 use Shared\Legacy\Error;
 use Support\Facades\Cache;
 use Support\Facades\Input;
+use Support\Facades\View;
 use ZipArchive;
 
 class AdminController extends Controller {
@@ -741,12 +740,30 @@ class AdminController extends Controller {
                     return !is_numeric($elm);
                 }));
 
-                $membersArray = (array)$this->_membersModel->getMembers($filteredNumeric, true);
+                $membersArray = (array)$this->_membersModel->getMembers($filteredNumeric, true, true);
 
                 foreach ($membersArray as $member) {
                     if(in_array($member->memberID, $filteredNumeric))
                     {
-                        $contributors[] = $member->firstName . " " . $member->lastName;
+                        $church_role = (array)json_decode($member->church_role);
+
+                        if (in_array("Pastor", $church_role))
+                            $church_role = "Pastor";
+                        elseif (in_array("Seminary Professor", $church_role))
+                            $church_role = "Seminary Professor";
+                        elseif (in_array("Denominational Leader", $church_role))
+                            $church_role = "Denominational Leader";
+                        elseif (in_array("Bishop", $church_role))
+                            $church_role = "Bishop";
+                        elseif (in_array("Elder", $church_role))
+                            $church_role = "Elder";
+                        elseif (in_array("Teacher", $church_role))
+                            $church_role = "Teacher";
+                        else
+                            $church_role = "";
+
+                        $contributors[] = $member->firstName . " " . $member->lastName .
+                            ($church_role != "" ? " (".$church_role.")" : "");
                     }
                 }
 

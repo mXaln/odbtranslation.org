@@ -59,7 +59,7 @@ class MembersModel extends Model {
             ->limit(1)->get();
     }
 
-    public function getMembers($memberIDs = array(), $more = false)
+    public function getMembers($memberIDs = array(), $more = false, $profile = false)
     {
         if(is_array($memberIDs) && !empty($memberIDs))
         {
@@ -67,6 +67,9 @@ class MembersModel extends Model {
 
             if($more)
                 $select = array_merge($select, ["members.email"]);
+
+            if($profile)
+                $select = array_merge($select, ["profile.*"]);
 
             return $this->db->table("members")
                 ->select($select)
@@ -157,20 +160,26 @@ class MembersModel extends Model {
                 "members.lastName",
                 "members.isAdmin",
                 "members.blocked",
-                "profile.prefered_roles"
+                "profile.complete",
+                "profile.proj_lang",
+                "profile.projects",
+                "languages.langID",
+                "languages.langName",
+                "languages.angName",
             ];
 
             if($admin)
                 $select[] = "members.email";
 
             $builder->select($select)
+                ->leftJoin("languages", "languages.langID", "=", "profile.proj_lang")
                 ->skip($skip)->take($take) // limit to 50 (default) rows per page
                 ->orderBy("members.userName");
         }
 
         if($name)
             $builder->where(function($query) use ($name) {
-                $query->where("members.userName", "LIKE", "%$name%") // search in usernames
+                $query->where("members.userName", "LIKE", "%$name%") // search in user names
                     ->orWhere("members.firstName", "LIKE", "%$name%") // search in first names
                     ->orWhere("members.lastName", "LIKE", "%$name%"); // search in last names
             });
@@ -190,7 +199,8 @@ class MembersModel extends Model {
                         $query->whereIn("projects.gwLang", $languages)
                             ->orWhereIn("projects.targetLang", $languages);
                     })
-                        ->whereRaw("`".PREFIX."events`.`admins` LIKE CONCAT('%\"', `".PREFIX."members`.`memberID`, '\"%')");
+                    ->orWhereRaw("`".PREFIX."events`.`admins` LIKE CONCAT('%\"', `".PREFIX."members`.`memberID`, '\"%')")
+                    ->orWhereRaw("`".PREFIX."events`.`admins_l2` LIKE CONCAT('%\"', `".PREFIX."members`.`memberID`, '\"%')");
                 });
         }
 
@@ -209,7 +219,7 @@ class MembersModel extends Model {
                         $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
                 });
             else
-                $builder->orWhere(function ($query) use ($languages) {
+                $builder->where(function ($query) use ($languages) {
                     $query->where(function($query) use ($languages) {
                         foreach ($languages as $language)
                             $query->orWhere("profile.languages", "LIKE", "%\"$language\"%");
@@ -218,9 +228,13 @@ class MembersModel extends Model {
         }
 
         if(!$count)
+        {
             return $builder->get();
+        }
         else
+        {
             return $builder->count("memberID");
+        }
     }
 
     /**
