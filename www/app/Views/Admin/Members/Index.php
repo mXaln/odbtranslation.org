@@ -135,8 +135,10 @@
                             <th><?php echo __("userName") ?></th>
                             <th><?php echo __("name") ?></th>
                             <th><?php echo __("Email") ?></th>
-                            <th><?php echo __("prefered_roles") ?></th>
-                            <th><?php echo __("activated") ?></th>
+                            <th><?php echo __("projects_public") ?></th>
+                            <th><?php echo __("proj_lang_public") ?></th>
+                            <th><?php echo __("profile_message") ?></th>
+                            <th><?php echo __("activated") ?> <span class="glyphicon glyphicon-question-sign" title="by email"></span></th>
                             <th colspan="2"></th>
                         </tr>
                         </thead>
@@ -147,20 +149,27 @@
                                 <td><?php echo $member->firstName . " " . $member->lastName ?></td>
                                 <td><?php echo $member->email ?></td>
                                 <td>
-                                    <?php
-                                    if(isset($member->prefered_roles) && $member->prefered_roles != "")
-                                    {
-                                        $preferedRoles = array_map(function($value) {
-                                            return __($value);
-                                        }, (array)json_decode($member->prefered_roles, true));
-                                        echo join(", ", $preferedRoles);
-                                    }
-                                    else
-                                    {
-                                        echo "<span style='color: #f00;'>".__("empty_profile_error")."</span>";
-                                    }
-                                    ?>
+                                    <?php $projects = array_map(function ($elm) {
+                                        switch ($elm) {
+                                            case "vmast":
+                                                return __("8steps_vmast");
+                                                break;
+                                            case "l2":
+                                                return __("l2_3_events", [2]);
+                                                break;
+                                            default:
+                                                return __($elm);
+                                        }
+                                    }, (array)json_decode($member->projects, true)) ?>
+                                    <?php echo join(", ", $projects) ?>
                                 </td>
+                                <td>
+                                    <?php if($member->proj_lang): ?>
+                                        <?php echo "[".$member->langID."] " . $member->langName .
+                                            ($member->angName != "" && $member->angName != $member->langName ? " (".$member->angName.")" : "") ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td><input type='checkbox' <?php echo $member->complete ? "checked" : "" ?> disabled></td>
                                 <td><input type="checkbox" class="activateMember" data="<?php echo $member->memberID; ?>" <?php echo $member->active ? "checked='checked'" : "" ?> disabled='disabled'></td>
                                 <td class="block_btn"><button class="btn btn-primary verifyMember" data="<?php echo $member->memberID; ?>"><?php echo __("verify") ?></button></td>
                                 <td class="block_btn"><button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
