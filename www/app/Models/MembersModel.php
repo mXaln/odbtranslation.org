@@ -42,7 +42,8 @@ class MembersModel extends Model {
         if($getProfile)
         {
             $select[] = "profile.*";
-            $builder->leftJoin("profile", "members.memberID", "=", "profile.mID");
+            $builder->leftJoin("profile", "members.memberID", "=", "profile.mID")
+                ->leftJoin("languages", "languages.langID", "=", "profile.proj_lang");
         }
 
         return $builder
