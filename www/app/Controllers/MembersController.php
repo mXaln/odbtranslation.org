@@ -467,6 +467,7 @@ class MembersController extends Controller
         {
             Url::redirect('admin/members');
         }
+
         if(!Session::get("isSuperAdmin") && !Session::get("isAdmin") && !isset($_POST["ext"]))
         {
             Url::redirect('events');

@@ -56,9 +56,9 @@ $profile = Session::get("profile");
         <?php if(Session::get("isSuperAdmin")): ?>
             <div class="create_event_block">
                 <div>
-                    <a href="/admin" class="create_event_link"><?php echo __("create_event") ?></a>
+                    <a href="/admin" class="create_event_link"><?php echo __("admin") ?></a>
                 </div>
-                <div class="create_info_tip"><?php echo __("create_info_tip") ?> <span><?php echo __("create_event_tip") ?></span></div>
+                <div class="create_info_tip"><?php echo __("create_info_tip") ?></div>
                 <div>
                     <img src="<?php echo template_url("img/tip.png") ?>" width="95">
                 </div>
@@ -138,22 +138,22 @@ $profile = Session::get("profile");
 
                     </div>
                 </div>
-                <div class="event_time">
+                <!--<div class="event_time">
                     <div class="event_time_start">
-                        <div class="event_time_title"><?php echo __("time_start") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
-                            <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
-                        <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
+                        <div class="event_time_title"><?php /*echo __("time_start") */?></div>
+                        <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
+                            <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
+                        <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
                     </div>
                     <div class="event_time_end">
-                        <div class="event_time_title"><?php echo __("time_end") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
-                            <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
-                        <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
+                        <div class="event_time_title"><?php /*echo __("time_end") */?></div>
+                        <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
+                            <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
+                        <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
                     </div>
-                </div>
+                </div>-->
                 <div class="event_current_pos">
                     <div class="event_current_title"><?php echo __("state") ?></div>
                     <div class="event_curr_step">
@@ -246,22 +246,22 @@ $profile = Session::get("profile");
 
                     </div>
                 </div>
-                <div class="event_time">
+                <!--<div class="event_time">
                     <div class="event_time_start">
-                        <div class="event_time_title"><?php echo __("time_start") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
-                            <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
-                        <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
+                        <div class="event_time_title"><?php /*echo __("time_start") */?></div>
+                        <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
+                            <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
+                        <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
                     </div>
                     <div class="event_time_end">
-                        <div class="event_time_title"><?php echo __("time_end") ?></div>
-                        <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
-                            <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
-                        <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
+                        <div class="event_time_title"><?php /*echo __("time_end") */?></div>
+                        <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
+                            <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
+                        <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
                     </div>
-                </div>
+                </div>-->
                 <div class="event_current_pos">
                     <div class="event_current_title"><?php echo __("state") ?></div>
                     <div class="event_curr_step">
@@ -320,22 +320,22 @@ $profile = Session::get("profile");
                     </div>
                 </div>
             </div>
-            <div class="event_time">
+            <!--<div class="event_time">
                 <div class="event_time_start">
-                    <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
-                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
+                    <div class="event_time_title"><?php /*echo __("time_start") */?></div>
+                    <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
+                        <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
+                    <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
                 </div>
                 <div class="event_time_end">
-                    <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
-                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
+                    <div class="event_time_title"><?php /*echo __("time_end") */?></div>
+                    <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
+                        <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
+                    <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
                 </div>
-            </div>
+            </div>-->
             <div class="event_current_pos">
                 <?php if($event->step != EventSteps::NONE): ?>
                     <div class="event_current_title"><?php echo __("you_are_at") ?></div>
@@ -477,22 +477,22 @@ $profile = Session::get("profile");
                     </div>
                 </div>
             </div>
-            <div class="event_time">
+            <!--<div class="event_time">
                 <div class="event_time_start">
-                    <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
-                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
+                    <div class="event_time_title"><?php /*echo __("time_start") */?></div>
+                    <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
+                        <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
+                    <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
                 </div>
                 <div class="event_time_end">
-                    <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
-                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
+                    <div class="event_time_title"><?php /*echo __("time_end") */?></div>
+                    <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
+                        <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
+                    <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
                 </div>
-            </div>
+            </div>-->
             <div class="event_current_pos">
                 <?php if($event->step != EventSteps::NONE): ?>
                     <div class="event_current_title"><?php echo __("you_are_at") ?></div>

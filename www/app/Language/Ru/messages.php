@@ -387,7 +387,7 @@ return array (
     "vmast_events" => "V-MAST События",
     "create_event" => "Создать событие",
     "edit_event" => "Редактировать событие",
-    "create_info_tip" => "Если вы хотите начать событие, прочитайте <a href=\"#\">инструкции</a>!",
+    "create_info_tip" => "Нажмите здесь для создания проектов и событий",
     "new_events" => "Новые события",
     "choose_project" => "Выберите проект",
     "create_project" => "Создать проект",

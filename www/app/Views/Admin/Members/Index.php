@@ -8,14 +8,15 @@
 
 ?>
 <ul class="nav nav-tabs">
-    <li role="presentation" id="verify_members" class="mems_tab active">
-        <a href="#"><?php echo __("new_members_title") ?>
-            <span>(<?php echo sizeof($data["newMembers"]) ?>)</span>
-        </a>
-    </li>
-    <li role="presentation" id="all_members" class="mems_tab">
+
+    <li role="presentation" id="all_members" class="mems_tab active">
         <a href="#"><?php echo __("all_members") ?>
             <span></span>
+        </a>
+    </li>
+    <li role="presentation" id="verify_members" class="mems_tab">
+        <a href="#"><?php echo __("new_members_title") ?>
+            <span>(<?php echo sizeof($data["newMembers"]) ?>)</span>
         </a>
     </li>
     <li role="presentation" id="all_books" class="mems_tab">
@@ -25,59 +26,7 @@
     </li>
 </ul>
 
-<div class="members_content shown" id="verify_members_content">
-    <div class="panel panel-default">
-        <div class="dt-bootstrap no-footer">
-            <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-bordered table-hover" role="grid">
-                        <thead>
-                        <tr>
-                            <th><?php echo __("userName") ?></th>
-                            <th><?php echo __("name") ?></th>
-                            <th><?php echo __("Email") ?></th>
-                            <th><?php echo __("prefered_roles") ?></th>
-                            <th><?php echo __("activated") ?></th>
-                            <th colspan="2"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($data["newMembers"] as $member):?>
-                            <tr>
-                                <td><a href="/members/profile/<?php echo $member->memberID ?>"><?php echo $member->userName ?></a></td>
-                                <td><?php echo $member->firstName . " " . $member->lastName ?></td>
-                                <td><?php echo $member->email ?></td>
-                                <td>
-                                    <?php
-                                    if(isset($member->prefered_roles) && $member->prefered_roles != "")
-                                    {
-                                        $preferedRoles = array_map(function($value) {
-                                            return __($value);
-                                        }, (array)json_decode($member->prefered_roles, true));
-                                        echo join(", ", $preferedRoles);
-                                    }
-                                    else
-                                    {
-                                        echo "<span style='color: #f00;'>".__("empty_profile_error")."</span>";
-                                    }
-                                    ?>
-                                </td>
-                                <td><input type="checkbox" class="activateMember" data="<?php echo $member->memberID; ?>" <?php echo $member->active ? "checked='checked'" : "" ?> disabled='disabled'></td>
-                                <td><button class="btn btn-primary verifyMember" data="<?php echo $member->memberID; ?>"><?php echo __("verify") ?></button></td>
-                                <td><button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
-                                        <?php echo $member->blocked ? __("unblock") : __("block") ?>
-                                    </button></td>
-                            </tr>
-                        <?php endforeach ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="members_content" id="all_members_content">
+<div class="members_content shown" id="all_members_content">
     <div class="members_filter">
         <form id="membersFilter">
             <div class="mems_filter_item filter_title"><?php echo __("filter") ?>:</div>
@@ -121,8 +70,9 @@
                                 <th><?php echo __("userName") ?></th>
                                 <th><?php echo __("name") ?></th>
                                 <th><?php echo __("Email") ?></th>
-                                <th><?php echo __("prefered_roles") ?></th>
-                                <th><?php echo __("facilitator") ?></th>
+                                <th><?php echo __("projects_public") ?></th>
+                                <th><?php echo __("proj_lang_public") ?></th>
+                                <th><?php echo __("profile_message") ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -133,22 +83,28 @@
                                 <td><?php echo $member->firstName . " " . $member->lastName ?></td>
                                 <td><?php echo $member->email ?></td>
                                 <td>
-                                    <?php
-                                    if(isset($member->prefered_roles) && $member->prefered_roles != "")
-                                    {
-                                        $preferedRoles = array_map(function($value) {
-                                            return __($value);
-                                        }, (array)json_decode($member->prefered_roles, true));
-                                        echo join(", ", $preferedRoles);
-                                    }
-                                    else
-                                    {
-                                        echo "<span style='color: #f00;'>".__("empty_profile_error")."</span>";
-                                    }
-                                    ?>
+                                    <?php $projects = array_map(function ($elm) {
+                                        switch ($elm) {
+                                            case "vmast":
+                                                return __("8steps_vmast");
+                                                break;
+                                            case "l2":
+                                                return __("l2_3_events", [2]);
+                                                break;
+                                            default:
+                                                return __($elm);
+                                        }
+                                    }, (array)json_decode($member->projects, true)) ?>
+                                    <?php echo join(", ", $projects) ?>
                                 </td>
-                                <td><input type='checkbox' <?php echo $member->isAdmin ? "checked" : "" ?> disabled></td>
                                 <td>
+                                    <?php if($member->proj_lang): ?>
+                                        <?php echo "[".$member->langID."] " . $member->langName .
+                                            ($member->angName != "" && $member->angName != $member->langName ? " (".$member->angName.")" : "") ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td><input type='checkbox' <?php echo $member->complete ? "checked" : "" ?> disabled></td>
+                                <td class="block_btn">
                                     <button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
                                         <?php echo $member->blocked ? __("unblock") : __("block") ?>
                                     </button>
@@ -166,6 +122,67 @@
     <?php if($data["count"] > sizeof($data["members"])): ?>
         <div id="search_more"><?php echo __("search_more"); ?></div>
     <?php endif; ?>
+</div>
+
+<div class="members_content" id="verify_members_content">
+    <div class="panel panel-default">
+        <div class="dt-bootstrap no-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-hover" role="grid">
+                        <thead>
+                        <tr>
+                            <th><?php echo __("userName") ?></th>
+                            <th><?php echo __("name") ?></th>
+                            <th><?php echo __("Email") ?></th>
+                            <th><?php echo __("projects_public") ?></th>
+                            <th><?php echo __("proj_lang_public") ?></th>
+                            <th><?php echo __("profile_message") ?></th>
+                            <th><?php echo __("activated") ?> <span class="glyphicon glyphicon-question-sign" title="by email"></span></th>
+                            <th colspan="2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($data["newMembers"] as $member):?>
+                            <tr>
+                                <td><a href="/members/profile/<?php echo $member->memberID ?>"><?php echo $member->userName ?></a></td>
+                                <td><?php echo $member->firstName . " " . $member->lastName ?></td>
+                                <td><?php echo $member->email ?></td>
+                                <td>
+                                    <?php $projects = array_map(function ($elm) {
+                                        switch ($elm) {
+                                            case "vmast":
+                                                return __("8steps_vmast");
+                                                break;
+                                            case "l2":
+                                                return __("l2_3_events", [2]);
+                                                break;
+                                            default:
+                                                return __($elm);
+                                        }
+                                    }, (array)json_decode($member->projects, true)) ?>
+                                    <?php echo join(", ", $projects) ?>
+                                </td>
+                                <td>
+                                    <?php if($member->proj_lang): ?>
+                                        <?php echo "[".$member->langID."] " . $member->langName .
+                                            ($member->angName != "" && $member->angName != $member->langName ? " (".$member->angName.")" : "") ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td><input type='checkbox' <?php echo $member->complete ? "checked" : "" ?> disabled></td>
+                                <td><input type="checkbox" class="activateMember" data="<?php echo $member->memberID; ?>" <?php echo $member->active ? "checked='checked'" : "" ?> disabled='disabled'></td>
+                                <td class="block_btn"><button class="btn btn-primary verifyMember" data="<?php echo $member->memberID; ?>"><?php echo __("verify") ?></button></td>
+                                <td class="block_btn"><button class="blockMember btn <?php echo $member->blocked ? "btn-primary" : "btn-danger" ?>" data="<?php echo $member->memberID ?>">
+                                        <?php echo $member->blocked ? __("unblock") : __("block") ?>
+                                    </button></td>
+                            </tr>
+                        <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="members_content" id="all_books_content">

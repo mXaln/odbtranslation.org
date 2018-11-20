@@ -872,6 +872,60 @@ $(function () {
     });
 
 
+    // Show event contributors
+    $(".showAllContibutors").click(function () {
+        var projectID = $(this).data("projectid");
+
+        $.ajax({
+            url: "/admin/rpc/get_project_contributors",
+            method: "post",
+            data: {projectID: projectID},
+            dataType: "json",
+            beforeSend: function() {
+                $(".contibLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    var html = "<ul>";
+
+                    $.each(data.contributors, function () {
+                        html += "<li>"+this+"</li>";
+                    });
+
+                    html += "</ul>";
+
+                    $(".contributors_title").hide();
+                    $(".contributors_title.proj").show();
+                    $(".contributors_content").html(html);
+                    $(".contributors_container").css("left", 0);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        if(data.error == "login" || data.error == "admin")
+                            window.location.href = "/members/login";
+                        else
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                }
+            })
+            .always(function() {
+                $(".contibLoader").hide();
+            });
+    });
+
+    $(".contributors-close").click(function () {
+        $(".contributors_container").css("left", -9999);
+        $(".contributors_title").show();
+        $(".contributors_title.proj").hide();
+    });
+
+
     // Activate/Verify member
     $(".verifyMember").click(function (e) {
         e.preventDefault();
@@ -985,11 +1039,12 @@ $(function () {
         $(this).addClass("active");
         $("#"+id+"_content").addClass("shown");
 
-        if(id == "all_members")
-            $("select.mems_language").chosen();
-
         return false;
     });
+
+    if ($("select.mems_language").length > 0) {
+        $("select.mems_language").chosen();
+    }
 
     // Submit Filter form
     $(".filter_apply button").click(function () {
@@ -1046,13 +1101,13 @@ $(function () {
                             "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
                             "<td>"+v.firstName+" "+v.lastName+"</td>" +
                             "<td>"+v.email+"</td>" +
-                            "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
-                                ? JSON.parse(v.prefered_roles).map(function(role) {
-                                        return " "+Language[role];
-                                    })
-                                : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
-                            "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
-                            "<td><button class='blockMember btn "+(v.blocked == 1 ? "btn-primary" : "btn-danger")+"' data='"+v.memberID+"'>" +
+                            "<td>"+(v.projects ? JSON.parse(v.projects).map(function (proj) {
+                                return Language[proj];
+                            }).join(", ") : "")+"</td>" +
+                            "<td>"+(v.proj_lang ? "["+v.langID+"] "+v.langName +
+                                (v.angName != "" && v.angName != v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
+                            "<td><input type='checkbox' "+(parseInt(v.complete) ? "checked" : "")+" disabled></td>" +
+                            "<td class=\"block_btn\"><button class='blockMember btn "+(v.blocked == 1 ? "btn-primary" : "btn-danger")+"' data='"+v.memberID+"'>" +
                                 (v.blocked == 1 ? Language.unblock : Language.block)+"</button></td>" +
                             "</tr>";
                         $("#all_members_table tbody").append(row);
@@ -1102,14 +1157,14 @@ $(function () {
                                 "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
                                 "<td>"+v.firstName+" "+v.lastName+"</td>" +
                                 "<td>"+v.email+"</td>" +
-                                "<td>"+(v.prefered_roles != "" && v.prefered_roles != null
-                                    ? JSON.parse(v.prefered_roles).map(function(role) {
-                                    return " "+Language[role];
-                                })
-                                    : "<span style='color: #f00'>"+Language.emptyProfileError)+"</span></td>" +
-                                "<td><input type='checkbox' "+(parseInt(v.isAdmin) ? "checked" : "")+" disabled></td>" +
-                                "<td><button class='blockMember btn "+(v.blocked == 1 ? "btn-primary" : "btn-danger")+"' data='"+v.memberID+"'>" +
-                                    (v.blocked == 1 ? Language.unblock : Language.block)+"</button></td>" +
+                                "<td>"+(v.projects ? JSON.parse(v.projects).map(function (proj) {
+                                    return Language[proj];
+                                }).join(", ") : "")+"</td>" +
+                                "<td>"+(v.proj_lang ? "["+v.langID+"] "+v.langName +
+                                    (v.angName != "" && v.angName != v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
+                                "<td><input type='checkbox' "+(parseInt(v.complete) ? "checked" : "")+" disabled></td>" +
+                                "<td class=\"block_btn\"><button class='blockMember btn "+(v.blocked == 1 ? "btn-primary" : "btn-danger")+"' data='"+v.memberID+"'>" +
+                                (v.blocked == 1 ? Language.unblock : Language.block)+"</button></td>" +
                                 "</tr>";
                             $("#all_members_table tbody").append(row);
                         });

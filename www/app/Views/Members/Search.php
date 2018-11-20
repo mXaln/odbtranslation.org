@@ -42,8 +42,9 @@
                             <th><?php echo __("userName") ?></th>
                             <th><?php echo __("name") ?></th>
                             <th><?php echo __("Email") ?></th>
-                            <th><?php echo __("prefered_roles") ?></th>
-                            <th><?php echo __("facilitator") ?></th>
+                            <th><?php echo __("projects_public") ?></th>
+                            <th><?php echo __("proj_lang_public") ?></th>
+                            <th><?php echo __("profile_message") ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -53,21 +54,27 @@
                                 <td><?php echo $member->firstName . " " . $member->lastName ?></td>
                                 <td><?php echo $member->email ?></td>
                                 <td>
-                                    <?php
-                                    if(isset($member->prefered_roles) && $member->prefered_roles != "")
-                                    {
-                                        $preferedRoles = array_map(function($value) {
-                                            return __($value);
-                                        }, (array)json_decode($member->prefered_roles, true));
-                                        echo join(", ", $preferedRoles);
-                                    }
-                                    else
-                                    {
-                                        echo "<span style='color: #f00;'>".__("empty_profile_error")."</span>";
-                                    }
-                                    ?>
+                                    <?php $projects = array_map(function ($elm) {
+                                        switch ($elm) {
+                                            case "vmast":
+                                                return __("8steps_vmast");
+                                                break;
+                                            case "l2":
+                                                return __("l2_3_events", [2]);
+                                                break;
+                                            default:
+                                                return __($elm);
+                                        }
+                                    }, (array)json_decode($member->projects, true)) ?>
+                                    <?php echo join(", ", $projects) ?>
                                 </td>
-                                <td><input type='checkbox' <?php echo $member->isAdmin ? "checked" : "" ?> disabled></td>
+                                <td>
+                                    <?php if($member->proj_lang): ?>
+                                        <?php echo "[".$member->langID."] " . $member->langName .
+                                            ($member->angName != "" && $member->angName != $member->langName ? " (".$member->angName.")" : "") ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td><input type='checkbox' <?php echo $member->complete ? "checked" : "" ?> disabled></td>
                             </tr>
                         <?php endforeach ?>
                         </tbody>
