@@ -70,14 +70,20 @@ if(!empty($data["project"])):
                                 <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td>
-                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)): ?>
-                                <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="1">
-                                    <?php echo __("L1") ?>
-                                </button>
-                                <?php endif; ?>
                                 <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)): ?>
-                                    <button class="btn btn-warning showContributors" data-eventid="<? echo $event->eventID?>" data-level="2">
+                                    <button class="btn btn-warning showContributors"
+                                            data-eventid="<?php echo $event->eventID?>"
+                                            data-level="2"
+                                            data-mode="<?php echo $data["project"][0]->bookProject ?>">
                                         <?php echo __("L2") ?>
+                                    </button>
+                                <?php endif; ?>
+                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::COMPLETE)): ?>
+                                    <button class="btn btn-warning showContributors"
+                                            data-eventid="<?php echo $event->eventID?>"
+                                            data-level="3"
+                                            data-mode="<?php echo $data["project"][0]->bookProject ?>">
+                                        <?php echo __("L3") ?>
                                     </button>
                                 <?php endif; ?>
                             </td>

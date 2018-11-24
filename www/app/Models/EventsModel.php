@@ -179,6 +179,21 @@ class EventsModel extends Model
     }
 
     /**
+     * Get event by book code and target language
+     * @param $bookCode
+     * @param $langID
+     * @return array
+     */
+    public function getEventByBookAndLanguage($bookCode, $langID)
+    {
+        return $this->db->table("events")
+            ->leftJoin("projects", "projects.projectID", "=", "events.projectID")
+            ->where("projects.targetLang", $langID)
+            ->where("projects.bookProject", "ulb")
+            ->where("events.bookCode", $bookCode)->get();
+    }
+
+    /**
      * Get member with the event in which he is participating
      * @param int $eventID
      * @param int $memberID

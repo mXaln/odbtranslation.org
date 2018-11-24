@@ -934,6 +934,103 @@ html, body, .container {
     margin-right: 22px;
 }
 
+.event_menu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    z-index: 99;
+}
+
+.event_menu .glyphicon-menu-hamburger {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.event_menu hr {
+    margin: 0;
+}
+
+.event_menu ul {
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    display: none;
+}
+
+.event_menu ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.event_menu ul li:hover {
+    background-color: #efefef;
+}
+
+.event_menu ul li.option_group {
+    cursor: auto;
+    color: #888;
+}
+
+.event_menu ul li.option_group {
+    cursor: auto;
+    color: #888;
+    background-color: #FFFFFF;
+}
+
+.event_menu ul li a {
+    color: #000;
+    display: block;
+}
+
+.event_imports {
+    border: 1px solid #ccc;
+    width: 450px;
+    padding: 0 10px 10px 10px;
+    border-radius: 3px;
+    display: none;
+}
+
+.event_imports .import {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.import_title {
+    flex: 2;
+}
+
+.import_link {
+    flex: 1;
+    cursor: pointer;
+    color: #0015ee;
+    text-decoration: underline;
+}
+
+.import_done {
+    flex: 0;
+    color: #cccccc;
+}
+
+.import_done.done {
+    color: #0fa400;
+}
+
+.import_progress {
+    flex: 0;
+    color: #cc0500;
+    display: none;
+}
+
 .event-block {
     border: 1px solid #cccccc;
     margin: 5px;
@@ -4306,10 +4403,6 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
-.l2_buttons {
-    display: none;
-}
-
 .verse_block {
     position: relative;
 }
@@ -4326,10 +4419,6 @@ button.startEvnt, button.editEvnt {
 .l2_checker_name {
     color: red;
     font-weight: bold;
-}
-
-.breaks {
-    display: none;
 }
 
 #old_test, #new_test {

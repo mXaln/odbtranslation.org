@@ -396,6 +396,13 @@ class AdminController extends Controller {
                         .". ({$member->userName})";
                 }
 
+                if(in_array($event[0]->bookProject, ["tn","tq","tw"]))
+                {
+                    $ulbEvent = $this->_eventsModel->getEventByBookAndLanguage($event[0]->bookCode, $event[0]->targetLang);
+                    if(!empty($ulbEvent))
+                        $response["ulb"] = $ulbEvent[0];
+                }
+
                 $response["success"] = true;
                 $response["admins"] = $members;
                 $response["event"] = $event[0];
@@ -432,6 +439,7 @@ class AdminController extends Controller {
 
         $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? (integer)$_POST['eventID'] : null;
         $level = isset($_POST['level']) && $_POST['level'] != "" ? (integer)$_POST['level'] : 1;
+        $mode = isset($_POST['mode']) && $_POST['mode'] != "" ? $_POST['mode'] : "ulb";
 
         if($eventID == null)
         {
@@ -440,10 +448,10 @@ class AdminController extends Controller {
 
         if(!isset($response["error"]))
         {
+            // L1 event for ulb, udb projects
             if($level == 1)
             {
                 $event = $this->_eventsModel->getEventWithContributors($eventID);
-
                 if(!empty($event))
                 {
                     $mode = $event[0]->bookProject;
@@ -545,88 +553,271 @@ class AdminController extends Controller {
             }
             elseif ($level == 2)
             {
-                $event = $this->_eventsModel->getEventWithContributorsL2($eventID);
-
-                if(!empty($event))
+                if (in_array($mode, ["udb","ulb"]))
                 {
-                    $admins = [];
-                    $translators = [];
-                    $checkers = [];
-
-                    // Facilitators
-                    $adminsArr = (array)json_decode($event[0]->admins_l2);
-
-                    // Checkers
-                    $checkersArr = [];
-                    foreach ($event as $translator) {
-                        $sndCheck = (array)json_decode($translator->sndCheck);
-                        $peer1Check = (array)json_decode($translator->peer1Check);
-                        $peer2Check = (array)json_decode($translator->peer2Check);
-
-                        $sndMems = [];
-                        foreach ($sndCheck as $item) {
-                            $sndMems[] = $item->memberID;
-                        }
-
-                        $p1Mems = [];
-                        foreach ($peer1Check as $item) {
-                            $p1Mems[] = $item->memberID;
-                        }
-
-                        $p2Mems = [];
-                        foreach ($peer2Check as $item) {
-                            $p2Mems[] = $item->memberID;
-                        }
-
-                        $checkersArr = array_merge($checkersArr, $sndMems);
-                        $checkersArr = array_merge($checkersArr, $p1Mems);
-                        $checkersArr = array_merge($checkersArr, $p2Mems);
-                    }
-
-                    // Chapters
-                    $data["chapters"] = [];
-                    for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                    $event = $this->_eventsModel->getEventWithContributorsL2($eventID);
+                    if(!empty($event))
                     {
-                        $data["chapters"][$i] = [];
-                    }
+                        $admins = [];
+                        $translators = [];
+                        $checkers = [];
 
-                    $chapters = $this->_eventsModel->getChapters($event[0]->eventID, null, null, "l2");
+                        // Facilitators
+                        $adminsArr = (array)json_decode($event[0]->admins_l2);
 
-                    foreach ($chapters as $chapter) {
-                        $tmp["l2memberID"] = $chapter["l2memberID"];
-                        $data["chapters"][$chapter["chapter"]] = $tmp;
-                    }
+                        // Checkers
+                        $checkersArr = [];
+                        foreach ($event as $translator) {
+                            $sndCheck = (array)json_decode($translator->sndCheck);
+                            $peer1Check = (array)json_decode($translator->peer1Check);
+                            $peer2Check = (array)json_decode($translator->peer2Check);
 
-                    foreach ($data["chapters"] as $chapter) {
-                        if(!empty($chapter))
-                            $checkersArr[] = $chapter["l2memberID"];
-                    }
-                    $checkersArr = array_unique($checkersArr);
+                            $sndMems = [];
+                            foreach ($sndCheck as $item) {
+                                $sndMems[] = $item->memberID;
+                            }
 
-                    $allMembers = array_unique(array_merge($adminsArr, $checkersArr));
-                    $membersArray = (array)$this->_membersModel->getMembers($allMembers, true);
+                            $p1Mems = [];
+                            foreach ($peer1Check as $item) {
+                                $p1Mems[] = $item->memberID;
+                            }
 
-                    foreach ($membersArray as $member) {
-                        if(in_array($member->memberID, $adminsArr))
-                        {
-                            $admins[$member->memberID]["userName"] = $member->userName;
-                            $admins[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            $p2Mems = [];
+                            foreach ($peer2Check as $item) {
+                                $p2Mems[] = $item->memberID;
+                            }
+
+                            $checkersArr = array_merge($checkersArr, $sndMems);
+                            $checkersArr = array_merge($checkersArr, $p1Mems);
+                            $checkersArr = array_merge($checkersArr, $p2Mems);
                         }
-                        if(in_array($member->memberID, $checkersArr))
-                        {
-                            $checkers[$member->memberID]["userName"] = $member->userName;
-                            $checkers[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
-                        }
-                    }
 
-                    $response["success"] = true;
-                    $response["admins"] = $admins;
-                    $response["checkers"] = $checkers;
-                    $response["translators"] = $translators;
+                        // Chapters
+                        $data["chapters"] = [];
+                        for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                        {
+                            $data["chapters"][$i] = [];
+                        }
+
+                        $chapters = $this->_eventsModel->getChapters($event[0]->eventID, null, null, "l2");
+
+                        foreach ($chapters as $chapter) {
+                            $tmp["l2memberID"] = $chapter["l2memberID"];
+                            $data["chapters"][$chapter["chapter"]] = $tmp;
+                        }
+
+                        foreach ($data["chapters"] as $chapter) {
+                            if(!empty($chapter))
+                                $checkersArr[] = $chapter["l2memberID"];
+                        }
+                        $checkersArr = array_unique($checkersArr);
+
+                        $allMembers = array_unique(array_merge($adminsArr, $checkersArr));
+                        $membersArray = (array)$this->_membersModel->getMembers($allMembers, true);
+
+                        foreach ($membersArray as $member) {
+                            if(in_array($member->memberID, $adminsArr))
+                            {
+                                $admins[$member->memberID]["userName"] = $member->userName;
+                                $admins[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                            if(in_array($member->memberID, $checkersArr))
+                            {
+                                $checkers[$member->memberID]["userName"] = $member->userName;
+                                $checkers[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                        }
+
+                        $response["success"] = true;
+                        $response["admins"] = $admins;
+                        $response["checkers"] = $checkers;
+                        $response["translators"] = $translators;
+                    }
+                    else
+                    {
+                        $response["error"] = __('wrong_parameters_error');
+                    }
                 }
                 else
                 {
-                    $response["error"] = __('wrong_parameters_error');
+                    $event = $this->_eventsModel->getEventWithContributors($eventID);
+                    if(!empty($event))
+                    {
+                        $mode = $event[0]->bookProject;
+
+                        $admins = [];
+                        $translators = [];
+                        $checkers = [];
+
+                        // Facilitators
+                        $adminsArr = (array)json_decode($event[0]->admins);
+
+                        // Checkers
+                        $checkersArr = [];
+                        foreach ($event as $translator) {
+                            $peerCheck = (array)json_decode($translator->peerCheck);
+                            $kwCheck = (array)json_decode($translator->kwCheck);
+                            $crCheck = (array)json_decode($translator->crCheck);
+                            $otherCheck = (array)json_decode($translator->otherCheck);
+
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $peerCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $kwCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $crCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $otherCheck)));
+                        }
+                        $checkersArr = array_unique($checkersArr);
+
+                        // Translators
+                        $translatorsArr = [];
+
+                        // Chapters
+                        $data["chapters"] = [];
+                        for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                        {
+                            $data["chapters"][$i] = [];
+                        }
+
+                        $chapters = $this->_eventsModel->getChapters($event[0]->eventID);
+
+                        foreach ($chapters as $chapter) {
+                            $tmp["memberID"] = $chapter["memberID"];
+                            $data["chapters"][$chapter["chapter"]] = $tmp;
+                        }
+
+                        foreach ($data["chapters"] as $chapter) {
+                            if(!empty($chapter))
+                                $translatorsArr[] = $chapter["memberID"];
+                        }
+                        $translatorsArr = array_unique($translatorsArr);
+
+                        $allMembers = array_unique(array_merge($adminsArr, $checkersArr, $translatorsArr));
+                        $membersArray = (array)$this->_membersModel->getMembers($allMembers, true);
+
+                        foreach ($membersArray as $member) {
+                            if(in_array($member->memberID, $adminsArr))
+                            {
+                                $admins[$member->memberID]["userName"] = $member->userName;
+                                $admins[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                            if(in_array($member->memberID, $checkersArr))
+                            {
+                                $checkers[$member->memberID]["userName"] = $member->userName;
+                                $checkers[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                            if(in_array($member->memberID, $translatorsArr))
+                            {
+                                $translators[$member->memberID]["userName"] = $member->userName;
+                                $translators[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                        }
+
+                        $response["success"] = true;
+                        $response["admins"] = $admins;
+                        $response["checkers"] = $checkers;
+                        $response["translators"] = $translators;
+                    }
+                    else
+                    {
+                        $response["error"] = __('wrong_parameters_error');
+                    }
+                }
+            }
+            elseif ($level == 3)
+            {
+                if ($mode == "sun")
+                {
+                    $event = $this->_eventsModel->getEventWithContributors($eventID);
+                    if(!empty($event))
+                    {
+                        $mode = $event[0]->bookProject;
+
+                        $admins = [];
+                        $translators = [];
+                        $checkers = [];
+
+                        // Facilitators
+                        $adminsArr = (array)json_decode($event[0]->admins);
+
+                        // Checkers
+                        $checkersArr = [];
+                        foreach ($event as $translator) {
+                            $kwCheck = (array)json_decode($translator->kwCheck);
+                            $crCheck = (array)json_decode($translator->crCheck);
+
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $kwCheck)));
+                            $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                                return $elm->memberID;
+                            }, $crCheck)));
+                        }
+                        $checkersArr = array_unique($checkersArr);
+
+                        // Translators
+                        $translatorsArr = [];
+
+                        // Chapters
+                        $data["chapters"] = [];
+                        for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                        {
+                            $data["chapters"][$i] = [];
+                        }
+
+                        $chapters = $this->_eventsModel->getChapters($event[0]->eventID);
+
+                        foreach ($chapters as $chapter) {
+                            $tmp["memberID"] = $chapter["memberID"];
+                            $data["chapters"][$chapter["chapter"]] = $tmp;
+                        }
+
+                        foreach ($data["chapters"] as $chapter) {
+                            if(!empty($chapter))
+                                $translatorsArr[] = $chapter["memberID"];
+                        }
+                        $translatorsArr = array_unique($translatorsArr);
+
+                        $allMembers = array_unique(array_merge($adminsArr, $checkersArr, $translatorsArr));
+                        $membersArray = (array)$this->_membersModel->getMembers($allMembers, true);
+
+                        foreach ($membersArray as $member) {
+                            if(in_array($member->memberID, $adminsArr))
+                            {
+                                $admins[$member->memberID]["userName"] = $member->userName;
+                                $admins[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                            if(in_array($member->memberID, $checkersArr))
+                            {
+                                $checkers[$member->memberID]["userName"] = $member->userName;
+                                $checkers[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                            if(in_array($member->memberID, $translatorsArr))
+                            {
+                                $translators[$member->memberID]["userName"] = $member->userName;
+                                $translators[$member->memberID]["name"] = $member->firstName . " " . mb_substr($member->lastName, 0, 1).".";
+                            }
+                        }
+
+                        $response["success"] = true;
+                        $response["admins"] = $admins;
+                        $response["checkers"] = $checkers;
+                        $response["translators"] = $translators;
+                    }
+                    else
+                    {
+                        $response["error"] = __('wrong_parameters_error');
+                    }
+                }
+                else
+                {
+                    // Level 3 events for ulb, udb, tn, tq, tw
                 }
             }
         }
@@ -1288,11 +1479,6 @@ class AdminController extends Controller {
             $error[] = __('wrong_project_id');
         }
 
-        if(empty($admins))
-        {
-            $error[] = __('enter_admins');
-        }
-
         if(!isset($error))
         {
             $exist = $this->_eventsModel->getEvent(null, $projectID, $bookCode);
@@ -1311,6 +1497,13 @@ class AdminController extends Controller {
                             $exist[0]->state != EventStates::L2_CHECKED)
                     {
                         $error[] = __("event_already_exists");
+                        echo json_encode(array("error" => Error::display($error)));
+                        return;
+                    }
+
+                    if(empty($admins))
+                    {
+                        $error[] = __('enter_admins');
                         echo json_encode(array("error" => Error::display($error)));
                         return;
                     }
@@ -1389,6 +1582,11 @@ class AdminController extends Controller {
                         return;
                     }
 
+                    if(empty($admins))
+                    {
+                        $error[] = __('enter_admins');
+                    }
+
                     $superadmins = (array)json_decode($exist[0]->superadmins, true);
                     if(!in_array(Session::get("memberID"), $superadmins))
                     {
@@ -1445,53 +1643,11 @@ class AdminController extends Controller {
                         return;
                     }
 
-                    // Check the level of the event
-                    if($exist[0]->state == EventStates::L2_CHECK || $exist[0]->state == EventStates::L2_RECRUIT)
-                    {
-                        // Set to previous state
-                        $this->_eventsModel->updateEvent(["state" => EventStates::TRANSLATED, "admins_l2" => ""],
-                            ["eventID" => $exist[0]->eventID]);
-
-                        // Delete L2 checkers
-                        $this->_eventsModel->deleteL2Checkers(["eventID" => $exist[0]->eventID]);
-
-                        // Remove L2 checkers from chapters
-                        $this->_eventsModel->updateChapter([
-                            "l2memberID" => 0,
-                            "l2chID" => 0,
-                            "l2checked" => false
-                        ], [
-                            "eventID" => $exist[0]->eventID
-                        ]);
-
-                        // Remove L2 translations
-                        $translatons = $this->_translationModel->getEventTranslationByEventID(
-                            $exist[0]->eventID
-                        );
-
-                        foreach ($translatons as $trans)
-                        {
-                            $verses = (array)json_decode($trans->translatedVerses, true);
-
-                            if(!empty($verses[EventMembers::L2_CHECKER]))
-                            {
-                                $verses[EventMembers::L2_CHECKER] = ["verses" => []];
-
-                                $this->_translationModel->updateTranslation([
-                                    "translatedVerses" => json_encode($verses)
-                                ], [
-                                    "tID" => $trans->tID
-                                ]);
-                            }
-                        }
-
-                        echo json_encode(array("success" => __("successfully_deleted")));
-                    }
-                    elseif ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
-                    {
-                        $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
-                        echo json_encode(array("success" => __("successfully_deleted")));
-                    }
+                    //if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
+                    //{
+                    $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
+                    echo json_encode(array("success" => __("successfully_deleted")));
+                    //}
 
                     break;
             }

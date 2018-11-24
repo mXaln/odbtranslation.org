@@ -2263,7 +2263,6 @@ class EventsController extends Controller
                                                 )
                                         );
 
-
                                         $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
 
                                         if(!array_key_exists($data['currentChapter'], $peerCheck))
@@ -2292,6 +2291,14 @@ class EventsController extends Controller
                                         }
 
                                         $chapters[$data["event"][0]->currentChapter]["done"] = true;
+
+                                        // Check if whole book is finished
+                                        if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum))
+                                            $this->_model->updateEvent([
+                                                "state" => EventStates::TRANSLATED,
+                                                "dateTo" => date("Y-m-d H:i:s", time())],
+                                                ["eventID" => $data["event"][0]->eventID]);
+
                                         $this->_model->updateChapter(["done" => true], [
                                             "eventID" => $data["event"][0]->eventID,
                                             "chapter" => $data["event"][0]->currentChapter]);

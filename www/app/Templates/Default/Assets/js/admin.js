@@ -59,19 +59,6 @@ $(function () {
         e.preventDefault();
     });
 
-    // Open project Form
-    /*$("select[name=sourceTranslation]").change(function() {
-        if($(this).val() != ""&& $(this).val() != "udb|en" && $(this).val() != "ulb|en")
-        {
-            $(".projectType").removeClass("hidden");
-            $("#projectType").chosen();
-        }
-        else
-        {
-            $(".projectType").addClass("hidden");
-        }
-    });*/
-
     $("select[name=projectMode]").change(function() {
         if($(this).val() == "bible")
         {
@@ -317,50 +304,54 @@ $(function () {
             });
     }
 
+    function resetEventForm() {
+        $("#startEvent").trigger("reset");
+
+        $(".event_menu").hide();
+        $("#adminsSelect").empty().trigger("chosen:updated");
+        $(".delinput").hide();
+        $(".errors").html("");
+
+        $(".event_links_l1").show();
+        $(".event_links_l1 a").attr("href", "#");
+        $(".event_links_l2").show();
+        $(".event_links_l2 a").attr("href", "#");
+        $(".event_links_l3").show();
+        $(".event_links_l3 a").attr("href", "#");
+
+        $(".event_imports").hide();
+        $("input[name=eventLevel]").prop("disabled", false);
+        setImportLinks("l1", ImportStates.DEFAULT);
+        setImportLinks("l2", ImportStates.DEFAULT);
+        setImportLinks("l3", ImportStates.DEFAULT);
+        setImportLinks("tn", ImportStates.DEFAULT);
+        setImportLinks("tq", ImportStates.DEFAULT);
+        setImportLinks("tw", ImportStates.DEFAULT);
+
+        $("#eventAction").val("create");
+        $("button[name=startEvent]").text(Language.create);
+    }
+
     // Open event form
     $(".startEvnt").click(function() {
+        $(".event-content").css("left", 0);
+        resetEventForm();
+
         var bookCode = $(this).data("bookcode");
         var bookName = $(this).data("bookname");
-        var chapterNum = $(this).data("chapternum");
-        var bookProject = $("#bookProject").val();
+        var chaptersNum = $(this).data("chapternum");
 
-        $("button[name=startEvent]").text(Language.create);
-        $("button[name=deleteEvent]").hide();
-        $("button[name=progressEvent]").hide();
-        $("button[name=manageEvent]").hide();
-        $(".delinput").hide();
-        $("#startEvent").trigger("reset");
-        $("#eventAction").val("create");
-        $(".errors").html("");
         $(".bookName").text(bookName);
         $("#bookCode").val(bookCode);
-        $(".event-content").css("left", 0);
-        $("#adminsSelect").empty().trigger("chosen:updated");
-
-        if(["tn","tq","tw"].indexOf(bookProject) > -1)
-        {
-            $(".importTranslation").hide();
-            $(".importInfo").hide();
-        }
-        else
-        {
-            $(".importTranslation").show();
-            $(".importInfo").show();
-        }
-
-        $(".l2_buttons").hide();
-        $(".breaks").hide();
-        $("button[name=startEvent]").prop("disabled", false);
 
         $(".book_info_content").html(
-            '(<strong>'+Language.chaptersNum+':</strong> '+chapterNum+')'
+            '(<strong>'+Language.chaptersNum+':</strong> '+chaptersNum+')'
         );
     });
 
 
     // Submit event form
     $("#startEvent").submit(function(e) {
-
         $.ajax({
                 url: $("#startEvent").prop("action"),
                 method: "post",
@@ -389,22 +380,19 @@ $(function () {
 
     // Edit event form
     $(".editEvnt").click(function () {
+        $("#startEvent").trigger("reset");
+        resetEventForm();
+
         var bookCode = $(this).data("bookcode");
         var eventID = $(this).data("eventid");
         var abbrID = $(this).data("abbrid");
 
         $("#eID").val(eventID);
-        $("#startEvent").trigger("reset");
-        $(".errors").html("");
-        $("#eventAction").val("edit");
-        $("#adminsSelect").empty();
         $("#abbrID").val(abbrID);
         $("#bookCode").val(bookCode);
-        $("button[name=deleteEvent]").show();
-        $("button[name=progressEvent]").show();
-        $("button[name=manageEvent]").show();
-        $(".delinput").hide();
-        var delLabel = $(".delinput label");
+
+        $("#eventAction").val("edit");
+        $(".event_menu").show();
 
         $.ajax({
             url: "/admin/rpc/get_event",
@@ -418,54 +406,15 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    if(EventStates.states[data.event.state] >= EventStates.states.translating
-                        || ["tn","tq","tw"].indexOf(data.event.bookProject) > -1)
-                    {
-                        $(".importTranslation").hide();
-                        $(".importInfo").hide();
-                    }
-                    else
-                    {
-                        $(".importTranslation").show();
-                        $(".importInfo").show();
-                    }
+                    setImportComponent(data.event);
+                    setEventMenu(data.event);
+                    setStartEventButton(data.event);
 
-                    $("button[name=startEvent]").text(Language.save);
-                    if(EventStates.states[data.event.state] >= EventStates.states.translated)
-                    {
-                        $(".l2_buttons").css("display", "inline-block");
-                        $(".breaks").show();
-                        $("button[name=startEvent]").prop("disabled", true);
-                        $("button[name=deleteEvent]").prop("disabled", true);
-                        //$("button[name=manageEvent]").prop("disabled", true);
-                        if(EventStates.states[data.event.state] < EventStates.states.l2_recruit)
-                        {
-                            $("#eventAction").val("create");
-                            $("button[name=startL2Event]").text(Language.create);
-                            $("button[name=deleteL2Event]").hide();
-                            $("button[name=progressL2Event]").hide();
-                            $("button[name=manageL2Event]").hide();
-                            $("span", delLabel).remove();
-                        }
-                        else
-                        {
-                            $("button[name=startL2Event]").text(Language.save);
-                            $("button[name=deleteL2Event]").show();
-                            $("button[name=progressL2Event]").show();
-                            $("button[name=manageL2Event]").show();
-                            if(delLabel.has("span").length <= 0)
-                                delLabel.append(" <span>(L2)</span>");
-                        }
-                    }
+                    // Set the status of ulb translation
+                    if(typeof data.ulb != "undefined")
+                        setImportLinksUlb(data.ulb.state, data.event.state);
                     else
-                    {
-                        $("button[name=startEvent]").prop("disabled", false);
-                        $("button[name=deleteEvent]").prop("disabled", false);
-                        //$("button[name=manageEvent]").prop("disabled", false);
-                        $(".l2_buttons").hide();
-                        $(".breaks").hide();
-                        $("span", delLabel).remove();
-                    }
+                        $("button[name=startEvent]").prop("disabled", true);
 
                     $(".bookName").text(data.event.name);
                     $(".book_info_content").html(
@@ -501,49 +450,72 @@ $(function () {
             });
     });
 
+    $(".event_menu .glyphicon-menu-hamburger").click(function(e) {
+        if ($(".event_menu ul").is(":visible"))
+            $(".event_menu ul").hide();
+        else
+            $(".event_menu ul").show();
 
-    $("button[name=deleteEvent], button[name=deleteL2Event]").click(function (e) {
+        e.stopPropagation();
+    });
+
+    $(document).click(function(e) {
+        if(!e.target.classList.contains("option_group"))
+            $(".event_menu ul").hide();
+    });
+
+    $(".event_menu .clearCache").click(function () {
+        var abbrID = $("#abbrID").val();
+        var bookCode = $("#bookCode").val();
+        var sourceLangID = $("#sourceLangID").val();
+        var sourceBible = $("#sourceBible").val();
+
+        $(".event_menu ul").hide();
+
+        $.ajax({
+            url: "/admin/rpc/clear_cache",
+            method: "post",
+            data: {
+                abbrID: abbrID,
+                bookCode: bookCode,
+                sourceLangID: sourceLangID,
+                sourceBible: sourceBible
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $(".startEventLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(Language.cacheUpdated);
+                }
+                else
+                    renderPopup(Language.commonError, function () {
+                        window.location.reload();
+                    }, function () {
+                        window.location.reload();
+                    });
+            })
+            .always(function() {
+                $(".startEventLoader").hide();
+            });
+    });
+
+    $(".event_menu .deleteEvent").click(function () {
+        $(".event_menu ul").hide();
+        $(".delinput").show();
+    });
+
+    $("button[name=deleteEvent]").click(function (e) {
         var bookName = $(".bookName").text();
         var delName = $("#delevnt").val();
-        var delinput = $(".delinput");
 
-        if(delinput.is(":visible") && bookName == delName)
-        {
+        if($(".delinput").is(":visible") && bookName == delName)
             $("#eventAction").val("delete");
-        }
         else
-        {
-            delinput.show();
             e.preventDefault();
-        }
-    });
-
-    $("button[name=progressEvent]").click(function (e) {
-        var eventID = $("#eID").val();
-        var mode = $(this).data("mode");
-        var add = ["tn","sun","tq","tw"].indexOf(mode) > -1 ? "-"+mode : "";
-        window.location = "/events/information"+add+"/"+eventID;
-        e.preventDefault();
-    });
-    
-    $("button[name=progressL2Event]").click(function (e) {
-        var eventID = $("#eID").val();
-        window.location = "/events/information-l2/"+eventID;
-        e.preventDefault();
-    });
-
-    $("button[name=manageEvent]").click(function (e) {
-        var eventID = $("#eID").val();
-        var mode = $(this).data("mode");
-        var add = ["tw"].indexOf(mode) > -1 ? "-"+mode : "";
-        window.location = "/events/manage"+add+"/"+eventID;
-        e.preventDefault();
-    });
-    
-    $("button[name=manageL2Event]").click(function (e) {
-        var eventID = $("#eID").val();
-        window.location = "/events/manage-l2/"+eventID;
-        e.preventDefault();
     });
 
     $("button[name=updateAllCache]").click(function (e) {
@@ -584,50 +556,61 @@ $(function () {
         e.preventDefault();
     });
 
-    $("button[name=clearCache]").click(function (e) {
-        var $this = $(this);
-        var abbrID = $("#abbrID").val();
-        var bookCode = $("#bookCode").val();
-        var sourceLangID = $("#sourceLangID").val();
-        var sourceBible = $("#sourceBible").val();
+    $("input[name=eventLevel]").change(function () {
+        var level = $("input[name=eventLevel]:checked").val();
+        var bookProject = $("#bookProject").val();
 
-        $.ajax({
-            url: "/admin/rpc/clear_cache",
-            method: "post",
-            data: {
-                abbrID: abbrID,
-                bookCode: bookCode,
-                sourceLangID: sourceLangID,
-                sourceBible: sourceBible
-            },
-            dataType: "json",
-            beforeSend: function() {
-                $(".startEventLoader").show();
-                $this.prop("disabled", true);
-            }
-        })
-            .done(function(data) {
-                if(data.success)
+        switch (level) {
+            case "1":
+                $(".event_imports").hide();
+                break;
+            case "2":
+                if(["ulb","udb"].indexOf(bookProject) > -1)
                 {
-                    renderPopup(Language.cacheUpdated);
+                    $(".l1_import").show();
+                    $(".l2_import").hide();
+                    $(".event_imports").hide().slideDown(200);
                 }
                 else
-                    renderPopup(Language.commonError, function () {
-                        window.location.reload();
-                    }, function () {
-                        window.location.reload();
-                    });
-            })
-            .always(function() {
-                $(".startEventLoader").hide();
-                $this.prop("disabled", false);
-            });
-        e.preventDefault();
+                    $(".event_imports").hide();
+                break;
+            case "3":
+                if(["ulb","udb"].indexOf(bookProject) > -1)
+                {
+                    $(".l1_import").hide();
+                    $(".l2_import").show();
+                }
+                $(".event_imports").hide().slideDown(200);
+                break;
+        }
     });
 
-    $("span[name=importTranslation]").click(function (e) {
+    $(".import_link").click(function (e) {
+        var source = $(this).data("source");
         $(".event-content").css("left", -9000);
         $(".import_menu_content").css("left", 0);
+
+        switch (source) {
+            case "tq":
+            case "tn":
+            case "tw":
+                $("li[data-type=usfm]").hide();
+                $("li[data-type=ts]").hide();
+
+                $("li[data-type=zip]").show();
+                break;
+
+            case "l1":
+            case "l2":
+            case "l3":
+                $("li[data-type=usfm]").show();
+                $("li[data-type=ts]").show();
+
+                $("li[data-type=zip]").hide();
+                break;
+        }
+
+        e.preventDefault();
     });
 
     $(".import_menu ul li:last-child").click(function () {
@@ -798,11 +781,12 @@ $(function () {
     $(".showContributors").click(function () {
         var eventID = $(this).data("eventid");
         var level = $(this).data("level");
+        var mode = $(this).data("mode");
 
         $.ajax({
             url: "/admin/rpc/get_event_contributors",
             method: "post",
-            data: {eventID: eventID, level: level},
+            data: {eventID: eventID, level: level, mode: mode},
             dataType: "json",
             beforeSend: function() {
                 $(".showContributors").prop("disabled", true);
@@ -979,7 +963,7 @@ $(function () {
 
 
     // Block/Unblock member
-    $(document).on("click", ".blockMember", function (e) {
+    $(".blockMember").on("click", function (e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -1129,7 +1113,7 @@ $(function () {
         return false;
     });
 
-    $(document).on("click", "#search_more", function () {
+    $("#search_more").on("click", function () {
         var button = $(this);
 
         if(button.hasClass("disabled")) return false;
@@ -1402,5 +1386,238 @@ var EventStates = {
     }
 };
 
+var ImportStates = {
+    DEFAULT: 0,
+    PROGRESS: 1,
+    DONE: 2
+};
+
 
 // --------------- Functions ---------------- //
+function setImportLinks(project, importState)
+{
+    switch (importState) {
+        case ImportStates.PROGRESS:
+            $("."+project+"_import .import_done").removeClass("done").hide();
+            $("."+project+"_import .import_progress").show();
+            break;
+        case ImportStates.DONE:
+            $("."+project+"_import .import_done").addClass("done").show();
+            $("."+project+"_import .import_progress").hide();
+            break;
+        default:
+            $("."+project+"_import .import_done").removeClass("done").show();
+            $("."+project+"_import .import_progress").hide();
+    }
+}
+
+function setImportLinksUlb(ulbState, eventState) {
+    switch (EventStates.states[ulbState]) {
+        case EventStates.states.l2_recruit:
+        case EventStates.states.l2_check:
+            setImportLinks("l2", ImportStates.PROGRESS);
+            if(EventStates.states[eventState] == EventStates.states.translated)
+                $("button[name=startEvent]").prop("disabled", true);
+            break;
+        case EventStates.states.l2_checked:
+            setImportLinks("l2", ImportStates.DONE);
+            break;
+
+        case EventStates.states.l3_recruit:
+        case EventStates.states.l3_check:
+            setImportLinks("l2", ImportStates.DONE);
+            setImportLinks("l3", ImportStates.PROGRESS);
+            if(EventStates.states[eventState] == EventStates.states.translated)
+                $("button[name=startEvent]").prop("disabled", true);
+            break;
+        case EventStates.states.complete:
+            setImportLinks("l2", ImportStates.DONE);
+            setImportLinks("l3", ImportStates.DONE);
+            $("button[name=startEvent]").prop("disabled", false);
+            break;
+        default:
+            $("button[name=startEvent]").prop("disabled", true);
+    }
+}
+
+function setImportComponent(event) {
+    switch (EventStates.states[event.state]) {
+        case EventStates.states.started:
+        case EventStates.states.translating:
+            if(["ulb","udb"].indexOf(event.bookProject) > -1)
+            {
+                $(".event_l_1").prop("checked", true);
+                setImportLinks("l1", ImportStates.PROGRESS);
+            }
+            else
+            {
+                $(".event_l_2").prop("checked", true);
+                setImportLinks(event.bookProject, ImportStates.PROGRESS);
+            }
+            break;
+        case EventStates.states.translated:
+            $(".event_l_1").prop("disabled", true);
+
+            if(["ulb","udb"].indexOf(event.bookProject) > -1)
+            {
+                $(".event_l_2").prop("checked", true);
+                setImportLinks("l1", ImportStates.DONE);
+            }
+            else
+            {
+                $(".event_l_2").prop("disabled", true);
+                $(".event_l_3").prop("checked", true);
+                setImportLinks(event.bookProject, ImportStates.DONE);
+            }
+            $(".event_imports").show();
+            break;
+
+        case EventStates.states.l2_recruit:
+        case EventStates.states.l2_check:
+            $(".event_l_1").prop("disabled", true);
+            $(".event_l_2").prop("checked", true);
+            setImportLinks("l1", ImportStates.DONE);
+            setImportLinks("l2", ImportStates.PROGRESS);
+            $(".l1_import").show();
+            $(".l2_import").hide();
+            $(".event_imports").show();
+            break;
+        case EventStates.states.l2_checked:
+            // Notes, Questions and Words don't run through these states
+            $(".event_l_1").prop("disabled", true);
+            $(".event_l_2").prop("disabled", true);
+            $(".event_l_3").prop("checked", true);
+
+            $(".l1_import").hide();
+            $(".l2_import").show();
+            setImportLinks("l1", ImportStates.DONE);
+            setImportLinks("l2", ImportStates.DONE);
+
+            $(".event_imports").show();
+            break;
+
+        case EventStates.states.l3_recruit:
+        case EventStates.states.l3_check:
+        case EventStates.states.complete:
+            $(".event_l_1").prop("disabled", true);
+            $(".event_l_2").prop("disabled", true);
+            $(".event_l_3").prop("checked", true);
+
+            if(["ulb","udb"].indexOf(event.bookProject) > -1)
+            {
+                $(".l1_import").hide();
+                $(".l2_import").show();
+
+                setImportLinks("l2", ImportStates.DONE);
+            }
+            else
+            {
+                setImportLinks(event.bookProject, ImportStates.DONE);
+            }
+            $(".event_imports").show();
+            break;
+    }
+}
+
+function setEventMenuLinks(event, level) {
+    switch (event.bookProject) {
+        case "ulb":
+        case "udb":
+            $(".event_links_l1").show();
+            $(".event_links_l1 .event_progress a").attr("href", "/events/information/"+event.eventID);
+            $(".event_links_l1 .event_manage a").attr("href", "/events/manage/"+event.eventID);
+            $(".event_links_l2").hide();
+            $(".event_links_l3").hide();
+
+            if(level > 1)
+            {
+                for(var i=2;i<=level;i++) {
+                    $(".event_links_l" + i).show();
+                    $(".event_links_l" + i + " .event_progress a")
+                        .attr("href", "/events/information-l" + i + "/" + event.eventID);
+                    $(".event_links_l" + i + " .event_manage a")
+                        .attr("href", "/events/manage-l" + i + "/" + event.eventID);
+                }
+            }
+            break;
+        case "tn":
+        case "tq":
+        case "tw":
+            $(".event_links_l1").hide();
+            $(".event_links_l2").show();
+            $(".event_links_l2 .event_progress a")
+                .attr("href", "/events/information-" + event.bookProject + "/"+event.eventID);
+            $(".event_links_l2 .event_manage a")
+                .attr("href", "/events/manage/"+event.eventID);
+            $(".event_links_l3").hide();
+
+            if(level == 3)
+            {
+                $(".event_links_l3").show();
+                $(".event_links_l3 .event_progress a")
+                    .attr("href", "/events/information-" + event.bookProject + "-l3/"+event.eventID);
+                $(".event_links_l3 .event_manage a")
+                    .attr("href", "/events/manage-l3/"+event.eventID);
+            }
+
+            if(event.bookProject == "tw")
+            {
+                $(".event_links_l2 .event_manage a")
+                    .attr("href", "/events/manage-tw/"+event.eventID);
+
+                if(level == 3)
+                    $(".event_links_l3 .event_manage a")
+                        .attr("href", "/events/manage-tw-l3/"+event.eventID);
+            }
+            break;
+        case "sun":
+            $(".event_links_l1").hide();
+            $(".event_links_l2").hide();
+            $(".event_links_l3").show();
+
+            $(".event_links_l3 .event_progress a").attr("href", "/events/information-sun/"+event.eventID);
+            $(".event_links_l3 .event_manage a").attr("href", "/events/manage/"+event.eventID);
+            break;
+    }
+}
+
+
+function setEventMenu(event) {
+    switch (EventStates.states[event.state]) {
+        case EventStates.states.started:
+        case EventStates.states.translating:
+        case EventStates.states.translated:
+            if(["ulb","udb"].indexOf(event.bookProject) > -1)
+                setEventMenuLinks(event, 1);
+            else if(["tn","tq","tw"].indexOf(event.bookProject) > -1)
+                setEventMenuLinks(event, 2);
+            else
+                setEventMenuLinks(event, 3);
+            break;
+
+        case EventStates.states.l2_recruit:
+        case EventStates.states.l2_check:
+        case EventStates.states.l2_checked:
+            setEventMenuLinks(event, 2);
+            break;
+
+        case EventStates.states.l3_recruit:
+        case EventStates.states.l3_check:
+        case EventStates.states.complete:
+            setEventMenuLinks(event, 3);
+            break;
+    }
+}
+
+function setStartEventButton(event) {
+    switch (EventStates.states[event.state]) {
+        case EventStates.states.translated:
+        case EventStates.states.l2_checked:
+            $("button[name=startEvent]").text(Language.create);
+            $("#eventAction").val("create");
+            break;
+        default:
+            $("button[name=startEvent]").text(Language.save);
+            $("#eventAction").val("edit");
+    }
+}
