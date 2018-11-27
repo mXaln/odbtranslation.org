@@ -1674,38 +1674,10 @@ class EventsModel extends Model
     /**
      * Add member as new Level 2 checker for event
      * @param array $data
-     * @param array $checkerData
-     * @param bool $shouldUpdateChecker
      * @return string
      */
-    public function addL2Checker($data, $checkerData)
+    public function addL2Checker($data)
     {
-        $oldData = $checkerData;
-
-        $checkerData["education"] = json_encode($checkerData["education"]);
-        $checkerData["ed_area"] = json_encode($checkerData["ed_area"]);
-        $checkerData["church_role"] = json_encode($checkerData["church_role"]);
-
-        $this->db->table("profile")
-            ->where(array("mID" => Session::get("memberID")))
-            ->update($checkerData);
-
-        $profile = Session::get("profile");
-
-        foreach ($oldData as $key => $value)
-            $profile[$key] = $value;
-
-        Session::set("profile", $profile);
-
-        /*try
-        {
-            $this->db->insert(PREFIX."checkers_l2",$data);
-        } catch(\PDOException $e)
-        {
-            return $e->getMessage();
-        }
-        return $this->db->lastInsertId('l2chID');*/
-
         return $this->db->table("checkers_l2")
             ->insertGetId($data);
     }
@@ -1714,37 +1686,10 @@ class EventsModel extends Model
      * Add member as new Level 3 checker for event
      * @param array $data
      * @param array $checkerData
-     * @param bool $shouldUpdateChecker
      * @return string
      */
-    public function addL3Checker($data, $checkerData)
+    public function addL3Checker($data)
     {
-        $oldData = $checkerData;
-
-        $checkerData["education"] = json_encode($checkerData["education"]);
-        $checkerData["ed_area"] = json_encode($checkerData["ed_area"]);
-        $checkerData["church_role"] = json_encode($checkerData["church_role"]);
-
-        $this->db->table("profile")
-            ->where(array("mID" => Session::get("memberID")))
-            ->update($checkerData);
-
-        $profile = Session::get("profile");
-
-        foreach ($oldData as $key => $value)
-            $profile[$key] = $value;
-
-        Session::set("profile", $profile);
-
-        /*try
-        {
-            $this->db->insert(PREFIX."checkers_l3",$data);
-        } catch(\PDOException $e)
-        {
-            return $e->getMessage();
-        }
-        return $this->db->lastInsertId('l3chID');*/
-
         return $this->db->table("checkers_l3")
             ->insertGetId($data);
     }
@@ -1821,6 +1766,31 @@ class EventsModel extends Model
     public function deleteL2Checkers($where)
     {
         return $this->db->table("checkers_l2")
+            ->where($where)
+            ->delete();
+    }
+
+    /**
+     * Update L3 Checker
+     * @param array $data
+     * @param array $where
+     * @return int
+     */
+    public function updateL3Checker($data, $where)
+    {
+        return $this->db->table("checkers_l3")
+            ->where($where)
+            ->update($data);
+    }
+
+    /**
+     * Delete L3 Checkers from event/s
+     * @param array $where
+     * @return int
+     */
+    public function deleteL3Checkers($where)
+    {
+        return $this->db->table("checkers_l3")
             ->where($where)
             ->delete();
     }

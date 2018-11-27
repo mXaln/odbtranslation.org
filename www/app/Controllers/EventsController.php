@@ -10358,15 +10358,6 @@ class EventsController extends Controller
             $mode = $event[0]->bookProject;
             $exists = $this->_model->getEventMember($event[0]->eventID, $memberID);
             
-            $checkerData = array(
-                "education" => $education,
-                "ed_area" => $ed_area,
-                "ed_place" => $ed_place,
-                "hebrew_knwlg" => $hebrew_knwlg,
-                "greek_knwlg" => $greek_knwlg,
-                "church_role" => $church_role
-            );
-
             switch($userType)
             {
                 case EventMembers::TRANSLATOR:
@@ -10407,7 +10398,7 @@ class EventsController extends Controller
                             "eventID" => $event[0]->eventID,
                             "step" => EventSteps::NONE
                         );
-                        $l2ID = $this->_model->addL2Checker($l2Data, $checkerData);
+                        $l2ID = $this->_model->addL2Checker($l2Data);
 
                         if(is_numeric($l2ID))
                         {
@@ -10433,7 +10424,7 @@ class EventsController extends Controller
                             "eventID" => $event[0]->eventID,
                             "step" => EventSteps::NONE
                         );
-                        $l3ID = $this->_model->addL3Checker($l3Data, $checkerData);
+                        $l3ID = $this->_model->addL3Checker($l3Data);
 
                         if(is_numeric($l3ID))
                         {

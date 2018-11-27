@@ -314,6 +314,8 @@ if(!empty($data["project"])):
                         <input type="hidden" name="bookProject" id="bookProject" value="<?php echo $data["project"][0]->bookProject?>" />
                         <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
                         <input type="hidden" name="targetLangID" id="targetLangID" value="<?php echo $data["project"][0]->targetLang?>" />
+                        <input type="hidden" name="initialLevel" id="initialLevel" value="1" />
+                        <input type="hidden" name="importLevel" id="importLevel" value="1" />
 
                         <br>
                         <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create"); ?></button>

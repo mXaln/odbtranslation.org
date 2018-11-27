@@ -321,6 +321,7 @@ $(function () {
 
         $(".event_imports").hide();
         $("input[name=eventLevel]").prop("disabled", false);
+
         setImportLinks("l1", ImportStates.DEFAULT);
         setImportLinks("l2", ImportStates.DEFAULT);
         setImportLinks("l3", ImportStates.DEFAULT);
@@ -335,6 +336,7 @@ $(function () {
     // Open event form
     $(".startEvnt").click(function() {
         $(".event-content").css("left", 0);
+
         resetEventForm();
 
         var bookCode = $(this).data("bookcode");
@@ -380,7 +382,6 @@ $(function () {
 
     // Edit event form
     $(".editEvnt").click(function () {
-        $("#startEvent").trigger("reset");
         resetEventForm();
 
         var bookCode = $(this).data("bookcode");
@@ -413,8 +414,6 @@ $(function () {
                     // Set the status of ulb translation
                     if(typeof data.ulb != "undefined")
                         setImportLinksUlb(data.ulb.state, data.event.state);
-                    else
-                        $("button[name=startEvent]").prop("disabled", true);
 
                     $(".bookName").text(data.event.name);
                     $(".book_info_content").html(
@@ -508,6 +507,22 @@ $(function () {
         $(".delinput").show();
     });
 
+    $("input[name=eventLevel]").change(function () {
+        var level = $("input[name=eventLevel]:checked").val();
+        var initialLevel = $("#initialLevel").val();
+
+        if(level > initialLevel)
+        {
+            $("button[name=startEvent]").text(Language.create);
+            $("#eventAction").val("create");
+        }
+        else
+        {
+            $("button[name=startEvent]").text(Language.save);
+            $("#eventAction").val("edit");
+        }
+    });
+
     $("button[name=deleteEvent]").click(function (e) {
         var bookName = $(".bookName").text();
         var delName = $("#delevnt").val();
@@ -587,8 +602,7 @@ $(function () {
 
     $(".import_link").click(function (e) {
         var source = $(this).data("source");
-        $(".event-content").css("left", -9000);
-        $(".import_menu_content").css("left", 0);
+        var bookProject = $("#bookProject").val();
 
         switch (source) {
             case "tq":
@@ -596,19 +610,33 @@ $(function () {
             case "tw":
                 $("li[data-type=usfm]").hide();
                 $("li[data-type=ts]").hide();
-
                 $("li[data-type=zip]").show();
+                $("#importLevel").val(2);
                 break;
 
             case "l1":
             case "l2":
             case "l3":
+                if(["tn","tq","tw"].indexOf(bookProject) > -1 && source == "l3")
+                {
+                    var l2_import = $(".l2_import .import_done");
+                    if(!l2_import.hasClass("done") || !l2_import.is(":visible"))
+                    {
+                        renderPopup(Language.import_l2_warning);
+                        return;
+                    }
+                }
+
+                $("#importLevel").val(source.replace( /^\D+/g, ''));
+
                 $("li[data-type=usfm]").show();
                 $("li[data-type=ts]").show();
-
                 $("li[data-type=zip]").hide();
                 break;
         }
+
+        $(".event-content").css("left", -9000);
+        $(".import_menu_content").css("left", 0);
 
         e.preventDefault();
     });
@@ -641,10 +669,17 @@ $(function () {
         var input = $(this);
         var form = $(this).parents("form");
         var formdata = false;
+        var projectID = $("#projectID").val();
         var eventID = $("#eID").val();
+        var bookCode = $("#bookCode").val();
+        var importLevel = $("#importLevel").val();
+
         if (window.FormData){
             formdata = new FormData(form[0]);
+            formdata.append("projectID", projectID);
             formdata.append("eventID", eventID);
+            formdata.append("bookCode", bookCode);
+            formdata.append("importLevel", importLevel);
         }
 
         $.ajax({
@@ -736,11 +771,14 @@ $(function () {
         }, 1000);
     });
 
-    $("body").on("click", ".dcs_list tbody tr", function() {
+    $("body").on("click", ".dcs_list tr", function() {
         if(importLocked) return false;
 
         var repo_url = $(this).data("url");
+        var projectID = $("#projectID").val();
         var eventID = $("#eID").val();
+        var bookCode = $("#bookCode").val();
+        var importLevel = $("#importLevel").val();
 
         $.ajax({
             url: "/admin/rpc/import",
@@ -748,7 +786,10 @@ $(function () {
             data: {
                 import: repo_url,
                 type: "dcs",
-                eventID: eventID
+                projectID: projectID,
+                eventID: eventID,
+                bookCode: bookCode,
+                importLevel: importLevel
             },
             dataType: "json",
             beforeSend: function() {
@@ -963,7 +1004,7 @@ $(function () {
 
 
     // Block/Unblock member
-    $(".blockMember").on("click", function (e) {
+    $("body").on("click", ".blockMember", function (e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -1113,7 +1154,7 @@ $(function () {
         return false;
     });
 
-    $("#search_more").on("click", function () {
+    $("body").on("click", "#search_more", function () {
         var button = $(this);
 
         if(button.hasClass("disabled")) return false;
@@ -1416,8 +1457,6 @@ function setImportLinksUlb(ulbState, eventState) {
         case EventStates.states.l2_recruit:
         case EventStates.states.l2_check:
             setImportLinks("l2", ImportStates.PROGRESS);
-            if(EventStates.states[eventState] == EventStates.states.translated)
-                $("button[name=startEvent]").prop("disabled", true);
             break;
         case EventStates.states.l2_checked:
             setImportLinks("l2", ImportStates.DONE);
@@ -1427,16 +1466,11 @@ function setImportLinksUlb(ulbState, eventState) {
         case EventStates.states.l3_check:
             setImportLinks("l2", ImportStates.DONE);
             setImportLinks("l3", ImportStates.PROGRESS);
-            if(EventStates.states[eventState] == EventStates.states.translated)
-                $("button[name=startEvent]").prop("disabled", true);
             break;
         case EventStates.states.complete:
             setImportLinks("l2", ImportStates.DONE);
             setImportLinks("l3", ImportStates.DONE);
-            $("button[name=startEvent]").prop("disabled", false);
             break;
-        default:
-            $("button[name=startEvent]").prop("disabled", true);
     }
 }
 
@@ -1462,6 +1496,7 @@ function setImportComponent(event) {
             {
                 $(".event_l_2").prop("checked", true);
                 setImportLinks("l1", ImportStates.DONE);
+                $(".l2_import").hide();
             }
             else
             {
@@ -1520,6 +1555,8 @@ function setImportComponent(event) {
 }
 
 function setEventMenuLinks(event, level) {
+    $("#initialLevel").val(level);
+
     switch (event.bookProject) {
         case "ulb":
         case "udb":
