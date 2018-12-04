@@ -59,6 +59,7 @@ return array (
     "member_wrote" => "wrote",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
+    "scripture" => "Scripture",
     "bible_mode" => "Bible",
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
@@ -439,6 +440,7 @@ return array (
     "import_from_dcs" => "Import from DCS (Door43)",
     "import_from_usfm" => "Import from USFM (.usfm)",
     "import_from_ts" => "Import from translationStudio project (.tstudio)",
+    "import_from_zip" => "Import tN, tQ or tW zip archive (.zip)",
     "repository_name" => "Repository name",
     "repository" => "Repository",
     "updated_at" => "Updated at",
@@ -1424,8 +1426,9 @@ return array (
                         <li><b>Make sure all changes are made as this is the last step and no more changes can be made!</b></li>",
 
     // ------- Errors messages ------- //
-    "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is be ready.<span class=\"checker_waits\"></span>",
+    "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is ready.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Checker has not yet approved this step. Please wait.",
+    "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
     "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
     "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
@@ -1467,7 +1470,7 @@ return array (
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
     "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
-    "event_has_translations_error" => "The event has translation started, so you cannot import another project",
+    "event_has_translations_error" => "You can't import over existing translation. Either delete it or wait until it's finished, if it's in progress.",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
@@ -1484,7 +1487,7 @@ return array (
     "successfully_deleted" => "Successfully deleted!",
     "moved_back_success" => "Translator has successfully moved one step back!",
     "checker_removed_success" => "Checker has been successfully removed!",
-    "import_successfull_massage" => "The project has been imported successfully!",
+    "import_successful_message" => "The project has been imported successfully!",
 
     // Other messages
     "alert_message" => "Message",

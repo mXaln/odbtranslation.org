@@ -167,6 +167,41 @@ class ApiModel extends Model
     }
 
 
+    /**
+     * Get source text for chapter
+     * @param $event Event data
+     * @param $chapter Chapter number
+     * @return array|null
+     */
+    public function getBookText($bookData, $chapter)
+    {
+        $usfm = $this->getCachedSourceBookFromApi(
+            $bookData["sourceBible"],
+            $bookData["bookCode"],
+            $bookData["sourceLangID"],
+            $bookData["abbrID"]);
+
+        if($usfm && !empty($usfm["chapters"]))
+        {
+            $data = [];
+
+            foreach ($usfm["chapters"][$chapter] as $section) {
+                foreach ($section as $v => $text) {
+                    $data["text"][$v] = $text;
+                }
+            }
+
+            $arrKeys = array_keys($data["text"]);
+            $lastVerse = explode("-", end($arrKeys));
+            $lastVerse = $lastVerse[sizeof($lastVerse)-1];
+            $data["totalVerses"] = !empty($data["text"]) ?  $lastVerse : 0;
+
+            return $data;
+        }
+
+        return null;
+    }
+
     public function downloadRubricFromApi($lang = "en") {
         $folderPath = "../app/Templates/Default/Assets/source/".$lang."_rubric/";
         $filepath = $folderPath . "rubric.json";
@@ -476,13 +511,16 @@ class ApiModel extends Model
 
     /**
      * Parses .md files of specified book and returns array
-     * @param $book
-     * @param $lang
-     * @return  array
-     **/
-    public function getTranslationNotes($book, $lang ="en")
+     * @param $book <p>Book code</p>
+     * @param string $lang <p>Language code</p>
+     * @param bool $parse <p>Whether to parse to html or leave it as markdown</p>
+     * @param null $folderpath <p>Path to the notes directory</p>
+     * @return array
+     */
+    public function getTranslationNotes($book, $lang ="en", $parse = true, $folderpath = null)
     {
-        $folderpath = $this->downloadAndExtractNotes($lang);
+        if($folderpath == null)
+            $folderpath = $this->downloadAndExtractNotes($lang);
 
         if(!$folderpath) return [];
 
@@ -526,13 +564,22 @@ class ApiModel extends Model
                 $result[$chapter][$chunk] = [];
 
             $md = File::get($file);
-            $html = $parsedown->text($md);
-            $html = preg_replace("//", "", $html);
+            $content = $md;
 
-            $result[$chapter][$chunk][] = $html;
+            if($parse)
+            {
+                $content = $parsedown->text($md);
+                $content = preg_replace("//", "", $content);
+            }
+
+            $result[$chapter][$chunk][] = $content;
         }
 
         ksort($result);
+        $result = array_map(function ($elm) {
+            ksort($elm);
+            return $elm;
+        }, $result);
         return $result;
     }
 
@@ -851,6 +898,259 @@ class ApiModel extends Model
 
         ksort($result);
         return $result;
+    }
+
+
+    /**
+     * Compiles all the chunks into a single usfm file
+     * @param $folderpath
+     * @return null
+     */
+    public function compileUSFMProject($folderpath)
+    {
+        $usfm = null;
+
+        if(File::exists($folderpath))
+        {
+            $filepath = $folderpath . "/tmpfile";
+
+            $files = File::files($folderpath);
+            foreach ($files as $file) {
+                if(preg_match("/\.usfm$/", $file))
+                {
+                    // If repository contains only one usfm with entire book
+                    $usfm = File::get($file);
+                    File::deleteDirectory($folderpath);
+                    return $usfm;
+                }
+            }
+
+            // Iterate through all the chapters and chunks
+            $dirs = File::directories($folderpath);
+            sort($dirs);
+            foreach($dirs as $dir)
+            {
+                if(preg_match("/[0-9]{2,3}$/", $dir, $chapters))
+                {
+                    $chapter = (integer)$chapters[0];
+
+                    $files = File::allFiles($dir);
+                    sort($files);
+                    foreach($files as $file)
+                    {
+                        if(preg_match("/[0-9]{2,3}.txt$/", $file, $chunks))
+                        {
+                            $chunk = (integer)$chunks[0];
+                            $text = File::get($file);
+                            if($chunk == 1)
+                            {
+                                // Fix usfm with missed chapter number tags
+                                if(!preg_match("/^\\\\c/", $text))
+                                {
+                                    $text = "\c ".$chapter." ".$text;
+                                }
+                            }
+
+                            File::append($filepath, "\s5\n" . $text);
+                        }
+                    }
+                }
+            }
+
+            if(File::exists($filepath))
+            {
+                $usfm = File::get($filepath);
+                File::deleteDirectory($folderpath);
+            }
+        }
+
+        return $usfm;
+    }
+
+
+
+    /**
+     * Clones repository into temporary directory
+     * @param $url
+     * @return string Path to directory
+     */
+    public function processDCSUrl($url)
+    {
+        $folderpath = "/tmp/".uniqid();
+
+        shell_exec("/usr/bin/git clone ". $url ." ".$folderpath." 2>&1");
+
+        return $folderpath;
+    }
+
+
+    /**
+     * Exctracts .zip (.tstudio file as well) file into temporary directory
+     * @param $file
+     * @return string Path to directory
+     */
+    public function processZipFile($file)
+    {
+        $folderpath = "/tmp/".uniqid();
+
+        $zip = new ZipArchive();
+        $zip->open($file["tmp_name"]);
+        $zip->extractTo($folderpath);
+        $zip->close();
+        $dirs = File::directories($folderpath);
+
+        foreach ($dirs as $dir) {
+            if(File::isDirectory($dir))
+            {
+                $folderpath = $dir;
+                break;
+            }
+        }
+
+        return $folderpath;
+    }
+
+
+    public function getNotesChunks($notes)
+    {
+        $chunks = array_keys($notes["notes"]);
+        $totalVerses = isset($notes["totalVerses"]) ? $notes["totalVerses"] : 0;
+        $arr = [];
+        $tmp = [];
+
+        foreach ($chunks as $key => $chunk) {
+            if(isset($chunks[$key + 1]))
+            {
+                for($i = $chunk; $i < $chunks[$key + 1]; $i++)
+                {
+                    $tmp[] = $i;
+                }
+
+                $arr[] = $tmp;
+                $tmp = [];
+            }
+            else
+            {
+                if($chunk <= $totalVerses)
+                {
+                    for($i = $chunk; $i <= $totalVerses; $i++)
+                    {
+                        $tmp[] = $i;
+                    }
+
+                    $arr[] = $tmp;
+                    $tmp = [];
+                }
+            }
+        }
+
+        return $arr;
+    }
+
+    public function getQuestionsChunks($questions)
+    {
+        $chunks = array_keys($questions["questions"]);
+
+        $chunks = array_map(function ($elm) {
+            return [$elm];
+        }, $chunks);
+
+        return $chunks;
+    }
+
+
+    public function testChunks($chunks, $totalVerses)
+    {
+        if(!is_array($chunks) || empty($chunks)) return false;
+
+        $lastVerse = 0;
+
+        foreach ($chunks as $chunk) {
+            if(!is_array($chunk) || empty($chunk)) return false;
+
+            // Test if first verse is 1
+            if($lastVerse == 0 && $chunk[0] != 1) return false;
+
+            // Test if all verses are in right order
+            foreach ($chunk as $verse) {
+                if((integer)$verse > ($lastVerse+1)) return false;
+                $lastVerse++;
+            }
+        }
+
+        // Test if all verses added to chunks
+        if($lastVerse != $totalVerses) return false;
+
+        return true;
+    }
+
+    public function testChunkNotes($chunks, $notes)
+    {
+        if(!is_array($chunks))
+            return false;
+
+        if(sizeof($chunks) != sizeof($notes))
+            return false;
+
+        $converter = new \Helpers\Markdownify\Converter;
+        foreach ($chunks as $key => $chunk) {
+            if(trim($chunk) == "")
+                return false;
+
+            $md = $converter->parseString($chunk);
+            if(trim($md) == "")
+                return false;
+
+            $chunks[$key] = $md;
+        }
+
+        return $chunks;
+    }
+
+    public function testChunkQuestions($chunks, $questions)
+    {
+        if(!is_array($chunks))
+            return false;
+
+        if(sizeof($questions) != sizeof($chunks))
+            return false;
+
+        $converter = new \Helpers\Markdownify\Converter;
+        foreach ($chunks as $key => $chunk) {
+            if(trim($chunk) == "")
+                return false;
+
+            $md = $converter->parseString($chunk);
+            if(trim($md) == "")
+                return false;
+
+            $chunks[$key] = $md;
+        }
+
+        return $chunks;
+    }
+
+    public function testChunkWords($chunks, $words)
+    {
+        if(!is_array($chunks))
+            return false;
+
+        if(sizeof($words) != sizeof($chunks))
+            return false;
+
+        $converter = new \Helpers\Markdownify\Converter;
+        foreach ($chunks as $key => $chunk) {
+            if(trim($chunk) == "")
+                return false;
+
+            $md = $converter->parseString($chunk);
+            if(trim($md) == "")
+                return false;
+
+            $chunks[$key] = $md;
+        }
+
+        return $chunks;
     }
 
 

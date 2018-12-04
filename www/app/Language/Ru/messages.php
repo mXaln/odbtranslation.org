@@ -57,6 +57,7 @@ return array (
     "member_wrote" => "написал",
     "project_mode" => "Режим проекта",
     "choose_project_mode" => "Выберите режим проекта",
+    "scripture" => "Писание",
     "bible_mode" => "Библия",
     "notes_mode" => "Заметки",
     "questions_mode" => "Вопросы",
@@ -442,6 +443,7 @@ return array (
     "import_from_dcs" => "Импортировать из DCS (Door43)",
     "import_from_usfm" => "Импортировать из USFM (.usfm)",
     "import_from_ts" => "Импортировать из проекта translationStudio (.tstudio)",
+    "import_from_zip" => "Импортировать tN, tQ или tW zip архив (.zip)",
     "repository_name" => "Название репозитория",
     "repository" => "Репозиторий",
     "updated_at" => "Дата обновления",
@@ -999,6 +1001,7 @@ return array (
     // Errors
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Проверяющий ещё не утвердил этот шаг. Пожалуйста ждите.",
+    "peer_checker_not_ready_error" => "Ваш напарник еще не перешел на этот шаг. Пожалуйста ждите.",
     "verb_checker_not_ready_error" => "Добавьте проверяющего, чтобы прейти к следующему шагу.",
     "checker_translator_finished_error" => "Проверка уже закончена для данной главы.",
     "empty_or_not_permitted_event_error" => "У вас недостаточно прав, чтобы просматривать информацию об этом событии.",
@@ -1046,7 +1049,7 @@ return array (
     "keywords_still_exist_error" => "Вы не можете утвердить эту главу, пока в ней присутствуют ключевые слова.",
     "keywords_empty_error" => "Вы должны выделить проблематичные слова.",
     "usfm_not_valid_error" => "Проект не действителен. Убедитесь, что проект содержит все главы, отрывки и стихи.",
-    "event_has_translations_error" => "Перевод уже начался, поэтому вы не можете импортировать новый проект.",
+    "event_has_translations_error" => "Вы не можете импортировать поверх существующего перевода. Либо удалите событие, либо дождитесь его окончания, если оно находится на стадии перевода/проверки.",
     "event_does_not_exist_error" => "Событие не существует. Необходимо создать событие для того, чтобы можно было импортировать перевод.",
     "unknown_import_type_error" => "Неизвестный тип проекта.",
     "translator_finished_chapter" => "Переводчик закончил работать над этой главой, поэтому проверяющий не может быть удалён.",
@@ -1064,7 +1067,7 @@ return array (
     "successfully_deleted" => "Успешно удалено!",
     "moved_back_success" => "Переводчик успешно переведен на шаг назад!",
     "checker_removed_success" => "Проверяющий был успешно удален!",
-    "import_successfull_massage" => "Проект был успешно импортирован!",
+    "import_successful_message" => "Проект был успешно импортирован!",
 
     // Other messages
     "alert_message" => "Сообщение",

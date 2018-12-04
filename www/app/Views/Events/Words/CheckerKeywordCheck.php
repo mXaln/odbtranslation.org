@@ -68,7 +68,7 @@ if(empty($error) && empty($data["success"])):
                                 ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
                                 : "";
                             ?>
-                            <div class="notes_target"><?php echo $text ?></div>
+                            <div class="questions_target"><?php echo $text ?></div>
 
                             <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
                             <div class="comments_number tncommpeer <?php echo $hasComments ? "hasComment" : "" ?>">

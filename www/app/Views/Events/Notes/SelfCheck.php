@@ -74,7 +74,7 @@ if(isset($data["error"])) return;
                                         : $text;
 
                                     $text = preg_replace(
-                                        "/(\[\[[a-z:\/\-]+\]\])/",
+                                        "/(\[\[[0-9a-z:\/\-]+\]\])/",
                                         "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
                                         $text);
                                     ?>

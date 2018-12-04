@@ -75,8 +75,6 @@ class UsfmParser
             $chunks = explode('\s', $chapData);
 
             foreach ($chunks as $chunk => $chunkData) {
-                //$result["chapters"][$chapter][$chunk] = array();
-
                 $verses = explode('\v ', $chunkData);
 
                 foreach ($verses as $verse => $verseData) {

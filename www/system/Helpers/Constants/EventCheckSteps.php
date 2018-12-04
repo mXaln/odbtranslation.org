@@ -17,6 +17,8 @@ class EventCheckSteps
     const SND_CHECK             = "snd-check";
     const KEYWORD_CHECK_L2      = "keyword-check-l2";
     const PEER_REVIEW_L2        = "peer-review-l2";
+    const PEER_REVIEW_L3        = "peer-review-l3";
+    const PEER_EDIT_L3          = "peer-edit-l3";
 
     private static $enum = [
         "none" => 0,
@@ -28,12 +30,23 @@ class EventCheckSteps
         "peer-review-l2" => 6
         ];
 
+    private static $enumL3 = [
+        "none" => 0,
+        "pray" => 1,
+        "peer-review-l3" => 2,
+        "peer-edit-l3" => 3
+    ];
+
     public static function enum($step, $mode = null)
     {
         switch($mode)
         {
             case "l2":
                 return self::$enum[$step];
+                break;
+
+            case "l3":
+                return self::$enumL3[$step];
                 break;
 
             default:
@@ -48,6 +61,10 @@ class EventCheckSteps
         {
             case "l2":
                 return self::$enum;
+                break;
+
+            case "l3":
+                return self::$enumL3;
                 break;
 
             default:

@@ -59,7 +59,7 @@ if(isset($data["error"])) return;
                                     <?php if (isset($data["notes"][$verse])): ?>
                                         <?php foreach ($data["notes"][$verse] as $note): ?>
                                         <?php echo preg_replace(
-                                            "/(\[\[[a-z:\/\-]+\]\])/",
+                                            "/(\[\[[0-9a-z:\/\-]+\]\])/",
                                             "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
                                             $note) ?>
                                         <?php endforeach; ?>

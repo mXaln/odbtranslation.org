@@ -103,4 +103,5 @@ var Language = {
     "tn"                        : "Translation Notes",
     "tq"                        : "Translation Questions",
     "tw"                        : "Translation Words",
+    "import_l2_warning"         : "First import Level 2 Scripture",
 };

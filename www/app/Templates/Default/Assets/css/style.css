@@ -934,6 +934,103 @@ html, body, .container {
     margin-right: 22px;
 }
 
+.event_menu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    z-index: 99;
+}
+
+.event_menu .glyphicon-menu-hamburger {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.event_menu hr {
+    margin: 0;
+}
+
+.event_menu ul {
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    display: none;
+}
+
+.event_menu ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.event_menu ul li:hover {
+    background-color: #efefef;
+}
+
+.event_menu ul li.option_group {
+    cursor: auto;
+    color: #888;
+}
+
+.event_menu ul li.option_group {
+    cursor: auto;
+    color: #888;
+    background-color: #FFFFFF;
+}
+
+.event_menu ul li a {
+    color: #000;
+    display: block;
+}
+
+.event_imports {
+    border: 1px solid #ccc;
+    width: 450px;
+    padding: 0 10px 10px 10px;
+    border-radius: 3px;
+    display: none;
+}
+
+.event_imports .import {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.import_title {
+    flex: 2;
+}
+
+.import_link {
+    flex: 1;
+    cursor: pointer;
+    color: #0015ee;
+    text-decoration: underline;
+}
+
+.import_done {
+    flex: 0;
+    color: #cccccc;
+}
+
+.import_done.done {
+    color: #0fa400;
+}
+
+.import_progress {
+    flex: 0;
+    color: #cc0500;
+    display: none;
+}
+
 .event-block {
     border: 1px solid #cccccc;
     margin: 5px;
@@ -1393,11 +1490,19 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/keyword-check-active.png") no-repeat;
 }
 
-.peer-review-l2 {background-color: #4596cc;}
-.peer-review-l2-step {
+.peer-review-l2, .peer-review-l3 {background-color: #4596cc;}
+.peer-review-l2-step, .peer-review-l3-step {
     background: url("/templates/default/assets/img/steps/peer-edit-inactive.png") no-repeat;
 }
-.peer-review-l2-step.active {
+.peer-review-l2-step.active, .peer-review-l3-step.active {
+    background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
+}
+
+.peer-edit-l3 {background-color: #4596cc;}
+.peer-edit-l3-step {
+    background: url("/templates/default/assets/img/steps/peer-edit-inactive.png") no-repeat;
+}
+.peer-edit-l3-step.active {
     background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
 }
 
@@ -1690,10 +1795,10 @@ mark {
     border-left: 10px solid #00b9f8;
 }
 
-.notifa .keyword-check_checker, .notifa .theo-check_checker {
+.notifa .keyword-check_checker, .notifa .theo-check_checker, .notifa .peer-review-l3_checker {
     border-left: 10px solid #ffbc70;
 }
-.notifa .keyword-check_checker:hover, .notifa .theo-check_checker:hover {
+.notifa .keyword-check_checker:hover, .notifa .theo-check_checker:hover, .notifa peer-review-l3_checker:hover {
     border-left: 10px solid #ffac3a;
 }
 
@@ -1936,6 +2041,16 @@ mark {
 
 .editComment.tncommpeer {
     right: 20px; 
+}
+
+.editComment.tncomml3 {
+    right: 5px;
+    top: 10px;
+}
+
+.comments_number.tncomml3 {
+    right: -25px;
+    top: 5px;
 }
 
 .comments_number {
@@ -3386,10 +3501,11 @@ div[class^="member_usname mid"] {
 .event_logo {
     /*float: left;*/
     text-align: center;
-    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
     min-height: 190px;
     background-color: #fff;
-    flex: 1;
+    /*flex: 1;*/
 }
 
 .event_logo.translation {
@@ -4164,6 +4280,11 @@ button.startEvnt, button.editEvnt {
     padding: 10px 0;
 }
 
+.note_chunk.l3 {
+    display: flex;
+    justify-content: space-between;
+}
+
 .notes_content_block {
     display: none;
 }
@@ -4172,6 +4293,22 @@ button.startEvnt, button.editEvnt {
     color: #249b45;
     font-weight: bold;
     font-size: 16px;
+}
+
+.vnote.l3 {
+    position: relative;
+    flex: 1;
+}
+
+.scripture_l3 {
+    flex: 1;
+    margin-right: 20px;
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+.scripture_l2 {
+    display: none;
 }
 
 .add_notes {
@@ -4280,6 +4417,10 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
+.questions_target {
+    margin-top: 20px;
+}
+
 .chapter_title {
     color: #1b8600;
     text-align: center;
@@ -4306,10 +4447,6 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
-.l2_buttons {
-    display: none;
-}
-
 .verse_block {
     position: relative;
 }
@@ -4326,10 +4463,6 @@ button.startEvnt, button.editEvnt {
 .l2_checker_name {
     color: red;
     font-weight: bold;
-}
-
-.breaks {
-    display: none;
 }
 
 #old_test, #new_test {
