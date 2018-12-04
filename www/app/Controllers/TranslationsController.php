@@ -104,15 +104,15 @@ class TranslationsController extends Controller
                         );
                         $chapter = $chapters[0];
 
-                        $level = "";
-                        if(!in_array($chunk->bookProject, ["tn","tq","tw"]))
+                        $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"))."]";
+                        if(in_array($chunk->bookProject, ["tn","tq","tw"]))
                         {
-                            $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"))."]";
+                            $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"))."]";
                         }
 
                         $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
                             ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
-                            : '<h2 class="chapter_title">'.__("front").'</h2>') : "";
+                            : '<h2 class="chapter_title">'.__("front").$level.'</h2>') : "";
                     }
 
                     // Start of chunk
@@ -160,10 +160,18 @@ class TranslationsController extends Controller
 
                         $parsedown = new Parsedown();
 
-                        if($chunk->bookProject == "tn")
-                            $text = $parsedown->text($verses->checker->verses);
+                        if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                        {
+                            $text = $parsedown->text($verses->{EventMembers::L3_CHECKER}->verses);
+                        }
+                        elseif (!empty($verses->{EventMembers::CHECKER}->verses))
+                        {
+                            $text = $parsedown->text($verses->{EventMembers::CHECKER}->verses);
+                        }
                         else
-                            $text = $parsedown->text($verses->translator->verses);
+                        {
+                            $text = $parsedown->text($verses->{EventMembers::TRANSLATOR}->verses);
+                        }
 
                         $data['book'] .= '<br><strong class="note_chunk_verses">'.$versesLabel.'</strong> '.$text." ";
                     }
@@ -325,10 +333,18 @@ class TranslationsController extends Controller
                     $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
                     $filePath = $root. "/" . $bookPath . "/" . $chapPath . "/" . $chunkPath . ".md";
 
-                    if($bookProject == "tn")
-                        $text = $verses->checker->verses;
+                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                    {
+                        $text = $verses->{EventMembers::L3_CHECKER}->verses;
+                    }
+                    elseif (!empty($verses->{EventMembers::CHECKER}->verses))
+                    {
+                        $text = $verses->{EventMembers::CHECKER}->verses;
+                    }
                     else
-                        $text = $verses->translator->verses;
+                    {
+                        $text = $verses->{EventMembers::TRANSLATOR}->verses;
+                    }
 
                     $zip->addFile($filePath, $text);
                 }
@@ -348,8 +364,6 @@ class TranslationsController extends Controller
             $bookCode = $bookCode != "dl" ? $bookCode : null;
 
             $books = $this->_model->getTranslation($lang, "tw", $bookCode);
-            $lastChapter = -1;
-            $chapter = [];
 
             if(!empty($books) && isset($books[0]))
             {
@@ -368,7 +382,14 @@ class TranslationsController extends Controller
                     $chunkPath = $currWord;
                     $filePath = $root. "/" . $bookPath ."/". $chunkPath.".md";
 
-                    $text = $verses->translator->verses;
+                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                    {
+                        $text = $verses->{EventMembers::L3_CHECKER}->verses;
+                    }
+                    else
+                    {
+                        $text = $verses->{EventMembers::TRANSLATOR}->verses;
+                    }
 
                     $zip->addFile($filePath, $text);
                 }

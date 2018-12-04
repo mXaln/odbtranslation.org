@@ -672,6 +672,7 @@ $(function () {
         var projectID = $("#projectID").val();
         var eventID = $("#eID").val();
         var bookCode = $("#bookCode").val();
+        var bookProject = $("#bookProject").val();
         var importLevel = $("#importLevel").val();
 
         if (window.FormData){
@@ -679,6 +680,7 @@ $(function () {
             formdata.append("projectID", projectID);
             formdata.append("eventID", eventID);
             formdata.append("bookCode", bookCode);
+            formdata.append("bookProject", bookProject);
             formdata.append("importLevel", importLevel);
         }
 
@@ -698,6 +700,10 @@ $(function () {
             .done(function(response) {
                 if(response.success)
                 {
+                    var message = typeof response.warning != "undefined"
+                        ? response.message + " " + "(with warning: We couldn't define the related scripture. Contact administrator.)"
+                        : response.message;
+
                     renderPopup(response.message, function () {
                         location.reload();
                     }, function () {
@@ -778,6 +784,7 @@ $(function () {
         var projectID = $("#projectID").val();
         var eventID = $("#eID").val();
         var bookCode = $("#bookCode").val();
+        var bookProject = $("#bookProject").val();
         var importLevel = $("#importLevel").val();
 
         $.ajax({
@@ -789,6 +796,7 @@ $(function () {
                 projectID: projectID,
                 eventID: eventID,
                 bookCode: bookCode,
+                bookProject: bookProject,
                 importLevel: importLevel
             },
             dataType: "json",

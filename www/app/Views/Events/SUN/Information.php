@@ -210,7 +210,6 @@ if(!isset($error)):
         var disableChat = true;
         var isChecker = false;
         var isInfoPage = true;
-        var manageMode = "sun";
     </script>
 
     <?php if($data["isAdmin"]): ?>

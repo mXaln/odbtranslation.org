@@ -1490,11 +1490,19 @@ div.ui-datepicker {
     background: url("/templates/default/assets/img/steps/keyword-check-active.png") no-repeat;
 }
 
-.peer-review-l2 {background-color: #4596cc;}
-.peer-review-l2-step {
+.peer-review-l2, .peer-review-l3 {background-color: #4596cc;}
+.peer-review-l2-step, .peer-review-l3-step {
     background: url("/templates/default/assets/img/steps/peer-edit-inactive.png") no-repeat;
 }
-.peer-review-l2-step.active {
+.peer-review-l2-step.active, .peer-review-l3-step.active {
+    background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
+}
+
+.peer-edit-l3 {background-color: #4596cc;}
+.peer-edit-l3-step {
+    background: url("/templates/default/assets/img/steps/peer-edit-inactive.png") no-repeat;
+}
+.peer-edit-l3-step.active {
     background: url("/templates/default/assets/img/steps/peer-edit-active.png") no-repeat;
 }
 
@@ -1787,10 +1795,10 @@ mark {
     border-left: 10px solid #00b9f8;
 }
 
-.notifa .keyword-check_checker, .notifa .theo-check_checker {
+.notifa .keyword-check_checker, .notifa .theo-check_checker, .notifa .peer-review-l3_checker {
     border-left: 10px solid #ffbc70;
 }
-.notifa .keyword-check_checker:hover, .notifa .theo-check_checker:hover {
+.notifa .keyword-check_checker:hover, .notifa .theo-check_checker:hover, .notifa peer-review-l3_checker:hover {
     border-left: 10px solid #ffac3a;
 }
 
@@ -2033,6 +2041,16 @@ mark {
 
 .editComment.tncommpeer {
     right: 20px; 
+}
+
+.editComment.tncomml3 {
+    right: 5px;
+    top: 10px;
+}
+
+.comments_number.tncomml3 {
+    right: -25px;
+    top: 5px;
 }
 
 .comments_number {
@@ -3483,10 +3501,11 @@ div[class^="member_usname mid"] {
 .event_logo {
     /*float: left;*/
     text-align: center;
-    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
     min-height: 190px;
     background-color: #fff;
-    flex: 1;
+    /*flex: 1;*/
 }
 
 .event_logo.translation {
@@ -4261,6 +4280,11 @@ button.startEvnt, button.editEvnt {
     padding: 10px 0;
 }
 
+.note_chunk.l3 {
+    display: flex;
+    justify-content: space-between;
+}
+
 .notes_content_block {
     display: none;
 }
@@ -4269,6 +4293,22 @@ button.startEvnt, button.editEvnt {
     color: #249b45;
     font-weight: bold;
     font-size: 16px;
+}
+
+.vnote.l3 {
+    position: relative;
+    flex: 1;
+}
+
+.scripture_l3 {
+    flex: 1;
+    margin-right: 20px;
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+.scripture_l2 {
+    display: none;
 }
 
 .add_notes {
@@ -4375,6 +4415,10 @@ button.startEvnt, button.editEvnt {
 
 .notes_translator {
     display: none;
+}
+
+.questions_target {
+    margin-top: 20px;
 }
 
 .chapter_title {

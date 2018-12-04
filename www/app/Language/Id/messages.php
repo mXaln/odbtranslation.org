@@ -1001,6 +1001,7 @@ return array (
     // Errors
     "checker_translator_not_ready_error" => "Penerjemah tidak siap untuk langkah ini, mohon tunggu. Halaman akan dimuat ulang ketika penerjemah sudah siap.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Pemeriksa belum menyetujui langkah ini. Mohon tunggu.",
+    "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
 	"verb_checker_not_ready_error" => "Tambahkan satu pemeriksa untuk lanjut ke tahap berikut",
     "checker_translator_finished_error" => "Pemeriksaan telah selesai untuk pasal ini.",
     "empty_or_not_permitted_event_error" => "Anda tidak memiliki izin untuk melihat informasi tentang kegiatan ini.",

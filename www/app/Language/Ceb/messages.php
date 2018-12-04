@@ -1003,6 +1003,7 @@ return array (
     // Errors
     "checker_translator_not_ready_error" => "Dili pa andam ang tighubad niini nga lakang, palihog hulat. Mobalik ra ang teksto kung andam na ang tighubad.",
     "checker_not_ready_error" => "Kini nga lakang wala pa giaprobahan sa tigsusi. Palihog hulat",
+    "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
     "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
     "checker_translator_finished_error" => "Human na ang pagsusi niini nga kasamtangang kapitulo.",
     "empty_or_not_permitted_event_error" => "Wala kay katungod nga motan-aw niini nga trabaho.",

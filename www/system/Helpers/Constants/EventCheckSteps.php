@@ -18,6 +18,7 @@ class EventCheckSteps
     const KEYWORD_CHECK_L2      = "keyword-check-l2";
     const PEER_REVIEW_L2        = "peer-review-l2";
     const PEER_REVIEW_L3        = "peer-review-l3";
+    const PEER_EDIT_L3          = "peer-edit-l3";
 
     private static $enum = [
         "none" => 0,
@@ -32,7 +33,8 @@ class EventCheckSteps
     private static $enumL3 = [
         "none" => 0,
         "pray" => 1,
-        "peer-review-l3" => 2
+        "peer-review-l3" => 2,
+        "peer-edit-l3" => 3
     ];
 
     public static function enum($step, $mode = null)

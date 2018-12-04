@@ -37,6 +37,8 @@ var EventCheckSteps = {
     SND_CHECK: "snd-check",
     PEER_REVIEW_L2: "peer-review-l2",
     KEYWORD_CHECK_L2: "keyword-check-l2",
+    PEER_REVIEW_L3: "peer-review-l3",
+    PEER_EDIT_L3: "peer-edit-l3",
     FINISHED: "finished",
 };
 
@@ -366,7 +368,8 @@ $(document).ready(function() {
             step == EventSteps.SYMBOL_DRAFT || step == EventSteps.MULTI_DRAFT ||
             step == EventCheckSteps.FST_CHECK || // For Level 2 Check
             step == EventCheckSteps.SND_CHECK ||
-            step == EventCheckSteps.PEER_REVIEW_L2)
+            step == EventCheckSteps.PEER_REVIEW_L2 ||
+            step == EventCheckSteps.PEER_EDIT_L3)
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
@@ -497,12 +500,14 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
-            var add = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn","tq","tw"]) > -1 ? "-" + tMode
-                    : (typeof manageMode != "undefined" ? "-"+manageMode : "");
+            var tm = typeof tMode != "undefined"
+                && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
+                : "";
+
+            var mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
 
             $.ajax({
-                url: "/events/information"+add+"/"+eventID,
+                url: "/events/information" + tm + mm + "/" + eventID,
                 method: "get",
                 dataType: "json",
             })
@@ -696,7 +701,12 @@ $(document).ready(function() {
             e.preventDefault();
     });
 
-    $("#checker_submit").submit(function() {
+    $("#checker_submit").submit(function(e) {
+        e.preventDefault();
+
+        // Used for Level 3 check
+        var checkerStep = $("input[name=step]");
+
         if(window.opener != null)
         {
             window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]")
@@ -728,8 +738,15 @@ $(document).ready(function() {
 
                 if(window.opener != null)
                 {
-                    window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
-                    window.close();
+                    if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                    {
+                        window.location.reload(true);
+                    }
+                    else
+                    {
+                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                        window.close();
+                    }
                 }
                 else
                 {
@@ -1010,7 +1027,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".check1 .event_link a").click(function (e) {
+    $(".check1 .event_link a, .check3 .event_link a").click(function (e) {
         window.open($(this).attr("href"));
         e.preventDefault();
     });
