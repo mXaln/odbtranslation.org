@@ -1,7 +1,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [2]).")" ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [3]).")" ?></div>
             <div><?php echo __("pray")?></div>
         </div>
         <div class="demo_video">
@@ -69,7 +69,7 @@
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-l2/consume';
+            window.location.href = '/events/demo-l3/peer_review_l3';
             return false;
         });
     });

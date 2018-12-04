@@ -4447,21 +4447,6 @@ class EventsController extends Controller
                                             "eventID" => $data["event"][0]->eventID,
                                             "chapter" => $data["event"][0]->currentChapter]);
 
-                                        // Set all event translations as Done
-                                        foreach ($translationData as $key => $chunk) {
-                                            $tID = $chunk->tID;
-                                            $trID = $chunk->trID;
-                                            $trData = array(
-                                                "translateDone" => true
-                                            );
-
-                                            $this->_translationModel->updateTranslation(
-                                                $trData,
-                                                array(
-                                                    "trID" => $trID,
-                                                    "tID" => $tID));
-                                        }
-
                                         // Check if whole scripture is finished
                                         if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum+1, true))
                                             $this->_model->updateEvent([
@@ -11154,6 +11139,74 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
+    public function demoL3($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-l3/pray");
+
+        $notifObj = new \stdClass();
+        $notifObj->step = EventCheckSteps::PEER_REVIEW_L3;
+        $notifObj->currentChapter = 2;
+        $notifObj->firstName = "Mark";
+        $notifObj->lastName = "Patton";
+        $notifObj->bookCode = "jas";
+        $notifObj->bookProject = "tn";
+        $notifObj->tLang = "Bahasa Indonesia";
+        $notifObj->bookName = "James";
+        $notifObj->manageMode = "l3";
+
+        $notifications[] = $notifObj;
+
+        $data["notifications"] = $notifications;
+        $data["news"] = $this->_news;
+        $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isDemo"] = true;
+        $data["menu"] = 1;
+        $data["isCheckerPage"] = true;
+
+        $view = View::make("Events/L3Notes/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/L3Notes/Demo/Pray");
+                $data["step"] = EventCheckSteps::PRAY;
+                break;
+
+            case "peer_review_l3":
+                $view->nest("page", "Events/L3Notes/Demo/PeerReview");
+                $data["step"] = EventCheckSteps::PEER_REVIEW_L3;
+                break;
+
+            case "peer_edit_l3":
+                $view->nest("page", "Events/L3Notes/Demo/PeerEdit");
+                $data["step"] = EventCheckSteps::PEER_EDIT_L3;
+                break;
+
+            case "peer_review_l3_checker":
+                $view->nest("page", "Events/L3Notes/Demo/PeerReviewChecker");
+                $data["step"] = EventCheckSteps::PEER_REVIEW_L3;
+                $data["isPeer"] = true;
+                break;
+
+            case "peer_edit_l3_checker":
+                $view->nest("page", "Events/L3Notes/Demo/PeerReviewChecker");
+                $data["step"] = EventCheckSteps::PEER_EDIT_L3;
+                $data["isPeer"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/L3Notes/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
     public function demoSun($page = null)
     {
         if(!isset($page))
@@ -11459,10 +11512,12 @@ class EventsController extends Controller
                     if($exists[0]->translator == null && $exists[0]->checker == null &&
                         $exists[0]->checker_l2 == null && $exists[0]->checker_l3 == null)   // can apply as checker L3 only if not translator or checker 7/8
                     {
+                        $chapter = in_array($mode, ["tn"]) ? -1 : 0;
                         $l3Data = array(
                             "memberID" => $memberID,
                             "eventID" => $event[0]->eventID,
-                            "step" => EventSteps::NONE
+                            "step" => EventSteps::NONE,
+                            "currentChapter" => $chapter
                         );
                         $l3ID = $this->_model->addL3Checker($l3Data);
 
@@ -12590,121 +12645,6 @@ class EventsController extends Controller
 
                 Url::redirect('events/checker-tn-l3/'.$eventID.'/'.$memberID.'/'.$chapter);
             }
-        }
-        else
-        {
-            $error[] = __("cannot_apply_checker");
-        }
-
-        $data["menu"] = 1;
-        $data["notifications"] = $this->_notifications;
-
-        return View::make("Events/CheckerApply")
-            ->shares("title", __("apply_checker_l1"))
-            ->shares("data", $data)
-            ->shares("error", @$error);
-    }
-
-
-    /**
-     * Make member a level 2 checker, who picks from notification area
-     * @param $eventID
-     * @param $memberID
-     * @param $step
-     * @param $chapter
-     * @return mixed
-     */
-    public function applyCheckerL3($eventID, $memberID, $step, $chapter)
-    {
-        $canApply = false;
-
-        $profile = Session::get("profile");
-        $langs = [];
-        foreach ($profile["languages"] as $lang => $item) {
-            $langs[] = $lang;
-        }
-
-        $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
-        $notif = null;
-
-        foreach ($allNotifications as $notification) {
-            if($eventID == $notification->eventID
-                && $memberID == $notification->memberID
-                && $step == $notification->step
-                && $chapter == $notification->currentChapter)
-            {
-                if($step == EventCheckSteps::SND_CHECK)
-                {
-                    $sndCheck = (array)json_decode($notification->sndCheck, true);
-                    if(isset($sndCheck[$chapter]) && $sndCheck[$chapter]["memberID"] == 0)
-                    {
-                        $sndCheck[$chapter]["memberID"] = Session::get("memberID");
-                        $notification->sndCheck = json_encode($sndCheck);
-                        $notif = $notification;
-                        $canApply = true;
-                    }
-                }
-                else if($step == EventCheckSteps::PEER_REVIEW_L2)
-                {
-                    $peer1Check = (array)json_decode($notification->peer1Check, true);
-                    $peer2Check = (array)json_decode($notification->peer2Check, true);
-                    if(isset($peer1Check[$chapter]))
-                    {
-                        if($peer1Check[$chapter]["memberID"] == 0)
-                        {
-                            $peer1Check[$chapter]["memberID"] = Session::get("memberID");
-                            $notification->peer1Check = json_encode($peer1Check);
-                            $notif = $notification;
-                            $canApply = true;
-                        }
-                        else if($peer2Check[$chapter]["memberID"] == 0)
-                        {
-                            $peer2Check[$chapter]["memberID"] = Session::get("memberID");
-                            $notification->peer2Check = json_encode($peer2Check);
-                            $notif = $notification;
-                            $canApply = true;
-                        }
-                    }
-                }
-                elseif($step == EventSteps::KEYWORD_CHECK)
-                {
-                    $kwCheck = (array)json_decode($notification->kwCheck, true);
-                    if(isset($kwCheck[$chapter]) && $kwCheck[$chapter]["memberID"] == 0)
-                    {
-                        $kwCheck[$chapter]["memberID"] = Session::get("memberID");
-                        $notification->kwCheck = json_encode($kwCheck);
-                        $notif = $notification;
-                        $canApply = true;
-                    }
-                }
-                elseif($step == EventSteps::CONTENT_REVIEW)
-                {
-                    $crCheck = (array)json_decode($notification->crCheck, true);
-                    if(isset($crCheck[$chapter]) && $crCheck[$chapter]["memberID"] == 0)
-                    {
-                        $crCheck[$chapter]["memberID"] = Session::get("memberID");
-                        $notification->crCheck = json_encode($crCheck);
-                        $notif = $notification;
-                        $canApply = true;
-                    }
-                }
-            }
-        }
-
-        if($canApply && $notif)
-        {
-            $postdata = [
-                "sndCheck" => $notif->sndCheck,
-                "peer1Check" => $notif->peer1Check,
-                "peer2Check" => $notif->peer2Check,
-            ];
-            $this->_model->updateL2Checker($postdata, [
-                "eventID" => $eventID,
-                "memberID" => $memberID
-            ]);
-
-            Url::redirect('events/checker-l2/'.$eventID.'/'.$memberID.'/'.$chapter);
         }
         else
         {

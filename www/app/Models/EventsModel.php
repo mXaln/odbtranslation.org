@@ -1063,7 +1063,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
             "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
             "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
-            (!$isSuperAdmin ? "WHERE (evnt.admins LIKE :memberID OR evnt.admins_l2 LIKE :memberID) " : "").
+            (!$isSuperAdmin ? "WHERE (evnt.admins LIKE :memberID OR evnt.admins_l2 LIKE :memberID OR evnt.admins_l3 LIKE :memberID) " : "").
             ($isSuperAdmin && $eventID ? "WHERE " : (!$isSuperAdmin && $eventID ? "AND " : "")).
             ($eventID ? "evnt.eventID = :eventID " : "").
             "ORDER BY evnt.state, tLang.langName, proj.sourceBible, abbr.abbrID";
@@ -1526,6 +1526,9 @@ class EventsModel extends Model
 
         foreach ($notifications as $notification)
         {
+            if($notification->step != EventCheckSteps::PEER_REVIEW_L3)
+                continue;
+
             // Peer check notifications
             $peerCheck = (array)json_decode($notification->peerCheck, true);
             foreach ($peerCheck as $chapter => $data) {

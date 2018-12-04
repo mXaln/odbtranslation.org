@@ -95,7 +95,7 @@ $profile = Session::get("profile");
                     $currentMembers = $event->chl3Cnt;
                     $members = __("checkers");
                     $manageLink = "/events/manage-l3/".$event->eventID;
-                    $progressLink = "/events/information-l3/".$event->eventID;
+                    $progressLink = "/events/information-{$event->bookProject}-l3/".$event->eventID;
                     break;
 
                 default:
@@ -187,7 +187,7 @@ $profile = Session::get("profile");
                     $currentMembers = $event->chl3Cnt;
                     $members = __("checkers");
                     $manageLink = "/events/manage-l3/".$event->eventID;
-                    $progressLink = "/events/information-l3/".$event->eventID;
+                    $progressLink = "/events/information-{$event->bookProject}-l3/".$event->eventID;
                     break;
 
                 default:
@@ -381,10 +381,10 @@ $profile = Session::get("profile");
                     <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
                     <?php echo ($event->currentChapter > 0
                         ? ($event->bookProject == "tw" ?
-                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                            : __("chapter_number", array($event->currentChapter)))
-                        : __("front"))
-                        .(", ".__($event->step))?>
+                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."], "
+                            : __("chapter_number", array($event->currentChapter)).", ")
+                        : __("front").", ")
+                        .(__($event->step))?>
                 </div>
             </div>
             <div class="event_action check1">
@@ -481,10 +481,10 @@ $profile = Session::get("profile");
                         <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
                         <?php echo ($event->currentChapter > 0
                             ? ($event->bookProject == "tw" ?
-                                "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                                : __("chapter_number", array($event->currentChapter)))
-                            : ($event->bookProject == "tn" && $event->currentChapter > -1 ? __("front") : ""))
-                            .(", ".__($event->step)) ?>
+                                "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."], "
+                                : __("chapter_number", array($event->currentChapter)).", ")
+                            : ($event->bookProject == "tn" && $event->currentChapter > -1 ? __("front").", " : ""))
+                            .(__($event->step)) ?>
                     </div>
                 <?php endif; ?>
             </div>

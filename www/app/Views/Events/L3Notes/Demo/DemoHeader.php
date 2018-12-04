@@ -10,30 +10,18 @@ use Helpers\Constants\EventCheckSteps;
             <a href="/events/demo-l2/pray"><span><?php echo __(EventCheckSteps::PRAY)?></span></a>
         </li>
 
-        <li class="consume-step <?php echo $data["step"] == EventCheckSteps::CONSUME ? "active" : "" ?>">
-            <a href="/events/demo-l2/consume"><span><?php echo __(EventCheckSteps::CONSUME)?></span></a>
+        <li class="consume-step <?php echo $data["step"] == EventCheckSteps::PEER_REVIEW_L3 ? "active" : "" ?>">
+            <a href="/events/demo-l3/peer_review_l3"><span><?php echo __(EventCheckSteps::PEER_REVIEW_L3)?></span></a>
         </li>
 
-        <li class="fst-check-step <?php echo $data["step"] == EventCheckSteps::FST_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-l2/fst_check"><span><?php echo __(EventCheckSteps::FST_CHECK)?></span></a>
-        </li>
-
-        <li class="snd-check-step <?php echo $data["step"] == EventCheckSteps::SND_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-l2/snd_check"><span><?php echo __(EventCheckSteps::SND_CHECK)?></span></a>
-        </li>
-
-        <li class="keyword-check-l2-step <?php echo $data["step"] == EventCheckSteps::KEYWORD_CHECK_L2 ? "active" : "" ?>">
-            <a href="/events/demo-l2/keyword_check_l2"><span><?php echo __(EventCheckSteps::KEYWORD_CHECK_L2)?></span></a>
-        </li>
-
-        <li class="peer-review-l2-step <?php echo $data["step"] == EventCheckSteps::PEER_REVIEW_L2 ? "active" : "" ?>">
-            <a href="/events/demo-l2/peer_review_l2"><span><?php echo __(EventCheckSteps::PEER_REVIEW_L2)?></span></a>
+        <li class="fst-check-step <?php echo $data["step"] == EventCheckSteps::PEER_EDIT_L3 ? "active" : "" ?>">
+            <a href="/events/demo-l3/peer_edit_l3"><span><?php echo __(EventCheckSteps::PEER_EDIT_L3)?></span></a>
         </li>
     </ul>
 </div>
 
 <?php
-$isCheckPage = $data["step"] == EventCheckSteps::PEER_REVIEW_L2;
+$isCheckPage = $data["step"] == EventCheckSteps::PEER_REVIEW_L3;
 ?>
 
 <script>
@@ -43,7 +31,7 @@ $isCheckPage = $data["step"] == EventCheckSteps::PEER_REVIEW_L2;
     var step = '<?php echo $data["step"]; ?>';
     var isDemo = true;
     var myChapter = 2;
-    var tMode = "ulb";
+    var tMode = "tn";
 </script>
 
 <div style="position: fixed; right: 0;">
