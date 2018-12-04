@@ -12,8 +12,8 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [2]).")" ?></div>
-            <div><?php echo __("peer-review-l2_full")?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [3]).")" ?></div>
+            <div><?php echo __("peer-review-l3_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -24,247 +24,251 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Mark 16:1-20</span></h4>
 
-                <ul class="nav nav-tabs">
-                    <li role="presentation" id="source_scripture" class="my_tab">
-                        <a href="#"><?php echo __("source_text") ?></a>
-                    </li>
-                    <li role="presentation" id="target_scripture" class="my_tab">
-                        <a href="#"><?php echo __("target_text") ?></a>
-                    </li>
-                </ul>
-
-                <div id="source_scripture_content" class="my_content shown">
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in Christ Jesus.</div></div>
-                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</div></div>
-                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of Christ Jesus.</div></div>
+                <div id="my_notes_content" class="my_content">
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> </div>
+                        <div class="scripture_l2"> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Pendahuluan</h1>
+                            <h1>Catatan Umum</h1>
+                            <h1>Markus 16</h1>
+                            <h4>Konsep Khusus dalam Pasal ini</h4>
+                            <h5>Tradisi Penguburan</h5>
+                            <p>Hal itu adalah sebuah adat dalam bangsa Israel kuno untuk menempatkan orang-orang penting atau orang-orang kaya dalam kuburan dan menutup kuburan itu dengan batu yang besar. Hanya keluarga orang-orang kaya yang dapat membayar tempat pemakaman semacam ini.</p>
+                            <h3>Beberapa kesulitan terjemahan dalam pasal ini</h3>
+                            <h5>Seorang laki-laki muda berpakaian dalam jubah yang putih.</h5>
+                            <p>Matius, Markus, Lukas, dan Yohanes semua menulis tentang malaikat-malaikat yang berjubah putih dengan wanita dalam makam Yesus. Dua dari penulis itu menyebut mereka pria, tetapi hal itu karena malaikat dalam bentuk manusia. Dua dari penulis itu menulis tentang dua malaikat, namun dua penulis yang lain hanya menulis tentang satu dari mereka. Lebih baik menerjemahkan setiap bagian ini seperti yang terlihat dalam ULB tanpa mencoba untuk membuat semua bagian mengatakan hal yang sama persis.&nbsp; (Lihat: <a href="../../mat/28/01.md">Matius 28:1-2</a>, <a href="../../mrk/16/05.md">Markus 16:5</a>&nbsp;dan&nbsp;<a href="../../luk/24/04.md">Lukas 24:4</a>&nbsp;dan&nbsp;<a href="../../jhn/20/11.md">Yohanes 20:12</a>)</p>
+                            <h2>Tautan :</h2>
+                            <ul>
+                                <li><strong><a href="./01.md">Catatan Markus 16:01</a></strong></li>
+                            </ul>
+                            <p><strong><a href="../15/intro.md">&lt;&lt;</a> |</strong></p>
+                            <div class="comments_number tncomml3 hasComment"> 2 </div>
+                            <img class="editComment tncomml3" data="16:0" width="16" src="<?php echo template_url("img/edit_done.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments">
+                                <div class="other_comments"> <span>James S. (L2):</span> A note from level 2 checker</div>
+                                <div class="my_comment">A note from level 3 checker</div>
+                            </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
-                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</div></div>
-                            <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
-                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what I am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 1. <span data-verse="1"><del style="background:#ffe6e6;">Dan, k</del><ins style="background:#e6ffe6;">K</ins><span>etika hari Sabat </span><del style="background:#ffe6e6;">berlalu</del><ins style="background:#e6ffe6;">telah lewat</ins><span>, Maria Magdalena</span><del style="background:#ffe6e6;">,</del><ins style="background:#e6ffe6;"> dan</ins><span> Maria</span><ins style="background:#e6ffe6;">,</ins><span> ibu Yakobus, </span><del style="background:#ffe6e6;">serta</del><ins style="background:#e6ffe6;">dan</ins><span> Salome,</span><del style="background:#ffe6e6;"> telah</del><span> membeli rempah-rempah </span><del style="background:#ffe6e6;">sehingga mereka dapat pergi dan meminyaki Yesus</del><ins style="background:#e6ffe6;">harum, dengan maksud untuk pergi dan mengurapi tubuh Yesus ke tempat pemakaman</ins><span>.</span></span> 2. <span data-verse="2"><span>Pagi-pagi </span><del style="background:#ffe6e6;">sekali</del><ins style="background:#e6ffe6;">benar setelah matahari terbit</ins><span>, pada hari pertama </span><ins style="background:#e6ffe6;">di </ins><span>minggu itu, </span><del style="background:#ffe6e6;">ketika matahari terbit, mereka datang</del><ins style="background:#e6ffe6;">pergilah mereka</ins><span> ke kuburan.</span></span> </div>
+                        <div class="scripture_l2"> 1. <span data-verse="1">Dan, ketika hari Sabat berlalu, Maria Magdalena, Maria ibu Yakobus, serta Salome, telah membeli rempah-rempah sehingga mereka dapat pergi dan meminyaki Yesus.</span> 2. <span data-verse="2">Pagi-pagi sekali, pada hari pertama minggu itu, ketika matahari terbit, mereka datang ke kuburan.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 1-2</h1>
+                            <h1>Pernyataan Terkait:</h1>
+                            <p>Pada hari pertama minggu itu, wanita-wanita datang lebih awal karena mereka mengharapkan untuk menggunakan rempah-rempah untuk mengurapi tubuh Yesus. Mereka terkejut melihat seorang laki-laki yang mengatakan kepada mereka bahwa Yesus telah hidup, namun mereka takut dan tidak menceritakan kepada siapapun.</p>
+                            <h1>Ketika hari Sabat telah berlalu</h1>
+                            <p>Yaitu, setelah hari Sabat, hari ketujuh minggu itu, telah usai dan hari pertama minggu itu telah dimulai.</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/kt/sabbath]]</li>
+                                <li>[[rc://en/tw/dict/bible/names/marymagdalene]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/jesus]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/tomb]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3 "> </div>
+                            <img class="editComment tncomml3" data="16:1" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments"> </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</div></div>
-                            <div> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</div></div>
-                            <div> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 3. <span data-verse="3"><span>Lalu mereka berkata satu kepada yang lain, "Siapa yang akan menggulingkan batu di depan pintu kuburan untuk kami?"</span></span> 4. <span data-verse="4"><span>Ketika mereka lihat, mereka mendapati bahwa seseorang telah menggulingkan batu yang sangat besar itu.</span></span> </div>
+                        <div class="scripture_l2"> 3. <span data-verse="3">Lalu mereka berkata satu kepada yang lain, "Siapa yang akan menggulingkan batu di depan pintu kuburan untuk kami?"</span> 4. <span data-verse="4">Ketika mereka lihat, mereka mendapati bahwa seseorang telah menggulingkan batu yang sangat besar itu.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 3-4</h1>
+                            <h1>batu itu telah digulingkan</h1>
+                            <p>Ini dapat dinyatakan dalam bentuk yang aktif. AT: "seseorang telah menggulingkan batu itu" (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>Kata-kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/other/tomb]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3">  </div>
+                            <img class="editComment tncomml3" data="16:2" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments">
+                            </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">This saying is trustworthy: "If we have died with him, we will also live with him.</div></div>
-                            <div> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">If we endure, we will also reign with him. If we deny him, he also will deny us.</div></div>
-                            <div> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">if we are unfaithful, he remains faithful, for he cannot deny himself."</div></div>
-                            <div> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 5. <span data-verse="5"><span>Ketika mereka masuk ke kuburan, mereka melihat seorang muda berpakaian jubah putih, duduk di sebelah kanan, dan mereka sangat tercengang.</span></span> 6. <span data-verse="6"><span>Lalu orang itu berkata kepada mereka, "Jangan takut. Kamu mencari Yesus, orang Nazaret, yang telah disalibkan itu. Ia telah bangkit! Ia tidak ada di sini. Lihatlah tempat mereka telah membaringkanNya.</span></span> 7. <span data-verse="7"><span>Tetapi pergilah dan katakan kepada murid-muridNya dan Petrus, bahwa Ia akan pergi mendahului kamu ke Galilea. Di sana kamu akan menemui Dia, seperti yang telah Ia katakan kepadamu.</span></span> </div>
+                        <div class="scripture_l2"> 5. <span data-verse="5">Ketika mereka masuk ke kuburan, mereka melihat seorang muda berpakaian jubah putih, duduk di sebelah kanan, dan mereka sangat tercengang.</span> 6. <span data-verse="6">Lalu orang itu berkata kepada mereka, "Jangan takut. Kamu mencari Yesus, orang Nazaret, yang telah disalibkan itu. Ia telah bangkit! Ia tidak ada di sini. Lihatlah tempat mereka telah membaringkanNya.</span> 7. <span data-verse="7">Tetapi pergilah dan katakan kepada murid-muridNya dan Petrus, bahwa Ia akan pergi mendahului kamu ke Galilea. Di sana kamu akan menemui Dia, seperti yang telah Ia katakan kepadamu.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 5-7</h1>
+                            <h1>Ia telah bangkit!</h1>
+                            <p>Malaikat itu dengan tegas menyatakan bahwa Yesus telah bangkit dari kematian. Ini dapat diterjemahkan dalam bentuk yang aktif. AT: "Ia bangkit" atau "Allah telah membangkitkan Dia dari kematian!" atau "Ia membangkitkan dirinya sendiri dari kematian!" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/names/nazareth]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/crucify]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/raise]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/disciple]]</li>
+                                <li>[[rc://en/tw/dict/bible/names/peter]]</li>
+                                <li>[[rc://en/tw/dict/bible/names/galilee]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3 "> </div>
+                            <img class="editComment tncomml3" data="16:3" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments"> </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</div></div>
-                            <div> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">Avoid profane talk, which leads to more and more godlessness.</div></div>
-                            <div> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 8. <span data-verse="8"><span>Lalu mereka bergegas pergi keluar dari kuburan, dalam keadaan gemetar dan takjub. Mereka tidak memberitahu apapun kepada siapapun, karena mereka sangat takut.</span></span> </div>
+                        <div class="scripture_l2"> 8. <span data-verse="8">Lalu mereka bergegas pergi keluar dari kuburan, dalam keadaan gemetar dan takjub. Mereka tidak memberitahu apapun kepada siapapun, karena mereka sangat takut.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 8</h1>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/other/tomb]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/amazed]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3"> </div>
+                            <img class="editComment tncomml3" data="16:4" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments">
+                            </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</div></div>
-                            <div> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</div></div>
-                            <div> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 9. <span data-verse="9"><span> Pagi-pagi benar pada hari pertama minggu itu, setelah Yesus bangkit, Ia pertama kali menampakkan diriNya kepada Maria Magdalena, yang dari padanya Yesus pernah mengusir keluar tujuh roh jahat.</span></span> 10. <span data-verse="10"><span>Lalu ia pergi dan memberitahukan kepada mereka yang bersama-sama dengan dia, ketika mereka sedang berkabung dan menangis.</span></span> 11. <span data-verse="11"><span>Mereka mendengar bahwa Ia hidup dan telah menampakkan diri kepadanya, tetapi mereka tidak percaya.</span></span> </div>
+                        <div class="scripture_l2"> 9. <span data-verse="9"> Pagi-pagi benar pada hari pertama minggu itu, setelah Yesus bangkit, Ia pertama kali menampakkan diriNya kepada Maria Magdalena, yang dari padanya Yesus pernah mengusir keluar tujuh roh jahat.</span> 10. <span data-verse="10">Lalu ia pergi dan memberitahukan kepada mereka yang bersama-sama dengan dia, ketika mereka sedang berkabung dan menangis.</span> 11. <span data-verse="11">Mereka mendengar bahwa Ia hidup dan telah menampakkan diri kepadanya, tetapi mereka tidak percaya.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 9-11</h1>
+                            <h1>Pernyataan Terkait:</h1>
+                            <p>Yesus pertama-tama muncul kepada Maria Magdalena, yang memberitahukan kepada murid-murid Yesus, kemudian Ia muncul kepada dua orang yang lainnya saat dia berjalan di negeri itu, dan kemudian Ia muncul kepada kesebelas murid-Nya.</p>
+                            <h1>pada hari pertama minggu itu</h1>
+                            <p>"pada hari Minggu"</p>
+                            <h1>Mereka mendengar</h1>
+                            <p>"Mereka mendengar Maria Magdalena mengatakan"</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/names/marymagdalene]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/demon]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/believe]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3 "> </div>
+                            <img class="editComment tncomml3" data="16:5" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments"> </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21">If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</div></div>
-                            <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</div></div>
-                            <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">But refuse foolish and ignorant questions. You know that they give birth to arguments.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 12. <span data-verse="12"><span> Sesudah itu, Ia menampakkan dalam rupa yang lain kepada dua orang yang lain, ketika mereka sedang berjalan keluar kota.</span></span> 13. <span data-verse="13"><span>Lalu keduanya pergi dan memberitahukan kepada murid-murid lainnya, tetapi mereka tidak percaya kepada kedua orang itu.</span></span> </div>
+                        <div class="scripture_l2"> 12. <span data-verse="12"> Sesudah itu, Ia menampakkan dalam rupa yang lain kepada dua orang yang lain, ketika mereka sedang berjalan keluar kota.</span> 13. <span data-verse="13">Lalu keduanya pergi dan memberitahukan kepada murid-murid lainnya, tetapi mereka tidak percaya kepada kedua orang itu.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 12-13</h1>
+                            <h1>Ia muncul dalam bentuk yang lain</h1>
+                            <p>"dua dari mereka" melihat Yesus, namun Ia terlihat berbeda dari penampilan Ia sebelumnya.</p>
+                            <h1>dua dari mereka</h1>
+                            <p>dua dari "mereka yang bersama dengan Dia" (<a href="./09.md">Markus 16:10</a>)</p>
+                            <h1>mereka tidak mempercayainya</h1>
+                            <p>Beberapa murid lainnya tidak percaya apa yang mereka berdua katakan saat berjalan di negeri itu.</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/kt/disciple]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3"> </div>
+                            <img class="editComment tncomml3" data="16:6" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments">
+                            </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</div></div>
-                            <div> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</div></div>
-                            <div> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">They may become sober again and leave the devil's trap, after they have been captured by him for his will.</div></div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 14. <span data-verse="14"><span> Yesus kemudian menampakkan diri kepada sebelas muridNya, ketika mereka sedang makan, dan Ia pun menegur ketidakpercayaan dan kekerasan hati mereka, sebab mereka tidak mempercayai mereka yang telah melihatNya setelah Ia telah bangkit dari kematian.</span></span> 15. <span data-verse="15"><span>Ia berkata kepada mereka,"Pergilah ke seluruh dunia, beritakan injil kepada segala makhluk ciptaan.</span></span> 16. <span data-verse="16"><span>Siapa yang percaya dan dibaptis akan selamat, dan siapa yang tidak percaya akan dihukum.</span></span> </div>
+                        <div class="scripture_l2"> 14. <span data-verse="14"> Yesus kemudian menampakkan diri kepada sebelas muridNya, ketika mereka sedang makan, dan Ia pun menegur ketidakpercayaan dan kekerasan hati mereka, sebab mereka tidak mempercayai mereka yang telah melihatNya setelah Ia telah bangkit dari kematian.</span> 15. <span data-verse="15">Ia berkata kepada mereka,"Pergilah ke seluruh dunia, beritakan injil kepada segala makhluk ciptaan.</span> 16. <span data-verse="16">Siapa yang percaya dan dibaptis akan selamat, dan siapa yang tidak percaya akan dihukum.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 14-16</h1>
+                            <h1>Pernyataan Terkait:</h1>
+                            <p>Ketika Yesus bertemu dengan kesebelas murid, Ia menegur mereka karena ketidakpercayaan mereka dan mengatakan kepada mereka untuk pergi ke seluruh dunia dan beritakanlah Injil.</p>
+                            <h1>kesebelas</h1>
+                            <p>Mereka adalah sebelas rasul yang tetap ada setelah Yudas meninggalkan mereka.</p>
+                            <h1>mereka bersandar di meja</h1>
+                            <p>Ini merupakan sebuah metonimia untuk makan, yang merupakan sebuah cara yang biasa untuk orang-orang pada saat itu memakan makanan. AT: "mereka sedang menyantap makanan" (Lihat:[[rc://en/ta/man/translate/figs-metonymy]])</p>
+                            <h1>bersandar</h1>
+                            <p>Dalam tradisi Yesus, ketika orang-orang berkumpul bersama untuk makan, mereka berbaring di sisi mereka, menyangga diri mereka sendiri diatas bantal disamping meja yang rendah ketinggiannya.</p>
+                            <h1>kekerasan hati</h1>
+                            <p>Yesus sedang menegur murid-murid-Nya karena mereka tidak akan percaya kepadaNya. Terjemahkan ungkapan ini sehingga dapat dipahami bahwa murid-murid tidak mempercayai Yesus. AT: "penolakan untuk percaya" (Lihat:[[rc://en/ta/man/translate/figs-idiom]])</p>
+                            <h1>Pergi ke seluruh dunia</h1>
+                            <p>Disini "dunia" merupakan sebuah metonimia untuk orang-orang di dunia. AT: "Pergi kemanapun tempat yang ada banyak orang-orang" (Lihat:[[rc://en/ta/man/translate/figs-metonymy]])</p>
+                            <h1>kepada semua ciptaan</h1>
+                            <p>Ini adalah sesuatu yang melebih-lebihkan dan suatu metonimia untuk dimanapun orang-orang berada. AT: "semua orang sepenuhnya" (Lihat:[[rc://en/ta/man/translate/figs-metonymy]]&nbsp;dan&nbsp;[[rc://en/ta/man/translate/figs-hyperbole]])</p>
+                            <h1>Siapa yang percaya dan dibaptis akan diselamatkan</h1>
+                            <p>Kata "Ia" mengarah kepada siapapun. Kalimat ini dapat dibuat menjadi kalimat aktif. AT: "Allah akan menyelamatkan semua orang yang percaya dan memperbolehkan kamu untuk membaptis mereka" (Lihat: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>orang yang tidak percaya akan dihukum</h1>
+                            <p>Kata "orang" disini mengarah kepada siapapun. Klausa ini dapat dibuat menjadi aktif. AT: "Allah akan menghukum semua orang yang tidak percaya" (Lihat:[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/kt/jesus]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/thetwelve]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/rebuke]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/believe]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/believe]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/preach]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/goodnews]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/baptize]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/save]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/condemn]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3"> </div>
+                            <img class="editComment tncomml3" data="16:7" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments">
+                            </div>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                </div>
-
-                <div id="target_scripture_content" class="my_content">
-                    <div class="no_padding">
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>1</sup> </strong> <span class="orig_text" data-orig-verse="1">You are like a son to me. So I urge also that you let God empower you as a result of Christ Jesus acting kindly toward you.</span></p>
-                                <p> <strong class="ltr"> <sup>2</sup> </strong><span class="orig_text" data-orig-verse="2">Command and trust faithful men to teach the things you heard from me and from many others who have testified in the same way to others, too.</span></p>
-                                <p> <strong class="ltr"> <sup>3</sup> </strong><span class="orig_text" data-orig-verse="3">Endure as I do what we suffer for Christ Jesus, like a good soldier endures what he suffers.</span></p>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 17. <span data-verse="17"><ins style="background:#e6ffe6;"> </ins><span>Tanda-tanda ini akan menyertai mereka yang percaya. Mereka akan mengusir setan dalam namaKu. Mereka akan berbicara dalam bahasa yang baru,</span><del style="background:#ffe6e6;"></del></span> 18. <span data-verse="18"><span>Mereka akan mengangkat ular dengan tangan mereka, dan sekalipun mereka minum racun yang mematikan, mereka tidak akan mendapat celaka. Mereka akan menumpangkan tangan kepada orang sakit dan orang sakit itu akan sembuh.</span></span> </div>
+                        <div class="scripture_l2"> 17. <span data-verse="17">Tanda-tanda ini akan menyertai mereka yang percaya. Mereka akan mengusir setan dalam namaKu. Mereka akan berbicara dalam bahasa yang baru,</span> 18. <span data-verse="18">Mereka akan mengangkat ular dengan tangan mereka, dan sekalipun mereka minum racun yang mematikan, mereka tidak akan mendapat celaka. Mereka akan menumpangkan tangan kepada orang sakit dan orang sakit itu akan sembuh.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 17-18</h1>
+                            <h1>Tanda-tanda ini akan menyertai mereka yang percaya</h1>
+                            <p>Markus berbicara tentang mujizat seolah-olah mereka berjalan bersama dengan orang-orang percaya. AT: "Orang-orang melihat mereka yang percaya akan melihat hal-hal ini terjadi dan mengetahui bahwa Aku bersama dengan orang-orang percaya" (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-personification]])</p>
+                            <h1>Dalam nama-Ku mereka</h1>
+                            <p>Arti kemungkinan lainnya adalah 1) Yesus sedang memberikan daftar umum: "Dalam nama-Ku mereka akan melakukan hal-hal yang seperti ini: Mereka" atau 2) Yesus sedang memberikan daftar yang tepat: "Ini adalah hal-hal yang mereka akan lakukan dalam nama-Ku: Mereka."</p>
+                            <h1>Dalam nama-Ku</h1>
+                            <p>Disini "nama" dihubungkan dengan kekuasaan Yesus dan kuasa-Nya. Lihat bagaimana "dalam namaMu" diterjemahkan dalam&nbsp;<a href="../09/38.md">Markus 9:38</a>. AT: "Dengan kekuasaan atas nama-Ku" atau "Dengan kuasa dalam nama-Ku" (Lihat: [[rc://en/ta/man/translate/figs-metonymy]])</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/kt/demon]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/serpent]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3"> </div>
+                            <img class="editComment tncomml3" data="16:8" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments">
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">1</span> <textarea data-orig-verse="1" name="chunks[0][1]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">You are like a son to me. The text that was added will be marked green. So I urge also that you let God empower you as a result of Christ Jesus acting kindly toward you.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">2</span> <textarea data-orig-verse="2" name="chunks[0][2]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Command and trust faithful men to teach the things you heard from me and from many others who have testified in the same way to others, too.</textarea></div>
-                                    <div class="verse_block"> <span class="verse_number_l2">3</span> <textarea data-orig-verse="3" name="chunks[0][3]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Endure as I do what we suffer for Christ Jesus, like a (This is an example of replaced text) what he suffers.</textarea></div>
-                                    <div class="comments_number hasComment">2 </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments">
-                                        <div class="other_comments">
-                                            <div><span>Anna S. (L1):</span> This is comment from Level 1 Event</div>
-                                            <div><span>Genry M. (L2):</span> This is comment of previous checker from Level 2 Event</div>
-                                        </div>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
+                            <div class="clear"></div>
                         </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>4</sup> </strong><span class="orig_text" data-orig-verse="4">You know that soldiers, in order to please their captain, do not become involved in civilian affairs</span></p>
-                                <p> <strong class="ltr"> <sup>5</sup> </strong><span class="orig_text" data-orig-verse="5">Likewise, athletes competing in games cannot win unless they obey the rules.</span>.</p>
-                                <p> <strong class="ltr"> <sup>6</sup> </strong><span class="orig_text" data-orig-verse="6">And the farmer who works hard must (Deleted text will be marked red) receive his share of the crops first.</span></p>
-                                <p> <strong class="ltr"> <sup>7</sup> </strong><span class="orig_text" data-orig-verse="7">Think about what I have just written, because, if you do, the Lord will enable you to understand everything that you need to understand.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">4</span> <textarea data-orig-verse="4" name="chunks[0][4]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">You know that soldiers, in order to please their captain, do not become involved in civilian affairs</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">5</span> <textarea data-orig-verse="5" name="chunks[0][5]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Likewise, athletes competing in games cannot win unless they obey the rules.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">6</span> <textarea data-orig-verse="6" name="chunks[0][6]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">And the farmer who works hard must receive his share of the crops first.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">7</span> <textarea data-orig-verse="7" name="chunks[0][7]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Think about what I have just written, because, if you do, the Lord will enable you to understand everything that you need to understand.</textarea> </div>
-                                    <div class="comments_number hasComment">3 </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit_done.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments">
-                                        <div class="my_comment">This is my comment as a Level 2 checker</div>
-                                        <div class="other_comments">
-                                            <div><span>Genry M. (L2):</span> This is another comment of previous checker from Level 2 Event</div>
-                                            <div><span>Mark P. (L2):</span> This is another comment of previous checker from Level 2 Event</div>
-                                        </div>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="note_chunk l3">
+                        <div class="scripture_l3"> 19. <span data-verse="19"><ins style="background:#e6ffe6;"> </ins><span>Setelah Tuhan berbicara kepada mereka, terangkatlah Ia ke surga, dan Ia duduk di sebelah kanan Allah.</span><del style="background:#ffe6e6;"></del></span> 20. <span data-verse="20"><span>Murid-muridNya pun pergi dan memberitakan injil ke</span><ins style="background:#e6ffe6;"> </ins><span>mana-mana, </span><del style="background:#ffe6e6;">dan</del><ins style="background:#e6ffe6;">sementara</ins><span> Tuhan </span><del style="background:#ffe6e6;">turut </del><span>bekerja d</span><del style="background:#ffe6e6;">i antara</del><ins style="background:#e6ffe6;">engan</ins><span> mereka</span><del style="background:#ffe6e6;">,</del><span> dan meneguhkan Firman itu dengan tanda-tanda yang menyertainya.</span></span> </div>
+                        <div class="scripture_l2"> 19. <span data-verse="19">Setelah Tuhan berbicara kepada mereka, terangkatlah Ia ke surga, dan Ia duduk di sebelah kanan Allah.</span> 20. <span data-verse="20">Murid-muridNya pun pergi dan memberitakan injil kemana-mana, dan Tuhan turut bekerja di antara mereka, dan meneguhkan Firman itu dengan tanda-tanda yang menyertainya.</span> </div>
+                        <div class="vnote l3 font_id" dir="ltr">
+                            <h1>Ayat: 19-20</h1>
+                            <h1>Ia terangkat ke Surga dan duduk</h1>
+                            <p>Ini dapat dinyatakan dalam bentuk yang aktif. AT: "Allah mengangkat Dia ke Surga, dan Ia duduk" (Lihat:&nbsp;[[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>duduk di sebelah kanan Allah</h1>
+                            <p>Untuk duduk "di sebelah kanan Allah" merupakan sebuah simbol penerimaan kehormatan dan kekuasaan yang besar dari Allah. AT: "duduk di tempat yang maha tinggi disamping Allah" (Lihat:&nbsp;[[rc://en/ta/man/translate/translate-symaction]])</p>
+                            <h1>meneguhkan firman</h1>
+                            <p>Ungkapan ini berarti mereka membuktikkan bahwa pesan mereka adalah benar. AT: "menunjukkan bahwa pesannya, yang dikatakan oleh mereka, adalah benar" (Lihat:[[rc://en/ta/man/translate/figs-idiom]])</p>
+                            <h1>Kata-Kata Terjemahan</h1>
+                            <ul>
+                                <li>[[rc://en/tw/dict/bible/kt/lord]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/heaven]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/god]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/disciple]]</li>
+                                <li>[[rc://en/tw/dict/bible/other/preach]]</li>
+                                <li>[[rc://en/tw/dict/bible/kt/miracle]]</li>
+                            </ul>
+                            <div class="comments_number tncomml3 "> </div>
+                            <img class="editComment tncomml3" data="16:9" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
+                            <div class="comments"> </div>
+                            <div class="clear"></div>
                         </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>8</sup> </strong><span class="orig_text" data-orig-verse="8">As you suffer hardships, remember Jesus Christ, a descendant of King David. God raised him from the dead, as I also preach in the gospel message.</span></p>
-                                <p> <strong class="ltr"> <sup>9</sup> </strong><span class="orig_text" data-orig-verse="9">For this gospel I suffer to the point of being imprisoned as a criminal. But the word of God is not in prison.</span></p>
-                                <p> <strong class="ltr"> <sup>10</sup> </strong><span class="orig_text" data-orig-verse="10">Therefore I willingly endure all that I am suffering for the sake of those whom God has chosen. I do this in order that Christ Jesus will save them, too, and that they will be forever with him in the glorious place where he is.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">8</span> <textarea data-orig-verse="8" name="chunks[0][8]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">As you suffer hardships, remember Jesus Christ, a descendant of King David. God raised him from the dead, as I also preach in the gospel message.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">9</span> <textarea data-orig-verse="9" name="chunks[0][9]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">For this gospel I suffer to the point of being imprisoned as a criminal. But the word of God is not in prison.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">10</span> <textarea data-orig-verse="10" name="chunks[0][10]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Therefore I willingly endure all that I am suffering for the sake of those whom God has chosen. I do this in order that Christ Jesus will save them, too, and that they will be forever with him in the glorious place where he is.</textarea> </div>
-                                    <div class="comments_number "> </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>11</sup> </strong><span class="orig_text" data-orig-verse="11">You can depend on the words that we sometimes say: "If we have died with Jesus, we will also live with him.</span>.</p>
-                                <p> <strong class="ltr"> <sup>12</sup> </strong><span class="orig_text" data-orig-verse="12">If we endure, we will also reign with him. But if we deny him, he also will deny us.</span></p>
-                                <p> <strong class="ltr"> <sup>13</sup> </strong><span class="orig_text" data-orig-verse="13">If we are unfaithful to Jesus, he continues to be faithful; for he cannot deny himself."</span></p>
-                                <p> <strong class="ltr"> <sup>14</sup> </strong><span class="orig_text" data-orig-verse="14">Those whom you appointed to teach others God's truth, keep reminding them about these things that I have told you. Warn them before God not to fight over foolish words, because doing so does not help anything and can ruin those who listen.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">11</span> <textarea data-orig-verse="11" name="chunks[0][11]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">You can depend on the words that we sometimes say: "If we have died with Jesus, we will also live with him.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">12</span> <textarea data-orig-verse="12" name="chunks[0][12]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">If we endure, we will also reign with him. But if we deny him, he also will deny us.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">13</span> <textarea data-orig-verse="13" name="chunks[0][13]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">If we are unfaithful to Jesus, he continues to be faithful; for he cannot deny himself."</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">14</span> <textarea data-orig-verse="14" name="chunks[0][14]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Those whom you appointed to teach others God's truth, keep reminding them about these things that I have told you. Warn them before God not to fight over foolish words, because doing so does not help anything and can ruin those who listen.</textarea> </div>
-                                    <div class="comments_number "> </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>15</sup> </strong><span class="orig_text" data-orig-verse="15">Do your best to cause God to approve you as a worker who has no need to be ashamed, who teaches the word of God correctly, for everyone can depend on the fact that it tells the truth.</span></p>
-                                <p> <strong class="ltr"> <sup>16</sup> </strong><span class="orig_text" data-orig-verse="16">Stay away from people who talk in ways that insult God, because this kind of talk dishonors God more and more.</span></p>
-                                <p> <strong class="ltr"> <sup>17</sup> </strong><span class="orig_text" data-orig-verse="17">This kind of words will spread like an infectious disease. Hymenaeus and Philetus are two examples of men who talk like this.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">15</span> <textarea data-orig-verse="15" name="chunks[0][15]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Do your best to cause God to approve you as a worker who has no need to be ashamed, who teaches the word of God correctly, for everyone can depend on the fact that it tells the truth.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">16</span> <textarea data-orig-verse="16" name="chunks[0][16]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Stay away from people who talk in ways that insult God, because this kind of talk dishonors God more and more.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">17</span> <textarea data-orig-verse="17" name="chunks[0][17]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">This kind of words will spread like an infectious disease. Hymenaeus and Philetus are two examples of men who talk like this.</textarea> </div>
-                                    <div class="comments_number "> </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>18</sup> </strong><span class="orig_text" data-orig-verse="18">These men have stopped believing. They say that the resurrection of the dead has already happened. In this way they convince some Christians to stop trusting in Christ.</span></p>
-                                <p> <strong class="ltr"> <sup>19</sup> </strong><span class="orig_text" data-orig-verse="19">However, the truth about God still exists. It is like a firm foundation of a building, on which someone has written these words: "The Lord knows those who belong to him," and, "Everyone who says he belongs to the Lord must stop doing wicked deeds."</span></p>
-                                <p> <strong class="ltr"> <sup>20</sup> </strong><span class="orig_text" data-orig-verse="20">In a wealthy person's house there are not only utensils made of gold and of silver, but also utensils made of wood and of clay. The gold and silver utensils are used on special occasions. But the wood and clay utensils are used in ordinary times.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">18</span> <textarea data-orig-verse="18" name="chunks[0][18]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">These men have stopped believing. They say that the resurrection of the dead has already happened. In this way they convince some Christians to stop trusting in Christ.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">19</span> <textarea data-orig-verse="19" name="chunks[0][19]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">However, the truth about God still exists. It is like a firm foundation of a building, on which someone has written these words: "The Lord knows those who belong to him," and, "Everyone who says he belongs to the Lord must stop doing wicked deeds."</textarea></div>
-                                    <div class="verse_block"> <span class="verse_number_l2">20</span> <textarea data-orig-verse="20" name="chunks[0][20]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">In a wealthy person's house there are not only utensils made of gold and of silver, but also utensils made of wood and of clay. The gold and silver utensils are used on special occasions. But the wood and clay utensils are used in ordinary times.</textarea> </div>
-                                    <div class="comments_number "> </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>21</sup> </strong><span class="orig_text" data-orig-verse="21">Therefore, those who rid themselves of what is evil in their lives will be able to work well for the Lord. They will be like utensils ready to do any kind of good work. They will become very useful to the Master to do special work for him, every good deed, in fact.</span></p>
-                                <p> <strong class="ltr"> <sup>22</sup> </strong><span class="orig_text" data-orig-verse="22">Do not keep on wanting the sinful things that young people usually desire. Instead, try to do right things. Try to trust in God and love him. Try to live in peace. Stay together with the people who worship the Lord sincerely.</span></p>
-                                <p> <strong class="ltr"> <sup>23</sup> </strong><span class="orig_text" data-orig-verse="23">Do not talk with anyone who foolishly wants to argue about matters that are not important. Do not talk with them, because you know that when people talk about foolish things, they begin to quarrel.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">21</span> <textarea data-orig-verse="21" name="chunks[0][21]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Therefore, those who rid themselves of what is evil in their lives will be able to work well for the Lord. They will be like utensils ready to do any kind of good work. They will become very useful to the Master to do special work for him, every good deed, in fact.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">22</span> <textarea data-orig-verse="22" name="chunks[0][22]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Do not keep on wanting the sinful things that young people usually desire. Instead, try to do right things. Try to trust in God and love him. Try to live in peace. Stay together with the people who worship the Lord sincerely.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">23</span> <textarea data-orig-verse="23" name="chunks[0][23]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Do not talk with anyone who foolishly wants to argue about matters that are not important. Do not talk with them, because you know that when people talk about foolish things, they begin to quarrel.</textarea> </div>
-                                    <div class="comments_number "> </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" dir="ltr">
-                                <p> <strong class="ltr"> <sup>24</sup> </strong><span class="orig_text" data-orig-verse="24">But those who serve the Lord must not quarrel. Instead, they should be kind to all people, they should be able to teach God's truth well, and they should be patient with people.</span></p>
-                                <p> <strong class="ltr"> <sup>25</sup> </strong><span class="orig_text" data-orig-verse="25">That is, they should gently instruct the people who argue against them. Perhaps God may give them the opportunity to repent and come to know the truth.</span></p>
-                                <p> <strong class="ltr"> <sup>26</sup> </strong><span class="orig_text" data-orig-verse="26">In that way they may think correctly and be like people who have escaped from a trap set by the devil. It is the devil who has deceived them in order to get them to do what he wishes them to do.</span></p>
-                            </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
-                                <div class="vnote">
-                                    <div class="verse_block"> <span class="verse_number_l2">24</span> <textarea data-orig-verse="24" name="chunks[0][24]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">But those who serve the Lord must not quarrel. Instead, they should be kind to all people, they should be able to teach God's truth well, and they should be patient with people.</textarea> </div>
-                                    <div class="verse_block"> <span class="verse_number_l2">25</span> <textarea data-orig-verse="25" name="chunks[0][25]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">That is, they should gently instruct the people who argue against them. Perhaps God may give them the opportunity to repent and come to know the truth.</textarea></div>
-                                    <div class="verse_block"> <span class="verse_number_l2">26</span> <textarea data-orig-verse="26" name="chunks[0][26]" class="peer_verse_ta textarea" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">In that way they may think correctly and be like people who have escaped from a trap set by the devil. It is the devil who has deceived them in order to get them to do what he wishes them to do.</textarea> </div>
-                                    <div class="comments_number "> </div>
-                                    <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chunk_divider col-sm-12"></div>
                     </div>
                 </div>
             </div>
@@ -284,20 +288,20 @@
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps">
+                <div class="help_info_steps is_checker_page_help">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("peer-review-l2")?></span> </div>
+                    <div class="help_name_steps"><span><?php echo __("peer-review-l3")?></span> </div>
                     <div class="help_descr_steps">
-                        <ul><?php echo __("peer-review-l2_desc")?></ul>
+                        <ul><?php echo __("peer-review-l3_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
 
-                <div class="event_info">
+                <div class="event_info is_checker_page_help">
                     <div class="participant_info">
                         <div class="participant_name">
                             <span><?php echo __("your_checker") ?>:</span>
@@ -306,260 +310,19 @@
                             </span>
                         </div>
                         <div class="additional_info">
-                            <a href="/events/demo-l2/information"><?php echo __("event_info") ?></a>
+                            <a href="/events/demo-l3/information"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
 
-                <div class="tr_tools">
-                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
-                </div>
-
                 <div class="checker_view">
-                    <a href="/events/demo-l2/peer_review_l2_checker"><?php echo __("checker_view") ?></a>
+                    <a href="/events/demo-l3/peer_review_l3_checker"><?php echo __("checker_view") ?></a>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
-</div>
-
-<div class="ttools_panel rubric_tool panel panel-default" draggable="true">
-    <div class="panel-heading">
-        <h1 class="panel-title"><?php echo __("show_rubric") ?></h1>
-        <span class="panel-close glyphicon glyphicon-remove" data-tool="rubric"></span>
-    </div>
-
-    <div class="ttools_content page-content panel-body">
-        <ul class="nav nav-tabs nav-justified read_rubric_tabs">
-            <li role="presentation" id="tab_orig" class="active"><a href="#">English demo1</a></li>
-            <li role="presentation" id='tab_eng'><a href="#">English</a></li>
-        </ul>
-        <div class="read_rubric_qualities">
-            <br>
-            <div class="read_rubric_quality orig" dir="ltr"> 1. Accessible </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Created in necessary formats. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it created in necessary formats? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Easily reproduced and distributed. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it easily reproduced? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                    <div class="read_rubric_measurement orig" dir="ltr"> 2. Is it easily distributed? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 3. Appropriate font, size and layout. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it in the appropriate font, size and layout? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 4. Editable. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it editable? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 2. Faithful </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Reflects Original Text. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does in reflect original text? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. True to Greek and Hebrew. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it true to Greek and Hebrew? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 3. Does not have additions or deletions. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it have additions or deletions? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 4. Names of God retained. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are the names of God retained? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 5. Accurate key terms/key words. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are key terms/words accurate? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 3. Culturally Relevant </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Idioms are understandable </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are idioms understandable? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Words and expressions appropriate for local culture. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are words and expressions appropriate for local culture? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 3. Reflects original language artistry. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it reflect original language artistry? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 4. Captures literary genres. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are literary genres captured accurately? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 4. Clear </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Meaning is clear. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is the meaning clear? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Uses common language. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it use common language? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 3. Easily understood by wide audience. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it easily understood by a wide audience? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 5. Proper Grammar </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Follows grammar norms. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does it follow grammar norms? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Correct punctuation. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is correct punctuation used? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 6. Consistent </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Translation reflects contextual meaning. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the translation reflect contextual meaning? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Does not contradict itself. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the text contradict itself? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 3. Writing style consistent. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is the writing style consistent? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 7. Historically Accurate </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. All names, dates, places, events are accurately represented. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Are all names accurately represented? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                    <div class="read_rubric_measurement orig" dir="ltr"> 2. Are all dates accurately represented? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                    <div class="read_rubric_measurement orig" dir="ltr"> 3. Are all places accurately represented? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                    <div class="read_rubric_measurement orig" dir="ltr"> 4. Are all events accurately represented? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 8. Natural </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Translation uses common and natural language. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the translation use common and natural language? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Pleasant to read/listen to. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. It is pleasant to read/listen to? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 3. Easy to read. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is it easy to read? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 9. Objective </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Translation does not explain or commentate. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Does the translation explain or commentate? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-                <div class="read_rubric_def orig" dir="ltr"> 2. Translation is free of political, social, denominational bias. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is translation is free of political bias? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                    <div class="read_rubric_measurement orig" dir="ltr"> 2. Is translation is free of social bias? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                    <div class="read_rubric_measurement orig" dir="ltr"> 3. Is translation is free of denominational bias? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-            <div class="read_rubric_quality orig" dir="ltr"> 10. Widely Accepted </div>
-            <div class="read_rubric_quality eng" style="display: none;"> </div>
-            <div class="read_rubric_defs">
-                <div class="read_rubric_def orig" dir="ltr"> 1. Translation is widely accepted by local church. </div>
-                <div class="read_rubric_def eng" style="display: none;"> </div>
-                <div class="read_rubric_measurements">
-                    <div class="read_rubric_measurement orig" dir="ltr"> 1. Is translation widely accepted by the local church? </div>
-                    <div class="read_rubric_measurement eng" style="display: none;"> </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="tutorial_container">
@@ -574,42 +337,21 @@
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review-l2_full")?></h3>
-            <ul><?php echo __("peer-review-l2_desc")?></ul>
+            <h3><?php echo __("peer-review-l3_full")?></h3>
+            <ul><?php echo __("peer-review-l3_desc")?></ul>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js?2")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?7")?>"></script>
 <script>
     isChecker = true;
-    isLevel2 = true;
+    isLevel3 = true;
     $(document).ready(function () {
-        $(".my_tab").click(function () {
-            var inter = setInterval(function() {
-                if($("#target_scripture_content").is(":visible"))
-                {
-                    if(typeof autosize == "function")
-                        autosize.update($('textarea'));
-                    clearInterval(inter);
-                }
-            }, 10);
-            return false;
-        });
-
-        $(".orig_text").each(function() {
-            var verse = $(this).data("orig-verse");
-            var chkVersion = $("textarea[data-orig-verse='"+verse+"']");
-
-            diff_plain($(this).text(), chkVersion.val(), $(this));
-        });
-
         $("#next_step").click(function (e) {
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-l2/information';
+            window.location.href = '/events/demo-l3/peer_edit_l3';
 
             return false;
         });

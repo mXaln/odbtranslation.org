@@ -48,7 +48,7 @@ $parsedown = new Parsedown();
                                         <?php foreach(array_values($chunk) as $verse): ?>
                                             <?php if($verse <= 0) continue; ?>
                                             <?php echo isset($data["ulb_translation"]["l3"][$verse])
-                                                ? $verse . ". " . $data["ulb_translation"]["l3"][$verse] : ""; ?>
+                                                ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l3"][$verse]."</span>" : ""; ?>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
@@ -57,7 +57,7 @@ $parsedown = new Parsedown();
                                         <?php foreach(array_values($chunk) as $verse): ?>
                                             <?php if($verse <= 0) continue; ?>
                                             <?php echo isset($data["ulb_translation"]["l2"][$verse])
-                                                ? $verse . ". " . $data["ulb_translation"]["l2"][$verse] : ""; ?>
+                                                ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l2"][$verse]."</span>" : ""; ?>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
@@ -212,13 +212,17 @@ $parsedown = new Parsedown();
 
     $(document).ready(function() {
         $(".note_chunk").each(function(i, v) {
-            var elm1 = $(".scripture_l2", this).text();
-            var elm2 = $(".scripture_l3", this).text();
-            var out = $(".scripture_l3", this);
+            $(".scripture_l2 span", this).each(function (i, v) {
+                var verse = $(v).data("verse");
 
-            if(typeof elm1 == "undefined") return true;
+                var elm1 = $(v).text();
+                var elm2 = $(".scripture_l3 span[data-verse="+verse+"]").text();
+                var out = $(".scripture_l3 span[data-verse="+verse+"]");
 
-            diff_plain(elm1, elm2, out);
+                if(typeof elm1 == "undefined") return true;
+
+                diff_plain(elm1, elm2, out);
+            });
         });
     });
 </script>

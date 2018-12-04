@@ -2,8 +2,8 @@
 use Helpers\Constants\EventCheckSteps;
 ?>
 
-<div id="translator_steps" class="open pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page" : "" ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page" : "" ?>"></div>
+<div id="translator_steps" class="open pray is_checker_page <?php echo $data["isPeer"] ? " isPeer" : "" ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray is_checker_page <?php echo $data["isPeer"] ? " isPeer" : "" ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventCheckSteps::PRAY ? "active" : "" ?>">

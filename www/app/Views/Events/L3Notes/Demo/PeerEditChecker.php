@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [3]).")" ?></div>
-            <div><?php echo __("peer-review-l3_full")?></div>
+            <div><?php echo __("peer-edit-l3_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -294,9 +294,9 @@
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("peer-review-l3")?></span> </div>
+                    <div class="help_name_steps"><span><?php echo __("peer-edit-l3")?></span> </div>
                     <div class="help_descr_steps">
-                        <ul><?php echo __("peer-review-l3_desc")?></ul>
+                        <ul><?php echo __("peer-edit-l3_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
@@ -316,7 +316,7 @@
                 </div>
 
                 <div class="checker_view">
-                    <a href="/events/demo-l3/peer_review_l3"><?php echo __("translator_view") ?></a>
+                    <a href="/events/demo-l3/peer_edit_l3"><?php echo __("translator_view") ?></a>
                 </div>
             </div>
         </div>
@@ -337,8 +337,8 @@
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review-l3_full")?></h3>
-            <ul><?php echo __("peer-review-l3_desc")?></ul>
+            <h3><?php echo __("peer-edit-l3_full")?></h3>
+            <ul><?php echo __("peer-edit-l3_desc")?></ul>
         </div>
     </div>
 </div>
@@ -351,7 +351,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-l3/peer_edit_l3';
+            window.location.href = '/events/demo-l3/pray';
 
             return false;
         });

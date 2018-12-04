@@ -11163,6 +11163,7 @@ class EventsController extends Controller
         $data["isDemo"] = true;
         $data["menu"] = 1;
         $data["isCheckerPage"] = true;
+        $data["isPeer"] = false;
 
         $view = View::make("Events/L3Notes/Demo/DemoHeader");
         $data["step"] = "";
@@ -11191,7 +11192,7 @@ class EventsController extends Controller
                 break;
 
             case "peer_edit_l3_checker":
-                $view->nest("page", "Events/L3Notes/Demo/PeerReviewChecker");
+                $view->nest("page", "Events/L3Notes/Demo/PeerEditChecker");
                 $data["step"] = EventCheckSteps::PEER_EDIT_L3;
                 $data["isPeer"] = true;
                 break;
