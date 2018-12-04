@@ -1,5 +1,5 @@
 <?php
-if(isset($data["error"])) return;
+if(isset($error)) return;
 
 use \Helpers\Constants\EventMembers;
 use Helpers\Parsedown;
