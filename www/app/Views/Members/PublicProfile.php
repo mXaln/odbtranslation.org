@@ -247,7 +247,7 @@ $numValues = [
                     <?php
                     echo $t_acts->tLang . " - "
                         . __($t_acts->bookProject) . " - "
-                        . $t_acts->name . " [".__("level2_3_check", $level)."] "
+                        . $t_acts->name . " [".__("level", $level)."] "
                         . "(" . __("chapters") . ": " . $t_acts->chapters . ")"
                     ?>
                 </div>
@@ -269,7 +269,7 @@ $numValues = [
                     <?php
                     echo $ch_acts->tLang . " - "
                         . __($ch_acts->bookProject) . " - "
-                        . $ch_acts->name . " [".__("level2_3_check", $level)."] "
+                        . $ch_acts->name . " [".__("level", $level)."] "
                         . "(" . __("chapters") . ": " . $ch_acts->chapters . ")"
                     ?>
                 </div>
