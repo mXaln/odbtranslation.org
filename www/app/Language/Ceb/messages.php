@@ -89,6 +89,7 @@ return array (
     "profile_message" => "Pagkatawo",
     "member_profile_message" => "Pagkatawo sa Miyembro",
     "translator_activities" => "Mga bulohaton sa Paghubad",
+    "checking_activities" => "Checking Activities",
     "facilitator_activities" => "Mga bulohaton sa Paggiya",
     "common_skills" => "Kasagaran",
     "facilitator_skills" => "Paggiya",

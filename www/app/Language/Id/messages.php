@@ -89,6 +89,7 @@ return array (
     "profile_message" => "Profil",
     "member_profile_message" => "Profil Anggota",
     "translator_activities" => "Kegiatan Penerjemahan",
+    "checking_activities" => "Checking Activities",
     "facilitator_activities" => "Kegiatan Fasilitasi",
     "common_skills" => "Umum",
     "facilitator_skills" => "Fasilitasi",

@@ -227,15 +227,17 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+
     /**
      * Get all events of a member or specific event
-     * @param int $memberID
-     * @param int $memberType
-     * @param int null $eventID
-     * @param bool true $includeFinished
+     * @param $memberID
+     * @param $memberType
+     * @param null $eventID
+     * @param bool $includeFinished
+     * @param bool $includeNone
      * @return array
      */
-    public function getMemberEvents($memberID, $memberType, $eventID = null, $includeFinished = true, $includeNone = true, $tnChk = false)
+    public function getMemberEvents($memberID, $memberType, $eventID = null, $includeFinished = true, $includeNone = true)
     {
         $events = array();
         $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR 
@@ -308,14 +310,16 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS res_lang ON ".PREFIX."projects.resLangID = res_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE ".$mainTable.".memberID = :memberID ".
+            "WHERE ".$mainTable.".eventID !='' ".
+            (!is_null($memberID) ? " AND ".$mainTable.".memberID = :memberID " : " ").
             (!is_null($eventID) ? " AND ".$mainTable.".eventID=:eventID " : " ").
             ($memberType == EventMembers::TRANSLATOR && !$includeNone ? "AND ".PREFIX."translators.step != 'none' " : "").
             ($memberType == EventMembers::TRANSLATOR && !$includeFinished ? " AND ".PREFIX."translators.step != 'finished' " : " ").
-            "ORDER BY tLang, ".PREFIX."projects.sourceBible, ".PREFIX."abbr.abbrID";
+            "ORDER BY tLang, ".PREFIX."projects.bookProject, ".PREFIX."abbr.abbrID";
 
         $prepare = array();
-        $prepare[":memberID"] = $memberID;
+        if(!is_null($memberID))
+            $prepare[":memberID"] = $memberID;
 
         if(!is_null($eventID))
             $prepare[":eventID"] = $eventID;
@@ -1066,7 +1070,7 @@ class EventsModel extends Model
             (!$isSuperAdmin ? "WHERE (evnt.admins LIKE :memberID OR evnt.admins_l2 LIKE :memberID OR evnt.admins_l3 LIKE :memberID) " : "").
             ($isSuperAdmin && $eventID ? "WHERE " : (!$isSuperAdmin && $eventID ? "AND " : "")).
             ($eventID ? "evnt.eventID = :eventID " : "").
-            "ORDER BY evnt.state, tLang.langName, proj.sourceBible, abbr.abbrID";
+            "ORDER BY tLang.langName, proj.bookProject, abbr.abbrID";
 
         $prepare = [];
         if(!$isSuperAdmin) $prepare[":memberID"] = '%\"'.$memberID.'"%';
