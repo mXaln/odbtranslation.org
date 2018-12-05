@@ -11564,7 +11564,6 @@ class EventsController extends Controller
         {
             $post = array();
             parse_str(htmlspecialchars_decode($formData, ENT_QUOTES), $post);
-            $tnChk = isset($post["chk"]) && $post["chk"] != "" ? filter_var($post["chk"], FILTER_VALIDATE_BOOLEAN) : false;
             $level = isset($post["level"]) && $post["level"] != "" ? $post["level"] : "l1";
 
             $memberType = EventMembers::TRANSLATOR;
@@ -11575,7 +11574,7 @@ class EventsController extends Controller
 
             if(in_array($level, ["l1","l2","l3"]))
             {
-                $event = $this->_model->getMemberEvents(Session::get("memberID"), $memberType, $eventID, false, false, $tnChk);
+                $event = $this->_model->getMemberEvents(Session::get("memberID"), $memberType, $eventID, false, false);
             }
             elseif($level == "l2continue")
             {

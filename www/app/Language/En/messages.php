@@ -89,6 +89,7 @@ return array (
     "profile_message" => "Profile",
     "member_profile_message" => "Member's Profile",
     "translator_activities" => "Translation Activities",
+    "checking_activities" => "Checking Activities",
     "facilitator_activities" => "Facilitation Activities",
     "common_skills" => "Common",
     "facilitator_skills" => "Facilitation",

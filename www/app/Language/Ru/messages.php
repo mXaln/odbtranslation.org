@@ -87,6 +87,7 @@ return array (
     "profile_message" => "Профиль",
     "member_profile_message" => "Профиль прользователя",
     "translator_activities" => "Переводческая деятельность",
+    "checking_activities" => "Проверочная деятельность",
     "facilitator_activities" => "Фасилитационная деятельность",
     "common_skills" => "Общие",
     "facilitator_skills" => "Фасилитатор",

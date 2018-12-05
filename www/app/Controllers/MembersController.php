@@ -357,18 +357,15 @@ class MembersController extends Controller
      */
     public function publicProfile($memberID)
     {
-        if (!Session::get('loggedin'))
-        {
+        if (!Session::get('loggedin')) {
             Url::redirect('members/login');
         }
 
-        if(Session::get("isDemo"))
-        {
+        if (Session::get("isDemo")) {
             Url::redirect('events/demo');
         }
 
-        if(!Session::get("isAdmin") && !Session::get("isSuperAdmin"))
-        {
+        if (!Session::get("isAdmin") && !Session::get("isSuperAdmin")) {
             Url::redirect('events');
         }
 
@@ -385,7 +382,7 @@ class MembersController extends Controller
         $profile["proj_lang"] = null;
         $profile["avatar"] = $memberProfile[0]->avatar;
         $profile["username"] = $memberProfile[0]->userName;
-        $profile["fullname"] = $memberProfile[0]->firstName." ".$memberProfile[0]->lastName;
+        $profile["fullname"] = $memberProfile[0]->firstName . " " . $memberProfile[0]->lastName;
         $profile["prefered_roles"] = (array)json_decode($memberProfile[0]->prefered_roles, true);
         $profile["bbl_trans_yrs"] = $memberProfile[0]->bbl_trans_yrs;
         $profile["othr_trans_yrs"] = $memberProfile[0]->othr_trans_yrs;
@@ -428,17 +425,158 @@ class MembersController extends Controller
         }
 
         $data["facilitation_activities"] = $this->_eventModel->getMemberEventsForAdmin($memberID);
-        $data["translation_activities"] = $this->_eventModel->getMemberEvents($memberID, EventMembers::TRANSLATOR, null, false);
+        $data["translation_activities"] = $this->_eventModel->getMemberEvents($memberID, EventMembers::TRANSLATOR, null, true);
 
+
+        $l2_check_activities = $this->_eventModel->getMemberEvents($memberID, EventMembers::L2_CHECKER, null, true);
+        $l3_check_activities = $this->_eventModel->getMemberEvents($memberID, EventMembers::L3_CHECKER, null, true);
+
+        $data["checking_activities"] = [];
+
+        // Translation and level 1 check (ulb, udb, notes, tq, tw, sun)
         foreach ($data["translation_activities"] as $translation_activity) {
             $chapters = $this->_eventModel->getChapters($translation_activity->eventID, $memberProfile[0]->mID);
 
-            $arr = [];
+            $chaps = [];
             foreach ($chapters as $chapter) {
-                $arr[] = $chapter["chapter"];
+                $chaps[] = $chapter["chapter"];
             }
-            $translation_activity->chapters = join(", ", array_values($arr));
+            $chaps = array_map(function ($elm) {
+                return $elm > 0 ? $elm : __("intro");
+            }, $chaps);
+
+            $translation_activity->chapters = join(", ", array_values($chaps));
+
+            $checking = $this->_eventModel->getMemberEvents(null, EventMembers::TRANSLATOR, $translation_activity->eventID, true);
+            $chaps = [];
+
+            foreach ($checking as $check) {
+                if (in_array($check->bookProject, ["ulb", "udb"])) {
+                    // Level 1 (ulb, udb) checking
+                    $verbCheck = (array)json_decode($check->verbCheck, true);
+                    $peerCheck = (array)json_decode($check->peerCheck, true);
+                    $kwCheck = (array)json_decode($check->kwCheck, true);
+                    $crCheck = (array)json_decode($check->crCheck, true);
+
+                    foreach ($verbCheck as $chapter => $memID)
+                        if ($memberID == $memID)
+                            $chaps[] = $chapter;
+
+                    foreach ($peerCheck as $chapter => $memID)
+                        if ($memberID == $memID)
+                            $chaps[] = $chapter;
+
+                    foreach ($kwCheck as $chapter => $memID)
+                        if ($memberID == $memID)
+                            $chaps[] = $chapter;
+
+                    foreach ($crCheck as $chapter => $memID)
+                        if ($memberID == $memID)
+                            $chaps[] = $chapter;
+                } else {
+                    $peerCheck = (array)json_decode($check->peerCheck, true);
+                    $kwCheck = (array)json_decode($check->kwCheck, true);
+                    $crCheck = (array)json_decode($check->crCheck, true);
+                    $otherCheck = (array)json_decode($check->otherCheck, true);
+
+                    foreach ($peerCheck as $chapter => $member_data)
+                        if ($memberID == $member_data["memberID"])
+                            $chaps[] = $chapter;
+
+                    foreach ($kwCheck as $chapter => $member_data)
+                        if ($memberID == $member_data["memberID"])
+                            $chaps[] = $chapter;
+
+                    foreach ($crCheck as $chapter => $member_data)
+                        if ($memberID == $member_data["memberID"])
+                            $chaps[] = $chapter;
+
+                    foreach ($otherCheck as $chapter => $member_data)
+                        if ($memberID == $member_data["memberID"])
+                            $chaps[] = $chapter;
+                }
+            }
+
+            $chaps = array_unique($chaps);
+            sort($chaps);
+            $chaps = array_map(function ($elm) {
+                return $elm > 0 ? $elm : __("intro");
+            }, $chaps);
+
+            if (!empty($chaps)) {
+                $checking[0]->chapters = join(", ", array_values($chaps));
+                $data["checking_activities"][] = $checking[0];
+            }
         }
+
+        // Level 2 checking (ulb, udb)
+        foreach ($l2_check_activities as $checking_activity) {
+            $chapters = $this->_eventModel->getChapters($checking_activity->eventID, $memberProfile[0]->mID, null, "l2");
+
+            // First checker
+            $chaps = [];
+            foreach ($chapters as $chapter) {
+                $chaps[] = $chapter["chapter"];
+            }
+
+            // Second checker
+            $checking = $this->_eventModel->getMemberEvents(null, EventMembers::L2_CHECKER, $checking_activity->eventID, true);
+            foreach ($checking as $check) {
+                $sndCheck = (array)json_decode($check->sndCheck, true);
+                $peer1Check = (array)json_decode($check->peer1Check, true);
+                $peer2Check = (array)json_decode($check->peer2Check, true);
+
+                foreach ($sndCheck as $chapter => $member_data)
+                    if ($memberID == $member_data["memberID"])
+                        $chaps[] = $chapter;
+
+                foreach ($peer1Check as $chapter => $member_data)
+                    if ($memberID == $member_data["memberID"])
+                        $chaps[] = $chapter;
+
+                foreach ($peer2Check as $chapter => $member_data)
+                    if ($memberID == $member_data["memberID"])
+                        $chaps[] = $chapter;
+            }
+
+            $chaps = array_unique($chaps);
+            sort($chaps);
+
+            $checking_activity->chapters = join(", ", array_values($chaps));
+            $data["checking_activities"][] = $checking_activity;
+        }
+
+        // Checking level 3 check (ulb, udb, notes, tq, tw)
+        foreach ($l3_check_activities as $checking_activity) {
+            $chapters = $this->_eventModel->getChapters($checking_activity->eventID, $memberProfile[0]->mID, null, "l3");
+
+            // First checker
+            $chaps = [];
+            foreach ($chapters as $chapter) {
+                $chaps[] = $chapter["chapter"];
+            }
+
+            // Second checker
+            $checking = $this->_eventModel->getMemberEvents(null, EventMembers::L3_CHECKER, $checking_activity->eventID, true);
+            foreach ($checking as $check) {
+                $peerCheck = (array)json_decode($check->peerCheck, true);
+
+                foreach ($peerCheck as $chapter => $member_data)
+                    if($memberID == $member_data["memberID"])
+                        $chaps[] = $chapter;
+            }
+
+            $chaps = array_unique($chaps);
+            sort($chaps);
+            $chaps = array_map(function ($elm) {
+                return $elm > 0 ? $elm : __("intro");
+            }, $chaps);
+
+            $checking_activity->chapters = join(", ", array_values($chaps));
+            $data["checking_activities"][] = $checking_activity;
+        }
+
+        //pr($data["translation_activities"],1);
 
         $data["notifications"] = $this->_notifications;
         $data["news"] = $this->_news;

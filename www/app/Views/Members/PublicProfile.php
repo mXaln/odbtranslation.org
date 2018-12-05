@@ -240,12 +240,37 @@ $numValues = [
         <h3><?php echo __('translator_activities'); ?></h3>
         <?php if(!empty($data["translation_activities"])): ?>
             <?php foreach ($data["translation_activities"] as $t_acts): ?>
+                <?php if(empty($t_acts->chapters)) continue; ?>
+                <?php $level = in_array($t_acts->bookProject, ["tq","tn","tw"]) ? 2 :
+                    ($t_acts->bookProject == "sun" ? 3 : 1) ?>
                 <div>
                     <?php
                     echo $t_acts->tLang . " - "
-                        . __($t_acts->sourceBible) . " - "
-                        . $t_acts->name . " "
+                        . __($t_acts->bookProject) . " - "
+                        . $t_acts->name . " [".__("level2_3_check", $level)."] "
                         . "(" . __("chapters") . ": " . $t_acts->chapters . ")"
+                    ?>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div>No activities</div>
+        <?php endif; ?>
+
+        <hr>
+
+        <h3><?php echo __('checking_activities'); ?></h3>
+        <?php if(!empty($data["checking_activities"])): ?>
+            <?php foreach ($data["checking_activities"] as $ch_acts): ?>
+                <?php if(empty($ch_acts->chapters)) continue; ?>
+                <?php $level = !empty($ch_acts->l3chID) ? 3 :
+                    (!empty($ch_acts->l2chID) ? 2 : (in_array($ch_acts->bookProject, ["tq","tn","tw"]) ? 2 :
+                        ($ch_acts->bookProject == "sun" ? 3 : 1))) ?>
+                <div>
+                    <?php
+                    echo $ch_acts->tLang . " - "
+                        . __($ch_acts->bookProject) . " - "
+                        . $ch_acts->name . " [".__("level2_3_check", $level)."] "
+                        . "(" . __("chapters") . ": " . $ch_acts->chapters . ")"
                     ?>
                 </div>
             <?php endforeach; ?>
@@ -258,7 +283,7 @@ $numValues = [
         <h3><?php echo __('facilitator_activities'); ?></h3>
         <?php if(!empty($data["facilitation_activities"])): ?>
             <?php foreach ($data["facilitation_activities"] as $f_acts): ?>
-                <div><?php echo $f_acts->langName . " - " . __($f_acts->sourceBible) . " - " . $f_acts->name ?></div>
+                <div><?php echo $f_acts->langName . " - " . __($f_acts->bookProject) . " - " . $f_acts->name ?></div>
             <?php endforeach; ?>
         <?php else: ?>
             <div>No activities</div>
