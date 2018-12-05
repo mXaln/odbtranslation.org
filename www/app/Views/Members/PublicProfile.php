@@ -13,6 +13,7 @@ $profile = $data["profile"];
 
 $numValues = [
     "0" => [
+        "lang" => __('none'),
         "orig" => __("none")
     ],
     "1" => [
