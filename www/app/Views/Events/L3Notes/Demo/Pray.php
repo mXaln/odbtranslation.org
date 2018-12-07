@@ -53,7 +53,7 @@
                 <div class="event_info is_checker_page_help">
                     <div class="participant_info">
                         <div class="additional_info">
-                            <a href="/events/demo-l3/information"><?php echo __("event_info") ?></a>
+                            <a href="/events/demo-tn-l3/information"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-l3/peer_review_l3';
+            window.location.href = '/events/demo-tn-l3/peer_review_l3';
             return false;
         });
     });

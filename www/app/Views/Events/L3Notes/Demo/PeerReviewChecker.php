@@ -310,13 +310,17 @@
                             </span>
                         </div>
                         <div class="additional_info">
-                            <a href="/events/demo-l3/information"><?php echo __("event_info") ?></a>
+                            <a href="/events/demo-tn-l3/information"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
 
+                <div class="tr_tools">
+                    <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
+                </div>
+
                 <div class="checker_view">
-                    <a href="/events/demo-l3/peer_review_l3"><?php echo __("translator_view") ?></a>
+                    <a href="/events/demo-tn-l3/peer_review_l3"><?php echo __("translator_view") ?></a>
                 </div>
             </div>
         </div>
@@ -343,6 +347,293 @@
     </div>
 </div>
 
+<div class="ttools_panel tn_tool panel panel-default" draggable="true">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("tn") ?></h1>
+        <span class="panel-close glyphicon glyphicon-remove" data-tool="tn"></span>
+    </div>
+
+    <div class="ttools_content page-content panel-body">
+        <div class="labels_list">
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Intro </span> </div>
+                        <div class="word_def">
+                            <h1>Mark 16 General Notes</h1>
+                            <h4>Special concepts in this chapter</h4>
+                            <h5>The tomb</h5>
+                            <p>The tomb in which Jesus was buried (<b>Mark 15:46</b>) was the kind of tomb in which wealthy Jewish families buried their dead. It was an actual room cut into a rock. It had a flat place on one side where they could place the body after they had put oil and spices on it and wrapped it in cloth. Then they would roll a large rock in front of the tomb so no one could see inside or enter.</p>
+                            <h3>Other possible translation difficulties in this chapter</h3>
+                            <h5>A young man dressed in a white robe</h5>
+                            <p>Matthew, Mark, Luke, and John all wrote about angels in white clothing with the women at Jesus' tomb. Two of the authors called them men, but that is only because the angels were in human form. Two of the authors wrote about two angels, but the other two authors wrote about only one of them. It is best to translate each of these passages as it appears in the ULB without trying to make the passages all say exactly the same thing. (See: <b>Matthew 28:1-2</b> and <b>Mark 16:5</b> and <b>Luke 24:4</b> and <b>John 20:12</b>)</p>
+                            <h2>Links:</h2>
+                            <ul>
+                                <li><strong><b>Mark 16:01 Notes</b></strong></li>
+                            </ul>
+                            <p><strong><b>&lt;&lt;</b> | </strong></p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 1 </span> </div>
+                        <div class="word_def">
+                            <h1>Connecting Statement:</h1>
+                            <p>On the first day of the week, women come early because they expect to use spices to anoint Jesus' body. They are surprised to see a young man who tells them Jesus is alive, but they are afraid and do not tell anyone.</p>
+                            <h1>When the Sabbath day was over</h1>
+                            <p>That is, after the Sabbath, the seventh day of the week, had ended and the first day of the week had begun.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 2 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 3 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 4 </span> </div>
+                        <div class="word_def">
+                            <h1>the stone had been rolled away</h1>
+                            <p>This can be stated in active form. Alternate translation: "someone had rolled away the stone" (See: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 5 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 6 </span> </div>
+                        <div class="word_def">
+                            <h1>He is risen!</h1>
+                            <p>The angel is emphatically stating that Jesus has risen from the dead. This can be translated in active form. Alternate translation: "He arose!" or "God raised him from the dead!" or "He raised himself from the dead!" (See: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 7 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 8 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 9 </span> </div>
+                        <div class="word_def">
+                            <h1>Connecting Statement:</h1>
+                            <p>Jesus appears first to Mary Magdalene, who tells the disciples, then he appears to two others as they walk in the country, and later he appears to the eleven disciples.</p>
+                            <h1>on the first day of the week</h1>
+                            <p>"on Sunday"</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 10 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 11 </span> </div>
+                        <div class="word_def">
+                            <h1>They heard</h1>
+                            <p>"They heard Mary Magdalene say"</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 12 </span> </div>
+                        <div class="word_def">
+                            <h1>he appeared in a different form</h1>
+                            <p>The "two of them" saw Jesus, but he looked different from how he had looked previously.</p>
+                            <h1>two of them</h1>
+                            <p>two of "those who were with him" (<b>Mark 16:10</b>)</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 13 </span> </div>
+                        <div class="word_def">
+                            <h1>they did not believe them</h1>
+                            <p>The rest of the disciples did not believe what the two who had been walking in the country said.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 14 </span> </div>
+                        <div class="word_def">
+                            <h1>Connecting Statement:</h1>
+                            <p>When Jesus meets with the eleven, he rebukes them for their unbelief and tells them to go out into all the world to preach the gospel.</p>
+                            <h1>the eleven</h1>
+                            <p>These are the eleven apostles who remained after Judas left them.</p>
+                            <h1>they were reclining at the table</h1>
+                            <p>This is a metonym for eating, which was the usual way people in that day ate meals. Alternate translation: "they were eating a meal" (See: [[rc://en/ta/man/translate/figs-metonymy]])</p>
+                            <h1>reclining</h1>
+                            <p>In Jesus' culture, when people gathered to eat, they lay down on their sides, propping themselves up on pillows beside a low table.</p>
+                            <h1>hardness of heart</h1>
+                            <p>Jesus is rebuking his disciples because they would not believe in him. Translate this idiom so it is understood that the disciples were not believing Jesus. Alternate translation: "refusal to believe" (See: [[rc://en/ta/man/translate/figs-idiom]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 15 </span> </div>
+                        <div class="word_def">
+                            <h1>Go into all the world</h1>
+                            <p>Here "the world" is a metonym for the people in the world. Alternate translation: "Go everywhere there are people" (See: [[rc://en/ta/man/translate/figs-metonymy]])</p>
+                            <h1>the entire creation</h1>
+                            <p>This is an exaggeration and a metonym for people everywhere. Alternate translation: "absolutely everybody" (See: [[rc://en/ta/man/translate/figs-metonymy]] and [[rc://en/ta/man/translate/figs-hyperbole]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 16 </span> </div>
+                        <div class="word_def">
+                            <h1>He who believes and is baptized will be saved</h1>
+                            <p>The word "He" refers to anyone. This sentence can be made active. Alternate translation: "God will save all people who believe and allow you to baptize them" (See: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>he who does not believe will be condemned</h1>
+                            <p>The word "he" refers to anyone. This clause can be made active. Alternate translation: "God will condemn all people who do not believe" (See: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 17 </span> </div>
+                        <div class="word_def">
+                            <h1>These signs will go with those who believe</h1>
+                            <p>Mark speaks of miracles as though they were people going along with the believers. Alternate translation: "People watching those who believe will see these things happen and know that I am with the believers" (See: [[rc://en/ta/man/translate/figs-personification]])</p>
+                            <h1>In my name they</h1>
+                            <p>Possible meanings are 1) Jesus is giving a general list: "In my name they will do things like these: They" or 2) Jesus is giving an exact list: "These are the things they will do in my name: They."</p>
+                            <h1>In my name</h1>
+                            <p>Here "name" is associated with Jesus' authority and power. See how "in your name" is translated in <b>Mark 9:38</b>. Alternate translation: "By the authority of my name" or "By the power of my name" (See: [[rc://en/ta/man/translate/figs-metonymy]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 18 </span> </div>
+                        <div class="word_def">
+                            <h1>General Information:</h1>
+                            <p>This page has intentionally been left blank.</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 19 </span> </div>
+                        <div class="word_def">
+                            <h1>he was taken up into heaven and sat</h1>
+                            <p>This can be stated in active form. Alternate translation: "God took him up into heaven, and he sat" (See: [[rc://en/ta/man/translate/figs-activepassive]])</p>
+                            <h1>sat down at the right hand of God</h1>
+                            <p>To sit at the "right hand of God" is a symbolic action of receiving great honor and authority from God. Alternate translation: "sat in the place of honor beside God" (See: [[rc://en/ta/man/translate/translate-symaction]])</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+            <label>
+                <ul>
+                    <li>
+                        <div class="word_term"> <span style="font-weight: bold;"> Verse 20 </span> </div>
+                        <div class="word_def">
+                            <h1>worked with them</h1>
+                            <p>worked together with them, helped them as they worked</p>
+                            <h1>confirmed the word</h1>
+                            <p>This idiom means they proved that their message was true. Alternate translation: "showed that his message, which they were speaking, was true" (See: [[rc://en/ta/man/translate/figs-idiom]])</p>
+                            <h1>by the signs that went with them</h1>
+                            <p>"by enabling them wherever they went to do miracles that showed that they truly were his disciples"</p>
+                        </div>
+                    </li>
+                </ul>
+            </label>
+        </div>
+        <div class="word_def_popup">
+            <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+            <div class="word_def_title"></div>
+            <div class="word_def_content"></div>
+        </div>
+    </div>
+</div>
+
 <script>
     isChecker = true;
     isLevel3 = true;
@@ -351,7 +642,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-l3/peer_edit_l3';
+            window.location.href = '/events/demo-tn-l3/peer_edit_l3';
 
             return false;
         });
