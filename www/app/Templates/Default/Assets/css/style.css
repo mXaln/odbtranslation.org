@@ -509,14 +509,14 @@ html, body, .container {
 }
 
 .chat_msgs {
-    font-family: SUN3, serif;
+    font-family: SUN4, serif;
     font-size: 20px;
 }
 
 #m {
     height: 60px;
     width: 388px;
-    font-family: SUN3, serif;
+    font-family: SUN4, serif;
     font-size: 20px;
 }
 
@@ -1943,7 +1943,7 @@ mark {
 .textarea_editor {
     width: 503px;
     min-height: 100px;
-    /*font-family: SUN3, Serif;*/
+    /*font-family: SUN4, Serif;*/
     font-size: 20px;
 }
 
@@ -1952,7 +1952,7 @@ mark {
     text-align: left;
     max-height: 300px;
     overflow-y: auto;
-    /*font-family: SUN3, Serif;*/
+    /*font-family: SUN4, Serif;*/
     font-size: 20px;
 }
 
@@ -4801,7 +4801,7 @@ button.startEvnt, button.editEvnt {
 }
 
 #tools .create_news {
-    font-family: SUN3, Serif;
+    font-family: SUN4, Serif;
 }
 
 #tools .create_news textarea {
@@ -4809,7 +4809,7 @@ button.startEvnt, button.editEvnt {
 }
 
 .news_page {
-    font-family: SUN3, Serif;
+    font-family: SUN4, Serif;
     padding: 20px;
     margin: 0 20px;
 }
