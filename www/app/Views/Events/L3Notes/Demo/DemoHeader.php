@@ -7,15 +7,15 @@ use Helpers\Constants\EventCheckSteps;
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventCheckSteps::PRAY ? "active" : "" ?>">
-            <a href="/events/demo-l2/pray"><span><?php echo __(EventCheckSteps::PRAY)?></span></a>
+            <a href="/events/demo-tn-l3/pray"><span><?php echo __(EventCheckSteps::PRAY)?></span></a>
         </li>
 
         <li class="consume-step <?php echo $data["step"] == EventCheckSteps::PEER_REVIEW_L3 ? "active" : "" ?>">
-            <a href="/events/demo-l3/peer_review_l3"><span><?php echo __(EventCheckSteps::PEER_REVIEW_L3)?></span></a>
+            <a href="/events/demo-tn-l3/peer_review_l3"><span><?php echo __(EventCheckSteps::PEER_REVIEW_L3)?></span></a>
         </li>
 
         <li class="fst-check-step <?php echo $data["step"] == EventCheckSteps::PEER_EDIT_L3 ? "active" : "" ?>">
-            <a href="/events/demo-l3/peer_edit_l3"><span><?php echo __(EventCheckSteps::PEER_EDIT_L3)?></span></a>
+            <a href="/events/demo-tn-l3/peer_edit_l3"><span><?php echo __(EventCheckSteps::PEER_EDIT_L3)?></span></a>
         </li>
     </ul>
 </div>

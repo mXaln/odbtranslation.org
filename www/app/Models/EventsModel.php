@@ -1533,6 +1533,9 @@ class EventsModel extends Model
             if($notification->step != EventCheckSteps::PEER_REVIEW_L3)
                 continue;
 
+            if(Session::get("memberID") == $notification->memberID)
+                continue;
+
             // Peer check notifications
             $peerCheck = (array)json_decode($notification->peerCheck, true);
             foreach ($peerCheck as $chapter => $data) {

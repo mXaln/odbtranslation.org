@@ -6434,6 +6434,35 @@ class EventsController extends Controller
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->currentChapter);
 
+                            $data["notes"] = $this->getTranslationNotes(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->resLangID);
+
+                            $tnVerses = [];
+                            $fv = 1;
+                            $i = 0;
+                            foreach (array_keys($data["notes"]) as $key) {
+                                $i++;
+                                if($key == 0)
+                                {
+                                    $tnVerses[] = $key;
+                                    continue;
+                                }
+
+                                if(($key - $fv) >= 1)
+                                {
+                                    $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
+                                    $fv = $key;
+
+                                    if($i == sizeof($data["notes"]))
+                                        $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
+                                    continue;
+                                }
+                            }
+
+                            $data["notesVerses"] = $tnVerses;
+
                             $data["event"][0]->checkerFName = null;
                             $data["event"][0]->checkerLName = null;
 
@@ -6551,6 +6580,35 @@ class EventsController extends Controller
                             $data["comments"] = $this->getComments(
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->currentChapter);
+
+                            $data["notes"] = $this->getTranslationNotes(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->resLangID);
+
+                            $tnVerses = [];
+                            $fv = 1;
+                            $i = 0;
+                            foreach (array_keys($data["notes"]) as $key) {
+                                $i++;
+                                if($key == 0)
+                                {
+                                    $tnVerses[] = $key;
+                                    continue;
+                                }
+
+                                if(($key - $fv) >= 1)
+                                {
+                                    $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
+                                    $fv = $key;
+
+                                    if($i == sizeof($data["notes"]))
+                                        $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
+                                    continue;
+                                }
+                            }
+
+                            $data["notesVerses"] = $tnVerses;
 
                             $data["event"][0]->checkerFName = null;
                             $data["event"][0]->checkerLName = null;
@@ -6697,6 +6755,11 @@ class EventsController extends Controller
 
         if(!empty($data["event"]))
         {
+            if(Session::get("memberID") == $data["event"][0]->memberID)
+            {
+                Url::redirect('events/');
+            }
+
             $title = $data["event"][0]->name
                 . " " . ($data["event"][0]->currentChapter > 0 ? $data["event"][0]->currentChapter : "")
                 . " - " . $data["event"][0]->tLang
@@ -6808,6 +6871,35 @@ class EventsController extends Controller
                             $data["comments"] = $this->getComments(
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->currentChapter);
+
+                            $data["notes"] = $this->getTranslationNotes(
+                                $data["event"][0]->bookCode,
+                                $data["event"][0]->currentChapter,
+                                $data["event"][0]->resLangID);
+
+                            $tnVerses = [];
+                            $fv = 1;
+                            $i = 0;
+                            foreach (array_keys($data["notes"]) as $key) {
+                                $i++;
+                                if($key == 0)
+                                {
+                                    $tnVerses[] = $key;
+                                    continue;
+                                }
+
+                                if(($key - $fv) >= 1)
+                                {
+                                    $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
+                                    $fv = $key;
+
+                                    if($i == sizeof($data["notes"]))
+                                        $tnVerses[$fv] = $fv != $data["totalVerses"] ? $fv . "-" . $data["totalVerses"] : $fv;
+                                    continue;
+                                }
+                            }
+
+                            $data["notesVerses"] = $tnVerses;
                         }
 
                         if (isset($_POST) && !empty($_POST))
@@ -11139,10 +11231,10 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
-    public function demoL3($page = null)
+    public function demoL3Notes($page = null)
     {
         if(!isset($page))
-            Url::redirect("events/demo-l3/pray");
+            Url::redirect("events/demo-tn-l3/pray");
 
         $notifObj = new \stdClass();
         $notifObj->step = EventCheckSteps::PEER_REVIEW_L3;
@@ -14032,7 +14124,7 @@ class EventsController extends Controller
 
     private function getTranslationNotes($book, $chapter, $lang = "en")
     {
-        $tn_cache_notes = "tn_".$lang."_".$book;
+        $tn_cache_notes = "tn_".$lang."_".$book."_".$chapter;
         $tNotes = [];
 
         if(Cache::has($tn_cache_notes))
