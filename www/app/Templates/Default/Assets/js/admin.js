@@ -612,18 +612,25 @@ $(function () {
                 $("li[data-type=ts]").hide();
                 $("li[data-type=zip]").show();
                 $("#importLevel").val(2);
+
+                $("#importProject").val(bookProject);
                 break;
 
             case "l1":
             case "l2":
             case "l3":
-                if(["tn","tq","tw"].indexOf(bookProject) > -1 && source == "l3")
+                if(["tn","tq","tw"].indexOf(bookProject) > -1)
                 {
-                    var l2_import = $(".l2_import .import_done");
-                    if(!l2_import.hasClass("done") || !l2_import.is(":visible"))
+                    $("#importProject").val("ulb");
+
+                    if(source == "l3")
                     {
-                        renderPopup(Language.import_l2_warning);
-                        return;
+                        var l2_import = $(".l2_import .import_done");
+                        if(!l2_import.hasClass("done") || !l2_import.is(":visible"))
+                        {
+                            renderPopup(Language.import_l2_warning);
+                            return;
+                        }
                     }
                 }
 
@@ -668,25 +675,27 @@ $(function () {
 
         var input = $(this);
         var form = $(this).parents("form");
-        var formdata = false;
+        var formData = null;
         var projectID = $("#projectID").val();
         var eventID = $("#eID").val();
         var bookCode = $("#bookCode").val();
         var bookProject = $("#bookProject").val();
         var importLevel = $("#importLevel").val();
+        var importProject = $("#importProject").val();
 
         if (window.FormData){
-            formdata = new FormData(form[0]);
-            formdata.append("projectID", projectID);
-            formdata.append("eventID", eventID);
-            formdata.append("bookCode", bookCode);
-            formdata.append("bookProject", bookProject);
-            formdata.append("importLevel", importLevel);
+            formData = new FormData(form[0]);
+            formData.append("projectID", projectID);
+            formData.append("eventID", eventID);
+            formData.append("bookCode", bookCode);
+            formData.append("bookProject", bookProject);
+            formData.append("importLevel", importLevel);
+            formData.append("importProject", importProject);
         }
 
         $.ajax({
             url         : '/admin/rpc/import',
-            data        : formdata ? formdata : form.serialize(),
+            data        : formData ? formData : form.serialize(),
             cache       : false,
             contentType : false,
             processData : false,
@@ -786,6 +795,7 @@ $(function () {
         var bookCode = $("#bookCode").val();
         var bookProject = $("#bookProject").val();
         var importLevel = $("#importLevel").val();
+        var importProject = $("#importProject").val();
 
         $.ajax({
             url: "/admin/rpc/import",
@@ -797,7 +807,8 @@ $(function () {
                 eventID: eventID,
                 bookCode: bookCode,
                 bookProject: bookProject,
-                importLevel: importLevel
+                importLevel: importLevel,
+                importProject: importProject
             },
             dataType: "json",
             beforeSend: function() {

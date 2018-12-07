@@ -175,15 +175,16 @@ class AdminController extends Controller {
         $bookCode = isset($_POST['bookCode']) && $_POST['bookCode'] != "" ? $_POST['bookCode'] : null;
         $bookProject = isset($_POST['bookProject']) && $_POST['bookProject'] != "" ? $_POST['bookProject'] : null;
         $importLevel = isset($_POST['importLevel']) && $_POST['importLevel'] != "" ? (integer)$_POST['importLevel'] : 1;
+        $importProject = isset($_POST['importProject']) && $_POST['importProject'] != "" ? $_POST['importProject'] : null;
 
-        if($import !== null && $bookCode != null && $bookProject != null)
+        if($import !== null && $bookCode != null && $bookProject != null && $importProject != null)
         {
             switch ($type)
             {
                 case "dcs":
                     $path = $this->_apiModel->processDCSUrl($import);
 
-                    switch ($bookProject)
+                    switch ($importProject)
                     {
                         case "ulb":
                         case "udb":
