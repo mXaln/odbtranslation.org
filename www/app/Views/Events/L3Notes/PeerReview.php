@@ -42,6 +42,16 @@ $parsedown = new Parsedown();
                     <div id="my_notes_content" class="my_content">
                     <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
                         <div class="note_chunk l3">
+                            <?php if($fv > 0): ?>
+                            <div class="compare_scripture">
+                                <label>
+                                    <input type="checkbox" checked data-toggle="toggle"
+                                           data-on="<?php echo __("on") ?>"
+                                           data-off="<?php echo __("off") ?>">
+                                    <?php echo __("compare"); ?>
+                                </label>
+                            </div>
+                            <?php endif; ?>
                             <div class="scripture_l3">
                                 <?php if(!empty($data["ulb_translation"]["l3"])): ?>
                                     <?php foreach(array_values($chunk) as $verse): ?>
@@ -57,6 +67,15 @@ $parsedown = new Parsedown();
                                         <?php if($verse <= 0) continue; ?>
                                         <?php echo isset($data["ulb_translation"]["l2"][$verse])
                                             ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l2"][$verse]."</span>" : ""; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="scripture_compare">
+                                <?php if(!empty($data["ulb_translation"]["l3"])): ?>
+                                    <?php foreach(array_values($chunk) as $verse): ?>
+                                        <?php if($verse <= 0) continue; ?>
+                                        <?php echo isset($data["ulb_translation"]["l3"][$verse])
+                                            ? $verse . ". <span data-verse=\"$verse\"></span>" : ""; ?>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </div>
@@ -224,22 +243,28 @@ $parsedown = new Parsedown();
 
     <?php if($data["isChecker"]): ?>
     $("#next_step").click(function (e) {
-        renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
-            function () {
-                $("#checker_submit").submit();
-                $( this ).dialog("close");
-            },
-            function () {
-                $("#confirm_step").prop("checked", false);
-                $("#next_step").prop("disabled", true);
-                $( this ).dialog("close");
-            },
-            function () {
-                $("#confirm_step").prop("checked", false);
-                $("#next_step").prop("disabled", true);
-                $( this ).dialog("close");
-            });
-
+        if(typeof step != "undefined" && step == EventCheckSteps.PEER_EDIT_L3)
+        {
+            renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
+                function () {
+                    $("#checker_submit").submit();
+                    $( this ).dialog("close");
+                },
+                function () {
+                    $("#confirm_step").prop("checked", false);
+                    $("#next_step").prop("disabled", true);
+                    $( this ).dialog("close");
+                },
+                function () {
+                    $("#confirm_step").prop("checked", false);
+                    $("#next_step").prop("disabled", true);
+                    $( this ).dialog("close");
+                });
+        }
+        else
+        {
+            $("#checker_submit").submit();
+        }
         e.preventDefault();
     });
     <?php endif; ?>
@@ -251,12 +276,25 @@ $parsedown = new Parsedown();
 
                 var elm1 = $(v).text();
                 var elm2 = $(".scripture_l3 span[data-verse="+verse+"]").text();
-                var out = $(".scripture_l3 span[data-verse="+verse+"]");
+                var out = $(".scripture_compare span[data-verse="+verse+"]");
 
                 if(typeof elm1 == "undefined") return true;
 
                 diff_plain(elm1, elm2, out);
             });
+        });
+
+        $(".compare_scripture input").change(function () {
+            var parent = $(this).parents(".note_chunk");
+            var active = $(this).prop('checked');
+
+            if (active) {
+                $(".scripture_l3", parent).hide();
+                $(".scripture_compare", parent).show();
+            } else {
+                $(".scripture_compare", parent).hide();
+                $(".scripture_l3", parent).show();
+            }
         });
     });
 </script>

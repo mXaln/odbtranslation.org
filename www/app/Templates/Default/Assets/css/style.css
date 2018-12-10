@@ -4303,17 +4303,28 @@ button.startEvnt, button.editEvnt {
 .scripture_l3 {
     flex: 1;
     margin-right: 20px;
+    margin-top: 30px;
     padding-top: 20px;
     font-size: 20px;
     font-weight: bold;
+    display: none;
 }
 
-.scripture_l3 span {
+.scripture_l3 span, .scripture_compare span {
     font-weight: normal;
 }
 
 .scripture_l2 {
     display: none;
+}
+
+.scripture_compare {
+    flex: 1;
+    margin-right: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .add_notes {
@@ -4416,6 +4427,10 @@ button.startEvnt, button.editEvnt {
 .compare_notes {
     text-align: right;
     margin-bottom: 20px;
+}
+
+.compare_scripture {
+    position: absolute;
 }
 
 .notes_translator {
