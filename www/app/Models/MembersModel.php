@@ -56,7 +56,8 @@ class MembersModel extends Model {
         return $this->db->table("members")
             ->select("userName")
             ->where("userName", "like", "%user%")
-            ->orderBy("memberID", "desc")
+            ->orderByRaw("length(userName) desc")
+            ->orderBy("userName", "desc")
             ->limit(1)->get();
     }
 
