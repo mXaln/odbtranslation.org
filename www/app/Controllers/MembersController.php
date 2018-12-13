@@ -1321,9 +1321,9 @@ class MembersController extends Controller
 
             if(!empty($member))
             {
-                $admins = EventStates::enum($event[0]->state) <= EventStates::enum(EventStates::TRANSLATED) ?
-                    (array)json_decode($event[0]->admins, true)
-                    : (array)json_decode($event[0]->admins_l2, true);
+                $admins = array_merge([], (array)json_decode($event[0]->admins, true),
+                    (array)json_decode($event[0]->admins_l2, true),
+                    (array)json_decode($event[0]->admins_l3, true));
 
                 if($event[0]->translator == null && $event[0]->checker == null
                     && $event[0]->checker_l2 == null && $event[0]->checker_l3 == null)
