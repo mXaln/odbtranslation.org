@@ -1000,6 +1000,10 @@ return array (
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
+    // ------- Level 3 Check --------- //
+    "peer-review-l3" => "Peer Check",
+    "peer-edit-l3" => "Peer Review",
+
     // Errors
     "checker_translator_not_ready_error" => "Penerjemah tidak siap untuk langkah ini, mohon tunggu. Halaman akan dimuat ulang ketika penerjemah sudah siap.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Pemeriksa belum menyetujui langkah ini. Mohon tunggu.",
