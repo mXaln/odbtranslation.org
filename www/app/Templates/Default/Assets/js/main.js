@@ -2268,7 +2268,7 @@ $(document).ready(function() {
         window.location.reload();
     });
 
-    $(".demo_link, #demo_link").click(function() {
+    $(".demo_link, #demo_link").click(function(e) {
         if($(".demo_options").is(":visible"))
         {
             $(".demo_options").hide(200);
@@ -2277,6 +2277,13 @@ $(document).ready(function() {
         {
             $(".demo_options").show(200);
         }
+
+        e.stopPropagation();
+    });
+
+    $(document).click(function(e) {
+        if(!e.target.classList.contains("demo_options"))
+            $(".demo_options").hide(200);
     });
 
     // Sail dictionary

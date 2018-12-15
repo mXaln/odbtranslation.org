@@ -341,7 +341,6 @@ class MembersController extends Controller
         }
 
         $data["notifications"] = $this->_notifications;
-        $data["news"] = $this->_news;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data['csrfToken'] = Csrf::makeToken();
 
@@ -579,7 +578,6 @@ class MembersController extends Controller
         //pr($data["translation_activities"],1);
 
         $data["notifications"] = $this->_notifications;
-        $data["news"] = $this->_news;
         $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Members/PublicProfile')
@@ -687,7 +685,6 @@ class MembersController extends Controller
         $data["members"] = $this->_model->searchMembers(null, "all", $admLangs, false, true);
 
         $data["notifications"] = $this->_notifications;
-        $data["news"] = $this->_news;
         $data["newNewsCount"] = $this->_newNewsCount;
 
         return View::make('Members/Search')
@@ -726,7 +723,11 @@ class MembersController extends Controller
             }
             else
             {
-                $postdata = array('active' => true, 'activationToken' => null);
+                $postdata = [
+                    "active" => true,
+                    "verified" => true,
+                    "activationToken" => null
+                ];
                 $where = array('memberID' => $memberID);
                 $this->_model->updateMember($postdata, $where);
 
@@ -1346,6 +1347,7 @@ class MembersController extends Controller
 
                 $member[0]->isAdmin = $isAdmin;
                 $member[0]->isSuperAdmin = $isSuperAdmin;
+                $member[0]->lastName = mb_substr($member[0]->lastName, 0, 1).".";
                 echo json_encode($member[0]);
             }
             else
