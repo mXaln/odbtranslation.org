@@ -173,7 +173,7 @@ if(!empty($data["event"]) && !isset($data["error"])):
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
-<script src="<?php echo template_url("js/socket.js?7")?>"></script>
+<script src="<?php echo template_url("js/socket.js?8")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 
