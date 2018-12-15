@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [3]).")" ?></div>
-            <div><?php echo __("peer-edit-l3_full")?></div>
+            <div><?php echo __("step_num", [2]) . ": " . __("peer-edit-l3_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -517,6 +517,7 @@
                 </form>
                 <div class="step_right"></div>
             </div>
+            <div class="step_right alt"><?php echo __("step_num", [2])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -527,7 +528,10 @@
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("peer-edit-l3")?></span> </div>
+                    <div class="help_name_steps">
+                        <span><?php echo __("step_num", [2])?>: </span>
+                        <?php echo __("peer-edit-l3")?>
+                    </div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("peer-edit-l3_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

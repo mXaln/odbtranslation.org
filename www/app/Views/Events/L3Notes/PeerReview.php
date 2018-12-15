@@ -2,6 +2,7 @@
 if(isset($error)) return;
 
 use \Helpers\Constants\EventMembers;
+use \Helpers\Constants\EventCheckSteps;
 use Helpers\Parsedown;
 use Helpers\Session;
 
@@ -21,7 +22,7 @@ $parsedown = new Parsedown();
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __($data["event"][0]->step . "_full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", [1]) . ": " . __($data["event"][0]->step . "_full")?></div>
     </div>
 
     <div class="row">
@@ -132,6 +133,9 @@ $parsedown = new Parsedown();
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </form>
             </div>
+            <div class="step_right alt">
+                <?php echo __("step_num", [$data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2])?>
+            </div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -142,7 +146,10 @@ $parsedown = new Parsedown();
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __($data["event"][0]->step)?></span></div>
+                    <div class="help_name_steps">
+                        <span><?php echo __("step_num", [1])?>: </span>
+                        <?php echo __($data["event"][0]->step)?>
+                    </div>
                     <div class="help_descr_steps">
                         <ul><?php echo __($data["event"][0]->step . "_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
