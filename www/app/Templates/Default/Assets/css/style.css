@@ -2968,6 +2968,12 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     height: 100%;
 }
 
+.manage_body {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
 .manage_container ul {
     margin: 0;
     padding: 0;
@@ -2981,23 +2987,32 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
 .manage_container h3 {
     border-bottom: 1px solid #aaa;
     padding-bottom: 5px;
+    position: relative;
 }
 
 .manage_chapters {
-
+    width: 550px;
+    padding-bottom: 20px;
 }
 
 .manage_chapters ul li {
     height: 35px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .manage_chapters_user {
+    flex: 1;
+}
 
+.manage_chapters_buttons {
+    flex: 1;
 }
 
 .manage_chapter {
     padding-left: 0;
     font-weight: bold;
+    flex: 1;
 }
 
 .manage_chapters_user button {
@@ -3028,7 +3043,7 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
 }
 
 .manage_members {
-
+    width: 550px;
 }
 
 .member_chapters {
@@ -3138,6 +3153,12 @@ html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:activ
     right: 5px;
     font-size: 22px;
     cursor: pointer;
+}
+
+.manage_buttons {
+    position: absolute;
+    top: -10px;
+    right: 0;
 }
 
 .openMembersSearch.dialog_f {
@@ -3296,7 +3317,7 @@ div[class^="member_usname mid"] {
 
 .assignChapterLoader.inline_f {
     position: absolute;
-    left: 60px;
+    left: 120px;
     display: none;
 }
 
