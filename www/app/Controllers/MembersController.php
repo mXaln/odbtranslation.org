@@ -1043,7 +1043,7 @@ class MembersController extends Controller
 
             if(!empty($projects)) {
                 $projects = array_filter($projects, function ($elm) {
-                    return in_array($elm, ["vmast","vsail","l2","tn","tq","tw"]);
+                    return in_array($elm, ["vmast","vsail","l2","l3","tn","tq","tw"]);
                 });
                 $projects = array_unique($projects);
 
@@ -1108,7 +1108,39 @@ class MembersController extends Controller
                             ->subject(__('activate_account_title'));
                     });
 
-                    Mailer::send('Emails/Common/NotifyRegistration', ["userName" => $userName, "name" => $firstName." ".$lastName, "id" => $id], function($message)
+                    // Project language for email message
+                    $proj_languages = $this->_eventModel->getAllLanguages(null, [$projLang]);
+                    $proj_lang = "";
+                    if (!empty($proj_languages))
+                    {
+                        $pl = $proj_lang[0];
+                        $proj_lang = "[".$pl->langID."] " . $pl->langName .
+                            ($pl->angName != "" && $pl->angName != $pl->langName ? " (".$pl->angName.")" : "");
+                    }
+
+                    // Projects list for email message
+                    $prjs = array_map(function ($elm) {
+                        switch ($elm) {
+                            case "vmast":
+                                return __("8steps_vmast");
+                                break;
+                            case "l2":
+                                return __("l2_3_events", [2]);
+                                break;
+                            case "l3":
+                                return __("l2_3_events", [3]);
+                                break;
+                            default:
+                                return __($elm);
+                        }
+                    }, $projects);
+
+                    Mailer::send('Emails/Common/NotifyRegistration', [
+                        "userName" => $userName,
+                        "name" => $firstName." ".$lastName,
+                        "id" => $id,
+                        "projectLanguage" => $proj_lang,
+                        "projects" => join(", ", $prjs)], function($message)
                     {
                         $message->to("vmastteam@gmail.com")
                             ->subject($this->_model->translate("new_account_title", "en"));

@@ -3,10 +3,7 @@
 
 use \Helpers\Constants\EventMembers;
 use \Helpers\Constants\EventCheckSteps;
-use Helpers\Parsedown;
 use Helpers\Session;
-
-$parsedown = new Parsedown();
 ?>
 <div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
      dir="<?php echo $data["event"][0]->tLangDir ?>">
@@ -36,66 +33,59 @@ $parsedown = new Parsedown();
                         .__($data["event"][0]->bookProject)." - "
                         .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->name." ".
-                        ($data["currentChapter"] > 0
-                            ? $data["currentChapter"].":1-".$data["totalVerses"]
-                            : __("front"))."</span>"?></h4>
+                        $data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                     <div id="my_notes_content" class="my_content">
-                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                    <?php foreach($data["chunks"] as $chunkNo => $chunk): ?>
                         <div class="note_chunk l3">
-                            <?php if($fv > 0): ?>
-                            <div class="compare_scripture">
-                                <label>
-                                    <input type="checkbox" checked data-toggle="toggle"
-                                           data-on="<?php echo __("on") ?>"
-                                           data-off="<?php echo __("off") ?>">
-                                    <?php echo __("compare"); ?>
-                                </label>
-                            </div>
-                            <?php endif; ?>
-                            <div class="scripture_l3">
-                                <?php if(!empty($data["ulb_translation"]["l3"])): ?>
-                                    <?php foreach(array_values($chunk) as $verse): ?>
-                                        <?php if($verse <= 0) continue; ?>
-                                        <?php echo isset($data["ulb_translation"]["l3"][$verse])
-                                            ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l3"][$verse]."</span>" : ""; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="scripture_l2">
-                                <?php if(!empty($data["ulb_translation"]["l2"])): ?>
-                                    <?php foreach(array_values($chunk) as $verse): ?>
-                                        <?php if($verse <= 0) continue; ?>
-                                        <?php echo isset($data["ulb_translation"]["l2"][$verse])
-                                            ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l2"][$verse]."</span>" : ""; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="scripture_compare">
-                                <?php if(!empty($data["ulb_translation"]["l3"])): ?>
-                                    <?php foreach(array_values($chunk) as $verse): ?>
-                                        <?php if($verse <= 0) continue; ?>
-                                        <?php echo isset($data["ulb_translation"]["l3"][$verse])
-                                            ? $verse . ". <span data-verse=\"$verse\"></span>" : ""; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                            <div class="scripture_compare_alt" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                <?php $firstVerse = 0; ?>
+                                <?php foreach ($chunk as $verse): ?>
+                                    <?php
+                                    // process combined verses
+                                    if (!isset($data["text"][$verse]))
+                                    {
+                                        if($firstVerse == 0)
+                                        {
+                                            $firstVerse = $verse;
+                                            continue;
+                                        }
+                                        $combinedVerse = $firstVerse . "-" . $verse;
+
+                                        if(!isset($data["text"][$combinedVerse]))
+                                            continue;
+                                        $verse = $combinedVerse;
+                                    }
+                                    ?>
+                                <p>
+                                    <strong class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong>
+                                    <span><?php echo $data["text"][$verse]; ?></span>
+                                </p>
+                                <?php endforeach; ?>
                             </div>
                             <div class="vnote l3 font_<?php echo $data["event"][0]->targetLang ?>"
-                                 dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                 dir="<?php echo $data["event"][0]->tLangDir ?>"
+                                style="padding-right: 20px">
                                 <?php
-                                $text = empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]) ?
-                                    $data["translation"][$chunkNo][EventMembers::CHECKER]["verses"] :
-                                    $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
-                                $text = $parsedown->text($text);
-                                $text = preg_replace('/( title=".*")/', '', $text);
-                                echo $text;
+                                if(!empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]))
+                                    $verses = $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
+                                else
+                                    $verses = $data["translation"][$chunkNo][EventMembers::L2_CHECKER]["verses"];
                                 ?>
+                                <?php foreach($verses as $verse => $text): ?>
+                                    <div class="verse_block">
+                                        <p>
+                                            <strong><sup><?php echo $verse?></sup></strong>
+                                            <span class="targetVerse" data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></span>
+                                        </p>
+                                    </div>
+                                <?php endforeach; ?>
 
                                 <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
-                                <div class="comments_number tncomml3 <?php echo $hasComments ? "hasComment" : "" ?>">
+                                <div class="comments_number tncomml3_alt <?php echo $hasComments ? "hasComment" : "" ?>">
                                     <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
                                 </div>
-                                <img class="editComment tncomml3" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                <img class="editComment tncomml3_alt" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
                                 <div class="comments">
                                     <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
@@ -114,7 +104,6 @@ $parsedown = new Parsedown();
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                                <div class="clear"></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -168,13 +157,16 @@ $parsedown = new Parsedown();
                             </span>
                         </div>
                         <div class="additional_info">
-                            <a href="/events/information-tn-l3/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                            <a href="/events/information-l3/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="tr_tools">
                     <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
+                    <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
+                    <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
                 </div>
             </div>
         </div>
@@ -243,8 +235,129 @@ $parsedown = new Parsedown();
     </div>
 <?php endif; ?>
 
-<script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js?2")?>"></script>
-<script type="text/javascript" src="<?php echo template_url("js/diff.js?7")?>"></script>
+<?php if(!empty($data["questions"])): ?>
+    <div class="ttools_panel tq_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("tq") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="tq"></span>
+        </div>
+
+        <div class="ttools_content page-content panel-body">
+            <div class="labels_list">
+                <?php if(isset($data["questions"])): ?>
+                    <?php foreach ($data["questions"] as $verse => $questions): ?>
+                        <label>
+                            <ul>
+                                <li>
+                                    <div class="word_term">
+                                        <span style="font-weight: bold;"><?php echo __("verse_number", $verse) ?> </span>
+                                    </div>
+                                    <div class="word_def">
+                                        <?php foreach ($questions as $question): ?>
+                                            <?php echo preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $question) ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </li>
+                            </ul>
+                        </label>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div class="word_def_popup">
+                <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                <div class="word_def_title"></div>
+                <div class="word_def_content"></div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if(!empty($data["keywords"])): ?>
+    <div class="ttools_panel tw_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("tw") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="tw"></span>
+        </div>
+
+        <div class="ttools_content page-content panel-body">
+            <div class="labels_list">
+                <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
+                    <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
+                        <?php if(!isset($tWord["text"])) continue; ?>
+                        <label>
+                            <ul>
+                                <li>
+                                    <div class="word_term">
+                                        <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
+                                        (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
+                                    </div>
+                                    <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
+                                </li>
+                            </ul>
+                        </label>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div class="word_def_popup">
+                <div class="word_def-close glyphicon glyphicon-remove"></div>
+
+                <div class="word_def_title"></div>
+                <div class="word_def_content"></div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($data["rubric"])): ?>
+    <div class="ttools_panel rubric_tool panel panel-default" draggable="true">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("show_rubric") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove" data-tool="rubric"></span>
+        </div>
+
+        <div class="ttools_content page-content panel-body">
+            <ul class="nav nav-tabs nav-justified read_rubric_tabs">
+                <li role="presentation" id="tab_orig" class="active"><a href="#"><?php echo $data["rubric"]->language->langName ?></a></li>
+                <li role="presentation" id='tab_eng'><a href="#">English</a></li>
+            </ul>
+            <div class="read_rubric_qualities">
+                <br>
+                <?php $tr=1; foreach($data["rubric"]->qualities as $quality): ?>
+                    <div class="read_rubric_quality orig" dir="<?php echo $data['rubric']->language->direction ?>">
+                        <?php echo !empty($quality->content) ? sprintf('%01d', $tr) . ". " .  $quality->content : ""; ?>
+                    </div>
+                    <div class="read_rubric_quality eng">
+                        <?php echo !empty($quality->eng) ? sprintf('%01d', $tr) . ". " . $quality->eng : ""; ?>
+                    </div>
+
+                    <div class="read_rubric_defs">
+                        <?php $df=1; foreach($quality->defs as $def): ?>
+                            <div class="read_rubric_def orig" dir="<?php echo $data['rubric']->language->direction ?>">
+                                <?php echo !empty($def->content) ? sprintf('%01d', $df) . ". " . $def->content : ""; ?>
+                            </div>
+                            <div class="read_rubric_def eng">
+                                <?php echo !empty($def->eng) ? sprintf('%01d', $df) . ". " . $def->eng : ""; ?>
+                            </div>
+
+                            <div class="read_rubric_measurements">
+                                <?php $ms=1; foreach($def->measurements as $measurement): ?>
+                                    <div class="read_rubric_measurement orig" dir="<?php echo $data['rubric']->language->direction ?>">
+                                        <?php echo !empty($measurement->content) ? sprintf('%01d', $ms) . ". " . $measurement->content : ""; ?>
+                                    </div>
+                                    <div class="read_rubric_measurement eng">
+                                        <?php echo !empty($measurement->eng) ? sprintf('%01d', $ms) . ". " . $measurement->eng : ""; ?>
+                                    </div>
+                                    <?php $ms++; endforeach; ?>
+                            </div>
+                            <?php $df++; endforeach; ?>
+                    </div>
+                    <?php $tr++; endforeach; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <script>
     var disableHighlight = true;
 
@@ -275,33 +388,4 @@ $parsedown = new Parsedown();
         e.preventDefault();
     });
     <?php endif; ?>
-
-    $(document).ready(function() {
-        $(".note_chunk").each(function(i, v) {
-            $(".scripture_l2 span", this).each(function (i, v) {
-                var verse = $(v).data("verse");
-
-                var elm1 = $(v).text();
-                var elm2 = $(".scripture_l3 span[data-verse="+verse+"]").text();
-                var out = $(".scripture_compare span[data-verse="+verse+"]");
-
-                if(typeof elm1 == "undefined") return true;
-
-                diff_plain(elm1, elm2, out);
-            });
-        });
-
-        $(".compare_scripture input").change(function () {
-            var parent = $(this).parents(".note_chunk");
-            var active = $(this).prop('checked');
-
-            if (active) {
-                $(".scripture_l3", parent).hide();
-                $(".scripture_compare", parent).show();
-            } else {
-                $(".scripture_compare", parent).hide();
-                $(".scripture_l3", parent).show();
-            }
-        });
-    });
 </script>

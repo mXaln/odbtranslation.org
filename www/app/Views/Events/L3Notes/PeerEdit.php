@@ -255,30 +255,6 @@ $parsedown = new Parsedown();
 <script type="text/javascript" src="<?php echo template_url("js/diff_match_patch.js?2")?>"></script>
 <script type="text/javascript" src="<?php echo template_url("js/diff.js?7")?>"></script>
 <script>
-    var disableHighlight = true;
-
-    <?php if($data["isChecker"]): ?>
-    $("#next_step").click(function (e) {
-        renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
-            function () {
-                $("#checker_submit").submit();
-                $( this ).dialog("close");
-            },
-            function () {
-                $("#confirm_step").prop("checked", false);
-                $("#next_step").prop("disabled", true);
-                $( this ).dialog("close");
-            },
-            function () {
-                $("#confirm_step").prop("checked", false);
-                $("#next_step").prop("disabled", true);
-                $( this ).dialog("close");
-            });
-
-        e.preventDefault();
-    });
-    <?php endif; ?>
-
     $(document).ready(function() {
         $(".note_chunk").each(function(i, v) {
             $(".scripture_l2 span", this).each(function (i, v) {

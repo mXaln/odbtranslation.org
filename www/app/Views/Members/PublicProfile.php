@@ -83,6 +83,9 @@ $numValues = [
                 case "l2":
                     return __("l2_3_events", [2]);
                     break;
+                case "l3":
+                    return __("l2_3_events", [3]);
+                    break;
                 default:
                     return __($elm);
             }

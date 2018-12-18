@@ -12,6 +12,14 @@ $membersModel = new \App\Models\MembersModel();
         <div style="font-size: 18px">
             <div style="margin-top: 20px">
                 <div><?php echo $membersModel->translate("new_account_message", "en", [$name, $userName]) ?></div>
+                <div>
+                    <strong><?php echo $membersModel->translate("proj_lang_public", "en") ?>: </strong>
+                    <?php echo $projectLanguage ?>
+                </div>
+                <div>
+                    <strong><?php echo $membersModel->translate("Projects", "en")  ?>: </strong>
+                    <?php echo $projects ?>
+                </div>
             </div>
 
             <div style="margin-top: 20px">

@@ -203,7 +203,7 @@ if(empty($error) && empty($data["success"])):
         <span class="panel-close glyphicon glyphicon-remove" data-tool="tq"></span>
     </div>
 
-    <div class="ttools_content my_content page-content panel-body">
+    <div class="ttools_content page-content panel-body">
         <div class="labels_list">
             <?php if(isset($data["questions"])): ?>
                 <?php foreach ($data["questions"] as $verse => $questions): ?>
