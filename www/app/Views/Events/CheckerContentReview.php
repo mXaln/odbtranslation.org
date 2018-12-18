@@ -295,7 +295,7 @@ if(empty($error) && empty($data["success"])):
     </div>
 <?php endif; ?>
 
-    <?php if(!empty($data["keywords"])): ?>
+    <?php if(!empty($data["keywords"]) && !empty($data["keywords"]["words"])): ?>
     <div class="ttools_panel tw_tool panel panel-default" draggable="true">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("tw") ?></h1>
