@@ -1113,7 +1113,7 @@ class MembersController extends Controller
                     $proj_lang = "";
                     if (!empty($proj_languages))
                     {
-                        $pl = $proj_lang[0];
+                        $pl = $proj_languages[0];
                         $proj_lang = "[".$pl->langID."] " . $pl->langName .
                             ($pl->angName != "" && $pl->angName != $pl->langName ? " (".$pl->angName.")" : "");
                     }
