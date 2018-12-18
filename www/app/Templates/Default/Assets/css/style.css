@@ -2048,9 +2048,19 @@ mark {
     top: 10px;
 }
 
+.editComment.tncomml3_alt {
+    right: -5px;
+    top: 0px;
+}
+
 .comments_number.tncomml3 {
     right: -25px;
     top: 5px;
+}
+
+.comments_number.tncomml3_alt {
+    right: -30px;
+    top: -5px;
 }
 
 .comments_number {
@@ -4348,6 +4358,11 @@ button.startEvnt, button.editEvnt {
     font-weight: bold;
 }
 
+.scripture_compare_alt {
+    flex: 1;
+    margin-right: 20px;
+}
+
 .add_notes {
     text-align: right;
 }
@@ -4492,7 +4507,7 @@ button.startEvnt, button.editEvnt {
     position: relative;
 }
 
-.verse_number_l2 {
+.verse_number_l2, .verse_number_l3 {
     position: absolute;
     top: 0;
     left: 2px;

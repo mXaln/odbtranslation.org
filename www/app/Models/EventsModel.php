@@ -239,8 +239,7 @@ class EventsModel extends Model
      */
     public function getMemberEvents($memberID, $memberType, $eventID = null, $includeFinished = true, $includeNone = true)
     {
-        $events = array();
-        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR 
+        $sql = "SELECT ".($memberType == EventMembers::TRANSLATOR
             ? PREFIX."translators.trID, "
                 .PREFIX."translators.memberID AS myMemberID, ".PREFIX."translators.step, "
                 .PREFIX."translators.checkerID, ".PREFIX."translators.checkDone, "
@@ -252,20 +251,18 @@ class EventsModel extends Model
                 .PREFIX."translators.isChecker, "
                 ."tw_groups.words, "
                 ."mems.userName AS checkerName, mems.firstName AS checkerFName, "
-                ."mems.lastName AS checkerLName, chapters.chunks, "
+                ."mems.lastName AS checkerLName, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = ".PREFIX."translators.eventID ) AS currTrs, " 
             : "").($memberType == EventMembers::L2_CHECKER 
             ? PREFIX."checkers_l2.l2chID, "
                 .PREFIX."checkers_l2.memberID, ".PREFIX."checkers_l2.step, "
                 .PREFIX."checkers_l2.currentChapter, ".PREFIX."checkers_l2.sndCheck, "
                 .PREFIX."checkers_l2.peer1Check, ".PREFIX."checkers_l2.peer2Check, "
-                ."chapters.chunks, "
-                ."(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chkrs WHERE all_chkrs.eventID = ".PREFIX."checkers_l2.eventID ) AS currChkrs, " 
+                ."(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chkrs WHERE all_chkrs.eventID = ".PREFIX."checkers_l2.eventID ) AS currChkrs, "
             : "").($memberType == EventMembers::L3_CHECKER
                 ? PREFIX."checkers_l3.l3chID, "
                 .PREFIX."checkers_l3.memberID, ".PREFIX."checkers_l3.step, "
                 .PREFIX."checkers_l3.currentChapter, ".PREFIX."checkers_l3.peerCheck, "
-                ."chapters.chunks, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chkrs WHERE all_chkrs.eventID = ".PREFIX."checkers_l3.eventID ) AS currChkrs, "
                 : "")
                 ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, "
@@ -273,7 +270,7 @@ class EventsModel extends Model
                 .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, "
-                .PREFIX."projects.sourceBible, t_lang.langName as tLang, "
+                .PREFIX."projects.sourceBible, t_lang.langName as tLang, chapters.chunks, "
                 ."t_lang.direction as tLangDir, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, "
                 ."s_lang.langName as sLang, s_lang.direction as sLangDir, ".
                 PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".
@@ -323,7 +320,7 @@ class EventsModel extends Model
 
         if(!is_null($eventID))
             $prepare[":eventID"] = $eventID;
-        
+
         return $this->db->select($sql, $prepare);
     }
 

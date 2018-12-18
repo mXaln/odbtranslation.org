@@ -1047,6 +1047,33 @@ class ApiModel extends Model
         return $arr;
     }
 
+    public function getNotesVerses($notes)
+    {
+        $tnVerses = [];
+        $fv = 1;
+        $i = 0;
+        foreach (array_keys($notes["notes"]) as $key) {
+            $i++;
+            if($key == 0)
+            {
+                $tnVerses[] = $key;
+                continue;
+            }
+
+            if(($key - $fv) >= 1)
+            {
+                $tnVerses[$fv] = $fv != ($key - 1) ? $fv . "-" . ($key - 1) : $fv;
+                $fv = $key;
+
+                if($i == sizeof($notes["notes"]))
+                    $tnVerses[$fv] = $fv != $notes["totalVerses"] ? $fv . "-" . $notes["totalVerses"] : $fv;
+                continue;
+            }
+        }
+
+        return $tnVerses;
+    }
+
     public function getQuestionsChunks($questions)
     {
         $chunks = array_keys($questions["questions"]);

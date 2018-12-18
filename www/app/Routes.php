@@ -59,6 +59,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l3/{eventID}", "EventsController@checkerL3")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("checker-l3/{eventID}/{memberID}/{chapter}", "EventsController@checkerL3Peer")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
     Router::any("checker-tn-l3/{eventID}", "EventsController@checkerNotesL3")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-tn-l3/{eventID}/{memberID}/{chapter}", "EventsController@checkerNotesL3Peer")
@@ -77,7 +83,9 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-l2/{eventID}", "EventsController@informationL2")
         ->where(["eventID" => "[0-9]+"]);
-    Router::any("information-tn-l3/{eventID}", "EventsController@informationNotesL3")
+    Router::any("information-tn-l3/{eventID}", "EventsController@informationL3")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-l3/{eventID}", "EventsController@informationL3")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-sun/{eventID}", "EventsController@informationSun")
         ->where(["eventID" => "[0-9]+"]);
