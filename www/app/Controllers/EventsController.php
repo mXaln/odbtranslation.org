@@ -6930,7 +6930,7 @@ class EventsController extends Controller
                                     "en"/*$data["event"][0]->sourceLangID*/
                                 );
 
-                                $data["words"] = $this->getTranslationWords(
+                                $data["keywords"] = $this->getTranslationWords(
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
                                     "en"/*$data["event"][0]->sourceLangID*/
@@ -7041,7 +7041,7 @@ class EventsController extends Controller
                                     "en"/*$data["event"][0]->sourceLangID*/
                                 );
 
-                                $data["words"] = $this->getTranslationWords(
+                                $data["keywords"] = $this->getTranslationWords(
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
                                     "en"/*$data["event"][0]->sourceLangID*/
@@ -7293,7 +7293,7 @@ class EventsController extends Controller
                                     "en"/*$data["event"][0]->sourceLangID*/
                                 );
 
-                                $data["words"] = $this->getTranslationWords(
+                                $data["keywords"] = $this->getTranslationWords(
                                     $data["event"][0]->bookCode,
                                     $data["event"][0]->currentChapter,
                                     "en"/*$data["event"][0]->sourceLangID*/
@@ -14310,7 +14310,6 @@ class EventsController extends Controller
      * Get source text for chapter or chunk
      * @param $data
      * @param bool $getChunk
-     * @param bool $isCoTranslator
      * @return array
      */
     private function getSourceText($data, $getChunk = false)
@@ -14649,7 +14648,7 @@ class EventsController extends Controller
 
     private function getTranslationWords($book, $chapter, $lang = "en")
     {
-        $tw_cache_words = "tn_".$lang."_".$book."_".$chapter;
+        $tw_cache_words = "tw_".$lang."_".$book."_".$chapter;
 
         if(Cache::has($tw_cache_words))
         {
@@ -14670,7 +14669,7 @@ class EventsController extends Controller
 
     private function getTranslationWordsByCategory($category, $lang = "en", $onlyNames = false)
     {
-        $tw_cache_words = "tn_".$lang."_".$category . ($onlyNames ? "_names" : "");
+        $tw_cache_words = "tw_".$lang."_".$category . ($onlyNames ? "_names" : "");
 
         if(Cache::has($tw_cache_words))
         {
