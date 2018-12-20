@@ -1002,7 +1002,9 @@ return array (
 
     // ------- Level 3 Check --------- //
     "peer-review-l3" => "Peer Check",
+    "peer-review-l3_full" => "Peer Check",
     "peer-edit-l3" => "Peer Review",
+    "peer-edit-l3_full" => "Peer Review",
 
     // Errors
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class=\"checker_waits\"></span>",

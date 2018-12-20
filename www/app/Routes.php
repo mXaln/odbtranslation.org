@@ -174,6 +174,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("notifications", "EventsController@allNotifications");
     Router::any("demo/{page?}", "EventsController@demo");
     Router::any("demo-l2/{page?}", "EventsController@demoL2");
+    Router::any("demo-l3/{page?}", "EventsController@demoL3");
     Router::any("demo-tn-l3/{page?}", "EventsController@demoL3Notes");
     Router::any("demo-tn/{page?}", "EventsController@demoTn");
     Router::any("demo-tq/{page?}", "EventsController@demoTq");

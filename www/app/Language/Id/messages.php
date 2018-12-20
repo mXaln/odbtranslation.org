@@ -1002,7 +1002,9 @@ return array (
 
     // ------- Level 3 Check --------- //
     "peer-review-l3" => "Peer Check",
+    "peer-review-l3_full" => "Peer Check",
     "peer-edit-l3" => "Peer Review",
+    "peer-edit-l3_full" => "Peer Review",
 
     // Errors
     "checker_translator_not_ready_error" => "Penerjemah tidak siap untuk langkah ini, mohon tunggu. Halaman akan dimuat ulang ketika penerjemah sudah siap.<span class=\"checker_waits\"></span>",

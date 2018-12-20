@@ -11,7 +11,7 @@ use Helpers\Constants\EventSteps;
 
 <div>
     <div class="book_title">2 Timothy</div>
-    <div class="project_title"><?php echo __("tn") ?> - Bahasa Indonesia</div>
+    <div class="project_title"><?php echo __("ulb") ?> - English demo1</div>
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">
@@ -25,9 +25,6 @@ use Helpers\Constants\EventSteps;
 
 <div class="row" style="position:relative;">
     <div class="chapter_list">
-        <div class="chapter_item">
-            <div class="chapter_number nofloat"><?php echo __("intro") ?></div>
-        </div>
         <div class="chapter_item">
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_1">
