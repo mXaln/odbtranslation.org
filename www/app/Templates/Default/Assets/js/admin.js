@@ -10,7 +10,7 @@ $(function () {
 
     if(typeof $.fn.chosen == "function")
         $("#subGwLangs, #targetLangs, "
-            + "#sourceTranslation, "
+            + "#sourceTranslation, #superadmins, "
             + "#sourceTranslationNotes, "
             + "#gwLang, #projectMode")
             .chosen();
@@ -58,6 +58,70 @@ $(function () {
 
         e.preventDefault();
     });
+
+    $(".gwproj_edit").click(function () {
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: "/admin/rpc/get_super_admins",
+            method: "post",
+            data: {gwProjectID: id},
+            dataType: "json",
+            beforeSend: function() {
+                $(this).prop("disabled", true);
+                $("#superadmins").val('').trigger("chosen:updated");
+            }
+        }).done(function(data) {
+            if(data.success)
+            {
+                var content = "";
+                $.each(data.admins, function(k, v) {
+                    content += '' +
+                        '<option value="' + k + '" selected>' + v + '</option>';
+                });
+                $("#superadmins").prepend(content);
+
+                $("#gwProjectID").val(id);
+                $(".admins-content").css("left", 0);
+            }
+            else
+            {
+                renderPopup(data.error);
+            }
+        }).always(function() {
+            $(this).prop("disabled", false);
+            $("#superadmins").trigger("chosen:updated");
+        });
+    });
+
+
+    $("#gwProjectAdmins").submit(function (e) {
+        $.ajax({
+            url: $("#gwProjectAdmins").prop("action"),
+            method: "post",
+            data: $("#gwProjectAdmins").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".gwProjectLoader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    location.reload();
+                }
+                else
+                {
+                    renderPopup(data.error);
+                }
+            })
+            .always(function() {
+                $(".gwProjectLoader").hide();
+            });
+
+        e.preventDefault();
+    });
+
 
     $("select[name=projectMode]").change(function() {
         if($(this).val() == "bible")
@@ -193,94 +257,9 @@ $(function () {
 
 
     // Event options
-    $("#translators").spinner({
-        min: 1,
-        step: 1,
-        start: 1
-    });
-
-    $("#checkers_l2, #checkers_l3").spinner({
-        min: 1,
-        step: 1,
-        start: 1
-    });
-
-    // ------------------ DateTimePicker functionality ------------------- //
-    /*if(typeof $.datepicker != "undefined" && typeof $.timepicker != "undefined")
-    {
-        var timeFormat;
-        var timezoneList = [
-            { value: -720, label: '(UTC-12:00) International Date Line West'},
-            { value: -660, label: '(UTC-11:00) Midway Island, Samoa' },
-            { value: -600, label: '(UTC-10:00) Hawaii' },
-            { value: -540, label: '(UTC-09:00) Alaska' },
-            { value: -480, label: '(UTC-08:00) Pacific Time (US and Canada); Tijuana' },
-            { value: -420, label: '(UTC-07:00) Mountain Time (US and Canada), Chihuahua, La Paz, Mazatlan' },
-            { value: -360, label: '(UTC-06:00) Central Time (US and Canada), Guadalajara, Mexico City, Monterrey' },
-            { value: -300, label: '(UTC-05:00) Eastern Time (US and Canada), Bogota, Lima, Quito' },
-            { value: -240, label: '(UTC-04:00) Atlantic Time (Canada), Caracas, La Paz' },
-            { value: -210, label: '(UTC-04:30) Newfoundland and Labrador' },
-            { value: -180, label: '(UTC-03:00) Buenos Aires, Georgetown, Greenland' },
-            { value: -120, label: '(UTC-02:00) Mid-Atlantic' },
-            { value: -60, label: '(UTC-01:00) Azores, Cape Verde Islands' },
-            { value: 0, label: '(UTC+00:00) Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London' },
-            { value: 60, label: '(UTC+01:00) Belgrade, Sarajevo, Brussels, Madrid, Paris, Berlin, Rome, West Central Africa' },
-            { value: 120, label: '(UTC+02:00) Bucharest, Cairo, Helsinki, Kiev, Tallinn, Athens, Istanbul, Jerusalem' },
-            { value: 180, label: '(UTC+03:00) Moscow, Volgograd, Kuwait, Nairobi, Baghdad' },
-            { value: 210, label: '(UTC+03:30) Tehran' },
-            { value: 240, label: '(UTC+04:00) Abu Dhabi, Baku, Tbilisi, Yerevan' },
-            { value: 270, label: '(UTC+04:30) Kabul' },
-            { value: 300, label: '(UTC+05:00) Ekaterinburg, Islamabad, Karachi, Tashkent' },
-            { value: 330, label: '(UTC+05:30) Kolkata, Mumbai, New Delhi' },
-            { value: 345, label: '(UTC+05:45) Kathmandu' },
-            { value: 360, label: '(UTC+06:00) Astana, Dhaka, Almaty, Novosibirsk' },
-            { value: 390, label: '(UTC+06:30) Yangon Rangoon' },
-            { value: 420, label: '(UTC+07:00) Bangkok, Hanoi, Jakarta, Krasnoyarsk' },
-            { value: 480, label: '(UTC+08:00) Beijing, Hong Kong SAR, Kuala Lumpur, Singapore, Irkutsk' },
-            { value: 540, label: '(UTC+09:00) Seoul, Osaka, Tokyo, Yakutsk' },
-            { value: 570, label: '(UTC+09:30) Darwin, Adelaide' },
-            { value: 600, label: '(UTC+10:00) Canberra, Melbourne, Sydney, Brisbane, Vladivostok, Guam' },
-            { value: 660, label: '(UTC+11:00) Magadan, Solomon Islands, New Caledonia' },
-            { value: 720, label: '(UTC+12:00) Fiji Islands, Kamchatka, Marshall Islands, Auckland, Wellington' },
-        ];
-        var lang = typeof getCookie("lang") != "undefined" ? getCookie("lang") : "en";
-
-        switch (lang)
-        {
-            case "ru":
-                timeFormat = "HH:mm z";
-                break;
-
-            default:
-                timeFormat = "hh:mm TT z";
-                break;
-        }
-
-        $( "#cal_from" ).datetimepicker({
-            timeFormat: timeFormat,
-            timezoneList: timezoneList,
-            //minDate: new Date(),
-            onClose: function( selectedDate ) {
-                if(selectedDate != "")
-                    $( "#cal_to" ).datepicker( "option", "minDate", selectedDate );
-            },
-        });
-
-        $( "#cal_to" ).datetimepicker({
-            //defaultDate: "+1w",
-            timeFormat: timeFormat,
-            timezoneList: timezoneList,
-            //minDate: new Date(),
-            onClose: function( selectedDate ) {
-                if(selectedDate != "")
-                    $( "#cal_from" ).datepicker( "option", "maxDate", selectedDate );
-            }
-        });
-    }*/
-
     if($().ajaxChosen)
     {
-        $("#adminsSelect").ajaxChosen({
+        $("#adminsSelect, #superadmins").ajaxChosen({
                 type: 'post',
                 url: '/admin/rpc/get_members',
                 dataType: 'json',

@@ -702,6 +702,28 @@ html, body, .container {
     width: 500px;
 }
 
+.admins-content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0; bottom: 0;
+    left:-9999px; right:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.admins-content > .edit-admins-content {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    left: calc(50% - 250px);
+    top: calc(50% - 150px);
+    width: 500px;
+}
+
 .page-content {
     padding: 10px 30px;
 }

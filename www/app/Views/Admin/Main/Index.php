@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th><?php echo __("gw_language") ?></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,7 +29,16 @@
                                 . ($gwProject->angName != $gwProject->langName
                                     && $gwProject->angName != "" 
                                     ? " (" . $gwProject->angName . ")"
-                                    : "") ?></td>
+                                    : "") ?>
+                            </td>
+                            <td width="70">
+                                <?php if(Config::get("app.type") == "local"): ?>
+                                <button data-id="<?php echo $gwProject->gwProjectID ?>"
+                                        class="btn btn-warning gwproj_edit">
+                                    <?php echo __("edit") ?>
+                                </button>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -64,6 +74,32 @@
                 </div>
 
                 <button type="submit" name="gwProject" class="btn btn-primary"><?php echo __('create'); ?></button>
+                <img class="gwProjectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="admins-content form-panel">
+    <div class="edit-admins-content panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title"><?php echo __("superadmins") ?></h1>
+            <span class="panel-close glyphicon glyphicon-remove"></span>
+        </div>
+
+        <div class="page-content row panel-body">
+            <form action="/admin/rpc/edit_super_admins" method="post" id="gwProjectAdmins" style="width: 400px;">
+                <div class="form-group">
+                    <label for="superadmins"><?php echo __('superadmins'); ?></label>
+                    <select class="form-control" name="superadmins[]" id="superadmins" multiple>
+                        <option></option>
+                    </select>
+                </div>
+
+                <input type="hidden" name="gwProjectID" id="gwProjectID" value="">
+
+                <button type="submit" name="gwProjectAdmins" class="btn btn-primary"><?php echo __('edit'); ?></button>
                 <img class="gwProjectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
             </form>
         </div>
