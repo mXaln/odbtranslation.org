@@ -1086,6 +1086,95 @@ class AdminController extends Controller {
         }
     }
 
+    public function getSuperAdmins()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            echo json_encode(array("login" => true));
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            echo json_encode(array());
+            exit;
+        }
+
+        if(Config::get("app.type") == "remote")
+        {
+            echo json_encode(array("error" => "not_available"));
+            exit;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
+
+        $gwProject = $this->_eventsModel->getGatewayProject(["admins"], ["gwProjectID", "=", $gwProjectID]);
+
+        if(!empty($gwProject))
+        {
+            $members = [];
+            $membersArray = (array)$this->_membersModel->getMembers(json_decode($gwProject[0]->admins));
+
+            foreach ($membersArray as $member) {
+                $members[$member->memberID] = "{$member->firstName} "
+                    .mb_substr($member->lastName, 0, 1)
+                    .". ({$member->userName})";
+            }
+
+            $response["success"] = true;
+            $response["admins"] = $members;
+        }
+        else
+        {
+            $response["error"] = __("gw_project_not_exist");
+        }
+
+        echo json_encode($response);
+    }
+
+
+    public function editSuperAdmins()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            echo json_encode(array("login" => true));
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            echo json_encode(array());
+            exit;
+        }
+
+        if(Config::get("app.type") == "remote")
+        {
+            echo json_encode(array("error" => "not_available"));
+            exit;
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
+        $superadmins = isset($_POST['superadmins']) && !empty($_POST['superadmins']) ? array_unique($_POST['superadmins']) : [];
+
+        foreach ($superadmins as $admin) {
+            $this->_membersModel->updateMember(array("isAdmin" => true, "isSuperAdmin" => true), array("memberID" => $admin));
+        }
+
+        $this->_eventsModel->updateGatewayProject(["admins" => json_encode($superadmins)], ["gwProjectID" => $gwProjectID]);
+
+        $response["success"] = true;
+
+        echo json_encode($response);
+    }
+
     public function createProject()
     {
         if (!Session::get('loggedin'))
@@ -1826,11 +1915,6 @@ class AdminController extends Controller {
         if(!isset($error))
         {
             $exist = $this->_eventsModel->getEvent(null, $projectID, $bookCode);
-            $project = $this->_eventsModel->getProject(
-                ["sourceLangID", "sourceBible"],
-                ["projectID", $projectID]
-            );
-
             $postdata = [];
 
             switch($act)
