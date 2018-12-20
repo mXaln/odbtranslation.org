@@ -1164,6 +1164,11 @@ class AdminController extends Controller {
         $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
         $superadmins = isset($_POST['superadmins']) && !empty($_POST['superadmins']) ? array_unique($_POST['superadmins']) : [];
 
+        $superadmins = array_filter($superadmins, function($elm) {
+            return is_numeric($elm);
+        });
+        $superadmins = array_values($superadmins);
+
         foreach ($superadmins as $admin) {
             $this->_membersModel->updateMember(array("isAdmin" => true, "isSuperAdmin" => true), array("memberID" => $admin));
         }
