@@ -99,7 +99,7 @@
 
                 <input type="hidden" name="gwProjectID" id="gwProjectID" value="">
 
-                <button type="submit" name="gwProjectAdmins" class="btn btn-primary"><?php echo __('edit'); ?></button>
+                <button type="submit" name="gwProjectAdmins" class="btn btn-primary"><?php echo __('save'); ?></button>
                 <img class="gwProjectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
             </form>
         </div>
