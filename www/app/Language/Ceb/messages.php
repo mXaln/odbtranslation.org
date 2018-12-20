@@ -1004,7 +1004,9 @@ return array (
 
     // ------- Level 3 Check --------- //
     "peer-review-l3" => "Peer Check",
+    "peer-review-l3_full" => "Peer Check",
     "peer-edit-l3" => "Peer Review",
+    "peer-edit-l3_full" => "Peer Review",
 
     // Errors
     "checker_translator_not_ready_error" => "Dili pa andam ang tighubad niini nga lakang, palihog hulat. Mobalik ra ang teksto kung andam na ang tighubad.",

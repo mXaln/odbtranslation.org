@@ -11620,6 +11620,73 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
+    public function demoL3($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-l3/pray");
+
+        $notifObj = new \stdClass();
+        $notifObj->step = EventCheckSteps::PEER_REVIEW_L3;
+        $notifObj->currentChapter = 2;
+        $notifObj->firstName = "Mark";
+        $notifObj->lastName = "Patton";
+        $notifObj->bookCode = "2ti";
+        $notifObj->bookProject = "ulb";
+        $notifObj->tLang = "English";
+        $notifObj->bookName = "2 Timothy";
+        $notifObj->manageMode = "l3";
+
+        $notifications[] = $notifObj;
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["menu"] = 5;
+        $data["isCheckerPage"] = true;
+        $data["isPeer"] = false;
+
+        $view = View::make("Events/L3/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/L3/Demo/Pray");
+                $data["step"] = EventCheckSteps::PRAY;
+                break;
+
+            case "peer_review_l3":
+                $view->nest("page", "Events/L3/Demo/PeerReview");
+                $data["step"] = EventCheckSteps::PEER_REVIEW_L3;
+                break;
+
+            case "peer_edit_l3":
+                $view->nest("page", "Events/L3/Demo/PeerEdit");
+                $data["step"] = EventCheckSteps::PEER_EDIT_L3;
+                break;
+
+            case "peer_review_l3_checker":
+                $view->nest("page", "Events/L3/Demo/PeerReviewChecker");
+                $data["step"] = EventCheckSteps::PEER_REVIEW_L3;
+                $data["isPeer"] = true;
+                break;
+
+            case "peer_edit_l3_checker":
+                $view->nest("page", "Events/L3/Demo/PeerEditChecker");
+                $data["step"] = EventCheckSteps::PEER_EDIT_L3;
+                $data["isPeer"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/L3/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
     public function demoL3Notes($page = null)
     {
         if(!isset($page))

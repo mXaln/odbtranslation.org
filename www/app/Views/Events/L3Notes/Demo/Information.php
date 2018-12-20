@@ -10,7 +10,7 @@ use Helpers\Constants\EventSteps;
 </div>
 
 <div>
-    <div class="book_title">2 Timothy</div>
+    <div class="book_title">Mark</div>
     <div class="project_title"><?php echo __("tn") ?> - Bahasa Indonesia</div>
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
