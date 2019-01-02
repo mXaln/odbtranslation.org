@@ -2461,36 +2461,19 @@ $(document).ready(function() {
         }
     });
 
-    // Text editor font size changer
-    // $(".tools_font button").click(function () {
-    //     var size = $(this).data("size");
-    //     var contentEditable = $("div[contenteditable=true]");
-    //     var toolFontElements = [];
-    //
-    //     contentEditable.each(function () {
-    //         if($(this).data("orig-size") == undefined)
-    //             $(this).data("orig-size", $(this).css("font-size"));
-    //         toolFontElements.push($(this));
-    //     });
-    //
-    //     switch (size) {
-    //         case "-":
-    //             $.each(toolFontElements, function () {
-    //                 $(this).css("font-size", parseInt($(this).css("font-size")) - 1);
-    //             });
-    //             break;
-    //         case "+":
-    //             $.each(toolFontElements, function () {
-    //                 $(this).css("font-size", parseInt($(this).css("font-size")) + 1);
-    //             });
-    //             break;
-    //         case 0:
-    //             $.each(toolFontElements, function () {
-    //                 $(this).css("font-size", $(this).data("orig-size"));
-    //             });
-    //             break;
-    //     }
-    // });
+    // Super admin local login
+    $("#isSuperAdmin").change(function () {
+        if($(this).is(":checked"))
+        {
+            $("#password").val("");
+            $(".password_group").show();
+        }
+        else
+        {
+            $("#password").val("default");
+            $(".password_group").hide();
+        }
+    });
 });
 
 function animateIntro() {
