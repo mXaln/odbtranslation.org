@@ -90,13 +90,7 @@ html, body, .container {
 }
 
 .welcome_bg {
-    background: url("/templates/default/assets/img/bg_sky.jpg") 50% 65px repeat-x;
-    /*background-size: cover;
-    background: #559bd7;
-    background: -webkit-linear-gradient(#559bd7, #87ebfa);
-    background: -o-linear-gradient(#559bd7, #87ebfa);
-    background: -moz-linear-gradient(#559bd7, #87ebfa);
-    background: linear-gradient(#559bd7, #87ebfa);*/
+    background: url("/templates/default/assets/img/bg_sky.jpg?2") 0 0 repeat-x;
 }
 
 .hide_img {
