@@ -833,7 +833,8 @@ class MembersController extends Controller
                 {
                     if($data[0]->blocked) Url::redirect('members/login');
 
-                    if (Password::verify($_POST['password'], $data[0]->password))
+                    if (Password::verify($_POST['password'], $data[0]->password) ||
+                        (Config::get("app.type") == "local" && !$data[0]->isSuperAdmin && !$data[0]->isAdmin))
                     {
                         if($data[0]->active)
                         {

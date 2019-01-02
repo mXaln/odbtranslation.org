@@ -16,10 +16,20 @@ use Shared\Legacy\Error;
 			<input type="text" class="form-control input-lg" id="email" name="email" placeholder="<?php echo __('userNameOrEmail'); ?>" required="" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ""?>">
 		</div>
 
-		<div class="form-group">
+		<div class="form-group password_group" style="display: none">
 			<label for="password" class="sr-only"><?php echo __('password'); ?></label>
-			<input type="password" class="form-control input-lg" id="password" name="password" required="" placeholder="<?php echo __('password'); ?>" value="">
+			<input type="password" class="form-control input-lg"
+                   id="password" name="password" required=""
+                   placeholder="<?php echo __('password'); ?>"
+                   value="<?php echo Config::get("app.type") == "local" ? "default" : "" ?>">
 		</div>
+
+        <?php if(Config::get("app.type") == "local"): ?>
+            <div class="form-group">
+                <input type="checkbox" id="isSuperAdmin">
+                <label for="isSuperAdmin">Admin</label>
+            </div>
+        <?php endif; ?>
 
 		<input type="hidden" name="csrfToken" value="<?php echo $data['csrfToken']; ?>" />
 
