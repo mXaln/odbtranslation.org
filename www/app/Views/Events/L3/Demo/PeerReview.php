@@ -3872,7 +3872,7 @@
 
     <div class="ttools_content page-content panel-body">
         <ul class="nav nav-tabs nav-justified read_rubric_tabs">
-            <li role="presentation" id="tab_orig" class="active"><a href="#">English demo1</a></li>
+            <li role="presentation" id="tab_orig" class="active"><a href="#">Papuan Malay</a></li>
             <li role="presentation" id='tab_eng'><a href="#">English</a></li>
         </ul>
         <div class="read_rubric_qualities">
