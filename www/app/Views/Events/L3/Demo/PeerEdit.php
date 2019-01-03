@@ -24,7 +24,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English demo1 - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div id="my_notes_content" class="my_content">
                     <div class="note_chunk l3">
@@ -43,12 +43,12 @@
                             <div class="verse_block">
                                 <span class="verse_number_l3">1</span>
                                 <textarea name="chunks[0][1]" class="peer_verse_ta textarea" data-orig-verse="1"
-                                          style="overflow: hidden; overflow-wrap: break-word; height: 80px;">You therefore, my child, be strengthened in the grace that is in Christ Jesus.</textarea>
+                                          style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Jadi begitu, anakku kuat sudah dengan anugerah di dalam Kristus Yesus.</textarea>
                             </div>
                             <div class="verse_block">
                                 <span class="verse_number_l3">2</span>
                                 <textarea name="chunks[0][2]" class="peer_verse_ta textarea" data-orig-verse="2"
-                                          style="overflow: hidden; overflow-wrap: break-word; height: 111px;">And the things you heard from me among many witnesses, entrust to faithful people who will be able to teach others also.</textarea>
+                                          style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Dan banyak hal yang ko dengar dari sa deng saksi yang banyak itu, beri percaya itu sama orang-orang yang setia, supaya dong dapat mengajar dong yang lain juga.</textarea>
                             </div>
                             <div class="comments_number tncomml3_alt  hasComment">3</div>
                             <img class="editComment tncomml3_alt" data="2:0" width="16" src="<?php echo template_url("img/edit_done.png") ?>" title="<?php echo __("write_note_title")?>">
@@ -67,9 +67,9 @@
                             <p> <strong class="ltr"><sup>5</sup></strong> <span>Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">3</span> <textarea name="chunks[1][3]" class="peer_verse_ta textarea" data-orig-verse="3" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Suffer hardship with me, as a good soldier of Christ Jesus.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">4</span> <textarea name="chunks[1][4]" class="peer_verse_ta textarea" data-orig-verse="4" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">5</span> <textarea name="chunks[1][5]" class="peer_verse_ta textarea" data-orig-verse="5" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">3</span> <textarea name="chunks[1][3]" class="peer_verse_ta textarea" data-orig-verse="3" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Mari, tong sama sa dalam penderitaan jadi prajurit Kristus Yesus yang baik.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">4</span> <textarea name="chunks[1][4]" class="peer_verse_ta textarea" data-orig-verse="4" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Trada satu orang tentara yang kerja sambil sibuk dengan de pu urusan hidup supaya de bisa buat de pu komandan senang.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">5</span> <textarea name="chunks[1][5]" class="peer_verse_ta textarea" data-orig-verse="5" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Begitu juga dengan atlit , tra akan terima mahkota kalo tra ikut aturan dalam lomba.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:1" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -81,8 +81,8 @@
                             <p> <strong class="ltr"><sup>7</sup></strong> <span>Think about what I am saying, for the Lord will give you understanding in everything.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">6</span> <textarea name="chunks[2][6]" class="peer_verse_ta textarea" data-orig-verse="6" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">The hardworking farmer must receive his share of the crops first.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">7</span> <textarea name="chunks[2][7]" class="peer_verse_ta textarea" data-orig-verse="7" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Think about what I am saying, for the Lord will give you understanding in everything.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">6</span> <textarea name="chunks[2][6]" class="peer_verse_ta textarea" data-orig-verse="6" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Petani dong yang kerja keras akan terima hasil yang pertama,</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">7</span> <textarea name="chunks[2][7]" class="peer_verse_ta textarea" data-orig-verse="7" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Ingat apa yang sa bilang, karena Tuhan akan kasi ko pengertian untuk mengerti semua ini,</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:2" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -95,9 +95,9 @@
                             <p> <strong class="ltr"><sup>10</sup></strong> <span>Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">8</span> <textarea name="chunks[3][8]" class="peer_verse_ta textarea" data-orig-verse="8" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Remember Jesus Christ, from David's family line, who was raised from the dead, according to my gospel message,</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">9</span> <textarea name="chunks[3][9]" class="peer_verse_ta textarea" data-orig-verse="9" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">by which I suffer to the point of being chained as a criminal. But the word of God is not chained.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">10</span> <textarea name="chunks[3][10]" class="peer_verse_ta textarea" data-orig-verse="10" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Therefore I endure all things for those who are chosen, that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">8</span> <textarea name="chunks[3][8]" class="peer_verse_ta textarea" data-orig-verse="8" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Ingat: Yesus Kristus, keturunan Daud, su bangkit dari kematian. ini su sesuai dengan pesan Injil yang sa percaya.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">9</span> <textarea name="chunks[3][9]" class="peer_verse_ta textarea" data-orig-verse="9" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Sampe pada titik penderitaan karna diikat rantai seperti kriminal. tapi firman Allah tra diikat deng rantai.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">10</span> <textarea name="chunks[3][10]" class="peer_verse_ta textarea" data-orig-verse="10" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Jadi sa bertahan untuk orang-orang yang Tuhan pilih, supaya dong dapat keselamatan yang kekal dalam Kristus Yesus, deng kemuliaan yang abadi..</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:3" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -110,9 +110,9 @@
                             <p> <strong class="ltr"><sup>13</sup></strong> <span>if we are unfaithful, he remains faithful, for he cannot deny himself." </span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">11</span> <textarea name="chunks[4][11]" class="peer_verse_ta textarea" data-orig-verse="11" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Trustworthy is this saying: "If we have died with him, we will also live with him. </textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">12</span> <textarea name="chunks[4][12]" class="peer_verse_ta textarea" data-orig-verse="12" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">If we endure, we will also reign with him. If we deny him, he also will deny us. </textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">13</span> <textarea name="chunks[4][13]" class="peer_verse_ta textarea" data-orig-verse="13" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">if we are unfaithful, he remains faithful, for he cannot deny himself." </textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">11</span> <textarea name="chunks[4][11]" class="peer_verse_ta textarea" data-orig-verse="11" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Apa yang sa bilang ini, bisa dipercaya: kalo tong mau mati untuk Dia, torang juga akan hidup bersama deng Dia.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">12</span> <textarea name="chunks[4][12]" class="peer_verse_ta textarea" data-orig-verse="12" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Apalagi kalo tong bertahan , tong juga akan ditinggikan deng Dia. Klo tong menyangkal Dia, Dia juga akan menyangkal ketong,</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">13</span> <textarea name="chunks[4][13]" class="peer_verse_ta textarea" data-orig-verse="13" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Klo tong tra setia, De tetap setia karena De tra bisa menyangkal diri.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:4" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -124,8 +124,8 @@
                             <p> <strong class="ltr"><sup>15</sup></strong> <span>Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">14</span> <textarea name="chunks[5][14]" class="peer_verse_ta textarea" data-orig-verse="14" style="overflow: hidden; overflow-wrap: break-word; height: 142px;">Keep reminding them of these things. Warn them before God not to quarrel about words, because doing so profits nothing, ruining those who listen.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">15</span> <textarea name="chunks[5][15]" class="peer_verse_ta textarea" data-orig-verse="15" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Do your best to present yourself approved to God as a workman without shame, handling correctly the word of truth.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">14</span> <textarea name="chunks[5][14]" class="peer_verse_ta textarea" data-orig-verse="14" style="overflow: hidden; overflow-wrap: break-word; height: 142px;">Selalu kasi ingat dong di hadapan Allah, supaya dong jangan berdebat tentang Firman karena itu akan bikin kacau orang yang dengar,</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">15</span> <textarea name="chunks[5][15]" class="peer_verse_ta textarea" data-orig-verse="15" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Lakukan yang paling baik itu adalah persembahan yang Tuhan terima, jadi pekerja trada alasan untuk dapat kasi malu, yang ajar kebeneran Firman dengan pas.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:5" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -138,9 +138,9 @@
                             <p> <strong class="ltr"><sup>18</sup></strong> <span>who have gone astray from the truth. They say that the resurrection has already happened, and they destroy the faith of some.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">16</span> <textarea name="chunks[6][16]" class="peer_verse_ta textarea" data-orig-verse="16" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Avoid profane talk, which leads to more and more godlessness.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">17</span> <textarea name="chunks[6][17]" class="peer_verse_ta textarea" data-orig-verse="17" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Their word will spread like gangrene, among whom are Hymenaeus and Philetus,</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">18</span> <textarea name="chunks[6][18]" class="peer_verse_ta textarea" data-orig-verse="18" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">men who have wandered from the truth, saying that the resurrection has already happened and upsetting the faith of some.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">16</span> <textarea name="chunks[6][16]" class="peer_verse_ta textarea" data-orig-verse="16" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Hindari omong kosong dan tra bersih yang nanti jadi tra baik.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">17</span> <textarea name="chunks[6][17]" class="peer_verse_ta textarea" data-orig-verse="17" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Perkataan dong akan menyebar seperti kangker. Diantara dong itu ada Himeneus dan Filetus.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">18</span> <textarea name="chunks[6][18]" class="peer_verse_ta textarea" data-orig-verse="18" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Dong adalah orang-orang yang sudah tidak benar. dong katakan kebangkitan sudah terjadi, dong putar balik iman dari berapa orang tu.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:6" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -153,9 +153,9 @@
                             <p> <strong class="ltr"><sup>21</sup></strong> <span>If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">19</span> <textarea name="chunks[7][19]" class="peer_verse_ta textarea" data-orig-verse="19" style="overflow: hidden; overflow-wrap: break-word; height: 173px;">However, the firm foundation of God stands, having this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">20</span> <textarea name="chunks[7][20]" class="peer_verse_ta textarea" data-orig-verse="20" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">In a wealthy home are not only vessels of gold and silver but also of wood and clay, some for honorable use and some for dishonorable.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">21</span> <textarea name="chunks[7][21]" class="peer_verse_ta textarea" data-orig-verse="21" style="overflow: hidden; overflow-wrap: break-word; height: 142px;">If someone cleans himself from dishonorable use, he is an honorable vessel, consecrated, useful to the Master, and prepared for every good work.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">19</span> <textarea name="chunks[7][19]" class="peer_verse_ta textarea" data-orig-verse="19" style="overflow: hidden; overflow-wrap: break-word; height: 173px;">Biar begitu, Allah pu fondasi kuat tetap berdiri. ada piagam dengan tulisan yang bilang" Tuhan kenal dong Dia pu milik." . dan orang yang percaya Tuhan harus kasi tinggal yang tra benar.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">20</span> <textarea name="chunks[7][20]" class="peer_verse_ta textarea" data-orig-verse="20" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Dalam rumah kaya bukan saja ada emas dan perak tapi juga ada kotak-kotak kayu sama tanah liat. barang itu di pake untuk hal-hal yang terhormat, dan ada juga untuk hal-hal tra terhormat.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">21</span> <textarea name="chunks[7][21]" class="peer_verse_ta textarea" data-orig-verse="21" style="overflow: hidden; overflow-wrap: break-word; height: 142px;">Jika satu orang kasi bersih de pu diri dari yang tra terhormat, de itu bejana yang terhormat. de dipilih , dipake untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:7" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -167,8 +167,8 @@
                             <p> <strong class="ltr"><sup>23</sup></strong> <span>But refuse foolish and ignorant questions. You know that they give birth to arguments.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">22</span> <textarea name="chunks[8][22]" class="peer_verse_ta textarea" data-orig-verse="22" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Flee youthful lusts and pursue righteousness, faith, love, and peace with them who call on the Lord out of a pure heart.</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">23</span> <textarea name="chunks[8][23]" class="peer_verse_ta textarea" data-orig-verse="23" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">But refuse foolish and ignorant questions, knowing they cause arguments.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">22</span> <textarea name="chunks[8][22]" class="peer_verse_ta textarea" data-orig-verse="22" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Jauhi sudah dari nafsu anak-anak muda, kejar itu kebenaran, iman, kasih, dan damai, sama-sama deng dong yang panggil Tuhan dengan hati yang bersih.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">23</span> <textarea name="chunks[8][23]" class="peer_verse_ta textarea" data-orig-verse="23" style="overflow: hidden; overflow-wrap: break-word; height: 80px;">Tapi tolak sudah pertanyaan-pertanyaan bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:8" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>
@@ -181,9 +181,9 @@
                             <p> <strong class="ltr"><sup>26</sup></strong> <span>They may become sober again and leave the devil's trap, after they have been captured by him for his will.</span> </p>
                         </div>
                         <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
-                            <div class="verse_block"> <span class="verse_number_l3">24</span> <textarea name="chunks[9][24]" class="peer_verse_ta textarea" data-orig-verse="24" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">The Lord’s servant must not quarrel, but instead he must be gentle toward all, able to teach, patient,</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">25</span> <textarea name="chunks[9][25]" class="peer_verse_ta textarea" data-orig-verse="25" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">in meekness educating those who oppose him. God may perhaps give them repentance for the knowledge of the truth,</textarea> </div>
-                            <div class="verse_block"> <span class="verse_number_l3">26</span> <textarea name="chunks[9][26]" class="peer_verse_ta textarea" data-orig-verse="26" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">and they may regain their senses out of the trap of the devil, having been captured by him for his will.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">24</span> <textarea name="chunks[9][24]" class="peer_verse_ta textarea" data-orig-verse="24" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">Orang yang melayani Tuhan tra boleh bertengkar tapi harus lemah lembut pada semua dong, Dong harus pintar mengajar, sabar</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">25</span> <textarea name="chunks[9][25]" class="peer_verse_ta textarea" data-orig-verse="25" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">de kasi ajaran deng lemah lembut sama dong yang melawan dia. mungkin Allah kasi kesempatan untuk dong bertobat pada pengetahuan akan kebenaran.</textarea> </div>
+                            <div class="verse_block"> <span class="verse_number_l3">26</span> <textarea name="chunks[9][26]" class="peer_verse_ta textarea" data-orig-verse="26" style="overflow: hidden; overflow-wrap: break-word; height: 111px;">mungkin dong sadar kembali dan kasi tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</textarea> </div>
                             <div class="comments_number tncomml3_alt "> </div>
                             <img class="editComment tncomml3_alt" data="2:9" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
                             <div class="comments"> </div>

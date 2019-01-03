@@ -24,7 +24,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English demo1 - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div id="my_notes_content" class="my_content">
                     <div class="note_chunk l3">
@@ -43,15 +43,16 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>1</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="1">You therefore, my child, be
-                                        strengthened in the grace that is in Christ Jesus.</span>
+                                    <span class="targetVerse" data-orig-verse="1">Jadi begitu, anakku kuat sudah dengan
+                                        anugerah di dalam Kristus Yesus.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>2</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="2">And the things you heard from me among
-                                        many witnesses, entrust to faithful people who will be able to teach others also.</span>
+                                    <span class="targetVerse" data-orig-verse="2">Dan banyak hal yang ko dengar dari sa
+                                        deng saksi yang banyak itu, beri percaya itu sama orang-orang yang setia, supaya
+                                        dong dapat mengajar dong yang lain juga.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt  hasComment">3</div>
@@ -86,22 +87,22 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>3</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="3">Suffer hardship with me, as a good
-                                        soldier of Christ Jesus.</span>
+                                    <span class="targetVerse" data-orig-verse="3">Mari, tong sama sa dalam penderitaan
+                                        jadi prajurit Kristus Yesus yang baik.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>4</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="4">No soldier serves while entangled in
-                                        the affairs of this life, so that he may please his superior officer.</span>
+                                    <span class="targetVerse" data-orig-verse="4">Trada satu orang tentara yang kerja
+                                        sambil sibuk dengan de pu urusan hidup supaya de bisa buat de pu komandan senang.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>5</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="5">Also, if someone competes as an athlete,
-                                        he is not crowned unless he competes by the rules.</span>
+                                    <span class="targetVerse" data-orig-verse="5">Begitu juga dengan atlit , tra akan
+                                        terima mahkota kalo tra ikut aturan dalam lomba.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -126,15 +127,15 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>6</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="6">The hardworking farmer must receive
-                                        his share of the crops first.</span>
+                                    <span class="targetVerse" data-orig-verse="6">Petani dong yang kerja keras akan terima
+                                        hasil yang pertama,</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>7</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="7">Think about what I am saying, for the
-                                        Lord will give you understanding in everything.</span>
+                                    <span class="targetVerse" data-orig-verse="7">Ingat apa yang sa bilang, karena Tuhan
+                                        akan kasi ko pengertian untuk mengerti semua ini,</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -166,23 +167,23 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>8</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="8">Remember Jesus Christ, from David's
-                                        family line, who was raised from the dead, according to my gospel message,</span>
+                                    <span class="targetVerse" data-orig-verse="8">Ingat: Yesus Kristus, keturunan Daud,
+                                        su bangkit dari kematian. ini su sesuai dengan pesan Injil yang sa percaya.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>9</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="9">by which I suffer to the point of
-                                        being chained as a criminal. But the word of God is not chained.</span>
+                                    <span class="targetVerse" data-orig-verse="9">Sampe pada titik penderitaan karna diikat
+                                        rantai seperti kriminal. tapi firman Allah tra diikat deng rantai.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>10</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="10">Therefore I endure all things for
-                                        those who are chosen, that they also may obtain the salvation that is in Christ
-                                        Jesus, with eternal glory.</span>
+                                    <span class="targetVerse" data-orig-verse="10">Jadi sa bertahan untuk orang-orang yang
+                                        Tuhan pilih, supaya dong dapat keselamatan yang kekal dalam Kristus Yesus, deng
+                                        kemuliaan yang abadi..</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -211,22 +212,22 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>11</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="11">Trustworthy is this saying: "If we have
-                                        died with him, we will also live with him. </span>
+                                    <span class="targetVerse" data-orig-verse="11">Apa yang sa bilang ini, bisa dipercaya:
+                                        kalo tong mau mati untuk Dia, torang juga akan hidup bersama deng Dia.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>12</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="12">If we endure, we will also reign with
-                                        him. If we deny him, he also will deny us. </span>
+                                    <span class="targetVerse" data-orig-verse="12">Apalagi kalo tong bertahan, tong juga
+                                        akan ditinggikan deng Dia. Klo tong menyangkal Dia, Dia juga akan menyangkal ketong,</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>13</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="13">if we are unfaithful, he remains
-                                        faithful, for he cannot deny himself." </span>
+                                    <span class="targetVerse" data-orig-verse="13">Klo tong tra setia, De tetap setia karena
+                                        De tra bisa menyangkal diri.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -257,16 +258,16 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>14</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="14">Keep reminding them of these things.
-                                        Warn them before God not to quarrel about words, because doing so profits nothing,
-                                        ruining those who listen.</span>
+                                    <span class="targetVerse" data-orig-verse="14">Selalu kasi ingat dong di hadapan Allah,
+                                        supaya dong jangan berdebat tentang Firman karena itu akan bikin kacau orang yang dengar,</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>15</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="15">Do your best to present yourself
-                                        approved to God as a workman without shame, handling correctly the word of truth.</span>
+                                    <span class="targetVerse" data-orig-verse="15">Lakukan yang paling baik itu adalah
+                                        persembahan yang Tuhan terima, jadi pekerja trada alasan untuk dapat kasi malu,
+                                        yang ajar kebeneran Firman dengan pas.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -296,22 +297,23 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>16</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="16">Avoid profane talk, which leads to
-                                        more and more godlessness.</span>
+                                    <span class="targetVerse" data-orig-verse="16">Hindari omong kosong dan tra bersih
+                                        yang nanti jadi tra baik.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>17</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="17">Their word will spread like gangrene,
-                                        among whom are Hymenaeus and Philetus,</span>
+                                    <span class="targetVerse" data-orig-verse="17">Perkataan dong akan menyebar seperti
+                                        kangker. Diantara dong itu ada Himeneus dan Filetus.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>18</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="18">men who have wandered from the truth,
-                                        saying that the resurrection has already happened and upsetting the faith of some.</span>
+                                    <span class="targetVerse" data-orig-verse="18">Dong adalah orang-orang yang sudah
+                                        tidak benar. dong katakan kebangkitan sudah terjadi, dong putar balik iman dari
+                                        berapa orang tu.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -343,25 +345,25 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>19</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="19">However, the firm foundation of God
-                                        stands, having this inscription: "The Lord knows those who are his" and
-                                        "Everyone who names the name of the Lord must depart from unrighteousness."</span>
+                                    <span class="targetVerse" data-orig-verse="19">Biar begitu, Allah pu fondasi kuat
+                                        tetap berdiri. ada piagam dengan tulisan yang bilang" Tuhan kenal dong Dia pu milik." .
+                                        dan orang yang percaya Tuhan harus kasi tinggal yang tra benar.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>20</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="20">In a wealthy home are not only
-                                        vessels of gold and silver but also of wood and clay, some for honorable use
-                                        and some for dishonorable.</span>
+                                    <span class="targetVerse" data-orig-verse="20">Dalam rumah kaya bukan saja ada emas
+                                        dan perak tapi juga ada kotak-kotak kayu sama tanah liat. barang itu di pake
+                                        untuk hal-hal yang terhormat, dan ada juga untuk hal-hal tra terhormat.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>21</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="21">If someone cleans himself from
-                                        dishonorable use, he is an honorable vessel, consecrated, useful to the Master,
-                                        and prepared for every good work.</span>
+                                    <span class="targetVerse" data-orig-verse="21">Jika satu orang kasi bersih de pu
+                                        diri dari yang tra terhormat, de itu bejana yang terhormat. de dipilih , dipake
+                                        untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -387,15 +389,16 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>22</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="22">Flee youthful lusts and pursue
-                                        righteousness, faith, love, and peace with them who call on the Lord out of a pure heart.</span>
+                                    <span class="targetVerse" data-orig-verse="22">Jauhi sudah dari nafsu anak-anak muda,
+                                        kejar itu kebenaran, iman, kasih, dan damai, sama-sama deng dong yang panggil
+                                        Tuhan dengan hati yang bersih.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>23</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="23">But refuse foolish and ignorant
-                                        questions, knowing they cause arguments.</span>
+                                    <span class="targetVerse" data-orig-verse="23">Tapi tolak sudah pertanyaan-pertanyaan
+                                        bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
@@ -427,22 +430,23 @@
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>24</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="24">The Lord’s servant must not quarrel,
-                                        but instead he must be gentle toward all, able to teach, patient,</span>
+                                    <span class="targetVerse" data-orig-verse="24">Orang yang melayani Tuhan tra boleh
+                                        bertengkar tapi harus lemah lembut pada semua dong, Dong harus pintar mengajar, sabar</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>25</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="25">in meekness educating those who
-                                        oppose him. God may perhaps give them repentance for the knowledge of the truth,</span>
+                                    <span class="targetVerse" data-orig-verse="25">de kasi ajaran deng lemah lembut sama
+                                        dong yang melawan dia. mungkin Allah kasi kesempatan untuk dong bertobat pada
+                                        pengetahuan akan kebenaran.</span>
                                 </p>
                             </div>
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>26</sup></strong>
-                                    <span class="targetVerse" data-orig-verse="26">and they may regain their senses
-                                        out of the trap of the devil, having been captured by him for his will.</span>
+                                    <span class="targetVerse" data-orig-verse="26">mungkin dong sadar kembali dan kasi
+                                        tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</span>
                                 </p>
                             </div>
                             <div class="comments_number tncomml3_alt "> </div>
