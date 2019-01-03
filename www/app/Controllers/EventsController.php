@@ -11632,7 +11632,7 @@ class EventsController extends Controller
         $notifObj->lastName = "Patton";
         $notifObj->bookCode = "2ti";
         $notifObj->bookProject = "ulb";
-        $notifObj->tLang = "English";
+        $notifObj->tLang = "Papuan Malay";
         $notifObj->bookName = "2 Timothy";
         $notifObj->manageMode = "l3";
 
