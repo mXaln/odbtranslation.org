@@ -1090,11 +1090,7 @@ return array (
                             <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
                             <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
                             <li>Your peer will make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
-                            <li>Your peer will make changes to the formatting, as needed.
-                                <ol>
-                                    <li>fsefsefse</li>
-                                </ol>
-                            </li>
+                            <li>Your peer will make changes to the formatting, as needed.</li>
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
