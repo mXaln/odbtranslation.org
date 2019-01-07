@@ -160,7 +160,7 @@ $parsedown = new Parsedown();
                         <?php echo __("peer-edit-l3")?>
                     </div>
                     <div class="help_descr_steps">
-                        <ul><?php echo __("peer-edit-l3_desc")?></ul>
+                        <ul><?php echo __("peer-edit-l3_tn_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
@@ -205,7 +205,7 @@ $parsedown = new Parsedown();
 
         <div class="tutorial_content <?php echo "is_checker_page_help" ?>">
             <h3><?php echo __("peer-edit-l3_full")?></h3>
-            <ul><?php echo __("peer-edit-l3_desc")?></ul>
+            <ul><?php echo __("peer-edit-l3_tn_desc")?></ul>
         </div>
     </div>
 </div>

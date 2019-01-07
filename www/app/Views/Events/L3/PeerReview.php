@@ -140,7 +140,7 @@ use Helpers\Session;
                         <?php echo __($data["event"][0]->step)?>
                     </div>
                     <div class="help_descr_steps">
-                        <ul><?php echo __($data["event"][0]->step . "_desc")?></ul>
+                        <ul><?php echo __($data["event"][0]->step . ($data["event"][0]->step == EventCheckSteps::PEER_EDIT_L3 && $data["isChecker"] ? "_chk" : "")."_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@ use Helpers\Session;
 
         <div class="tutorial_content <?php echo "is_checker_page_help" ?>">
             <h3><?php echo __($data["event"][0]->step . "_full")?></h3>
-            <ul><?php echo __($data["event"][0]->step . "_desc")?></ul>
+            <ul><?php echo __($data["event"][0]->step . ($data["event"][0]->step == EventCheckSteps::PEER_EDIT_L3 && $data["isChecker"] ? "_chk" : "") ."_desc")?></ul>
         </div>
     </div>
 </div>
