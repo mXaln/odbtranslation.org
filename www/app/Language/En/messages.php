@@ -623,6 +623,7 @@ return array (
     "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text's accuracy 
                                 while maintaining the blind draft's naturalness.</li>
                             <li><b>LENGTH:</b> Take about 30 minutes to edit your translation.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                             <li>Look for any missing portions of text or missing/added facts.</li>
                             <li>Check in detail the accuracy of your translation.</li>
@@ -694,6 +695,7 @@ return array (
     "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
                                 text accuracy while maintaining the naturalness created by the blind draft.</li>
                             <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>The checker will look for spelling, punctuation, and flow/naturalness errors.</li>
                             <li>The checker will look for any missing portions of text or missing or added facts.</li>
                             <li>The checker will check the accuracy of your translation in detail.</li>
@@ -720,6 +722,7 @@ return array (
     "peer-review_checker_desc" => "<li><b>PURPOSE:</b> to check the target language to ensure that the meaning of the source text accuracy while 
                                         maintaining the naturalness created by the blind draft.</li>
                                     <li><b>LENGTH:</b> You should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                     <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
                                     <li>As the checker, your screen will say \"Checking Mode\" and instructions will be in orange.</li>
                                     <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
@@ -804,6 +807,7 @@ return array (
     "keyword-check" => "Keyword Check",
     "keyword-check_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
                             <li><b>LENGTH:</b> The checker will take about 5-10 minutes to highlight keywords throughout the chapter.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>The checker will highlight keywords from the source text. Highlighted words will show on your source text, as well.</li>
                             <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms (if these terms were not present or 
                                 inaccurate, the scripture's meaning would be changed).</li>
@@ -831,6 +835,7 @@ return array (
     "keyword-check_checker_desc" => "<li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed.</li>
                                     <li><b>LENGTH:</b> Take about 5-10 minutes to highlight keywords throughout the chapter.</li>
                                     <li>As the checker, your screen will say \"Checking Mode\", and instructions will be in orange.</li>
+                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                     <li>You will only see the source text.</li>
                                     <li>Highlight all keywords in the source text by double-clicking the word or by selecting a word/phrase with your mouse. 
                                         The translator will also see the highlighted source text on their screen. 
@@ -875,6 +880,7 @@ return array (
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
                                     Discussion and correction section should take about 30-45 minutes.</li>
+                                <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                 <li>The checker will look for the following:
                                     <ol>
                                         <li>Is anything missing?</li>
@@ -915,6 +921,7 @@ return array (
 
     "content-review_checker_desc" => "<li><b>PURPOSE:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language.</li>
                                         <li><b>LENGTH:</b> Spend about 30 minutes checking text. Discussion and correction section should take about 30-45 minutes.</li>
+                                        <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                         <li>As the checker, your on-screen instructions will be in orange.</li>
                                         <li>Questions to ask yourself as you are checking:
                                             <ol>
@@ -1064,7 +1071,9 @@ return array (
 
     "fst-check" => "Check Text",
     "fst-check_full" => "1st Check: Check Target Text",
-    "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
+    "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
+                            language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
+                            used when referring to God the Father and Jesus Christ.</b></li>
                         <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                         <li>While checking, keep in mind the difference between accuracy and preference.</li>
                         <li>The primary purpose is to check the accuracy of the translation in detail.</li>
@@ -1092,7 +1101,9 @@ return array (
 
     "snd-check" => "Peer Check",
     "snd-check_full" => "2nd Check: Peer-Check Target Text",
-    "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
+    "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
+                        language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
+                        used when referring to God the Father and Jesus Christ.</b></li>
                     <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                     <li>While checking, keep in mind the difference between accuracy and preference.</li>
                     <li>The primary purpose is to check the accuracy of the translation in detail.</li>
@@ -1126,7 +1137,9 @@ return array (
 
     "keyword-check-l2" => "Keyword Check",
     "keyword-check-l2_full" => "2nd Check: Keyword Check",
-    "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
+    "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately 
+                                expressed, as well as <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                                are used when referring to God the Father and Jesus Christ.</b></li>
                             <li><b>LENGTH:</b> Spend about 10 minutes on this step.</li>
                             <li><b>The point is not word for word translation, it is to see if the word/meaning is 
                                 represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
@@ -1152,7 +1165,9 @@ return array (
 
     "peer-review-l2" => "Discrepancies",
     "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
-    "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
+    "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer 
+                            checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                            are used when referring to God the Father and Jesus Christ.</b></li>
                         <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                         <li><b>This is the final check; all changes should be made before you complete this step.</b></li>
                         <li>While checking, keep in mind the difference between accuracy and preference.</li>
@@ -1189,8 +1204,9 @@ return array (
                         <li>Spend about 30 minutes on this step.</li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
-    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies 
-                                    with a peer-checker.</li>
+    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with 
+                                a peer checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                                are used when referring to God the Father and Jesus Christ.</b></li>
                             <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                             <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
                             <li>After you have looked over the text, contact the peer-checker to discuss discrepancies 

@@ -80,7 +80,12 @@ $(document).ready(function() {
 
     setTimeout(function () {
         $('[data-toggle="tooltip"]').tooltip();
-    }, 1000);
+
+        autosize.update($('textarea'));
+    }, 2000);
+
+    if(typeof autosize == "function")
+        autosize($('textarea'));
 
     animateIntro();
 
@@ -799,9 +804,6 @@ $(document).ready(function() {
             verseTa.css("min-height", height);
         });
     }, 300);
-
-    if(typeof autosize == "function")
-        autosize($('textarea'));
 
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
@@ -1538,11 +1540,14 @@ $(document).ready(function() {
     });
 
     setTimeout(function () {
-        $(".words_block").each(function() {
-            var h = $(".chunk_verses", this).height();
-            $(".editor_area textarea", this).css("min-height", h);
+        $(".words_block, .chunk_block").each(function() {
+            var h1 = $(".chunk_verses", this).height();
+            var h2 = $(".editor_area", this).height();
+
+            $(".chunk_verses textarea", this).css("min-height", Math.max(h1, h2));
+            $(".editor_area textarea", this).css("min-height", Math.max(h1, h2));
         });
-    },100);
+    },2100);
 
     $(".toggle-help").click(function() {
         var mode = $(this).data("mode");

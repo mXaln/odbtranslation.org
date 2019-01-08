@@ -205,7 +205,7 @@
 
                     <div class="col-sm-12">
                         <button class="btn btn-primary" value="1" name="save" type="submit" id="save_step"><?php echo __("save")?></button>
-                        <img class="unsaved_alert" src="<?php echo template_url("img/alert.png") ?>">
+                        <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                     </div>
                 </div>
 
