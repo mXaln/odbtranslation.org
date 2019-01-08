@@ -3150,6 +3150,19 @@ class EventsController extends Controller
                                     $verses = json_decode($translationData[0]->translatedVerses, true);
                                     $data["words"] = $verses[EventMembers::TRANSLATOR]["words"];
                                 }
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -3283,6 +3296,19 @@ class EventsController extends Controller
                                     $data["words"] = $verses[EventMembers::TRANSLATOR]["words"];
                                     $data["symbols"] = $verses[EventMembers::TRANSLATOR]["symbols"];
                                 }
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -3417,6 +3443,19 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -4515,6 +4554,19 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -4604,6 +4656,19 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -4690,6 +4755,8 @@ class EventsController extends Controller
                                 }
                             }
                         }
+
+                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
                         return View::make('Events/SUN/Checker')
                             ->nest('page', 'Events/SUN/ContentReview')
@@ -11784,6 +11851,8 @@ class EventsController extends Controller
         $data["isDemo"] = true;
         $data["menu"] = 5;
 
+        $this->_saildictModel = new SailDictionaryModel();
+
         $view = View::make("Events/SUN/Demo/DemoHeader");
         $data["step"] = "";
 
@@ -11832,6 +11901,7 @@ class EventsController extends Controller
                 $view->nest("page", "Events/SUN/Demo/ContentReview");
                 $data["step"] = EventSteps::CONTENT_REVIEW;
                 $data["isCheckerPage"] = true;
+                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "verse-markers":

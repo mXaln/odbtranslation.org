@@ -537,7 +537,11 @@ return array (
                                 <li>Click \"yes I did\" and \"next step\" to move to the next chunk to translate until the chapter is finished.</li>",
 
     "self-check" => "Edit Sendiri",
-    "self-check_desc" => "<li><b>KEGUNAAN:</b> untuk mengubah draft kosong dan memeriksa makna teks sumber secara akurat sambil mempertahankan bentuk dan struktur dari sumber.</li><li>Carilah kesalahan ejaan, tanda baca, aliran/kealamian.</li><li>Lihat apakah ada bagian yang hilang dari teks atau fakta yang hilang atau ditambahkan.</li><li>Jangan membesar-besarkan, menyederhanakan, atau menambahkan teks untuk memperjelas. Apa pun yang Anda pikir membutuhkan hal tersebut harus dicatat dalam catatan pada ayat tersebut, dan melanjutkan.</li><li>Ambil waktu tidak lebih dari 15-20 menit pada kegiatan ini.</li>",
+    "self-check_desc" => "<li><b>KEGUNAAN:</b> untuk mengubah draft kosong dan memeriksa makna teks sumber secara akurat sambil mempertahankan bentuk dan struktur dari sumber.</li>
+                <li>Carilah kesalahan ejaan, tanda baca, aliran/kealamian.</li>
+                <li>Lihat apakah ada bagian yang hilang dari teks atau fakta yang hilang atau ditambahkan.</li>
+                <li>Jangan membesar-besarkan, menyederhanakan, atau menambahkan teks untuk memperjelas. Apa pun yang Anda pikir membutuhkan hal tersebut harus dicatat dalam catatan pada ayat tersebut, dan melanjutkan.</li>
+                <li>Ambil waktu tidak lebih dari 15-20 menit pada kegiatan ini.</li>",
     
     "self-check_tn" => "Edit Sendiri",
     "self-check_tn_desc" => "<li><b>PURPOSE:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
