@@ -94,7 +94,9 @@ if(!empty($data["project"])):
                                     </button>
                                 <?php endif; ?>
                                 <?php if($event->state != ""
-                                    && EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)
+                                    && (EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)
+                                        || (EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)
+                                        && in_array($data["project"][0]->bookProject, ["tn","tq","tw"])))
                                     && $data["project"][0]->bookProject != "sun"): ?>
                                     <button class="btn btn-warning showContributors"
                                             data-eventid="<?php echo $event->eventID?>"

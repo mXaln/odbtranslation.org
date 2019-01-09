@@ -688,15 +688,16 @@ $(function () {
             .done(function(response) {
                 if(response.success)
                 {
-                    var message = typeof response.warning != "undefined"
-                        ? response.message + " " + "(with warning: We couldn't define the related scripture. Contact administrator.)"
-                        : response.message;
+                    if(typeof response.warning != "undefined")
+                        renderPopup(response.message + " " + "(with warning: We couldn't define the related scripture. Contact administrator.)");
 
-                    renderPopup(response.message, function () {
-                        location.reload();
-                    }, function () {
-                        location.reload();
-                    });
+                    if(["tn","tq","tw"].indexOf(importProject) > -1)
+                        $(".import_done", $(".import."+importProject+"_import")).addClass("done");
+                    else
+                        $(".import_done", $(".import.l"+importLevel+"_import")).addClass("done");
+
+                    $(".import_menu_content").css("left", -9000);
+                    $(".event-content").css("left", 0);
                 }
                 else
                 {

@@ -70,7 +70,7 @@ if(!empty($data["project"])):
                                 <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td>
-                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)): ?>
+                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)): ?>
                                     <button class="btn btn-warning showContributors"
                                             data-eventid="<?php echo $event->eventID?>"
                                             data-level="2"
