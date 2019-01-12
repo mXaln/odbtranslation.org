@@ -30,7 +30,7 @@ if(isset($data["error"])) return;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
-                    <h4 dir="ltr">Русский - <?php echo __("tw") ?> - <?php echo __("new_test") ?> -
+                    <h4 dir="ltr">Русский - <?php echo __("tw") ?> -
                         <span class='book_name'>names [aaron...adam]</span></h4>
 
                     <div class="col-sm-12 no_padding questions_bd">

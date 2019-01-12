@@ -262,15 +262,52 @@ class AdminController extends Controller {
                     if(File::extension($import["name"]) == "zip")
                     {
                         $path = $this->_apiModel->processZipFile($import);
-                        $tn = $this->_apiModel->getTranslationNotes($bookCode, null, false, $path);
 
-                        if(!empty($tn))
+                        switch ($importProject)
                         {
-                            $response = $this->importTnToEvent($tn, $projectID, $eventID, $bookCode);
-                        }
-                        else
-                        {
-                            $response["error"] = __("usfm_not_valid_error");
+                            case "ulb":
+                            case "udb":
+                                $response["error"] = __("not_implemented");
+                                break;
+                            case "tn":
+                                $tn = $this->_apiModel->getTranslationNotes($bookCode, null, false, $path);
+
+                                if(!empty($tn))
+                                {
+                                    $response = $this->importTnToEvent($tn, $projectID, $eventID, $bookCode);
+                                }
+                                else
+                                {
+                                    $response["error"] = __("usfm_not_valid_error");
+                                }
+                                break;
+                            case "tq":
+                                $tq = $this->_apiModel->getTranslationQuestions($bookCode, null, false, $path);
+
+                                if(!empty($tq))
+                                {
+                                    $response = $this->importTqToEvent($tq, $projectID, $eventID, $bookCode);
+                                }
+                                else
+                                {
+                                    $response["error"] = __("usfm_not_valid_error");
+                                }
+                                break;
+                            case "tw":
+                                $cat = $bookCode == "wkt" ? "kt" : ($bookCode == "wns" ? "names" : "other");
+                                $tw = $this->_apiModel->getTranslationWordsByCategory($cat, null, false, false, $path);
+
+                                if(!empty($tw))
+                                {
+                                    $response = $this->importTwToEvent($tw, $projectID, $eventID, $bookCode);
+                                }
+                                else
+                                {
+                                    $response["error"] = __("usfm_not_valid_error");
+                                }
+                                break;
+                            default:
+                                $response["error"] = __("not_implemented");
                         }
                     }
                     else
@@ -2631,6 +2668,376 @@ class AdminController extends Controller {
                                 trim($notes[$tran->chapter][$tran->firstvs][0]) != "")
                             {
                                 $verses[EventMembers::CHECKER]["verses"] = $notes[$tran->chapter][$tran->firstvs][0];
+                            }
+
+                            $this->_translationModel->updateTranslation([
+                                "translatedVerses" => json_encode($verses),
+                            ], ["tID" => $tran->tID]);
+                        }
+
+                        $response["success"] = true;
+                        $response["message"] = __("import_successful_message");
+                    }
+                    else
+                    {
+                        $response["message"] = __("content_chunks_not_equal_error");
+                    }
+                }
+            }
+            else
+            {
+                $response["error"] = __("event_has_translations_error");
+            }
+        }
+        else
+        {
+            $response["error"] = __("event_notexist_error");
+        }
+
+        return $response;
+    }
+
+    private function importTqToEvent($questions, $projectID, $eventID, $bookCode)
+    {
+        $response = ["success" => false];
+
+        // Check if a "fake" user exists
+        $member = $this->_membersModel->getMemberWithProfile("spec");
+        if(empty($member))
+        {
+            $mid = $this->_membersModel->createMember([
+                "userName" => "spec",
+                "firstName" => "Special",
+                "lastName" => "User",
+                "password" => "none",
+                "email" => "none",
+                "active" => true,
+                "verified" => true
+            ]);
+
+            $this->_membersModel->createProfile([
+                "mID" => $mid
+            ]);
+        }
+        else
+        {
+            $mid = $member[0]->memberID;
+        }
+
+        $project = $this->_eventsModel->getProject(["*"],["projectID", $projectID]);
+        $event = $this->_eventsModel->getEvent($eventID);
+
+        // Create event if it doesn't exist
+        if(empty($event))
+        {
+            $newEventID = $this->_eventsModel->createEvent([
+                "projectID" => $project[0]->projectID,
+                "bookCode" => $bookCode,
+                "state" => EventStates::TRANSLATED,
+                "admins" => json_encode([$mid]),
+            ]);
+
+            $event = $this->_eventsModel->getEvent($newEventID);
+            $eventID = $newEventID;
+        }
+
+        if(!empty($event))
+        {
+            if($event[0]->state == EventStates::TRANSLATED)
+            {
+                // Check if there are translations of this event in database
+                $trans = $this->_translationModel->getEventTranslationByEventID($eventID);
+                if(empty($trans))
+                {
+                    // Create new translator
+                    $kwCheckData = [];
+                    $peerCheckData = [];
+
+                    $trData = array(
+                        "memberID" => $mid,
+                        "eventID" => $eventID,
+                        "step" => EventSteps::NONE,
+                        "currentChapter" => 0
+                    );
+                    $trID = $this->_eventsModel->addTranslator($trData);
+
+                    foreach ($questions as $chapter => $chunks)
+                    {
+                        ksort($chunks);
+
+                        $kwCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
+                        $peerCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
+
+                        $chunkKey = 0;
+                        foreach ($chunks as $firstvs => $chunk) {
+                            $translationVerses = [
+                                EventMembers::TRANSLATOR => [
+                                    "verses" => $chunk[0]
+                                ],
+                                EventMembers::CHECKER => [
+                                    "verses" => $chunk[0]
+                                ],
+                                EventMembers::L2_CHECKER => [
+                                    "verses" => array()
+                                ],
+                                EventMembers::L3_CHECKER => [
+                                    "verses" => array()
+                                ],
+                            ];
+
+                            // Create new translations
+                            $this->_translationModel->createTranslation([
+                                "projectID" => $event[0]->projectID,
+                                "eventID" => $eventID,
+                                "trID" => $trID,
+                                "targetLang" => $event[0]->targetLang,
+                                "bookProject" => $event[0]->bookProject,
+                                "abbrID" => $event[0]->abbrID,
+                                "bookCode" => $event[0]->bookCode,
+                                "chapter" => $chapter,
+                                "chunk" => $chunkKey,
+                                "firstvs" => $firstvs,
+                                "translatedVerses" => json_encode($translationVerses),
+                                "translateDone" => true
+                            ]);
+
+                            $chunkKey++;
+                        }
+
+                        $questions = ["questions" => $chunks];
+                        $tq_chunks = $this->_apiModel->getQuestionsChunks($questions);
+
+                        // Assign chapters to new translator
+                        $this->_eventsModel->assignChapter([
+                            "eventID" => $eventID,
+                            "memberID" => $mid,
+                            "trID" => $trID,
+                            "chapter" => $chapter,
+                            "chunks" => json_encode($tq_chunks),
+                            "done" => true,
+                            "checked" => true,
+                        ]);
+
+                        $this->_eventsModel->updateEvent([
+                            "state" => EventStates::TRANSLATED,
+                            "admins" => json_encode([$mid])
+                        ], [
+                            "eventID" => $eventID
+                        ]);
+                    }
+
+                    $this->_eventsModel->updateTranslator([
+                        "kwCheck" => json_encode($kwCheckData),
+                        "peerCheck" => json_encode($peerCheckData)
+                    ], ["trID" => $trID]);
+
+                    $response["success"] = true;
+                    $response["message"] = __("import_successful_message");
+                }
+                else
+                {
+                    $contentChunks = array_reduce($questions, function ($arr, $elm) {
+                        return array_merge((array)$arr, array_keys($elm));
+                    });
+
+                    if(sizeof($contentChunks) == sizeof($trans))
+                    {
+                        foreach ($trans as $tran) {
+                            $verses = (array)json_decode($tran->translatedVerses, true);
+
+                            if(isset($questions[$tran->chapter]) &&
+                                isset($questions[$tran->chapter][$tran->firstvs]) &&
+                                trim($questions[$tran->chapter][$tran->firstvs][0]) != "")
+                            {
+                                $verses[EventMembers::CHECKER]["verses"] = $questions[$tran->chapter][$tran->firstvs][0];
+                            }
+
+                            $this->_translationModel->updateTranslation([
+                                "translatedVerses" => json_encode($verses),
+                            ], ["tID" => $tran->tID]);
+                        }
+
+                        $response["success"] = true;
+                        $response["message"] = __("import_successful_message");
+                    }
+                    else
+                    {
+                        $response["message"] = __("content_chunks_not_equal_error");
+                    }
+                }
+            }
+            else
+            {
+                $response["error"] = __("event_has_translations_error");
+            }
+        }
+        else
+        {
+            $response["error"] = __("event_notexist_error");
+        }
+
+        return $response;
+    }
+
+    private function importTwToEvent($words, $projectID, $eventID, $bookCode)
+    {
+        $response = ["success" => false];
+
+        $words = array_chunk($words, 15);
+
+        // Check if a "fake" user exists
+        $member = $this->_membersModel->getMemberWithProfile("spec");
+        if(empty($member))
+        {
+            $mid = $this->_membersModel->createMember([
+                "userName" => "spec",
+                "firstName" => "Special",
+                "lastName" => "User",
+                "password" => "none",
+                "email" => "none",
+                "active" => true,
+                "verified" => true
+            ]);
+
+            $this->_membersModel->createProfile([
+                "mID" => $mid
+            ]);
+        }
+        else
+        {
+            $mid = $member[0]->memberID;
+        }
+
+        $project = $this->_eventsModel->getProject(["*"],["projectID", $projectID]);
+        $event = $this->_eventsModel->getEvent($eventID);
+
+        // Create event if it doesn't exist
+        if(empty($event))
+        {
+            $newEventID = $this->_eventsModel->createEvent([
+                "projectID" => $project[0]->projectID,
+                "bookCode" => $bookCode,
+                "state" => EventStates::TRANSLATED,
+                "admins" => json_encode([$mid]),
+            ]);
+
+            $event = $this->_eventsModel->getEvent($newEventID);
+            $eventID = $newEventID;
+        }
+
+        if(!empty($event))
+        {
+            if($event[0]->state == EventStates::TRANSLATED)
+            {
+                // Check if there are translations of this event in database
+                $trans = $this->_translationModel->getEventTranslationByEventID($eventID);
+                if(empty($trans))
+                {
+                    // Create new translator
+                    $kwCheckData = [];
+                    $peerCheckData = [];
+
+                    $trData = array(
+                        "memberID" => $mid,
+                        "eventID" => $eventID,
+                        "step" => EventSteps::NONE,
+                        "currentChapter" => 0
+                    );
+                    $trID = $this->_eventsModel->addTranslator($trData);
+
+                    foreach ($words as $chunks)
+                    {
+                        $words_list = array_map(function ($elm) {
+                            return $elm["word"];
+                        }, $chunks);
+
+                        $chapter = $this->_eventsModel->createTwGroup([
+                            "eventID" => $eventID,
+                            "words" => json_encode($words_list)
+                        ]);
+
+                        $kwCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
+                        $peerCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
+
+                        $chunkKey = 0;
+                        foreach ($chunks as $firstvs => $chunk) {
+                            $translationVerses = [
+                                EventMembers::TRANSLATOR => [
+                                    "verses" => $chunk["text"]
+                                ],
+                                EventMembers::CHECKER => [
+                                    "verses" => $chunk["text"]
+                                ],
+                                EventMembers::L2_CHECKER => [
+                                    "verses" => array()
+                                ],
+                                EventMembers::L3_CHECKER => [
+                                    "verses" => array()
+                                ],
+                            ];
+
+                            // Create new translations
+                            $this->_translationModel->createTranslation([
+                                "projectID" => $event[0]->projectID,
+                                "eventID" => $eventID,
+                                "trID" => $trID,
+                                "targetLang" => $event[0]->targetLang,
+                                "bookProject" => $event[0]->bookProject,
+                                "abbrID" => $event[0]->abbrID,
+                                "bookCode" => $event[0]->bookCode,
+                                "chapter" => $chapter,
+                                "chunk" => $chunkKey,
+                                "firstvs" => $firstvs,
+                                "translatedVerses" => json_encode($translationVerses),
+                                "translateDone" => true
+                            ]);
+
+                            $chunkKey++;
+                        }
+
+                        // Assign chapters to new translator
+                        $this->_eventsModel->assignChapter([
+                            "eventID" => $eventID,
+                            "memberID" => $mid,
+                            "trID" => $trID,
+                            "chapter" => $chapter,
+                            "chunks" => json_encode(array_keys($words_list)),
+                            "done" => true
+                        ]);
+
+                        $this->_eventsModel->updateEvent([
+                            "state" => EventStates::TRANSLATED,
+                            "admins" => json_encode([$mid])
+                        ], [
+                            "eventID" => $eventID
+                        ]);
+                    }
+
+                    $this->_eventsModel->updateTranslator([
+                        "kwCheck" => json_encode($kwCheckData),
+                        "peerCheck" => json_encode($peerCheckData)
+                    ], ["trID" => $trID]);
+
+                    $response["success"] = true;
+                    $response["message"] = __("import_successful_message");
+                }
+                else
+                {
+                    $contentChunks = array_reduce($words, function ($arr, $elm) {
+                        return array_merge((array)$arr, array_keys($elm));
+                    });
+
+                    if(sizeof($contentChunks) == sizeof($trans))
+                    {
+                        $tw_chapters = array_values(array_unique(array_map(function($elm) { return $elm->chapter; }, $trans)));
+                        foreach ($trans as $tran) {
+                            $index = array_search($tran->chapter, $tw_chapters);
+                            $verses = (array)json_decode($tran->translatedVerses, true);
+                            if(isset($words[$index]) &&
+                                isset($words[$index][$tran->firstvs]) &&
+                                trim($words[$index][$tran->firstvs]["text"]) != "")
+                            {
+                                $verses[EventMembers::CHECKER]["verses"] = $words[$index][$tran->firstvs]["text"];
                             }
 
                             $this->_translationModel->updateTranslation([

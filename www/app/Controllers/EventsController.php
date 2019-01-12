@@ -2648,7 +2648,6 @@ class EventsController extends Controller
                                         "kwCheck" => json_encode($kwCheck)
                                     ];
 
-
                                     setcookie("temp_tutorial", false, time() - 24*3600, "/");
                                     $upd = $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                     Url::redirect('events/translator-tw/' . $data["event"][0]->eventID);
