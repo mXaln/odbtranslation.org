@@ -1892,7 +1892,7 @@ mark {
     width: 100%;
 }
 
-.notif_count, .news_count {
+.notif_count {
     background-color: #ff0000;
     border-radius: 10px;
     width: 20px;
@@ -1904,6 +1904,22 @@ mark {
     position: absolute;
     top: 3px;
     right: 8px;
+    z-index: 1;
+}
+
+.news_count {
+    background-color: #ff0000;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin-left: 5px;
+    color: #ffffff;
+    font-weight: bold;
+    position: absolute;
+    top: 3px;
+    right: -15px;
+    text-align: center;
 }
 
 .notif_title {
@@ -1923,11 +1939,6 @@ mark {
     border-top: 1px solid #ccc;
     text-align: center;
     padding: 5px 0;
-}
-
-.news {
-    position: relative;
-    background-color: #4596cc;
 }
 
 .bible_book {
@@ -3458,7 +3469,7 @@ div[class^="member_usname mid"] {
 .header_menu_left .nav {
     font-weight: bold;
     height: 50px;
-    flex: 2;
+    flex: 3;
 }
 
 .header_menu_left .nav li {
@@ -3473,7 +3484,7 @@ div[class^="member_usname mid"] {
     -moz-border-radius: 0;
     border-radius: 0;
     height: 50px;
-    padding-top: 14px;
+    padding: 14px 8px 0 8px;
 }
 
 .header_menu_left .nav-pills > li.active > a,
@@ -3487,7 +3498,6 @@ div[class^="member_usname mid"] {
     padding: 0;
     margin: 0;
     height: 50px;
-    flex: 3;
 }
 
 .header_menu_right.admin {
@@ -3501,10 +3511,6 @@ div[class^="member_usname mid"] {
 }
 
 .notifications:hover {
-    box-shadow: inset 1px 1px 10px 0px #406d9e;
-}
-
-.news:hover {
     box-shadow: inset 1px 1px 10px 0px #406d9e;
 }
 
