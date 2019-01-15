@@ -11937,7 +11937,7 @@ class EventsController extends Controller
             Url::redirect("members/profile");
         }
 
-        $data["menu"] = 1;
+        $data["menu"] = 5;
         $data["notifications"] = $this->_notifications;
         $data["news"] = $this->_news;
         $data["newNewsCount"] = 0;
