@@ -132,13 +132,14 @@ class TranslationsModel extends Model
         return $builder->get();
     }
 
-    /** Get translation work of translator/checker in event by eventID
+
+    /**
+     * Get translation work of translator/checker in event by eventID
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
-     * @param int $trID
-     * @param int $tID
-     * @param int $chapter
-     * @param int $chunk
-     * @return array
+     * @param $eventID
+     * @param null $chapter
+     * @param null $chunk
+     * @return array|\Database\Query\Builder[]
      */
     public function getEventTranslationByEventID($eventID, $chapter = null, $chunk = null)
     {

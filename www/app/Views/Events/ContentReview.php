@@ -91,7 +91,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert">
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [8])?></div>
@@ -188,7 +188,7 @@ if(isset($data["error"])) return;
         <span class="panel-close glyphicon glyphicon-remove" data-tool="tq"></span>
     </div>
 
-    <div class="ttools_content my_content page-content panel-body">
+    <div class="ttools_content page-content panel-body">
         <div class="labels_list">
             <?php if(isset($data["questions"])): ?>
                 <?php foreach ($data["questions"] as $verse => $questions): ?>
@@ -219,7 +219,7 @@ if(isset($data["error"])) return;
 </div>
 <?php endif; ?>
 
-<?php if(!empty($data["keywords"])): ?>
+<?php if(!empty($data["keywords"]) && !empty($data["keywords"]["words"])): ?>
 <div class="ttools_panel tw_tool panel panel-default" draggable="true">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("tw") ?></h1>

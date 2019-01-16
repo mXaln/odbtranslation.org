@@ -59,6 +59,7 @@ return array (
     "member_wrote" => "nagsulat",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
+    "scripture" => "Scripture",
     "bible_mode" => "Bible",
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
@@ -88,6 +89,7 @@ return array (
     "profile_message" => "Pagkatawo",
     "member_profile_message" => "Pagkatawo sa Miyembro",
     "translator_activities" => "Mga bulohaton sa Paghubad",
+    "checking_activities" => "Checking Activities",
     "facilitator_activities" => "Mga bulohaton sa Paggiya",
     "common_skills" => "Kasagaran",
     "facilitator_skills" => "Paggiya",
@@ -321,7 +323,7 @@ return array (
     "facilitator_events" => "Paggiya",
     "translator_events" => "Hinubad",
     "l1_events" => "Pagsusi",
-    "l2_3_events" => "Ang-ang {0} Pagsusi",
+    "l2_3_events" => "L{0} Pagsusi",
     "book" => "Libro",
     "target_lang" => "Gitumong nga Pinulongan",
     "project" => "Proyekto",
@@ -385,7 +387,8 @@ return array (
     "time_end" => "Tapos",
     "chat" => "Chat",
     "you_are_at" => "Naa ka sa",
-    "8steps_vmast" => "Walo(8) ka mga Lakang sa VMAST",
+    "8steps_vmast" => "Walo(8) ka mga Lakang sa MAST",
+    "l2_l3_vmast" => "MAST L{0} Pagsusi",
     "common" => "Common",
     "vmast_events" => "Mga Bulohaton sa V-MAST",
     "create_event" => "Create event",
@@ -444,6 +447,7 @@ return array (
     "import_from_dcs" => "Import from DCS (Door43)",
     "import_from_usfm" => "Import from USFM (.usfm)",
     "import_from_ts" => "Import from translationStudio project (.tstudio)",
+    "import_from_zip" => "Import tN, tQ or tW zip archive (.zip)",
     "repository_name" => "Repository name",
     "repository" => "Repository",
     "updated_at" => "Updated at",
@@ -998,9 +1002,138 @@ return array (
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
+    // ------- Level 3 Check --------- //
+    "peer-review-l3" => "Peer Check",
+    "peer-review-l3_full" => "Peer Check",
+
+    "peer-review-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
+                            <li>This step is done with a peer-checker.</li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>The column on the left is the scripture source text showing changes between Level 2 and Level 3 checking.
+                                <ol>
+                                    <li>Text added in Level 3 check will be highlighted in green.</li>
+                                    <li>Text deleted in Level 3 check will be highlighted in red/pink.</li>
+                                    <li>To turn off \"Comparison mode\" and see translated text formatted and without green/red highlights switch \"Comparison mode\" to \"Off.\"</li>
+                                    <li>It can be switched on or off as needed while checking.</li>
+                                    <li>Introductions (Intro) will not have scripture to compare in the left column.</li>
+                                </ol>
+                            </li>
+                            <li>The column on the right is the translated Notes.</li>
+                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
+                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
+                            <li>Check to ensure the note for that scripture is accurate.</li>
+                            <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Check the notes for each chunk to see what questions or corrections were made in previous steps.
+                                <ol>
+                                    <li>Notes are found in the top right of the chunk marked by the (<span class='glyphicon glyphicon-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
+                                    <li>If there are changes to be made to the translated Notes, click on the (<span class='glyphicon glyphicon-pencil'></span>) icon and leave a note.</li>
+                                    <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
+                                </ol>
+                            </li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-review-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>This step is done with a peer-checker.</li>
+                            <li>Before you start, please review the Rubric for your translation by clicking the orange Rubric icon on the sidebar.</li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>The column on the left is the source text, and the right is target text.</li>
+                            <li>Check the accuracy of the translation in detail.</li>
+                            <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Check the notes for each chunk to see what questions or corrections were made from the translation process (Level 1) and checking process (Level 2).
+                                <ol>
+                                    <li>Notes are found in the top right of the chunk marked by the (<span class='glyphicon glyphicon-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
+                                    <li>If there are changes to be made to the target text, click on the (<span class='glyphicon glyphicon-pencil'></span>) icon and leave a note.</li>
+                                    <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
+                                </ol>
+                            </li>
+                            <li>The following resources can be used.
+                                <ol>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+
+    "peer-edit-l3" => "Peer Review",
+    "peer-edit-l3_full" => "Peer Review",
+
+    "peer-edit-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation Notes.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
+                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
+                            <li>Make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
+                            <li>Make changes to the formatting, as needed.
+                                <ol>
+                                    <li>Click the format icon (<i class='note-icon-magic'></i>) and select the size text for that line.</li>
+                                    <li>Scripture select:  Header 1.</li>
+                                    <li>Translated Note select: Normal.</li>
+                                    <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
+                                    <li>No need to translate links.</li>
+                                </ol>
+                            </li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-edit-l3_tn_chk_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation Notes.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
+                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
+                            <li>Your peer will make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
+                            <li>Your peer will make changes to the formatting, as needed.</li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-edit-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Make changes to the target text as you discuss the changes that should be made. If you disagree on a change consult your facilitator or language leader. </li>
+                            <li>The following resources can be used.
+                                <ol>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-edit-l3_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Your peer will make changes to the target text as you discuss the changes that should be made. You can see all changes by clicking \"refresh\" in your browser. If you disagree on a change consult your facilitator or language leader.</li>
+                            <li>The following resources can be used.
+                                <ol>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
     // Errors
     "checker_translator_not_ready_error" => "Dili pa andam ang tighubad niini nga lakang, palihog hulat. Mobalik ra ang teksto kung andam na ang tighubad.",
     "checker_not_ready_error" => "Kini nga lakang wala pa giaprobahan sa tigsusi. Palihog hulat",
+    "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
     "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
     "checker_translator_finished_error" => "Human na ang pagsusi niini nga kasamtangang kapitulo.",
     "empty_or_not_permitted_event_error" => "Wala kay katungod nga motan-aw niini nga trabaho.",
@@ -1047,7 +1180,7 @@ return array (
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
     "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
-    "event_has_translations_error" => "The event has translation started, so you cannot import another project",
+    "event_has_translations_error" => "You can't import over existing translation. Either delete it or wait until it's finished, if it's in progress.",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
@@ -1064,7 +1197,7 @@ return array (
     "successfully_deleted" => "Malamposon ang pagwala",
     "moved_back_success" => "Malamposon ang pag-atras sa tighubad",
     "checker_removed_success" => "Checker has been successfully removed!",
-    "import_successfull_massage" => "The project has been imported successfully!",
+    "import_successful_message" => "The project has been imported successfully!",
 
     // Other messages
     "alert_message" => "Mensahe",

@@ -38,7 +38,6 @@ if(empty($error) && empty($data["success"])):
             <div class="main_content_text">
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
-                        .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->name
                         ." [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]</span>"?></h4>
 
@@ -68,7 +67,7 @@ if(empty($error) && empty($data["success"])):
                                 ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
                                 : "";
                             ?>
-                            <div class="notes_target"><?php echo $text ?></div>
+                            <div class="questions_target"><?php echo $text ?></div>
 
                             <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
                             <div class="comments_number tncommpeer <?php echo $hasComments ? "hasComment" : "" ?>">

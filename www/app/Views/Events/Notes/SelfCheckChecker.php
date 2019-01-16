@@ -8,7 +8,7 @@ if(isset($data["error"])) return;
      dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
     <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
@@ -125,7 +125,7 @@ if(isset($data["error"])) return;
                 <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
 
                 <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
+                <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [3])?></div>

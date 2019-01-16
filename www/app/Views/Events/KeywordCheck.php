@@ -106,7 +106,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert">
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [7])?></div>
@@ -150,7 +150,7 @@ if(isset($data["error"])) return;
     <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
 
-<?php if(!empty($data["keywords"])): ?>
+<?php if(!empty($data["keywords"]) && !empty($data["keywords"]["words"])): ?>
     <div class="ttools_panel tw_tool panel panel-default" draggable="true">
         <div class="panel-heading">
             <h1 class="panel-title"><?php echo __("tw") ?></h1>

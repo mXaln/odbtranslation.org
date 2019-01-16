@@ -106,7 +106,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert">
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [6])?></div>
@@ -200,7 +200,7 @@ if(isset($data["error"])) return;
         <span class="panel-close glyphicon glyphicon-remove" data-tool="tq"></span>
     </div>
 
-    <div class="ttools_content my_content page-content panel-body">
+    <div class="ttools_content page-content panel-body">
         <div class="labels_list">
             <?php if(isset($data["questions"])): ?>
                 <?php foreach ($data["questions"] as $verse => $questions): ?>

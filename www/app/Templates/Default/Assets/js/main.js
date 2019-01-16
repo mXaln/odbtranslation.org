@@ -37,6 +37,8 @@ var EventCheckSteps = {
     SND_CHECK: "snd-check",
     PEER_REVIEW_L2: "peer-review-l2",
     KEYWORD_CHECK_L2: "keyword-check-l2",
+    PEER_REVIEW_L3: "peer-review-l3",
+    PEER_EDIT_L3: "peer-edit-l3",
     FINISHED: "finished",
 };
 
@@ -78,7 +80,13 @@ $(document).ready(function() {
 
     setTimeout(function () {
         $('[data-toggle="tooltip"]').tooltip();
-    }, 1000);
+
+        if(typeof autosize == "function")
+            autosize.update($('textarea'));
+    }, 2000);
+
+    if(typeof autosize == "function")
+        autosize($('textarea'));
 
     animateIntro();
 
@@ -366,7 +374,8 @@ $(document).ready(function() {
             step == EventSteps.SYMBOL_DRAFT || step == EventSteps.MULTI_DRAFT ||
             step == EventCheckSteps.FST_CHECK || // For Level 2 Check
             step == EventCheckSteps.SND_CHECK ||
-            step == EventCheckSteps.PEER_REVIEW_L2)
+            step == EventCheckSteps.PEER_REVIEW_L2 ||
+            step == EventCheckSteps.PEER_EDIT_L3)
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
@@ -497,12 +506,14 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
-            var add = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn","tq","tw"]) > -1 ? "-" + tMode
-                    : (typeof manageMode != "undefined" ? "-"+manageMode : "");
+            var tm = typeof tMode != "undefined"
+                && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
+                : "";
+
+            var mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
 
             $.ajax({
-                url: "/events/information"+add+"/"+eventID,
+                url: "/events/information" + tm + mm + "/" + eventID,
                 method: "get",
                 dataType: "json",
             })
@@ -696,7 +707,12 @@ $(document).ready(function() {
             e.preventDefault();
     });
 
-    $("#checker_submit").submit(function() {
+    $("#checker_submit").submit(function(e) {
+        e.preventDefault();
+
+        // Used for Level 3 check
+        var checkerStep = $("input[name=step]");
+
         if(window.opener != null)
         {
             window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]")
@@ -728,8 +744,15 @@ $(document).ready(function() {
 
                 if(window.opener != null)
                 {
-                    window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
-                    window.close();
+                    if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                    {
+                        window.location.reload(true);
+                    }
+                    else
+                    {
+                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                        window.close();
+                    }
                 }
                 else
                 {
@@ -782,9 +805,6 @@ $(document).ready(function() {
             verseTa.css("min-height", height);
         });
     }, 300);
-
-    if(typeof autosize == "function")
-        autosize($('textarea'));
 
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
@@ -1010,7 +1030,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".check1 .event_link a").click(function (e) {
+    $(".check1 .event_link a, .check3 .event_link a").click(function (e) {
         window.open($(this).attr("href"));
         e.preventDefault();
     });
@@ -1521,11 +1541,14 @@ $(document).ready(function() {
     });
 
     setTimeout(function () {
-        $(".words_block").each(function() {
-            var h = $(".chunk_verses", this).height();
-            $(".editor_area textarea", this).css("min-height", h);
+        $(".words_block, .chunk_block").each(function() {
+            var h1 = $(".chunk_verses", this).height();
+            var h2 = $(".editor_area", this).height();
+
+            $(".chunk_verses textarea", this).css("min-height", Math.max(h1, h2));
+            $(".editor_area textarea", this).css("min-height", Math.max(h1, h2));
         });
-    },100);
+    },2100);
 
     $(".toggle-help").click(function() {
         var mode = $(this).data("mode");
@@ -2251,7 +2274,7 @@ $(document).ready(function() {
         window.location.reload();
     });
 
-    $(".demo_link, #demo_link").click(function() {
+    $(".demo_link, #demo_link").click(function(e) {
         if($(".demo_options").is(":visible"))
         {
             $(".demo_options").hide(200);
@@ -2260,6 +2283,13 @@ $(document).ready(function() {
         {
             $(".demo_options").show(200);
         }
+
+        e.stopPropagation();
+    });
+
+    $(document).click(function(e) {
+        if(!e.target.classList.contains("demo_options"))
+            $(".demo_options").hide(200);
     });
 
     // Sail dictionary
@@ -2437,36 +2467,19 @@ $(document).ready(function() {
         }
     });
 
-    // Text editor font size changer
-    // $(".tools_font button").click(function () {
-    //     var size = $(this).data("size");
-    //     var contentEditable = $("div[contenteditable=true]");
-    //     var toolFontElements = [];
-    //
-    //     contentEditable.each(function () {
-    //         if($(this).data("orig-size") == undefined)
-    //             $(this).data("orig-size", $(this).css("font-size"));
-    //         toolFontElements.push($(this));
-    //     });
-    //
-    //     switch (size) {
-    //         case "-":
-    //             $.each(toolFontElements, function () {
-    //                 $(this).css("font-size", parseInt($(this).css("font-size")) - 1);
-    //             });
-    //             break;
-    //         case "+":
-    //             $.each(toolFontElements, function () {
-    //                 $(this).css("font-size", parseInt($(this).css("font-size")) + 1);
-    //             });
-    //             break;
-    //         case 0:
-    //             $.each(toolFontElements, function () {
-    //                 $(this).css("font-size", $(this).data("orig-size"));
-    //             });
-    //             break;
-    //     }
-    // });
+    // Super admin local login
+    $("#isSuperAdmin").change(function () {
+        if($(this).is(":checked"))
+        {
+            $("#password").val("");
+            $(".password_group").show();
+        }
+        else
+        {
+            $("#password").val("default");
+            $(".password_group").hide();
+        }
+    });
 });
 
 function animateIntro() {

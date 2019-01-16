@@ -28,7 +28,6 @@ if(isset($data["error"])) return;
                 <div class="main_content_text">
                     <h4><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->bookProject)." - "
-                        .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                         ."<span class='book_name'>".$data["event"][0]->name
                         ." [".$data["group"][0]."...".$data["group"][sizeof($data["group"])-1]."]</span>"?></h4>
 
@@ -89,7 +88,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                    <img src="<?php echo template_url("img/alert.png") ?>" class="unsaved_alert" style="float:none">
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", [2])?></div>

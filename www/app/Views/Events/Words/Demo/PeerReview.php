@@ -21,7 +21,7 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tw").")" ?></div>
-            <div><?php echo __("step_num", [4]). ": " . __("peer-review")?></div>
+            <div><?php echo __("step_num", [4]). ": " . __("peer-review_tw")?></div>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
@@ -30,7 +30,7 @@ if(isset($data["error"])) return;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
-                    <h4 dir="ltr">Русский - <?php echo __("tw") ?> - <?php echo __("new_test") ?> -
+                    <h4 dir="ltr">Русский - <?php echo __("tw") ?> -
                         <span class='book_name'>names [aaron...adam]</span></h4>
 
                     <div class="col-sm-12 no_padding questions_bd">
@@ -648,7 +648,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("peer-review")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("peer-review_tw")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("peer-review_tw_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -690,7 +690,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("peer-review")?></h3>
+            <h3><?php echo __("peer-review_tw")?></h3>
             <ul><?php echo __("peer-review_tw_desc")?></ul>
         </div>
     </div>

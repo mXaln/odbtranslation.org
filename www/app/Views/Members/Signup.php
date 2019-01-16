@@ -99,6 +99,8 @@ use Shared\Legacy\Error;
                         value="vsail"><?php echo __("vsail") ?></option>
                 <option <?php echo isset($_POST["projects"]) && in_array("l2", $_POST["projects"]) ? "selected" : "" ?>
                         value="l2"><?php echo __("l2_3_events", [2]) ?></option>
+                <option <?php echo isset($_POST["projects"]) && in_array("l3", $_POST["projects"]) ? "selected" : "" ?>
+                        value="l3"><?php echo __("l2_3_events", [3]) ?></option>
                 <option <?php echo isset($_POST["projects"]) && in_array("tn", $_POST["projects"]) ? "selected" : "" ?>
                         value="tn"><?php echo __("tn") ?></option>
                 <option <?php echo isset($_POST["projects"]) && in_array("tq", $_POST["projects"]) ? "selected" : "" ?>

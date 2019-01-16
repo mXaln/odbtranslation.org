@@ -59,6 +59,7 @@ return array (
     "member_wrote" => "wrote",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
+    "scripture" => "Scripture",
     "bible_mode" => "Bible",
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
@@ -88,6 +89,7 @@ return array (
     "profile_message" => "Profile",
     "member_profile_message" => "Member's Profile",
     "translator_activities" => "Translation Activities",
+    "checking_activities" => "Checking Activities",
     "facilitator_activities" => "Facilitation Activities",
     "common_skills" => "Common",
     "facilitator_skills" => "Facilitation",
@@ -319,7 +321,7 @@ return array (
     "facilitator_events" => "Facilitation",
     "translator_events" => "Translation",
     "l1_events" => "Checking",
-    "l2_3_events" => "Level {0} Check",
+    "l2_3_events" => "L{0} Check",
     "book" => "Book",
     "target_lang" => "Target Language",
     "project" => "Project",
@@ -380,7 +382,8 @@ return array (
     "time_end" => "End",
     "chat" => "CHAT",
     "you_are_at" => "You are at",
-    "8steps_vmast" => "8 Steps VMAST",
+    "8steps_vmast" => "8 Steps MAST",
+    "l2_l3_vmast" => "MAST L{0} Check",
     "common" => "Common",
     "vmast_events" => "V-MAST Events",
     "create_event" => "Create event",
@@ -439,6 +442,7 @@ return array (
     "import_from_dcs" => "Import from DCS (Door43)",
     "import_from_usfm" => "Import from USFM (.usfm)",
     "import_from_ts" => "Import from translationStudio project (.tstudio)",
+    "import_from_zip" => "Import tN, tQ or tW zip archive (.zip)",
     "repository_name" => "Repository name",
     "repository" => "Repository",
     "updated_at" => "Updated at",
@@ -470,7 +474,6 @@ return array (
     "pray" => "Preparation: Prayer",
     "pray_desc" => "<li><b>PURPOSE:</b> to invite the Holy Spirit into the process as you translate.</li>
                     <li>Pray by yourself or together as a group.</li>
-                    <li>This step is as important as any of the others.</li>
                     <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     "pray_text" => "God created all the languages of the world and has given us the ability to learn and use them. 
                     He has also given us His Spirit to help us in everything we do.  
@@ -505,7 +508,6 @@ return array (
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
                             <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over 
                                 it with your mouse. It is a translator’s note for that verse.</li>
-                            <li>Take no more than 7-10 minutes on this step.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "verbalize" => "Verbalize",
@@ -537,7 +539,6 @@ return array (
                         </li>
                         <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>
                         <li>Push for the maximum amount of text that can be remembered, but keep in mind you will draft the text without looking at it.</li>
-                        <li>This should take about 5 minutes, depending on the number of verses in the chapter.</li>
                         <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "chunking_sun_desc" => "<li><b>PURPOSE:</b> to divide the text into manageable portions for translation</li>
@@ -559,7 +560,6 @@ return array (
                                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                                 <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), 
                                     hover over it with your mouse. It is a translator’s note for that verse.</li>
-                                <li>Take about 5 minutes on this step.</li>
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     
     "blind-draft" => "Blind Draft",
@@ -619,6 +619,7 @@ return array (
     "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text's accuracy 
                                 while maintaining the blind draft's naturalness.</li>
                             <li><b>LENGTH:</b> Take about 30 minutes to edit your translation.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                             <li>Look for any missing portions of text or missing/added facts.</li>
                             <li>Check in detail the accuracy of your translation.</li>
@@ -633,7 +634,6 @@ return array (
                             <li>If you have additional thoughts or questions about your translation, click the note 
                                 icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note, and click Save. 
                                 The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
-                            <li>This should take about 30 minutes.</li>
                             <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "self-check_tn" => "Self-Edit",
@@ -646,7 +646,6 @@ return array (
                                 <li>If you have additional thoughts or questions about your translation, click the note 
                                     icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the 
                                     note and click save. The checkers will see this note and help to resolve the question or problem.</li>
-                                <li>This should take about 30 minutes.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
     "self-check_tn_chk" => "Edit Notes",
@@ -670,7 +669,6 @@ return array (
                                             <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
                                         </ol>
                                     </li>
-                                    <li>This should take about 30 minutes.</li>
                                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "highlight_tn" => "Highlight",
@@ -690,6 +688,7 @@ return array (
     "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
                                 text accuracy while maintaining the naturalness created by the blind draft.</li>
                             <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>The checker will look for spelling, punctuation, and flow/naturalness errors.</li>
                             <li>The checker will look for any missing portions of text or missing or added facts.</li>
                             <li>The checker will check the accuracy of your translation in detail.</li>
@@ -700,7 +699,6 @@ return array (
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
-                            <li>The checker should spend about 30 minutes checking.</li>
                             <li>When the checker has completed the check, they will contact you to discuss recommended changes via: 
                                 Skype, Messenger, WhatsApp, phone, etc.</li>
                             <li>You and the checker should discuss any changes they think should be made. 
@@ -716,6 +714,7 @@ return array (
     "peer-review_checker_desc" => "<li><b>PURPOSE:</b> to check the target language to ensure that the meaning of the source text accuracy while 
                                         maintaining the naturalness created by the blind draft.</li>
                                     <li><b>LENGTH:</b> You should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                     <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
                                     <li>As the checker, your screen will say \"Checking Mode\" and instructions will be in orange.</li>
                                     <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
@@ -736,7 +735,6 @@ return array (
                                         If you disagree, do not waste a lot of time discussing. 
                                         Leave the text as it is and make a note on the chunk noting the disagreement. 
                                         It can be discussed in later checking steps.</li>
-                                    <li>Discussion and correction section should take about 30 minutes.</li>
                                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". 
                                         Do not simply close the page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
 
@@ -763,7 +761,6 @@ return array (
                                     If you agree to the changes, you should make the changes right away. If you do not agree, 
                                     contact your facilitator to discuss the disagreement. 
                                     DO NOT continue to the next step until disagreements are resolved.</li>
-                                <li>This should take about 30 minutes.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
 
@@ -793,13 +790,13 @@ return array (
                                         If you agree to the changes, the other checker should make the changes right away. 
                                         If you do not agree, contact your facilitator to discuss the disagreement. 
                                         DO NOT continue to the next step until disagreements are resolved.</li>
-                                    <li>This should take about 30 minutes.</li>
                                     <li>When all changes and notes have been made by the 1st checker, click \"Yes, I did\" and \"Next step\".</li>
                                     <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
 
     "keyword-check" => "Keyword Check",
     "keyword-check_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
                             <li><b>LENGTH:</b> The checker will take about 5-10 minutes to highlight keywords throughout the chapter.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>The checker will highlight keywords from the source text. Highlighted words will show on your source text, as well.</li>
                             <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms (if these terms were not present or 
                                 inaccurate, the scripture's meaning would be changed).</li>
@@ -820,13 +817,13 @@ return array (
                                 It should be resolved in the next step.</li>
                             <li>If there are additional thoughts or questions about the translation, click the note 
                                 icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and click Save.</li>
-                            <li>Discussion and correction section should take about 30 minutes.</li>
                             <li>When all changes and notes have been made, the checker should click \"Yes, I did\" 
                                 and \"Continue\", then you should click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "keyword-check_checker_desc" => "<li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed.</li>
                                     <li><b>LENGTH:</b> Take about 5-10 minutes to highlight keywords throughout the chapter.</li>
                                     <li>As the checker, your screen will say \"Checking Mode\", and instructions will be in orange.</li>
+                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                     <li>You will only see the source text.</li>
                                     <li>Highlight all keywords in the source text by double-clicking the word or by selecting a word/phrase with your mouse. 
                                         The translator will also see the highlighted source text on their screen. 
@@ -860,17 +857,16 @@ return array (
     "keyword-check_tn_desc" => "<li><b>PURPOSE:</b> to check the highlighted portions of scripture and compare it with the Note the highlight correlates to.</li>
                                 <li>Look for highlighting in the scripture and look to make sure there is an accurate Note that reflects the scripture accurately.</li>
                                 <li>Any resources can be used.</li>
-                                <li>Do not delete or re-write the translated text.</li>
                                 <li>If you have additional thoughts or questions about the translation, click the note 
                                     icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save. 
                                     The 2nd checker will see this note and help to resolve the question or problem.</li>
-                                <li>This should take about 15-20 minutes.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Verse-by-Verse Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
                                     Discussion and correction section should take about 30-45 minutes.</li>
+                                <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                 <li>The checker will look for the following:
                                     <ol>
                                         <li>Is anything missing?</li>
@@ -890,7 +886,6 @@ return array (
                                             or review your translation side by side with the source text.</li>
                                     </ol>
                                 </li>
-                                <li>The checker should spend about 30 minutes checking text.</li>
                                 <li>The following resources can be used.
                                     <ol>
                                         <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
@@ -911,6 +906,7 @@ return array (
 
     "content-review_checker_desc" => "<li><b>PURPOSE:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language.</li>
                                         <li><b>LENGTH:</b> Spend about 30 minutes checking text. Discussion and correction section should take about 30-45 minutes.</li>
+                                        <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                                         <li>As the checker, your on-screen instructions will be in orange.</li>
                                         <li>Questions to ask yourself as you are checking:
                                             <ol>
@@ -949,13 +945,11 @@ return array (
                                         <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
                                             The facilitator may involve others, such as a team lead, director, pastor or theologian.</li>
                                         <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
-                                        <li>Discussion and correction section should take about 30-45 minutes.</li>
                                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". Do not simply close the page by 
                                             clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
     
     "final-review" => "Verse Markers",
     "final-review_desc" => "<li><b>PURPOSE:</b> this is where you will add verse markers to the translated text.</li>
-                            <li><b>LENGTH:</b> Spend no more than 10 minutes on this exercise.</li>
                             <li>Read through the translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li>
                             <li>When all verse markers are in place, click \"Yes, I did\" and \"Next step\".</li>",
     "finished" => "Finished",
@@ -1055,12 +1049,13 @@ return array (
                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                 <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over it with your mouse. 
                     It is a translator’s note for that verse.</li>
-                <li>This step should take about 10 minutes.</li>
                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "fst-check" => "Check Text",
     "fst-check_full" => "1st Check: Check Target Text",
-    "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
+    "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
+                            language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
+                            used when referring to God the Father and Jesus Christ.</b></li>
                         <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                         <li>While checking, keep in mind the difference between accuracy and preference.</li>
                         <li>The primary purpose is to check the accuracy of the translation in detail.</li>
@@ -1071,8 +1066,6 @@ return array (
                                 <li>Deleted text will show in red.</li>
                             </ol>
                         </li>
-                        <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
-                        <li>The primary purpose is to check the accuracy of the translation in detail.</li>
                         <li>Correct errors in spelling, punctuation, and flow/naturalness.</li>
                         <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
                             <ol>
@@ -1083,16 +1076,16 @@ return array (
                             </ol>
                         </li>
                         <li>Any resources can be used for checking.</li>
-                        <li>Spend about 30 minutes on this step. </li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "snd-check" => "Peer Check",
     "snd-check_full" => "2nd Check: Peer-Check Target Text",
-    "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
+    "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
+                        language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
+                        used when referring to God the Father and Jesus Christ.</b></li>
                     <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                     <li>While checking, keep in mind the difference between accuracy and preference.</li>
                     <li>The primary purpose is to check the accuracy of the translation in detail.</li>
-                    <li>This is the second check on this chapter of target text.</li>
                     <li>There are two tabs: The Source text tab is the source text for checker to review before checking.
                         <ol>
                             <li>The LEFT column is the source text. There will be green and red highlights in the text. 
@@ -1107,7 +1100,6 @@ return array (
                             </li>
                         </ol>
                     </li>
-                    <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
                     <li>If you see errors in spelling, punctuation, flow/naturalness, please correct it.</li>
                     <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
                         <ol>
@@ -1117,16 +1109,17 @@ return array (
                         </ol>
                     </li>
                     <li>Any resources can be used for checking.</li>
-                    <li>Spend about 30 minutes on this step. </li>
                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
     "keyword-check-l2_full" => "2nd Check: Keyword Check",
-    "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
+    "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately 
+                                expressed, as well as <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                                are used when referring to God the Father and Jesus Christ.</b></li>
                             <li><b>LENGTH:</b> Spend about 10 minutes on this step.</li>
                             <li><b>The point is not word for word translation, it is to see if the word/meaning is 
                                 represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                            <li><b>This step will be faster if you use a mouse instead of a touchpad.</b></li>
+                            <li>This step will be faster if you use a mouse instead of a touchpad.</li>
                             <li>The LEFT column is the source text with yellow highlighted words.
                                 <ol>
                                     <li>The checker should click on each yellow highlighted word.</li>
@@ -1148,7 +1141,9 @@ return array (
 
     "peer-review-l2" => "Discrepancies",
     "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
-    "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
+    "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer 
+                            checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                            are used when referring to God the Father and Jesus Christ.</b></li>
                         <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                         <li><b>This is the final check; all changes should be made before you complete this step.</b></li>
                         <li>While checking, keep in mind the difference between accuracy and preference.</li>
@@ -1176,17 +1171,16 @@ return array (
                                     all changes made as they are made by refreshing their screen).</li>
                             </ol>
                         </li>
-                        <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
                         <li>You and the peer-checker should discuss any changes you think should be made. 
                             If you agree to the changes, you should make the changes right away. If you do not agree, 
                             contact your facilitator to discuss the disagreement. DO NOT complete this step until 
                             discrepancies are resolved and changed.</li>
                         <li>Any resources can be used for checking.</li>
-                        <li>Spend about 30 minutes on this step.</li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
-    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies 
-                                    with a peer-checker.</li>
+    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with 
+                                a peer checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                                are used when referring to God the Father and Jesus Christ.</b></li>
                             <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
                             <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
                             <li>After you have looked over the text, contact the peer-checker to discuss discrepancies 
@@ -1220,7 +1214,6 @@ return array (
                                 not agree, contact your facilitator to discuss the disagreement. DO NOT complete 
                                 this step until discrepancies are resolved and changed.</li>
                             <li>Any resources can be used for checking.</li>
-                            <li>Spend about 30 minutes on this step.</li>
                             <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "multi-draft" => "Draft",
@@ -1277,7 +1270,6 @@ return array (
                             then you should click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "keyword-check_tq_chk_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Questions/Answers and accurately expressed.</li>
-                        <li>As the checker, your screen will say \"Checking Mode\" and instructions will be in orange.</li>
                         <li>You will look for Keywords in the Questions and Answers and compare them to the 
                             translated Questions and Answers to ensure the meaning is represented properly.</li>
                         <li>If you think changes should be made, click the note 
@@ -1291,8 +1283,7 @@ return array (
                             If you agree to the changes, the translator should make the changes right away. 
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make 
                             a note on the chunk noting the disagreement. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\".
-                            Do not simply close the page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
+                        <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\".</li>",
 
     "peer-review_tq" => "Pastor Review",
     "peer-review_tw" => "Pastor Review",
@@ -1325,8 +1316,7 @@ return array (
                         <li>You should discuss any changes you think should be made.  If you agree to the changes, the 
                             translator should make the changes right away.  If you disagree, discuss the issue with your 
                             facilitator and resolve before you complete this step.</li>
-                        <li>When all changes have been made, click \"Yes, I did\" and \"Continue\". Do not simply close the 
-                            page by clicking the \"x\", or the translator will not be able to complete the step.</li>
+                        <li>When all changes have been made, click \"Yes, I did\" and \"Continue\".</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
     "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> to read the source text, to say it aloud to engage your memory, and 
@@ -1423,9 +1413,139 @@ return array (
                             page by clicking the \"x\", or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step and no more changes can be made!</b></li>",
 
+
+    // ------- Level 3 Check --------- //
+    "peer-review-l3" => "Peer Check",
+    "peer-review-l3_full" => "Peer Check",
+
+    "peer-review-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
+                            <li>This step is done with a peer-checker.</li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>The column on the left is the <b>scripture</b> source text showing changes between Level 2 and Level 3 checking.
+                                <ol>
+                                    <li>Text added in Level 3 check will be highlighted in green.</li>
+                                    <li>Text deleted in Level 3 check will be highlighted in red/pink.</li>
+                                    <li>To turn off \"Comparison mode\" and see translated text formatted and without green/red highlights switch \"Comparison mode\" to \"Off.\"</li>
+                                    <li>It can be switched on or off as needed while checking.</li>
+                                    <li>Introductions (Intro) will not have scripture to compare in the left column.</li>
+                                </ol>
+                            </li>
+                            <li>The column on the right is the translated Notes.</li>
+                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
+                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
+                            <li>Check to ensure the note for that scripture is accurate.</li>
+                            <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Check the notes for each chunk to see what questions or corrections were made in previous steps.
+                                <ol>
+                                    <li>Notes are found in the top right of the chunk marked by the (<span class='glyphicon glyphicon-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
+                                    <li>If there are changes to be made to the translated Notes, click on the (<span class='glyphicon glyphicon-pencil'></span>) icon and leave a note.</li>
+                                    <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
+                                </ol>
+                            </li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-review-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>This step is done with a peer-checker.</li>
+                            <li>Before you start, please review the Rubric for your translation by clicking the orange Rubric icon on the sidebar.</li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>The column on the left is the <b>scripture</b> source text, and the right is target text.</li>
+                            <li>Check the accuracy of the translation in detail.</li>
+                            <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Check the notes for each chunk to see what questions or corrections were made from the translation process (Level 1) and checking process (Level 2).
+                                <ol>
+                                    <li>Notes are found in the top right of the chunk marked by the (<span class='glyphicon glyphicon-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
+                                    <li>If there are changes to be made to the target text, click on the (<span class='glyphicon glyphicon-pencil'></span>) icon and leave a note.</li>
+                                    <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
+                                </ol>
+                            </li>
+                            <li>The following resources can be used.
+                                <ol>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+
+    "peer-edit-l3" => "Peer Review",
+    "peer-edit-l3_full" => "Peer Review",
+
+    "peer-edit-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation Notes.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
+                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
+                            <li>Make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
+                            <li>Make changes to the formatting, as needed.
+                                <ol>
+                                    <li>Click the format icon (<i class='note-icon-magic'></i>) and select the size text for that line.</li>
+                                    <li>Scripture select:  Header 1.</li>
+                                    <li>Translated Note select: Normal.</li>
+                                    <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
+                                    <li>No need to translate links.</li>
+                                </ol>
+                            </li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-edit-l3_tn_chk_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation Notes.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
+                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
+                            <li>Your peer will make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
+                            <li>Your peer will make changes to the formatting, as needed.</li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-edit-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Make changes to the target text as you discuss the changes that should be made. If you disagree on a change consult your facilitator or language leader. </li>
+                            <li>The following resources can be used.
+                                <ol>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
+    "peer-edit-l3_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>Discuss the accuracy of the translation.</li>
+                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
+                            <li>Your peer will make changes to the target text as you discuss the changes that should be made. You can see all changes by clicking \"refresh\" in your browser. If you disagree on a change consult your facilitator or language leader.</li>
+                            <li>The following resources can be used.
+                                <ol>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
+                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
+
     // ------- Errors messages ------- //
-    "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is be ready.<span class=\"checker_waits\"></span>",
+    "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is ready.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Checker has not yet approved this step. Please wait.",
+    "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
     "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
     "checker_translator_finished_error" => "Checking is finished for current chapter.",
     "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
@@ -1467,7 +1587,7 @@ return array (
     "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
     "keywords_empty_error" => "You should highlight problematic words.",
     "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
-    "event_has_translations_error" => "The event has translation started, so you cannot import another project",
+    "event_has_translations_error" => "You can't import over existing translation. Either delete it or wait until it's finished, if it's in progress.",
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
@@ -1484,7 +1604,7 @@ return array (
     "successfully_deleted" => "Successfully deleted!",
     "moved_back_success" => "Translator has successfully moved one step back!",
     "checker_removed_success" => "Checker has been successfully removed!",
-    "import_successfull_massage" => "The project has been imported successfully!",
+    "import_successful_message" => "The project has been imported successfully!",
 
     // Other messages
     "alert_message" => "Message",

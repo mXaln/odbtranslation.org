@@ -14,7 +14,9 @@ $profile = Session::get("profile");
         <div class="demo_options">
             <ul>
                 <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
-                <a href="/events/demo-l2"><li><?php echo __("l2_3_events", [2]); ?></li></a>
+                <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", [2]); ?></li></a>
+                <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", [3]); ?></li></a>
+                <a href="/events/demo-tn-l3"><li><?php echo __("tn") . " " . __("l2_3_events", [3]); ?></li></a>
                 <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
                 <a href="/events/demo-tq"><li><?php echo __("tq") ?></li></a>
                 <a href="/events/demo-tw"><li><?php echo __("tw") ?></li></a>
@@ -44,11 +46,6 @@ $profile = Session::get("profile");
                     sizeof($data["myCheckerL2Events"]) + sizeof($data["myCheckerL3Events"])?>)</span>
         </a>
     </li>
-    <!--<li role="presentation" id="new_events" class="my_tab">
-        <a href="#"><?php echo __("new_events") ?>
-            <span class="<?php echo sizeof($data["newEvents"]) > 0 ? "hasEvents" : "" ?>">(<?php echo sizeof($data["newEvents"]) ?>)</span>
-        </a>
-    </li>-->
 </ul>
 
 <?php if(Session::get("isAdmin")): ?>
@@ -99,12 +96,12 @@ $profile = Session::get("profile");
                     $currentMembers = $event->chl3Cnt;
                     $members = __("checkers");
                     $manageLink = "/events/manage-l3/".$event->eventID;
-                    $progressLink = "/events/information-l3/".$event->eventID;
+                    $progressLink = "/events/information-{$event->bookProject}-l3/".$event->eventID;
                     break;
 
                 default:
                     $mode = $event->bookProject;
-                    $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+                    $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
                     $eventImg = $mode != "sun"
                         ? template_url("img/steps/big/peer-review.png")
                         : template_url("img/steps/big/vsail.png");
@@ -138,22 +135,6 @@ $profile = Session::get("profile");
 
                     </div>
                 </div>
-                <!--<div class="event_time">
-                    <div class="event_time_start">
-                        <div class="event_time_title"><?php /*echo __("time_start") */?></div>
-                        <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
-                            <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
-                        <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
-                    </div>
-                    <div class="event_time_end">
-                        <div class="event_time_title"><?php /*echo __("time_end") */?></div>
-                        <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
-                            <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
-                        <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
-                    </div>
-                </div>-->
                 <div class="event_current_pos">
                     <div class="event_current_title"><?php echo __("state") ?></div>
                     <div class="event_curr_step">
@@ -207,12 +188,12 @@ $profile = Session::get("profile");
                     $currentMembers = $event->chl3Cnt;
                     $members = __("checkers");
                     $manageLink = "/events/manage-l3/".$event->eventID;
-                    $progressLink = "/events/information-l3/".$event->eventID;
+                    $progressLink = "/events/information-{$event->bookProject}-l3/".$event->eventID;
                     break;
 
                 default:
                     $mode = $event->bookProject;
-                    $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+                    $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
                     $eventImg = $mode != "sun"
                         ? template_url("img/steps/big/peer-review.png")
                         : template_url("img/steps/big/vsail.png");
@@ -246,22 +227,6 @@ $profile = Session::get("profile");
 
                     </div>
                 </div>
-                <!--<div class="event_time">
-                    <div class="event_time_start">
-                        <div class="event_time_title"><?php /*echo __("time_start") */?></div>
-                        <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
-                            <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
-                        <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
-                    </div>
-                    <div class="event_time_end">
-                        <div class="event_time_title"><?php /*echo __("time_end") */?></div>
-                        <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                            date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
-                            <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
-                        <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
-                    </div>
-                </div>-->
                 <div class="event_current_pos">
                     <div class="event_current_title"><?php echo __("state") ?></div>
                     <div class="event_curr_step">
@@ -291,7 +256,7 @@ $profile = Session::get("profile");
     <?php foreach($data["myTranslatorEvents"] as $key => $event): ?>
         <?php
         $mode = $event->bookProject;
-        $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+        $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
         $eventImg = $mode != "sun"
             ? template_url("img/steps/big/peer-review.png")
             : template_url("img/steps/big/vsail.png");
@@ -320,22 +285,6 @@ $profile = Session::get("profile");
                     </div>
                 </div>
             </div>
-            <!--<div class="event_time">
-                <div class="event_time_start">
-                    <div class="event_time_title"><?php /*echo __("time_start") */?></div>
-                    <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
-                        <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
-                    <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
-                </div>
-                <div class="event_time_end">
-                    <div class="event_time_title"><?php /*echo __("time_end") */?></div>
-                    <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
-                        <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
-                    <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
-                </div>
-            </div>-->
             <div class="event_current_pos">
                 <?php if($event->step != EventSteps::NONE): ?>
                     <div class="event_current_title"><?php echo __("you_are_at") ?></div>
@@ -381,7 +330,7 @@ $profile = Session::get("profile");
     <?php foreach($data["myCheckerL1Events"] as $key => $event): ?>
         <?php
             $mode = $event->bookProject;
-            $eventType = $mode != "sun" ? __("8steps_vmast") : __("vsail");
+            $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
             $eventImg = $mode != "sun"
                 ? template_url("img/steps/icons/". $event->step ."-gray.png")
                 : template_url("img/steps/big/vsail.png");
@@ -433,9 +382,10 @@ $profile = Session::get("profile");
                     <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
                     <?php echo ($event->currentChapter > 0
                         ? ($event->bookProject == "tw" ?
-                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                            : __("chapter_number", array($event->currentChapter)))
-                        : __("front")) ?>
+                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."], "
+                            : __("chapter_number", array($event->currentChapter)).", ")
+                        : __("front").", ")
+                        .(__($event->step))?>
                 </div>
             </div>
             <div class="event_action check1">
@@ -477,22 +427,6 @@ $profile = Session::get("profile");
                     </div>
                 </div>
             </div>
-            <!--<div class="event_time">
-                <div class="event_time_start">
-                    <div class="event_time_title"><?php /*echo __("time_start") */?></div>
-                    <div class="event_time_date datetime" data="<?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" */?>">
-                        <?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" */?></div>
-                    <div class="event_time_time"><?php /*echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" */?></div>
-                </div>
-                <div class="event_time_end">
-                    <div class="event_time_title"><?php /*echo __("time_end") */?></div>
-                    <div class="event_time_date datetime" data="<?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" */?>">
-                        <?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" */?></div>
-                    <div class="event_time_time"><?php /*echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" */?></div>
-                </div>
-            </div>-->
             <div class="event_current_pos">
                 <?php if($event->step != EventSteps::NONE): ?>
                     <div class="event_current_title"><?php echo __("you_are_at") ?></div>
@@ -500,7 +434,7 @@ $profile = Session::get("profile");
                         <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
                         <?php echo ($event->currentChapter > 0 ? __("chapter_number",
                                     array($event->currentChapter)). ", " : "")
-                            .__($event->step) ?>
+                            .(__($event->step)) ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -535,32 +469,35 @@ $profile = Session::get("profile");
                 <div class="event_facilitator">
                     <div><?php echo __("facilitators") ?>:</div>
                     <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
+                        <?php foreach ((array)json_decode($event->admins_l3, true) as $admin): ?>
                             <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
                         <?php endforeach; ?>
                     </div>
                 </div>
             </div>
-            <div class="event_time">
-                <div class="event_time_start">
-                    <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
-                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
-                </div>
-                <div class="event_time_end">
-                    <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
-                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
-                </div>
-            </div>
             <div class="event_current_pos">
+                <?php if($event->step != EventSteps::NONE): ?>
+                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                    <div class="event_curr_step">
+                        <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                        <?php echo ($event->currentChapter > 0
+                            ? ($event->bookProject == "tw" ?
+                                "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."], "
+                                : __("chapter_number", array($event->currentChapter)).", ")
+                            : ($event->bookProject == "tn" && $event->currentChapter > -1 ? __("front").", " : ""))
+                            .(__($event->step)) ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="event_action check3">
-                <div class="event_link"><a href="#"><?php echo __("continue_alt") ?></a></div>
+            <div class="event_action <?php echo !empty($event->isContinue) ? "check3" : "" ?>">
+                <div class="event_link">
+                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","tq","tw"]) ? "-".$event->bookProject : "")
+                        ."-l3/".$event->eventID
+                        .(isset($event->isContinue) ? "/".$event->memberID."/".$event->currentChapter : "")?>"
+                       data="<?php echo $event->eventID."_".$event->memberID?>">
+                        <?php echo __("continue_alt") ?>
+                    </a>
+                </div>
             </div>
 
             <div class="clear"></div>
