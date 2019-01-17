@@ -27,7 +27,7 @@
                 <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div class="no_padding">
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>1</sup> </strong> You therefore, my child, be strengthened in the grace that is in Christ Jesus.</p>
                             <p> <strong class="ltr"> <sup>2</sup> </strong> And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</p>
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>4</sup> </strong> No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</p>
                             <p> <strong class="ltr"> <sup>5</sup> </strong> Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</p>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>8</sup> </strong> Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</p>
                             <p> <strong class="ltr"> <sup>9</sup> </strong> for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</p>
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>11</sup> </strong> This saying is trustworthy: "If we have died with him, we will also live with him.</p>
                             <p> <strong class="ltr"> <sup>12</sup> </strong> If we endure, we will also reign with him. If we deny him, he also will deny us.</p>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>15</sup> </strong> Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</p>
                             <p> <strong class="ltr"> <sup>16</sup> </strong> Avoid profane talk, which leads to more and more godlessness.</p>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>18</sup> </strong> These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</p>
                             <p> <strong class="ltr"> <sup>19</sup> </strong> However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</p>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>21</sup> </strong> If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</p>
                             <p> <strong class="ltr"> <sup>22</sup> </strong> Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</p>
@@ -170,7 +170,7 @@
                         </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
+                    <div class="row chunk_block no_autosize">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <p> <strong class="ltr"> <sup>24</sup> </strong> The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</p>
                             <p> <strong class="ltr"> <sup>25</sup> </strong> He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</p>
