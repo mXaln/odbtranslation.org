@@ -5433,7 +5433,7 @@ class EventsController extends Controller
 
                 $data["turn"][] = $turnUsername;
                 $data["turn"][] = base64_encode($turnPassword);
-                
+
                 switch ($data["event"][0]->step) {
                     case EventCheckSteps::PRAY:
                         $sourceText = $this->getSourceText($data);
@@ -5554,6 +5554,25 @@ class EventsController extends Controller
                                 $data = $sourceText;
 
                                 $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -5832,6 +5851,25 @@ class EventsController extends Controller
 
                                 $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
+
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -5971,6 +6009,12 @@ class EventsController extends Controller
 
                                 $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -6054,6 +6098,25 @@ class EventsController extends Controller
                                 $data = $sourceText;
 
                                 $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
+
+                                $data["keywords"] = $this->getTranslationWords(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["questions"] = $this->getTranslationQuestions(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+
+                                $data["notes"] = $this->getTranslationNotes(
+                                    $data["event"][0]->bookCode,
+                                    $data["event"][0]->currentChapter,
+                                    "en"/*$data["event"][0]->sourceLangID*/
+                                );
+                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
