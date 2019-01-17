@@ -1542,6 +1542,8 @@ $(document).ready(function() {
 
     setTimeout(function () {
         $(".words_block, .chunk_block").each(function() {
+            if($(this).hasClass("fst_block")) return;
+
             var h1 = $(".chunk_verses", this).height();
             var h2 = $(".editor_area", this).height();
 

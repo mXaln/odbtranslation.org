@@ -2012,7 +2012,7 @@ class EventsModel extends Model
             if($memberID !== null)
                 $builder->where(["chapters.l2memberID" => $memberID]);
         }
-        if($manageMode == "l3")
+        else if($manageMode == "l3")
         {
             $builder->leftJoin("checkers_l3", function($join){
                 $join->on("chapters.eventID", "=", "checkers_l3.eventID")
