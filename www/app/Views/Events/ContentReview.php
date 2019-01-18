@@ -124,14 +124,12 @@ if(isset($data["error"])) return;
                     </div>
                 </div>
 
-                <?php if($data["event"][0]->sourceBible == "ulb"): ?>
-                    <div class="tr_tools">
-                        <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
-                        <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
-                        <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
-                        <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
-                    </div>
-                <?php endif; ?>
+                <div class="tr_tools">
+                    <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
+                    <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
+                    <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
+                </div>
             </div>
         </div>
     </div>
