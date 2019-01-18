@@ -201,6 +201,11 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("rpc/apply_verb_checker", "EventsController@applyVerbChecker");
     Router::any("rpc/create_words_group", "EventsController@createWordsGroup");
     Router::any("rpc/delete_words_group", "EventsController@deleteWordsGroup");
+    Router::any("rpc/get_tq/{bookCode}/{chapter}/{lang}", "EventsController@getTq");
+    Router::any("rpc/get_tw/{bookCode}/{chapter}/{lang}", "EventsController@getTw");
+    Router::any("rpc/get_tn/{bookCode}/{chapter}/{lang}/{totalVerses}", "EventsController@getTn");
+    Router::any("rpc/get_rubric/{lang}", "EventsController@getRubric");
+    Router::any("rpc/get_saildict", "EventsController@getSailDict");
 });
 
 

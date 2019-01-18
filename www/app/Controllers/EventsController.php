@@ -312,7 +312,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -355,7 +354,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -421,7 +419,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -480,7 +477,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
                             }
                             else
                             {
@@ -519,7 +515,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
 
                                 $translationData = $this->_translationModel
                                     ->getEventTranslation($data["event"][0]->trID, $data["event"][0]->currentChapter, $data["event"][0]->currentChunk);
@@ -669,21 +664,6 @@ class EventsController extends Controller
 
                                     $data["words"] = json_encode($words->toArray());
                                 }
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -740,21 +720,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -818,14 +783,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
                             }
                             else
                             {
@@ -891,27 +848,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -3149,19 +3085,6 @@ class EventsController extends Controller
                                     $verses = json_decode($translationData[0]->translatedVerses, true);
                                     $data["words"] = $verses[EventMembers::TRANSLATOR]["words"];
                                 }
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -3268,8 +3191,6 @@ class EventsController extends Controller
                             }
                         }
 
-                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
-
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/WordsDraft')
                             ->shares("title", $title)
@@ -3295,19 +3216,6 @@ class EventsController extends Controller
                                     $data["words"] = $verses[EventMembers::TRANSLATOR]["words"];
                                     $data["symbols"] = $verses[EventMembers::TRANSLATOR]["symbols"];
                                 }
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -3413,8 +3321,6 @@ class EventsController extends Controller
                             }
                         }
 
-                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
-
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/SymbolsDraft')
                             ->shares("title", $title)
@@ -3442,19 +3348,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -3581,8 +3474,6 @@ class EventsController extends Controller
                                 }
                             }
                         }
-
-                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
                         return View::make('Events/SUN/Translator')
                             ->nest('page', 'Events/SUN/SelfCheck')
@@ -3739,7 +3630,7 @@ class EventsController extends Controller
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
 
-        $page = "CheckerVerbalize";
+        $page = "Error";
         if(!isset($error))
         {
             if($data["event"][0]->step != EventSteps::VERBALIZE)
@@ -3759,36 +3650,6 @@ class EventsController extends Controller
 
                         $data = $sourceText;
                         $data["translation"] = $translation;
-
-                        $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                        if($data["event"][0]->step == EventSteps::KEYWORD_CHECK
-                            || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
-                        {
-                            $data["keywords"] = $this->getTranslationWords(
-                                $data["event"][0]->bookCode,
-                                $data["event"][0]->currentChapter,
-                                "en"/*$data["event"][0]->sourceLangID*/
-                            );
-                        }
-
-                        if($data["event"][0]->step == EventSteps::PEER_REVIEW
-                            || $data["event"][0]->step == EventSteps::SELF_CHECK
-                            || $data["event"][0]->step == EventSteps::CONTENT_REVIEW)
-                        {
-                            $data["questions"] = $this->getTranslationQuestions(
-                                $data["event"][0]->bookCode,
-                                $data["event"][0]->currentChapter,
-                                "en"/*$data["event"][0]->sourceLangID*/
-                            );
-
-                            $data["notes"] = $this->getTranslationNotes(
-                                $data["event"][0]->bookCode,
-                                $data["event"][0]->currentChapter,
-                                "en"/*$data["event"][0]->sourceLangID*/
-                            );
-                            $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
-                        }
                     } else {
                         $error[] = $sourceText["error"];
                     }
@@ -3810,7 +3671,7 @@ class EventsController extends Controller
                     break;
 
                 default:
-                    $page = "CheckerVerbalize";
+                    $page = "Error";
                     break;
             }
         }
@@ -4553,19 +4414,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -4655,19 +4503,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                             }
                             else
                             {
@@ -4754,8 +4589,6 @@ class EventsController extends Controller
                                 }
                             }
                         }
-
-                        $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
                         return View::make('Events/SUN/Checker')
                             ->nest('page', 'Events/SUN/ContentReview')
@@ -5491,8 +5324,6 @@ class EventsController extends Controller
                             {
                                 $data = $sourceText;
 
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
                                 $translationData = $this->_translationModel->getEventTranslationByEventID(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter
@@ -5552,27 +5383,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -5849,27 +5659,6 @@ class EventsController extends Controller
                             {
                                 $data = $sourceText;
 
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
-
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -6007,14 +5796,6 @@ class EventsController extends Controller
                             {
                                 $data = $sourceText;
 
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
@@ -6096,27 +5877,6 @@ class EventsController extends Controller
                             if (!array_key_exists("error", $sourceText))
                             {
                                 $data = $sourceText;
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
 
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
@@ -6462,12 +6222,6 @@ class EventsController extends Controller
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->currentChapter);
 
-                            $data["notes"] = $this->getTranslationNotes(
-                                $data["event"][0]->bookCode,
-                                $data["event"][0]->currentChapter,
-                                $data["event"][0]->resLangID);
-                            $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
-
                             $data["event"][0]->checkerFName = null;
                             $data["event"][0]->checkerLName = null;
 
@@ -6585,12 +6339,6 @@ class EventsController extends Controller
                             $data["comments"] = $this->getComments(
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->currentChapter);
-
-                            $data["notes"] = $this->getTranslationNotes(
-                                $data["event"][0]->bookCode,
-                                $data["event"][0]->currentChapter,
-                                $data["event"][0]->resLangID);
-                            $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
 
                             $data["event"][0]->checkerFName = null;
                             $data["event"][0]->checkerLName = null;
@@ -6852,12 +6600,6 @@ class EventsController extends Controller
                             $data["comments"] = $this->getComments(
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->currentChapter);
-
-                            $data["notes"] = $this->getTranslationNotes(
-                                $data["event"][0]->bookCode,
-                                $data["event"][0]->currentChapter,
-                                $data["event"][0]->resLangID);
-                            $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
                         }
 
                         if (isset($_POST) && !empty($_POST))
@@ -7044,27 +6786,6 @@ class EventsController extends Controller
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
 
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
                                 $data["event"][0]->chkMemberID = null;
                                 $data["event"][0]->checkerFName = null;
                                 $data["event"][0]->checkerLName = null;
@@ -7154,27 +6875,6 @@ class EventsController extends Controller
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
 
                                 $data["event"][0]->chkMemberID = null;
                                 $data["event"][0]->checkerFName = null;
@@ -7406,27 +7106,6 @@ class EventsController extends Controller
                                 $data["comments"] = $this->getComments(
                                     $data["event"][0]->eventID,
                                     $data["event"][0]->currentChapter);
-
-                                $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($data["event"][0]->targetLang);
-
-                                $data["notes"] = $this->getTranslationNotes(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-                                $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
-
-                                $data["questions"] = $this->getTranslationQuestions(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
-
-                                $data["keywords"] = $this->getTranslationWords(
-                                    $data["event"][0]->bookCode,
-                                    $data["event"][0]->currentChapter,
-                                    "en"/*$data["event"][0]->sourceLangID*/
-                                );
                             }
                             else
                             {
@@ -11938,19 +11617,16 @@ class EventsController extends Controller
             case "rearrange":
                 $view->nest("page", "Events/SUN/Demo/WordsDraft");
                 $data["step"] = EventSteps::REARRANGE;
-                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "symbol-draft":
                 $view->nest("page", "Events/SUN/Demo/SymbolsDraft");
                 $data["step"] = EventSteps::SYMBOL_DRAFT;
-                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "self-check":
                 $view->nest("page", "Events/SUN/Demo/SelfCheck");
                 $data["step"] = EventSteps::SELF_CHECK;
-                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "theo-check":
@@ -11963,7 +11639,6 @@ class EventsController extends Controller
                 $view->nest("page", "Events/SUN/Demo/ContentReview");
                 $data["step"] = EventSteps::CONTENT_REVIEW;
                 $data["isCheckerPage"] = true;
-                $data["saildict"] = $this->_saildictModel->getSunDictionary();
                 break;
 
             case "verse-markers":
@@ -14403,6 +14078,75 @@ class EventsController extends Controller
         }
 
         echo json_encode($response);
+    }
+
+    public function getTq($bookCode, $chapter, $lang = "en")
+    {
+        $data = [];
+        $data["questions"] = $this->getTranslationQuestions(
+            $bookCode,
+            $chapter,
+            $lang
+        );
+
+        $this->layout = "dummy";
+        echo View::make("Events/Tools/Tq")
+            ->shares("data", $data)
+            ->renderContents();
+    }
+
+    public function getTn($bookCode, $chapter, $lang = "en", $totalVerses)
+    {
+        $data = [];
+        $data["notes"] = $this->getTranslationNotes(
+            $bookCode,
+            $chapter,
+            $lang
+        );
+        $data["totalVerses"] = $totalVerses;
+        $data["notesVerses"] = $this->_apiModel->getNotesVerses($data);
+
+        $this->layout = "dummy";
+        echo View::make("Events/Tools/Tn")
+            ->shares("data", $data)
+            ->renderContents();
+    }
+
+    public function getTw($bookCode, $chapter, $lang = "en")
+    {
+        $data = [];
+        $data["keywords"] = $this->getTranslationWords(
+            $bookCode,
+            $chapter,
+            $lang
+        );
+
+        $this->layout = "dummy";
+        echo View::make("Events/Tools/Tw")
+            ->shares("data", $data)
+            ->renderContents();
+    }
+
+    public function getRubric($lang)
+    {
+        $data = [];
+        $data["rubric"] = $this->_apiModel->getCachedRubricFromApi($lang);
+
+        $this->layout = "dummy";
+        echo View::make("Events/Tools/Rubric")
+            ->shares("data", $data)
+            ->renderContents();
+    }
+
+    public function getSailDict()
+    {
+        $data = [];
+        $data["saildict"] = $this->_saildictModel->getSunDictionary();
+
+        $this->layout = "dummy";
+        echo View::make("Events/Tools/SailDict")
+            ->shares("data", $data)
+            ->renderContents();
     }
 
     public function checkInternet()
