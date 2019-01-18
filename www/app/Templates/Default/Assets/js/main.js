@@ -654,27 +654,6 @@ $(document).ready(function() {
         }
     });
 
-    // Show/Hide Keyword Definition
-    $(".word_term").click(function () {
-        var word = $("span", this).text();
-        var def = $(this).next(".word_def").html();
-        var parent = $(this).parents(".ttools_content");
-
-        $(".word_def_title", parent).text(word);
-        $(".word_def_content", parent).html(def);
-
-        //$(".labels_list").children().hide();
-        $(".word_def_popup", parent).show("slide", {direction: "left"}, 300);
-    });
-
-    $(".word_def-close").click(function() {
-        $(".labels_list").children().show();
-        var parent = $(this).parents(".ttools_content");
-
-        $(".word_def_content", parent)[0].scrollTop = 0;
-        $(".word_def_popup", parent).hide("slide", {direction: "right"}, 300);
-    });
-
 	$("form #confirm_step").prop("checked", false);
 	$("form #next_step").prop("disabled", true);
 	
@@ -2320,37 +2299,82 @@ $(document).ready(function() {
         }
     });
 
-    $(".saildict_panel").draggable({snap: 'inner'});
-
-    $(".show_saildict").click(function (e) {
-        $(".saildict_panel").css("top", $(window).scrollTop() + 100).show();
-
-        e.preventDefault();
-    });
-
-    $("body").on("click", ".saildict_panel .panel-close", function () {
-        $(".saildict_panel").hide();
-    });
-
-
     // Translation tools
-    $(".ttools_panel").draggable({snap: 'inner', handle: '.panel-heading'});
-
     $(".ttools").click(function (e) {
+        $this = $(this);
         var tool = $(this).data("tool");
         var container = $(".ttools_panel."+tool+"_tool");
 
+        var bookCode = $("input#bookCode").val();
+        var chapter = $("input#chapter").val();
+        var lang = $("input#lang").val();
+        var targetLang = $("input#targetLang").val();
+        var totalVerses = $("input#totalVerses").val();
+
         if (container.length <= 0) {
-            renderPopup(Language.resource_not_found);
-            return;
+
+            var query_params = (["tq","tn","tw"].indexOf(tool) > -1
+                ? bookCode + "/" + chapter + "/" + lang
+                : (tool == "rubric" ? targetLang : ""))
+                + (tool == "tn" ? "/" + totalVerses : "");
+
+            $.ajax({
+                url: "/events/rpc/get_" + tool + "/" + query_params,
+                beforeSend: function() {
+                    $this.prop("disabled", true);
+                }
+            })
+                .done(function(data) {
+                    $(".container_block").append(data);
+
+                    container = $(".ttools_panel."+tool+"_tool");
+                    if (container.length <= 0)
+                    {
+                        renderPopup(Language.resource_not_found);
+                        return;
+                    }
+
+                    $(".ttools_panel").draggable({snap: 'inner', handle: '.panel-title'});
+                    container.css("top", $(window).scrollTop() + 50).show();
+                })
+                .error(function(xhr, status, error ) {
+                    renderPopup(status + ": " + error);
+                })
+                .always(function() {
+                    $this.prop("disabled", false);
+                });
+        }
+        else
+        {
+            container.css("top", $(window).scrollTop() + 50).show();
         }
 
-        container.css("top", $(window).scrollTop() + 50).show();
         e.preventDefault();
     });
 
+    // Show/Hide Keyword Definition
+    $("body").on("click", ".word_term", function () {
+        var word = $("span", this).text();
+        var def = $(this).next(".word_def").html();
+        var parent = $(this).parents(".ttools_content");
+
+        $(".word_def_title", parent).text(word);
+        $(".word_def_content", parent).html(def);
+
+        //$(".labels_list").children().hide();
+        $(".word_def_popup", parent).show("slide", {direction: "left"}, 300);
+    });
+
+    $("body").on("click", ".word_def-close", function() {
+        $(".labels_list").children().show();
+        var parent = $(this).parents(".ttools_content");
+
+        $(".word_def_content", parent)[0].scrollTop = 0;
+        $(".word_def_popup", parent).hide("slide", {direction: "right"}, 300);
+    });
+
     // Show/hide original/english content of a rubric
-    $(".read_rubric_tabs li").click(function(e) {
+    $("body").on("click", ".read_rubric_tabs li", function(e) {
         e.preventDefault();
         var id = $(this).attr("id");
         $(this).addClass("active");
@@ -2384,6 +2408,9 @@ $(document).ready(function() {
                 break;
             case "rubric":
                 $(".ttools_panel.rubric_tool").hide();
+                break;
+            case "saildict":
+                $(".ttools_panel.saildict_tool").hide();
                 break;
         }
     });

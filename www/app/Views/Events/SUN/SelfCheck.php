@@ -124,7 +124,7 @@ if(isset($data["error"])) return;
                 </div>
 
                 <div class="tr_tools">
-                    <button class="btn btn-warning show_saildict"><?php echo __("show_dictionary") ?></button>
+                    <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
                     <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
                     <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
                 </div>
@@ -154,110 +154,9 @@ if(isset($data["error"])) return;
     </div>
 </div>
 
-<div class="saildict_panel panel panel-default" draggable="true">
-    <div class="panel-heading">
-        <h1 class="panel-title"><?php echo __("sail_dictionary") ?></h1>
-        <span class="panel-close glyphicon glyphicon-remove"></span>
-    </div>
-
-    <div class="sun_content saildict page-content panel-body">
-        <div class="sail_filter">
-            <div class="form-group">
-                <label for="sailfilter" class="sr-only">Filter</label>
-                <input type="text" class="form-control input-lg" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
-            </div>
-        </div>
-        <div class="sail_list">
-            <ul>
-                <?php foreach ($data["saildict"] as $word): ?>
-                    <li id="<?php echo $word->word ?>" title="<?php echo __("copy_symbol_tip") ?>">
-                        <div class="sail_word"><?php echo $word->word ?></div>
-                        <div class="sail_symbol"><?php echo $word->symbol ?></div>
-                        <input type="text" value="<?php echo $word->symbol ?>" />
-                        <div class="clear"></div>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-
-    <div class="copied_tooltip"><?php echo __("copied_tip") ?></div>
-</div>
-
-<?php if(!empty($data["notes"])): ?>
-    <div class="ttools_panel tn_tool panel panel-default" draggable="true">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("tn") ?></h1>
-            <span class="panel-close glyphicon glyphicon-remove" data-tool="tn"></span>
-        </div>
-
-        <div class="ttools_content page-content panel-body">
-            <div class="labels_list">
-                <?php if(isset($data["notes"])): ?>
-                    <?php foreach ($data["notes"] as $verse => $notes): ?>
-                        <?php $chunkVerses = $data["notesVerses"][$verse]; ?>
-                        <label>
-                            <ul>
-                                <li>
-                                    <div class="word_term">
-                            <span style="font-weight: bold;">
-                                <?php echo $chunkVerses > 0 ? __("verse_number", $chunkVerses) :
-                                    __("intro")?>
-                            </span>
-                                    </div>
-                                    <div class="word_def">
-                                        <?php foreach ($notes as $note): ?>
-                                            <?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $note) ?>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </li>
-                            </ul>
-                        </label>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-            <div class="word_def_popup">
-                <div class="word_def-close glyphicon glyphicon-remove"></div>
-
-                <div class="word_def_title"></div>
-                <div class="word_def_content"></div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-
-<?php if(!empty($data["keywords"]) && !empty($data["keywords"]["words"])): ?>
-    <div class="ttools_panel tw_tool panel panel-default" draggable="true">
-        <div class="panel-heading">
-            <h1 class="panel-title"><?php echo __("tw") ?></h1>
-            <span class="panel-close glyphicon glyphicon-remove" data-tool="tw"></span>
-        </div>
-
-        <div class="ttools_content page-content panel-body">
-            <div class="labels_list">
-                <?php if(isset($data["keywords"]) && isset($data["keywords"]["words"])): ?>
-                    <?php foreach ($data["keywords"]["words"] as $title => $tWord): ?>
-                        <?php if(!isset($tWord["text"])) continue; ?>
-                        <label>
-                            <ul>
-                                <li>
-                                    <div class="word_term">
-                                        <span style="font-weight: bold;"><?php echo ucfirst($title) ?> </span>
-                                        (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
-                                    </div>
-                                    <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
-                                </li>
-                            </ul>
-                        </label>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-            <div class="word_def_popup">
-                <div class="word_def-close glyphicon glyphicon-remove"></div>
-
-                <div class="word_def_title"></div>
-                <div class="word_def_content"></div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+<!-- Data for tools -->
+<input type="hidden" id="bookCode" value="<?php echo $data["event"][0]->bookCode ?>">
+<input type="hidden" id="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
+<input type="hidden" id="lang" value="<?php echo "en"/*$data["event"][0]->sourceLangID*/ ?>">
+<input type="hidden" id="totalVerses" value="<?php echo $data["totalVerses"] ?>">
+<input type="hidden" id="targetLang" value="<?php echo $data["event"][0]->targetLang ?>">
