@@ -4723,27 +4723,6 @@ button.startEvnt, button.editEvnt {
     visibility: hidden;
 }
 
-.saildict_panel {
-    width: 400px;
-    z-index: 102;
-    position: absolute;
-    left: calc(50% - 200px);
-    top: 150px;
-    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
-    display: none;
-}
-
-.saildict_panel .panel-heading {
-    cursor: move;
-    background-color: #0096c3;
-    color: #fff;
-}
-
-.saildict {
-    width: 398px;
-    padding: 0 !important;
-}
-
 .saildict.tools {
     width: 100%;
     margin-top: 20px;
@@ -4758,7 +4737,7 @@ button.startEvnt, button.editEvnt {
 }
 
 .sail_list {
-    height: 300px;
+    height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
 }
