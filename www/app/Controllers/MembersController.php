@@ -1042,16 +1042,7 @@ class MembersController extends Controller
                 $error['sof'] = __('sof_accept_error');
             }
 
-            if(!empty($projects)) {
-                $projects = array_filter($projects, function ($elm) {
-                    return in_array($elm, ["vmast","vsail","l2","l3","tn","tq","tw"]);
-                });
-                $projects = array_unique($projects);
-
-                if(empty($projects)) {
-                    $error["projects"] = __("projects_empty_error");
-                }
-            } else {
+            if(!in_array($projects, ["vmast","vsail","l2","l3","tn","tq","tw"])) {
                 $error["projects"] = __("projects_empty_error");
             }
 
@@ -1090,7 +1081,7 @@ class MembersController extends Controller
 
                 $profiledata = [
                     "mID" => $id,
-                    "projects" => json_encode($projects),
+                    "projects" => json_encode([$projects]),
                     "proj_lang" => $projLang
                 ];
                 if(Config::get("app.type") != "remote") {

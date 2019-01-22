@@ -86,12 +86,11 @@ use Shared\Legacy\Error;
         <div class="form-group">
             <label for="projects" class="sr-only"><?php echo __('select_project'); ?>: </label>
             <select id="projects"
-                    class="form-control input-lg select-chosen-multiple"
-                    name="projects[]"
+                    class="form-control input-lg select-chosen-single"
+                    name="projects"
                     data-type="projects"
                     data-empty-error="<?=__('projects_empty_error')?>"
-                    data-placeholder="<?php echo __("select_project") ?>"
-                    multiple>
+                    data-placeholder="<?php echo __("select_project") ?>">
                 <option></option>
                 <option <?php echo isset($_POST["projects"]) && in_array("vmast", $_POST["projects"]) ? "selected" : "" ?>
                         value="vmast"><?php echo __("8steps_vmast") ?></option>
