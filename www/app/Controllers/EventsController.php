@@ -49,7 +49,14 @@ class EventsController extends Controller
             Url::redirect("maintenance");
         }
 
-        if (!Session::get('loggedin') && !preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
+        if(preg_match("/^\\/events\\/rpc\\/get_saildict/", $_SERVER["REQUEST_URI"]))
+        {
+            $this->_saildictModel = new SailDictionaryModel();
+            return;
+        }
+
+        if (!Session::get('loggedin')
+            && !preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
         {
             if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 $response["errorType"] = "logout";
@@ -1505,36 +1512,34 @@ class EventsController extends Controller
                                 {
                                     foreach ($chunks as $key => $chunk) 
                                     {
-                                        if ($translation[$key][EventMembers::TRANSLATOR]["verses"] != $chunk) {
-                                            $tID = $translation[$key]["tID"];
-                                            unset($translation[$key]["tID"]);
-                                            $translation[$key][EventMembers::TRANSLATOR]["verses"] = $chunk;
-                                            
-                                            $encoded = json_encode($translation[$key]);
-                                            $json_error = json_last_error();
-                                            
-                                            if($json_error == JSON_ERROR_NONE)
-                                            {
-                                                $trData = array(
-                                                    "translatedVerses"  => $encoded,
-                                                    "translateDone" => true
-                                                );
-                                                $this->_translationModel->updateTranslation(
-                                                    $trData, 
-                                                    array(
-                                                        "trID" => $data["event"][0]->trID, 
-                                                        "tID" => $tID)
-                                                );
-                                            }
-                                            else 
-                                            {
-                                                $tID = "Json error: " . $json_error;
-                                            }
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+                                        $translation[$key][EventMembers::TRANSLATOR]["verses"] = $chunk;
 
-                                            if(!is_numeric($tID))
-                                            {
-                                                $error[] = __("error_ocured", array($tID));
-                                            }
+                                        $encoded = json_encode($translation[$key]);
+                                        $json_error = json_last_error();
+
+                                        if($json_error == JSON_ERROR_NONE)
+                                        {
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded,
+                                                "translateDone" => true
+                                            );
+                                            $this->_translationModel->updateTranslation(
+                                                $trData,
+                                                array(
+                                                    "trID" => $data["event"][0]->trID,
+                                                    "tID" => $tID)
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $tID = "Json error: " . $json_error;
+                                        }
+
+                                        if(!is_numeric($tID))
+                                        {
+                                            $error[] = __("error_ocured", array($tID));
                                         }
                                     }
                                 }

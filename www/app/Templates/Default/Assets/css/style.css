@@ -10,9 +10,9 @@
 
 @font-face {
     font-family: "SUN4";
-    src: url("../fonts/SUN4.woff2?3") format('woff2'),
-    url("../fonts/SUN4.woff?3") format("woff"),
-    url("../fonts/SUN4.ttf?3") format("truetype")
+    src: url("../fonts/SUN4.5.woff2?1") format('woff2'),
+    url("../fonts/SUN4.5.woff?1") format("woff"),
+    url("../fonts/SUN4.5.ttf?1") format("truetype")
 }
 
 @font-face {

@@ -181,7 +181,7 @@ return array (
     "proj_lang_select" => "Select the project language",
     "select_project" => "Select the project",
     "proj_lang_public" => "Project Language",
-    "projects_public" => "Projects",
+    "projects_public" => "Project",
     "show_rubric" => "Rubric",
 
     // Passwordreset method
