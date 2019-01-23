@@ -17,9 +17,9 @@
 
 @font-face {
     font-family: "BACKSUN4";
-    src: url("../fonts/BackSUN4.woff2?3") format('woff2'),
-    url("../fonts/BackSUN4.woff?3") format("woff"),
-    url("../fonts/BackSUN4.ttf?3") format("truetype")
+    src: url("../fonts/BackSUN4.5.woff2?1") format('woff2'),
+    url("../fonts/BackSUN4.5.woff?1") format("woff"),
+    url("../fonts/BackSUN4.5.ttf?1") format("truetype")
 }
 
 .sun_content {
