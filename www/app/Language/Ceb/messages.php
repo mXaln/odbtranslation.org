@@ -202,6 +202,7 @@ return array (
     "activation_link_message" => "Aron pwede na gamiton ang imong ‘account’ pindota kini nga link {0}",
     "registration_success_message" => "Malampuson ang pagpalista! Palihog tan-awa ang imong email aron makumpleto ang pagpalista. Kung dili nimo kini makit-an, i-tsek ang spam/junk nga folder",
     "registration_local_success_message" => "Malampuson ang pagpalista! Please log in.",
+    "font_uploaded" => "Font {0} has been successfully uploaded!",
 
     // Error messages
     "userName_characters_error" => "Latin lang nga mga letra ang gamiton sa alyas ug numero ug kinahanglan magsugod sa mga letra",
@@ -229,6 +230,8 @@ return array (
     "facilitator_yourself_error" => "Dili ka makapadala og mensahe sa imong kaugalingon",
     "delete_warning" => "isulat ang ngalan sa libro ug pindota \"Papas\" button pag-usab aron mapapas ang nabuhat na",
     "local_use_restriction" => "This feature is not available on local server.",
+    "font_should_be_ttf_format_error" => "Only TTF format is accepted",
+    "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
 
     // ------------ Events Controller ------------- //
 
@@ -460,6 +463,9 @@ return array (
     "sail_enter_symbol" => "Symbol",
     "sail_enter_word" => "Word",
     "sail_word_exists" => "The word exists",
+    "sun_font_uploader" => "SUN Fonts Uploader",
+    "upload" => "Upload",
+    "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "sun_theo_checker" => "Remove Theological checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "l2_snd_checker" => "Remove 2nd checker",

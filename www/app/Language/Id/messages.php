@@ -458,6 +458,9 @@ return array (
     "sail_enter_symbol" => "Symbol",
     "sail_enter_word" => "Word",
     "sail_word_exists" => "The word exists",
+    "sun_font_uploader" => "SUN Fonts Uploader",
+    "upload" => "Upload",
+    "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "sun_theo_checker" => "Remove Theological checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -1186,6 +1189,8 @@ return array (
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
+    "font_should_be_ttf_format_error" => "Only TTF format is accepted",
+    "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
 
     // Success messages
     "you_event_finished_success" => "Anda telah menyelesaikan penerjemahan semua pasal Anda.",
@@ -1200,6 +1205,7 @@ return array (
     "moved_back_success" => "Penerjemah berhasil dipindahkan satu langkah ke belakang!",
     "checker_removed_success" => "Checker has been successfully removed!",
     "import_successful_message" => "The project has been imported successfully!",
+    "font_uploaded" => "Font {0} has been successfully uploaded!",
 
     // Other messages
     "alert_message" => "Pesan",
