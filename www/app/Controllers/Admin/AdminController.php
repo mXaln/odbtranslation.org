@@ -3240,6 +3240,83 @@ class AdminController extends Controller {
     }
 
 
+    public function uploadSunFont()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $font_file = Input::file("file");
+
+        if($font_file->isValid())
+        {
+            $mime = $font_file->getMimeType();
+            if($mime == "application/x-font-ttf")
+            {
+                $name = $font_file->getClientOriginalName();
+                $destinationPath = "../app/Templates/Default/Assets/fonts/";
+
+                if(preg_match("/backsun/i", $name))
+                {
+                    $fileName = "BackSUN.ttf";
+                    $font_file->move($destinationPath, $fileName);
+
+                    if(File::exists(join("/", [$destinationPath, $fileName])))
+                    {
+                        $result["success"] = true;
+                        $result["message"] = __("font_uploaded", $fileName);
+                        echo json_encode($result);
+                        exit;
+                    }
+                }
+                elseif(preg_match("/sun/i", $name))
+                {
+                    $fileName = "SUN.ttf";
+                    $font_file->move($destinationPath, $fileName);
+
+                    if(File::exists(join("/", [$destinationPath, $fileName])))
+                    {
+                        $result["success"] = true;
+                        $result["message"] = __("font_uploaded", $fileName);
+                        echo json_encode($result);
+                        exit;
+                    }
+                }
+                else
+                {
+                    $result["error"] = __("font_name_error");
+                    echo json_encode($result);
+                    exit;
+                }
+            }
+            else
+            {
+                $result["error"] = __("font_should_be_ttf_format_error");
+                echo json_encode($result);
+                exit;
+            }
+        }
+        else
+        {
+            $result["error"] = __("error_ocured");
+            echo json_encode($result);
+            exit;
+        }
+    }
+
+
     public function createNews()
     {
         $result = ["success" => false];
