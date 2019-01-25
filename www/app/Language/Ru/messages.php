@@ -458,6 +458,9 @@ return array (
     "sail_enter_symbol" => "Символ",
     "sail_enter_word" => "Слово",
     "sail_word_exists" => "Слово существует",
+    "sun_font_uploader" => "Загрузчик шрифтов SUN",
+    "upload" => "Загрузить",
+    "font_uploader_tooltip" => "Загружайте только шрифты SUN и BACKSUN, по одному за раз. Файлы шрифтов должны иметь формат TTF и называться соответственно sun.ttf и backsun.ttf",
     "sun_theo_checker" => "Удалить теологического проверяющего",
     "sun_vbv_checker" => "Удалить проверяющего по стихам",
     "l2_snd_checker" => "Удалить проверяющего 2-ой проверки",
@@ -1183,6 +1186,8 @@ return array (
     "event_does_not_exist_error" => "Событие не существует. Необходимо создать событие для того, чтобы можно было импортировать перевод.",
     "unknown_import_type_error" => "Неизвестный тип проекта.",
     "translator_finished_chapter" => "Переводчик закончил работать над этой главой, поэтому проверяющий не может быть удалён.",
+    "font_should_be_ttf_format_error" => "Принимается только шрифт формата TTF",
+    "font_name_error" => "Имя файла должно содержать \"sun\" или \"backsun\" для соответствующего шрифта",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",
@@ -1198,6 +1203,7 @@ return array (
     "moved_back_success" => "Переводчик успешно переведен на шаг назад!",
     "checker_removed_success" => "Проверяющий был успешно удален!",
     "import_successful_message" => "Проект был успешно импортирован!",
+    "font_uploaded" => "Шрифт {0} был успешно загружен!",
 
     // Other messages
     "alert_message" => "Сообщение",

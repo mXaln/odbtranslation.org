@@ -1408,6 +1408,44 @@ $(function () {
         e.preventDefault();
         return false;
     });
+
+    // Upload SUN font
+    $(".sun_font_tools button").click(function (e) {
+        var formData = new FormData();
+        formData.append("file", $('#sun_upload')[0].files[0]);
+
+        $.ajax({
+            url: "/admin/rpc/upload_sun_font",
+            method: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            beforeSend: function() {
+                $(".sun_font_tools img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(data.message);
+                    $('#sun_upload').val("");
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".sun_font_tools img").hide();
+            });
+
+        e.preventDefault();
+        return false;
+    });
 });
 
 

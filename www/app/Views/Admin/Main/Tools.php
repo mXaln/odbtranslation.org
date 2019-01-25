@@ -65,6 +65,22 @@
     </div>
 
     <div class="tools_right">
+        <div class="sun_font_tools">
+            <div class="tools_title"><?php echo __("sun_font_uploader"); ?></div>
+
+            <div class="form-group">
+                <label for="sun_upload" class="sr-only">Upload</label>
+                <input type="file" accept=".ttf" class="form-control" id="sun_upload" placeholder="<?php echo __("upload_sun_font") ?>" value="">
+            </div>
+
+            <button class="btn btn-warning"><?php echo __("upload"); ?></button>
+            <span class="glyphicon glyphicon-exclamation-sign"
+                  data-toggle="tooltip"
+                  data-placement="auto bottom"
+                  title="<?php echo __("font_uploader_tooltip") ?>"></span>
+            <img src="<?php echo template_url("img/loader.gif") ?>">
+        </div>
+
         <div class="saildict tools">
             <div class="tools_title"><?php echo __("sail_dictionary_editor"); ?></div>
 

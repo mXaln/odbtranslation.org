@@ -9,21 +9,17 @@
 }*/
 
 @font-face {
-    font-family: "SUN4";
-    src: url("../fonts/SUN4.5.woff2?1") format('woff2'),
-    url("../fonts/SUN4.5.woff?1") format("woff"),
-    url("../fonts/SUN4.5.ttf?1") format("truetype")
+    font-family: "SUN";
+    src: url("../fonts/SUN.ttf") format("truetype")
 }
 
 @font-face {
-    font-family: "BACKSUN4";
-    src: url("../fonts/BackSUN4.5.woff2?1") format('woff2'),
-    url("../fonts/BackSUN4.5.woff?1") format("woff"),
-    url("../fonts/BackSUN4.5.ttf?1") format("truetype")
+    font-family: "BACKSUN";
+    src: url("../fonts/BackSUN.ttf") format('truetype')
 }
 
 .sun_content {
-    font-family: SUN4, serif;
+    font-family: SUN, serif;
     font-size: 26px;
     font-weight: bold;
     word-wrap: break-word;
@@ -36,11 +32,11 @@
 }
 
 .font_sun {
-    font-family: SUN4;
+    font-family: SUN;
 }
 
 .font_backsun {
-    font-family: BACKSUN4;
+    font-family: BACKSUN;
     font-size: 40px;
     line-height: 25px;
 }
@@ -503,14 +499,14 @@ html, body, .container {
 }
 
 .chat_msgs {
-    font-family: SUN4, serif;
+    font-family: SUN, serif;
     font-size: 20px;
 }
 
 #m {
     height: 60px;
     width: 388px;
-    font-family: SUN4, serif;
+    font-family: SUN, serif;
     font-size: 20px;
 }
 
@@ -1970,7 +1966,7 @@ mark {
 .textarea_editor {
     width: 503px;
     min-height: 100px;
-    /*font-family: SUN4, Serif;*/
+    /*font-family: SUN, Serif;*/
     font-size: 20px;
 }
 
@@ -1979,7 +1975,7 @@ mark {
     text-align: left;
     max-height: 300px;
     overflow-y: auto;
-    /*font-family: SUN4, Serif;*/
+    /*font-family: SUN, Serif;*/
     font-size: 20px;
 }
 
@@ -4723,6 +4719,21 @@ button.startEvnt, button.editEvnt {
     visibility: hidden;
 }
 
+.sun_font_tools {
+    position: relative;
+}
+
+.sun_font_tools span {
+    position: absolute;
+    top: 90px;
+    right: 10px;
+    font-size: 22px;
+}
+
+.sun_font_tools span + div.tooltip {
+    font-size: 18px;
+}
+
 .saildict.tools {
     width: 100%;
     margin-top: 20px;
@@ -4853,7 +4864,7 @@ button.startEvnt, button.editEvnt {
 }
 
 #tools .create_news {
-    font-family: SUN4, Serif;
+    font-family: SUN, Serif;
 }
 
 #tools .create_news textarea {
@@ -4861,7 +4872,7 @@ button.startEvnt, button.editEvnt {
 }
 
 .news_page {
-    font-family: SUN4, Serif;
+    font-family: SUN, Serif;
     padding: 20px;
     margin: 0 20px;
 }
