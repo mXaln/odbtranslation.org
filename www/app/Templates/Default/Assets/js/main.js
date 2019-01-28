@@ -569,7 +569,6 @@ $(document).ready(function() {
 
                         });
                         openedItems = [];
-
                         localizeDate();
                     }
                     else
@@ -656,7 +655,7 @@ $(document).ready(function() {
 
 	$("form #confirm_step").prop("checked", false);
 	$("form #next_step").prop("disabled", true);
-	
+
     // Confirm to go to the next step
     $("#confirm_step").change(function() {
         if($(this).is(":checked"))
@@ -666,24 +665,39 @@ $(document).ready(function() {
     });
 
     $("#next_step").click(function(e) {
-        if(step == EventSteps.BLIND_DRAFT)
-            return;
-
         $this = $(this);
 
         if(hasChangesOnPage)
         {
-            renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
-                $(this).dialog("close");
-                $this.data("yes", true);
-                $this.click();
-            }, function () {
-                $( this ).dialog("close");
-            });
+            if(step != EventSteps.BLIND_DRAFT && step != EventSteps.REARRANGE
+                && step != EventSteps.SYMBOL_DRAFT && step != EventSteps.MULTI_DRAFT)
+            {
+                renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
+                    $(this).dialog("close");
+                    $this.data("yes", true);
+                    $this.click();
+                }, function () {
+                    $( this ).dialog("close");
+                });
+
+                if(typeof $this.data("yes") == "undefined" && hasChangesOnPage)
+                    e.preventDefault();
+
+                return false;
+            }
         }
 
-        if(typeof $this.data("yes") == "undefined" && hasChangesOnPage)
+        var sending = $this.data("sending");
+        if(sending)
+        {
+            setTimeout(function() {$this.data("sending", false);}, 5000)
             e.preventDefault();
+        }
+        else
+        {
+            $this.data("sending", true);
+            return true;
+        }
     });
 
     $("#checker_submit").submit(function(e) {
