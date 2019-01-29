@@ -680,7 +680,7 @@ $(document).ready(function() {
                     $( this ).dialog("close");
                 });
 
-                if(typeof $this.data("yes") == "undefined" && hasChangesOnPage)
+                if(typeof $this.data("yes") == "undefined")
                     e.preventDefault();
 
                 return false;
