@@ -1111,28 +1111,26 @@ class MembersController extends Controller
                     }
 
                     // Projects list for email message
-                    $prjs = array_map(function ($elm) {
-                        switch ($elm) {
-                            case "vmast":
-                                return __("8steps_vmast");
-                                break;
-                            case "l2":
-                                return __("l2_3_events", [2]);
-                                break;
-                            case "l3":
-                                return __("l2_3_events", [3]);
-                                break;
-                            default:
-                                return __($elm);
-                        }
-                    }, $projects);
+                    switch ($projects) {
+                        case "vmast":
+                            $projects = __("8steps_vmast");
+                            break;
+                        case "l2":
+                            $projects = __("l2_3_events", [2]);
+                            break;
+                        case "l3":
+                            $projects = __("l2_3_events", [3]);
+                            break;
+                        default:
+                            $projects = __($projects);
+                    }
 
                     Mailer::send('Emails/Common/NotifyRegistration', [
                         "userName" => $userName,
                         "name" => $firstName." ".$lastName,
                         "id" => $id,
                         "projectLanguage" => $proj_lang,
-                        "projects" => join(", ", $prjs)], function($message)
+                        "projects" => $projects], function($message)
                     {
                         $message->to("vmastteam@gmail.com")
                             ->subject($this->_model->translate("new_account_title", "en"));
