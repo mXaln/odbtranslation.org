@@ -92,19 +92,19 @@ use Shared\Legacy\Error;
                     data-empty-error="<?=__('projects_empty_error')?>"
                     data-placeholder="<?php echo __("select_project") ?>">
                 <option></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("vmast", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "vmast" == $_POST["projects"] ? "selected" : "" ?>
                         value="vmast"><?php echo __("8steps_vmast") ?></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("vsail", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "vsail" == $_POST["projects"] ? "selected" : "" ?>
                         value="vsail"><?php echo __("vsail") ?></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("l2", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "l2" == $_POST["projects"] ? "selected" : "" ?>
                         value="l2"><?php echo __("l2_3_events", [2]) ?></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("l3", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "l3" == $_POST["projects"] ? "selected" : "" ?>
                         value="l3"><?php echo __("l2_3_events", [3]) ?></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("tn", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "tn" == $_POST["projects"] ? "selected" : "" ?>
                         value="tn"><?php echo __("tn") ?></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("tq", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "tq" == $_POST["projects"] ? "selected" : "" ?>
                         value="tq"><?php echo __("tq") ?></option>
-                <option <?php echo isset($_POST["projects"]) && in_array("tw", $_POST["projects"]) ? "selected" : "" ?>
+                <option <?php echo isset($_POST["projects"]) && "tw" == $_POST["projects"] ? "selected" : "" ?>
                         value="tw"><?php echo __("tw") ?></option>
             </select>
         </div>
