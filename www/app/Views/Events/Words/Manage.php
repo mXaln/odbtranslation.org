@@ -44,7 +44,7 @@ if(!isset($error)):
                             if($tw_group->groupID == $chapter)
                             {
                                 $words = (array) json_decode($tw_group->words, true);
-                                $group_name = $words[0] . "..." . $words[sizeof($words)-1];
+                                $group_name = join(", ", $words);
                                 break;
                             }
                         }
@@ -56,6 +56,7 @@ if(!isset($error)):
                             $userName = $data["members"][$key]["userName"];
                             $name = $data["members"][$key]["firstName"] . " " . mb_substr($data["members"][$key]["lastName"], 0, 1).".";
                             $data["members"][$key]["assignedChapters"][] = $chapter;
+                            $data["members"][$key]["assignedGroups"][] = $group_order;
                         }
                         ?>
                         <li style="position:relative;">
@@ -71,7 +72,9 @@ if(!isset($error)):
                                 <div class="group_delete glyphicon glyphicon-remove" data-groupid="<?php echo $chapter ?>"></div>
                             </div>
                             <div class="manage_chapters_user chapter_<?php echo $chapter ?>">
-                                <button class="btn btn-success add_person_chapter" data="<?php echo $chapter ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>
+                                <button class="btn btn-success add_person_chapter"
+                                        data="<?php echo $chapter ?>"
+                                        data-group="<?php echo $group_order ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>
                                     <?php echo __("add_person") ?>
                                 </button>
                                 <div class="manage_username" <?php echo !empty($chapData) ? 'style="display: block"' : '' ?>>
@@ -159,11 +162,11 @@ if(!isset($error)):
                         <li>
                             <div class="member_usname" data="<?php echo $member["memberID"] ?>">
                                 <a href="/members/profile/<?php echo $member["memberID"] ?>" target="_blank"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></a>
-                                (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
+                                (<span><?php echo isset($member["assignedGroups"]) ? sizeof($member["assignedGroups"]) : 0 ?></span>)
                                 <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
                             </div>
-                            <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
-                                <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
+                            <div class="member_chapters" <?php echo isset($member["assignedGroups"]) ? "style='display:block'" : "" ?>>
+                                <?php echo __("chapters").": <span>". (isset($member["assignedGroups"]) ? join(", ", $member["assignedGroups"]) : "")."</span>" ?>
                             </div>
                             <div class="step_selector_block row">
                                 <div class="col-sm-6">
@@ -188,9 +191,7 @@ if(!isset($error)):
                                             ?>
 
                                             <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
-                                                <?php
-                                                echo __($step)
-                                                ?>
+                                                <?php echo __($step) ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -206,7 +207,6 @@ if(!isset($error)):
     <input type="hidden" id="eventID" value="<?php echo $data["event"][0]->eventID ?>">
     <input type="hidden" id="mode" value="<?php echo $data["event"][0]->bookProject ?>">
 
-
     <div class="chapter_members">
         <div class="chapter_members_div panel panel-default">
             <div class="panel-heading">
@@ -221,7 +221,7 @@ if(!isset($error)):
                     <li>
                         <div class="member_usname userlist chapter_ver">
                             <div class="divname"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></div>
-                            <div class="divvalue">(<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)</div>
+                            <div class="divvalue">(<span><?php echo isset($member["assignedGroups"]) ? sizeof($member["assignedGroups"]) : 0 ?></span>)</div>
                         </div>
                         <button class="btn btn-success assign_chapter" data="<?php echo $member["memberID"] ?>"><?php echo __("assign") ?></button>
                         <div class="clear"></div>

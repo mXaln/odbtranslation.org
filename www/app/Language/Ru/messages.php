@@ -1145,7 +1145,7 @@ return array (
     "empty_verses_error" => "Вы перевели не все отрывки.",
     "wrong_chunks_error" => "Неверно усстановлены отрывки.",
     "error_ocured" => "Возникла ошибка. {0}",
-    "error_member_in_event" => "Вы уже участвуете в этом событии.",
+    "error_member_in_event" => "Участник уже подал заявку на это событие. Возможно на предыдущих уровнях.",
     "no_l2_3_checkers_available_error" => "Регистрация проверяющих {0}-го уровня закрыта.",
     "no_translators_available_error" => "Регистрация переводчиков закрыта.",
     "required_fields_empty_error" => "Вы не заполнили требуемые поля.",
