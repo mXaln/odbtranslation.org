@@ -12,7 +12,14 @@ $(function () {
 
     // Show assign chapter dialog
     $(".add_person_chapter").click(function() {
-        $(".chapter_members_div .panel-title span").text($(this).attr("data"));
+        var mode = $("#mode").val();
+        var chapter = $(this).attr("data");
+        if(mode == "tw") {
+            $(".chapter_members_div .panel-title span").data("groupid", chapter);
+            chapter = $(this).data("group");
+        }
+
+        $(".chapter_members_div .panel-title span").text(chapter);
 
         $(".chapter_members").show();
 
@@ -35,9 +42,14 @@ $(function () {
 
     // Assign chapter to translator/checker
     $(document).on("click", ".assign_chapter", function() {
+        var mode = $("#mode").val();
+        var chapter = mode == "tw"
+            ? $(".chapter_members_div .panel-title span").data("groupid")
+            : $(".chapter_members_div .panel-title span").text();
+
         var data = {};
         data.eventID = $("#eventID").val();
-        data.chapter = $(".chapter_members_div .panel-title span").text();
+        data.chapter = chapter;
         data.memberID = $(this).attr("data");
         data.memberName = $(this).prev(".member_usname").children(".divname").text();
         data.manageMode = typeof manageMode != "undefined" ? manageMode : "l1";
