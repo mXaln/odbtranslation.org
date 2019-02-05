@@ -645,7 +645,16 @@ return array (
                                 <li>Look for any missing portions of text or missing or added facts.</li>
                                 <li>Check the accuracy of your translation in detail.</li>
                                 <li>Any resources can be used.</li>
-                                <li>Do not completely delete or re-write the translated text.  You will lose the naturalness of language.</li>
+                                <li>Do not completely delete or re-write the translated text. You will lose the naturalness of language.</li>
+                                <li>Format the text by clicking the line you want to format, and then click the format 
+                                    icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.
+                                    <ol>
+                                        <li>Translated Note select: Normal.</li>
+                                        <li>Scripture select: Header 1.</li>
+                                        <li>For Book and Chapter Intro use the following format: Introduction – Header 1, 
+                                            Part – Header 2, Titles - Header 4, Notes – Normal.</li>
+                                    </ol>
+                                </li>
                                 <li>If you have additional thoughts or questions about your translation, click the note 
                                     icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the 
                                     note and click save. The checkers will see this note and help to resolve the question or problem.</li>
@@ -1559,7 +1568,7 @@ return array (
     "empty_verses_error" => "You haven't translated all the chunks.",
     "wrong_chunks_error" => "Wrong setting of chunks.",
     "error_ocured" => "An error occured. {0}",
-    "error_member_in_event" => "You have already applied to this event.",
+    "error_member_in_event" => "The member has already applied to this event. Perhaps on previous levels.",
     "no_l2_3_checkers_available_error" => "No more vacancy available for level {0} checkers.",
     "no_translators_available_error" => "No more vacancy available for translators.",
     "required_fields_empty_error" => "You haven't filled in required fields correctly.",
