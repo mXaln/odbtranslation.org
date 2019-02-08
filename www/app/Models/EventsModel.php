@@ -1477,10 +1477,13 @@ class EventsModel extends Model
                 // Exclude taken chapters
                 if($data["memberID"] > 0)
                 {
-                    $p2 = $peer2Check[$chapter];
-                    if($p2["memberID"] > 0
-                        || $data["memberID"] == Session::get("memberID"))
-                        continue;
+                    if(array_key_exists($chapter, $peer2Check))
+                    {
+                        $p2 = $peer2Check[$chapter];
+                        if($p2["memberID"] > 0
+                            || $data["memberID"] == Session::get("memberID"))
+                            continue;
+                    }
                 }
 
                 $notif = clone $notification;
