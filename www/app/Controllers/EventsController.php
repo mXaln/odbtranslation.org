@@ -11923,7 +11923,7 @@ class EventsController extends Controller
             $level = isset($post["level"]) && $post["level"] != "" ? $post["level"] : "l1";
 
             $memberType = EventMembers::TRANSLATOR;
-            if($level == "l2")
+            if($level == "l2" || $level == "l2continue")
                 $memberType = EventMembers::L2_CHECKER;
             elseif($level == "l3")
                 $memberType = EventMembers::L3_CHECKER;
