@@ -70,6 +70,7 @@ if(!empty($data["project"])):
                         <th><?php echo __("time_start") ?></th>
                         <th><?php echo __("time_end") ?></th>
                         <th><?php echo __("state") ?></th>
+                        <th><?php echo __("progress") ?></th>
                         <th><?php echo __("contributors") ?></th>
                         <th></th>
                     </tr>
@@ -85,6 +86,16 @@ if(!empty($data["project"])):
                                 date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>">
                                 <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
+                            <td style="position:relative;">
+                                <div class="event_column progress zero" data-eventid="<?php echo $event->eventID?>">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         aria-valuenow="0"
+                                         aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 0%">
+                                        0%
+                                    </div>
+                                    <img class="progressLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
+                                </div>
+                            </td>
                             <td>
                                 <?php if($event->state != ""
                                     && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)
