@@ -1446,6 +1446,40 @@ $(function () {
         e.preventDefault();
         return false;
     });
+
+    $(".event_column.progress").each(function () {
+        var $this = $(this);
+        var eventID = $this.data("eventid");
+
+        if(typeof eventID == "string" || eventID == "") return;
+
+        $.ajax({
+            url: "/admin/rpc/get_event_progress/" + eventID,
+            method: "get",
+            dataType: "json",
+            beforeSend: function() {
+                $(".progressLoader", $this).show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    if(data.progress > 0) {
+                        $this.removeClass("zero");
+                        $(".progress-bar", $this).attr("aria-valuenow", data.progress);
+                        $(".progress-bar", $this).css("width", data.progress + "%");
+                        $(".progress-bar", $this).text(Math.floor(data.progress) + "%");
+                    }
+                }
+                else
+                {
+                    console.log("unavailable");
+                }
+            })
+            .always(function() {
+                $(".progressLoader", $this).hide();
+            });
+    });
 });
 
 

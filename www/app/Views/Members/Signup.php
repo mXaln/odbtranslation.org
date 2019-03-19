@@ -119,6 +119,7 @@ use Shared\Legacy\Error;
                     data-placeholder="<?php echo __('proj_lang_select'); ?>">
                 <option></option>
                 <?php foreach ($data["languages"] as $lang):?>
+                    <?php if($lang->langID == "en") continue; ?>
                     <option <?php echo isset($_POST["proj_lang"]) && $lang->langID == $_POST["proj_lang"] ? "selected" : "" ?>
                             value="<?php echo $lang->langID; ?>">
                         <?php echo "[".$lang->langID."] " . $lang->langName .

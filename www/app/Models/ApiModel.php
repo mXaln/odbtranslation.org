@@ -526,15 +526,19 @@ class ApiModel extends Model
 
         // Get book folder
         $dirs = File::directories($folderpath);
+        $bookFolderPath = null;
         foreach($dirs as $dir)
         {
             preg_match("/[1-3a-z]{3}$/", $dir, $matches);
             if($matches[0] == $book)
             {
-                $folderpath = $dir;
+                $bookFolderPath = $dir;
                 break;
             }
         }
+        $folderpath = $bookFolderPath;
+
+        if(!$folderpath) return [];
 
         $parsedown = new Parsedown();
 
@@ -869,15 +873,20 @@ class ApiModel extends Model
 
         // Get book folder
         $dirs = File::directories($folderpath);
+        $bookFolderPath = null;
         foreach($dirs as $dir)
         {
             preg_match("/[1-3a-z]{3}$/", $dir, $matches);
             if($matches[0] == $book)
             {
-                $folderpath = $dir;
+                $bookFolderPath = $dir;
                 break;
             }
         }
+
+        $folderpath = $bookFolderPath;
+
+        if(!$folderpath) return [];
 
         $parsedown = new Parsedown();
 
