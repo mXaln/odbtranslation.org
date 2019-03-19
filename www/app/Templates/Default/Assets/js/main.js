@@ -1395,9 +1395,9 @@ $(document).ready(function() {
         if(step == EventSteps.PEER_REVIEW && 
             typeof disableHighlight == "undefined") return;
 
-        $("div[class^=kwverse]").html(function() {
+        /*$("div[class^=kwverse]").html(function() {
             return $(this).text();
-        });
+        });*/
 
         $.ajax({
             url: "/events/rpc/get_keywords",

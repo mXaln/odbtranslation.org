@@ -102,9 +102,12 @@ class UsfmParser
                     $vText = preg_replace("/\\\\w\s?(.*)\s?\\\\w\\*/U", "$1", $vText);
 
                     // Footnotes
-                    $vText = preg_replace("/\\\\fqa\s?(.*)\s?\\\\fqa\\*/U", "$1", $vText);
-                    $replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"booknote glyphicon glyphicon-file\"></span>";
-                    $vText = preg_replace("/\\\\f(.*)\\\\f\\*/uU", $replacement, $vText);
+                    //$vText = preg_replace("/\\\\fqa\s?(.*)\s?\\\\fqa\\*/U", "$1", $vText);
+                    //$replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"booknote glyphicon glyphicon-file\"></span>";
+                    //$vText = preg_replace("/\\\\f(.*)\\\\f\\*/uU", $replacement, $vText);
+
+                    $replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2 [$4]\" class=\"booknote glyphicon glyphicon-file\"></span>";
+                    $vText = preg_replace("/(\\\\f[\s+]*\\\\ft\s?(.*)(\\\\fqa\s?(.*)\s?\\\\fqa\*).*\\\\f\*)/U", $replacement, $vText);
 
                     // Proper names
                     $vText = preg_replace("/\\\\pn\s?(.*)\s?\\\\pn\\*/U", "$1", $vText);

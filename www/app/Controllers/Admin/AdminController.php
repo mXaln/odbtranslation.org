@@ -123,7 +123,7 @@ class AdminController extends Controller {
                         $ntDone++;
                     }
                 }
-                else if($event->abbrID < 71)
+                else if($event->abbrID < 71) // tWords categories (kt, names, other)
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -3365,6 +3365,32 @@ class AdminController extends Controller {
 
         echo json_encode($result);
     }
+
+
+    public function getEventProgress($eventID) {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $result["success"] = true;
+        $result["progress"] = $this->_eventsModel->calculateEventProgress($eventID);
+
+        echo json_encode($result);
+
+    }
+
 
 
     // ----------------- Migration functions -------------------- //
