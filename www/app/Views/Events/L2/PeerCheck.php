@@ -42,7 +42,7 @@ use Helpers\Constants\EventMembers;
 
                     <div id="source_scripture_content" class="my_content shown">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                        <div class=" chunk_block">
+                        <div class="chunk_block">
                             <div class="chunk_verses" dir="<?php echo $data["event"][0]->sLangDir ?>">
                             <?php $firstVerse = 0; ?>
                             <?php foreach ($chunk as $verse): ?>
@@ -81,7 +81,7 @@ use Helpers\Constants\EventMembers;
                     <div id="target_scripture_content" class="my_content">
                         <div class="no_padding">
                             <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                                <div class="row chunk_block">
+                                <div class="row chunk_block no_autosize">
                                     <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                         <?php $verses = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]; ?>
                                         <?php foreach ($verses as $verse => $text): ?>

@@ -5293,7 +5293,7 @@ class EventsController extends Controller
                             $this->_model->updateL2Checker([
                                 "step" => EventCheckSteps::NONE
                             ], [
-                                "trID" => $data["event"][0]->l2chID
+                                "l2chID" => $data["event"][0]->l2chID
                             ]);
                             Url::redirect('events/checker-l2/' . $data["event"][0]->eventID);
                         }

@@ -461,6 +461,7 @@ return array (
     "sun_font_uploader" => "Загрузчик шрифтов SUN",
     "upload" => "Загрузить",
     "font_uploader_tooltip" => "Загружайте только шрифты SUN и BACKSUN, по одному за раз. Файлы шрифтов должны иметь формат TTF и называться соответственно sun.ttf и backsun.ttf",
+    "saildic_uploader_tooltip" => "Загружайте словарь SUN в формате .csv (разделение запятой). В следующем порядке: Символ, запятая, слово. Документ должен быть сохранен, используя кодировку UTF-8 (Unicode)",
     "sun_theo_checker" => "Удалить теологического проверяющего",
     "sun_vbv_checker" => "Удалить проверяющего по стихам",
     "l2_snd_checker" => "Удалить проверяющего 2-ой проверки",
@@ -1204,6 +1205,7 @@ return array (
     "checker_removed_success" => "Проверяющий был успешно удален!",
     "import_successful_message" => "Проект был успешно импортирован!",
     "font_uploaded" => "Шрифт {0} был успешно загружен!",
+    "dictionary_updated" => "Словарь был успешно обновлён!",
 
     // Other messages
     "alert_message" => "Сообщение",

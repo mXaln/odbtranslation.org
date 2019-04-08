@@ -66,7 +66,7 @@
 
                 <div id="target_scripture_content" class="my_content">
                     <div class="no_padding">
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>1</sup> </strong> <span class="orig_text" data-orig-verse="1">You are like a son to me. So I urge also that you let God empower you as a result of Christ Jesus acting kindly toward you.</span></p>
                                 <p> <strong class="ltr"> <sup>2</sup> </strong><span class="orig_text" data-orig-verse="2">Command and trust faithful men to teach the things you heard from me and from many others who have testified in the same way to others, too.</span></p>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>4</sup> </strong><span class="orig_text" data-orig-verse="4">You know that soldiers, in order to please their captain, do not become involved in civilian affairs</span></p>
                                 <p> <strong class="ltr"> <sup>5</sup> </strong><span class="orig_text" data-orig-verse="5">Likewise, athletes competing in games cannot win unless they obey the rules.</span>.</p>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>8</sup> </strong><span class="orig_text" data-orig-verse="8">As you suffer hardships, remember Jesus Christ, a descendant of King David. God raised him from the dead, as I also preach in the gospel message.</span></p>
                                 <p> <strong class="ltr"> <sup>9</sup> </strong><span class="orig_text" data-orig-verse="9">For this gospel I suffer to the point of being imprisoned as a criminal. But the word of God is not in prison.</span></p>
@@ -135,7 +135,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>11</sup> </strong><span class="orig_text" data-orig-verse="11">You can depend on the words that we sometimes say: "If we have died with Jesus, we will also live with him.</span>.</p>
                                 <p> <strong class="ltr"> <sup>12</sup> </strong><span class="orig_text" data-orig-verse="12">If we endure, we will also reign with him. But if we deny him, he also will deny us.</span></p>
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>15</sup> </strong><span class="orig_text" data-orig-verse="15">Do your best to cause God to approve you as a worker who has no need to be ashamed, who teaches the word of God correctly, for everyone can depend on the fact that it tells the truth.</span></p>
                                 <p> <strong class="ltr"> <sup>16</sup> </strong><span class="orig_text" data-orig-verse="16">Stay away from people who talk in ways that insult God, because this kind of talk dishonors God more and more.</span></p>
@@ -175,7 +175,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>18</sup> </strong><span class="orig_text" data-orig-verse="18">These men have stopped believing. They say that the resurrection of the dead has already happened. In this way they convince some Christians to stop trusting in Christ.</span></p>
                                 <p> <strong class="ltr"> <sup>19</sup> </strong><span class="orig_text" data-orig-verse="19">However, the truth about God still exists. It is like a firm foundation of a building, on which someone has written these words: "The Lord knows those who belong to him," and, "Everyone who says he belongs to the Lord must stop doing wicked deeds."</span></p>
@@ -194,7 +194,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>21</sup> </strong><span class="orig_text" data-orig-verse="21">Therefore, those who rid themselves of what is evil in their lives will be able to work well for the Lord. They will be like utensils ready to do any kind of good work. They will become very useful to the Master to do special work for him, every good deed, in fact.</span></p>
                                 <p> <strong class="ltr"> <sup>22</sup> </strong><span class="orig_text" data-orig-verse="22">Do not keep on wanting the sinful things that young people usually desire. Instead, try to do right things. Try to trust in God and love him. Try to live in peace. Stay together with the people who worship the Lord sincerely.</span></p>
@@ -213,7 +213,7 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
-                        <div class="row chunk_block">
+                        <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
                                 <p> <strong class="ltr"> <sup>24</sup> </strong><span class="orig_text" data-orig-verse="24">But those who serve the Lord must not quarrel. Instead, they should be kind to all people, they should be able to teach God's truth well, and they should be patient with people.</span></p>
                                 <p> <strong class="ltr"> <sup>25</sup> </strong><span class="orig_text" data-orig-verse="25">That is, they should gently instruct the people who argue against them. Perhaps God may give them the opportunity to repent and come to know the truth.</span></p>
