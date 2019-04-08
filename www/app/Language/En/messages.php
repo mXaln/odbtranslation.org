@@ -183,6 +183,7 @@ return array (
     "proj_lang_public" => "Project Language",
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
+    "choose_event_level" => "Checking level",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",

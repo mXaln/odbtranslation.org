@@ -152,125 +152,113 @@ use Shared\Legacy\Error;
 
 <!-- Modal -->
 <div class="modal fade" id="sof_modal" tabindex="-1" role="dialog" style="z-index: 9999;">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h1 class="modal-title">Statement of Faith</h1>
-      </div>
-      <div class="modal-body">
-              <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <p><em>The following statement of faith is subscribed to by all member
-                        organizations of and contributors to the <a href="https://unfoldingword.org" target="_blank">unfoldingWord</a> project. It
-                        is in agreement with the <a href="http://www.lausanne.org/en/documents/lausanne-covenant.html" title="http://www.lausanne.org/en/documents/lausanne-covenant.html" target="_blank">Lausanne Covenant</a>.</em></p>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <p><em>The following statement of faith is subscribed to by all member
+                            organizations of and contributors to the <a href="https://bibleineverylanguage.org" target="_blank">bibleineverylanguage.org</a> project. It
+                            is in agreement with the <a href="http://www.lausanne.org/en/documents/lausanne-covenant.html" title="http://www.lausanne.org/en/documents/lausanne-covenant.html" target="_blank">Lausanne Covenant</a>.</em></p>
 
-                <p>We believe that Christian belief can and should be divided into
-                    <strong>essential beliefs</strong> and <strong>peripheral beliefs</strong>.</p>
+                        <p>We believe that Christian belief can and should be divided into
+                        <strong>essential beliefs</strong> and <strong>peripheral beliefs</strong>.</p>
 
-                <h3 id="essential-beliefs">Essential beliefs</h3>
+                        <h3 id="essential-beliefs">Essential beliefs</h3>
 
-                <p>Essential beliefs are what define a follower of Jesus Christ and can
-                    never be compromised or ignored.</p>
+                        <p>Essential beliefs are what define a follower of Jesus Christ and can
+                            never be compromised or ignored.</p>
 
-                <ul>
-                    <li>We believe the Bible to be the only inspired, inerrant, sufficient,
-                        authoritative Word of God.</li>
-                    <li>We believe that there is one God, eternally existent in three
-                        persons: God the Father, Jesus Christ the Son and the Holy Spirit.</li>
-                    <li>We believe in the deity of Jesus Christ.</li>
-                    <li>We believe in the humanity of Jesus Christ, in His virgin birth, in
-                        His sinless life, in His miracles, in His vicarious and atoning
-                        death through His shed blood, in His bodily resurrection, in His
-                        ascension to the right hand of the Father.</li>
-                    <li>We believe that every person is inherently sinful and so is
-                        deserving of eternal hell.</li>
-                    <li>We believe that salvation from sin is a gift of God, provided
-                        through the sacrificial death and resurrection of Jesus Christ,
-                        attained by grace through faith, not by works.</li>
-                    <li>We believe that true faith is always accompanied by repentance and
-                        regeneration by the Holy Spirit.</li>
-                    <li>We believe in the present ministry of the Holy Spirit by whose
-                        indwelling the follower of Jesus Christ is enabled to live a godly
-                        life.</li>
-                    <li>We believe in the spiritual unity of all believers in the Lord Jesus
-                        Christ, from all nations and languages and people groups.</li>
-                    <li>We believe in the personal and physical return of Jesus Christ.</li>
-                    <li>We believe in the resurrection of both the saved and the lost; the
-                        unsaved will be resurrected to eternal damnation in hell and the
-                        saved will be resurrected to eternal blessing in heaven with God.</li>
-                </ul>
+                        <ul>
+                            <li>We believe the Bible to be the only inspired, inerrant, sufficient,
+                                authoritative Word of God.</li>
+                            <li>We believe that there is one God, eternally existent in three
+                                persons: God the Father, Jesus Christ the Son and the Holy Spirit.</li>
+                            <li>We believe in the deity of Jesus Christ.</li>
+                            <li>We believe in the humanity of Jesus Christ, in His virgin birth, in
+                                His sinless life, in His miracles, in His vicarious and atoning
+                                death through His shed blood, in His bodily resurrection, in His
+                                ascension to the right hand of the Father.</li>
+                            <li>We believe that every person is inherently sinful and so is
+                                deserving of eternal hell.</li>
+                            <li>We believe that salvation from sin is a gift of God, provided
+                                through the sacrificial death and resurrection of Jesus Christ,
+                                attained by grace through faith, not by works.</li>
+                            <li>We believe that true faith is always accompanied by repentance and
+                                regeneration by the Holy Spirit.</li>
+                            <li>We believe in the present ministry of the Holy Spirit by whose
+                                indwelling the follower of Jesus Christ is enabled to live a godly
+                                life.</li>
+                            <li>We believe in the spiritual unity of all believers in the Lord Jesus
+                                Christ, from all nations and languages and people groups.</li>
+                            <li>We believe in the personal and physical return of Jesus Christ.</li>
+                            <li>We believe in the resurrection of both the saved and the lost; the
+                                unsaved will be resurrected to eternal damnation in hell and the
+                                saved will be resurrected to eternal blessing in heaven with God.</li>
+                        </ul>
 
-                <h3 id="peripheral-beliefs">Peripheral beliefs</h3>
+                        <h3 id="peripheral-beliefs">Peripheral beliefs</h3>
 
-                <p>Peripheral beliefs are everything else that is in Scripture but about
-                    which sincere followers of Christ may disagree (e.g. Baptism, Lord’s
-                    Supper, the Rapture, etc.). We choose to agree to disagree agreeably on
-                    these topics and press on together toward a common goal of making
-                    disciples of every people group (Matthew 28:18-20).</p>
-                <br />
+                        <p>Peripheral beliefs are everything else that is in Scripture but about
+                            which sincere followers of Christ may disagree (e.g. Baptism, Lord’s
+                            Supper, the Rapture, etc.). We choose to agree to disagree agreeably on
+                            these topics and press on together toward a common goal of making
+                            disciples of every people group (Matthew 28:18-20).</p>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-success" id="sof_agree" value="<?php echo __('accept_btn'); ?>" />
+                <input type="button" class="btn btn-danger" id="sof_cancel" value="<?php echo __('deny_btn'); ?>" />
             </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <input type="button" class="btn btn-success" id="sof_agree" value="<?php echo __('accept_btn'); ?>" />
-        <input type="button" class="btn btn-danger" id="sof_cancel" value="<?php echo __('deny_btn'); ?>" />
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="tou_modal" tabindex="-1" role="dialog" style="z-index: 9999;">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h1 class="modal-title">Freedom</h1>
-      </div>
-      <div class="modal-body">
-              <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <p>All content in the unfoldingWord project is made available under a
-                    <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 License</a>.</p>
-
-                <p>You are free to:</p>
-
-                <ul>
-                    <li><strong>Share</strong> — copy and redistribute the material in any medium or format</li>
-                    <li><strong>Adapt</strong> — remix, transform, and build upon the material for any purpose, even commercially</li>
-                </ul>
-
-                <p>Under the following conditions:</p>
-
-                <ul>
-                    <li><strong>Attribution</strong> — You must attribute the work as follows: “Original work available at <a href="https://unfoldingword.org" target="_blank">unfoldingWord.org</a>.”
-                        Attribution statements in derivative works should not in any way suggest that we endorse you or your use of this work.</li>
-                    <li><strong>ShareAlike</strong> — If you remix, transform, or build upon the material, you must distribute your contributions under
-                        the same license as the original.</li>
-                </ul>
-
-                <p>Use of trademarks: <strong>unfoldingWord™</strong> is a trademark of Distant Shores Media and may not be included on any derivative
-                    works created from this content. Unaltered content from <a href="https://unfoldingword.org" target="_blank">unfoldingWord.org</a> must include the unfoldingWord logo when
-                    distributed to others. If you alter the content in any way, you must remove the unfoldingWord logo before distributing your work.</p>
-
-                <p>For contributors to projects in Door43 or unfoldingWord, use this form:</p>
-
-                <p><a class="btn btn-dark" href="https://unfoldingword.org/assets/docs/legal/unfoldingWord - Guidelines &amp; License.pdf" target="_blank">Download Guidelines &amp; License PDF</a></p>
-
-                <p>For release of existing content under CC BY-SA, use this form:</p>
-
-                <p><a class="btn btn-dark" href="https://unfoldingword.org/assets/docs/legal/unfoldingWord - License Release Form.pdf" target="_blank">Download License Release PDF</a></p>
-                <br />
             </div>
-        </div>
-      </div>
-      <div class="modal-footer">
+            <div class="modal-body">
+                <div class="fl-rich-text">
+                    <p>Except where otherwise noted, content on BibleInEveryLanguage.org is licensed under a&nbsp;<a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+                    <h4>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</h4>
+                    <p>This is a human-readable summary of (and not a substitute for) the&nbsp;license.</p>
+                    <h4>You are free to:</h4>
+                    <ul>
+                        <li><strong>Share</strong>&nbsp;— copy and redistribute the material in any medium or format</li>
+                        <li><strong>Adapt</strong>&nbsp;— remix, transform, and build upon the material<br> for any purpose, even commercially.</li>
+                    </ul>
+                    <p>The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+                    <h4>Under the following conditions:</h4>
+                    <ul>
+                        <li><strong>Attribution&nbsp;</strong>— You must attribute the work as follows: “Original work available at https://BibleInEveryLanguage.org.” Attribution statements in derivative works should not in any way suggest that we endorse you or your use of this work.</li>
+                        <li><strong>ShareAlike&nbsp;</strong>— If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.</li>
+                        <li><strong>No additional restrictions</strong>&nbsp;— You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.</li>
+                    </ul>
+                    <h4>Notices:</h4>
+                    <p>You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation.</p>
+                    <p>No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.</p>
+                    <h4>Attribution of BibleInEveryLanguage.org and Door43 Contributors</h4>
+                    <p>When importing a resource (e.g. a book, Bible study, etc.) into BibleInEveryLanguage.org, the original work must be attributed as specified by the open license under which it is available. For example, the artwork used in Open Bible Stories is available under an open license and is clearly attributed on the project’s&nbsp;main page.</p>
+                    <p>Contributors to projects on BibleInEveryLanguage.org agree that&nbsp;the attribution that occurs automatically in the revision history of every page is sufficient attribution for their work.&nbsp;That is, every contributor to a translation on BibleInEveryLanguage.org into another language may be listed as “the BibleInEveryLanguage.org and&nbsp;Door43 World Missions Community” or something to that effect. The individual contributions of each individual contributor are preserved in the revision history for that translation.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
                 <input type="button" class="btn btn-success" id="tou_agree" value="<?php echo __('accept_btn'); ?>" />
                 <input type="button" class="btn btn-danger" id="tou_cancel" value="<?php echo __('deny_btn'); ?>" />
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <style>
     .popover {
