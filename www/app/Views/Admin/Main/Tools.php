@@ -84,6 +84,20 @@
         <div class="saildict tools">
             <div class="tools_title"><?php echo __("sail_dictionary_editor"); ?></div>
 
+            <div class="saildict_upload tools">
+                <div class="form-group">
+                    <label for="saildic_upload" class="sr-only">Upload</label>
+                    <input type="file" accept=".csv" class="form-control" id="saildic_upload" placeholder="<?php echo __("upload_saildic") ?>" value="">
+                </div>
+
+                <button class="btn btn-warning"><?php echo __("upload"); ?></button>
+                <span class="glyphicon glyphicon-exclamation-sign"
+                      data-toggle="tooltip"
+                      data-placement="auto bottom"
+                      title="<?php echo __("saildic_uploader_tooltip") ?>"></span>
+                <img src="<?php echo template_url("img/loader.gif") ?>">
+            </div>
+
             <div class="sail_filter tools">
                 <div class="form-group">
                     <label for="sailfilter" class="sr-only">Filter</label>

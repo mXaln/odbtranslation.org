@@ -461,6 +461,7 @@ return array (
     "sun_font_uploader" => "SUN Fonts Uploader",
     "upload" => "Upload",
     "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
+    "saildic_uploader_tooltip" => "Upload SUN dictionary in .csv format (comma separated). In following order: symbol, comma, word. Document should be UTF-8 (Unicode) encoded",
     "sun_theo_checker" => "Remove Theological checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -1206,6 +1207,7 @@ return array (
     "checker_removed_success" => "Checker has been successfully removed!",
     "import_successful_message" => "The project has been imported successfully!",
     "font_uploaded" => "Font {0} has been successfully uploaded!",
+    "dictionary_updated" => "Dictionary has been successfully updated!",
 
     // Other messages
     "alert_message" => "Pesan",

@@ -28,7 +28,7 @@
 }
 
 .font_fa, .font_ar {
-   /*font-family: Lateef;*/
+    /*font-family: Lateef;*/
 }
 
 .font_sun {
@@ -2059,11 +2059,11 @@ mark {
 }
 
 .editComment.tncomm {
-    right: 5px; 
+    right: 5px;
 }
 
 .editComment.tncommpeer {
-    right: 20px; 
+    right: 20px;
 }
 
 .editComment.tncomml3 {
@@ -2740,6 +2740,7 @@ mark {
     float: left;
     width: 150px;
     margin: 0;
+    position: relative;
 }
 
 .progress_all {
@@ -4404,7 +4405,7 @@ button.startEvnt, button.editEvnt {
 
 .notes_chunk_remove {
     position: absolute;
-    top: 2px; 
+    top: 2px;
     right: 5px;
     width: 20px;
     height: 20px;
@@ -4417,9 +4418,9 @@ button.startEvnt, button.editEvnt {
 }
 
 .toggle-help {
-    position:absolute; 
-    right: 20px; 
-    top: 15px; 
+    position:absolute;
+    right: 20px;
+    top: 15px;
     z-index: 80
 }
 
@@ -4731,6 +4732,22 @@ button.startEvnt, button.editEvnt {
 }
 
 .sun_font_tools span + div.tooltip {
+    font-size: 18px;
+}
+
+.saildict_upload {
+    position: relative;
+    margin: 20px 0;
+}
+
+.saildict_upload span {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    font-size: 22px;
+}
+
+.saildict_upload span + div.tooltip {
     font-size: 18px;
 }
 
@@ -5092,15 +5109,15 @@ button.startEvnt, button.editEvnt {
 }
 
 /*.tools_font {*/
-    /*font-weight: bold;*/
-    /*margin: 10px 5px 10px 0;*/
-    /*text-align: right;*/
+/*font-weight: bold;*/
+/*margin: 10px 5px 10px 0;*/
+/*text-align: right;*/
 /*}*/
 
 .progressLoader {
     position: absolute;
     width: 16px;
-    right: 10px;
-    top: 10px;
+    right: 2px;
+    top: 2px;
     display: none;
 }

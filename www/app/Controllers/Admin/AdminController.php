@@ -23,6 +23,7 @@ use Support\Facades\Cache;
 use Support\Facades\Input;
 use Support\Facades\View;
 use ZipArchive;
+use \stdClass;
 
 class AdminController extends Controller {
 
@@ -3304,6 +3305,74 @@ class AdminController extends Controller {
             else
             {
                 $result["error"] = __("font_should_be_ttf_format_error");
+                echo json_encode($result);
+                exit;
+            }
+        }
+        else
+        {
+            $result["error"] = __("error_ocured");
+            echo json_encode($result);
+            exit;
+        }
+    }
+
+    public function uploadSunDict() {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $dict_file = Input::file("file");
+
+        if($dict_file->isValid())
+        {
+            $new_dict = [];
+
+            $file = $dict_file->openFile();
+            while (!$file->eof()) {
+                $pair = $file->fgetcsv();
+                if(isset($pair[0]) && isset($pair[1])
+                    && !empty($pair[0]) && !empty($pair[1]))
+                {
+                    $wordObj = new stdClass();
+                    $wordObj->symbol = $pair[0];
+                    $wordObj->word = $pair[1];
+                    $new_dict[] = $wordObj;
+                }
+            }
+
+            if(sizeof($new_dict) > 0)
+            {
+                $this->_saildictModel->deleteAllWords();
+
+                foreach ($new_dict as $word)
+                {
+                    $this->_saildictModel->createSunWord([
+                        "symbol" => $word->symbol,
+                        "word" => $word->word
+                    ]);
+                }
+
+                $result["success"] = true;
+                $result["message"] = __("dictionary_updated");
+                echo json_encode($result);
+                exit;
+            }
+            else
+            {
+                $result["error"] = __("empty_dictionary");
                 echo json_encode($result);
                 exit;
             }

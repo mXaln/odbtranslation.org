@@ -281,6 +281,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/create_sail_word", "AdminController@createSailWord");
     Router::any("rpc/create_news", "AdminController@createNews");
     Router::any("rpc/upload_sun_font", "AdminController@uploadSunFont");
+    Router::any("rpc/upload_sun_dict", "AdminController@uploadSunDict");
     Router::any("rpc/get_event_progress/{eventID}", "AdminController@getEventProgress")
         ->where([
             "eventID" => "[0-9]+"
