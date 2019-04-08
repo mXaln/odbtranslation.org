@@ -3,3 +3,4 @@
 !.gitignore
 !catalog.json
 !langnames.json
+!words_db.csv

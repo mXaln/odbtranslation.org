@@ -17,6 +17,7 @@ use Helpers\Parsedown;
 use Helpers\Spyc;
 use Helpers\UsfmParser;
 use ZipArchive;
+use SplFileObject;
 
 
 class ApiModel extends Model
@@ -601,27 +602,36 @@ class ApiModel extends Model
 
         if(!File::exists($folderpath) || $update)
         {
-            // Get catalog
-            $catalog = $this->getCachedFullCatalog();
-            if(empty($catalog)) return false;
-
-            $url = "";
-
-            foreach($catalog->languages as $language)
+            if($lang == "en")
             {
-                if($language->identifier == $lang)
+                // Do not get notes from catalog, instead get it from git.door43.org
+                // Should be temporarily
+                $url = "https://git.door43.org/WycliffeAssociates/en_tw/archive/master.zip";
+            }
+            else
+            {
+                // Get catalog
+                $catalog = $this->getCachedFullCatalog();
+                if(empty($catalog)) return false;
+
+                $url = "";
+
+                foreach($catalog->languages as $language)
                 {
-                    foreach($language->resources as $resource)
+                    if($language->identifier == $lang)
                     {
-                        if($resource->identifier == "tw")
+                        foreach($language->resources as $resource)
                         {
-                            foreach ($resource->projects as $project)
+                            if($resource->identifier == "tw")
                             {
-                                foreach($project->formats as $format)
+                                foreach ($resource->projects as $project)
                                 {
-                                    $url = $format->url;
-                                    if(!preg_match("/\.zip$/", $url)) continue;
-                                    break;
+                                    foreach($project->formats as $format)
+                                    {
+                                        $url = $format->url;
+                                        if(!preg_match("/\.zip$/", $url)) continue;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -678,9 +688,16 @@ class ApiModel extends Model
 
         if(!$folderpath) return [];
 
-        // Get config.yaml catalog
-        $config = File::get($folderpath . "/bible/config.yaml");
-        $words = Spyc::YAMLLoad($config);
+        // Parses csv file and returns an array of words
+        // Each word array has 6 elements
+        // 1 - book code (gen)
+        // 2 - chapter
+        // 3 - verse
+        // 4 - term (ex. Heavens)
+        // 5 - category (ex. kt, other, names)
+        // 6 - reference name (ex. heaven)
+        $words = new SplFileObject("../app/Templates/Default/Assets/source/words_db.csv");
+        $words->setFlags(SplFileObject::READ_CSV);
 
         $filtered = [
             "book" => $book,
@@ -688,26 +705,20 @@ class ApiModel extends Model
             "words" => []
         ];
 
-        foreach ($words as $word => $item)
+        foreach ($words as $word)
         {
-            foreach ($item as $key => $occurrence) {
-                if($key == "false_positives" || $key == "occurrences") continue;
+            if($book == $word[0] && $chapter == $word[1])
+            {
+                if(!isset($filtered["words"][$word[5]]))
+                    $filtered["words"][$word[5]] = [];
 
-                preg_match("/([0-9a-z]{3})\/(\d+)\/(\d+)$/", $occurrence, $matches);
+                if(!isset($filtered["words"][$word[5]]["verses"]))
+                    $filtered["words"][$word[5]]["verses"] = [];
 
-                if(!empty($matches))
-                {
-                    if($matches[1] == $book && (int)$matches[2] == $chapter)
-                    {
-                        if(!isset($filtered["words"][$word]))
-                            $filtered["words"][$word] = [];
+                if(!isset($filtered["words"][$word[5]]["term"]))
+                    $filtered["words"][$word[5]]["term"] = $word[3];
 
-                        if(!isset($filtered["words"][$word]["verses"]))
-                            $filtered["words"][$word]["verses"] = [];
-
-                        $filtered["words"][$word]["verses"][] = (int)$matches[3];
-                    }
-                }
+                $filtered["words"][$word[5]]["verses"][] = (int)$word[2];
             }
         }
 

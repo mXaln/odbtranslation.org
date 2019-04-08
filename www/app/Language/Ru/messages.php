@@ -183,6 +183,7 @@ return array (
     "proj_lang_public" => "Язык проекта",
     "projects_public" => "Проект",
     "show_rubric" => "Рубрика",
+    "choose_event_level" => "Уровень проверки",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
