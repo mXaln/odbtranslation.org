@@ -1447,6 +1447,44 @@ $(function () {
         return false;
     });
 
+    // Upload SUN dictionary (.csv)
+    $(".saildict_upload button").click(function (e) {
+        var formData = new FormData();
+        formData.append("file", $('#saildic_upload')[0].files[0]);
+
+        $.ajax({
+            url: "/admin/rpc/upload_sun_dict",
+            method: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            beforeSend: function() {
+                $(".saildict_upload img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(data.message);
+                    $('#saildic_upload').val("");
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".saildict_upload img").hide();
+            });
+
+        e.preventDefault();
+        return false;
+    });
+
     $(".event_column.progress").each(function () {
         var $this = $(this);
         var eventID = $this.data("eventid");

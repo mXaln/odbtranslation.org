@@ -38,4 +38,10 @@ class SailDictionaryModel extends Model
             ->where($where)
             ->delete();
     }
+
+
+    public function deleteAllWords() {
+        return $this->db->table("sail_dict")
+            ->delete();
+    }
 }
