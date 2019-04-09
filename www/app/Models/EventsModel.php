@@ -1520,7 +1520,7 @@ class EventsModel extends Model
     {
         return $this->db->table("events")
             ->select([
-                "events.eventID","events.admins", "events.admins_l2",
+                "events.eventID","events.admins", "events.admins_l2", "events.admins_l3",
                 "translators.verbCheck","translators.peerCheck",
                 "translators.kwCheck","translators.crCheck",
                 "translators.otherCheck", "checkers_l2.sndCheck",
