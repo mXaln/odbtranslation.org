@@ -5,6 +5,10 @@ use App\Core\Controller;
 use App\Models\TranslationsModel;
 use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
+use Helpers\Constants\EventStates;
+use Helpers\Date;
+use Helpers\Manifest;
+use Helpers\Spyc;
 use Shared\Legacy\Error;
 use View;
 use Config\Config;
@@ -12,6 +16,7 @@ use Helpers\Session;
 use Helpers\Url;
 use Helpers\Parsedown;
 use Helpers\ZipStream\ZipStream;
+use File;
 
 class TranslationsController extends Controller
 {
@@ -104,10 +109,13 @@ class TranslationsController extends Controller
                         );
                         $chapter = $chapters[0];
 
-                        $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"))."]";
                         if(in_array($chunk->bookProject, ["tn","tq","tw"]))
                         {
                             $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"))."]";
+                        }
+                        else
+                        {
+                            $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"))."]";
                         }
 
                         $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
@@ -198,6 +206,64 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
+                switch ($books[0]->state)
+                {
+                    case EventStates::STARTED:
+                    case EventStates::TRANSLATING:
+                        $chk_lvl = 0;
+                        break;
+                    case EventStates::TRANSLATED:
+                    case EventStates::L2_RECRUIT:
+                    case EventStates::L2_CHECK:
+                        $chk_lvl = 1;
+                        break;
+                    case EventStates::L2_CHECKED:
+                    case EventStates::L3_RECRUIT:
+                    case EventStates::L3_CHECK:
+                        $chk_lvl = 2;
+                        break;
+                    case EventStates::COMPLETE:
+                        $chk_lvl = 3;
+                        break;
+                    default:
+                        $chk_lvl = 0;
+                }
+
+                $manifest = new Manifest();
+
+                $manifest->setCreator("vMAST");
+                $manifest->setFormat("text/usfm");
+                $manifest->setIdentifier($bookProject);
+                $manifest->setIssued(date("Y-m-d", time()));
+                $manifest->setModified(date("Y-m-d", time()));
+                $manifest->setLanguage(new Manifest\Language(
+                    $books[0]->direction,
+                    $books[0]->targetLang,
+                    $books[0]->langName));
+                $manifest->setRelation([
+                    $lang."/tw",
+                    $lang."/tq",
+                    $lang."/tn"
+                ]);
+                $manifest->setSource([
+                    new Manifest\Source(
+                        $books[0]->sourceBible,
+                        $books[0]->sourceLangID,
+                        "?"
+                    )
+                ]);
+                $manifest->setSubject("Bible");
+                $manifest->setTitle(__($bookProject));
+                $manifest->setType("bundle");
+                $manifest->setCheckingEntity(["Wycliffe Associates"]);
+                $manifest->setCheckingLevel($chk_lvl);
+
+                // Set contrubutor list from entire project contributors
+                if($bookCode == null)
+                {
+                    $manifest->setContributor($this->_eventModel->getProjectContributors($books[0]->projectID, false, false));
+                }
+
                 $usfm_books = [];
                 $lastChapter = 0;
                 $lastCode = null;
@@ -221,6 +287,20 @@ class TranslationsController extends Controller
                         $usfm_books[$code] .= "\\toc2 ".__($chunk->bookCode)."\n";
                         $usfm_books[$code] .= "\\toc3 ".ucfirst($chunk->bookCode)."\n";
                         $usfm_books[$code] .= "\\mt1 ".mb_strtoupper(__($chunk->bookCode))."\n\n\n\n";
+
+                        // Set contributor list from book contributors
+                        if($bookCode != null)
+                        {
+                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject);
+                            foreach ($contributors as $cat => $list)
+                            {
+                                if($cat == "admins") continue;
+                                foreach ($list as $contributor)
+                                {
+                                    $manifest->addContributor($contributor["name"]);
+                                }
+                            }
+                        }
                     }
 
                     $verses = json_decode($chunk->translatedVerses);
@@ -264,32 +344,34 @@ class TranslationsController extends Controller
                     $usfm_books[$code] .= "\n\n";
 
                     $lastCode = $code;
-                }
 
-                if($bookCode)
-                {
-                    $filename = array_keys($usfm_books)[0];
-
-                    header('Content-type: text/plain');
-                    header("Content-Disposition: attachment; filename=".$filename.".usfm");
-                    echo $usfm_books[$filename];
-                }
-                else
-                {
-                    $zip = new ZipStream($books[0]->targetLang . "_" . $bookProject . ".zip");
-
-                    foreach ($usfm_books as $filename => $content)
+                    if(!$manifest->getProject($chunk->bookCode))
                     {
-                        $filePath = $filename.".usfm";
-                        $zip->addFile($filePath, $content);
+                        $manifest->addProject(new Manifest\Project(
+                            $chunk->bookName,
+                            $chunk->sourceBible,
+                            $chunk->bookCode,
+                            (int)$chunk->abbrID,
+                            "./".(sprintf("%02d", $chunk->abbrID))."-".(strtoupper($chunk->bookCode)).".usfm",
+                            ["bible-".($chunk->abbrID < 41 ? "ot" : "nt")]
+                        ));
                     }
-
-                    $zip->finish();
                 }
+
+                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+
+                $zip = new ZipStream($books[0]->targetLang . "_" . $bookProject . ($bookCode ? "_".$bookCode : "") . ".zip");
+                foreach ($usfm_books as $filename => $content)
+                {
+                    $filePath = $filename.".usfm";
+                    $zip->addFile($filePath, $content);
+                }
+                $zip->addFile("manifest.yaml", $yaml);
+                $zip->finish();
             }
             else
             {
-                echo "An error occurred";
+                echo "There is no such book translation.";
             }
         }
     }
@@ -307,7 +389,60 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
-                $zip = new ZipStream($bookProject . ".zip");
+                switch ($books[0]->state)
+                {
+                    case EventStates::STARTED:
+                        $chk_lvl = 0;
+                        break;
+                    case EventStates::TRANSLATING:
+                        $chk_lvl = 1;
+                        break;
+                    case EventStates::TRANSLATED:
+                    case EventStates::L3_CHECK:
+                        $chk_lvl = 2;
+                        break;
+                    case EventStates::COMPLETE:
+                        $chk_lvl = 3;
+                        break;
+                    default:
+                        $chk_lvl = 0;
+                }
+
+                $manifest = new Manifest();
+
+                $manifest->setCreator("vMAST");
+                $manifest->setFormat("text/markdown");
+                $manifest->setIdentifier($bookProject);
+                $manifest->setIssued(date("Y-m-d", time()));
+                $manifest->setModified(date("Y-m-d", time()));
+                $manifest->setLanguage(new Manifest\Language(
+                    $books[0]->direction,
+                    $books[0]->targetLang,
+                    $books[0]->langName));
+                $manifest->setRelation([
+                    $lang."/ulb",
+                    $lang."/udb"
+                ]);
+                $manifest->setSource([
+                    new Manifest\Source(
+                        $bookProject,
+                        $books[0]->resLangID,
+                        "?"
+                    )
+                ]);
+                $manifest->setSubject(__($bookProject));
+                $manifest->setTitle(__($bookProject));
+                $manifest->setType("help");
+                $manifest->setCheckingEntity(["Wycliffe Associates"]);
+                $manifest->setCheckingLevel($chk_lvl);
+
+                // Set contributor list from entire project contributors
+                if($bookCode == null)
+                {
+                    $manifest->setContributor($this->_eventModel->getProjectContributors($books[0]->projectID, false, false));
+                }
+
+                $zip = new ZipStream($books[0]->targetLang."_" . $bookProject . ($bookCode != null ? "_".$books[0]->bookCode : "") . ".zip");
                 $root = "".$books[0]->targetLang."_" . $bookProject;
 
                 foreach ($books as $chunk) {
@@ -347,8 +482,36 @@ class TranslationsController extends Controller
                     }
 
                     $zip->addFile($filePath, $text);
+
+                    if(!$manifest->getProject($chunk->bookCode))
+                    {
+                        // Set contributor list from book contributors
+                        if($bookCode != null)
+                        {
+                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject);
+                            foreach ($contributors as $cat => $list)
+                            {
+                                if($cat == "admins") continue;
+                                foreach ($list as $contributor)
+                                {
+                                    $manifest->addContributor($contributor["name"]);
+                                }
+                            }
+                        }
+
+                        $manifest->addProject(new Manifest\Project(
+                            $chunk->bookName . " " . __($bookProject),
+                            "",
+                            $chunk->bookCode,
+                            (int)$chunk->abbrID,
+                            "./".$chunk->bookCode,
+                            []
+                        ));
+                    }
                 }
 
+                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+                $zip->addFile($root . "/manifest.yaml", $yaml);
                 $zip->finish();
             }
         }
@@ -367,7 +530,68 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
-                $zip = new ZipStream("tw.zip");
+                switch ($books[0]->state)
+                {
+                    case EventStates::STARTED:
+                        $chk_lvl = 0;
+                        break;
+                    case EventStates::TRANSLATING:
+                        $chk_lvl = 1;
+                        break;
+                    case EventStates::TRANSLATED:
+                    case EventStates::L3_CHECK:
+                        $chk_lvl = 2;
+                        break;
+                    case EventStates::COMPLETE:
+                        $chk_lvl = 3;
+                        break;
+                    default:
+                        $chk_lvl = 0;
+                }
+
+                $manifest = new Manifest();
+
+                $manifest->setCreator("vMAST");
+                $manifest->setFormat("text/markdown");
+                $manifest->setIdentifier($books[0]->bookProject);
+                $manifest->setIssued(date("Y-m-d", time()));
+                $manifest->setModified(date("Y-m-d", time()));
+                $manifest->setLanguage(new Manifest\Language(
+                    $books[0]->direction,
+                    $books[0]->targetLang,
+                    $books[0]->langName));
+                $manifest->setRelation([
+                    $lang."/ulb",
+                    $lang."/udb",
+                    $lang."/obs",
+                    $lang."/tn",
+                    $lang."/tq"
+                ]);
+                $manifest->setSource([
+                    new Manifest\Source(
+                        $books[0]->bookProject,
+                        $books[0]->resLangID,
+                        "?"
+                    )
+                ]);
+                $manifest->setSubject(__($books[0]->bookProject));
+                $manifest->setTitle(__($books[0]->bookProject));
+                $manifest->setType("dict");
+                $manifest->setCheckingEntity(["Wycliffe Associates"]);
+                $manifest->setCheckingLevel($chk_lvl);
+
+                // Set contributor list from entire project contributors
+                $manifest->setContributor($this->_eventModel->getProjectContributors($books[0]->projectID, false, false));
+                $manifest->addProject(new Manifest\Project(
+                    __($books[0]->bookProject),
+                    "",
+                    "bible",
+                    0,
+                    "./bible",
+                    []
+                ));
+
+                $zip = new ZipStream($lang . "_tw" .($bookCode != null ? "_".$books[0]->bookName : ""). ".zip");
                 $root = $books[0]->targetLang."_tw/bible";
 
                 foreach ($books as $chunk) {
@@ -394,10 +618,18 @@ class TranslationsController extends Controller
                     $zip->addFile($filePath, $text);
                 }
 
+                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+                $zip->addFile($books[0]->targetLang."_tw/manifest.yaml", $yaml);
                 $zip->finish();
             }
         }
 
         echo "An error ocurred! Contact administrator.";
+    }
+
+
+    private function makeManifestArray()
+    {
+        $manifest = [];
     }
 }

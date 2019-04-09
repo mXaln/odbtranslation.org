@@ -59,10 +59,13 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
-                "translations.chapter", "translations.chunk", "translations.translatedVerses",
-                "translations.eventID", "languages.direction")
+                "translations.chapter", "translations.chunk", "translations.translatedVerses", "events.state",
+                "translations.eventID", "languages.direction", "projects.sourceLangID", "projects.sourceBible",
+                "projects.projectID", "projects.resLangID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
+            ->leftJoin("projects", "translations.projectID","=", "projects.projectID")
+            ->leftJoin("events", "translations.eventID","=", "events.eventID")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
             ->where("translations.translateDone", true)
