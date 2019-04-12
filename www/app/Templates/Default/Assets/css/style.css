@@ -5209,7 +5209,7 @@ button.add_verse_ta {
     padding: 0;
     list-style: none;
     height: 700px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
