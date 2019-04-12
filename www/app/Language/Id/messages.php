@@ -1362,8 +1362,8 @@ return array (
     "create_news" => "Create News",
     "tools_news_title" => "News title",
     "enter_news_title" => "Enter text",
-    "tools_news_category" => "News category",
-    "select_news_category" => "Select news category",
+    "tools_news_category" => "Category",
+    "select_news_category" => "Select category",
     "tools_news_text" => "News text",
     "enter_news_text" => "Enter text"
 );

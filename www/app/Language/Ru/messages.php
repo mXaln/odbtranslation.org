@@ -1359,7 +1359,7 @@ return array (
     "create_news" => "Создание новостей",
     "tools_news_title" => "Заголовок новости",
     "enter_news_title" => "Введите текст",
-    "tools_news_category" => "Категория новости",
+    "tools_news_category" => "Категория",
     "select_news_category" => "Выберите категорию",
     "tools_news_text" => "Текст",
     "enter_news_text" => "Введите текст"
