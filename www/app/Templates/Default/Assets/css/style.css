@@ -4941,6 +4941,10 @@ button.startEvnt, button.editEvnt {
     color: #222;
 }
 
+#faq_tools_content {
+    font-family: SUN, Serif;
+}
+
 .faq_answer_content {
     display: none;
     font-size: 18px;
