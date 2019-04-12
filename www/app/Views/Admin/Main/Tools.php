@@ -204,8 +204,8 @@
                 <ul>
                     <?php foreach ($data["faqs"] as $faq): ?>
                         <li class="faq_content" id="<?php echo $faq->id ?>">
-                            <div class="tools_delete_faq" title="<?php echo __("delete") ?>">
-                                <span>Delete</span>
+                            <div class="tools_delete_faq">
+                                <span><?php echo __("delete") ?></span>
                                 <img src="<?php echo template_url("img/loader.gif") ?>">
                             </div>
 

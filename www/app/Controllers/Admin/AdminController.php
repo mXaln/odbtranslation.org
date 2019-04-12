@@ -2954,7 +2954,8 @@ class AdminController extends Controller {
             if($id)
             {
                 $li = '<li class="faq_content" id="'.$id.'">
-                            <div class="tools_delete_faq glyphicon glyphicon-remove" title="'.__("delete").'">
+                            <div class="tools_delete_faq">
+                                <span>'.__("delete").'</span>
                                 <img src="'.template_url("img/loader.gif").'">
                             </div>
 
