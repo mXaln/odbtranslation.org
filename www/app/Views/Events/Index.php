@@ -101,7 +101,11 @@ $profile = Session::get("profile");
 
                 default:
                     $mode = $event->bookProject;
-                    $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
+                    $eventType = $mode != "sun"
+                        ? (!in_array($mode, ["tn","tq","tw"])
+                            ? ($event->langInput ? __("language_input") : __("8steps_vmast"))
+                            : "")
+                        : __("vsail");
                     $eventImg = $mode != "sun"
                         ? template_url("img/steps/big/peer-review.png")
                         : template_url("img/steps/big/vsail.png");
@@ -193,7 +197,10 @@ $profile = Session::get("profile");
 
                 default:
                     $mode = $event->bookProject;
-                    $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
+                    $eventType = $mode != "sun"
+                        ? (!in_array($mode, ["tn","tq","tw"])
+                            ? ($event->langInput ? __("language_input") : __("8steps_vmast"))
+                            : "") : __("vsail");
                     $eventImg = $mode != "sun"
                         ? template_url("img/steps/big/peer-review.png")
                         : template_url("img/steps/big/vsail.png");
@@ -256,7 +263,11 @@ $profile = Session::get("profile");
     <?php foreach($data["myTranslatorEvents"] as $key => $event): ?>
         <?php
         $mode = $event->bookProject;
-        $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
+        $eventType = $mode != "sun"
+            ? (!in_array($mode, ["tn","tq","tw"])
+                ? ($event->langInput ? __("language_input") : __("8steps_vmast"))
+                : "")
+            : __("vsail");
         $eventImg = $mode != "sun"
             ? template_url("img/steps/big/peer-review.png")
             : template_url("img/steps/big/vsail.png");

@@ -45,6 +45,14 @@ class EventSteps
         "finished" => 12,
         ];
 
+    private static $enumLangInput = [
+        "none" => 0,
+        "pray" => 1,
+        "multi-draft" => 2,
+        "self-check" => 3,
+        "finished" => 4,
+    ];
+
     private static $enumNotes = [
             "none" => 0,
             "pray" => 1,
@@ -121,6 +129,10 @@ class EventSteps
                 return self::$enumWords[$step];
                 break;
 
+            case "li":
+                return self::$enumLangInput[$step];
+                break;
+
             default:
                 return self::$enum[$step];
                 break;
@@ -148,6 +160,10 @@ class EventSteps
 
             case "tw":
                 return self::$enumWords;
+                break;
+
+            case "li":
+                return self::$enumLangInput;
                 break;
 
             default:

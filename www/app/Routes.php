@@ -181,9 +181,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-tw/{page?}", "EventsController@demoTw");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("news", "EventsController@news");
+    Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");
     Router::any("rpc/get_notifications", "EventsController@getNotifications");
     Router::any("rpc/autosave_chunk", "EventsController@autosaveChunk");
+    Router::any("rpc/autosave_li_verse", "EventsController@autosaveVerseLangInput");
+    Router::any("rpc/delete_li_verse", "EventsController@deleteVerseLangInput");
     Router::any("rpc/save_comment", "EventsController@saveComment");
     Router::any("rpc/save_keyword", "EventsController@saveKeyword");
     Router::any("rpc/get_keywords", "EventsController@getKeywords");
@@ -279,6 +282,8 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/create_multiple_users", "AdminController@createMultipleUsers");
     Router::any("rpc/delete_sail_word", "AdminController@deleteSailWord");
     Router::any("rpc/create_sail_word", "AdminController@createSailWord");
+    Router::any("rpc/delete_faq", "AdminController@deleteFaq");
+    Router::any("rpc/create_faq", "AdminController@createFaq");
     Router::any("rpc/create_news", "AdminController@createNews");
     Router::any("rpc/upload_sun_font", "AdminController@uploadSunFont");
     Router::any("rpc/upload_sun_dict", "AdminController@uploadSunDict");
