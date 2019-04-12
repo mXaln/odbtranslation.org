@@ -435,6 +435,8 @@ class AdminController extends Controller {
 
         $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
+        $data["faqs"] = $this->_newsModel->getFaqs();
+
         return View::make('Admin/Main/Tools')
             ->shares("title", __("admin_tools_title"))
             ->shares("data", $data);
@@ -1179,6 +1181,7 @@ class AdminController extends Controller {
         $bookCode = isset($_POST['book_code']) && $_POST['book_code'] != "" ? $_POST['book_code'] : null;
         $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : null;
         $eventLevel = isset($_POST['eventLevel']) && $_POST['eventLevel'] != "" ? (integer)$_POST['eventLevel'] : 1;
+        $langInput = isset($_POST['langInput']) && $_POST['langInput'] != "" ? true : false;
         $admins = isset($_POST['admins']) && !empty($_POST['admins']) ? array_unique($_POST['admins']) : [];
         $act = isset($_POST['act']) && preg_match("/^(create|edit|delete)$/", $_POST['act']) ? $_POST['act'] : "create";
 
@@ -1208,6 +1211,16 @@ class AdminController extends Controller {
                         $error[] = __('enter_admins');
                         echo json_encode(array("error" => Error::display($error)));
                         return;
+                    }
+
+                    if($project[0]->bookProject != "ulb" || $eventLevel != 1)
+                    {
+                        if($langInput)
+                        {
+                            $error[] = __('lang_input_not_allowed');
+                            echo json_encode(array("error" => Error::display($error)));
+                            return;
+                        }
                     }
 
                     // Check if the event is ready for Level 2, Level 3 check
@@ -1318,6 +1331,7 @@ class AdminController extends Controller {
                                 $postdata["admins"] = json_encode($admins);
                                 $postdata["dateFrom"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
                                 $postdata["dateTo"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                                $postdata["langInput"] = $langInput;
                                 $eventID = $this->_eventsModel->createEvent($postdata);
                             }
                             else
@@ -2904,6 +2918,91 @@ class AdminController extends Controller {
         }
     }
 
+    public function createFaq()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $question = Input::get("question", "");
+        $category = Input::get("category", "common");
+        $answer = Input::get("answer", "");
+
+        if(trim($question) != "" && trim($answer) != ""
+            && preg_match("/^common|vmast|vsail|level2|level3|notes|questions|words|lang_input$/", $category))
+        {
+            $data = [
+                "title" => $question,
+                "text" => $answer,
+                "category" => $category
+            ];
+
+            $id = $this->_newsModel->createFaqs($data);
+
+            if($id)
+            {
+                $li = '<li class="faq_content" id="'.$id.'">
+                            <div class="tools_delete_faq glyphicon glyphicon-remove" title="'.__("delete").'">
+                                <img src="'.template_url("img/loader.gif").'">
+                            </div>
+
+                            <div class="faq_question">'.$question.'</div>
+                            <div class="faq_answer">'.$answer.'</div>
+                            <div class="faq_cat">'.__($category).'</div>
+                        </li>';
+
+                $result["success"] = true;
+                $result["li"] = $li;
+            }
+        }
+
+        echo json_encode($result);
+    }
+
+
+    public function deleteFaq()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $questionID = Input::get("id", 0);
+
+        if($questionID)
+        {
+            if($this->_newsModel->deleteFaqs(["id" => $questionID]))
+            {
+                $result["success"] = true;
+            }
+        }
+
+        echo json_encode($result);
+    }
+
 
     public function createNews()
     {
@@ -2927,7 +3026,8 @@ class AdminController extends Controller {
         $category = Input::get("category", "common");
         $text = Input::get("text", "");
 
-        if(trim($title) != "" && trim($text) != "" && preg_match("/^common|vmast|vsail|level2|notes|questions|words$/", $category))
+        if(trim($title) != "" && trim($text) != ""
+            && preg_match("/^common|vmast|vsail|level2|level3|notes|questions|words|lang_input$/", $category))
         {
             $data = [
                 "title" => $title,

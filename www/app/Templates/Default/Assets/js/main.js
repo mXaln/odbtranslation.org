@@ -2313,6 +2313,17 @@ $(document).ready(function() {
         }
     });
 
+    // Faq filter
+    $("body").on("keyup", "#faqfilter", function () {
+        var w = $(this).val();
+        var re = new RegExp(w, "ig");
+
+        $(".faq_list li").hide();
+        $(".faq_list li").filter(function () {
+            return $(this).text().match(re);
+        }).show();
+    });
+
     // Translation tools
     $(".ttools").click(function (e) {
         $this = $(this);
@@ -2523,6 +2534,133 @@ $(document).ready(function() {
             $(".password_group").hide();
         }
     });
+
+    // ------------- Language Input ------------- //
+
+    // Delete verse block and verse from database if it exists
+    $("body").on("click", "button.delete_verse_ta", function (e) {
+        var $this = $(this);
+        var parent = $this.parents(".lang_input_verse");
+        var id = parent.data("id"); // id of the verse from database
+
+        if(id)
+        {
+            $.ajax({
+                url: "/events/rpc/delete_li_verse",
+                method: "post",
+                data: {
+                    eventID: eventID,
+                    tID: id
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $this.prop("disabled", true);
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        parent.remove();
+                    }
+                })
+                .always(function() {
+                    $this.prop("disabled", false);
+                });
+        }
+        else
+        {
+            parent.remove();
+        }
+
+        e.preventDefault();
+    });
+
+    // Add empty verse block
+    $(".add_verse_ta").click(function (e) {
+        var lastVerseBlock = $(".lang_input_verse:last-of-type");
+        var newVerse;
+
+        if(lastVerseBlock.length > 0)
+            newVerse = parseInt(lastVerseBlock.data("verse"))+1;
+        else
+            newVerse = 1;
+
+        var newVerseHtml = "" +
+            "<div class=\"lang_input_verse\" data-verse=\""+newVerse+"\">" +
+            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta\"></textarea>" +
+            "<span>"+newVerse+"</span>" +
+            "<button class=\"delete_verse_ta btn btn-danger glyphicon glyphicon-remove\" />" +
+            "</div>";
+
+        $(this).before(newVerseHtml);
+        autosize($('.lang_input_list textarea'));
+
+        e.preventDefault();
+    });
+
+    var hasLangInputChangesOnPage = false;
+
+    // Autosave verse in language input mode
+    $("body").on("keyup", ".lang_input_ta", function() {
+        hasLangInputChangesOnPage = true;
+        $(".unsaved_alert").show();
+    });
+
+    var langInputAutosaver = setInterval(function() {
+        if(hasLangInputChangesOnPage)
+        {
+            $.ajax({
+                url: "/events/rpc/autosave_li_verse",
+                method: "post",
+                data: {
+                    eventID: eventID,
+                    formData: $("#main_form").serialize()
+                },
+                dataType: "json"
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        $(".unsaved_alert").hide();
+                        hasLangInputChangesOnPage = false;
+
+                        if(data.ids)
+                        {
+                            $.each(data.ids, function(k, v) {
+                                $(".lang_input_verse[data-verse="+k+"]").data("id", v);
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if(typeof data.errorType != "undefined")
+                        {
+                            switch (data.errorType)
+                            {
+                                case "logout":
+                                    window.location.href = "/members/login";
+                                    break;
+
+                                case "json":
+                                    hasLangInputChangesOnPage = false;
+                                    renderPopup(data.error);
+                                    break;
+                            }
+                        }
+                        console.log(data.error);
+                    }
+                })
+                .error(function (xhr, status, error) {
+                    debug(status);
+                    debug(error);
+                    //localStorage.setItem(item, $("#main_form").serialize());
+                    hasLangInputChangesOnPage = false;
+                })
+                .always(function() {
+
+                });
+        }
+    }, 3000);
 });
 
 function animateIntro() {

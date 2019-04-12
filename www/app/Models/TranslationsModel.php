@@ -115,7 +115,6 @@ class TranslationsModel extends Model
     /** Get translation work of translator in event
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
-     * @param int $tID
      * @param int $chapter
      * @param int $chunk
      * @return array
@@ -123,7 +122,8 @@ class TranslationsModel extends Model
     public function getEventTranslation($trID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("translations")
-            ->where("trID", $trID);
+            ->where("trID", $trID)
+            ->orderBy("firstvs");
 
         if($chapter !== null) {
             $builder->where("chapter", $chapter);
@@ -147,7 +147,8 @@ class TranslationsModel extends Model
     public function getEventTranslationByEventID($eventID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("translations")
-            ->where("eventID", $eventID);
+            ->where("eventID", $eventID)
+            ->orderBy("chunk");
 
         if($chapter !== null) {
             $builder->where("chapter", $chapter);
