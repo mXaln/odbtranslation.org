@@ -318,6 +318,15 @@ if(!empty($data["project"])):
                         </div>
                         <?php endif; ?>
 
+                        <?php if($data["project"][0]->bookProject == "ulb"): ?>
+                        <div class="form-control language_input_checkbox">
+                            <label>
+                                <input type="checkbox" name="langInput">
+                                <?php echo __("language_input") ?>
+                            </label>
+                        </div>
+                        <?php endif; ?>
+
                         <input type="hidden" name="eID" id="eID" value="">
                         <input type="hidden" name="act" id="eventAction" value="create">
                         <input type="hidden" name="abbrID" id="abbrID" value="" />

@@ -59,10 +59,13 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
-                "translations.chapter", "translations.chunk", "translations.translatedVerses",
-                "translations.eventID", "languages.direction")
+                "translations.chapter", "translations.chunk", "translations.translatedVerses", "events.state",
+                "translations.eventID", "languages.direction", "projects.sourceLangID", "projects.sourceBible",
+                "projects.projectID", "projects.resLangID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
+            ->leftJoin("projects", "translations.projectID","=", "projects.projectID")
+            ->leftJoin("events", "translations.eventID","=", "events.eventID")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
             ->where("translations.translateDone", true)
@@ -112,7 +115,6 @@ class TranslationsModel extends Model
     /** Get translation work of translator in event
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
-     * @param int $tID
      * @param int $chapter
      * @param int $chunk
      * @return array
@@ -120,7 +122,8 @@ class TranslationsModel extends Model
     public function getEventTranslation($trID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("translations")
-            ->where("trID", $trID);
+            ->where("trID", $trID)
+            ->orderBy("firstvs");
 
         if($chapter !== null) {
             $builder->where("chapter", $chapter);
@@ -144,7 +147,8 @@ class TranslationsModel extends Model
     public function getEventTranslationByEventID($eventID, $chapter = null, $chunk = null)
     {
         $builder = $this->db->table("translations")
-            ->where("eventID", $eventID);
+            ->where("eventID", $eventID)
+            ->orderBy("chunk");
 
         if($chapter !== null) {
             $builder->where("chapter", $chapter);

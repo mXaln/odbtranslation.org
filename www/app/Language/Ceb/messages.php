@@ -185,6 +185,8 @@ return array (
     "proj_lang_public" => "Project Language",
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
+    "choose_event_level" => "Checking level",
+    "language_input" => "Language Input",
 
     // Passwordreset method
     "passwordreset_title" => "Iusab ang Password",
@@ -232,6 +234,7 @@ return array (
     "local_use_restriction" => "This feature is not available on local server.",
     "font_should_be_ttf_format_error" => "Only TTF format is accepted",
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
+    "lang_input_not_allowed" => "Language Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
@@ -391,6 +394,13 @@ return array (
     "chat" => "Chat",
     "you_are_at" => "Naa ka sa",
     "8steps_vmast" => "Walo(8) ka mga Lakang sa MAST",
+    "vmast" => "8 Steps MAST",
+    "lang_input" => "Language Input",
+    "notes" => "Translation Notes",
+    "words" => "Translation Words",
+    "questions" => "Translation Questions",
+    "level2" => "Level 2",
+    "level3" => "Level 3",
     "l2_l3_vmast" => "MAST L{0} Pagsusi",
     "common" => "Common",
     "vmast_events" => "Mga Bulohaton sa V-MAST",
@@ -481,6 +491,13 @@ return array (
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
     "compare" => "Comparison mode",
+    "common_tools" => "Common",
+    "sun_tools" => "vSUN",
+    "faq_tools" => "FAQ",
+    "faq_enter_question" => "Enter question",
+    "faq_enter_answer" => "Enter answer",
+    "filter_by_search" => "Search filter",
+    "faq_title" => "Frequently asked questions",
 
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",
@@ -489,6 +506,8 @@ return array (
     "prep_pray_text" => "<strong>Nahuman na nimo ang imong kapitulo!</strong> Pahulay usa, katulog kadali, inom og kape ug magsugod na usab kita sa lahi nga kapitulo!",
     
     "pray_tn" => "Pagpangandam: Mga Pag-ampo",
+
+    "multi-draft_lang_input" => "Input",
 
     "consume" => "Pagbasa",
     "consume_tn" => "Read Scripture",
@@ -1340,8 +1359,8 @@ return array (
     "create_news" => "Create News",
     "tools_news_title" => "News title",
     "enter_news_title" => "Enter text",
-    "tools_news_category" => "News category",
-    "select_news_category" => "Select news category",
+    "tools_news_category" => "Category",
+    "select_news_category" => "Select category",
     "tools_news_text" => "News text",
     "enter_news_text" => "Enter text"
 );

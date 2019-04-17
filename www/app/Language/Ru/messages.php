@@ -183,6 +183,8 @@ return array (
     "proj_lang_public" => "Язык проекта",
     "projects_public" => "Проект",
     "show_rubric" => "Рубрика",
+    "choose_event_level" => "Уровень проверки",
+    "language_input" => "Ввод языка",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -226,6 +228,7 @@ return array (
     "facilitator_yourself_error" => "Вы не можете отправлять сообщения себе",
     "delete_warning" => "Впишите название книги и нажмите кнопку \"Удалить\" для удаления события",
     "local_use_restriction" => "Эта функция не доступна на локальном сервере.",
+    "lang_input_not_allowed" => "Режим \"Ввод языка\" доступен только в событиях ULB 1-го уровня",
 
     // ------------ Events Controller ------------- //
 
@@ -385,6 +388,13 @@ return array (
     "chat" => "ЧАТ",
     "you_are_at" => "Вы на стадии",
     "8steps_vmast" => "8 Шагов MAST",
+    "vmast" => "8 Шагов MAST",
+    "lang_input" => "Ввод языка",
+    "notes" => "Translation Notes",
+    "words" => "Translation Words",
+    "questions" => "Translation Questions",
+    "level2" => "Уровень 2",
+    "level3" => "Уровень 3",
     "l2_l3_vmast" => "MAST L{0} проверка",
     "common" => "Общee",
     "vmast_events" => "V-MAST События",
@@ -476,6 +486,13 @@ return array (
     "user_has_group_error" => "Вы не можете удалить эту группу, так как она назначена переводчику.",
     "tw_translate_hint" => "Внимание: Переводитк только Ключевые слова, Определения/Факты (Definitions/Facts) и Варианты перевода (Translation Suggestions).",
     "compare" => "Режим сравнения",
+    "common_tools" => "Общее",
+    "sun_tools" => "vSUN",
+    "faq_tools" => "FAQ",
+    "faq_enter_question" => "Введте вопрос",
+    "faq_enter_answer" => "Введите ответ",
+    "filter_by_search" => "Фильтр поиска",
+    "faq_title" => "Часто задаваемые вопросы",
 
     // Steps
     "pray" => "Подготовка: Молитва",
@@ -484,6 +501,8 @@ return array (
     "prep_pray_text" => "<strong>Поздравляем!</strong> Вы закончили вашу главу!  Отдохните, поспите, выпейте кофе или чай, и приступайте к следующей главе!",
     
     "pray_tn" => "Подготовка: Молитва",
+
+    "multi-draft_lang_input" => "Ввод",
 
     "consume" => "Чтение",
     "consume_tn" => "Чтение Писания",
@@ -1340,7 +1359,7 @@ return array (
     "create_news" => "Создание новостей",
     "tools_news_title" => "Заголовок новости",
     "enter_news_title" => "Введите текст",
-    "tools_news_category" => "Категория новости",
+    "tools_news_category" => "Категория",
     "select_news_category" => "Выберите категорию",
     "tools_news_text" => "Текст",
     "enter_news_text" => "Введите текст"

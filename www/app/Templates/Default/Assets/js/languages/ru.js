@@ -87,6 +87,7 @@ var Language = {
     "books"                     : "книги",
     "remove_l2_checker"         : "Вы хотите удалить проверяющего ",
     "delSailword"               : "Вы хотите удалить слово: ",
+    "delQuestion"               : "Вы хотите удалить вопрос?",
     "remove_other_checker_opt"  : "Выберите опцию для проверяющего ",
     "move_to_step"              : "Переместить проверяющего на шаг ",
     "remove_checker"            : "Удалить проверяющего",

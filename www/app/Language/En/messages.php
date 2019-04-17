@@ -183,6 +183,8 @@ return array (
     "proj_lang_public" => "Project Language",
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
+    "choose_event_level" => "Checking level",
+    "language_input" => "Language Input",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",
@@ -227,6 +229,7 @@ return array (
     "facilitator_yourself_error" => "You cannot send messages to yourself",
     "delete_warning" => "Type the name of the book and click \"Delete\" button again to delete the event",
     "local_use_restriction" => "This feature is not available on local server.",
+    "lang_input_not_allowed" => "Language Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
@@ -383,6 +386,13 @@ return array (
     "chat" => "CHAT",
     "you_are_at" => "You are at",
     "8steps_vmast" => "8 Steps MAST",
+    "vmast" => "8 Steps MAST",
+    "lang_input" => "Language Input",
+    "notes" => "Translation Notes",
+    "words" => "Translation Words",
+    "questions" => "Translation Questions",
+    "level2" => "Level 2",
+    "level3" => "Level 3",
     "l2_l3_vmast" => "MAST L{0} Check",
     "common" => "Common",
     "vmast_events" => "V-MAST Events",
@@ -473,6 +483,13 @@ return array (
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
     "compare" => "Comparison mode",
+    "common_tools" => "Common",
+    "sun_tools" => "vSUN",
+    "faq_tools" => "FAQ",
+    "faq_enter_question" => "Enter question",
+    "faq_enter_answer" => "Enter answer",
+    "filter_by_search" => "Search filter",
+    "faq_title" => "Frequently asked questions",
 
     // Steps
     "pray" => "Preparation: Prayer",
@@ -487,6 +504,8 @@ return array (
                         Take a break, take a nap, get some coffee or tea and let’s start another chapter!",
     
     "pray_tn" => "Preparation: Prayer",
+
+    "multi-draft_lang_input" => "Input",
 
     "consume" => "Consume",
     "consume_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translation.</li>
@@ -1756,8 +1775,8 @@ return array (
     "create_news" => "Create News",
     "tools_news_title" => "News title",
     "enter_news_title" => "Enter text",
-    "tools_news_category" => "News category",
-    "select_news_category" => "Select news category",
+    "tools_news_category" => "Category",
+    "select_news_category" => "Select category",
     "tools_news_text" => "Text",
     "enter_news_text" => "Enter text",
 );

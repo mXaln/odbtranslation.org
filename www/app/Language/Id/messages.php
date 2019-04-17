@@ -185,6 +185,8 @@ return array (
     "proj_lang_public" => "Project Language",
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
+    "choose_event_level" => "Checking level",
+    "language_input" => "Language Input",
 
     // Passwordreset method
     "passwordreset_title" => "Batalkan password",
@@ -202,6 +204,7 @@ return array (
     "activation_link_message" => "<h3>Terima kasih karena telah mendaftar!</h3>\n Untuk mengaktifkan akun Anda silahkan klik tautan ini {0}",
     "registration_success_message" => "Pendaftaran Berhasil! Silahkan periksa email Anda untuk menyelesaikan pendaftaran. Jika tidak ada, periksa folder spam/junk",
     "registration_local_success_message" => "Pendaftaran berhasil!",
+
     // Error messages
     "userName_characters_error" => "User name harus berisi hanya huruf dan angka latin dan dimulai dengan huruf",
     "userName_length_error" => "User name hanya boleh antara 5 sampai 20 huruf",
@@ -228,6 +231,8 @@ return array (
     "facilitator_yourself_error" => "Anda tidak bisa mengirim pesan kepada diri Anda sendiri",
     "delete_warning" => "Ketik nama buku dan klik tombol \"Delete\" lagi untuk menghapus kegiatan",
     "local_use_restriction" => "Fitur ini tidak tersedia pada server lokal.",
+    "lang_input_not_allowed" => "Language Input mode is allowed only in ULB events of Level 1",
+
     // ------------ Events Controller ------------- //
 
     "admin_events_title" => "Buat dan Ubah Kegiatan",
@@ -386,6 +391,13 @@ return array (
     "chat" => "OBROL",
     "you_are_at" => "Anda berada di",
     "8steps_vmast" => "MAST 8 Langkah",
+    "vmast" => "MAST 8 Langkah",
+    "lang_input" => "Language Input",
+    "notes" => "Translation Notes",
+    "words" => "Translation Words",
+    "questions" => "Translation Questions",
+    "level2" => "Level 2",
+    "level3" => "Level 3",
     "l2_l3_vmast" => "MAST L{0} Pemeriksaan",
     "common" => "Common",
     "vmast_events" => "Kegiatan V-MAST",
@@ -476,6 +488,13 @@ return array (
     "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
     "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
     "compare" => "Comparison mode",
+    "common_tools" => "Common",
+    "sun_tools" => "vSUN",
+    "faq_tools" => "FAQ",
+    "faq_enter_question" => "Enter question",
+    "faq_enter_answer" => "Enter answer",
+    "filter_by_search" => "Search filter",
+    "faq_title" => "Frequently asked questions",
 
     // Steps
     "pray" => "Persiapan: Berdoa",
@@ -484,6 +503,8 @@ return array (
     "prep_pray_text" => "<strong>Congratulations!</strong> Anda telah menyelesaikan pasal Anda! Istirahatlah, tidur siang, minum kopi atau teh dan mari kita mulai pasal lain!",
     
     "pray_tn" => "Persiapan: Berdoa",
+
+    "multi-draft_lang_input" => "Input",
 
     "consume" => "Baca Mendalam",
     "consume_tn" => "Read Scripture",
@@ -1341,8 +1362,8 @@ return array (
     "create_news" => "Create News",
     "tools_news_title" => "News title",
     "enter_news_title" => "Enter text",
-    "tools_news_category" => "News category",
-    "select_news_category" => "Select news category",
+    "tools_news_category" => "Category",
+    "select_news_category" => "Select category",
     "tools_news_text" => "News text",
     "enter_news_text" => "Enter text"
 );

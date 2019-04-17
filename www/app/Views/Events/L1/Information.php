@@ -76,14 +76,26 @@ if(!isset($error)):
                                 </div>
                             </div>
                             <div class="section_steps">
+                                <!-- Input Step -->
+                                <?php if($data["event"][0]->langInput): ?>
+                                <div class="section_step <?php echo $chapter["multiDraft"]["state"] ?>">
+                                    <div class="step_status"><?php echo __("step_status_" . $chapter["multiDraft"]["state"]) ?></div>
+                                    <div class="step_light"></div>
+                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONTENT_REVIEW.".png") ?>"></div>
+                                    <div class="step_name">1. <?php echo __(EventSteps::MULTI_DRAFT."_lang_input"); ?></div>
+                                </div>
+                                <?php endif; ?>
                                 <!-- Consume Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["consume"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["consume"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONSUME.".png") ?>"></div>
                                     <div class="step_name">1. <?php echo __(EventSteps::CONSUME); ?></div>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Verbalize Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["verb"]["state"] ?>">
                                     <div class="step_status">
                                         <?php echo __("step_status_" . $chapter["verb"]["state"]) ?>
@@ -104,7 +116,9 @@ if(!isset($error)):
                                         <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                                     <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Chunking Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["chunking"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["chunking"]["state"]) ?></div>
                                     <div class="step_light"></div>
@@ -126,13 +140,16 @@ if(!isset($error)):
                                         <?php endif; ?>
                                     </div>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Blind Draft Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["blindDraft"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["blindDraft"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::BLIND_DRAFT.".png") ?>"></div>
                                     <div class="step_name">4. <?php echo __(EventSteps::BLIND_DRAFT); ?></div>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Self Edit Step -->
                                 <div class="section_step <?php echo $chapter["selfEdit"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["selfEdit"]["state"]) ?></div>
@@ -141,6 +158,7 @@ if(!isset($error)):
                                     <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK); ?></div>
                                 </div>
                                 <!-- Peer Check Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["peer"]["state"] ?>">
                                     <div class="step_status">
                                         <?php echo __("step_status_" . $chapter["peer"]["state"]) ?>
@@ -161,7 +179,9 @@ if(!isset($error)):
                                         <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                                     <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Keyword Check Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["kwc"]["state"] ?>">
                                     <div class="step_status">
                                         <?php echo __("step_status_" . $chapter["kwc"]["state"]) ?>
@@ -182,7 +202,9 @@ if(!isset($error)):
                                         <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                                     <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Verse-by-Verse Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step <?php echo $chapter["crc"]["state"] ?>">
                                     <div class="step_status">
                                         <?php echo __("step_status_" . $chapter["crc"]["state"]) ?>
@@ -203,13 +225,16 @@ if(!isset($error)):
                                         <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                                     <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
                                 <!-- Final Review Step -->
+                                <?php if(!$data["event"][0]->langInput): ?>
                                 <div class="section_step finalReview <?php echo $chapter["finalReview"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["finalReview"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::FINAL_REVIEW.".png") ?>"></div>
                                     <div class="step_name"><?php echo __(EventSteps::FINAL_REVIEW); ?></div>
                                 </div>
+                                <?php endif; ?>
                                 <div class="clear"></div>
                             </div>
                         </div>

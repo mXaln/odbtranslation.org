@@ -386,6 +386,10 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
+                    $("input[name=langInput]")
+                        .prop("checked", data.event.langInput == "1")
+                        .prop("disabled", true);
+
                     setImportComponent(data.event);
                     setEventMenu(data.event);
                     setStartEventButton(data.event);
@@ -1369,6 +1373,90 @@ $(function () {
     });
 
 
+    // Manage FAQ
+
+    // Delete question
+    $("body").on("click", ".tools_delete_faq", function (e) {
+        var li = $(this).parent("li");
+        var questionID = li.attr("id");
+
+        renderConfirmPopup(Language.attention, Language.delQuestion, function () {
+            $( this ).dialog( "close" );
+            $.ajax({
+                url: "/admin/rpc/delete_faq",
+                method: "post",
+                data: {id: questionID},
+                dataType: "json",
+                beforeSend: function() {
+                    $("img", li).show();
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        li.remove();
+                    }
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                })
+                .always(function() {
+                    $("img", li).hide();
+                });
+        });
+
+        e.preventDefault();
+        return false;
+    });
+
+    // Create Question
+    $("body").on("click", ".faq_create .create_faq", function (e) {
+        var question = $("#faq_question").val();
+        var answer = $("#faq_answer").val();
+        var category = $("#faq_category").val();
+
+        $.ajax({
+            url: "/admin/rpc/create_faq",
+            method: "post",
+            data: {
+                question: question,
+                answer: answer,
+                category: category
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $("#faq_create_loader").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $("#faq_question").val("");
+                    $("#faq_answer").val("");
+                    $("#faq_category").val("");
+                    $(".faq_list.tools ul").prepend(data.li);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $("#faq_create_loader").hide();
+            });
+
+        e.preventDefault();
+        return false;
+    });
+
+
     // Create News
     $(".create_news button").click(function (e) {
         var title = $("#title").val();
@@ -1596,6 +1684,7 @@ function setImportComponent(event) {
             {
                 $(".event_l_2").prop("checked", true);
                 setImportLinks(event.bookProject, ImportStates.PROGRESS);
+                $(".language_input_checkbox").hide();
             }
             break;
         case EventStates.states.translated:
@@ -1606,6 +1695,7 @@ function setImportComponent(event) {
                 $(".event_l_2").prop("checked", true);
                 setImportLinks("l1", ImportStates.DONE);
                 $(".l2_import").hide();
+
             }
             else
             {
@@ -1614,6 +1704,7 @@ function setImportComponent(event) {
                 setImportLinks(event.bookProject, ImportStates.DONE);
             }
             $(".event_imports").show();
+            $(".language_input_checkbox").hide();
             break;
 
         case EventStates.states.l2_recruit:
@@ -1625,6 +1716,7 @@ function setImportComponent(event) {
             $(".l1_import").show();
             $(".l2_import").hide();
             $(".event_imports").show();
+            $(".language_input_checkbox").hide();
             break;
         case EventStates.states.l2_checked:
             // Notes, Questions and Words don't run through these states
@@ -1638,6 +1730,7 @@ function setImportComponent(event) {
             setImportLinks("l2", ImportStates.DONE);
 
             $(".event_imports").show();
+            $(".language_input_checkbox").hide();
             break;
 
         case EventStates.states.l3_recruit:
@@ -1659,6 +1752,7 @@ function setImportComponent(event) {
                 setImportLinks(event.bookProject, ImportStates.DONE);
             }
             $(".event_imports").show();
+            $(".language_input_checkbox").hide();
             break;
     }
 }

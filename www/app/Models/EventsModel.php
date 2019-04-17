@@ -198,6 +198,7 @@ class EventsModel extends Model
      * Get member with the event in which he is participating
      * @param int $eventID
      * @param int $memberID
+     * @param boolean $getInfo
      * @return array
      */
     public function getEventMember($eventID, $memberID, $getInfo = false)
@@ -207,7 +208,7 @@ class EventsModel extends Model
             .PREFIX."translators.checkerID, ".PREFIX."translators.peerCheck, ".PREFIX."translators.currentChapter, "
             .PREFIX."checkers_l2.memberID AS checker_l2, ".PREFIX."checkers_l3.memberID AS checker_l3, "
             .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
-            .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, evnt.state "
+            .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, evnt.state, evnt.langInput "
             .($getInfo ?
                 ", evnt.eventID, evnt.bookCode, "
                 ."t_lang.langName as tLang, s_lang.langName as sLang, ".PREFIX."abbr.name, ".PREFIX."abbr.abbrID, ".PREFIX."abbr.chaptersNum " : "")
@@ -266,7 +267,7 @@ class EventsModel extends Model
                 .PREFIX."checkers_l3.currentChapter, ".PREFIX."checkers_l3.peerCheck, "
                 ."(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chkrs WHERE all_chkrs.eventID = ".PREFIX."checkers_l3.eventID ) AS currChkrs, "
                 : "")
-                ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, "
+                ."evnt.eventID, evnt.state, evnt.bookCode, evnt.dateFrom, evnt.langInput, "
                 ."evnt.dateTo, evnt.admins, evnt.admins_l2, evnt.admins_l3, "
                 .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
@@ -1203,23 +1204,475 @@ class EventsModel extends Model
 
     }
 
+    public function getEventWithContributorsL3($eventID)
+    {
+        return $this->db->table("events")
+            ->select([
+                "events.eventID","events.admins_l3",
+                "checkers_l3.peerCheck",
+                "abbr.chaptersNum"
+            ])
+            ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID")
+            ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+            ->where("events.eventID", $eventID)
+            ->get();
+
+    }
+
+    public function getEventContributors($eventID, $level, $mode)
+    {
+        $membersModel = new MembersModel();
+        $admins = [];
+        $adminsArr = [];
+        $translators = [];
+        $translatorsArr = [];
+        $checkers = [];
+        $checkersArr = [];
+        $result = [];
+
+        // L1 event for ulb, udb projects
+        if($level == 1)
+        {
+            $event = $this->getEventWithContributors($eventID);
+            if(!empty($event))
+            {
+                // Facilitators
+                $adminsArr = (array)json_decode($event[0]->admins);
+
+                // Checkers
+                foreach ($event as $translator) {
+                    $verbCheck = (array)json_decode($translator->verbCheck);
+                    $peerCheck = (array)json_decode($translator->peerCheck);
+                    $kwCheck = (array)json_decode($translator->kwCheck);
+                    $crCheck = (array)json_decode($translator->crCheck);
+                    $otherCheck = (array)json_decode($translator->otherCheck);
+
+                    if(in_array($mode, ["tn", "sun", "tw", "tq"]))
+                    {
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $peerCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $kwCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $crCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $otherCheck)));
+                    }
+                    else
+                    {
+                        $checkersArr = array_merge($checkersArr, array_values($verbCheck));
+                        $checkersArr = array_merge($checkersArr, array_values($peerCheck));
+                        $checkersArr = array_merge($checkersArr, array_values($kwCheck));
+                        $checkersArr = array_merge($checkersArr, array_values($crCheck));
+                    }
+                }
+                $checkersArr = array_unique($checkersArr);
+
+                // Translators
+                $data["chapters"] = [];
+                for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                {
+                    $data["chapters"][$i] = [];
+                }
+
+                $chapters = $this->getChapters($event[0]->eventID);
+
+                foreach ($chapters as $chapter) {
+                    $tmp["memberID"] = $chapter["memberID"];
+                    $data["chapters"][$chapter["chapter"]] = $tmp;
+                }
+
+                foreach ($data["chapters"] as $chapter) {
+                    if(!empty($chapter))
+                        $translatorsArr[] = $chapter["memberID"];
+                }
+                $translatorsArr = array_unique($translatorsArr);
+            }
+        }
+        elseif ($level == 2)
+        {
+            if (in_array($mode, ["udb","ulb"]))
+            {
+                $event = $this->getEventWithContributorsL2($eventID);
+                if(!empty($event))
+                {
+                    // Facilitators
+                    $adminsArr = (array)json_decode($event[0]->admins_l2);
+
+                    // Checkers
+                    foreach ($event as $translator) {
+                        $sndCheck = (array)json_decode($translator->sndCheck);
+                        $peer1Check = (array)json_decode($translator->peer1Check);
+                        $peer2Check = (array)json_decode($translator->peer2Check);
+
+                        $sndMems = [];
+                        foreach ($sndCheck as $item) {
+                            $sndMems[] = $item->memberID;
+                        }
+
+                        $p1Mems = [];
+                        foreach ($peer1Check as $item) {
+                            $p1Mems[] = $item->memberID;
+                        }
+
+                        $p2Mems = [];
+                        foreach ($peer2Check as $item) {
+                            $p2Mems[] = $item->memberID;
+                        }
+
+                        $checkersArr = array_merge($checkersArr, $sndMems);
+                        $checkersArr = array_merge($checkersArr, $p1Mems);
+                        $checkersArr = array_merge($checkersArr, $p2Mems);
+                    }
+
+                    $data["chapters"] = [];
+                    for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                    {
+                        $data["chapters"][$i] = [];
+                    }
+
+                    $chapters = $this->getChapters($event[0]->eventID, null, null, "l2");
+
+                    foreach ($chapters as $chapter) {
+                        $tmp["l2memberID"] = $chapter["l2memberID"];
+                        $data["chapters"][$chapter["chapter"]] = $tmp;
+                    }
+
+                    foreach ($data["chapters"] as $chapter) {
+                        if(!empty($chapter))
+                            $checkersArr[] = $chapter["l2memberID"];
+                    }
+                    $checkersArr = array_unique($checkersArr);
+                }
+            }
+            else
+            {
+                $event = $this->getEventWithContributors($eventID);
+                if(!empty($event))
+                {
+                    // Facilitators
+                    $adminsArr = (array)json_decode($event[0]->admins);
+
+                    // Checkers
+                    foreach ($event as $translator) {
+                        $peerCheck = (array)json_decode($translator->peerCheck);
+                        $kwCheck = (array)json_decode($translator->kwCheck);
+                        $crCheck = (array)json_decode($translator->crCheck);
+                        $otherCheck = (array)json_decode($translator->otherCheck);
+
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $peerCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $kwCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $crCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $otherCheck)));
+                    }
+                    $checkersArr = array_unique($checkersArr);
+
+                    // Translators
+                    $data["chapters"] = [];
+                    for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                    {
+                        $data["chapters"][$i] = [];
+                    }
+
+                    $chapters = $this->getChapters($event[0]->eventID);
+
+                    foreach ($chapters as $chapter) {
+                        $tmp["memberID"] = $chapter["memberID"];
+                        $data["chapters"][$chapter["chapter"]] = $tmp;
+                    }
+
+                    foreach ($data["chapters"] as $chapter) {
+                        if(!empty($chapter))
+                            $translatorsArr[] = $chapter["memberID"];
+                    }
+                    $translatorsArr = array_unique($translatorsArr);
+                }
+            }
+        }
+        elseif ($level == 3)
+        {
+            if ($mode == "sun")
+            {
+                $event = $this->getEventWithContributors($eventID);
+                if(!empty($event))
+                {
+                    // Facilitators
+                    $adminsArr = (array)json_decode($event[0]->admins);
+
+                    // Checkers
+                    foreach ($event as $translator) {
+                        $kwCheck = (array)json_decode($translator->kwCheck);
+                        $crCheck = (array)json_decode($translator->crCheck);
+
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $kwCheck)));
+                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                            return $elm->memberID;
+                        }, $crCheck)));
+                    }
+                    $checkersArr = array_unique($checkersArr);
+
+                    // Translators
+                    $data["chapters"] = [];
+                    for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                    {
+                        $data["chapters"][$i] = [];
+                    }
+
+                    $chapters = $this->getChapters($event[0]->eventID);
+
+                    foreach ($chapters as $chapter) {
+                        $tmp["memberID"] = $chapter["memberID"];
+                        $data["chapters"][$chapter["chapter"]] = $tmp;
+                    }
+
+                    foreach ($data["chapters"] as $chapter) {
+                        if(!empty($chapter))
+                            $translatorsArr[] = $chapter["memberID"];
+                    }
+                    $translatorsArr = array_unique($translatorsArr);
+                }
+            }
+            else
+            {
+                $event = $this->getEventWithContributorsL3($eventID);
+                if(!empty($event))
+                {
+                    // Facilitators
+                    $adminsArr = (array)json_decode($event[0]->admins_l3);
+
+                    // Checkers
+                    foreach ($event as $translator) {
+                        $peerCheck = (array)json_decode($translator->peerCheck);
+
+                        $peerMems = [];
+                        foreach ($peerCheck as $item) {
+                            $peerMems[] = $item->memberID;
+                        }
+
+                        $checkersArr = array_merge($checkersArr, $peerMems);
+                    }
+
+                    // Chapters
+                    $data["chapters"] = [];
+                    for($i=1; $i <= $event[0]->chaptersNum; $i++)
+                    {
+                        $data["chapters"][$i] = [];
+                    }
+
+                    $chapters = $this->getChapters($event[0]->eventID, null, null, "l3");
+
+                    foreach ($chapters as $chapter) {
+                        $tmp["l3memberID"] = $chapter["l3memberID"];
+                        $data["chapters"][$chapter["chapter"]] = $tmp;
+                    }
+
+                    foreach ($data["chapters"] as $chapter) {
+                        if(!empty($chapter))
+                            $checkersArr[] = $chapter["l3memberID"];
+                    }
+                    $checkersArr = array_unique($checkersArr);
+                }
+            }
+        }
+
+        $allMembers = array_unique(array_merge($adminsArr, $checkersArr, $translatorsArr));
+        $membersArray = (array)$membersModel->getMembers($allMembers, true);
+
+        foreach ($membersArray as $member) {
+            if(in_array($member->memberID, $adminsArr))
+            {
+                $admins[$member->memberID]["userName"] = $member->userName;
+                $admins[$member->memberID]["name"] = $member->firstName . " " . $member->lastName;
+            }
+            if(in_array($member->memberID, $checkersArr))
+            {
+                $checkers[$member->memberID]["userName"] = $member->userName;
+                $checkers[$member->memberID]["name"] = $member->firstName . " " . $member->lastName;
+            }
+            if(in_array($member->memberID, $translatorsArr))
+            {
+                $translators[$member->memberID]["userName"] = $member->userName;
+                $translators[$member->memberID]["name"] = $member->firstName . " " . $member->lastName;
+            }
+        }
+
+        $result["admins"] = $admins;
+        $result["checkers"] = $checkers;
+        $result["translators"] = $translators;
+
+        return $result;
+    }
+
     public function getProjectWithContributors($projectID)
     {
         return $this->db->table("events")
             ->select([
-                "events.eventID","events.admins", "events.admins_l2",
+                "events.eventID","events.admins", "events.admins_l2", "events.admins_l3",
                 "translators.verbCheck","translators.peerCheck",
                 "translators.kwCheck","translators.crCheck",
                 "translators.otherCheck", "checkers_l2.sndCheck",
                 "checkers_l2.peer1Check", "checkers_l2.peer2Check",
-                "projects.bookProject"
+                "checkers_l3.peerCheck AS peer3Check", "projects.bookProject"
             ])
             ->leftJoin("translators", "events.eventID", "=", "translators.eventID")
             ->leftJoin("checkers_l2", "events.eventID", "=", "checkers_l2.eventID")
+            ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID")
             ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
             ->where("events.projectID", $projectID)
             ->get();
 
+    }
+
+    public function getProjectContributors($projectID, $withRoles = true, $withAdmins = true)
+    {
+        $project = $this->getProjectWithContributors($projectID);
+        if (!empty($project)) {
+
+            $contributors = [];
+            $contributorsIDs = [];
+
+            $membersModel = new MembersModel();
+
+            $mode = $project[0]->bookProject;
+
+            // Checkers
+            foreach ($project as $participant) {
+                // Facilitators
+                if($withAdmins)
+                {
+                    $contributorsIDs = array_merge($contributorsIDs, (array)json_decode($participant->admins));
+                    $contributorsIDs = array_merge($contributorsIDs, (array)json_decode($participant->admins_l2));
+                    $contributorsIDs = array_merge($contributorsIDs, (array)json_decode($participant->admins_l3));
+                }
+
+                $verbCheck = (array)json_decode($participant->verbCheck);
+                $peerCheck = (array)json_decode($participant->peerCheck);
+                $kwCheck = (array)json_decode($participant->kwCheck);
+                $crCheck = (array)json_decode($participant->crCheck);
+                $otherCheck = (array)json_decode($participant->otherCheck);
+                $sndCheck = (array)json_decode($participant->sndCheck);
+                $peer1Check = (array)json_decode($participant->peer1Check);
+                $peer2Check = (array)json_decode($participant->peer2Check);
+                $peer3Check = (array)json_decode($participant->peer3Check);
+
+                // Resource Checkers
+                if(in_array($mode, ["tn", "sun", "tw", "tq"]))
+                {
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $peerCheck)));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $kwCheck)));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $crCheck)));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $otherCheck)));
+                }
+                else
+                {
+                    // Scripture Checkers
+                    $contributorsIDs = array_merge($contributorsIDs, array_values($verbCheck));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values($peerCheck));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values($kwCheck));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values($crCheck));
+
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $sndCheck)));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $peer1Check)));
+                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                        return $elm->memberID;
+                    }, $peer2Check)));
+                }
+
+                $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    return $elm->memberID;
+                }, $peer3Check)));
+
+                // Translators/L2 checkers/L3 checkers
+                $chapters = $this->getChapters($participant->eventID, null, null, null);
+
+                foreach ($chapters as $chapter) {
+                    if ($chapter["memberID"] != null) {
+                        $contributorsIDs[] = $chapter["memberID"];
+                    }
+                    if ($chapter["l2memberID"] != null) {
+                        $contributorsIDs[] = $chapter["l2memberID"];
+                    }
+                    if ($chapter["l3memberID"] != null) {
+                        $contributorsIDs[] = $chapter["l3memberID"];
+                    }
+                }
+            }
+            $contributorsIDs = array_unique($contributorsIDs);
+
+            $filteredNumeric = array_filter($contributorsIDs, function($elm) {
+                return is_numeric($elm) && $elm > 0;
+            });
+
+            $contributors = array_merge($contributors, array_filter($contributorsIDs, function($elm) {
+                return !is_numeric($elm);
+            }));
+
+            $membersArray = (array)$membersModel->getMembers($filteredNumeric, true, true);
+
+            foreach ($membersArray as $member) {
+                if(in_array($member->memberID, $filteredNumeric))
+                {
+                    $role = "";
+
+                    if($withRoles)
+                    {
+                        $church_role = (array)json_decode($member->church_role);
+
+                        if (in_array("Pastor", $church_role))
+                            $role = __('pastor');
+                        elseif (in_array("Seminary Professor", $church_role))
+                            $role = __('seminary_professor');
+                        elseif (in_array("Denominational Leader", $church_role))
+                            $role = __('denominational_leader');
+                        elseif (in_array("Bishop", $church_role))
+                            $role = __('bishop');
+                        elseif (in_array("Elder", $church_role))
+                            $role = __('elder');
+                        elseif (in_array("Teacher", $church_role))
+                            $role = __('teacher');
+                    }
+
+                    $contributors[] = trim($member->firstName) . " " . trim($member->lastName) .
+                        ($role != "" ? " (".$role.")" : "");
+                }
+            }
+
+            $contributors = array_map(function ($elm) {
+                return mb_convert_case ($elm, MB_CASE_TITLE, 'UTF-8');
+            }, $contributors);
+            $contributors = array_unique($contributors);
+            sort($contributors);
+
+            return $contributors;
+        }
+
+        return [];
     }
 
     /**
@@ -2271,6 +2724,7 @@ class EventsModel extends Model
             if(empty($chapter)) continue;
 
             $currentStep = EventSteps::PRAY;
+            $multiDraftState = StepsStates::NOT_STARTED;
             $consumeState = StepsStates::NOT_STARTED;
             $verbCheckState = StepsStates::NOT_STARTED;
             $chunkingState = StepsStates::NOT_STARTED;
@@ -2287,6 +2741,7 @@ class EventsModel extends Model
             $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
 
             // Set default values
+            $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::NOT_STARTED;
             $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
             $data["chapters"][$key]["verb"]["state"] = StepsStates::NOT_STARTED;
             $data["chapters"][$key]["verb"]["checkerID"] = "na";
@@ -2354,6 +2809,10 @@ class EventsModel extends Model
                     {
                         $consumeState = StepsStates::IN_PROGRESS;
                     }
+                    elseif($currentStep == EventSteps::MULTI_DRAFT)
+                    {
+                        $multiDraftState = StepsStates::IN_PROGRESS;
+                    }
                 }
                 else
                 {
@@ -2362,20 +2821,24 @@ class EventsModel extends Model
 
                 $data["chapters"][$key]["step"] = $currentStep;
                 $data["chapters"][$key]["consume"]["state"] = $consumeState;
+                $data["chapters"][$key]["multiDraft"]["state"] = $multiDraftState;
                 $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
                 $data["chapters"][$key]["verb"]["checkerID"] = isset($verbChecker) ? $verbChecker : ($currentChecker > 0 ? $currentChecker : "na");
                 $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
                 $data["chapters"][$key]["blindDraft"]["state"] = $blindDraftState;
 
                 // Progress checks
-                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 11;
-                if($data["chapters"][$key]["verb"]["state"] == StepsStates::CHECKED)
-                    $data["chapters"][$key]["progress"] += 6;
-                if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 11;
-                if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 11;
+                if(!$event[0]->langInput)
+                {
+                    if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 11;
+                    if($data["chapters"][$key]["verb"]["state"] == StepsStates::CHECKED)
+                        $data["chapters"][$key]["progress"] += 6;
+                    if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 11;
+                    if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
+                        $data["chapters"][$key]["progress"] += 11;
+                }
 
                 $overallProgress += $data["chapters"][$key]["progress"];
 
@@ -2385,11 +2848,13 @@ class EventsModel extends Model
 
             $currentStep = $memberSteps[$chapter["memberID"]]["step"];
 
-            // Total translated chunks are 25% of all chapter progress
-            $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 11 / sizeof($chapter["chunks"]);
+            // Total translated chunks are 11% of all chapter progress
+            if(!$event[0]->langInput)
+                $data["chapters"][$key]["progress"] += sizeof($chapter["chunksData"]) * 11 / sizeof($chapter["chunks"]);
             $data["chapters"][$key]["step"] = $currentChapter == $key ? $currentStep : EventSteps::FINISHED;
 
             // These steps are finished here by default
+            $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::FINISHED;
             $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
             $data["chapters"][$key]["chunking"]["state"] = StepsStates::FINISHED;
 
@@ -2460,6 +2925,13 @@ class EventsModel extends Model
                         {
                             $data["chapters"][$key]["blindDraft"]["state"] = StepsStates::IN_PROGRESS;
                         }
+                    }
+                }
+                else
+                {
+                    if($event[0]->langInput)
+                    {
+                        $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
                     }
                 }
             }
@@ -2544,28 +3016,38 @@ class EventsModel extends Model
             }
 
             // Progress checks
-            if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["peer"]["state"] == StepsStates::CHECKED)
-                $data["chapters"][$key]["progress"] += 6;
-            if($data["chapters"][$key]["peer"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["kwc"]["state"] == StepsStates::CHECKED)
-                $data["chapters"][$key]["progress"] += 6;
-            if($data["chapters"][$key]["kwc"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["crc"]["state"] == StepsStates::CHECKED)
-                $data["chapters"][$key]["progress"] += 6;
-            if($data["chapters"][$key]["crc"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 11;
-            if($data["chapters"][$key]["finalReview"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 12;
+            if(!$event[0]->langInput)
+            {
+                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["chunking"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["peer"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 6;
+                if($data["chapters"][$key]["peer"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 6;
+                if($data["chapters"][$key]["kwc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["crc"]["state"] == StepsStates::CHECKED)
+                    $data["chapters"][$key]["progress"] += 6;
+                if($data["chapters"][$key]["crc"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 11;
+                if($data["chapters"][$key]["finalReview"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 12;
+            }
+            else
+            {
+                if($data["chapters"][$key]["multiDraft"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 50;
+                if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 50;
+            }
 
             $overallProgress += $data["chapters"][$key]["progress"];
         }

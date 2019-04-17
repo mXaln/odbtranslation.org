@@ -4855,13 +4855,15 @@ button.startEvnt, button.editEvnt {
 .tools_left {
     width: 40%;
     float: left;
+    padding-left: 20px;
 }
 
 .tools_right {
     width: 50%;
     float: right;
     border-left: 1px solid #ccc;
-    padding-left: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .update_langs, .create_users {
@@ -4925,6 +4927,51 @@ button.startEvnt, button.editEvnt {
 .news_text {
     font-size: 20px;
     margin-top: 20px;
+}
+
+.faq {
+    margin-bottom: 20px;
+}
+
+.faqs_page {
+    font-family: SUN, Serif;
+    padding: 20px;
+    margin: 0 20px;
+    width: 700px;
+    color: #222;
+}
+
+#faq_tools_content {
+    font-family: SUN, Serif;
+}
+
+.faq_answer_content {
+    display: none;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.faq_answer_content .faq_category {
+    text-align: right;
+    border-right: 1px solid #ccc;
+    padding-right: 5px;
+    font-weight: bold;
+    color: #888;
+    margin-top: 10px;
+}
+
+.faq_question_header {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+}
+
+.faq_question_header span {
+    position: absolute;
+    left: -30px;
+    top: 5px;
+    font-size: 14px;
 }
 
 .maintanance {
@@ -5120,4 +5167,98 @@ button.startEvnt, button.editEvnt {
     right: 2px;
     top: 2px;
     display: none;
+}
+
+.language_input_checkbox {
+    width: 450px;
+    margin-top: 15px;
+}
+
+.lang_input_verse {
+    position: relative;
+}
+
+.lang_input_verse > textarea {
+    width: 95%;
+    height: 40px;
+}
+
+.lang_input_verse > span {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 2px;
+    font-weight: bold;
+    color: #337ab7;
+}
+
+.lang_input_verse button {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: -25px;
+    padding-left: 10px;
+    width: 35px;
+}
+
+.lang_input_verse:last-of-type button {
+    display: inline-block;
+}
+
+button.add_verse_ta {
+    width: 95%;
+}
+
+.faq_list.tools ul {
+    padding: 0;
+    list-style: none;
+    height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.faq_list.tools ul li {
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    margin-top: 10px;
+}
+
+.faq_list.tools ul li .faq_question {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.faq_list.tools ul li .faq_cat {
+    text-align: right;
+    border-right: 1px solid #ccc;
+    padding-right: 5px;
+    font-weight: bold;
+    color: #888;
+    margin-top: 10px;
+}
+
+.faq_list.tools ul li .tools_delete_faq {
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    top: auto;
+    cursor: pointer;
+}
+
+.faq_list.tools ul li .tools_delete_faq span {
+    color: #F00;
+    font-weight: bold;
+}
+
+.faq_list.tools ul li .tools_delete_faq span:hover {
+    border: 1px solid;
+    padding: 0 2px;
+    border-radius: 5px;
+}
+
+.faq_list.tools ul li .tools_delete_faq img {
+    position: absolute;
+    width: 16px;
+    left: 50px;
+    top: 1px;
 }
