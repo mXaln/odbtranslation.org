@@ -10,6 +10,7 @@ namespace App\Models;
 
 use Database\Model;
 use DB;
+use Helpers\Arrays;
 use Helpers\Constants\EventCheckSteps;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
@@ -1249,25 +1250,25 @@ class EventsModel extends Model
 
                     if(in_array($mode, ["tn", "sun", "tw", "tq"]))
                     {
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $peerCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $kwCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $crCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $otherCheck)));
                     }
                     else
                     {
-                        $checkersArr = array_merge($checkersArr, array_values($verbCheck));
-                        $checkersArr = array_merge($checkersArr, array_values($peerCheck));
-                        $checkersArr = array_merge($checkersArr, array_values($kwCheck));
-                        $checkersArr = array_merge($checkersArr, array_values($crCheck));
+                        $checkersArr = Arrays::append($checkersArr, array_values($verbCheck));
+                        $checkersArr = Arrays::append($checkersArr, array_values($peerCheck));
+                        $checkersArr = Arrays::append($checkersArr, array_values($kwCheck));
+                        $checkersArr = Arrays::append($checkersArr, array_values($crCheck));
                     }
                 }
                 $checkersArr = array_unique($checkersArr);
@@ -1324,9 +1325,9 @@ class EventsModel extends Model
                             $p2Mems[] = $item->memberID;
                         }
 
-                        $checkersArr = array_merge($checkersArr, $sndMems);
-                        $checkersArr = array_merge($checkersArr, $p1Mems);
-                        $checkersArr = array_merge($checkersArr, $p2Mems);
+                        $checkersArr = Arrays::append($checkersArr, $sndMems);
+                        $checkersArr = Arrays::append($checkersArr, $p1Mems);
+                        $checkersArr = Arrays::append($checkersArr, $p2Mems);
                     }
 
                     $data["chapters"] = [];
@@ -1364,16 +1365,16 @@ class EventsModel extends Model
                         $crCheck = (array)json_decode($translator->crCheck);
                         $otherCheck = (array)json_decode($translator->otherCheck);
 
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $peerCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $kwCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $crCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $otherCheck)));
                     }
@@ -1416,10 +1417,10 @@ class EventsModel extends Model
                         $kwCheck = (array)json_decode($translator->kwCheck);
                         $crCheck = (array)json_decode($translator->crCheck);
 
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $kwCheck)));
-                        $checkersArr = array_merge($checkersArr, array_values(array_map(function($elm) {
+                        $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
                         }, $crCheck)));
                     }
@@ -1457,13 +1458,11 @@ class EventsModel extends Model
                     // Checkers
                     foreach ($event as $translator) {
                         $peerCheck = (array)json_decode($translator->peerCheck);
-
                         $peerMems = [];
                         foreach ($peerCheck as $item) {
                             $peerMems[] = $item->memberID;
                         }
-
-                        $checkersArr = array_merge($checkersArr, $peerMems);
+                        $checkersArr = Arrays::append($checkersArr, $peerMems);
                     }
 
                     // Chapters
@@ -1489,7 +1488,12 @@ class EventsModel extends Model
             }
         }
 
-        $allMembers = array_unique(array_merge($adminsArr, $checkersArr, $translatorsArr));
+        $allMembers = [];
+        $allMembers = Arrays::append($allMembers, $adminsArr);
+        $allMembers = Arrays::append($allMembers, $checkersArr);
+        $allMembers = Arrays::append($allMembers, $translatorsArr);
+        $allMembers = array_unique($allMembers);
+
         $membersArray = (array)$membersModel->getMembers($allMembers, true);
 
         foreach ($membersArray as $member) {
@@ -1516,6 +1520,7 @@ class EventsModel extends Model
 
         return $result;
     }
+
 
     public function getProjectWithContributors($projectID)
     {
@@ -1554,9 +1559,9 @@ class EventsModel extends Model
                 // Facilitators
                 if($withAdmins)
                 {
-                    $contributorsIDs = array_merge($contributorsIDs, (array)json_decode($participant->admins));
-                    $contributorsIDs = array_merge($contributorsIDs, (array)json_decode($participant->admins_l2));
-                    $contributorsIDs = array_merge($contributorsIDs, (array)json_decode($participant->admins_l3));
+                    $contributorsIDs += (array)json_decode($participant->admins);
+                    $contributorsIDs += (array)json_decode($participant->admins_l2);
+                    $contributorsIDs += (array)json_decode($participant->admins_l3);
                 }
 
                 $verbCheck = (array)json_decode($participant->verbCheck);
@@ -1572,39 +1577,39 @@ class EventsModel extends Model
                 // Resource Checkers
                 if(in_array($mode, ["tn", "sun", "tw", "tq"]))
                 {
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $peerCheck)));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $kwCheck)));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $crCheck)));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $otherCheck)));
                 }
                 else
                 {
                     // Scripture Checkers
-                    $contributorsIDs = array_merge($contributorsIDs, array_values($verbCheck));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values($peerCheck));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values($kwCheck));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values($crCheck));
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values($verbCheck));
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values($peerCheck));
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values($kwCheck));
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values($crCheck));
 
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $sndCheck)));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $peer1Check)));
-                    $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                         return $elm->memberID;
                     }, $peer2Check)));
                 }
 
-                $contributorsIDs = array_merge($contributorsIDs, array_values(array_map(function($elm) {
+                $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
                     return $elm->memberID;
                 }, $peer3Check)));
 
