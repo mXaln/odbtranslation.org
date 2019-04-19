@@ -1634,7 +1634,7 @@ class EventsModel extends Model
                 return is_numeric($elm) && $elm > 0;
             });
 
-            $contributors = array_merge($contributors, array_filter($contributorsIDs, function($elm) {
+            $contributors = Arrays::append($contributors, array_filter($contributorsIDs, function($elm) {
                 return !is_numeric($elm);
             }));
 

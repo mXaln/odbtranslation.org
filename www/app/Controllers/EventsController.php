@@ -8,6 +8,7 @@ namespace App\Controllers;
 use App\Models\NewsModel;
 use App\Models\ApiModel;
 use App\Models\SailDictionaryModel;
+use Helpers\Arrays;
 use Helpers\Data;
 use Support\Facades\Cookie;
 use View;
@@ -94,13 +95,11 @@ class EventsController extends Controller
             $this->_membersModel = new MembersModel();
 
             $this->_notifications = $this->_model->getNotifications();
-            $this->_notifications = array_merge(
-                $this->_notifications,
-                $this->_model->getNotificationsNotes(),
-                $this->_model->getNotificationsQuestionsWords(),
-                $this->_model->getNotificationsL2(),
-                $this->_model->getNotificationsL3(),
-                $this->_model->getNotificationsSun());
+            $this->_notifications = Arrays::append($this->_notifications, $this->_model->getNotificationsNotes());
+            $this->_notifications = Arrays::append($this->_notifications, $this->_model->getNotificationsQuestionsWords());
+            $this->_notifications = Arrays::append($this->_notifications, $this->_model->getNotificationsL2());
+            $this->_notifications = Arrays::append($this->_notifications, $this->_model->getNotificationsL3());
+            $this->_notifications = Arrays::append($this->_notifications, $this->_model->getNotificationsSun());
 
             $this->_news = $this->_newsModel->getNews();
             $this->_newNewsCount = 0;
@@ -173,10 +172,15 @@ class EventsController extends Controller
         $notesCheckers = $this->_model->getMemberEventsForNotes(Session::get("memberID"));
         $sunCheckers = $this->_model->getMemberEventsForCheckerSun(Session::get("memberID"));
         $tqCheckers = $this->_model->getCheckerEventsForQuestionsWords(Session::get("memberID"));
-        $data["myCheckerL1Events"] = array_merge(
+
+        $data["myCheckerL1Events"] = Arrays::append(
             $data["myCheckerL1Events"],
-            $notesCheckers,
-            $sunCheckers,
+            $notesCheckers);
+        $data["myCheckerL1Events"] = Arrays::append(
+            $data["myCheckerL1Events"],
+            $sunCheckers);
+        $data["myCheckerL1Events"] = Arrays::append(
+            $data["myCheckerL1Events"],
             $tqCheckers);
         $data["myCheckerL2Events"] = $this->_model->getMemberEventsForCheckerL2(Session::get("memberID"));
         $data["myCheckerL3Events"] = $this->_model->getMemberEventsForCheckerL3(Session::get("memberID"));
@@ -184,19 +188,19 @@ class EventsController extends Controller
         // Extract facilitators from events
         $admins = [];
         foreach ($data["myTranslatorEvents"] as $key => $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+            $admins = Arrays::append($admins, (array)json_decode($event->admins, true));
         }
         foreach ($data["newEvents"] as $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+            $admins = Arrays::append($admins, (array)json_decode($event->admins, true));
         }
         foreach ($data["myCheckerL1Events"] as $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins, true));
+            $admins = Arrays::append($admins, (array)json_decode($event->admins, true));
         }
         foreach ($data["myCheckerL2Events"] as $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins_l2, true));
+            $admins = Arrays::append($admins, (array)json_decode($event->admins_l2, true));
         }
         foreach ($data["myCheckerL3Events"] as $event) {
-            $admins = array_merge($admins, (array)json_decode($event->admins_l3, true));
+            $admins = Arrays::append($admins, (array)json_decode($event->admins_l3, true));
         }
         
         $admins = array_unique($admins);
@@ -8733,7 +8737,7 @@ class EventsController extends Controller
             foreach ($data["tw_groups"] as $group)
             {
                 $words = (array) json_decode($group->words, true);
-                $data["words_in_groups"] = array_merge($data["words_in_groups"], $words);
+                $data["words_in_groups"] = Arrays::append($data["words_in_groups"], $words);
             }
 
             $data["chapters"] = [];
@@ -11673,7 +11677,7 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
+        $allNotifications = Arrays::append(array_values($allNotifications), array_values($this->_notifications));
         $notif = null;
         
         foreach ($allNotifications as $notification) {
@@ -11732,7 +11736,7 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(
+        $allNotifications = Arrays::append(
             array_values($allNotifications),
             array_values($this->_notifications));
         $notif = null;
@@ -11819,7 +11823,7 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(array_values($allNotifications), array_values($this->_notifications));
+        $allNotifications = Arrays::append(array_values($allNotifications), array_values($this->_notifications));
         $notif = null;
 
         foreach ($allNotifications as $notification) {
@@ -11961,7 +11965,7 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(
+        $allNotifications = Arrays::append(
             array_values($allNotifications),
             array_values($this->_notifications));
         $notif = null;
@@ -12045,7 +12049,7 @@ class EventsController extends Controller
         }
 
         $allNotifications = $this->_model->getAllNotifications($langs);
-        $allNotifications = array_merge(
+        $allNotifications = Arrays::append(
             array_values($allNotifications),
             array_values($this->_notifications));
         $notif = null;
@@ -12345,7 +12349,7 @@ class EventsController extends Controller
 
         $data["menu"] = 1;
         $data["all_notifications"] = $this->_model->getAllNotifications($langs);
-        $data["all_notifications"] = array_merge($data["all_notifications"],
+        $data["all_notifications"] = Arrays::append($data["all_notifications"],
             $this->_notifications);
 
         $distinct = [];
@@ -12895,7 +12899,7 @@ class EventsController extends Controller
                     foreach($groups as $gr)
                     {
                         $elm = (array) json_decode($gr->words, true);
-                        $testGroup = array_merge($testGroup, $elm);
+                        $testGroup = Arrays::append($testGroup, $elm);
                     }
 
                     if(empty(array_intersect($group, $testGroup)))
