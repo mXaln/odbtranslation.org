@@ -186,7 +186,6 @@ return array (
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
     "choose_event_level" => "Checking level",
-    "language_input" => "Language Input",
 
     // Passwordreset method
     "passwordreset_title" => "Iusab ang Password",
@@ -234,7 +233,7 @@ return array (
     "local_use_restriction" => "This feature is not available on local server.",
     "font_should_be_ttf_format_error" => "Only TTF format is accepted",
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
-    "lang_input_not_allowed" => "Language Input mode is allowed only in ULB events of Level 1",
+    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
@@ -395,7 +394,7 @@ return array (
     "you_are_at" => "Naa ka sa",
     "8steps_vmast" => "Walo(8) ka mga Lakang sa MAST",
     "vmast" => "8 Steps MAST",
-    "lang_input" => "Language Input",
+    "lang_input" => "Scripture Input",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",

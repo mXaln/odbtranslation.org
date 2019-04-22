@@ -9672,6 +9672,7 @@ class EventsController extends Controller
 
         $data["notifications"] = $notifications;
         $data["isDemo"] = true;
+        $data["isLangInput"] = false;
         $data["menu"] = 5;
 
         $view = View::make("Events/L1/Demo/DemoHeader");
@@ -9760,7 +9761,51 @@ class EventsController extends Controller
 
             case "information":
                 return View::make("Events/L1/Demo/Information")
-                    ->shares("title", __("event_info"));
+                    ->shares("title", __("event_info"))
+                    ->shares("data", $data);
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
+
+    public function demoLangInput($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-scripture-input/pray");
+
+        $data["notifications"] = [];
+        $data["isDemo"] = true;
+        $data["isLangInput"] = true;
+        $data["menu"] = 5;
+
+        $view = View::make("Events/L1/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/L1/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "input":
+                $view->nest("page", "Events/L1/Demo/LangInput");
+                $data["step"] = EventSteps::MULTI_DRAFT;
+                break;
+
+            case "self_check":
+                $view->nest("page", "Events/L1/Demo/SelfCheckLangInput");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "information":
+                return View::make("Events/L1/Demo/Information")
+                    ->shares("title", __("event_info"))
+                    ->shares("data", $data);
                 break;
         }
 

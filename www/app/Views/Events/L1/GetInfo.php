@@ -124,7 +124,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_status"><?php echo __("step_status_" . $chapter["selfEdit"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::SELF_CHECK.".png") ?>"></div>
-                        <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK); ?></div>
+                        <div class="step_name"><?php echo $data["event"][0]->langInput ? "2" : "5" ?>. <?php echo __(EventSteps::SELF_CHECK); ?></div>
                     </div>
                     <!-- Peer Check Step -->
                     <?php if(!$data["event"][0]->langInput): ?>

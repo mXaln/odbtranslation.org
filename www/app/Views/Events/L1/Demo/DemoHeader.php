@@ -7,9 +7,10 @@ use Helpers\Constants\EventSteps;
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
-            <a href="/events/demo/pray"><span><?php echo __(EventSteps::PRAY) ?></span></a>
+            <a href="/events/demo<?php echo $data["isLangInput"] ? "-scripture-input" : "" ?>/pray"><span><?php echo __(EventSteps::PRAY) ?></span></a>
         </li>
 
+        <?php if(!$data["isLangInput"]): ?>
         <li class="consume-step <?php echo $data["step"] == EventSteps::CONSUME ? "active" : "" ?>">
             <a href="/events/demo/consume"><span><?php echo __(EventSteps::CONSUME) ?></span></a>
         </li>
@@ -26,11 +27,17 @@ use Helpers\Constants\EventSteps;
                 $data["step"] == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
             <a href="/events/demo/read_chunk"><span><?php echo __(EventSteps::BLIND_DRAFT) ?></span></a>
         </li>
+        <?php else: ?>
+        <li class="content-review-step <?php echo $data["step"] == EventSteps::MULTI_DRAFT ? "active" : "" ?>">
+            <a href="/events/demo-scripture-input/input"><span><?php echo __(EventSteps::MULTI_DRAFT."_lang_input")?></span></a>
+        </li>
+        <?php endif; ?>
 
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <a href="/events/demo/self_check"><span><?php echo __(EventSteps::SELF_CHECK) ?></span></a>
+            <a href="/events/demo<?php echo $data["isLangInput"] ? "-scripture-input" : "" ?>/self_check"><span><?php echo __(EventSteps::SELF_CHECK) ?></span></a>
         </li>
 
+        <?php if(!$data["isLangInput"]): ?>
         <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <a href="/events/demo/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW) ?></span></a>
         </li>
@@ -46,6 +53,7 @@ use Helpers\Constants\EventSteps;
         <li class="final-review-step <?php echo $data["step"] == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
             <a href="/events/demo/final_review"><span><?php echo __(EventSteps::FINAL_REVIEW) ?></span></a>
         </li>
+        <?php endif; ?>
     </ul>
 </div>
 
@@ -63,6 +71,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     var isDemo = true;
     var myChapter = 2;
     var tMode = "ulb";
+    var isLangInput = '<?php echo $data["isLangInput"] ?>';
 </script>
 
 <div style="position: fixed; right: 0;">

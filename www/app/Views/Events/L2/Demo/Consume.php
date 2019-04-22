@@ -13,7 +13,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+                <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <ul class="nav nav-tabs">
                     <li role="presentation" id="source_scripture" class="my_tab active">
@@ -54,32 +54,32 @@
                 </div>
 
                 <div id="target_scripture_content" class="my_content">
-                    <p><strong><sup>1</sup></strong> You are like a son to me. So I urge also that you let God empower you as a result of Christ Jesus acting kindly toward you.</p>
-                    <p><strong><sup>2</sup></strong> Command and trust faithful men to teach the things you heard from me and from many others who have testified in the same way to others, too.</p>
-                    <p><strong><sup>3</sup></strong> Endure as I do what we suffer for Christ Jesus, like a good soldier endures what he suffers.</p>
-                    <p><strong><sup>4</sup></strong> You know that soldiers, in order to please their captain, do not become involved in civilian affairs</p>
-                    <p><strong><sup>5</sup></strong> Likewise, athletes competing in games cannot win unless they obey the rules.</p>
-                    <p><strong><sup>6</sup></strong> And the farmer who works hard must receive his share of the crops first.</p>
-                    <p><strong><sup>7</sup></strong> Think about what I have just written, because, if you do, the Lord will enable you to understand everything that you need to understand.</p>
-                    <p><strong><sup>8</sup></strong> As you suffer hardships, remember Jesus Christ, a descendant of King David. God raised him from the dead, as I also preach in the gospel message.</p>
-                    <p><strong><sup>9</sup></strong> For this gospel I suffer to the point of being imprisoned as a criminal. But the word of God is not in prison.</p>
-                    <p><strong><sup>10</sup></strong> Therefore I willingly endure all that I am suffering for the sake of those whom God has chosen. I do this in order that Christ Jesus will save them, too, and that they will be forever with him in the glorious place where he is.</p>
-                    <p><strong><sup>11</sup></strong> You can depend on the words that we sometimes say: "If we have died with Jesus, we will also live with him.</p>
-                    <p><strong><sup>12</sup></strong> If we endure, we will also reign with him. But if we deny him, he also will deny us.</p>
-                    <p><strong><sup>13</sup></strong> If we are unfaithful to Jesus, he continues to be faithful; for he cannot deny himself."</p>
-                    <p><strong><sup>14</sup></strong> Those whom you appointed to teach others God's truth, keep reminding them about these things that I have told you. Warn them before God not to fight over foolish words, because doing so does not help anything and can ruin those who listen.</p>
-                    <p><strong><sup>15</sup></strong> Do your best to cause God to approve you as a worker who has no need to be ashamed, who teaches the word of God correctly, for everyone can depend on the fact that it tells the truth.</p>
-                    <p><strong><sup>16</sup></strong> Stay away from people who talk in ways that insult God, because this kind of talk dishonors God more and more.</p>
-                    <p><strong><sup>17</sup></strong> This kind of words will spread like an infectious disease. Hymenaeus and Philetus are two examples of men who talk like this.</p>
-                    <p><strong><sup>18</sup></strong> These men have stopped believing. They say that the resurrection of the dead has already happened. In this way they convince some Christians to stop trusting in Christ.</p>
-                    <p><strong><sup>19</sup></strong> However, the truth about God still exists. It is like a firm foundation of a building, on which someone has written these words: "The Lord knows those who belong to him," and, "Everyone who says he belongs to the Lord must stop doing wicked deeds."</p>
-                    <p><strong><sup>20</sup></strong> In a wealthy person's house there are not only utensils made of gold and of silver, but also utensils made of wood and of clay. The gold and silver utensils are used on special occasions. But the wood and clay utensils are used in ordinary times.</p>
-                    <p><strong><sup>21</sup></strong> Therefore, those who rid themselves of what is evil in their lives will be able to work well for the Lord. They will be like utensils ready to do any kind of good work. They will become very useful to the Master to do special work for him, every good deed, in fact.</p>
-                    <p><strong><sup>22</sup></strong> Do not keep on wanting the sinful things that young people usually desire. Instead, try to do right things. Try to trust in God and love him. Try to live in peace. Stay together with the people who worship the Lord sincerely.</p>
-                    <p><strong><sup>23</sup></strong> Do not talk with anyone who foolishly wants to argue about matters that are not important. Do not talk with them, because you know that when people talk about foolish things, they begin to quarrel.</p>
-                    <p><strong><sup>24</sup></strong> But those who serve the Lord must not quarrel. Instead, they should be kind to all people, they should be able to teach God's truth well, and they should be patient with people.</p>
-                    <p><strong><sup>25</sup></strong> That is, they should gently instruct the people who argue against them. Perhaps God may give them the opportunity to repent and come to know the truth.</p>
-                    <p><strong><sup>26</sup></strong> In that way they may think correctly and be like people who have escaped from a trap set by the devil. It is the devil who has deceived them in order to get them to do what he wishes them to do.</p>
+                    <p><strong><sup>1</sup></strong> Jadi begitu, anakku kuat sudah dengan anugerah di dalam Kristus Yesus.</p>
+                    <p><strong><sup>2</sup></strong> Dan banyak hal yang ko dengar dari sa deng saksi yang banyak itu, beri percaya itu sama orang-orang yang setia, supaya dong dapat mengajar dong yang lain juga.</p>
+                    <p><strong><sup>3</sup></strong> Mari, tong sama sa dalam penderitaan jadi prajurit Kristus Yesus yang baik.</p>
+                    <p><strong><sup>4</sup></strong> Trada satu orang tentara yang kerja sambil sibuk dengan de pu urusan hidup supaya de bisa buat de pu komandan senang.</p>
+                    <p><strong><sup>5</sup></strong> Begitu juga dengan atlit , tra akan terima mahkota kalo tra ikut aturan dalam lomba.</p>
+                    <p><strong><sup>6</sup></strong> Petani dong yang kerja keras akan terima hasil yang pertama,</p>
+                    <p><strong><sup>7</sup></strong> Ingat apa yang sa bilang, karena Tuhan akan kasi ko pengertian untuk mengerti semua ini,</p>
+                    <p><strong><sup>8</sup></strong> Ingat: Yesus Kristus, keturunan Daud, su bangkit dari kematian. ini su sesuai dengan pesan Injil yang sa percaya.</p>
+                    <p><strong><sup>9</sup></strong> Sampe pada titik penderitaan karna diikat rantai seperti kriminal. tapi firman Allah tra diikat deng rantai.</p>
+                    <p><strong><sup>10</sup></strong> Jadi sa bertahan untuk orang-orang yang Tuhan pilih, supaya dong dapat keselamatan yang kekal dalam Kristus Yesus, deng kemuliaan yang abadi..</p>
+                    <p><strong><sup>11</sup></strong> Apa yang sa bilang ini, bisa dipercaya: kalo tong mau mati untuk Dia, torang juga akan hidup bersama deng Dia.</p>
+                    <p><strong><sup>12</sup></strong> Apalagi kalo tong bertahan , tong juga akan ditinggikan deng Dia. Klo tong menyangkal Dia, Dia juga akan menyangkal ketong,</p>
+                    <p><strong><sup>13</sup></strong> Klo tong tra setia, De tetap setia karena De tra bisa menyangkal diri.</p>
+                    <p><strong><sup>14</sup></strong> Selalu kasi ingat dong di hadapan Allah, supaya dong jangan berdebat tentang Firman karena itu akan bikin kacau orang yang dengar,</p>
+                    <p><strong><sup>15</sup></strong> Lakukan yang paling baik itu adalah persembahan yang Tuhan terima, jadi pekerja trada alasan untuk dapat kasi malu, yang ajar kebeneran Firman dengan pas.</p>
+                    <p><strong><sup>16</sup></strong> Hindari omong kosong dan tra bersih yang nanti jadi tra baik.</p>
+                    <p><strong><sup>17</sup></strong> Perkataan dong akan menyebar seperti kangker. Diantara dong itu ada Himeneus dan Filetus.</p>
+                    <p><strong><sup>18</sup></strong> Dong adalah orang-orang yang sudah tidak benar. dong katakan kebangkitan sudah terjadi, dong putar balik iman dari berapa orang tu.</p>
+                    <p><strong><sup>19</sup></strong> Biar begitu, Allah pu fondasi kuat tetap berdiri. ada piagam dengan tulisan yang bilang" Tuhan kenal dong Dia pu milik." . dan orang yang percaya Tuhan harus kasi tinggal yang tra benar.</p>
+                    <p><strong><sup>20</sup></strong> Dalam rumah kaya bukan saja ada emas dan perak tapi juga ada kotak-kotak kayu sama tanah liat. barang itu di pake untuk hal-hal yang terhormat, dan ada juga untuk hal-hal tra terhormat.</p>
+                    <p><strong><sup>21</sup></strong> Jika satu orang kasi bersih de pu diri dari yang tra terhormat, de itu bejana yang terhormat. de dipilih , dipake untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</p>
+                    <p><strong><sup>22</sup></strong> Jauhi sudah dari nafsu anak-anak muda, kejar itu kebenaran, iman, kasih, dan damai, sama-sama deng dong yang panggil Tuhan dengan hati yang bersih.</p>
+                    <p><strong><sup>23</sup></strong> Tapi tolak sudah pertanyaan-pertanyaan bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</p>
+                    <p><strong><sup>24</sup></strong> Orang yang melayani Tuhan tra boleh bertengkar tapi harus lemah lembut pada semua dong, Dong harus pintar mengajar, sabar</p>
+                    <p><strong><sup>25</sup></strong> de kasi ajaran deng lemah lembut sama dong yang melawan dia. mungkin Allah kasi kesempatan untuk dong bertobat pada pengetahuan akan kebenaran.</p>
+                    <p><strong><sup>26</sup></strong> mungkin dong sadar kembali dan kasi tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</p>
                 </div>
             </div>
 

@@ -184,7 +184,6 @@ return array (
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
     "choose_event_level" => "Checking level",
-    "language_input" => "Language Input",
 
     // Passwordreset method
     "passwordreset_title" => "Password reset",
@@ -229,7 +228,7 @@ return array (
     "facilitator_yourself_error" => "You cannot send messages to yourself",
     "delete_warning" => "Type the name of the book and click \"Delete\" button again to delete the event",
     "local_use_restriction" => "This feature is not available on local server.",
-    "lang_input_not_allowed" => "Language Input mode is allowed only in ULB events of Level 1",
+    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
@@ -387,7 +386,7 @@ return array (
     "you_are_at" => "You are at",
     "8steps_vmast" => "8 Steps MAST",
     "vmast" => "8 Steps MAST",
-    "lang_input" => "Language Input",
+    "lang_input" => "Scripture Input",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",

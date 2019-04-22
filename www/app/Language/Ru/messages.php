@@ -184,7 +184,6 @@ return array (
     "projects_public" => "Проект",
     "show_rubric" => "Рубрика",
     "choose_event_level" => "Уровень проверки",
-    "language_input" => "Ввод языка",
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
@@ -228,7 +227,7 @@ return array (
     "facilitator_yourself_error" => "Вы не можете отправлять сообщения себе",
     "delete_warning" => "Впишите название книги и нажмите кнопку \"Удалить\" для удаления события",
     "local_use_restriction" => "Эта функция не доступна на локальном сервере.",
-    "lang_input_not_allowed" => "Режим \"Ввод языка\" доступен только в событиях ULB 1-го уровня",
+    "lang_input_not_allowed" => "Режим \"Ввод Писания\" доступен только в событиях ULB 1-го уровня",
 
     // ------------ Events Controller ------------- //
 
@@ -389,7 +388,7 @@ return array (
     "you_are_at" => "Вы на стадии",
     "8steps_vmast" => "8 Шагов MAST",
     "vmast" => "8 Шагов MAST",
-    "lang_input" => "Ввод языка",
+    "lang_input" => "Ввод Писания",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",

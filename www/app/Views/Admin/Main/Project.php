@@ -322,7 +322,7 @@ if(!empty($data["project"])):
                         <div class="form-control language_input_checkbox">
                             <label>
                                 <input type="checkbox" name="langInput">
-                                <?php echo __("language_input") ?>
+                                <?php echo __("lang_input") ?>
                             </label>
                         </div>
                         <?php endif; ?>

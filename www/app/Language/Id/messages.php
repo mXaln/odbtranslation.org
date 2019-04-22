@@ -186,7 +186,6 @@ return array (
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
     "choose_event_level" => "Checking level",
-    "language_input" => "Language Input",
 
     // Passwordreset method
     "passwordreset_title" => "Batalkan password",
@@ -231,7 +230,7 @@ return array (
     "facilitator_yourself_error" => "Anda tidak bisa mengirim pesan kepada diri Anda sendiri",
     "delete_warning" => "Ketik nama buku dan klik tombol \"Delete\" lagi untuk menghapus kegiatan",
     "local_use_restriction" => "Fitur ini tidak tersedia pada server lokal.",
-    "lang_input_not_allowed" => "Language Input mode is allowed only in ULB events of Level 1",
+    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
@@ -392,7 +391,7 @@ return array (
     "you_are_at" => "Anda berada di",
     "8steps_vmast" => "MAST 8 Langkah",
     "vmast" => "MAST 8 Langkah",
-    "lang_input" => "Language Input",
+    "lang_input" => "Scripture Input",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",

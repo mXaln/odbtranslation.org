@@ -7,7 +7,8 @@ use Helpers\Constants\StepsStates;
     <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
         <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
     <?php endif; ?>
-    <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
+    <div class="demo_title"><?php echo __("demo")
+        . " (".($data["isLangInput"] ? __("lang_input") : __("8steps_vmast")).")" ?></div>
 </div>
 
 <div>
@@ -16,8 +17,12 @@ use Helpers\Constants\StepsStates;
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">
-            <div style="min-width: 0em; width: 28%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="27.5" role="progressbar" class="progress-bar progress-bar-success">
-                28%
+            <?php $percent = $data["isLangInput"] ? 37 : 28; ?>
+            <div style="min-width: 0em; width: <?php echo $percent ?>%"
+                 aria-valuemax="100"
+                 aria-valuemin="0"
+                 aria-valuenow="<?php echo $percent ?>" role="progressbar" class="progress-bar progress-bar-success">
+                <?php echo $percent ?>%
             </div>
         </div>
     </div>
@@ -33,7 +38,13 @@ use Helpers\Constants\StepsStates;
                     <div class="chapter_number section_title"><?php echo __("chapter_number", [1]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 77%">77%</div>
+                            <?php $percent = $data["isLangInput"] ? 100 : 77; ?>
+                            <div class="progress-bar progress-bar-success"
+                                 role="progressbar"
+                                 aria-valuenow="<?php echo $percent ?>"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 style="min-width: 0em; width: <?php echo $percent ?>%"><?php echo $percent ?>%</div>
                         </div>
                         <div class=" finished_icon"></div>
                         <div class="clear"></div>
@@ -48,7 +59,17 @@ use Helpers\Constants\StepsStates;
                         </div>
                     </div>
                     <div class="section_steps">
+                        <!-- Input Step -->
+                        <?php if($data["isLangInput"]): ?>
+                        <div class="section_step finished">
+                            <div class="step_status"><?php echo __("step_status_" . StepsStates::FINISHED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONTENT_REVIEW.".png") ?>"></div>
+                            <div class="step_name">1. <?php echo __(EventSteps::MULTI_DRAFT."_lang_input"); ?></div>
+                        </div>
+                        <?php endif; ?>
                         <!-- Consume Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step finished">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
@@ -92,14 +113,16 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>"></div>
                             <div class="step_name">4. <?php echo __(EventSteps::BLIND_DRAFT) ?></div>
                         </div>
+                        <?php endif; ?>
                         <!-- Self Edit Step -->
                         <div class="section_step finished">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/self-check.png") ?>"></div>
-                            <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK) ?></div>
+                            <div class="step_name"><?php echo $data["isLangInput"] ? "2" : "5" ?>. <?php echo __(EventSteps::SELF_CHECK) ?></div>
                         </div>
                         <!-- Peer Check Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step finished">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
@@ -138,6 +161,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/final-review.png") ?>"></div>
                             <div class="step_name"><?php echo __(EventSteps::FINAL_REVIEW) ?></div>
                         </div>
+                        <?php endif; ?>
                         <div class="clear"></div>
                     </div>
                 </div>
@@ -150,7 +174,13 @@ use Helpers\Constants\StepsStates;
                     <div class="chapter_number section_title"><?php echo __("chapter_number", [2]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 33%">33%</div>
+                            <?php $percent = $data["isLangInput"] ? 50 : 33; ?>
+                            <div class="progress-bar progress-bar-success"
+                                 role="progressbar"
+                                 aria-valuenow="<?php echo $percent ?>"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 style="min-width: 0em; width: <?php echo $percent ?>%"><?php echo $percent ?>%</div>
                         </div>
                         <div class=" finished_icon"></div>
                         <div class="clear"></div>
@@ -165,7 +195,17 @@ use Helpers\Constants\StepsStates;
                         </div>
                     </div>
                     <div class="section_steps">
+                        <!-- Input Step -->
+                        <?php if($data["isLangInput"]): ?>
+                            <div class="section_step finished">
+                                <div class="step_status"><?php echo __("step_status_" . StepsStates::FINISHED) ?></div>
+                                <div class="step_light"></div>
+                                <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONTENT_REVIEW.".png") ?>"></div>
+                                <div class="step_name">1. <?php echo __(EventSteps::MULTI_DRAFT."_lang_input"); ?></div>
+                            </div>
+                        <?php endif; ?>
                         <!-- Consume Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step finished">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
@@ -206,20 +246,22 @@ use Helpers\Constants\StepsStates;
                             </div>
                         </div>
                         <!-- Blind Draft Step -->
-                        <div class="section_step in_progress">
-                            <div class="step_status"><?php echo __("step_status_".StepsStates::IN_PROGRESS) ?></div>
+                        <div class="section_step finished">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>"></div>
                             <div class="step_name">4. <?php echo __(EventSteps::BLIND_DRAFT) ?></div>
                         </div>
+                        <?php endif; ?>
                         <!-- Self Edit Step -->
-                        <div class="section_step not_started">
-                            <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
+                        <div class="section_step in_progress">
+                            <div class="step_status"><?php echo __("step_status_".StepsStates::IN_PROGRESS) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/self-check.png") ?>"></div>
-                            <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK) ?></div>
+                            <div class="step_name"><?php echo $data["isLangInput"] ? "2" : "5" ?>. <?php echo __(EventSteps::SELF_CHECK) ?></div>
                         </div>
                         <!-- Peer Check Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
@@ -247,6 +289,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/final-review.png") ?>"></div>
                             <div class="step_name"><?php echo __(EventSteps::FINAL_REVIEW) ?></div>
                         </div>
+                        <?php endif; ?>
                         <div class="clear"></div>
                     </div>
                 </div>
@@ -274,7 +317,17 @@ use Helpers\Constants\StepsStates;
                         </div>
                     </div>
                     <div class="section_steps">
+                        <!-- Input Step -->
+                        <?php if($data["isLangInput"]): ?>
+                        <div class="section_step not_started">
+                            <div class="step_status"><?php echo __("step_status_" . StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONTENT_REVIEW.".png") ?>"></div>
+                            <div class="step_name">1. <?php echo __(EventSteps::MULTI_DRAFT."_lang_input"); ?></div>
+                        </div>
+                        <?php endif; ?>
                         <!-- Consume Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
@@ -304,14 +357,16 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>"></div>
                             <div class="step_name">4. <?php echo __(EventSteps::BLIND_DRAFT) ?></div>
                         </div>
+                        <?php endif; ?>
                         <!-- Self Edit Step -->
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/self-check.png") ?>"></div>
-                            <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK) ?></div>
+                            <div class="step_name"><?php echo $data["isLangInput"] ? "2" : "5" ?>. <?php echo __(EventSteps::SELF_CHECK) ?></div>
                         </div>
                         <!-- Peer Check Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
@@ -339,6 +394,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/final-review.png") ?>"></div>
                             <div class="step_name"><?php echo __(EventSteps::FINAL_REVIEW) ?></div>
                         </div>
+                        <?php endif; ?>
                         <div class="clear"></div>
                     </div>
                 </div>
@@ -366,7 +422,17 @@ use Helpers\Constants\StepsStates;
                         </div>
                     </div>
                     <div class="section_steps">
+                        <!-- Input Step -->
+                        <?php if($data["isLangInput"]): ?>
+                        <div class="section_step not_started">
+                            <div class="step_status"><?php echo __("step_status_" . StepsStates::NOT_STARTED) ?></div>
+                            <div class="step_light"></div>
+                            <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONTENT_REVIEW.".png") ?>"></div>
+                            <div class="step_name">1. <?php echo __(EventSteps::MULTI_DRAFT."_lang_input"); ?></div>
+                        </div>
+                        <?php endif; ?>
                         <!-- Consume Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
@@ -396,14 +462,16 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>"></div>
                             <div class="step_name">4. <?php echo __(EventSteps::BLIND_DRAFT) ?></div>
                         </div>
+                        <?php endif; ?>
                         <!-- Self Edit Step -->
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/self-check.png") ?>"></div>
-                            <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK) ?></div>
+                            <div class="step_name"><?php echo $data["isLangInput"] ? "2" : "5" ?>. <?php echo __(EventSteps::SELF_CHECK) ?></div>
                         </div>
                         <!-- Peer Check Step -->
+                        <?php if(!$data["isLangInput"]): ?>
                         <div class="section_step not_started">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::NOT_STARTED) ?></div>
                             <div class="step_light"></div>
@@ -431,6 +499,7 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/final-review.png") ?>"></div>
                             <div class="step_name"><?php echo __(EventSteps::FINAL_REVIEW) ?></div>
                         </div>
+                        <?php endif; ?>
                         <div class="clear"></div>
                     </div>
                 </div>
