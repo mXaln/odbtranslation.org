@@ -549,7 +549,7 @@ class ApiModel extends Model
         {
             preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro|index).md$/", $file, $matches);
 
-            if(!isset($matches[1]) || !isset($matches[2])) return false;
+            if(!isset($matches[1]) || !isset($matches[2])) continue;
 
             if($matches[2] == "index")
                 continue;
@@ -907,7 +907,7 @@ class ApiModel extends Model
         {
             preg_match("/([0-9]{2,3})\/([0-9]{2,3}).md$/", $file, $matches);
 
-            if(!isset($matches[1]) || !isset($matches[2])) return false;
+            if(!isset($matches[1]) || !isset($matches[2])) continue;
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
