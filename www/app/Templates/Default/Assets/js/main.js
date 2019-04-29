@@ -2607,6 +2607,11 @@ $(document).ready(function() {
     });
 
     var langInputAutosaver = setInterval(function() {
+        if(typeof isDemo != "undefined" && isDemo)
+        {
+            hasLangInputChangesOnPage = false;
+        }
+
         if(hasLangInputChangesOnPage)
         {
             $.ajax({

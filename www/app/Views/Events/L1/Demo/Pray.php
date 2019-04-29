@@ -1,7 +1,8 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
+            <div class="demo_title"><?php echo __("demo")
+                    . " (".($data["isLangInput"] ? __("lang_input") : __("8steps_vmast")).")" ?></div>
             <div><?php echo __("pray")?></div>
         </div>
         <div class="demo_video">
@@ -53,7 +54,7 @@
                 <div class="event_info">
                     <div class="participant_info">
                         <div class="additional_info">
-                            <a href="/events/demo/information"><?php echo __("event_info") ?></a>
+                            <a href="/events/demo<?php echo $data["isLangInput"] ? "-scripture-input" : "" ?>/information"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +70,14 @@
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo/consume';
+            if(isLangInput)
+            {
+                window.location.href = '/events/demo-scripture-input/input';
+            }
+            else
+            {
+                window.location.href = '/events/demo/consume';
+            }
             return false;
         });
     });

@@ -14,6 +14,7 @@ $profile = Session::get("profile");
         <div class="demo_options">
             <ul>
                 <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
+                <a href="/events/demo-scripture-input"><li><?php echo __("lang_input") ?></li></a>
                 <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", [2]); ?></li></a>
                 <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", [3]); ?></li></a>
                 <a href="/events/demo-tn-l3"><li><?php echo __("tn") . " " . __("l2_3_events", [3]); ?></li></a>
@@ -103,11 +104,13 @@ $profile = Session::get("profile");
                     $mode = $event->bookProject;
                     $eventType = $mode != "sun"
                         ? (!in_array($mode, ["tn","tq","tw"])
-                            ? ($event->langInput ? __("language_input") : __("8steps_vmast"))
+                            ? ($event->langInput ? __("lang_input") : __("8steps_vmast"))
                             : "")
                         : __("vsail");
                     $eventImg = $mode != "sun"
-                        ? template_url("img/steps/big/peer-review.png")
+                        ? ($event->langInput ?
+                            template_url("img/steps/big/consume.png") :
+                            template_url("img/steps/big/peer-review.png"))
                         : template_url("img/steps/big/vsail.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
@@ -199,10 +202,12 @@ $profile = Session::get("profile");
                     $mode = $event->bookProject;
                     $eventType = $mode != "sun"
                         ? (!in_array($mode, ["tn","tq","tw"])
-                            ? ($event->langInput ? __("language_input") : __("8steps_vmast"))
+                            ? ($event->langInput ? __("lang_input") : __("8steps_vmast"))
                             : "") : __("vsail");
                     $eventImg = $mode != "sun"
-                        ? template_url("img/steps/big/peer-review.png")
+                        ? ($event->langInput ?
+                            template_url("img/steps/big/consume.png") :
+                            template_url("img/steps/big/peer-review.png"))
                         : template_url("img/steps/big/vsail.png");
                     $logoBorderClass = "translation";
                     $bgColor = "purple-marked";
@@ -265,11 +270,13 @@ $profile = Session::get("profile");
         $mode = $event->bookProject;
         $eventType = $mode != "sun"
             ? (!in_array($mode, ["tn","tq","tw"])
-                ? ($event->langInput ? __("language_input") : __("8steps_vmast"))
+                ? ($event->langInput ? __("lang_input") : __("8steps_vmast"))
                 : "")
             : __("vsail");
         $eventImg = $mode != "sun"
-            ? template_url("img/steps/big/peer-review.png")
+            ? ($event->langInput ?
+                template_url("img/steps/big/consume.png") :
+                template_url("img/steps/big/peer-review.png"))
             : template_url("img/steps/big/vsail.png");
         $tw_group = $event->bookProject == "tw" ? json_decode($event->words, true) : [];
         ?>
