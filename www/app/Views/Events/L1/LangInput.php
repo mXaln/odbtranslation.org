@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
                     <div class="row no_padding">
                         <div class="col-sm-6">
                             <?php foreach($data["text"] as $verse => $text): ?>
-                                <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                                <p style="margin: 0 0 5px;" class="verse_p" data-verse="<?php echo $verse ?>"><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
                             <?php endforeach; ?>
                         </div>
 
@@ -124,3 +124,29 @@ if(isset($data["error"])) return;
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            equal_verses_height();
+        }, 3000);
+
+        $(".lang_input_ta").blur(function() {
+            equal_verses_height();
+        });
+    });
+
+    function equal_verses_height() {
+        $(".verse_p").each(function() {
+            var verse = $(this).data("verse");
+            var p_height = $(this).outerHeight();
+            var ta = $(".lang_input_verse[data-verse="+verse+"] textarea");
+
+            if(ta.length > 0) {
+                var t_height = ta.outerHeight();
+                ta.outerHeight(Math.max(p_height, t_height));
+                $(this).outerHeight(Math.max(p_height, t_height));
+            }
+        });
+    }
+</script>
