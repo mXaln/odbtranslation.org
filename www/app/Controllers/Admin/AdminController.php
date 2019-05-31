@@ -2918,6 +2918,60 @@ class AdminController extends Controller {
         }
     }
 
+    public function uploadImage()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $image_file = Input::file("image");
+
+        if($image_file->isValid())
+        {
+            $mime = $image_file->getMimeType();
+            if(in_array($mime, ["image/jpeg", "image/png", "image/gif", "application/pdf"]))
+            {
+                $fileExtension = $image_file->getClientOriginalExtension();
+                $fileName = uniqid().".".$fileExtension;
+                $destinationPath = "../app/Templates/Default/Assets/faq/";
+                $image_file->move($destinationPath, $fileName);
+
+                if(File::exists(join("/", [$destinationPath, $fileName])))
+                {
+                    $result["success"] = true;
+                    $result["ext"] = $fileExtension;
+                    $result["url"] = template_url("faq/".$fileName);
+                    echo json_encode($result);
+                    exit;
+                }
+            }
+            else
+            {
+                $result["error"] = __("wrong_image_format_error");
+                echo json_encode($result);
+                exit;
+            }
+        }
+        else
+        {
+            $result["error"] = __("error_ocured");
+            echo json_encode($result);
+            exit;
+        }
+    }
+
     public function createFaq()
     {
         $result = ["success" => false];

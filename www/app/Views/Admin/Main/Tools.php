@@ -221,31 +221,11 @@
     </div>
 </div>
 
-<style>
-    .note-editor.note-frame .note-editing-area .note-editable {
-        background-color: #fffeee !important;
-    }
-</style>
-
 <script type="text/javascript">
     $(document).ready(function () {
         autosize($("textarea"));
         $(".my_tab").click(function () {
             autosize($("textarea"));
         });
-
-        /*$('#faq_answer').summernote({
-            height: 300,
-            minHeight: null,
-            maxHeight: null,
-            focus: true,
-            toolbar: [
-                ['para', ['style', 'ul', 'ol']],
-                ['style', ['bold', 'italic', 'underline']],
-                ['link', ['linkDialogShow', 'unlink']],
-                ['misc', ['undo', 'redo']],
-                ['insert', ['elfinder']]
-            ]
-        });*/
     });
 </script>
