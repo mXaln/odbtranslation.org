@@ -97,7 +97,7 @@ $profile = Session::get("profile");
                     $currentMembers = $event->chl3Cnt;
                     $members = __("checkers");
                     $manageLink = "/events/manage-l3/".$event->eventID;
-                    $progressLink = "/events/information-{$event->bookProject}-l3/".$event->eventID;
+                    $progressLink = "/events/information".(!in_array($event->bookProject, ["ulb","udb"]) ? "-".$event->bookProject : "")."-l3/".$event->eventID;
                     break;
 
                 default:
@@ -195,7 +195,7 @@ $profile = Session::get("profile");
                     $currentMembers = $event->chl3Cnt;
                     $members = __("checkers");
                     $manageLink = "/events/manage-l3/".$event->eventID;
-                    $progressLink = "/events/information-{$event->bookProject}-l3/".$event->eventID;
+                    $progressLink = "/events/information".(!in_array($event->bookProject, ["ulb","udb"]) ? "-".$event->bookProject : "")."-l3/".$event->eventID;
                     break;
 
                 default:
