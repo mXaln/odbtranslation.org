@@ -4882,6 +4882,10 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
+#tools .note-editor img, #tools .faq_answer img {
+    display: initial;
+}
+
 #tools .create_news {
     font-family: SUN, Serif;
 }

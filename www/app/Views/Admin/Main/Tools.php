@@ -169,7 +169,7 @@
                 </div>
                 <div class="form-group">
                     <label for="faq_answer" class="sr-only">Answer</label>
-                    <textarea class="form-control textarea" id="faq_answer" placeholder="<?php echo __("faq_enter_answer") ?>"></textarea>
+                    <textarea class="form-control" id="faq_answer" placeholder="<?php echo __("faq_enter_answer") ?>"></textarea>
                 </div>
                 <div class="form-group">
                     <select class="form-control" id="faq_category" name="category">
@@ -221,7 +221,7 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         autosize($("textarea"));
         $(".my_tab").click(function () {
