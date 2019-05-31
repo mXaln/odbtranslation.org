@@ -169,7 +169,7 @@
                 </div>
                 <div class="form-group">
                     <label for="faq_answer" class="sr-only">Answer</label>
-                    <textarea class="form-control textarea" id="faq_answer" placeholder="<?php echo __("faq_enter_answer") ?>"></textarea>
+                    <textarea class="form-control" id="faq_answer" placeholder="<?php echo __("faq_enter_answer") ?>"></textarea>
                 </div>
                 <div class="form-group">
                     <select class="form-control" id="faq_category" name="category">
@@ -221,11 +221,31 @@
     </div>
 </div>
 
-<script>
+<style>
+    .note-editor.note-frame .note-editing-area .note-editable {
+        background-color: #fffeee !important;
+    }
+</style>
+
+<script type="text/javascript">
     $(document).ready(function () {
         autosize($("textarea"));
         $(".my_tab").click(function () {
             autosize($("textarea"));
         });
+
+        /*$('#faq_answer').summernote({
+            height: 300,
+            minHeight: null,
+            maxHeight: null,
+            focus: true,
+            toolbar: [
+                ['para', ['style', 'ul', 'ol']],
+                ['style', ['bold', 'italic', 'underline']],
+                ['link', ['linkDialogShow', 'unlink']],
+                ['misc', ['undo', 'redo']],
+                ['insert', ['elfinder']]
+            ]
+        });*/
     });
 </script>
