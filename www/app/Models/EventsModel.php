@@ -1737,8 +1737,7 @@ class EventsModel extends Model
                 "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
                 "OR ".PREFIX."events.admins LIKE :adminID) ".
-                "AND trs.otherCheck != '' AND trs.memberID != :memberID ".
-                "AND mytrs.isChecker = 1 ".
+                "AND trs.otherCheck != '' AND mytrs.isChecker = 1 ".
                 "AND ".PREFIX."projects.bookProject = 'tn'";
 
         $prepare = [
@@ -1757,6 +1756,9 @@ class EventsModel extends Model
             foreach ($otherCheck as $chapter => $data) {
                 // Exclude taken chapters
                 if($data["memberID"] > 0) continue;
+
+                // Exclude member that is translator
+                if($notification->memberID == Session::get("memberID")) continue;
 
                 $note = clone $notification;
                 $note->currentChapter = $chapter;
