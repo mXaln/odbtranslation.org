@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [4]) . ": " . __("keyword-check_tn_full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 4]) . ": " . __("keyword-check_tn_full")?></div>
     </div>
 
     <div class="row" style="position: relative">
@@ -129,7 +129,7 @@ if(isset($data["error"])) return;
                 <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [4])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 4])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -141,7 +141,7 @@ if(isset($data["error"])) return;
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [4])?>: </span>
+                        <span><?php echo __("step_num", ["step_number" => 4])?>: </span>
                         <?php echo __("keyword-check_tn")?>
                     </div>
                     <div class="help_descr_steps">

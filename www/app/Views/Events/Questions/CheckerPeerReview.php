@@ -28,7 +28,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [2]). ": " . __("peer-review_tq")?></div>
+            <div><?php echo __("step_num", ["step_number" => 2]). ": " . __("peer-review_tq")?></div>
         </div>
     </div>
 
@@ -107,7 +107,7 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [2])?></div>
+                <div class="step_right chk"><?php echo __("step_num", ["step_number" => 2])?></div>
             </div>
             <?php //endif; ?>
         </div>
@@ -123,7 +123,7 @@ if(empty($error) && empty($data["success"])):
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [2])?>: </span>
+                        <span><?php echo __("step_num", ["step_number" => 2])?>: </span>
                         <?php echo __("peer-review_tq")?>
                     </div>
                     <div class="help_descr_steps">

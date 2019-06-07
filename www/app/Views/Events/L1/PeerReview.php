@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [6]) . ": " . __("peer-review")?></div>
+            <div><?php echo __("step_num", ["step_number" => 6]) . ": " . __("peer-review")?></div>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
@@ -109,7 +109,7 @@ if(isset($data["error"])) return;
                     <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [6])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 6])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -120,7 +120,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [6])?>:</span> <?php echo __("peer-review")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("peer-review")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("peer-review_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

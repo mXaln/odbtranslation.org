@@ -28,7 +28,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [5]). ": " . __("peer-review_tn")?></div>
+            <div><?php echo __("step_num", ["step_number" => 5]). ": " . __("peer-review_tn")?></div>
             <div class="action_type type_checking <?php echo isset($data["isPeerPage"]) ? "isPeer" : "" ?>">
             <?php echo __("type_checking"); ?></div>
         </div>
@@ -138,7 +138,7 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [5])?></div>
+                <div class="step_right chk"><?php echo __("step_num", ["step_number" => 5])?></div>
             </div>
             <?php //endif; ?>
         </div>
@@ -153,7 +153,7 @@ if(empty($error) && empty($data["success"])):
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [5])?>: </span> <?php echo __("peer-review_tn")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 5])?>: </span> <?php echo __("peer-review_tn")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("peer-review_tn_chk_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

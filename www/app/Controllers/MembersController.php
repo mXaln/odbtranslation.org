@@ -731,7 +731,7 @@ class MembersController extends Controller
                 $where = array('memberID' => $memberID);
                 $this->_model->updateMember($postdata, $where);
 
-                $msg = __('account_activated_success', array(SITEURL . 'members/login'));
+                $msg = __('account_activated_success', ["href" => SITEURL . 'members/login']);
                 Session::set('success', $msg);
 
                 Session::destroy("activation_email");
@@ -911,7 +911,7 @@ class MembersController extends Controller
                         }
                         else
                         {
-                            $error[] = __('not_activated_email', [$data[0]->email]);
+                            $error[] = __('not_activated_email', ["email" => $data[0]->email]);
                         }
                     }
                     else
@@ -1116,10 +1116,10 @@ class MembersController extends Controller
                             $projects = __("8steps_vmast");
                             break;
                         case "l2":
-                            $projects = __("l2_3_events", [2]);
+                            $projects = __("l2_3_events", ["level" => 2]);
                             break;
                         case "l3":
-                            $projects = __("l2_3_events", [3]);
+                            $projects = __("l2_3_events", ["level" => 3]);
                             break;
                         default:
                             $projects = __($projects);
@@ -1211,7 +1211,7 @@ class MembersController extends Controller
                     }
                     else
                     {
-                        $msg = __("passwordreset_link_message", '<a href="'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'">'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'</a>');
+                        $msg = __("passwordreset_link_message", ["link" => '<a href="'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'">'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'</a>']);
                     }
 
                     Session::set('success', $msg);
@@ -1299,7 +1299,7 @@ class MembersController extends Controller
                         $postdata = array('password' => Password::make($password), 'resetToken' => null);
                         $this->_model->updateMember($postdata, array('memberID' => $memberID));
 
-                        $msg = __('password_reset_success', array(SITEURL . 'members/login'));
+                        $msg = __('password_reset_success', ["link" => SITEURL . 'members/login']);
                         Session::set('success', $msg);
 
                         Url::redirect('members/success');

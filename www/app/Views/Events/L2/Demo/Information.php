@@ -7,7 +7,7 @@ use Helpers\Constants\StepsStates;
     <?php if(isset($_SERVER["HTTP_REFERER"])): ?>
         <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
     <?php endif; ?>
-    <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [2]).")" ?></div>
+    <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", ["level" => 2]).")" ?></div>
 </div>
 
 <div>
@@ -30,7 +30,7 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_1">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [1]) ?></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 1]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 80%">80%</div>
@@ -99,7 +99,7 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_2">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [2]) ?></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 2]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 40%">40%</div>
@@ -167,7 +167,7 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_3">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [3]) ?></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 3]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 100%">100%</div>
@@ -237,7 +237,7 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_4">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [4]) ?></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 4]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress zero">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 0%">0%</div>

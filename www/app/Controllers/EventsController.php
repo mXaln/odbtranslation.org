@@ -11962,19 +11962,19 @@ class EventsController extends Controller
             foreach ($this->_notifications as $notification)
             {
                 $text_data = array(
-                    $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
-                    ($notification->step != "other" ? "(".__($notification->step .
+                    "name" => $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
+                    "step" => ($notification->step != "other" ? "(".__($notification->step .
                             (in_array($notification->bookProject, ["tq","tw"])
                             && $notification->step == EventSteps::PEER_REVIEW
                                 ? "_".$notification->bookProject : "")).")" : ""),
-                    $notification->bookName,
-                    ($notification->bookProject == "tw"
+                    "book" => $notification->bookName,
+                    "chapter" => ($notification->bookProject == "tw"
                         ? $notification->group
                         : ($notification->currentChapter == 0
                             ? __("intro")
                             : $notification->currentChapter)),
-                    $notification->tLang,
-                    __($notification->bookProject)
+                    "language" => $notification->tLang,
+                    "project" => __($notification->bookProject)
                 );
 
                 if($notification->bookProject == "tw")

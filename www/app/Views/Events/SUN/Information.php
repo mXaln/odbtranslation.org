@@ -36,7 +36,7 @@ if(!isset($error)):
                 <?php
                 if(empty($chapter)) {
                     echo '<div class="chapter_item">
-                            <div class="chapter_number nofloat">'.__("chapter_number", [$key]).'</div>
+                            <div class="chapter_number nofloat">'.__("chapter_number", ["chapter" => $key]).'</div>
                         </div>';
                     continue;
                 }
@@ -45,7 +45,7 @@ if(!isset($error)):
                     <div class="chapter_accordion">
                         <div class="section_header" data="<?php echo "sec_".$key?>">
                             <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                            <div class="chapter_number section_title"><?php echo __("chapter_number", [$key]) ?></div>
+                            <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => $key]) ?></div>
                             <div class="section_translator_progress_bar">
                                 <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
                                     <div class="progress-bar progress-bar-success" role="progressbar"

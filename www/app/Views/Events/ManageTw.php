@@ -142,7 +142,7 @@ if(!isset($error)):
 
             <div class="manage_members">
                 <h3>
-                    <?php echo __("people_number", sizeof($data["members"])) ?>
+                    <?php echo __("people_number", ["people_number" => sizeof($data["members"])]) ?>
                     <div class="manage_buttons">
                         <button
                                 class="btn btn-primary"

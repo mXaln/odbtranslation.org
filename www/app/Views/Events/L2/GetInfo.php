@@ -6,7 +6,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
     <?php
     if($chapter["l2memberID"] == 0) {
         echo '<div class="chapter_item">
-                <div class="chapter_number nofloat">'.__("chapter_number", [$key]).'</div>
+                <div class="chapter_number nofloat">'.__("chapter_number", ["chapter" => $key]).'</div>
             </div>';
         continue;
     }
@@ -15,7 +15,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
         <div class="chapter_accordion">
             <div class="section_header" data="<?php echo "sec_".$key?>">
                 <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                <div class="chapter_number section_title"><?php echo __("chapter_number", [$key]) ?></div>
+                <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => $key]) ?></div>
                 <div class="section_translator_progress_bar">
                     <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
                         <div class="progress-bar progress-bar-success" role="progressbar"

@@ -15,9 +15,9 @@ $profile = Session::get("profile");
             <ul>
                 <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
                 <a href="/events/demo-scripture-input"><li><?php echo __("lang_input") ?></li></a>
-                <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", [2]); ?></li></a>
-                <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", [3]); ?></li></a>
-                <a href="/events/demo-tn-l3"><li><?php echo __("tn") . " " . __("l2_3_events", [3]); ?></li></a>
+                <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", ["level" => 2]); ?></li></a>
+                <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", ["level" => 3]); ?></li></a>
+                <a href="/events/demo-tn-l3"><li><?php echo __("tn") . " " . __("l2_3_events", ["level" => 3]); ?></li></a>
                 <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
                 <a href="/events/demo-tq"><li><?php echo __("tq") ?></li></a>
                 <a href="/events/demo-tw"><li><?php echo __("tw") ?></li></a>
@@ -56,7 +56,7 @@ $profile = Session::get("profile");
                 <div>
                     <a href="/admin" class="create_event_link"><?php echo __("admin") ?></a>
                 </div>
-                <div class="create_info_tip"><?php echo __("create_info_tip") ?></div>
+                <div class="create_info_tip"><?php echo __("create_info_tip", ["test" => "252352"]) ?></div>
                 <div>
                     <img src="<?php echo template_url("img/tip.png") ?>" width="95">
                 </div>
@@ -76,7 +76,7 @@ $profile = Session::get("profile");
                 case EventStates::L2_RECRUIT:
                 case EventStates::L2_CHECK:
                 case EventStates::L2_CHECKED:
-                    $eventType = __("l2_3_events", array(2));
+                    $eventType = __("l2_3_events", ["level" => 2]);
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
@@ -89,7 +89,7 @@ $profile = Session::get("profile");
 
                 case EventStates::L3_RECRUIT:
                 case EventStates::L3_CHECK:
-                    $eventType = __("l2_3_events", array(3));
+                    $eventType = __("l2_3_events", ["level" => 3]);
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
@@ -174,7 +174,7 @@ $profile = Session::get("profile");
                 case EventStates::L2_RECRUIT:
                 case EventStates::L2_CHECK:
                 case EventStates::L2_CHECKED:
-                    $eventType = __("l2_3_events", array(2));
+                    $eventType = __("l2_3_events", ["level" => 2]);
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl2";
@@ -187,7 +187,7 @@ $profile = Session::get("profile");
 
                 case EventStates::L3_RECRUIT:
                 case EventStates::L3_CHECK:
-                    $eventType = __("l2_3_events", array(3));
+                    $eventType = __("l2_3_events", ["level" => 3]);
                     $mode = $event->bookProject;
                     $eventImg = template_url("img/steps/big/l2_check.png");
                     $logoBorderClass = "checkingl3";
@@ -318,7 +318,7 @@ $profile = Session::get("profile");
                                 <?php echo ($event->currentChapter > 0
                                 ? ($event->bookProject == "tw"
                                     ? "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                                    : __("chapter_number", array($event->currentChapter)))
+                                    : __("chapter_number", ["chapter" => $event->currentChapter]))
                                 : ($event->currentChapter == 0 && in_array($event->bookProject, ["tn"])
                                     ? __("front")
                                     : "")) ?>
@@ -365,7 +365,7 @@ $profile = Session::get("profile");
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
                 <div class="event_type">
-                    <div><?php echo __("step_num", EventSteps::enum($event->step, $event->bookProject, true)) ?></div>
+                    <div><?php echo __("step_num", ["step_number" => EventSteps::enum($event->step, $event->bookProject, true)]) ?></div>
                     <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                     <?php $chk = in_array($event->bookProject, ["tn"]) ?>
                     <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>
@@ -411,7 +411,7 @@ $profile = Session::get("profile");
                             <?php echo ($event->currentChapter > 0
                                     ? ($event->bookProject == "tw" ?
                                         "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."] "
-                                        : __("chapter_number", array($event->currentChapter)))
+                                        : __("chapter_number", ["chapter" => $event->currentChapter]))
                                     : __("front")) ?>
                         </div>
                         <div>
@@ -438,7 +438,7 @@ $profile = Session::get("profile");
     <?php foreach($data["myCheckerL2Events"] as $key => $event): ?>
         <div class="event_block <?php echo $key%2 == 0 ? "lemon-marked" : "" ?>">
             <div class="event_logo checkingl2">
-                <div class="event_type"><?php echo __("l2_3_events", array(2)) ?></div>
+                <div class="event_type"><?php echo __("l2_3_events", ["level" => 2]) ?></div>
                 <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
@@ -467,7 +467,7 @@ $profile = Session::get("profile");
                         <div class="step_current">
                             <div>
                                 <?php echo ($event->currentChapter > 0 ? __("chapter_number",
-                                        array($event->currentChapter)) : "") ?>
+                                        ["chapter" => $event->currentChapter]) : "") ?>
                             </div>
                             <div>
                                 <?php echo __($event->step) ?>
@@ -492,7 +492,7 @@ $profile = Session::get("profile");
     <?php foreach($data["myCheckerL3Events"] as $key => $event): ?>
         <div class="event_block <?php echo $key%2 == 0 ? "blue-marked" : "" ?>">
             <div class="event_logo checkingl3">
-                <div class="event_type"><?php echo __("l2_3_events", array(3)) ?></div>
+                <div class="event_type"><?php echo __("l2_3_events", ["level" => 3]) ?></div>
                 <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                 <div class="event_img">
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
@@ -523,7 +523,7 @@ $profile = Session::get("profile");
                                 <?php echo ($event->currentChapter > 0
                                         ? ($event->bookProject == "tw" ?
                                             "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                                            : __("chapter_number", array($event->currentChapter)))
+                                            : __("chapter_number", ["chapter" => $event->currentChapter]))
                                         : ($event->bookProject == "tn" && $event->currentChapter > -1 ? __("front") : "")) ?>
                             </div>
                             <div>

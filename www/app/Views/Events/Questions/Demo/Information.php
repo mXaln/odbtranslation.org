@@ -30,7 +30,7 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_1">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [1]) ?></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 1]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 75%">75%</div>

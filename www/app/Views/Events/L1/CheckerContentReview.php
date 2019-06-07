@@ -25,7 +25,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [8]). ": " . __("content-review")?></div>
+            <div><?php echo __("step_num", ["step_number" => 8]). ": " . __("content-review")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
     </div>
@@ -169,7 +169,7 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [8])?></div>
+                <div class="step_right chk"><?php echo __("step_num", ["step_number" => 8])?></div>
             </div>
         </div>
 
@@ -181,7 +181,7 @@ if(empty($error) && empty($data["success"])):
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [8])?>: </span> <?php echo __("content-review")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 8])?>: </span> <?php echo __("content-review")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("content-review_checker_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

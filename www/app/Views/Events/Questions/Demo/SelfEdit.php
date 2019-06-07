@@ -21,7 +21,7 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tq").")" ?></div>
-            <div><?php echo __("step_num", [2]). ": " . __("self-check")?></div>
+            <div><?php echo __("step_num", ["step_number" => 2]). ": " . __("self-check")?></div>
         </div>
     </div>
 
@@ -267,7 +267,7 @@ if(isset($data["error"])) return;
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [2])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -278,7 +278,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [2])?>:</span> <?php echo __("self-check")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("self-check")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("self-check_tq_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

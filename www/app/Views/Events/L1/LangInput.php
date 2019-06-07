@@ -3,7 +3,7 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(1)) . ": " . __("multi-draft_lang_input")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 1]) . ": " . __("multi-draft_lang_input")?></div>
     </div>
 
     <div class="row">
@@ -70,7 +70,7 @@ if(isset($data["error"])) return;
                     <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [1])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 1])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -81,7 +81,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [1])?>: </span><?php echo __("multi-draft_lang_input")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 1])?>: </span><?php echo __("multi-draft_lang_input")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("multi-draft_lang_input_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
