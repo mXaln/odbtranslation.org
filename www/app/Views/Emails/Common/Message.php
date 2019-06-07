@@ -16,7 +16,11 @@ $body .= "\n\n".$data["message"];
 
         <div style="margin-top: 20px">
             <div><?php echo $membersModel->translate("member_profile_message", $data["lang"]) ?>:</div>
-            <div><a href="<?php echo SITEURL."members/profile/".$data["tMemberID"] ?>"><?php echo $data["tUserName"] ?></a></div>
+            <div>
+                <a href="<?php echo SITEURL."members/profile/".$data["tMemberID"] ?>">
+                    <?php echo $data["tName"] . " (" .$data["tUserName"] . ")" ?>
+                </a>
+            </div>
         </div>
 
         <div style="color: #249b45; font-weight: bold;">

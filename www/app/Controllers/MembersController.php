@@ -1430,7 +1430,6 @@ class MembersController extends Controller
                 {
                     if($admin[0]->memberID != Session::get("memberID"))
                     {
-                        $data["fUserName"] = $admin[0]->userName;
                         $data["fName"] = $admin[0]->firstName . " " . $admin[0]->lastName;
                         $data["fEmail"] = $admin[0]->email;
                         $data["tMemberID"] = Session::get("memberID");
@@ -1452,9 +1451,9 @@ class MembersController extends Controller
 
                         Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
                         {
-                            $message->setReplyTo([$data["fEmail"] => $data["fName"]])
+                            $message->setReplyTo([$data["tEmail"] => $data["tName"]])
                                 ->setTo($data["fEmail"], $data["fName"])
-                                ->setSubject("[V-MAST ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
+                                ->setSubject("[vMast ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
                         });
 
                         $response["success"] = true;
