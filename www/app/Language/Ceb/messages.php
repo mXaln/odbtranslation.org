@@ -55,7 +55,7 @@ return array (
     "message_subject" => "Gihisgotan",
     "message_content" => "Mensahe",
     "send" => "Ipadala",
-    "facilitator_message_tip" => "Kini nga mensahe gipadala sa miyembro sa V-MAST.com. Kung gusto ka moreply, pindota ang emensahe nga link sa ubos. O kopyaha na lang ang gigikanan sa email ug pagbuhat ug bag-ong mensahe.",
+    "facilitator_message_tip" => "Kini nga mensahe gipadala sa miyembro sa V-MAST.com",
     "member_wrote" => "nagsulat",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",

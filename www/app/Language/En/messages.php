@@ -55,7 +55,7 @@ return array (
     "message_subject" => "Subject",
     "message_content" => "Message",
     "send" => "Send",
-    "facilitator_message_tip" => "This message was sent by a member on V-MAST.com. <br>If you want to reply, click on the email link below. <br>Or just copy email address and compose new message",
+    "facilitator_message_tip" => "This message was sent by a member on V-MAST.com",
     "member_wrote" => "wrote",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",

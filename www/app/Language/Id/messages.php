@@ -55,7 +55,7 @@ return array (
     "message_subject" => "Perihal",
     "message_content" => "Pesan",
     "send" => "Kirim",
-    "facilitator_message_tip" => "Pesan ini dikirim oleh seorang anggota pada V-MAST.com. Jika Anda ingin membalas, klik pada tautan email di bawah ini. Atau salin saja alamat emailnya dan tulis pesan baru",
+    "facilitator_message_tip" => "Pesan ini dikirim oleh seorang anggota pada V-MAST.com",
     "member_wrote" => "menulis",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",

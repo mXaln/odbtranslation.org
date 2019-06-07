@@ -53,7 +53,7 @@ return array (
     "message_subject" => "Тема",
     "message_content" => "Сообщение",
     "send" => "Отправить",
-    "facilitator_message_tip" => "Это сообщение было отправлено с сайта V-MAST.com. <br>Если вы хотите ответить, нажмите на почтовую ссылку ниже. <br>Или скопируйте адрес и напишите новое письмо",
+    "facilitator_message_tip" => "Это сообщение было отправлено с сайта V-MAST.com",
     "member_wrote" => "написал",
     "project_mode" => "Режим проекта",
     "choose_project_mode" => "Выберите режим проекта",
