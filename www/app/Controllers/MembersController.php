@@ -1385,7 +1385,7 @@ class MembersController extends Controller
 
 
     public function sendMessageToAdmin()
-    {
+    {$data = ["fEmail" => "murmax82@gmail.com", "fName" => "Max"];
         $response = ["success" => false];
 
         if (!Session::get('loggedin'))
@@ -1453,8 +1453,8 @@ class MembersController extends Controller
                         Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
                         {
                             $message->setReplyTo([$data["fEmail"] => $data["fName"]])
-                                ->to($data["fEmail"], $data["fName"])
-                                ->subject("[V-MAST ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
+                                ->setTo($data["fEmail"], $data["fName"])
+                                ->setSubject("[V-MAST ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
                         });
 
                         $response["success"] = true;
