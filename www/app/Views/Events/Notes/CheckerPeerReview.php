@@ -19,7 +19,7 @@ if(empty($error) && empty($data["success"])):
         <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
-    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <textarea dir="<?php echo $data["event"][0]->sLangDir ?>" style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
     <div class="other_comments_list"></div>
     <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
@@ -100,7 +100,7 @@ if(empty($error) && empty($data["success"])):
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == Session::get("memberID")): ?>
+                                        <?php if($comment->memberID == Session::get("memberID") && $comment->level == 2): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">

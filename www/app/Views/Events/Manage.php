@@ -114,7 +114,7 @@ if(!isset($error)):
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
-                        <?php elseif ($data["event"][0]->bookProject == "tn"): ?>
+                        <?php elseif (in_array($data["event"][0]->bookProject, ["tn", "tq"])): ?>
                         <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
                              data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
                             <?php
@@ -158,65 +158,12 @@ if(!isset($error)):
                                         data-level="<?php echo $chapData["otherCheck"][$chapter]["done"] ?>"
                                         data-name="<?php echo $otherName ?>"
                                     <?php echo $peer ? "disabled" : "" ?>
-                                        title="<?php echo __("tn_checker") ?>">Checker</button>
+                                        title="<?php echo __("other_checker") ?>">Checker</button>
                                 <?php if($peer): ?>
                                     <button class="btn btn-danger remove_checker_alt" id="peer_checker"
                                             data-level="<?php echo $chapData["peerCheck"][$chapter]["done"] ?>"
                                             data-name="<?php echo $peerName ?>"
-                                            title="<?php echo __("tn_peer_checker") ?>">Peer</button>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
-                        <?php elseif ($data["event"][0]->bookProject == "tq" || $data["event"][0]->bookProject == "tw"): ?>
-                        <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
-                             data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
-                            <?php
-                            $kw = !empty($chapData["kwCheck"])
-                                && array_key_exists($chapter, $chapData["kwCheck"])
-                                && $chapData["kwCheck"][$chapter]["memberID"] > 0;
-                            $peer = !empty($chapData["peerCheck"])
-                                && array_key_exists($chapter, $chapData["peerCheck"])
-                                && $chapData["peerCheck"][$chapter]["memberID"] > 0;
-
-                            $kwName = $kw ? "Unknown: " . $chapData["kwCheck"][$chapter]["memberID"] : "";
-                            $peerName = $peer ? "Unknown: " . $chapData["peerCheck"][$chapter]["memberID"] : "";
-                            if($kw)
-                            {
-                                $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                                if($kwKey !== false)
-                                    $kwName = $data["members"][$kwKey]["firstName"] . " " . mb_substr($data["members"][$kwKey]["lastName"], 0, 1).".";
-                                else
-                                {
-                                    $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                    if($kwKey !== false)
-                                        $kwName = $data["out_members"][$kwKey]["firstName"] . " " . mb_substr($data["out_members"][$kwKey]["lastName"], 0, 1).".";
-                                }
-                            }
-                            if($peer)
-                            {
-                                $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                                if($peerKey !== false)
-                                    $peerName = $data["members"][$peerKey]["firstName"] . " " . mb_substr($data["members"][$peerKey]["lastName"], 0, 1).".";
-                                else
-                                {
-                                    $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                    if($peerKey !== false)
-                                        $peerName = $data["out_members"][$peerKey]["firstName"] . " " . mb_substr($data["out_members"][$peerKey]["lastName"], 0, 1).".";
-                                }
-
-                            }
-                            ?>
-                            <?php if($kw): ?>
-                                <button class="btn btn-danger remove_checker_alt" id="kw_checker"
-                                        data-level="<?php echo $chapData["kwCheck"][$chapter]["done"] ?>"
-                                        data-name="<?php echo $kwName ?>"
-                                    <?php echo $peer ? "disabled" : "" ?>
-                                        title="<?php echo __("keyword_checker") ?>">Keyword</button>
-                                <?php if($peer): ?>
-                                    <button class="btn btn-danger remove_checker_alt" id="peer_checker"
-                                            data-level="<?php echo $chapData["peerCheck"][$chapter]["done"] ?>"
-                                            data-name="<?php echo $peerName ?>"
-                                            title="<?php echo __("peer_checker") ?>">Peer</button>
+                                            title="<?php echo __("other_peer_checker") ?>">Peer</button>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
@@ -250,7 +197,7 @@ if(!isset($error)):
                             (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                             <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
 
-                            <?php if(in_array($data["event"][0]->bookProject, ["tn"])): ?>
+                            <?php if(in_array($data["event"][0]->bookProject, ["tn","tq"])): ?>
                             <label class="is_checker_label">
                                 <input
                                     class="is_checker_input"

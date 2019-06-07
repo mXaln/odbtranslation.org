@@ -312,14 +312,22 @@ $profile = Session::get("profile");
                         if($step == EventSteps::READ_CHUNK)
                             $step = EventSteps::BLIND_DRAFT;
                         ?>
-                        <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                        <?php echo ($event->currentChapter > 0
+                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
+                        <div class="step_current">
+                            <div>
+                                <?php echo ($event->currentChapter > 0
                                 ? ($event->bookProject == "tw"
                                     ? "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                                    : __("chapter_number", array($event->currentChapter))). ", "
-                                : ($event->currentChapter == 0 && in_array($event->bookProject, ["tn"]) ? __("front") : ""))
-                                .__($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" :
-                                    ($event->bookProject == "sun" && $event->step == EventSteps::CHUNKING ? "_sun" : ""))) ?>
+                                    : __("chapter_number", array($event->currentChapter)))
+                                : ($event->currentChapter == 0 && in_array($event->bookProject, ["tn"])
+                                    ? __("front")
+                                    : "")) ?>
+                            </div>
+                            <div>
+                                <?php echo __($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" :
+                                        ($event->bookProject == "sun" && $event->step == EventSteps::CHUNKING ? "_sun" : ""))) ?>
+                            </div>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -397,13 +405,19 @@ $profile = Session::get("profile");
                     if($step == EventSteps::READ_CHUNK)
                         $step = EventSteps::BLIND_DRAFT;
                     ?>
-                    <img src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                    <?php echo ($event->currentChapter > 0
-                        ? ($event->bookProject == "tw" ?
-                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."], "
-                            : __("chapter_number", array($event->currentChapter)).", ")
-                        : __("front").", ")
-                        .(__($event->step))?>
+                    <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
+                    <div class="step_current">
+                        <div>
+                            <?php echo ($event->currentChapter > 0
+                                    ? ($event->bookProject == "tw" ?
+                                        "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."] "
+                                        : __("chapter_number", array($event->currentChapter)))
+                                    : __("front")) ?>
+                        </div>
+                        <div>
+                            <?php echo __($event->step) ?>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="event_action check1">
@@ -449,10 +463,16 @@ $profile = Session::get("profile");
                 <?php if($event->step != EventSteps::NONE): ?>
                     <div class="event_current_title"><?php echo __("you_are_at") ?></div>
                     <div class="event_curr_step">
-                        <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
-                        <?php echo ($event->currentChapter > 0 ? __("chapter_number",
-                                    array($event->currentChapter)). ", " : "")
-                            .(__($event->step)) ?>
+                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                        <div class="step_current">
+                            <div>
+                                <?php echo ($event->currentChapter > 0 ? __("chapter_number",
+                                        array($event->currentChapter)) : "") ?>
+                            </div>
+                            <div>
+                                <?php echo __($event->step) ?>
+                            </div>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -497,13 +517,19 @@ $profile = Session::get("profile");
                 <?php if($event->step != EventSteps::NONE): ?>
                     <div class="event_current_title"><?php echo __("you_are_at") ?></div>
                     <div class="event_curr_step">
-                        <img src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
-                        <?php echo ($event->currentChapter > 0
-                            ? ($event->bookProject == "tw" ?
-                                "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."], "
-                                : __("chapter_number", array($event->currentChapter)).", ")
-                            : ($event->bookProject == "tn" && $event->currentChapter > -1 ? __("front").", " : ""))
-                            .(__($event->step)) ?>
+                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                        <div class="step_current">
+                            <div>
+                                <?php echo ($event->currentChapter > 0
+                                        ? ($event->bookProject == "tw" ?
+                                            "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
+                                            : __("chapter_number", array($event->currentChapter)))
+                                        : ($event->bookProject == "tn" && $event->currentChapter > -1 ? __("front") : "")) ?>
+                            </div>
+                            <div>
+                                <?php echo __($event->step) ?>
+                            </div>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -512,7 +538,7 @@ $profile = Session::get("profile");
                     <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","tq","tw"]) ? "-".$event->bookProject : "")
                         ."-l3/".$event->eventID
                         .(isset($event->isContinue) ? "/".$event->memberID."/".$event->currentChapter : "")?>"
-                       data="<?php echo $event->eventID."_".$event->memberID?>">
+                        data="<?php echo $event->eventID."_".$event->memberID?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -527,229 +553,6 @@ $profile = Session::get("profile");
     <?php endif; ?>
 
     <div class="clear"></div>
-</div>
-
-<div id="new_events_content" class="my_content">
-    <?php foreach($data["newEvents"] as $key => $event): ?>
-        <?php
-        switch ($event->state)
-        {
-            case EventStates::L2_RECRUIT:
-                $eventType = __("l2_3_events", array(2));
-                $mode = $event->bookProject;
-                $eventImg = template_url("img/steps/big/l2_check.png");
-                $logoBorderClass = "checkingl2";
-                $bgColor = "lemon-marked";
-                $currentMembers = $event->chl2Cnt;
-                $members = __("checkers");
-                $stage = "l2";
-                break;
-
-            case EventStates::L3_RECRUIT:
-                $eventType = __("l2_3_events", array(3));
-                $mode = $event->bookProject;
-                $eventImg = template_url("img/steps/big/l2_check.png");
-                $logoBorderClass = "checkingl3";
-                $bgColor = "blue-marked";
-                $currentMembers = $event->chl3Cnt;
-                $members = __("checkers");
-                $stage = "l3";
-                break;
-
-            default:
-                $eventType = __("8steps_vmast");
-                $mode = $event->bookProject;
-                $eventImg = template_url("img/steps/big/peer-review.png");
-                $logoBorderClass = "translation";
-                $bgColor = "green-marked";
-                $currentMembers = $event->trsCnt;
-                $members = __("translators");
-                $stage = "d1";
-                break;
-        }
-        ?>
-
-        <div class="event_block <?php echo $key%2 == 0 ? $bgColor : "" ?>">
-            <div class="event_logo <?php echo $logoBorderClass ?>">
-                <div class="event_type"><?php echo $eventType ?></div>
-                <div class="event_mode <?php echo $mode ?>"><?php echo __($mode) ?></div>
-                <div class="event_img">
-                    <img width="146" src="<?php echo $eventImg ?>">
-                </div>
-            </div>
-            <div class="event_project">
-                <div class="event_book"><?php echo $event->name ?></div>
-                <div class="event_proj">
-                    <div><?php echo __($event->bookProject) ?></div>
-                    <div><?php echo $event->tLang . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
-                </div>
-                <div class="event_facilitator">
-                    <div><?php echo __("facilitators") ?>:</div>
-                    <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
-                            <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-            <div class="event_time">
-                <div class="event_time_start">
-                    <div class="event_time_title"><?php echo __("time_start") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateFrom)) : "----/--/--" ?>">
-                        <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom : "--:--" ?></div>
-                </div>
-                <div class="event_time_end">
-                    <div class="event_time_title"><?php echo __("time_end") ?></div>
-                    <div class="event_time_date datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                        date(DATE_RFC2822, strtotime($event->dateTo)) : "----/--/--" ?>">
-                        <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "----/--/--" ?></div>
-                    <div class="event_time_time"><?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo : "--:--" ?></div>
-                </div>
-            </div>
-            <div class="event_current_pos">
-            </div>
-            <div class="event_action">
-                <div class="event_link">
-                    <a href="#" class="applyEvent"
-                       data="<?php echo $event->eventID ?>"
-                       data2="<?php echo $event->name ?>"
-                       data3="<?php echo $stage ?>">
-                        <?php echo __("apply") ?>
-                    </a>
-                </div>
-                <div class="event_members">
-                    <div><?php echo $members ?></div>
-                    <div class="trs_num"><?php echo $currentMembers ?></div>
-                </div>
-            </div>
-
-            <div class="clear"></div>
-        </div>
-    <?php endforeach ?>
-
-    <?php if(sizeof($data["newEvents"]) <= 0): ?>
-        <div class="no_events_message"><?php echo __("no_events_message") ?></div>
-    <?php endif; ?>
-
-    <div class="clear"></div>
-</div>
-
-<div class="event-content form-panel">
-    <div class="create-event-content l2 panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-title applyForm"></h1>
-            <span class="panel-close glyphicon glyphicon-remove"></span>
-        </div>
-
-        <div class="page-content row panel-body">
-            <div class="col-sm-8">
-                <div class="bookName"></div>
-
-                <div class="errors"></div>
-
-                <form action="/events/rpc/apply_event" method="post" id="applyEvent" style="width: 550px;">
-                    <div class="form-group">
-                        <h3 class="ftr"><?php echo __("apply_as_translator") ?></h3>
-                        <h3 class="fl2" style="display: none"><?php echo __("apply_as_checker", [2]) ?></h3>
-                        <h3 class="fl3" style="display: none"><?php echo __("apply_as_checker", [3]) ?></h3>
-                    </div>
-
-                    <div class="checker_info">
-                        <div class="form-group">
-                            <label class="church_role"><?php echo __('church_role'); ?>: </label>
-                            <div class="form-control" style="height: auto;">
-                                <label><input type="checkbox" name="church_role[]" value="Elder"
-                                        <?php echo isset($profile["church_role"]) && in_array("Elder", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('elder'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Bishop"
-                                        <?php echo isset($profile["church_role"]) && in_array("Bishop", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('bishop'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Pastor"
-                                        <?php echo isset($profile["church_role"]) && in_array("Pastor", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('pastor'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Teacher"
-                                        <?php echo isset($profile["church_role"]) && in_array("Teacher", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('teacher'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Denominational Leader"
-                                        <?php echo isset($profile["church_role"]) && in_array("Denominational Leader", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('denominational_leader'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="church_role[]" value="Seminary Professor"
-                                        <?php echo isset($profile["church_role"]) && in_array("Seminary Professor", $profile["church_role"]) ? "checked" : "" ?>> <?php echo __('seminary_professor'); ?> &nbsp;</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label><?php echo __('orig_langs'); ?>: </label>
-                            <div class="form-control">
-                                <label class="hebrew_knwlg"><?php echo __('hebrew_knwlg'); ?>: </label> &nbsp;&nbsp;
-                                <label><input type="radio" name="hebrew_knwlg" value="0"
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 0 ? "checked" : "" ?>> <?php echo __('none'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="1"
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 1 ? "checked" : "" ?>> <?php echo __('limited'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="2"
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 2 ? "checked" : "" ?>> <?php echo __('moderate'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="3"
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 3 ? "checked" : "" ?>> <?php echo __('strong'); ?> &nbsp;</label>
-                                <label><input type="radio" name="hebrew_knwlg" value="4"
-                                        <?php echo isset($profile["hebrew_knwlg"]) && $profile["hebrew_knwlg"] == 4 ? "checked" : "" ?>> <?php echo __('expert'); ?> &nbsp;</label>
-                            </div>
-                            <br>
-                            <div class="form-control">
-                                <label class="greek_knwlg"><?php echo __('greek_knwlg'); ?>: </label> &nbsp;&nbsp;
-                                <label><input type="radio" name="greek_knwlg" value="0"
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 0 ? "checked" : "" ?>> <?php echo __('none'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="1"
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 1 ? "checked" : "" ?>> <?php echo __('limited'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="2"
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 2 ? "checked" : "" ?>> <?php echo __('moderate'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="3"
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 3 ? "checked" : "" ?>> <?php echo __('strong'); ?> &nbsp;</label>
-                                <label><input type="radio" name="greek_knwlg" value="4"
-                                        <?php echo isset($profile["greek_knwlg"]) && $profile["greek_knwlg"] == 4 ? "checked" : "" ?>> <?php echo __('expert'); ?> &nbsp;</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="education"><?php echo __('education'); ?>: </label>
-                            <div class="form-control">
-                                <label><input type="checkbox" name="education[]" value="BA"
-                                        <?php echo isset($profile["education"]) && in_array("BA", $profile["education"]) ? "checked" : "" ?>> <?php echo __('ba_edu'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="education[]" value="MA"
-                                        <?php echo isset($profile["education"]) && in_array("MA", $profile["education"]) ? "checked" : "" ?>> <?php echo __('ma_edu'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="education[]" value="PHD"
-                                        <?php echo isset($profile["education"]) && in_array("PHD", $profile["education"]) ? "checked" : "" ?>> <?php echo __('phd_edu'); ?> &nbsp;</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="ed_area"><?php echo __('ed_area'); ?>: </label>
-                            <div class="form-control">
-                                <label><input type="checkbox" name="ed_area[]" value="Theology"
-                                        <?php echo isset($profile["ed_area"]) && in_array("Theology", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo __('theology'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="ed_area[]" value="Pastoral Ministry"
-                                        <?php echo isset($profile["ed_area"]) && in_array("Pastoral Ministry", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo __('pastoral_ministry'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="ed_area[]" value="Bible Translation"
-                                        <?php echo isset($profile["ed_area"]) && in_array("Bible Translation", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo __('bible_translation'); ?> &nbsp;</label>
-                                <label><input type="checkbox" name="ed_area[]" value="Exegetics"
-                                        <?php echo isset($profile["ed_area"]) && in_array("Exegetics", $profile["ed_area"]) ? "checked" : "" ?>> <?php echo __('exegetics'); ?> &nbsp;</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="ed_place"><?php echo __('ed_place'); ?>: </label>
-                            <input type="text" class="form-control" name="ed_place"
-                                   value="<?php echo isset($profile["ed_place"]) ? $profile["ed_place"] : "" ?>">
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="eventID" id="eventID" value="" />
-                    <input type="hidden" name="userType" value="translator">
-
-                    <br><br>
-
-                    <button type="submit" name="applyEvent" class="btn btn-primary"><?php echo __('apply_now', 'Events'); ?></button>
-                    <img class="applyEventLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="mailer_container">

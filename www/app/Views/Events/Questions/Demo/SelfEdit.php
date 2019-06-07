@@ -323,7 +323,7 @@ if(isset($data["error"])) return;
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-tq/keyword_check';
+            window.location.href = '/events/demo-tq/pray_chk';
             return false;
         });
     });

@@ -199,11 +199,11 @@ return array (
     "account_activated_success" => "Your account is now active you may now <a href=\"{0}\">Login</a>",
     "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",
     "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {0}",
-    "registration_success_message" => "Registration successfull! Please check your email to complete registration. If it's not there, check spam/junk folders",
-    "registration_local_success_message" => "Registration successfull!",
+    "registration_success_message" => "Registration successful! Please check your email to complete registration. If it's not there, check spam/junk folders",
+    "registration_local_success_message" => "Registration successful!",
 
     // Error messages
-    "userName_characters_error" => "User name should contain only small latin letters and numbers and start with letters",
+    "userName_characters_error" => "User name should contain only lowercase Latin letters and numbers and start with letters",
     "userName_length_error" => "User name should be of length between 5 and 20",
     "firstName_length_error" => "First name should be of length between 2 and 20",
     "lastName_length_error" => "Last name should be of length between 2 and 20",
@@ -1653,7 +1653,7 @@ return array (
     // -------------- Translation Controller ----------------- //
 
     // Index method
-    "verification_error" => "Your accout is not verified by our moderators. Please wait...",
+    "verification_error" => "Your account is not verified by our moderators. Please wait...",
     "verification_error_title" => "Account is not verified",
     "chapter" => "Chapter {0}",
     "download_usfm" => "Download as USFM",

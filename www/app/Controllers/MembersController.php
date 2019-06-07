@@ -1452,7 +1452,8 @@ class MembersController extends Controller
 
                         Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
                         {
-                            $message->to($data["fEmail"], $data["fName"])
+                            $message->setReplyTo([$data["fEmail"] => $data["fName"]])
+                                ->to($data["fEmail"], $data["fName"])
                                 ->subject("[V-MAST ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
                         });
 

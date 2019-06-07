@@ -681,7 +681,7 @@ if(isset($data["error"])) return;
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-tw/keyword_check';
+            window.location.href = '/events/demo-tw/pray_chk';
             return false;
         });
     });

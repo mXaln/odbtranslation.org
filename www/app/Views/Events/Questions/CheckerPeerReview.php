@@ -16,7 +16,7 @@ if(empty($error) && empty($data["success"])):
      dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
     <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
@@ -28,8 +28,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [4]). ": " . __("peer-review_tq")?></div>
-            <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
+            <div><?php echo __("step_num", [2]). ": " . __("peer-review_tq")?></div>
         </div>
     </div>
 
@@ -64,7 +63,7 @@ if(empty($error) && empty($data["success"])):
                             <?php 
                             $parsedown = new Parsedown();
                             $text = isset($data["translation"][$chunkNo]) 
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
+                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
                                 : "";
                             ?>
                             <div class="questions_target"><?php echo $text ?></div>
@@ -78,7 +77,7 @@ if(empty($error) && empty($data["success"])):
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == Session::get("memberID")): ?>
+                                        <?php if($comment->memberID == Session::get("memberID") && $comment->level == 2): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">
@@ -108,21 +107,23 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [4])?></div>
+                <div class="step_right chk"><?php echo __("step_num", [2])?></div>
             </div>
             <?php //endif; ?>
         </div>
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps is_checker_page_help">
+                <div class="help_info_steps
+                    <?php echo $data["isCheckerPage"] ? " is_checker_page_help".
+                        (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [4])?>: </span>
+                        <span><?php echo __("step_num", [2])?>: </span>
                         <?php echo __("peer-review_tq")?>
                     </div>
                     <div class="help_descr_steps">
@@ -131,11 +132,12 @@ if(empty($error) && empty($data["success"])):
                     </div>
                 </div>
 
-                <div class="event_info is_checker_page_help">
+                <div class="event_info <?php echo $data["isCheckerPage"] ? " is_checker_page_help".
+                    (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
                     <div class="participant_info">
                         <div class="participant_name">
                             <span><?php echo __("your_translator") ?>:</span>
-                            <span><?php echo $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." ?></span>
+                            <span><?php echo $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." ?></span>
                         </div>
                         <div class="additional_info">
                             <a href="/events/information-tq/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
@@ -169,7 +171,8 @@ if(empty($error) && empty($data["success"])):
 </div>
 
 <script>
-    isChecker = true;
+    var isChecker = true;
+    var disableHighlight = true;
 
     $(document).ready(function() {
         $("#next_step").click(function (e) {

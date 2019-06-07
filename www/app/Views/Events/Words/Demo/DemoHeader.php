@@ -4,14 +4,15 @@ use Helpers\Constants\EventSteps;
 $chk = $data["isCheckerPage"] ? "_chk" : "";
 ?>
 
-<div id="translator_steps" class="open pray <?php echo $data["isCheckerPage"] ? " is_checker_page" : "" ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo $data["isCheckerPage"] ? " is_checker_page" : "" ?>"></div>
+<div id="translator_steps" class="open pray <?php echo $data["isCheckerPage"] ? " is_checker_page".($data["isPeerPage"] ? " isPeer" : "") : "" ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo $data["isCheckerPage"] ? " is_checker_page".($data["isPeerPage"] ? " isPeer" : "") : "" ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
             <a href="/events/demo-tw/pray<?php echo $chk ?>"><span><?php echo __(EventSteps::PRAY)?></span></a>
         </li>
 
+        <?php if(!$data["isCheckerPage"]): ?>
         <li class="consume-step <?php echo $data["step"] == EventSteps::MULTI_DRAFT ? "active" : "" ?>">
             <a href="/events/demo-tw/multi_draft"><span><?php echo __(EventSteps::MULTI_DRAFT)?></span></a>
         </li>
@@ -19,7 +20,9 @@ $chk = $data["isCheckerPage"] ? "_chk" : "";
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
             <a href="/events/demo-tw/self_check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
         </li>
+        <?php endif; ?>
 
+        <?php if($data["isCheckerPage"]): ?>
         <li class="keyword-check-step <?php echo $data["step"] == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
             <a href="/events/demo-tw/keyword_check"><span><?php echo __(EventSteps::KEYWORD_CHECK)?></span></a>
         </li>
@@ -27,6 +30,7 @@ $chk = $data["isCheckerPage"] ? "_chk" : "";
         <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <a href="/events/demo-tw/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW . "_tw")?></span></a>
         </li>
+        <?php endif; ?>
     </ul>
 </div>
 

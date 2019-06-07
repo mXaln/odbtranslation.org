@@ -83,59 +83,58 @@ if(!isset($error)):
                                     <div class="clear"></div>
                                 </div>
                             </div>
-                            <?php if ($data["event"][0]->bookProject == "tw"): ?>
-                                <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
-                                     data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
-                                    <?php
-                                    $kw = !empty($chapData["kwCheck"])
-                                        && array_key_exists($chapter, $chapData["kwCheck"])
-                                        && $chapData["kwCheck"][$chapter]["memberID"] > 0;
-                                    $peer = !empty($chapData["peerCheck"])
-                                        && array_key_exists($chapter, $chapData["peerCheck"])
-                                        && $chapData["peerCheck"][$chapter]["memberID"] > 0;
+                            <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
+                                 data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
+                                <?php
+                                $other = !empty($chapData["otherCheck"])
+                                    && array_key_exists($chapter, $chapData["otherCheck"])
+                                    && $chapData["otherCheck"][$chapter]["memberID"] > 0;
+                                $peer = !empty($chapData["peerCheck"])
+                                    && array_key_exists($chapter, $chapData["peerCheck"])
+                                    && $chapData["peerCheck"][$chapter]["memberID"] > 0;
 
-                                    $kwName = $kw ? "Unknown: " . $chapData["kwCheck"][$chapter]["memberID"] : "";
-                                    $peerName = $peer ? "Unknown: " . $chapData["peerCheck"][$chapter]["memberID"] : "";
-                                    if($kw)
+                                $otherName = $other ? "Unknown: " . $chapData["otherCheck"][$chapter]["memberID"] : "";
+                                $peerName = $peer ? "Unknown: " . $chapData["peerCheck"][$chapter]["memberID"] : "";
+                                if($other)
+                                {
+                                    $otherKey = array_search($chapData["otherCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                                    if($otherKey !== false)
+                                        $otherName = $data["members"][$otherKey]["firstName"] . " " . mb_substr($data["members"][$otherKey]["lastName"], 0, 1).".";
+                                    else
                                     {
-                                        $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
-                                        if($kwKey !== false)
-                                            $kwName = $data["members"][$kwKey]["firstName"] . " " . mb_substr($data["members"][$kwKey]["lastName"], 0, 1).".";
-                                        else {
-                                            $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                            if($kwKey !== false)
-                                                $kwName = $data["out_members"][$kwKey]["firstName"] . " " . mb_substr($data["out_members"][$kwKey]["lastName"], 0, 1).".";
-                                        }
+                                        $otherKey = array_search($chapData["otherCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
+                                        if($otherKey !== false)
+                                            $otherName = $data["out_members"][$otherKey]["firstName"] . " " . mb_substr($data["out_members"][$otherKey]["lastName"], 0, 1).".";
                                     }
-                                    if($peer)
+                                }
+                                if($peer)
+                                {
+                                    $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                                    if($peerKey !== false)
+                                        $peerName = $data["members"][$peerKey]["firstName"] . " " . mb_substr($data["members"][$peerKey]["lastName"], 0, 1).".";
+                                    else
                                     {
-                                        $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                                        $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
                                         if($peerKey !== false)
-                                            $peerName = $data["members"][$peerKey]["firstName"] . " " . mb_substr($data["members"][$peerKey]["lastName"], 0, 1).".";
-                                        else
-                                        {
-                                            $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
-                                            if($peerKey !== false)
-                                                $peerName = $data["out_members"][$peerKey]["firstName"] . " " . mb_substr($data["out_members"][$peerKey]["lastName"], 0, 1).".";
-                                        }
-
+                                            $peerName = $data["out_members"][$peerKey]["firstName"] . " " . mb_substr($data["out_members"][$peerKey]["lastName"], 0, 1).".";
                                     }
-                                    ?>
-                                    <?php if($kw): ?>
-                                        <button class="btn btn-danger remove_checker_alt" id="kw_checker"
-                                                data-level="<?php echo $chapData["kwCheck"][$chapter]["done"] ?>"
-                                                data-name="<?php echo $kwName ?>"
-                                            <?php echo $peer ? "disabled" : "" ?>
-                                                title="<?php echo __("keyword_checker") ?>">Keyword</button>
-                                        <?php if($peer): ?>
-                                            <button class="btn btn-danger remove_checker_alt" id="peer_checker"
-                                                    data-level="<?php echo $chapData["peerCheck"][$chapter]["done"] ?>"
-                                                    data-name="<?php echo $peerName ?>"
-                                                    title="<?php echo __("peer_checker") ?>">Peer</button>
-                                        <?php endif; ?>
+
+                                }
+                                ?>
+                                <?php if($other): ?>
+                                    <button class="btn btn-danger remove_checker_alt" id="other_checker"
+                                            data-level="<?php echo $chapData["otherCheck"][$chapter]["done"] ?>"
+                                            data-name="<?php echo $otherName ?>"
+                                        <?php echo $peer ? "disabled" : "" ?>
+                                            title="<?php echo __("other_checker") ?>">Checker</button>
+                                    <?php if($peer): ?>
+                                        <button class="btn btn-danger remove_checker_alt" id="peer_checker"
+                                                data-level="<?php echo $chapData["peerCheck"][$chapter]["done"] ?>"
+                                                data-name="<?php echo $peerName ?>"
+                                                title="<?php echo __("other_peer_checker") ?>">Peer</button>
                                     <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
                         </li>
                         <?php $group_order++; endforeach; ?>
                 </ul>
@@ -164,6 +163,13 @@ if(!isset($error)):
                                 <a href="/members/profile/<?php echo $member["memberID"] ?>" target="_blank"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></a>
                                 (<span><?php echo isset($member["assignedGroups"]) ? sizeof($member["assignedGroups"]) : 0 ?></span>)
                                 <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
+
+                                <label class="is_checker_label">
+                                    <input
+                                            class="is_checker_input"
+                                            type="checkbox"
+                                        <?php echo $member["isChecker"] ? "checked" : "" ?>> <?php echo __("checking_tab_title") ?>
+                                </label>
                             </div>
                             <div class="member_chapters" <?php echo isset($member["assignedGroups"]) ? "style='display:block'" : "" ?>>
                                 <?php echo __("chapters").": <span>". (isset($member["assignedGroups"]) ? join(", ", $member["assignedGroups"]) : "")."</span>" ?>

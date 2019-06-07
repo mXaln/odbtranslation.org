@@ -8,7 +8,7 @@ if(isset($data["error"])) return;
      dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
     <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
@@ -19,8 +19,7 @@ if(isset($data["error"])) return;
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <?php echo __("step_num", [4]) . ": " . __("peer-review_tq")?>
-            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
+            <?php echo __("step_num", [2]) . ": " . __("peer-review_tq")?>
         </div>
     </div>
 
@@ -59,14 +58,19 @@ if(isset($data["error"])) return;
                         <div class="col-md-6 notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
                             dir="<?php echo $data["event"][0]->tLangDir ?>"
                             data-chunkno="<?php echo $chunkNo ?>">
-                            <?php 
+                            <?php
                             $parsedown = new Parsedown();
-                            $text = isset($data["translation"][$chunkNo]) 
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
-                                : "";
-                            $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo]) 
-                                ? $_POST["chunks"][$chunkNo] 
+                            $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                            && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+                            $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
+                                ? $_POST["chunks"][$chunkNo]
                                 : $text;
+                            $text = preg_replace(
+                                "/(\[\[[a-z:\/\-]+\]\])/",
+                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                $text);
                             ?>
                             <textarea 
                                 name="chunks[<?php echo $chunkNo ?>]" 
@@ -83,7 +87,7 @@ if(isset($data["error"])) return;
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID && $comment->level == 2): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">
@@ -109,23 +113,28 @@ if(isset($data["error"])) return;
                     <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                 </div>
 
+                <input type="hidden" name="chk" value="1">
+                <input type="hidden" name="level" value="tqContinue">
+                <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
+                <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+
                 <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [4])?></div>
+            <div class="step_right alt"><?php echo __("step_num", [2])?></div>
         </div>
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps">
+                <div class="help_info_steps<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [4])?>: </span>
+                        <span><?php echo __("step_num", [2])?>: </span>
                         <?php echo __("peer-review_tq")?>
                     </div>
                     <div class="help_descr_steps">
@@ -134,7 +143,7 @@ if(isset($data["error"])) return;
                     </div>
                 </div>
 
-                <div class="event_info">
+                <div class="event_info<?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">
                     <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
                         <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>
@@ -174,3 +183,7 @@ if(isset($data["error"])) return;
         </div>
     </div>
 </div>
+
+<script>
+    var disableHighlight = true;
+</script>
