@@ -1,8 +1,5 @@
 <?php
 $membersModel = new \App\Models\MembersModel();
-
-$body = "\n\n\n".$data["tName"] . " (".$data["tUserName"].") ".$membersModel->translate("member_wrote", $data["lang"]).":";
-$body .= "\n\n".$data["message"];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo LANGUAGE_CODE; ?>">
