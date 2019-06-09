@@ -60,8 +60,8 @@
                         <option value="common"><?php echo __("common") ?></option>
                         <option value="vmast"><?php echo __("8steps_vmast") ?></option>
                         <option value="vsail"><?php echo __("vsail") ?></option>
-                        <option value="level2"><?php echo __("l2_3_events", [2]) ?></option>
-                        <option value="level3"><?php echo __("l2_3_events", [3]) ?></option>
+                        <option value="level2"><?php echo __("l2_3_events", ["level" => 2]) ?></option>
+                        <option value="level3"><?php echo __("l2_3_events", ["level" => 3]) ?></option>
                         <option value="notes"><?php echo __("tn") ?></option>
                         <option value="questions"><?php echo __("tq") ?></option>
                         <option value="words"><?php echo __("tw") ?></option>
@@ -169,7 +169,7 @@
                 </div>
                 <div class="form-group">
                     <label for="faq_answer" class="sr-only">Answer</label>
-                    <textarea class="form-control textarea" id="faq_answer" placeholder="<?php echo __("faq_enter_answer") ?>"></textarea>
+                    <textarea class="form-control" id="faq_answer" placeholder="<?php echo __("faq_enter_answer") ?>"></textarea>
                 </div>
                 <div class="form-group">
                     <select class="form-control" id="faq_category" name="category">
@@ -177,8 +177,8 @@
                         <option value="common"><?php echo __("common") ?></option>
                         <option value="vmast"><?php echo __("8steps_vmast") ?></option>
                         <option value="vsail"><?php echo __("vsail") ?></option>
-                        <option value="level2"><?php echo __("l2_3_events", [2]) ?></option>
-                        <option value="level3"><?php echo __("l2_3_events", [3]) ?></option>
+                        <option value="level2"><?php echo __("l2_3_events", ["level" => 2]) ?></option>
+                        <option value="level3"><?php echo __("l2_3_events", ["level" => 3]) ?></option>
                         <option value="notes"><?php echo __("tn") ?></option>
                         <option value="questions"><?php echo __("tq") ?></option>
                         <option value="words"><?php echo __("tw") ?></option>
@@ -221,7 +221,7 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         autosize($("textarea"));
         $(".my_tab").click(function () {

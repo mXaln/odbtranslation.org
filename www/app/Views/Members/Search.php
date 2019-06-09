@@ -60,7 +60,7 @@
                                                 return __("8steps_vmast");
                                                 break;
                                             case "l2":
-                                                return __("l2_3_events", [2]);
+                                                return __("l2_3_events", ["level" => 2]);
                                                 break;
                                             default:
                                                 return __($elm);

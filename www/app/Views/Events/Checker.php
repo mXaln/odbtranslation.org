@@ -28,7 +28,7 @@ if(empty($error) && empty($data["success"])):
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array($step_num)). ": " . __($current)?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => $step_num]). ": " . __($current)?></div>
     </div>
 
     <div class="row">
@@ -184,7 +184,7 @@ if(empty($error) && empty($data["success"])):
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", array($step_num))?>: </span> <?php echo __($current)?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => $step_num])?>: </span> <?php echo __($current)?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo mb_substr(__($current . "_checker_desc"), 0, 300)?>... <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div></ul>
                     </div>

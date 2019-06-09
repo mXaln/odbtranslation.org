@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("vsail").")" ?></div>
-            <div><?php echo __("step_num", [6]) . ": " . __("theo-check")?></div>
+            <div><?php echo __("step_num", ["step_number" => 6]) . ": " . __("theo-check")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -257,7 +257,7 @@
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [6])?></div>
+                <div class="step_right"><?php echo __("step_num", ["step_number" => 6])?></div>
             </div>
         </div>
 
@@ -269,7 +269,7 @@
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [6])?>:</span> <?php echo __("theo-check")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("theo-check")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("theo-check_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

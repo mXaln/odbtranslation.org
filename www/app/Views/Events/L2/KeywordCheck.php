@@ -16,7 +16,7 @@ use Helpers\Constants\EventMembers;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [2]) . ": " . __("keyword-check-l2_full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 2]) . ": " . __("keyword-check-l2_full")?></div>
     </div>
 
     <div class="row" style="position: relative">
@@ -115,7 +115,7 @@ use Helpers\Constants\EventMembers;
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [2])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -129,7 +129,7 @@ use Helpers\Constants\EventMembers;
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [2])?>: </span>
+                        <span><?php echo __("step_num", ["step_number" => 2])?>: </span>
                         <?php echo __("keyword-check-l2")?>
                     </div>
                     <div class="help_descr_steps">

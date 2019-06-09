@@ -1,7 +1,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", [3]).")" ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", ["level" => 3]).")" ?></div>
             <div><?php echo __("pray")?></div>
         </div>
         <div class="demo_video">

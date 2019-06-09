@@ -209,7 +209,7 @@ function OnSystemMessage(data)
                     }
                     else
                     {
-                        var commentor = $(".other_comments span:contains('"+data.name+"')", editor.next(".comments"));
+                        var commentor = $(".other_comments span:contains('"+data.name+" (L"+data.level+")')", editor.next(".comments"));
                         if(commentor.length > 0)
                         { // Remove or update comment
                             if(wasDeleted)
@@ -286,7 +286,7 @@ function OnCheckingRequest(data)
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
                 var notifs = "";
                 $.each(data.notifs, function(i, note) {
-                    if($("a[data='"+note.anchor+"']").length <= 0)
+                    if($("a[href='"+note.link+"']").length <= 0)
                         notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
                                 '<li class="'+note.step+'_checker">'+note.text+'</li>'+
                             '</a>';

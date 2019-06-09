@@ -2918,6 +2918,60 @@ class AdminController extends Controller {
         }
     }
 
+    public function uploadImage()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $image_file = Input::file("image");
+
+        if($image_file->isValid())
+        {
+            $mime = $image_file->getMimeType();
+            if(in_array($mime, ["image/jpeg", "image/png", "image/gif", "application/pdf"]))
+            {
+                $fileExtension = $image_file->getClientOriginalExtension();
+                $fileName = uniqid().".".$fileExtension;
+                $destinationPath = "../app/Templates/Default/Assets/faq/";
+                $image_file->move($destinationPath, $fileName);
+
+                if(File::exists(join("/", [$destinationPath, $fileName])))
+                {
+                    $result["success"] = true;
+                    $result["ext"] = $fileExtension;
+                    $result["url"] = template_url("faq/".$fileName);
+                    echo json_encode($result);
+                    exit;
+                }
+            }
+            else
+            {
+                $result["error"] = __("wrong_image_format_error");
+                echo json_encode($result);
+                exit;
+            }
+        }
+        else
+        {
+            $result["error"] = __("error_ocured");
+            echo json_encode($result);
+            exit;
+        }
+    }
+
     public function createFaq()
     {
         $result = ["success" => false];
@@ -3124,6 +3178,163 @@ class AdminController extends Controller {
         }
 
         echo "<h2>Done</h2>";
+        echo "<a href='/admin'>Go Back</a>";
+    }
+
+
+    public function migrateQuestionsWords()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            return;
+        }
+
+        $translators = $this->_eventsModel->getMembersForProject(["tq", "tw"]);
+
+        $updated = 0;
+        $eventID = 0;
+        $checkers = [];
+        $members = [];
+
+        foreach ($translators as $key => $translator)
+        {
+            if($eventID == 0)
+            {
+                $eventID = $translator->eventID;
+            }
+
+            // Set isChecker status for member
+            if($translator->eventID != $eventID) {
+                $checkers = array_unique($checkers);
+
+                foreach ($members as $trID => $member)
+                {
+                    if(in_array($member, $checkers))
+                    {
+                        $this->_eventsModel->updateTranslator(["isChecker" => 1], ["trID" => $trID]);
+                    }
+                }
+
+                $eventID = $translator->eventID;
+                $checkers = [];
+                $members = [];
+            }
+
+            $members[$translator->trID] = $translator->memberID;
+
+            $kwCheck = (array)json_decode($translator->kwCheck, true);
+            $peerCheck = (array)json_decode($translator->peerCheck, true);
+            $currentChapter = $translator->currentChapter;
+            $currentStep = $translator->step;
+
+            foreach ($kwCheck as $chap => $chk)
+            {
+                // Add kw checkers to array
+                if($chk["memberID"] > 0)
+                {
+                    $checkers[] = $chk["memberID"];
+                }
+
+                // Assign peer checker as the translator if kw and peer are the same
+                if(isset($peerCheck[$chap]) && $peerCheck[$chap]["memberID"] == $chk["memberID"])
+                {
+                    $peerCheck[$chap]["memberID"] = $translator->memberID;
+                }
+
+                // Set translation finished if checking started
+                if($translator->currentChapter == $chap)
+                {
+                    $currentChapter = 0;
+                    $currentStep = EventSteps::PRAY;
+                }
+
+                // Update checking status
+                if(isset($peerCheck[$chap]))
+                {
+                    $kwCheck[$chap]["done"] = 2;
+
+                    // Add peer checkers to array
+                    if($peerCheck[$chap]["memberID"] > 0)
+                    {
+                        $checkers[] = $peerCheck[$chap]["memberID"];
+                    }
+
+                    if($peerCheck[$chap]["done"] == 1) {
+                        $kwCheck[$chap]["done"] = 3;
+                    }
+                }
+
+                // Update chapter status
+                // Set L1 done
+                $this->_eventsModel->updateChapter(["done" => true], [
+                    "eventID" => $eventID,
+                    "chapter" => $chap
+                ]);
+
+                // Set L2 done
+                if($kwCheck[$chap]["done"] == 3)
+                {
+                    $this->_eventsModel->updateChapter(["checked" => true], [
+                        "eventID" => $eventID,
+                        "chapter" => $chap
+                    ]);
+                }
+
+                // Copy translator's text to the checker's section
+                $trData = $this->_translationModel->getEventTranslationByEventID($eventID, $chap);
+                foreach ($trData as $tr) {
+                    $data = ["translateDone" => 1];
+
+                    if($kwCheck[$chap]["done"] > 1)
+                    {
+                        $translation = (array)json_decode($tr->translatedVerses, true);
+                        $translation[EventMembers::CHECKER] = $translation[EventMembers::TRANSLATOR];
+                        $data["translatedVerses"] = json_encode($translation);
+                    }
+
+                    $this->_translationModel->updateTranslation($data, [
+                        "tID" => $tr->tID
+                    ]);
+                }
+            }
+
+            // Set isChecker status for member
+            if($key == (sizeof($translators)-1)) {
+                $checkers = array_unique($checkers);
+
+                foreach ($members as $trID => $member)
+                {
+                    if(in_array($member, $checkers))
+                    {
+                        $this->_eventsModel->updateTranslator(["isChecker" => 1], ["trID" => $trID]);
+                    }
+                }
+
+                $eventID = $translator->eventID;
+                $checkers = [];
+                $members = [];
+            }
+
+            if(empty($kwCheck)) continue;
+
+            $postdata = [
+                "kwCheck" => "",
+                "otherCheck" => json_encode($kwCheck),
+                "peerCheck" => json_encode($peerCheck),
+                "currentChapter" => $currentChapter,
+                "step" => $currentStep
+            ];
+
+            $updated += $this->_eventsModel->updateTranslator($postdata, ["trID" => $translator->trID]);
+        }
+
+        echo "<h2>Done (Updated rows: ".$updated.")</h2>";
         echo "<a href='/admin'>Go Back</a>";
     }
 }

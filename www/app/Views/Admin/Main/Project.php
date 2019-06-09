@@ -196,7 +196,7 @@ if(!empty($data["project"])):
                     <?php if($data["project"][0]->bookProject != "sun"): ?>
                     <hr>
                     <div class="event_links_l2">
-                        <li class="option_group"><?php echo __("l2_3_events", 2) ?></li>
+                        <li class="option_group"><?php echo __("l2_3_events", ["level" => 2]) ?></li>
                         <li class="event_progress"><a href="#"><?php echo __("progress"); ?></a></li>
                         <li class="event_manage"><a href="#"><?php echo __("manage"); ?></a></li>
                     </div>
@@ -204,7 +204,7 @@ if(!empty($data["project"])):
 
                     <hr>
                     <div class="event_links_l3">
-                        <li class="option_group"><?php echo __("l2_3_events", 3) ?></li>
+                        <li class="option_group"><?php echo __("l2_3_events", ["level" => 3]) ?></li>
                         <li class="event_progress"><a href="#"><?php echo __("progress"); ?></a></li>
                         <li class="event_manage"><a href="#"><?php echo __("manage"); ?></a></li>
                     </div>
@@ -237,17 +237,17 @@ if(!empty($data["project"])):
                             <?php if(in_array($data["project"][0]->bookProject, ["ulb","udb"])):?>
                             <label>
                                 <input type="radio" name="eventLevel" value="1" class="event_l_1" checked>
-                                <?php echo __("level2_3_check", 1) ?>
+                                <?php echo __("level2_3_check", ["level" => 1]) ?>
                             </label>&nbsp;&nbsp;
                             <?php endif; ?>
                             <label>
                                 <input type="radio" name="eventLevel" value="2" class="event_l_2"
                                     <?php echo !in_array($data["project"][0]->bookProject, ["ulb","udb"]) ? "checked" : "" ?>>
-                                <?php echo __("level2_3_check", 2) ?>
+                                <?php echo __("level2_3_check", ["level" => 2]) ?>
                             </label>&nbsp;&nbsp;
                             <label>
                                 <input type="radio" name="eventLevel" value="3" class="event_l_3">
-                                <?php echo __("level2_3_check", 3) ?>
+                                <?php echo __("level2_3_check", ["level" => 3]) ?>
                             </label>
                         </div>
 

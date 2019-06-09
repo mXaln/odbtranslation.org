@@ -402,7 +402,7 @@ $profile = $data["profile"];
 
         <!--<label><?php echo __('lang_geographic_years'); ?>: </label>
         <div class="form-control">
-            <label><input type="radio" class="geo_years" name="" value="1" disabled> <?php echo __('less_than', array(2)); ?> &nbsp;&nbsp;</label>
+            <label><input type="radio" class="geo_years" name="" value="1" disabled> <?php echo __('less_than', array("years" => 2)); ?> &nbsp;&nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="2" disabled> 2-4 &nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="3" disabled> 5-7 &nbsp;</label>
             <label><input type="radio" class="geo_years" name="" value="4" disabled> 8-10 &nbsp;</label>

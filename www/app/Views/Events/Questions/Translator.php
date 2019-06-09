@@ -9,6 +9,8 @@ if(isset($data["success"]))
     echo Error::display($data["success"], "alert alert-success");
 
 if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
+
+$chk = isset($data["event"][0]->isCheckerPage) && $data["event"][0]->isCheckerPage ? "_chk" : "";
 ?>
 
 <noscript>
@@ -17,14 +19,21 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     </div>
 </noscript>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
+<div id="translator_steps"
+         class="open <?php echo $data["event"][0]->step .
+             ($data["isCheckerPage"] ? " is_checker_page".
+                 (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>">
+        <div id="tr_steps_hide"
+             class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step .
+                 ($data["isCheckerPage"] ? " is_checker_page".
+                     (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PRAY)?></span>
         </li>
 
+        <?php if(!$data["isCheckerPage"]): ?>
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::MULTI_DRAFT ? "active" : "" ?>">
             <span><?php echo __(EventSteps::MULTI_DRAFT)?></span>
         </li>
@@ -32,7 +41,9 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
             <span><?php echo __(EventSteps::SELF_CHECK)?></span>
         </li>
+        <?php endif; ?>
 
+        <?php if($data["isCheckerPage"]): ?>
         <li class="keyword-check-step <?php echo $data["event"][0]->step == EventSteps::KEYWORD_CHECK ? "active" : "" ?>">
             <span><?php echo __(EventSteps::KEYWORD_CHECK)?></span>
         </li>
@@ -40,11 +51,13 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         <li class="peer-review-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
             <span><?php echo __(EventSteps::PEER_REVIEW . "_tq")?></span>
         </li>
+        <?php endif; ?>
     </ul>
 </div>
 
 <script>
     var memberID = <?php echo Session::get('memberID') ;?>;
+    var eventMemberID = <?php echo isset($data["event"][0]->memberID) ? $data["event"][0]->memberID : $data["event"][0]->myMemberID; ?>;
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
     var projectID = <?php echo $data["event"][0]->projectID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
@@ -158,7 +171,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
 <script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
-<script src="<?php echo template_url("js/socket.js?8")?>"></script>
+<script src="<?php echo template_url("js/socket.js?9")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
 

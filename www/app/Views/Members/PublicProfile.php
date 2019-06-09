@@ -18,7 +18,7 @@ $numValues = [
     ],
     "1" => [
         "lang" => __('moderate'),
-        "geo" => __('less_than', array(2)),
+        "geo" => __('less_than', array("years" => 2)),
         "years" => "0",
         "degree" => __("weak"),
         "freq" => __("rarely"),
@@ -26,7 +26,7 @@ $numValues = [
     ],
     "2" => [
         "lang" => __('strong'),
-        "geo" => __('years', array("2-4")),
+        "geo" => __('years', array("years" => "2-4")),
         "years" => "1",
         "degree" => __("moderate"),
         "freq" => __("some"),
@@ -34,7 +34,7 @@ $numValues = [
     ],
     "3" => [
         "lang" => __('fluent'),
-        "geo" => __('years', array("5-7")),
+        "geo" => __('years', array("years" => "5-7")),
         "years" => "2",
         "degree" => __("strong"),
         "freq" => __("much"),
@@ -42,7 +42,7 @@ $numValues = [
     ],
     "4" => [
         "lang" => __('native'),
-        "geo" => __('years', array("8-10")),
+        "geo" => __('years', array("years" => "8-10")),
         "years" => "3+",
         "degree" => __("expert"),
         "freq" => __("frequently"),
@@ -81,10 +81,10 @@ $numValues = [
                     return __("8steps_vmast");
                     break;
                 case "l2":
-                    return __("l2_3_events", [2]);
+                    return __("l2_3_events", ["level" => 2]);
                     break;
                 case "l3":
-                    return __("l2_3_events", [3]);
+                    return __("l2_3_events", ["level" => 3]);
                     break;
                 default:
                     return __($elm);

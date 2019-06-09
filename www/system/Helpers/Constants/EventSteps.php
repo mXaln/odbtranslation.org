@@ -93,8 +93,15 @@ class EventSteps
         "pray" => 1,
         "multi-draft" => 2,
         "self-check" => 3,
-        "keyword-check" => 4,
-        "peer-review" => 5,
+        "finished" => 4,
+    ];
+
+    private static $enumQuestionsChk = [
+        "none" => 0,
+        "pray" => 1,
+        "keyword-check" => 2,
+        "peer-review" => 3,
+        "finished" => 4,
     ];
 
     private static $enumWords = [
@@ -102,8 +109,15 @@ class EventSteps
         "pray" => 1,
         "multi-draft" => 2,
         "self-check" => 3,
-        "keyword-check" => 4,
-        "peer-review" => 5,
+        "finished" => 4,
+    ];
+
+    private static $enumWordsChk = [
+        "none" => 0,
+        "pray" => 1,
+        "keyword-check" => 2,
+        "peer-review" => 3,
+        "finished" => 4,
     ];
 
     public static function enum($step, $mode = null, $chk = false)
@@ -122,11 +136,17 @@ class EventSteps
                 break;
 
             case "tq":
-                return self::$enumQuestions[$step];
+                if($chk)
+                    return self::$enumQuestionsChk[$step];
+                else
+                    return self::$enumQuestions[$step];
                 break;
 
             case "tw":
-                return self::$enumWords[$step];
+                if($chk)
+                    return self::$enumWordsChk[$step];
+                else
+                    return self::$enumWords[$step];
                 break;
 
             case "li":
@@ -155,11 +175,17 @@ class EventSteps
                 break;
 
             case "tq":
-                return self::$enumQuestions;
+                if($chk)
+                    return self::$enumQuestionsChk;
+                else
+                    return self::$enumQuestions;
                 break;
 
             case "tw":
-                return self::$enumWords;
+                if($chk)
+                    return self::$enumWordsChk;
+                else
+                    return self::$enumWords;
                 break;
 
             case "li":

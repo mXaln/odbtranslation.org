@@ -30,7 +30,7 @@ use Helpers\Constants\StepsStates;
             <div class="chapter_accordion">
                 <div class="section_header" data="sec_1">
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                    <div class="chapter_number section_title"><?php echo __("chapter_number", [1]) ?></div>
+                    <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 1]) ?></div>
                     <div class="section_translator_progress_bar">
                         <div class="progress ">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 75%">75%</div>
@@ -42,10 +42,15 @@ use Helpers\Constants\StepsStates;
                 </div>
                 <div class="section_content">
                     <div class="section_translator">
-                        <div class="section_translator_name">
+                        <div class="section_translator_name tnleft">
                             <img width="50" src="<?php echo template_url("img/avatars/m9.png") ?>">
                             <span><b>Антон Ш.</b></span>
                         </div>
+                        <div class="section_translator_name tnright">
+                            <img width="50" src="<?php echo template_url("img/avatars/f2.png") ?>">
+                            <span><b>Tanya E.</b></span>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                     <div class="section_steps">
                         <!-- Multi Draft Step -->
@@ -95,24 +100,24 @@ use Helpers\Constants\StepsStates;
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/self-check.png") ?>"></div>
                             <div class="step_name">2. <?php echo __(EventSteps::SELF_CHECK) ?></div>
                         </div>
+
+                        <!-- Checking stage -->
+                        <div class="section_step chk">
+                        </div>
+
                         <!-- Keyword Check Step -->
                         <div class="section_step finished">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::FINISHED) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>"></div>
-                            <div class="step_name">3. <?php echo __(EventSteps::KEYWORD_CHECK) ?></div>
-                            <div class="step_checker">
-                                <img width="50" src="<?php echo template_url("img/avatars/f2.png") ?>">
-                                <div>Tanya E.</div>
-                                <span class="glyphicon glyphicon-ok checked"></span>
-                            </div>
+                            <div class="step_name">1. <?php echo __(EventSteps::KEYWORD_CHECK) ?></div>
                         </div>
                         <!-- Peer Check Step -->
                         <div class="section_step waiting">
                             <div class="step_status"><?php echo __("step_status_".StepsStates::WAITING) ?></div>
                             <div class="step_light"></div>
                             <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/peer-review.png") ?>"></div>
-                            <div class="step_name">4. <?php echo __(EventSteps::PEER_REVIEW . "_tq") ?></div>
+                            <div class="step_name">2. <?php echo __(EventSteps::PEER_REVIEW . "_tq") ?></div>
                             <div class="step_checker">
                             </div>
                             <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">

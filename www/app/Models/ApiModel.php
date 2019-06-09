@@ -106,9 +106,10 @@ class ApiModel extends Model
 
     /**
      * Get book source from unfolding word api
+     * @param string $bookProject
      * @param string $bookCode
      * @param string $sourceLang
-     * @param string $bookProject
+     * @param int $bookNum
      * @return mixed
      */
     public function getSourceBookFromApi($bookProject, $bookCode, $sourceLang = "en", $bookNum = 0)
@@ -872,6 +873,7 @@ class ApiModel extends Model
      * Parses .md files of specified book and returns array
      * @param $book
      * @param $lang
+     * @param $parse
      * @param $folderpath
      * @return  array
      **/

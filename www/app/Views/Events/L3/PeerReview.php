@@ -19,7 +19,7 @@ use Helpers\Session;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [$data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2]) . ": " . __($data["event"][0]->step . "_full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => $data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2]) . ": " . __($data["event"][0]->step . "_full")?></div>
     </div>
 
     <div class="row">
@@ -123,7 +123,7 @@ use Helpers\Session;
                 </form>
             </div>
             <div class="step_right alt">
-                <?php echo __("step_num", [$data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2])?>
+                <?php echo __("step_num", ["step_number" => $data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2])?>
             </div>
         </div>
 
@@ -136,7 +136,7 @@ use Helpers\Session;
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [$data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2])?>: </span>
+                        <span><?php echo __("step_num", ["step_number" => $data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L3 ? 1 : 2])?>: </span>
                         <?php echo __($data["event"][0]->step)?>
                     </div>
                     <div class="help_descr_steps">

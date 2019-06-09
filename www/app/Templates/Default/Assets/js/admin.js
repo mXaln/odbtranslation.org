@@ -1439,6 +1439,7 @@ $(function () {
                     $("#faq_answer").val("");
                     $("#faq_category").val("");
                     $(".faq_list.tools ul").prepend(data.li);
+                    $('#faq_answer').summernote('reset');
                 }
                 else
                 {
@@ -1605,6 +1606,31 @@ $(function () {
             .always(function() {
                 $(".progressLoader", $this).hide();
             });
+    });
+
+    // Upload image for FAQ
+    $('#faq_answer').summernote({
+        dialogsInBody: true,
+        height: 300,
+        minHeight: null,
+        maxHeight: null,
+        shortCuts: false,
+        disableDragAndDrop: false,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['Insert', ['video', 'picture', 'link', 'table', 'hr']],
+            ['Other', ['codeview', 'undo', 'redo', 'fullscreen']]
+        ],
+        callbacks: {
+            onImageUpload: function(image) {
+                uploadImageContent(image[0], $(this));
+            }
+        }
     });
 });
 
@@ -1860,4 +1886,38 @@ function setStartEventButton(event) {
             $("button[name=startEvent]").text(Language.save);
             $("#eventAction").val("edit");
     }
+}
+
+function uploadImageContent(image, editor) {
+    var data = new FormData();
+    data.append("image", image);
+    $.ajax({
+        url: "/admin/rpc/upload_image",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        dataType: "json",
+        type: "post",
+        success: function(data) {
+            console.log(data);
+            if(data.success) {
+                if(data.ext == "pdf") {
+                    $(editor).summernote('createLink', {
+                        text: "Set link name",
+                        url: data.url,
+                        isNewWindow: true
+                    });
+                } else {
+                    var image = $("<img>").attr("src", data.url);
+                    $(editor).summernote("insertNode", image[0]);
+                }
+            } else {
+                renderPopup(data.error);
+            }
+        },
+        error: function(data) {
+            console.log(data);
+        }
+    });
 }

@@ -654,29 +654,44 @@ $(function () {
         var chapter = $(this).parent().data("chapter");
         var name = "<span class='l2_checker_name'>"+$(this).data("name")+"</span>";
         var message = Language.remove_l2_checker + name;
+        var mode = $("#mode").val();
 
         if(id == "other_checker")
         {
             var level = $(this).data("level");
             var prev_level = level - 1;
-            var disabled = prev_level < 0 || prev_level > 4 ? "disabled" : "";
+            var disabled = prev_level < 0 || (mode == "tn" ? prev_level > 4 : prev_level > 1) ? "disabled" : "";
             var prev_step = "n/a";
 
             switch (prev_level) {
                 case 0:
-                    prev_step = Language.tn_other_pray;
+                    prev_step = Language.other_pray;
                     break;
                 case 1:
-                    prev_step = Language.tn_other_consume;
+                    if(mode == "tn")
+                    {
+                        prev_step = Language.other_consume;
+                    }
+                    else
+                    {
+                        prev_step = Language.other_draft;
+                    }
                     break;
                 case 2:
-                    prev_step = Language.tn_other_highlight;
+                    if(mode == "tn")
+                    {
+                        prev_step = Language.other_highlight;
+                    }
+                    else
+                    {
+                        prev_step = Language.other_self_check_alt;
+                    }
                     break;
                 case 3:
-                    prev_step = Language.tn_other_self_check;
+                    prev_step = Language.other_self_check;
                     break;
                 case 4:
-                    prev_step = Language.tn_other_keyword_check;
+                    prev_step = Language.other_keyword_check;
                     break;
             }
 
