@@ -48,7 +48,7 @@ if(!isset($error)):
                         <img src="<?php echo template_url("img/loader.gif") ?>" width="22">
                     </div>
                     <div class="col-sm-4 manage_chapter">
-                        <?php echo $chapter > 0 ? __("chapter_number", $chapter) : __("chapter_number", __("intro")); ?>
+                        <?php echo $chapter > 0 ? __("chapter_number", ["chapter" => $chapter]) : __("chapter_number", ["chapter" => __("intro")]); ?>
                     </div>
                     <div class="col-sm-4 manage_chapters_user chapter_<?php echo $chapter ?>">
                         <button class="btn btn-success add_person_chapter" data="<?php echo $chapter ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>
@@ -93,7 +93,7 @@ if(!isset($error)):
 
     <div class="manage_members col-sm-6">
         <h3>
-            <?php echo __("people_number", sizeof($data["members"])) ?>
+            <?php echo __("people_number", ["people_number" => sizeof($data["members"])]) ?>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button 
                 class="btn btn-primary" 

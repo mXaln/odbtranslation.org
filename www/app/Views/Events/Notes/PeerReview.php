@@ -8,17 +8,19 @@ if(isset($data["error"])) return;
      dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
-    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <textarea dir="<?php echo $data["event"][0]->sLangDir ?>" style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
     <div class="other_comments_list"></div>
     <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [5]) . ": " . __("peer-review_tn")?></div>
+        <div class="main_content_title">
+            <?php echo __("step_num", ["step_number" => 5]) . ": " . __("peer-review_tn")?>
+        </div>
     </div>
 
     <div class="row" style="position: relative">
@@ -98,7 +100,7 @@ if(isset($data["error"])) return;
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
+                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID && $comment->level == 2): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">
@@ -133,7 +135,7 @@ if(isset($data["error"])) return;
                 <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [5])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 5])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -145,7 +147,7 @@ if(isset($data["error"])) return;
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [5])?>: </span>
+                        <span><?php echo __("step_num", ["step_number" => 5])?>: </span>
                         <?php echo __("peer-review_tn")?>
                     </div>
                     <div class="help_descr_steps">

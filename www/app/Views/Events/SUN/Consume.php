@@ -3,7 +3,7 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", array(1)) . ": " . __("consume")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 1]) . ": " . __("consume")?></div>
     </div>
 
     <div class="row">
@@ -29,7 +29,7 @@ if(isset($data["error"])) return;
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [1])?></div>
+                <div class="step_right"><?php echo __("step_num", ["step_number" => 1])?></div>
             </div>
             <?php //endif; ?>
         </div>
@@ -42,7 +42,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [1])?>: </span><?php echo __("consume")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 1])?>: </span><?php echo __("consume")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("consume_sun_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

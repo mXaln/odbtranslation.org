@@ -6,7 +6,6 @@ use App\Models\TranslationsModel;
 use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
-use Helpers\Date;
 use Helpers\Manifest;
 use Helpers\Spyc;
 use Shared\Legacy\Error;
@@ -231,7 +230,8 @@ class TranslationsController extends Controller
 
                 $manifest = new Manifest();
 
-                $manifest->setCreator("vMAST");
+                $manifest->setCreator("Wycliffe Associates");
+                $manifest->setPublisher("unfoldingWord");
                 $manifest->setFormat("text/usfm");
                 $manifest->setIdentifier($bookProject);
                 $manifest->setIssued(date("Y-m-d", time()));
@@ -410,7 +410,8 @@ class TranslationsController extends Controller
 
                 $manifest = new Manifest();
 
-                $manifest->setCreator("vMAST");
+                $manifest->setCreator("Wycliffe Associates");
+                $manifest->setPublisher("unfoldingWord");
                 $manifest->setFormat("text/markdown");
                 $manifest->setIdentifier($bookProject);
                 $manifest->setIssued(date("Y-m-d", time()));
@@ -551,7 +552,8 @@ class TranslationsController extends Controller
 
                 $manifest = new Manifest();
 
-                $manifest->setCreator("vMAST");
+                $manifest->setCreator("Wycliffe Associates");
+                $manifest->setPublisher("unfoldingWord");
                 $manifest->setFormat("text/markdown");
                 $manifest->setIdentifier($books[0]->bookProject);
                 $manifest->setIssued(date("Y-m-d", time()));
@@ -625,11 +627,5 @@ class TranslationsController extends Controller
         }
 
         echo "An error ocurred! Contact administrator.";
-    }
-
-
-    private function makeManifestArray()
-    {
-        $manifest = [];
     }
 }

@@ -8,7 +8,7 @@ if(isset($data["error"])) return;
      dir="<?php echo $data["event"][0]->tLangDir ?>">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
     <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
@@ -19,7 +19,7 @@ if(isset($data["error"])) return;
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <?php echo __("step_num", [3]) . ": " . __("keyword-check")?>
+            <?php echo __("step_num", ["step_number" => 1]) . ": " . __("keyword-check")?>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
@@ -28,11 +28,6 @@ if(isset($data["error"])) return;
         <div class="main_content col-sm-9">
             <form action="" id="main_form" method="post">
             <div class="main_content_text">
-            
-                <?php if($data["event"][0]->checkerID == 0): ?>
-                    <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
-                <?php endif; ?>
-
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
                     .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
@@ -59,14 +54,19 @@ if(isset($data["error"])) return;
                         <div class="col-md-6 notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
                             dir="<?php echo $data["event"][0]->tLangDir ?>"
                             data-chunkno="<?php echo $chunkNo ?>">
-                            <?php 
+                            <?php
                             $parsedown = new Parsedown();
-                            $text = isset($data["translation"][$chunkNo]) 
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
-                                : "";
-                            $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo]) 
-                                ? $_POST["chunks"][$chunkNo] 
+                            $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                            && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+                            $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
+                                ? $_POST["chunks"][$chunkNo]
                                 : $text;
+                            $text = preg_replace(
+                                "/(\[\[[a-z:\/\-]+\]\])/",
+                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                $text);
                             ?>
                             <textarea 
                                 name="chunks[<?php echo $chunkNo ?>]" 
@@ -83,7 +83,7 @@ if(isset($data["error"])) return;
                             <div class="comments">
                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
                                     <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID && $comment->level == 2): ?>
                                             <div class="my_comment"><?php echo $comment->text; ?></div>
                                         <?php else: ?>
                                             <div class="other_comments">
@@ -109,11 +109,16 @@ if(isset($data["error"])) return;
                     <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                 </div>
 
+                <input type="hidden" name="chk" value="1">
+                <input type="hidden" name="level" value="tqContinue">
+                <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
+                <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+
                 <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                 <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
             </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", [3])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 1])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -125,7 +130,7 @@ if(isset($data["error"])) return;
                     <div class="clear"></div>
 
                     <div class="help_name_steps">
-                        <span><?php echo __("step_num", [3])?>: </span>
+                        <span><?php echo __("step_num", ["step_number" => 1])?>: </span>
                         <?php echo __("keyword-check")?>
                     </div>
                     <div class="help_descr_steps">

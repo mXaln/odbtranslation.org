@@ -3,7 +3,7 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", [3]) . ": " . __("chunking")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 3]) . ": " . __("chunking")?></div>
     </div>
 
     <div class="row">
@@ -34,7 +34,7 @@ if(isset($data["error"])) return;
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [3])?></div>
+                <div class="step_right"><?php echo __("step_num", ["step_number" => 3])?></div>
             </div>
         </div>
 
@@ -46,7 +46,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [3])?>: </span> <?php echo __("chunking")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 3])?>: </span> <?php echo __("chunking")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("chunking_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

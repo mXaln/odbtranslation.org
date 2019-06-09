@@ -7,7 +7,7 @@
 <h2><?= __("passwordreset_title"); ?></h2>
 
 <div>
-    <?= __("passwordreset_link_message", site_url('members/resetpassword/' .$memberID."/".$token)); ?><br/>
+    <?= __("passwordreset_link_message", ["link" => site_url('members/resetpassword/' .$memberID."/".$token)]); ?><br/>
     <?= __("url_use_problem_hint"); ?>
 </div>
 </body>

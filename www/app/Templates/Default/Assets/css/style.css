@@ -1821,11 +1821,11 @@ mark {
     border-left: 10px solid #51c338;
 }
 
-.notifa .notes_checker {
+.notifa .other_checker {
     border-left: 10px solid #ff5de4;
 }
 
-.notifa .notes_checker:hover {
+.notifa .other_checker:hover {
     border-left: 10px solid #ff3ae1;
 }
 
@@ -3713,6 +3713,17 @@ div[class^="member_usname mid"] {
 .event_curr_step {
     margin-top: 5px;
     color: #00b200;
+    display: flex;
+    align-items: center;
+}
+
+.img_current {
+    width: 32px;
+    height: 32px;
+}
+
+.step_current {
+    margin-left: 20px;
 }
 
 .event_action {

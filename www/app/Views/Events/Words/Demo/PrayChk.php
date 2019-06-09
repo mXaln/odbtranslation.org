@@ -1,7 +1,7 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", ["level" => 3]).")" ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("tw").")" ?></div>
             <div><?php echo __("pray")?></div>
         </div>
         <div class="demo_video">
@@ -53,7 +53,7 @@
                 <div class="event_info is_checker_page_help">
                     <div class="participant_info">
                         <div class="additional_info">
-                            <a href="/events/demo-l3/information"><?php echo __("event_info") ?></a>
+                            <a href="/events/demo-tw/information"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
@@ -69,8 +69,12 @@
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-l3/peer_review_l3';
+            window.location.href = '/events/demo-tw/keyword_check';
             return false;
         });
+
+        var ref = '<?php echo isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "/events" ?>';
+        if(!/demo-tw/.test(ref))
+            $(".video_container").show();
     });
 </script>

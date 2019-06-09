@@ -18,7 +18,7 @@ if(empty($error) && empty($data["success"])):
         <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
-    <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
+    <textarea dir="<?php echo $data["event"][0]->sLangDir ?>" style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
     <div class="other_comments_list"></div>
     <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
@@ -27,7 +27,7 @@ if(empty($error) && empty($data["success"])):
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div><?php echo __("step_num", [7]). ": " . __("keyword-check")?></div>
+            <div><?php echo __("step_num", ["step_number" => 7]). ": " . __("keyword-check")?></div>
             <div class="action_type type_checking"><?php echo __("type_checking"); ?></div>
         </div>
     </div>
@@ -112,7 +112,7 @@ if(empty($error) && empty($data["success"])):
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
                 </form>
-                <div class="step_right chk"><?php echo __("step_num", [7])?></div>
+                <div class="step_right chk"><?php echo __("step_num", ["step_number" => 7])?></div>
             </div>
         </div>
 
@@ -124,7 +124,7 @@ if(empty($error) && empty($data["success"])):
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [7])?>: </span> <?php echo __("keyword-check")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 7])?>: </span> <?php echo __("keyword-check")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("keyword-check_checker_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>

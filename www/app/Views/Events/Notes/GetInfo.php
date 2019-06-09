@@ -7,7 +7,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
     if(empty($chapter)) {
         echo '<div class="chapter_item">
                 <div class="chapter_number nofloat">'.($key > 0 
-                ? __("chapter_number", [$key]) 
+                ? __("chapter_number", ["chapter" => $key])
                 : __("front")).'</div>
             </div>';
         continue;
@@ -18,7 +18,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
             <div class="section_header" data="<?php echo "sec_".$key?>">
                 <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
                 <div class="chapter_number section_title"><?php echo $key > 0 
-                                ? __("chapter_number", [$key]) 
+                                ? __("chapter_number", ["chapter" => $key])
                                 : __("front") ?></div>
                 <div class="section_translator_progress_bar">
                     <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">

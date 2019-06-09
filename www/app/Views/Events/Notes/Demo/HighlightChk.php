@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tn").")" ?></div>
-            <div><?php echo __("step_num", [4]) . ": " . __("keyword-check_tn_full")?></div>
+            <div><?php echo __("step_num", ["step_number" => 4]) . ": " . __("keyword-check_tn_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -778,7 +778,7 @@
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
                 </form>
-                <div class="step_right"><?php echo __("step_num", [4])?></div>
+                <div class="step_right"><?php echo __("step_num", ["step_number" => 4])?></div>
             </div>
         </div>
 
@@ -790,7 +790,7 @@
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", [4])?>:</span> <?php echo __("keyword-check_tn")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 4])?>:</span> <?php echo __("keyword-check_tn")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("keyword-check_tn_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
