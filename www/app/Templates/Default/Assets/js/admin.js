@@ -858,9 +858,12 @@ $(function () {
                         "</tr>";
 
                     $.each(data.admins, function (i,v) {
-                        var ts = Date.parse(v.signup);
-                        var date = new Date(ts);
-                        var formated = date.toLocaleDateString();
+                        var formated = "---";
+                        if(v.signup != "---") {
+                            var ts = Date.parse(v.signup);
+                            var date = new Date(ts);
+                            formated = date.toLocaleDateString();
+                        }
 
                         html += "<tr>" +
                             "<td>"+v.fname+"</td>"+
@@ -894,9 +897,12 @@ $(function () {
                                 "<th>Date Signed</th>"+
                             "</tr>";
                         $.each(data.translators, function (i,v) {
-                            var ts = Date.parse(v.signup);
-                            var date = new Date(ts);
-                            var formated = date.toLocaleDateString();
+                            var formated = "---";
+                            if(v.signup != "---") {
+                                var ts = Date.parse(v.signup);
+                                var date = new Date(ts);
+                                formated = date.toLocaleDateString();
+                            }
 
                             html += "<tr>" +
                                 "<td>"+v.fname+"</td>"+
@@ -929,9 +935,12 @@ $(function () {
                             "<th>Date Signed</th>"+
                         "</tr>";
                     $.each(data.checkers, function (i,v) {
-                        var ts = Date.parse(v.signup);
-                        var date = new Date(ts);
-                        var formated = date.toLocaleDateString();
+                        var formated = "---";
+                        if(v.signup != "---") {
+                            var ts = Date.parse(v.signup);
+                            var date = new Date(ts);
+                            formated = date.toLocaleDateString();
+                        }
 
                         html += "<tr>" +
                             "<td>"+v.fname+"</td>"+
@@ -1003,9 +1012,12 @@ $(function () {
                         "</tr>";
 
                     $.each(data.contributors, function () {
-                        var ts = Date.parse(this.signup);
-                        var date = new Date(ts);
-                        var formated = date.toLocaleDateString();
+                        var formated = "---";
+                        if(this.signup != "---") {
+                            var ts = Date.parse(this.signup);
+                            var date = new Date(ts);
+                            formated = date.toLocaleDateString();
+                        }
 
                         html += "<tr>"+
                                     "<td>"+this.fname+"</td>"+
