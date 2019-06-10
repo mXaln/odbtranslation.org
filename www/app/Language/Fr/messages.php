@@ -315,7 +315,7 @@ return array (
     "demo" => "Démo",
     "see_demo" => "Voir Démo",
     "demo_video" => "Regarder l’introduction",
-    "save" => "Save",
+    "save" => "Sauvegarder",
     "read_chunk" => "Lire",
     "translate_chunk" => "Traduire",
     "partner_translation" => "La traduction du partenaire",
@@ -551,17 +551,17 @@ return array (
 
     "chunking" => "Tronçon",
     "chunking_sun" => "Thought Chunk",
-    "chunking_desc" => "<li><b>BUT:</b> to divide the text into smaller pieces, to help the brain work with it in detail.</li>
-                        <li><b>DURÉE:</b> Take about 5 minutes, depending on the number of verses in the chapter.</li>
-                        <li>Click on 1-4 verses and then the orange icon (<span class='make_chunk_info'></span>) to create each chunk. 
+    "chunking_desc" => "<li><b>BUT:</b> Diviser le texte en petites sections, pour aider le cerveau à examiner au detail</li>
+                        <li><b>DURÉE:</b> Prendre 5 minutes, selon le nombre de versets dans le chapître.</li>
+                        <li>Cliquez sur 1-4 versets et puis sur l’icône orange (<span class='make_chunk_info'></span>) pour créer chaque section. 
                             <ol>
-                                <li>To change the last chunk (or few chunks), click on the last checked box(es) to un-chunk.</li>
-                                <li>To start chunking over from the beginning, click on the red icon (<span class='reset_info'></span>).</li>
+                                <li>Pour changer la dernière section (ou plusieurs sections), cliquez sur la dernière</li>
+                                <li>Pour commencer à sectionner depuis le début, cliquez sur l’icône rouge (<span class='reset_info'></span>).</li>
                             </ol>
                         </li>
-                        <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>
-                        <li>Push for the maximum amount of text that can be remembered, but keep in mind you will draft the text without looking at it.</li>
-                        <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+                        <li>Sectionner le chapître tout entier, en prêtant attention sur les sujets similaires et les coupures logiques dans la pensée.</li>
+                        <li>Esayez de vous souvenir au maximum du texte, Mais souvenez-vous qu’il faudra que vous reconstituiez le texte sans le regarder.</li>
+                        <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
 
     "chunking_sun_desc" => "<li><b>BUT:</b> to divide the text into manageable portions for translation</li>
                             <li>Click on 2-5 verses and then \"make chunk\" for grouping into chunks to prepare for the next step.</li>
@@ -569,12 +569,12 @@ return array (
 
     "read-chunk" => "Brouillon aveugle",
     "read-chunk-alt" => "Lire le tronçon",
-    "read-chunk_desc" => "<li><b>BUT:</b> to review the chunk to prepare for the blind draft</li>
-                            <li><b>LENGTH:</b> Take 2-3 minutes on each chunk.</li>
-                            <li>Read and absorb this chunk, keeping the whole chapter's context in mind.</li>
-                            <li>Think through this chunk in the target language.</li>
-                            <li>Do not make notes or open additional source text on this step.</li>
-                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+    "read-chunk_desc" => "<li><b>BUT:</b> Réviser la section pour préparer le draft aveugle.</li>
+                            <li><b>DURÉE:</b> passez 2-3 minutes sur chaque section.</li>
+                            <li>Lisez et absorbez cette section, en gardant en mémoire le context du chapître tout entier.</li>
+                            <li>Songez à ce passage dans le langage target.</li>
+                            <li>Ne prenez pas de notes ou n’ouvrez pas de sources supplémentaires durant cette étape.</li>
+                            <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
     
     "read-chunk_tn" => "Read Chunk",
     "read-chunk_tn_desc" => "<li><b>BUT:</b> to read through the chunk of Notes you will translate.</li>
@@ -586,34 +586,37 @@ return array (
     
     "blind-draft" => "Brouillon Aveugle",
     "blind-draft_previous" => "Brouillon Aveugle – Tronçon d’Avant",
-    "blind-draft_desc" => "<li><b>BUT:</b> to translate the source text as naturally as possible in the target language.</li>
-                            <li><b>DURÉE:</b> Take no more than 11 minutes for each chunk.</li>
-                            <li>One of the foundational characteristics of good translation is the naturalness of language. 
-                                The blind draft captures this and allows the brain/short term memory to quickly push out 
-                                the most natural text. This is not meant to be perfect and accurate text (the next four 
-                                steps will refine the text), this is meant to put the foundation of naturalness, which if 
-                                absent, leads to extended error and long periods of foundational error correction.</li>
-                            <li>Without looking at the source text, type your translation of the chunk as best you 
-                                can remember it, in a natural way, using words that are clear and understandable.</li>
-                            <li>Do not refer to the source text. Just translate what you remember.</li>
-                            <li>Do not be concerned about marking verses. This will be done in the final step.</li>
-                            <li>Do not spend an extended amount of time trying to remember the source text. The next 
-                                step will catch what you do not remember and allow corrections.</li>
-                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
-                            <li>Continue to blind draft each chunk until you finish the chapter.</li>
-                            <li>Additional Notes to Translator: 
+    "blind-draft_desc" => "<li><b>BUT:</b> Traduire le texte d’origine de la façon la plus naturelle dans le langage target.</li>
+                            <li><b>DURÉE:</b> ne prenez pas plus de 11 minutes pour chaque section.</li>
+                            <li>Une des caractéristiques fondamentales pour une bonne traduction est la clarité 
+                                naturelle du langage. Le draft aveugle le saisit et permet de transmettre rapidement au 
+                                cerveau le texte le plus naturel. Cela ne veut pas dire nécessairement que le texte 
+                                soit parfait et précis (les quatre prochaines étapes amélioreront le texte), c’est 
+                                dans l’intention d’être naturel à la base quant au texte, car sans ceci, cela produit 
+                                des erreurs et de longues périodes encourues pour les corriger.</li>
+                            <li>Sans regarder au texte d’origine, tapez votre traduction de la section comme vous vous 
+                                en rappelez au mieux, de façon naturelle, en utilisant des mots clairs et compréhensibles.</li>
+                            <li>Ne vous référez pas au texte d’origine. Traduisez seulement ce dont vous vous rappelez. </li>
+                            <li>Ne vous souciez pas de marquer les versets. On le fera à l’étape finale.</li>
+                            <li>Ne passez pas un temps prolongé à vous rappeler le texte d’origine. La Prochaine étape 
+                                sera de récupérer ce dont vous ne vous souvenez pas et de faire les corrections.</li>
+                            <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>
+                            <li>Continuez à écrire le draft aveugle jusqu’à la fin du chapître.</li>
+                            <li>Notes supplémentaires aux traducteurs: 
                                 <ol>
-                                    <li><b>Personal benefit to you:</b> Those who conscientiously follow the blind drafting, 
-                                        will find that they are planting Scripture in their long-term memory. As this 
-                                        happens, you have the benefit of keeping this text \"hidden away in your heart\" to a 
-                                        much higher degree than those who do not.</li>
-                                    <li><b>Those who cheat:</b> This is very often the step that many like to cheat on, 
-                                        especially in those first days. We know that you want to make scripture accurate, 
-                                        and your fears of blind drafting will produce error. We promise to 
-                                        relieve those fears of inaccuracy through the whole process and ask that you work 
-                                        through the process. You will struggle the first day and even the second day, but 
-                                        as the days go on, you will find yourself increasing your memory capacity and accelerating 
-                                        in speed. Further, you will insert ways to think through text better as you translate.</li>
+                                    <li><b>Bénéfice personel pour vous:</b> Ceux qui suivent le draft aveugle 
+                                        consciencieusement se rendront compte qu’ils retiennent en mémoire les Écritures. 
+                                        Vous avez ainsi le bénéfice de garder “ce texte caché dans votre coeur”, 
+                                        beaucoup plus que ceux qui ne le font pas.</li>
+                                    <li><b>Quant à ceux qui trichent:</b> C’est souvent l’étape où beaucoup aiment tricher, 
+                                        surtout les premiers jours. Nous savons que vous désirez être le plus précis 
+                                        quant à l’écriture et que la crainte du draft aveugle produira des erreurs. 
+                                        Vous vous promettons d’effacer ces craintes d’imprécisions  tout au cours de 
+                                        cette procédure et nous vous demandons d’effectuer cette procédure. Vous aurez 
+                                        du mal le premier jour et même le deuxième jour, mais alors que le temps passe 
+                                        votre capacité de vous souvenir augmentera et votre vitesse s’améliorera. 
+                                        Davantage, vous incorporerez une meilleure façon de songer au texte durant 
+                                        votre traduction.</li>
                                 </ol>
                             </li>",
 
@@ -638,25 +641,26 @@ return array (
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next chunk, until the chapter is completed.</li>",
 
     "self-check" => "Auto-Edition",
-    "self-check_desc" => "<li><b>BUT:</b> to edit your blind draft and check the meaning of the source text's accuracy 
-                                while maintaining the blind draft's naturalness.</li>
-                            <li><b>DURÉE:</b> Take about 30 minutes to edit your translation.</li>
-                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                            <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
-                            <li>Look for any missing portions of text or missing/added facts.</li>
-                            <li>Check in detail the accuracy of your translation.</li>
-                            <li>The following resources can be used:
+    "self-check_desc" => "<li><b>BUT:</b> Éditer votre draft aveugle et vérifier que le sens du texte d’origine est 
+                            précis tout en maintenant le flot naturel du draft aveugle.</li>
+                            <li><b>DURÉE:</b> Prenez 30 minutes pour éditer lVotre traduction.</li>
+                            <li><b>Vérifiez que le sens précis et littéral des termes communs pour “Père” et “Fils” sont 
+                                employés quand on se réfère à Dieu le Père et Jésus Christ.</b></li>
+                            <li>Regardez à l’épellation, la ponctuation, et les erreurs danl le flot naturel du texte.</li>
+                            <li>Vérifiez s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
+                            <li>Vérifiez en détail la précision de la traduction.</li>
+                            <li>On peut utiliser les ressources suivantes:
                                 <ol>
-                                    <li>Translation Notes in sidebar: To access the notes, click the tN icon.</li>
-                                    <li>Translation Questions in sidebar: To access the questions, click the tQ icon.</li>
-                                    <li>Any other resources you choose.</li>
+                                    <li>Notes de traduction dans la marge: Pour accéder aux notes, cliquez l’icône tN.</li>
+                                    <li>Questions de traduction dans la marge: Pour accéder aux questions, cliquez sur l’icône tQ.</li>
+                                    <li>Choisissez toutes autres ressources.</li>
                                 </ol>
                             </li>
-                            <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
-                            <li>If you have additional thoughts or questions about your translation, click the note 
-                                icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note, and click Save. 
-                                The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
-                            <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+                            <li>N’effacez pas ou n’écrivez pas de nouveau le texte traduit. Vous perdrez le flot naturel du texte.</li>
+                            <li>Si vous pensez à d’autres choses ou si vous avez des questions au sujet de la traduction, 
+                                cliquez sur l’icône <br>(<span class='glyphicon glyphicon-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.
+                                Les vérificateurs, verset par verset du terme important verront  cette note et aidera à résoudre la question ou le problème.</li>
+                            <li>Quand on a fait tous les changements et les notes cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
 
     "self-check_tn" => "Self-Edit",
     "self-check_tn_desc" => "<li><b>BUT:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
@@ -716,58 +720,64 @@ return array (
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "peer-review" => "Edition par les Pairs",
-    "peer-review_desc" => "<li><b>BUT:</b> to work with another speaker of the target language to check the meaning of the source 
-                                text accuracy while maintaining the naturalness created by the blind draft.</li>
-                            <li><b>DURÉE:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
-                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                            <li>The checker will look for spelling, punctuation, and flow/naturalness errors.</li>
-                            <li>The checker will look for any missing portions of text or missing or added facts.</li>
-                            <li>The checker will check the accuracy of your translation in detail.</li>
-                            <li>The following resources can be used.
+    "peer-review_desc" => "<li><b>BUT:</b> Parler avec une autre personne qui parle le langage cible pour vérifier que 
+                            le sens du texte est précis quant au texte d’origine tout en maintenant le flot naturel du draft aveugle.</li>
+                            <li><b>DURÉE:</b> Le vérificateur devrait prendre 30 minutes pour la vérification. Discuter 
+                                et corriger la section  devrait aussi durer 30 minutes.</li>
+                            <li><b>Vérifiez que le sens précis et littéral des termes communs pour “Père” et “Fils” sont employés quand on se réfère à Dieu le Père et Jésus Christ.</b></li>
+                            <li>Le vérificateur regardera l’épellation, la ponctuation, et les erreurs dans le flot naturel du texte.</li>
+                            <li>Le vérificateur regardera s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
+                            <li>Le vérificateurs vérifiera en détail que la traduction est précise.</li>
+                            <li>On peut utiliser les ressources suivantes:
                                 <ol>
-                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
-                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
-                                    <li>Any other resources you choose.</li>
+                                    <li>Notes de traduction dans la marge: Pour accéder aux notes, cliquez l’icône tN.</li>
+                                    <li>Questions de traduction dans la marge: Pour accéder aux questions, cliquez sur l’icône tQ.</li>
+                                    <li>Choisissez toutes autres ressources.</li>
                                 </ol>
                             </li>
-                            <li>When the checker has completed the check, they will contact you to discuss recommended changes via: 
-                                Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>You and the checker should discuss any changes they think should be made. 
-                                If you agree to the changes, you should make the changes right away.
-                                If you disagree, do not waste a lot of time discussing. 
-                                Leave the text as it is and make a note on the chunk noting the disagreement. 
-                                It can be discussed in later checking steps.</li>
-                            <li>If there are additional thoughts or questions about the translation, click the note 
-                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note, and click Save.</li>
-                            <li>When all changes and notes have been made, the checker should click \"Yes, I did\" and \"Continue\". Then you 
-                                should click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+                            <li>Quand le vérificateur a fini il vous contactera pour discuter des changements qu’il 
+                                recommande par  Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Vous et le vérificateur devriez discuter des changements  nécessaires. Si vous êtes 
+                                d’accord vous devriez faire aussitôt les changements. Si vous n’êtes pas d’accord ne 
+                                perdez pas de temps à en parler. Laissez le texte tel qu’il est et faites une note 
+                                stipulant le désagrément. Cela peut être discutés dans les prochaines étapes de vérification.</li>
+                            <li>S’il y a d’autres pensées ou questions au sujet de la traduction, cliquez l’icône 
+                                note (<span class='glyphicon glyphicon-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.</li>
+                            <li>Une fois que les changements et notes sont effectués le vérificateur devrait cliquer 
+                                “Oui, je l’ai fait” et “Continuer”. Puis vous devriez cliquer Cliquez “Oui, je l’ai 
+                                fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
 
-    "peer-review_checker_desc" => "<li><b>BUT:</b> to check the target language to ensure that the meaning of the source text accuracy while 
-                                        maintaining the naturalness created by the blind draft.</li>
-                                    <li><b>DURÉE:</b> You should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
-                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                                    <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
-                                    <li>As the checker, your screen will say \"Checking Mode\" and instructions will be in orange.</li>
-                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
-                                    <li>Look for any missing portions of text or missing or added facts.</li>
-                                    <li>Check the accuracy of the translation in detail.</li>
-                                    <li>If you find something you believe should be changed, write a note on the chunk by clicking the note 
-                                        icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, adding the note, then clicking Save. </li>
-                                    <li>The following resources can be used:
+    "peer-review_checker_desc" => "<li><b>BUT:</b> Vérifier le langage cible pour s’assurer que le sens du texte est 
+                                    précis quant au texte d’origine tout en maintenant le flot naturel du draft aveugle.</li>
+                                    <li><b>DURÉE:</b> Vous devriez prendre 30 minutes pour la vérification. 
+                                        Discuter et corriger la section  devrait aussi durer 30 minutes.</li>
+                                    <li><b>S’assurez que le sens précis et littéral des termes communs pour “Père” et 
+                                        “Fils” sont employés quand on se réfère à Dieu le Père et Jésus Christ. </b></li>
+                                    <li><b>Durant la vérification comprenez qu’il y a une différence entre être précis  et préférer.</b></li>
+                                    <li>En tant que vérificateur votre écran dira “Vérification” et les instructions seront orange.</li>
+                                    <li>Regardez à l’épellation, la ponctuation, et les erreurs dans  le flot naturel du texte.</li>
+                                    <li>Vérifiez s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
+                                    <li>Vérifiez en détail la précision de la traduction.</li>
+                                    <li>Si vous pensez que quelque chose devrait changer, écrivez une note sur le morceau 
+                                        en cliquant sur l'icône de note (<span class='glyphicon glyphicon-pencil'></span>) 
+                                        près de la section, ajoutez la note et cliquez Sauvegarder.</li>
+                                    <li>On peut utiliser les ressources suivantes:
                                         <ol>
-                                            <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
-                                            <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
-                                            <li>Any other resources you choose.</li>
+                                            <li>Notes de traduction dans la marge: Pour accéder aux notes, cliquez l’icône tN.</li>
+                                            <li>Questions de traduction dans la marge: Pour accéder aux questions, cliquez sur l’icône tQ.</li>
+                                            <li>Choisissez toutes autres ressources.</li>
                                         </ol>
                                     </li>
-                                    <li>When you have completed the check, contact the translator to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
-                                    <li>You and the translator should discuss any changes you think should be made. 
-                                        If you agree to the changes, the translator should make the changes right away. 
-                                        If you disagree, do not waste a lot of time discussing. 
-                                        Leave the text as it is and make a note on the chunk noting the disagreement. 
-                                        It can be discussed in later checking steps.</li>
-                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". 
-                                        Do not simply close the page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
+                                    <li>Quand vous avez complété la vérification, contactez le traducteur pour discuter 
+                                        des changements recommandés par: Skype, Messenger, WhatsApp, phone, etc.</li>
+                                    <li>Vous et le traducteur devraint discuter de tous changements que vous avez 
+                                        l’intention de faire. Si vous êtes d’accord pour les changements, le traducteurs 
+                                        devrait les effectuer aussitôt. Si vous n’êtes pas d’accord ne perdez pas de 
+                                        temps à en parler. Laissez le texte tel qu’il est et faites une note stipulant 
+                                        le désagrément. Cela peut être discuté dans les prochaines étapes de vérification. </li>
+                                    <li>Une fois que les changements et notes sont effectués, cliquez “Oui, je l’ai 
+                                        fait” et “Continuer”. Ne fermez pas simplement la page en cliquant le “x”, car 
+                                        le traducteur ne pourrait pas aller à la prochaine étape.</li>",
 
     "peer-review_tn" => "2<sup>nd</sup> Check",
     "peer-review_tn_desc" => "<li><b>BUT:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
@@ -825,63 +835,74 @@ return array (
                                     <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
 
     "keyword-check" => "Vérification des Mots Clés",
-    "keyword-check_desc" => "<li><b>BUT:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
-                            <li><b>DURÉE:</b> The checker will take about 5-10 minutes to highlight keywords throughout the chapter.</li>
-                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                            <li>The checker will highlight keywords from the source text. Highlighted words will show on your source text, as well.</li>
-                            <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms (if these terms were not present or 
-                                inaccurate, the scripture's meaning would be changed).</li>
-                            <li>The following resources can be used.
+    "keyword-check_desc" => "<li><b>BUT:</b> S’assurer que les mots-clés sont présents dans le texte traduit et traduits avec précision.</li>
+                            <li><b>DURÉE:</b> Le vérificateur prendra 5-10 minutes pour souligner les mots-clés dans tout le chapître.</li>
+                            <li><b>Être sûr que des termes de langage commun précis et littéraux pour “Père” et “Fils” sont employés quand on se réfère à Dieu le Père et  Jésus Christ.</b></li>
+                            <li>Le vérificateur soulignera des mots-clés du texte d’origine. Des mots soulignés apparaitront aussi sur votre texte d’origine.</li>
+                            <li>Des mots-clés sont: noms propres (gens et villes), chiffres, pronoms, et  tous  autres 
+                                termes importants (si ces termes n’étaient pas présents ou imprécis, le sens de l’écriture changerait).</li>
+                            <li>On peut utiliser les ressources suivantes:
                                 <ol>
-                                    <li>Translation Words (tW) in sidebar.</li>
-                                    <li>Any other resources you choose.</li>
+                                    <li>Mots de traduction (tW) dans la marge.</li>
+                                    <li>Toute autre ressource que vous choisissez.</li>
                                 </ol>
                             </li>
-                            <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
-                            <li><b>The point is not word for word translation; rather, it is to see if the word/meaning is represented in the text in a way 
-                                that is grammatically and culturally appropriate in the target language.</b></li>
-                            <li>When the checker has finished highlighting, they will contact you to discuss keyword and recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>The checker will say aloud each highlighted word. You simply say how you translated it. The conversation should go very quickly.</li>
-                            <li>You and the checker should discuss any changes they think should be made. If you agree to the changes, you should make the changes right away. 
-                                If you disagree, do not waste a lot of time discussing. 
-                                Leave the text as it is and make a note on the chunk noting the disagreement. 
-                                It should be resolved in the next step.</li>
-                            <li>If there are additional thoughts or questions about the translation, click the note 
-                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and click Save.</li>
-                            <li>When all changes and notes have been made, the checker should click \"Yes, I did\" 
-                                and \"Continue\", then you should click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+                            <li>Les mots de traduction (tW) dans la marge peuvent aider à identifier et à définir les mots-clés, mais n’identifient pas TOUS les mots importants.</li>
+                            <li><b>Le point n’est pas de faire une traduction mot par mot; plutôt, c’est pour voir si 
+                                le mot/signification se représentent dans le texte dans une manière appropriée 
+                                grammaticalement et culturellement dans le langage cible.</b></li>
+                            <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te contactera 
+                                pour parler sur les changements recommandés sur : Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Le vérificateur te lira à haute voix chaque mot souligné. Tu dis simplement comment tu l’as traduit. La conversation doit être vite.</li>
+                            <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
+                                Si tu es d’accord avec les changements, tu devras les faire ensuite. Si tu n’est pas 
+                                d’accord, ne perd pas beaucoup de temps en discutant ces changements. Laisse le texte 
+                                comme il était déjà et note le désaccord sur la section. On doit le résoudre dans la Prochaine étape.</li>
+                            <li>S’il y a d’autres opinions ou d’autres questions concernant la traduction, clique le 
+                                symbole pour noter (<span class='glyphicon glyphicon-pencil'></span>) à côté de la section, mets-y la note et clique Sauvegarder.</li>
+                            <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
+                                le vérificateur devrait cliquer “Oui, je l’ai faite” et \"Continuer\", et ensuite tu 
+                                devrais cliquer “Oui, je l’ai faite” et \"Prochaine étape\" pour continuer à la prochaine étape.</li>",
 
-    "keyword-check_checker_desc" => "<li><b>BUT:</b> to ensure certain significant words are present in the translated text and accurately expressed.</li>
-                                    <li><b>DURÉE:</b> Take about 5-10 minutes to highlight keywords throughout the chapter.</li>
-                                    <li>As the checker, your screen will say \"Checking Mode\", and instructions will be in orange.</li>
-                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                                    <li>You will only see the source text.</li>
-                                    <li>Highlight all keywords in the source text by double-clicking the word or by selecting a word/phrase with your mouse. 
-                                        The translator will also see the highlighted source text on their screen. 
-                                        (Highlighting words is most common; highlighted phrases should be few.)</li>
-                                    <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms 
-                                        (if these terms were not present or inaccurate the scripture meaning would be changed).</li>
-                                    <li>The following resources can be used.
+    "keyword-check_checker_desc" => "<li><b>BUT:</b> pour assurer que certains mots importants sont présents et précis dans le texte traduit.</li>
+                                    <li><b>DURÉE:</b> Prend autour de 5 à 10 minutes pour souligner des mot-clés dans le chapitre.</li>
+                                    <li>Comme vérificateur, son écran dira \"Mode vérification\", et les instructions seront de couleur orange.</li>
+                                    <li><b>Assure l’expression précise et littérale pour les expressions communes 
+                                        pour \"Père\" et \"Fils\" quand le texte fait référence à Dieu le Père et à Jésus Christ.</b></li>
+                                    <li>Tu ne verras que le texte de départ.</li>
+                                    <li>Souligne chaque mot-clé dans le texte de départ en cliquant deux fois le mot ou 
+                                        en sélectionnant un mot/phrase avec la souris. Le traducteur verra aussi le texte 
+                                        de départ souligné sur l’écran. (Les mots soulignés sont plus communs que les phrases soulignées.)</li>
+                                    <li>Les mots-clés seront: des noms propres (des personnes/des villes), des numéros, 
+                                        des pronoms et des expressions importantes (si ces expressions n’étaient pas 
+                                        présentes ou si elles n’étaient pas correctes, la signification de l’Écriture sera différente).</li>
+                                    <li>Tu peux utiliser les ressources suivantes:
                                         <ol>
-                                            <li>Translation Words (tW) in sidebar.</li>
-                                            <li>Any other resources you choose.</li>
+                                            <li>Mots de traduction (tW) dans la barre latérale.</li>
+                                            <li>AN’importe quelle ressource que tu choisis.</li>
                                         </ol>
                                     </li>
-                                    <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
-                                    <li><b>The point is not word-for-word translation; rather, it is to see if the word/meaning is represented in the text 
-                                        in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                                    <li>When you finish highlighting, contact the translator to discuss keyword and recommended changes via: 
-                                        Skype, Messenger, WhatsApp, phone, etc.</li>
-                                    <li>You will say aloud each highlighted word. The translator will simply say how they translated it. 
-                                        The conversation should go very quickly.</li>
-                                    <li>You and the translator should discuss any changes you think should be made. 
-                                        If you agree to the changes, the translator should make the changes right away. 
-                                        If you disagree, do not waste a lot of time discussing.  Leave the text as it is, and make a 
-                                        note on the chunk denoting the disagreement. It should be resolved in the next step.</li>
-                                    <li>If there are additional thoughts or questions about the translation, click the Note 
-                                        icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
-                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". Do not simply close the 
-                                        page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
+                                    <li>Les mots de traduction (tW) dans la barre latérale peuvent t’aider à identifier 
+                                        et à définir les mots-clés, cependant ils n’identifient pas tous les mots-clés.</li>
+                                    <li><b>Le point n’est pas de faire une traduction mot par mot; sinon, c’est pour 
+                                        voir si le mot/signification se représentent dans le texte dans une manière 
+                                        appropriée grammaticalement et culturellement dans le langage cible.</b></li>
+                                    <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te 
+                                        contactera pour parler sur les changements recommandes sur: Skype, Messenger, WhatsApp, phone, etc.</li>
+                                    <li>Le vérificateur te lira à haute voix chaque mot souligné. Tu dis simplement 
+                                        comment tu l’as traduit. La conversation doit être vite.</li>
+                                    <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
+                                        Si tu es d’accord avec les changements, tu devras les faire ensuite. Si tu n’est 
+                                        pas d’accord, ne perd pas beaucoup de temps en discutant ces changements. Laisse 
+                                        le texte comme il était déjà et note le désaccord sur la section. On doit 
+                                        le résoudre dans la Prochaine étape.</li>
+                                    <li>S’il y a d’autres opinions ou d’autres questions concernant la traduction, 
+                                        clique le symbole pour noter (<span class='glyphicon glyphicon-pencil'></span>) 
+                                        à côté de la section, mets-y la note et clique Sauvegarder.</li>
+                                    <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
+                                        le vérificateur devrait cliquer “Oui, je l’ai faite” et \"Continuer\". Ne 
+                                        fermez pas simplement la page en cliquant le “x”, car le traducteur ne pourrait 
+                                        pas aller à la prochaine étape.</li>",
     
     "keyword-check_tn" => "Check Highlights",
     "keyword-check_tn_full" => "Check Highlighted Notes",
@@ -894,96 +915,113 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Vérification Verset par Verset",
-    "content-review_desc" => "<li><b>BUT:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
-                                <li><b>DURÉE:</b> The checker should spend about 30 minutes checking text. 
-                                    Discussion and correction section should take about 30-45 minutes.</li>
-                                <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                                <li>The checker will look for the following:
+    "content-review_desc" => "<li><b>BUT:</b> assurer que la traduction donne correctement le même message que le texte de départ</li>
+                                <li><b>DURÉE:</b> Le vérificateur doit prendre autours de 30 minutes pour réviser le texte. 
+                                    La discussion et la correction doivent prendre autour de 30 à 45 minutes.</li>
+                                <li><b>Assure l’expression précise et littérale pour les expressions communes 
+                                    pour \"Père\" et \"Fils\" quand le texte fait référence à Dieu le Père et à Jésus Christ.</b></li>
+                                <li>Le vérificateur suivra les lignes directrices:
                                     <ol>
-                                        <li>Is anything missing?</li>
-                                        <li>Is it natural?</li>
-                                        <li>Does it sound good in your language?</li>
-                                        <li>Is it smooth, clear, and understandable?</li>
-                                        <li>Is the author’s intended meaning there?</li>
-                                        <li>Is it accurate according to your Authentic Assessment/Rubric?</li>
+                                        <li>Est-ce qu’il y a quelque chose d’absent?</li>
+                                        <li>Est-ce que le texte est naturel?</li>
+                                        <li>Est-ce qu’il semble correct ou bon en sa langue?</li>
+                                        <li>Est-ce qu’il coule et est clair et facile à comprendre?</li>
+                                        <li>Est-ce que la signification destinée de l’auteur est là?</li>
+                                        <li>Est-ce que le texte est précis selon son évaluation ou sa rubrique?</li>
                                     </ol>
                                 </li>
-                                <li>The review can be done in two ways:
+                                <li>Il y a deux manières de faire la révision:
                                     <ol>
-                                        <li>If the checker knows only the source language, the check must be done by back translation. 
-                                            In this case, you will read the translated text chunk by chunk, then you or a second person 
-                                            will back translate into the source, and the checker will compare what they hear to the source text they are reading.</li>
-                                        <li>If the checker is fluent in both languages, they can elect to use method one, 
-                                            or review your translation side by side with the source text.</li>
+                                        <li>Si le vérificateur ne sait que la langue de départ, on devra faire une 
+                                            «back translation» (traduction inversée) pour réviser le texte. Dans ce cas, 
+                                            tu liras le texte traduit section par section. Ensuite, une autre personne 
+                                            ou toi pourrez faire la traduction inversée dans le langage de départ. Le 
+                                            vérificateur comparera ce qu’il entend avec le texte de départ qu’il lit.</li>
+                                        <li>Si le vérificateur parle couramment les deux langues, il pourra choisir 
+                                            d’utiliser la première méthode ou de voir les deux traductions côte à côte du texte de départ.</li>
                                     </ol>
                                 </li>
-                                <li>The following resources can be used.
+                                <li>Tu peux utiliser les ressources suivantes:
                                     <ol>
-                                        <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
-                                        <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
-                                        <li>Translation Questions in the sidebar. To access the questions click the tQ icon.</li>
-                                        <li>Any other resources you choose.</li>
+                                        <li>Notes de traduction dans la barre latérale. Pour accéder les notes, clique le symbole tN.</li>
+                                        <li>Mots de traduction dans la barre latérale. Pour accéder les mots, clique le symbole tW.</li>
+                                        <li>Questions de traduction dans la barre latérale. Pour accéder les questions, clique le symbole tQ.</li>
+                                        <li>N’importe quelle ressource que tu choisis.</li>
                                     </ol>
                                 </li>
-                                <li>When the checker has completed the check, they will contact you to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
-                                <li>You and the checker should discuss any changes they think should be made. 
-                                    If you agree to the changes, you should make the changes right away. Make sure to look at notes on 
-                                    chunks to see if there are disagreements unresolved from the previous checking steps, and discuss those disagreements.</li>
-                                <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
-                                    The facilitator may involve others, such as team lead, director, pastor or theologian.</li>
-                                <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
-                                <li>When all changes have been made, the checker should click \"Yes, I did\" and \"Continue\", then you should 
-                                    click \"Yes, I did\" and \"Next Step\" to move to the next step.</li>",
+                                <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te contactera 
+                                    pour parler sur les changements recommandés sur : Skype, Messenger, WhatsApp, phone, etc.</li>
+                                <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
+                                    Si tu es d’accord avec les changements, tu devras les faire ensuite. Assure-toi que 
+                                    tu as vu les notes sur les sections pour voir s’il y avait des désaccords des révisions 
+                                    précédentes qui n’étaient pas résolues. S’il y en a, parlez de ces désaccords. </li>
+                                <li>S’il y a des désaccords qui ne seront pas résolus facilement, discutez-en avec le 
+                                    facilitateur pour trouver une résolution. Le facilitateur pourrait impliquer d’autres 
+                                    personnes comme un leader d’équipe, un directeur, un pasteur ou un théologien.</li>
+                                <li>Chaque désaccord (de la huitième étape et les étapes précédentes) doivent être résolues 
+                                    avant que le traducteur et le vérificateur continuent à la Prochaine étape.</li>
+                                <li>Après avoir fait tous les changements et avoir mis les notes dans le document, le 
+                                    vérificateur devrait cliquer “Oui, je l’ai faite” et “Continuer”, et ensuite tu devrais 
+                                    cliquer “Oui, je l’ai faite” et \"Prochaine étape\" pour continuer à la prochaine étape.</li>",
 
-    "content-review_checker_desc" => "<li><b>BUT:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language.</li>
-                                        <li><b>DURÉE:</b> Spend about 30 minutes checking text. Discussion and correction section should take about 30-45 minutes.</li>
-                                        <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
-                                        <li>As the checker, your on-screen instructions will be in orange.</li>
-                                        <li>Questions to ask yourself as you are checking:
+    "content-review_checker_desc" => "<li><b>BUT:</b> assurer que chaque section et chapitre donnent correctement le même message en la langue cible</li>
+                                        <li><b>DURÉE:</b> Le vérificateur doit prendre autours de 30 minutes pour réviser 
+                                            le texte. La discussion et la correction doivent prendre autours de 30 à 45 minutes.</li>
+                                        <li><b>Assure l’expression précise et littérale pour les expressions communes 
+                                            pour \"Père\" et \"Fils\" quand le texte fait référence à Dieu le Père et à Jésus Christ.</b></li>
+                                        <li>En tant que vérificateur votre écran d’instructions sera orange.</li>
+                                        <li>Demande-toi ces questions suivantes quand tu révises le texte:
                                             <ol>
-                                                <li>Is anything missing?</li>
-                                                <li>Is it natural?</li>
-                                                <li>Does it sound good in your language?</li>
-                                                <li>Is it smooth, clear, and understandable?</li>
-                                                <li>Is the author’s intended meaning there?</li>
-                                                <li>Is it accurate according to your Authentic Assessment/Rubric?</li>
+                                                <li>Est-ce qu’il y a quelque chose d’absent?</li>
+                                                <li>Est-ce que le texte est naturel?</li>
+                                                <li>Est-ce qu’il semble correct ou bon en sa langue?</li>
+                                                <li>Est-ce qu’il coule et est clair et facile à comprendre?</li>
+                                                <li>Est-ce que la signification destinée de l’auteur est là?</li>
+                                                <li>Est-ce que le texte précis selon sa évaluation ou sa rubrique?</li>
                                             </ol>
                                         </li>
-                                        <li>The review can be done in two ways:
+                                        <li>Il y a deux manières de faire la révision:
                                             <ol>
-                                                <li>If the checker knows only the source language, the check must be done by back translation. 
-                                                    In this case, the translator will read the translated text chunk by chunk, then you or a 
-                                                    second person will back translate into the source, and you will compare what you hear to the source text they are reading.</li>
-                                                <li>If the checker is fluent in both languages, they can elect to use method one, or review the 
-                                                    translation side by side with the source text. </li>
+                                                <li>Si le vérificateur ne sait que la langue de départ, on devra faire 
+                                                    une «back translation» (traduction inversée) pour réviser le texte. 
+                                                    Dans ce cas, tu liras le texte traduit section par section. Ensuite, 
+                                                    une autre personne ou toi pourrez faire la traduction inversée au langue 
+                                                    de départ. Le vérificateur comparera ce qu’il entend avec le texte de départ qu’il lit.</li>
+                                                <li>Si le vérificateur parle couramment les deux langues, il pourra 
+                                                    choisir d’utiliser la première méthode ou de voir les deux traductions côte à côte du texte de départ.</li>
                                             </ol>
                                         </li>
-                                        <li>You should spend about 30 minutes checking text.</li>
-                                        <li>The following resources can be used:
+                                        <li>Vous devriez passer environ 30 minutes à vérifier le texte.</li>
+                                        <li>Tu peux utiliser les ressources suivantes:
                                             <ol>
-                                                <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
-                                                <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
-                                                <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
-                                                <li>Any other resources you choose.</li>
+                                                <li>Notes de traduction dans la barre latérale. Pour accéder les notes, clique le symbole tN.</li>
+                                                <li>Mots de traduction dans la barre latérale. Pour accéder les mots, clique le symbole tW.</li>
+                                                <li>Questions de traduction dans la barre latérale. Pour accéder les questions, clique le symbole tQ.</li>
+                                                <li>N’importe quelle ressource que tu choisis.</li>
                                             </ol>
                                         </li>
-                                        <li>When you have completed the check, contact the translator to discuss recommended changes via: 
-                                            Skype, Messenger, WhatsApp, phone, etc.</li>
-                                        <li>You and the translator should discuss any changes you think should be made. 
-                                            If you agree to the changes, the translator should make the changes right away. 
-                                            Make sure to look at the notes on chunks to see if there are disagreements unresolved from the 
-                                            previous checking steps, and discuss those disagreements.</li>
-                                        <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
-                                            The facilitator may involve others, such as a team lead, director, pastor or theologian.</li>
-                                        <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
-                                        <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". Do not simply close the page by 
-                                            clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
+                                        <li>Quand le vérificateur finit de souligner les mots-clés dans le document, 
+                                            il te contactera pour parler sur les changements recommandés sur : Skype, Messenger, WhatsApp, phone, etc.</li>
+                                        <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
+                                            Si tu es d’accord avec les changements, tu devras les faire ensuite. 
+                                            Assure-toi que tu as vu les notes sur les sections pour voir s’il y avait 
+                                            des désaccords des révisions précédentes qui n’étaient pas résolues. S’il 
+                                            y en a, parlez de ces désaccords. </li>
+                                        <li>S’il y a des désaccords qui ne seront pas résolus facilement, discutez-en avec 
+                                            le facilitateur pour trouver une résolution. Le facilitateur pourrait impliquer 
+                                            d’autres personnes comme un leader d’équipe, un directeur, un pasteur ou un théologien.</li>
+                                        <li>Chaque désaccord (de la huitième étape et les étapes précédentes) doivent être 
+                                            résolues avant que le traducteur et le vérificateur continuent à la Prochaine étape.</li>
+                                        <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
+                                            le vérificateur devrait cliquer “Oui, je l’ai faite” et “Continuer”. Ne fermes pas 
+                                            la page en cliquant le \"x\". Si tu le fais, le traducteur ne pourra pas continuer à la prochaine étape.</li>",
     
     "final-review" => "Marqueurs des Versets",
-    "final-review_desc" => "<li><b>BUT:</b> this is where you will add verse markers to the translated text.</li>
-                            <li>Read through the translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li>
-                            <li>When all verse markers are in place, click \"Yes, I did\" and \"Next step\".</li>",
-    "finished" => "Termine",
+    "final-review_desc" => "<li><b>BUT:</b> C’est l’étape où tu mettras les indicateurs de versets dans le texte.</li>
+                            <li>Lire le texte traduit et le compare avec le texte d’origine, puis glissez et mettre les 
+                                indicateurs de versets au bon endroit dans le texte traduit.</li>
+                            <li>Quand tous les versets sont en place, cliquez “Oui, je l’ai faite” et “Prochaine étape”.</li>",
+    "finished" => "Fini",
 
     "rearrange" => "Rearrange",
     "rearrange-alt" => "Rearrange",
