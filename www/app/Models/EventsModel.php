@@ -1302,7 +1302,7 @@ class EventsModel extends Model
 
     }
 
-    public function getEventContributors($eventID, $level, $mode)
+    public function getEventContributors($eventID, $level, $mode, $withRoles = true)
     {
         $membersModel = new MembersModel();
         $admins = [];
@@ -1576,23 +1576,73 @@ class EventsModel extends Model
         $allMembers = Arrays::append($allMembers, $translatorsArr);
         $allMembers = array_unique($allMembers);
 
-        $membersArray = (array)$membersModel->getMembers($allMembers, true);
+        $membersArray = (array)$membersModel->getMembers($allMembers, true, true);
 
         foreach ($membersArray as $member) {
             if(in_array($member->memberID, $adminsArr))
             {
-                $admins[$member->memberID]["userName"] = $member->userName;
-                $admins[$member->memberID]["name"] = $member->firstName . " " . $member->lastName;
+                $tmp = [
+                    "fname" => trim(mb_convert_case ($member->firstName, MB_CASE_TITLE, 'UTF-8')),
+                    "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
+                    "uname" => trim($member->userName),
+                    "role" => "",
+                    "signup" => "---",
+                    "email" => $member->email,
+                    "tou" => true,
+                    "sof" => true,
+                    "signed" => "---"
+                ];
+                $admins[$member->memberID] = $tmp;
             }
             if(in_array($member->memberID, $checkersArr))
             {
-                $checkers[$member->memberID]["userName"] = $member->userName;
-                $checkers[$member->memberID]["name"] = $member->firstName . " " . $member->lastName;
+                $role = "";
+
+                if($withRoles)
+                {
+                    $church_role = (array)json_decode($member->church_role);
+
+                    if (in_array("Pastor", $church_role))
+                        $role = __('pastor');
+                    elseif (in_array("Seminary Professor", $church_role))
+                        $role = __('seminary_professor');
+                    elseif (in_array("Denominational Leader", $church_role))
+                        $role = __('denominational_leader');
+                    elseif (in_array("Bishop", $church_role))
+                        $role = __('bishop');
+                    elseif (in_array("Elder", $church_role))
+                        $role = __('elder');
+                    elseif (in_array("Teacher", $church_role))
+                        $role = __('teacher');
+                }
+
+                $tmp = [
+                    "fname" => trim(mb_convert_case ($member->firstName, MB_CASE_TITLE, 'UTF-8')),
+                    "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
+                    "uname" => trim($member->userName),
+                    "role" => $role != "" ? $role : "",
+                    "signup" => "---",
+                    "email" => $member->email,
+                    "tou" => true,
+                    "sof" => true,
+                    "signed" => "---"
+                ];
+                $checkers[$member->memberID] = $tmp;
             }
             if(in_array($member->memberID, $translatorsArr))
             {
-                $translators[$member->memberID]["userName"] = $member->userName;
-                $translators[$member->memberID]["name"] = $member->firstName . " " . $member->lastName;
+                $tmp = [
+                    "fname" => trim(mb_convert_case ($member->firstName, MB_CASE_TITLE, 'UTF-8')),
+                    "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
+                    "uname" => trim($member->userName),
+                    "role" => "",
+                    "signup" => "---",
+                    "email" => $member->email,
+                    "tou" => true,
+                    "sof" => true,
+                    "signed" => "---"
+                ];
+                $translators[$member->memberID] = $tmp;
             }
         }
 
@@ -1719,6 +1769,20 @@ class EventsModel extends Model
             $contributors = Arrays::append($contributors, array_filter($contributorsIDs, function($elm) {
                 return !is_numeric($elm);
             }));
+            $contributors = array_map(function($elm) {
+                $name = mb_split(" ", $elm);
+                return [
+                    "fname" => trim(mb_convert_case ($name[0], MB_CASE_TITLE, 'UTF-8')),
+                    "lname" => trim(mb_convert_case (isset($name[1]) ? $name[1] : "", MB_CASE_TITLE, 'UTF-8')),
+                    "uname" => "---",
+                    "role" => "",
+                    "signup" => "---",
+                    "email" => "---",
+                    "tou" => true,
+                    "sof" => true,
+                    "signed" => "---"
+                ];
+            }, $contributors);
 
             $membersArray = (array)$membersModel->getMembers($filteredNumeric, true, true);
 
@@ -1745,15 +1809,23 @@ class EventsModel extends Model
                             $role = __('teacher');
                     }
 
-                    $contributors[] = trim($member->firstName) . " " . trim($member->lastName) .
-                        ($role != "" ? " (".$role.")" : "");
+                    $tmp = [
+                        "fname" => trim(mb_convert_case ($member->firstName, MB_CASE_TITLE, 'UTF-8')),
+                        "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
+                        "uname" => trim($member->userName),
+                        "role" => $role != "" ? $role : "",
+                        "signup" => "---",
+                        "email" => $member->email,
+                        "tou" => true,
+                        "sof" => true,
+                        "signed" => "---"
+                    ];
+
+                    $contributors[] = $tmp;
                 }
             }
 
-            $contributors = array_map(function ($elm) {
-                return mb_convert_case ($elm, MB_CASE_TITLE, 'UTF-8');
-            }, $contributors);
-            $contributors = array_unique($contributors);
+            $contributors = array_unique($contributors, SORT_REGULAR);
             sort($contributors);
 
             return $contributors;

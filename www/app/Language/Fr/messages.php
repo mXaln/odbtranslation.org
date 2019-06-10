@@ -97,7 +97,6 @@ return array (
     "avatar" => "Choisir un avatar",
     "male" => "Hommes",
     "female" => "Femmes",
-    "save" => "Enregistrer",
     "delete" => "Supprimer",
     "weak" => "faible",
     "moderate" => "moyen",
@@ -491,7 +490,7 @@ return array (
     "faq_title" => "Questions fréquemment posées",
 
     // Steps
-    "pray" => "Préparation : Prière",
+    "pray" => "Préparation: Prière",
     "pray_desc" => "<li><b>BUT:</b> Inviter le saint Esprit à participer dans la procédure de la traduction.</li>
                     <li>Priez seul ou ensemble  en temps que groupe.</li>
                     <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour aller à la prochaine étape.</li>",

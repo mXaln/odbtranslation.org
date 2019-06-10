@@ -291,7 +291,7 @@ class TranslationsController extends Controller
                         // Set contributor list from book contributors
                         if($bookCode != null)
                         {
-                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject);
+                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
                             foreach ($contributors as $cat => $list)
                             {
                                 if($cat == "admins") continue;
@@ -489,7 +489,7 @@ class TranslationsController extends Controller
                         // Set contributor list from book contributors
                         if($bookCode != null)
                         {
-                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject);
+                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
                             foreach ($contributors as $cat => $list)
                             {
                                 if($cat == "admins") continue;

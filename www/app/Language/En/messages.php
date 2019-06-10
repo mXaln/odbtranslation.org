@@ -97,7 +97,6 @@ return array (
     "avatar" => "Choose avatar",
     "male" => "Men",
     "female" => "Women",
-    "save" => "Save",
     "delete" => "Delete",
     "weak" => "weak",
     "moderate" => "moderate",
