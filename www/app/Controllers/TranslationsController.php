@@ -110,11 +110,11 @@ class TranslationsController extends Controller
 
                         if(in_array($chunk->bookProject, ["tn","tq","tw"]))
                         {
-                            $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"))."]";
+                            $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"));
                         }
                         else
                         {
-                            $level = " [".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"))."]";
+                            $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"));
                         }
 
                         $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
