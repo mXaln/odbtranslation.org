@@ -657,7 +657,7 @@ if(isset($data["error"])) return;
                 <div class="event_info is_checker_page_help isPeer">
                     <div class="participant_info">
                         <div class="participant_name">
-                            <span><?php echo __("your_translator") ?>:</span>
+                            <span><?php echo __("your_partner") ?>:</span>
                             <span class="checker_name_span">Антон Ш.</span>
                         </div>
                         <div class="additional_info">

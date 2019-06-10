@@ -858,16 +858,20 @@ $(function () {
                         "</tr>";
 
                     $.each(data.admins, function (i,v) {
+                        var ts = Date.parse(v.signup);
+                        var date = new Date(ts);
+                        var formated = date.toLocaleDateString();
+
                         html += "<tr>" +
                             "<td>"+v.fname+"</td>"+
                             "<td>"+v.lname+"</td>"+
                             "<td><a href='/members/profile/"+i+"'>"+v.uname+"</a></td>"+
                             "<td>"+v.role+"</td>"+
                             "<td>"+v.email+"</td>"+
-                            "<td>"+v.signup+"</td>"+
+                            "<td>"+formated+"</td>"+
                             "<td>"+v.tou+"</td>"+
                             "<td>"+v.sof+"</td>"+
-                            "<td>"+v.signed+"</td>"+
+                            "<td>"+formated+"</td>"+
                         "</tr>";
                     });
                     html += "</table>";
@@ -890,16 +894,20 @@ $(function () {
                                 "<th>Date Signed</th>"+
                             "</tr>";
                         $.each(data.translators, function (i,v) {
+                            var ts = Date.parse(v.signup);
+                            var date = new Date(ts);
+                            var formated = date.toLocaleDateString();
+
                             html += "<tr>" +
                                 "<td>"+v.fname+"</td>"+
                                 "<td>"+v.lname+"</td>"+
                                 "<td><a href='/members/profile/"+i+"'>"+v.uname+"</a></td>"+
                                 "<td>"+v.role+"</td>"+
                                 "<td>"+v.email+"</td>"+
-                                "<td>"+v.signup+"</td>"+
+                                "<td>"+formated+"</td>"+
                                 "<td>"+v.tou+"</td>"+
                                 "<td>"+v.sof+"</td>"+
-                                "<td>"+v.signed+"</td>"+
+                                "<td>"+formated+"</td>"+
                             "</tr>";
                         });
                         html += "</table>";
@@ -921,16 +929,20 @@ $(function () {
                             "<th>Date Signed</th>"+
                         "</tr>";
                     $.each(data.checkers, function (i,v) {
+                        var ts = Date.parse(v.signup);
+                        var date = new Date(ts);
+                        var formated = date.toLocaleDateString();
+
                         html += "<tr>" +
                             "<td>"+v.fname+"</td>"+
                             "<td>"+v.lname+"</td>"+
                             "<td><a href='/members/profile/"+i+"'>"+v.uname+"</a></td>"+
                             "<td>"+v.role+"</td>"+
                             "<td>"+v.email+"</td>"+
-                            "<td>"+v.signup+"</td>"+
+                            "<td>"+formated+"</td>"+
                             "<td>"+v.tou+"</td>"+
                             "<td>"+v.sof+"</td>"+
-                            "<td>"+v.signed+"</td>"+
+                            "<td>"+formated+"</td>"+
                         "</tr>";
                     });
                     html += "</table>";
@@ -991,16 +1003,20 @@ $(function () {
                         "</tr>";
 
                     $.each(data.contributors, function () {
+                        var ts = Date.parse(this.signup);
+                        var date = new Date(ts);
+                        var formated = date.toLocaleDateString();
+
                         html += "<tr>"+
                                     "<td>"+this.fname+"</td>"+
                                     "<td>"+this.lname+"</td>"+
                                     "<td>"+this.uname+"</td>"+
                                     "<td>"+this.role+"</td>"+
                                     "<td>"+this.email+"</td>"+
-                                    "<td>"+this.signup+"</td>"+
+                                    "<td>"+formated+"</td>"+
                                     "<td>"+this.tou+"</td>"+
                                     "<td>"+this.sof+"</td>"+
-                                    "<td>"+this.signed+"</td>"+
+                                    "<td>"+formated+"</td>"+
                                 "</tr>";
                     });
 

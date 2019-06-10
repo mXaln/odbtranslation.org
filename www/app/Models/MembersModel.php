@@ -68,7 +68,7 @@ class MembersModel extends Model {
             $select = ["members.memberID", "members.userName", "members.firstName", "members.lastName", "profile.avatar"];
 
             if($more)
-                $select = array_merge($select, ["members.email"]);
+                $select = array_merge($select, ["members.email", "members.created"]);
 
             if($profile)
                 $select = array_merge($select, ["profile.*"]);
