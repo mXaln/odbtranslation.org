@@ -1586,11 +1586,10 @@ class EventsModel extends Model
                     "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
                     "uname" => trim($member->userName),
                     "role" => "",
-                    "signup" => "---",
+                    "signup" => $member->created,
                     "email" => $member->email,
                     "tou" => true,
-                    "sof" => true,
-                    "signed" => "---"
+                    "sof" => true
                 ];
                 $admins[$member->memberID] = $tmp;
             }
@@ -1621,11 +1620,10 @@ class EventsModel extends Model
                     "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
                     "uname" => trim($member->userName),
                     "role" => $role != "" ? $role : "",
-                    "signup" => "---",
+                    "signup" => $member->created,
                     "email" => $member->email,
                     "tou" => true,
-                    "sof" => true,
-                    "signed" => "---"
+                    "sof" => true
                 ];
                 $checkers[$member->memberID] = $tmp;
             }
@@ -1636,11 +1634,10 @@ class EventsModel extends Model
                     "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
                     "uname" => trim($member->userName),
                     "role" => "",
-                    "signup" => "---",
+                    "signup" => $member->created,
                     "email" => $member->email,
                     "tou" => true,
-                    "sof" => true,
-                    "signed" => "---"
+                    "sof" => true
                 ];
                 $translators[$member->memberID] = $tmp;
             }
@@ -1779,8 +1776,7 @@ class EventsModel extends Model
                     "signup" => "---",
                     "email" => "---",
                     "tou" => true,
-                    "sof" => true,
-                    "signed" => "---"
+                    "sof" => true
                 ];
             }, $contributors);
 
@@ -1814,11 +1810,10 @@ class EventsModel extends Model
                         "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
                         "uname" => trim($member->userName),
                         "role" => $role != "" ? $role : "",
-                        "signup" => "---",
+                        "signup" => $member->created,
                         "email" => $member->email,
                         "tou" => true,
-                        "sof" => true,
-                        "signed" => "---"
+                        "sof" => true
                     ];
 
                     $contributors[] = $tmp;

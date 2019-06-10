@@ -136,7 +136,7 @@ if(empty($error) && empty($data["success"])):
                     (isset($data["isPeerPage"]) ? " isPeer" : "") : "" ?>">
                     <div class="participant_info">
                         <div class="participant_name">
-                            <span><?php echo __("your_translator") ?>:</span>
+                            <span><?php echo __("your_partner") ?>:</span>
                             <span><?php echo $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." ?></span>
                         </div>
                         <div class="additional_info">
