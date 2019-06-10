@@ -106,7 +106,7 @@ var Language = {
     "resource_not_found"        : "The resource is not found.",
     "vmast"                     : "8 Steps VMAST",
     "l2"                        : "Level 2 Check",
-    "l3"                        : "Level 2 Check",
+    "l3"                        : "Level 3 Check",
     "tn"                        : "Translation Notes",
     "tq"                        : "Translation Questions",
     "tw"                        : "Translation Words",

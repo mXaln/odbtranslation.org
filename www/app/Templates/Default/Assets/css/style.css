@@ -4162,11 +4162,11 @@ button.startEvnt, button.editEvnt {
 .contributors_block {
     position: absolute;
     top: calc(50% - 300px);
-    left: calc(50% - 250px);
+    left: calc(50% - 600px);
     background-color: #ffffff;
     z-index: 99;
     cursor: auto;
-    width: 500px;
+    width: 1200px;
     padding: 20px;
     border-radius: 5px;
 }
@@ -4200,6 +4200,18 @@ button.startEvnt, button.editEvnt {
 
 .contributors_title.proj {
     display: none;
+}
+
+.all_contributors {
+    width: 100%;
+}
+
+.all_contributors, .all_contributors th, .all_contributors td {
+    border: 1px solid black;
+}
+
+.all_contributors td, .all_contributors th {
+    padding-left: 5px;
 }
 
 .events_separator {

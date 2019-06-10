@@ -844,35 +844,96 @@ $(function () {
                     // Render facilitators
                     html += "<div class='admins_list'>" +
                         "<div class='contrib_title'>"+Language.facilitators+":</div>";
+                    html += "<table class='all_contributors'>" +
+                        "<tr>"+
+                            "<th>Last Name</th>"+
+                            "<th>First Name</th>"+
+                            "<th>UserName</th>"+
+                            "<th>Role</th>"+
+                            "<th>Email</th>"+
+                            "<th>Sign Up Date</th>"+
+                            "<th>CC by SA</th>"+
+                            "<th>SoF</th>"+
+                            "<th>Date Signed</th>"+
+                        "</tr>";
+
                     $.each(data.admins, function (i,v) {
-                        html += "<div>" +
-                            "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
-                            "</div>";
+                        html += "<tr>" +
+                            "<td>"+v.fname+"</td>"+
+                            "<td>"+v.lname+"</td>"+
+                            "<td><a href='/members/profile/"+i+"'>"+v.uname+"</a></td>"+
+                            "<td>"+v.role+"</td>"+
+                            "<td>"+v.email+"</td>"+
+                            "<td>"+v.signup+"</td>"+
+                            "<td>"+v.tou+"</td>"+
+                            "<td>"+v.sof+"</td>"+
+                            "<td>"+v.signed+"</td>"+
+                        "</tr>";
                     });
-                    html += "</div>";
+                    html += "</table>";
 
                     // Render translators
                     if(Object.keys(data.translators).length > 0)
                     {
                         html += "<div class='translators_list'>" +
                             "<div class='contrib_title'>"+Language.translators+":</div>";
+                        html += "<table class='all_contributors'>" +
+                            "<tr>"+
+                                "<th>Last Name</th>"+
+                                "<th>First Name</th>"+
+                                "<th>UserName</th>"+
+                                "<th>Role</th>"+
+                                "<th>Email</th>"+
+                                "<th>Sign Up Date</th>"+
+                                "<th>CC by SA</th>"+
+                                "<th>SoF</th>"+
+                                "<th>Date Signed</th>"+
+                            "</tr>";
                         $.each(data.translators, function (i,v) {
-                            html += "<div>" +
-                                "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
-                                "</div>";
+                            html += "<tr>" +
+                                "<td>"+v.fname+"</td>"+
+                                "<td>"+v.lname+"</td>"+
+                                "<td><a href='/members/profile/"+i+"'>"+v.uname+"</a></td>"+
+                                "<td>"+v.role+"</td>"+
+                                "<td>"+v.email+"</td>"+
+                                "<td>"+v.signup+"</td>"+
+                                "<td>"+v.tou+"</td>"+
+                                "<td>"+v.sof+"</td>"+
+                                "<td>"+v.signed+"</td>"+
+                            "</tr>";
                         });
-                        html += "</div>";
+                        html += "</table>";
                     }
 
                     // Render checkers
                     html += "<div class='checkers_list'>" +
                         "<div class='contrib_title'>"+Language.checkers+":</div>";
+                    html += "<table class='all_contributors'>" +
+                        "<tr>"+
+                            "<th>Last Name</th>"+
+                            "<th>First Name</th>"+
+                            "<th>UserName</th>"+
+                            "<th>Role</th>"+
+                            "<th>Email</th>"+
+                            "<th>Sign Up Date</th>"+
+                            "<th>CC by SA</th>"+
+                            "<th>SoF</th>"+
+                            "<th>Date Signed</th>"+
+                        "</tr>";
                     $.each(data.checkers, function (i,v) {
-                        html += "<div>" +
-                            "<a href='/members/profile/"+i+"'>"+v.userName+" ("+v.name+")</a>" +
-                            "</div>";
+                        html += "<tr>" +
+                            "<td>"+v.fname+"</td>"+
+                            "<td>"+v.lname+"</td>"+
+                            "<td><a href='/members/profile/"+i+"'>"+v.uname+"</a></td>"+
+                            "<td>"+v.role+"</td>"+
+                            "<td>"+v.email+"</td>"+
+                            "<td>"+v.signup+"</td>"+
+                            "<td>"+v.tou+"</td>"+
+                            "<td>"+v.sof+"</td>"+
+                            "<td>"+v.signed+"</td>"+
+                        "</tr>";
                     });
-                    html += "</div>";
+                    html += "</table>";
 
                     $(".contributors_content").html(html);
                     $(".contributors_container").css("left", 0);
@@ -900,7 +961,7 @@ $(function () {
     });
 
 
-    // Show event contributors
+    // Show project contributors
     $(".showAllContibutors").click(function () {
         var projectID = $(this).data("projectid");
 
@@ -916,13 +977,34 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    var html = "<ul>";
+                    var html = "<table class='all_contributors'>"+
+                        "<tr>"+
+                            "<th>Last Name</th>"+
+                            "<th>First Name</th>"+
+                            "<th>UserName</th>"+
+                            "<th>Role</th>"+
+                            "<th>Email</th>"+
+                            "<th>Sign Up Date</th>"+
+                            "<th>CC by SA</th>"+
+                            "<th>SoF</th>"+
+                            "<th>Date Signed</th>"+
+                        "</tr>";
 
                     $.each(data.contributors, function () {
-                        html += "<li>"+this+"</li>";
+                        html += "<tr>"+
+                                    "<td>"+this.fname+"</td>"+
+                                    "<td>"+this.lname+"</td>"+
+                                    "<td>"+this.uname+"</td>"+
+                                    "<td>"+this.role+"</td>"+
+                                    "<td>"+this.email+"</td>"+
+                                    "<td>"+this.signup+"</td>"+
+                                    "<td>"+this.tou+"</td>"+
+                                    "<td>"+this.sof+"</td>"+
+                                    "<td>"+this.signed+"</td>"+
+                                "</tr>";
                     });
 
-                    html += "</ul>";
+                    html += "</table>";
 
                     $(".contributors_title").hide();
                     $(".contributors_title.proj").show();
