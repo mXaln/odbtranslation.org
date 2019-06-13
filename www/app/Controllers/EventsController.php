@@ -4939,7 +4939,7 @@ class EventsController extends Controller
     }
 
     /**
-     * View for Keyword-Check and Peer-Review in Questions event
+     * View for Keyword-Check and Peer-Review in Words event
      * @param $eventID
      * @param $memberID
      * @param $chapter
@@ -4957,6 +4957,7 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
         $data["event"] = $this->_model->getCheckerEventsForQuestionsWords(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -4998,7 +4999,6 @@ class EventsController extends Controller
                 {
                     $data["event"][0]->chunks = $chapters[0]["chunks"];
                 }
-                $data["isCheckerPage"] = true;
                 $otherCheck = (array)json_decode($data["event"][0]->otherCheck, true);
 
                 switch ($data["event"][0]->step) {
