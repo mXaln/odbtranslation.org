@@ -1367,6 +1367,34 @@ $(function () {
             });
     });
 
+    // Clear all cache
+    $(".clear_cache button").click(function () {
+        $.ajax({
+            url: "/admin/rpc/clear_all_cache",
+            method: "post",
+            dataType: "json",
+            beforeSend: function() {
+                $(".clear_cache img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup("Entire cache has been cleared!");
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".clear_cache img").hide();
+            });
+    });
+
     // Create multiple users
     $(".create_users button").click(function () {
         var amount = $(".create_users #amount").val();

@@ -1240,4 +1240,8 @@ class ApiModel extends Model
         }
         return $ranges;
     }
+
+    public function clearAllCache() {
+        Cache::flush();
+    }
 }

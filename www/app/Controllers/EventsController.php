@@ -12570,7 +12570,7 @@ class EventsController extends Controller
             {
                 $admins = (array) json_decode($event[0]->admins, true);
 
-                if(in_array(Session::get("memberID"), $admins))
+                if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $groups = $this->_model->getTwGroups(["eventID" => $eventID]);
 

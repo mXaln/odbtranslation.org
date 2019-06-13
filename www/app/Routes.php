@@ -13,6 +13,7 @@ Router::get("contact", "App\Controllers\MainController@contactUs");
 Router::get("maintenance", "App\Controllers\MainController@maintenance");
 
 
+
 // TRANSLATIONS
 Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], function() {
     Router::any("{lang}/{bookProject}/{bookCode}/usfm", "TranslationsController@getUsfm")
@@ -276,6 +277,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/clear_cache", "AdminController@clearCache");
     Router::any("rpc/update_all_cache", "AdminController@updateAllBooksCache");
     Router::any("rpc/update_languages", "AdminController@updateLanguages");
+    Router::any("rpc/clear_all_cache", "AdminController@clearAllCache");
     Router::any("rpc/create_multiple_users", "AdminController@createMultipleUsers");
     Router::any("rpc/delete_sail_word", "AdminController@deleteSailWord");
     Router::any("rpc/create_sail_word", "AdminController@createSailWord");
