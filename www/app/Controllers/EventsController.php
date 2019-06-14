@@ -1344,6 +1344,7 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -1891,6 +1892,7 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -2285,6 +2287,7 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -3511,6 +3514,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
+        $data["isPeerPage"] = false;
         $data["event"] = $this->_model->getMemberEventsForNotes(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -3556,7 +3561,6 @@ class EventsController extends Controller
                 {
                     $data["event"][0]->chunks = $chapters[0]["chunks"];
                 }
-                $data["isCheckerPage"] = true;
                 $otherCheck = (array)json_decode($data["event"][0]->otherCheck, true);
 
                 switch ($data["event"][0]->step) {
@@ -4613,6 +4617,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
+        $data["isPeerPage"] = false;
         $data["event"] = $this->_model->getCheckerEventsForQuestionsWords(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -5000,6 +5006,7 @@ class EventsController extends Controller
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["isCheckerPage"] = true;
+        $data["isPeerPage"] = false;
         $data["event"] = $this->_model->getCheckerEventsForQuestionsWords(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
