@@ -114,7 +114,7 @@ if(empty($error) && empty($data["success"])):
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps is_checker_page_help">
+                <div class="help_info_steps is_checker_page_help isPeer">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
@@ -130,7 +130,7 @@ if(empty($error) && empty($data["success"])):
                     </div>
                 </div>
 
-                <div class="event_info is_checker_page_help">
+                <div class="event_info is_checker_page_help isPeer">
                     <div class="participant_info">
                         <div class="participant_name">
                             <span><?php echo __("your_partner") ?>:</span>

@@ -22,11 +22,11 @@ $chk = isset($data["event"][0]->isCheckerPage) && $data["event"][0]->isCheckerPa
 <div id="translator_steps"
          class="open <?php echo $data["event"][0]->step .
              ($data["isCheckerPage"] ? " is_checker_page".
-                 (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>">
+                 ($data["isPeerPage"] ? " isPeer" : "") : "") ?>">
         <div id="tr_steps_hide"
              class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step .
                  ($data["isCheckerPage"] ? " is_checker_page".
-                     (isset($data["isPeerPage"]) ? " isPeer" : "") : "") ?>"></div>
+                     ($data["isPeerPage"] ? " isPeer" : "") : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">

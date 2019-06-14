@@ -2624,6 +2624,30 @@ class AdminController extends Controller {
         echo json_encode($result);
     }
 
+    public function clearAllCache()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $this->_apiModel->clearAllCache();
+        $result["success"] = true;
+
+        echo json_encode($result);
+    }
+
     public function createMultipleUsers()
     {
         $result = ["success" => false];

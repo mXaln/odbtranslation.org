@@ -20,7 +20,6 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <?php echo __("step_num", ["step_number" => 1]) . ": " . __("keyword-check")?>
-            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
 
@@ -123,7 +122,7 @@ if(isset($data["error"])) return;
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps">
+                <div class="help_info_steps is_checker_page_help">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
@@ -139,7 +138,7 @@ if(isset($data["error"])) return;
                     </div>
                 </div>
 
-                <div class="event_info">
+                <div class="event_info is_checker_page_help">
                     <div class="participant_name">
                         <span><?php echo __("your_checker") ?>:</span>
                         <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>

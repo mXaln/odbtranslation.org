@@ -846,8 +846,8 @@ $(function () {
                         "<div class='contrib_title'>"+Language.facilitators+":</div>";
                     html += "<table class='all_contributors'>" +
                         "<tr>"+
-                            "<th>Last Name</th>"+
                             "<th>First Name</th>"+
+                            "<th>Last Name</th>"+
                             "<th>UserName</th>"+
                             "<th>Role</th>"+
                             "<th>Email</th>"+
@@ -886,8 +886,8 @@ $(function () {
                             "<div class='contrib_title'>"+Language.translators+":</div>";
                         html += "<table class='all_contributors'>" +
                             "<tr>"+
-                                "<th>Last Name</th>"+
                                 "<th>First Name</th>"+
+                                "<th>Last Name</th>"+
                                 "<th>UserName</th>"+
                                 "<th>Role</th>"+
                                 "<th>Email</th>"+
@@ -924,8 +924,8 @@ $(function () {
                         "<div class='contrib_title'>"+Language.checkers+":</div>";
                     html += "<table class='all_contributors'>" +
                         "<tr>"+
-                            "<th>Last Name</th>"+
                             "<th>First Name</th>"+
+                            "<th>Last Name</th>"+
                             "<th>UserName</th>"+
                             "<th>Role</th>"+
                             "<th>Email</th>"+
@@ -1000,8 +1000,8 @@ $(function () {
                 {
                     var html = "<table class='all_contributors'>"+
                         "<tr>"+
-                            "<th>Last Name</th>"+
                             "<th>First Name</th>"+
+                            "<th>Last Name</th>"+
                             "<th>UserName</th>"+
                             "<th>Role</th>"+
                             "<th>Email</th>"+
@@ -1364,6 +1364,34 @@ $(function () {
             })
             .always(function() {
                 $(".update_langs img").hide();
+            });
+    });
+
+    // Clear all cache
+    $(".clear_cache button").click(function () {
+        $.ajax({
+            url: "/admin/rpc/clear_all_cache",
+            method: "post",
+            dataType: "json",
+            beforeSend: function() {
+                $(".clear_cache img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup("Entire cache has been cleared!");
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".clear_cache img").hide();
             });
     });
 

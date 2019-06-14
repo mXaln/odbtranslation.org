@@ -1344,6 +1344,7 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -1891,6 +1892,7 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -2285,6 +2287,7 @@ class EventsController extends Controller
     {
         $data["menu"] = 1;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::TRANSLATOR, $eventID);
@@ -3511,6 +3514,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
+        $data["isPeerPage"] = false;
         $data["event"] = $this->_model->getMemberEventsForNotes(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -3556,7 +3561,6 @@ class EventsController extends Controller
                 {
                     $data["event"][0]->chunks = $chapters[0]["chunks"];
                 }
-                $data["isCheckerPage"] = true;
                 $otherCheck = (array)json_decode($data["event"][0]->otherCheck, true);
 
                 switch ($data["event"][0]->step) {
@@ -4613,6 +4617,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
+        $data["isPeerPage"] = false;
         $data["event"] = $this->_model->getCheckerEventsForQuestionsWords(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -4759,6 +4765,48 @@ class EventsController extends Controller
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : false;
                             if ($confirm_step)
                             {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                                $chunks = $this->_apiModel->testChunkQuestions($chunks, $data["questions"]);
+
+                                if(!$chunks === false)
+                                {
+                                    foreach ($chunks as $key => $chunk)
+                                    {
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+
+                                        $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
+
+                                        $encoded = json_encode($translation[$key]);
+                                        $json_error = json_last_error();
+
+                                        if($json_error == JSON_ERROR_NONE)
+                                        {
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded
+                                            );
+                                            $this->_translationModel->updateTranslation(
+                                                $trData,
+                                                array(
+                                                    "tID" => $tID)
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $tID = "Json error: " . $json_error;
+                                        }
+
+                                        if(!is_numeric($tID))
+                                        {
+                                            $error[] = __("error_ocured", array($tID));
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("wrong_chunks_error");
+                                }
+
                                 if(!isset($error))
                                 {
                                     // 2 for PEER_REVIEW step
@@ -4939,7 +4987,7 @@ class EventsController extends Controller
     }
 
     /**
-     * View for Keyword-Check and Peer-Review in Questions event
+     * View for Keyword-Check and Peer-Review in Words event
      * @param $eventID
      * @param $memberID
      * @param $chapter
@@ -4957,6 +5005,8 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
+        $data["isPeerPage"] = false;
         $data["event"] = $this->_model->getCheckerEventsForQuestionsWords(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -4998,7 +5048,6 @@ class EventsController extends Controller
                 {
                     $data["event"][0]->chunks = $chapters[0]["chunks"];
                 }
-                $data["isCheckerPage"] = true;
                 $otherCheck = (array)json_decode($data["event"][0]->otherCheck, true);
 
                 switch ($data["event"][0]->step) {
@@ -5107,6 +5156,48 @@ class EventsController extends Controller
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : false;
                             if ($confirm_step)
                             {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                                $chunks = $this->_apiModel->testChunkWords($chunks, $data["words"]);
+
+                                if(!$chunks === false)
+                                {
+                                    foreach ($chunks as $key => $chunk)
+                                    {
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+
+                                        $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
+
+                                        $encoded = json_encode($translation[$key]);
+                                        $json_error = json_last_error();
+
+                                        if($json_error == JSON_ERROR_NONE)
+                                        {
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded
+                                            );
+                                            $this->_translationModel->updateTranslation(
+                                                $trData,
+                                                array(
+                                                    "tID" => $tID)
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $tID = "Json error: " . $json_error;
+                                        }
+
+                                        if(!is_numeric($tID))
+                                        {
+                                            $error[] = __("error_ocured", array($tID));
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("wrong_chunks_error");
+                                }
+
                                 if(!isset($error))
                                 {
                                     // 2 for PEER_REVIEW step
@@ -12570,7 +12661,7 @@ class EventsController extends Controller
             {
                 $admins = (array) json_decode($event[0]->admins, true);
 
-                if(in_array(Session::get("memberID"), $admins))
+                if(in_array(Session::get("memberID"), $admins) || Session::get('isSuperAdmin'))
                 {
                     $groups = $this->_model->getTwGroups(["eventID" => $eventID]);
 

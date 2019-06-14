@@ -21,6 +21,14 @@
 
             <hr>
 
+            <div class="clear_cache">
+                <div class="tools_title"><?php echo __("clear_cache"); ?></div>
+                <button class="btn btn-warning"><?php echo __("go"); ?></button>
+                <img src="<?php echo template_url("img/loader.gif") ?>">
+            </div>
+
+            <hr>
+
             <div class="create_users">
                 <div class="tools_title"><?php echo __("create_multiple_users"); ?></div>
 
