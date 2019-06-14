@@ -4759,6 +4759,48 @@ class EventsController extends Controller
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : false;
                             if ($confirm_step)
                             {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                                $chunks = $this->_apiModel->testChunkQuestions($chunks, $data["questions"]);
+
+                                if(!$chunks === false)
+                                {
+                                    foreach ($chunks as $key => $chunk)
+                                    {
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+
+                                        $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
+
+                                        $encoded = json_encode($translation[$key]);
+                                        $json_error = json_last_error();
+
+                                        if($json_error == JSON_ERROR_NONE)
+                                        {
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded
+                                            );
+                                            $this->_translationModel->updateTranslation(
+                                                $trData,
+                                                array(
+                                                    "tID" => $tID)
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $tID = "Json error: " . $json_error;
+                                        }
+
+                                        if(!is_numeric($tID))
+                                        {
+                                            $error[] = __("error_ocured", array($tID));
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("wrong_chunks_error");
+                                }
+
                                 if(!isset($error))
                                 {
                                     // 2 for PEER_REVIEW step
@@ -5107,6 +5149,48 @@ class EventsController extends Controller
                             $confirm_step = isset($_POST["confirm_step"]) ? $_POST["confirm_step"] : false;
                             if ($confirm_step)
                             {
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
+                                $chunks = $this->_apiModel->testChunkWords($chunks, $data["words"]);
+
+                                if(!$chunks === false)
+                                {
+                                    foreach ($chunks as $key => $chunk)
+                                    {
+                                        $tID = $translation[$key]["tID"];
+                                        unset($translation[$key]["tID"]);
+
+                                        $translation[$key][EventMembers::CHECKER]["verses"] = $chunk;
+
+                                        $encoded = json_encode($translation[$key]);
+                                        $json_error = json_last_error();
+
+                                        if($json_error == JSON_ERROR_NONE)
+                                        {
+                                            $trData = array(
+                                                "translatedVerses"  => $encoded
+                                            );
+                                            $this->_translationModel->updateTranslation(
+                                                $trData,
+                                                array(
+                                                    "tID" => $tID)
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $tID = "Json error: " . $json_error;
+                                        }
+
+                                        if(!is_numeric($tID))
+                                        {
+                                            $error[] = __("error_ocured", array($tID));
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    $error[] = __("wrong_chunks_error");
+                                }
+
                                 if(!isset($error))
                                 {
                                     // 2 for PEER_REVIEW step
