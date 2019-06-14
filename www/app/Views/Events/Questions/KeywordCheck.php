@@ -20,7 +20,6 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <?php echo __("step_num", ["step_number" => 1]) . ": " . __("keyword-check")?>
-            <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
     </div>
 
