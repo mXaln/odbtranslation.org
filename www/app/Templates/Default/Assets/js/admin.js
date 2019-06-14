@@ -846,8 +846,8 @@ $(function () {
                         "<div class='contrib_title'>"+Language.facilitators+":</div>";
                     html += "<table class='all_contributors'>" +
                         "<tr>"+
-                            "<th>Last Name</th>"+
                             "<th>First Name</th>"+
+                            "<th>Last Name</th>"+
                             "<th>UserName</th>"+
                             "<th>Role</th>"+
                             "<th>Email</th>"+
@@ -886,8 +886,8 @@ $(function () {
                             "<div class='contrib_title'>"+Language.translators+":</div>";
                         html += "<table class='all_contributors'>" +
                             "<tr>"+
-                                "<th>Last Name</th>"+
                                 "<th>First Name</th>"+
+                                "<th>Last Name</th>"+
                                 "<th>UserName</th>"+
                                 "<th>Role</th>"+
                                 "<th>Email</th>"+
@@ -924,8 +924,8 @@ $(function () {
                         "<div class='contrib_title'>"+Language.checkers+":</div>";
                     html += "<table class='all_contributors'>" +
                         "<tr>"+
-                            "<th>Last Name</th>"+
                             "<th>First Name</th>"+
+                            "<th>Last Name</th>"+
                             "<th>UserName</th>"+
                             "<th>Role</th>"+
                             "<th>Email</th>"+
@@ -1000,8 +1000,8 @@ $(function () {
                 {
                     var html = "<table class='all_contributors'>"+
                         "<tr>"+
-                            "<th>Last Name</th>"+
                             "<th>First Name</th>"+
+                            "<th>Last Name</th>"+
                             "<th>UserName</th>"+
                             "<th>Role</th>"+
                             "<th>Email</th>"+

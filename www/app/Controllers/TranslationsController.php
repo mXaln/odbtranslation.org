@@ -261,7 +261,9 @@ class TranslationsController extends Controller
                 // Set contrubutor list from entire project contributors
                 if($bookCode == null)
                 {
-                    $manifest->setContributor($this->_eventModel->getProjectContributors($books[0]->projectID, false, false));
+                    $manifest->setContributor(array_map(function($contributor) {
+                        return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+                    }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
                 }
 
                 $usfm_books = [];
@@ -297,7 +299,7 @@ class TranslationsController extends Controller
                                 if($cat == "admins") continue;
                                 foreach ($list as $contributor)
                                 {
-                                    $manifest->addContributor($contributor["name"]);
+                                    $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
                                 }
                             }
                         }
@@ -440,7 +442,9 @@ class TranslationsController extends Controller
                 // Set contributor list from entire project contributors
                 if($bookCode == null)
                 {
-                    $manifest->setContributor($this->_eventModel->getProjectContributors($books[0]->projectID, false, false));
+                    $manifest->setContributor(array_map(function($contributor) {
+                        return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+                    }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
                 }
 
                 $zip = new ZipStream($books[0]->targetLang."_" . $bookProject . ($bookCode != null ? "_".$books[0]->bookCode : "") . ".zip");
@@ -495,7 +499,7 @@ class TranslationsController extends Controller
                                 if($cat == "admins") continue;
                                 foreach ($list as $contributor)
                                 {
-                                    $manifest->addContributor($contributor["name"]);
+                                    $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
                                 }
                             }
                         }
@@ -583,7 +587,9 @@ class TranslationsController extends Controller
                 $manifest->setCheckingLevel($chk_lvl);
 
                 // Set contributor list from entire project contributors
-                $manifest->setContributor($this->_eventModel->getProjectContributors($books[0]->projectID, false, false));
+                $manifest->setContributor(array_map(function($contributor) {
+                    return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+                }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
                 $manifest->addProject(new Manifest\Project(
                     __($books[0]->bookProject),
                     "",
