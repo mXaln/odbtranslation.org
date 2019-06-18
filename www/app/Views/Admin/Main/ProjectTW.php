@@ -200,9 +200,18 @@ if(!empty($data["project"])):
                         </div>
 
                         <div class="event_imports">
-                            <div class="import tw_import">
+                            <div class="import tw_l1_import">
+                                <div class="import_title"><?php echo __("tw") ?> L1</div>
+                                <div class="import_link" data-source="tw_l1" title="<?php echo __("import_translation_tip") ?>">
+                                    Import
+                                </div>
+                                <div class="import_done glyphicon glyphicon-ok"></div>
+                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
+                            </div>
+
+                            <div class="import tw_l2_import">
                                 <div class="import_title"><?php echo __("tw") ?> L2</div>
-                                <div class="import_link" data-source="tw" title="<?php echo __("import_translation_tip") ?>">
+                                <div class="import_link" data-source="tw_l2" title="<?php echo __("import_translation_tip") ?>">
                                     Import
                                 </div>
                                 <div class="import_done glyphicon glyphicon-ok"></div>
@@ -238,6 +247,7 @@ if(!empty($data["project"])):
                         <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
                         <input type="hidden" name="targetLangID" id="targetLangID" value="<?php echo $data["project"][0]->targetLang?>" />
                         <input type="hidden" name="initialLevel" id="initialLevel" value="1" />
+                        <input type="hidden" name="importLevel" id="importLevel" value="1" />
                         <input type="hidden" name="importProject" id="importProject" value="<?php echo $data["project"][0]->bookProject?>" />
 
                         <br>
