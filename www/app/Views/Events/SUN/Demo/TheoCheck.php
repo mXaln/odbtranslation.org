@@ -43,7 +43,7 @@
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments">
                                     <div class="other_comments">
-                                        <div><span>Anna S. (L1):</span> This is comment of a translator</div>
+                                        <div><span>Anna S. - L1:</span> This is comment of a translator</div>
                                     </div>
                                     <div class="my_comment">This is a comment of checker</div>
                                 </div>

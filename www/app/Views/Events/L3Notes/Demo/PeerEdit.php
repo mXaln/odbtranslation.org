@@ -50,7 +50,7 @@
                             <div class="comments_number tncomml3 hasComment"> 2 </div>
                             <img class="editComment tncomml3" data="16:0" width="16" src="<?php echo template_url("img/edit_done.png") ?>" title="<?php echo __("write_note_title", [""])?>">
                             <div class="comments">
-                                <div class="other_comments"> <span>James S. (L2):</span> A note from level 2 checker</div>
+                                <div class="other_comments"> <span>James S. - L2:</span> A note from level 2 checker</div>
                                 <div class="my_comment">A note from level 3 checker</div>
                             </div>
                             <div class="clear"></div>
@@ -192,7 +192,7 @@
 
                             <div class="comments_number tncomml3 "> </div>
                             <img class="editComment tncomml3" data="16:3" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
-                            <div class="comments"> </div>
+                            <div class="comments"class="comments"> </div>
                             <div class="clear"></div>
                         </div>
                     </div>

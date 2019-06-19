@@ -123,8 +123,8 @@
                             <div class="comments_number tncommpeer hasComment"> 2 </div>
                             <img class="editComment tncommpeer" data="1:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>" width="16">
                             <div class="comments">
-                                <div class="other_comments"> <span>Lili J. (L1):</span> This is a comment to the chunk made by translator </div>
-                                <div class="other_comments"> <span>Ketut S. (L1):</span> This is a comment to the chunk made by Notes checker </div>
+                                <div class="other_comments"> <span>Lili J. - L1:</span> This is a comment to the chunk made by translator </div>
+                                <div class="other_comments"> <span>Ketut S. - L1:</span> This is a comment to the chunk made by Notes checker </div>
                             </div>
                             <div class="clear"></div>
                         </div>

@@ -55,7 +55,7 @@ if(isset($data["error"])) return;
                                 <div class="comments">
                                     <div class="my_comment">This is the note of the checker...</div>
                                     <div class="other_comments">
-                                        <span>Антон Ш. (L1)</span> This is the note of the translator...
+                                        <span>Антон Ш. - L1</span> This is the note of the translator...
                                     </div>
                                 </div>
                                 <div class="clear"></div>

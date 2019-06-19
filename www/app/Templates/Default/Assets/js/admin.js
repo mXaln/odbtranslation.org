@@ -417,8 +417,7 @@ $(function () {
                     setStartEventButton(data.event);
 
                     // Set the status of ulb translation
-                    if(typeof data.ulb != "undefined")
-                        setImportLinksUlb(data.ulb.state, data.event.state);
+                    setImportLinksUlb(data);
 
                     $(".bookName").text(data.event.name);
                     $(".book_info_content").html(
@@ -631,7 +630,7 @@ $(function () {
             case "tw_l1":
             case "tw_l2":
                 $("li[data-type=usfm]").hide();
-                $("li[data-type=ts]").hide();
+                $("li[data-type=ts]").show();
                 $("li[data-type=zip]").show();
 
                 $("#importLevel").val(source.replace( /^\D+/g, ''));
@@ -1861,24 +1860,39 @@ function setImportLinks(project, importState)
     }
 }
 
-function setImportLinksUlb(ulbState, eventState) {
-    switch (EventStates.states[ulbState]) {
-        case EventStates.states.l2_recruit:
-        case EventStates.states.l2_check:
-            setImportLinks("l2", ImportStates.PROGRESS);
-            break;
-        case EventStates.states.l2_checked:
-            setImportLinks("l2", ImportStates.DONE);
-            break;
+function setImportLinksUlb(data) {
+    if(data.ulb != undefined)
+    {
+        switch (EventStates.states[data.ulb.state]) {
+            case EventStates.states.l2_recruit:
+            case EventStates.states.l2_check:
+                setImportLinks("l2", ImportStates.PROGRESS);
+                break;
+            case EventStates.states.l2_checked:
+                setImportLinks("l2", ImportStates.DONE);
+                break;
 
-        case EventStates.states.l3_recruit:
+            case EventStates.states.l3_recruit:
+            case EventStates.states.l3_check:
+                setImportLinks("l2", ImportStates.DONE);
+                setImportLinks("l3", ImportStates.PROGRESS);
+                break;
+            case EventStates.states.complete:
+                setImportLinks("l2", ImportStates.DONE);
+                setImportLinks("l3", ImportStates.DONE);
+                break;
+        }
+    }
+
+    switch (EventStates.states[data.event.state]) {
+        case EventStates.states.translated:
         case EventStates.states.l3_check:
-            setImportLinks("l2", ImportStates.DONE);
-            setImportLinks("l3", ImportStates.PROGRESS);
-            break;
-        case EventStates.states.complete:
-            setImportLinks("l2", ImportStates.DONE);
-            setImportLinks("l3", ImportStates.DONE);
+        case EventStates.states.l3_recruit:
+            if(["tn","tq","tw"].indexOf(data.event.bookProject) > -1)
+            {
+                $(".import.l2_import").show();
+                $(".import.l3_import").show();
+            }
             break;
     }
 }

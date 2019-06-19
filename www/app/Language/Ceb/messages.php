@@ -197,10 +197,10 @@ return array (
     // Success messages
     "update_profile_success" => "Ang impormasyon sa imong pagkatawo malamposong nadugangan",
     "pwresettoken_send_success" => "Nagpadala kami ug mensahe nga adunay pagtudlo unsaon pag-usab sa imong password, kung dili nimo kini makit-an, i-tsek ang spam/junk nga folder",
-    "password_reset_success" => "Malampuson ang pag-usab sa imong password. Mahimo naka nga mosulod (Log-in) gamit ang imong bag-o nga password <a href=\"{href}\">(Log-in) Pagsulod</a>",
-    "account_activated_success" => "Pwede na gamiton karon ang imong ‘account’, pwede ka na karon<a href=\"{href}\">Login</a>",
+    "password_reset_success" => "Malampuson ang pag-usab sa imong password. Mahimo naka nga mosulod (Log-in) gamit ang imong bag-o nga password",
+    "account_activated_success" => "Pwede na gamiton ang imong ‘account’, pwede ka na karon log in",
     "resend_activation_success_message" => "Ang mensahe nga adunay ‘activation code’ gipadala na sa imong email.",
-    "activation_link_message" => "Aron pwede na gamiton ang imong ‘account’ pindota kini nga link {link}",
+    "activation_link_message" => "<h3>Salamat sa pagparehistro!</h3>\n Aron mapalihok ang imong account palihug i-klik ang link {link}",
     "registration_success_message" => "Malampuson ang pagpalista! Palihog tan-awa ang imong email aron makumpleto ang pagpalista. Kung dili nimo kini makit-an, i-tsek ang spam/junk nga folder",
     "registration_local_success_message" => "Malampuson ang pagpalista! Please log in.",
     "font_uploaded" => "Font {0} has been successfully uploaded!",

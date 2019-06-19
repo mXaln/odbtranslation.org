@@ -89,7 +89,7 @@ if(empty($error) && empty($data["success"])):
                                                     <div class="other_comments">
                                                         <?php echo
                                                             "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                    (L".$comment->level."):</span> 
+                                                                    - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
                                                     </div>
                                                 <?php endif; ?>
@@ -145,7 +145,7 @@ if(empty($error) && empty($data["success"])):
                                                 <div class="other_comments">
                                                     <?php echo
                                                         "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                    (L".$comment->level."):</span> 
+                                                                    - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
                                                 </div>
                                             <?php endif; ?>

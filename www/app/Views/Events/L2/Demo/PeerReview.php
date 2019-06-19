@@ -113,8 +113,8 @@
                                     <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                     <div class="comments">
                                         <div class="other_comments">
-                                            <div><span>Anna S. (L1):</span> This is comment from Level 1 Event</div>
-                                            <div><span>Genry M. (L2):</span> This is comment of previous checker from Level 2 Event</div>
+                                            <div><span>Anna S. - L1:</span> This is comment from Level 1 Event</div>
+                                            <div><span>Genry M. - L2:</span> This is comment of previous checker from Level 2 Event</div>
                                         </div>
                                     </div>
                                     <div class="clear"></div>
@@ -140,8 +140,8 @@
                                     <div class="comments">
                                         <div class="my_comment">This is my comment as a Level 2 checker</div>
                                         <div class="other_comments">
-                                            <div><span>Genry M. (L2):</span> This is another comment of previous checker from Level 2 Event</div>
-                                            <div><span>Mark P. (L2):</span> This is another comment of previous checker from Level 2 Event</div>
+                                            <div><span>Genry M. - L2:</span> This is another comment of previous checker from Level 2 Event</div>
+                                            <div><span>Mark P. - L2:</span> This is another comment of previous checker from Level 2 Event</div>
                                         </div>
                                     </div>
                                     <div class="clear"></div>

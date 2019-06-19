@@ -253,14 +253,53 @@ class AdminController extends Controller {
                 case "ts":
                     if(File::extension($import["name"]) == "tstudio")
                     {
-                        if(!in_array($bookProject, ["tn","tq","tw"]))
+                        $path = $this->_apiModel->processZipFile($import);
+                        if(in_array($bookProject, ["ulb","udb"]))
                         {
-                            $path = $this->_apiModel->processZipFile($import);
                             $usfm = $this->_apiModel->compileUSFMProject($path);
 
                             if($usfm != null)
                             {
                                 $response = $this->importScriptureToEvent($usfm, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        elseif ($bookProject == "tn")
+                        {
+                            $tn = $this->_apiModel->getTranslationNotes($bookCode, null, false, $path);
+                            if(!empty($tn))
+                            {
+                                $response = $this->importResourceToEvent($tn, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        elseif ($bookProject == "tq")
+                        {
+                            $tq = $this->_apiModel->getTranslationQuestions($bookCode, null, false, $path);
+                            if(!empty($tq))
+                            {
+                                $response = $this->importResourceToEvent($tq, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        elseif ($bookProject == "tw")
+                        {
+                            $cat = $bookCode == "wkt" ? "kt" : ($bookCode == "wns" ? "names" : "other");
+                            $tw = $this->_apiModel->getTranslationWordsByCategory($cat, null, false, false, $path);
+                            $tw = array_chunk($tw, 5); // make groups of 5 words each
+
+                            if(!empty($tw))
+                            {
+                                $response = $this->importResourceToEvent($tw, $projectID, $eventID, $bookCode, $importLevel);
                             }
                             else
                             {
@@ -1462,11 +1501,8 @@ class AdminController extends Controller {
                         return;
                     }
 
-                    //if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
-                    //{
                     $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
                     echo json_encode(array("success" => __("successfully_deleted")));
-                    //}
 
                     break;
             }
@@ -1629,11 +1665,8 @@ class AdminController extends Controller {
                         return;
                     }
 
-                    if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
-                    {
-                        $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
-                        echo json_encode(array("success" => __("successfully_deleted")));
-                    }
+                    $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
+                    echo json_encode(array("success" => __("successfully_deleted")));
 
                     break;
             }
@@ -2254,7 +2287,7 @@ class AdminController extends Controller {
                 }
                 else
                 {
-                    $contentChunks = array_reduce($notes, function ($arr, $elm) {
+                    $contentChunks = array_reduce($resource, function ($arr, $elm) {
                         return array_merge((array)$arr, array_keys($elm));
                     });
 
@@ -2263,11 +2296,11 @@ class AdminController extends Controller {
                         foreach ($trans as $tran) {
                             $verses = (array)json_decode($tran->translatedVerses, true);
 
-                            if(isset($notes[$tran->chapter]) &&
-                                isset($notes[$tran->chapter][$tran->firstvs]) &&
-                                trim($notes[$tran->chapter][$tran->firstvs][0]) != "")
+                            if(isset($resource[$tran->chapter]) &&
+                                isset($resource[$tran->chapter][$tran->firstvs]) &&
+                                trim($resource[$tran->chapter][$tran->firstvs][0]) != "")
                             {
-                                $verses[EventMembers::CHECKER]["verses"] = $notes[$tran->chapter][$tran->firstvs][0];
+                                $verses[EventMembers::CHECKER]["verses"] = $resource[$tran->chapter][$tran->firstvs][0];
                             }
 
                             $this->_translationModel->updateTranslation([

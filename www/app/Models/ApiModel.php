@@ -22,6 +22,9 @@ use SplFileObject;
 
 class ApiModel extends Model
 {
+    private $wordsDatabase = null;
+    private $wordsDictionary = null;
+
     public  function __construct()
     {
         parent::__construct();
@@ -532,13 +535,15 @@ class ApiModel extends Model
         foreach($dirs as $dir)
         {
             preg_match("/[1-3a-z]{3}$/", $dir, $matches);
-            if($matches[0] == $book)
+            if(isset($matches[0]) && $matches[0] == $book)
             {
                 $bookFolderPath = $dir;
                 break;
             }
         }
-        $folderpath = $bookFolderPath;
+
+        if($bookFolderPath != null)
+            $folderpath = $bookFolderPath;
 
         if(!$folderpath) return [];
 
@@ -548,7 +553,7 @@ class ApiModel extends Model
         $files = File::allFiles($folderpath);
         foreach($files as $file)
         {
-            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro|index).md$/", $file, $matches);
+            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro|index|title).(md|txt)$/", $file, $matches);
 
             if(!isset($matches[1]) || !isset($matches[2])) continue;
 
@@ -558,11 +563,12 @@ class ApiModel extends Model
             if($matches[1] == "front")
                 $matches[1] = 0;
 
-            if($matches[2] == "intro")
+            if($matches[2] == "intro" || $matches[2] == "title")
                 $matches[2] = 0;
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
+            $ext = $matches[3];
 
             if(!isset($result[$chapter]))
                 $result[$chapter] = [];
@@ -570,6 +576,17 @@ class ApiModel extends Model
                 $result[$chapter][$chunk] = [];
 
             $md = File::get($file);
+
+            if($ext == "txt")
+            {
+                $data = (array)json_decode($md);
+                $md = "";
+                foreach ($data as $q) {
+                    $md .= "# ".$q->title."  \n";
+                    $md .= $q->body."  \n";
+                }
+            }
+
             $content = $md;
 
             if($parse)
@@ -689,16 +706,7 @@ class ApiModel extends Model
 
         if(!$folderpath) return [];
 
-        // Parses csv file and returns an array of words
-        // Each word array has 6 elements
-        // 1 - book code (gen)
-        // 2 - chapter
-        // 3 - verse
-        // 4 - term (ex. Heavens)
-        // 5 - category (ex. kt, other, names)
-        // 6 - reference name (ex. heaven)
-        $words = new SplFileObject("../app/Templates/Default/Assets/source/words_db.csv");
-        $words->setFlags(SplFileObject::READ_CSV);
+        $words = $this->getWordsDatabase();
 
         $filtered = [
             "book" => $book,
@@ -742,6 +750,126 @@ class ApiModel extends Model
         }
 
         return $filtered;
+    }
+
+    /**
+     * Parses .md files of specified category and returns array
+     * @param $category
+     * @param $lang
+     * @param $onlyNames
+     * @param $parse
+     * @param $folderpath
+     * @return  array
+     **/
+    public function getTranslationWordsByCategory($category, $lang = "en", $onlyNames = false, $parse = true, $folderpath = null)
+    {
+        if($folderpath == null)
+            $folderpath = $this->downloadAndExtractWords($lang);
+
+        if(!$folderpath) return [];
+
+        $parsedown = new Parsedown();
+        $files = File::allFiles($folderpath);
+
+        $words = [];
+
+        foreach ($files as $file) {
+            $filename = $file->getBasename('.' . $file->getExtension());
+            if($this->getCategoryByWord($filename) == $category)
+            {
+                preg_match("/\/([0-9a-z-_]+).(md|txt)$/", $file, $matches);
+
+                if(!isset($matches[1]) || !isset($matches[2])) continue;
+
+                $word_name = $matches[1];
+                $ext = $matches[2];
+
+                $word = [];
+
+                if(!$onlyNames)
+                {
+                    $md = File::get($file);
+
+                    if($ext == "txt")
+                    {
+                        $data = (array)json_decode($md);
+                        $md = "";
+                        foreach ($data as $q) {
+                            $md .= "# ".$q->title."  \n";
+                            $md .= $q->body."  \n";
+                        }
+                    }
+
+                    $html = $md;
+
+                    if($parse)
+                    {
+                        $html = $parsedown->text($md);
+                        $html = preg_replace("//", "", $html);
+                    }
+                    $word["text"] = $html;
+                }
+
+
+                $word["word"] = $word_name;
+                $words[] = $word;
+            }
+        }
+
+        usort($words, function($a, $b) {
+            return strcmp($a["word"], $b["word"]);
+        });
+
+        return $words;
+    }
+
+    public function getWordsDatabase()
+    {
+        // Parses csv file and returns an array of words
+        // Each word array has 6 elements
+        // 0 - book code (gen)
+        // 1 - chapter
+        // 2 - verse
+        // 3 - term (ex. Heavens)
+        // 4 - category (ex. kt, other, names)
+        // 5 - reference name (ex. heaven)
+        if($this->wordsDatabase == null)
+        {
+            $words = new SplFileObject("../app/Templates/Default/Assets/source/words_db.csv");
+            $words->setFlags(SplFileObject::READ_CSV);
+            $this->wordsDatabase = $words;
+        }
+
+        return $this->wordsDatabase;
+    }
+
+    public function getWordsDictionary()
+    {
+        // Parses csv file and returns an array of words
+        // Each word array has 2 elements
+        // 0 - reference name (ex. heaven)
+        // 1 - category (ex. kt, other, names)
+        if($this->wordsDictionary == null)
+        {
+            $words = new SplFileObject("../app/Templates/Default/Assets/source/words_dict.csv");
+            $words->setFlags(SplFileObject::READ_CSV);
+            $this->wordsDictionary = $words;
+        }
+
+        return $this->wordsDictionary;
+    }
+
+    public function getCategoryByWord($word)
+    {
+        $words = $this->getWordsDictionary();
+        foreach ($words as $w) {
+            if($w[0] == $word)
+            {
+                return $w[1];
+            }
+        }
+
+        return "unknown";
     }
 
 
@@ -817,57 +945,6 @@ class ApiModel extends Model
         return $folderpath;
     }
 
-    /**
-     * Parses .md files of specified category and returns array
-     * @param $category
-     * @param $lang
-     * @param $onlyNames
-     * @param $folderpath
-     * @return  array
-     **/
-    public function getTranslationWordsByCategory($category, $lang = "en", $onlyNames = false, $parse = true, $folderpath = null)
-    {
-        if($folderpath == null)
-            $folderpath = $this->downloadAndExtractWords($lang);
-
-        if(!$folderpath) return [];
-
-        $parsedown = new Parsedown();
-        $files = File::allFiles($folderpath);
-
-        $words = [];
-
-        foreach ($files as $file) {
-            if(preg_match("/bible\/".$category."/", $file))
-            {
-                $word = [];
-
-                if(!$onlyNames)
-                {
-                    $md = File::get($file);
-                    $html = $md;
-
-                    if($parse)
-                    {
-                        $html = $parsedown->text($md);
-                        $html = preg_replace("//", "", $html);
-                    }
-                    $word["text"] = $html;
-                }
-
-                preg_match("/\/([0-9a-z-_]+).md$/", $file, $matches);
-                $word["word"] = $matches[1];
-                $words[] = $word;
-            }
-        }
-
-        usort($words, function($a, $b) {
-            return strcmp($a["word"], $b["word"]);
-        });
-
-        return $words;
-    }
-
 
     /**
      * Parses .md files of specified book and returns array
@@ -890,14 +967,15 @@ class ApiModel extends Model
         foreach($dirs as $dir)
         {
             preg_match("/[1-3a-z]{3}$/", $dir, $matches);
-            if($matches[0] == $book)
+            if(!empty($matches) && $matches[0] == $book)
             {
                 $bookFolderPath = $dir;
                 break;
             }
         }
 
-        $folderpath = $bookFolderPath;
+        if($bookFolderPath != null)
+            $folderpath = $bookFolderPath;
 
         if(!$folderpath) return [];
 
@@ -907,12 +985,13 @@ class ApiModel extends Model
         $files = File::allFiles($folderpath);
         foreach($files as $file)
         {
-            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).md$/", $file, $matches);
+            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).(md|txt)$/", $file, $matches);
 
             if(!isset($matches[1]) || !isset($matches[2])) continue;
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
+            $ext = $matches[3];
 
             if(!isset($result[$chapter]))
                 $result[$chapter] = [];
@@ -920,6 +999,16 @@ class ApiModel extends Model
                 $result[$chapter][$chunk] = [];
 
             $md = File::get($file);
+            if($ext == "txt")
+            {
+                $data = (array)json_decode($md);
+                $md = "";
+                foreach ($data as $q) {
+                    $md .= "# ".$q->title."  \n";
+                    $md .= $q->body."  \n";
+                }
+            }
+
             $html = $md;
 
             if($parse)

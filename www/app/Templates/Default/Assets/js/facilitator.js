@@ -672,6 +672,10 @@ $(function () {
                     {
                         prev_step = Language.other_consume;
                     }
+                    if(["tq","tw"].indexOf(mode) > -1)
+                    {
+                        prev_step = Language.keyword_check;
+                    }
                     else
                     {
                         prev_step = Language.other_draft;

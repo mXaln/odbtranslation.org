@@ -197,8 +197,8 @@ return array (
     // Success messages
     "update_profile_success" => "Profil telah berhasil diperbaharui",
     "pwresettoken_send_success" => "Kami telah mengirim Anda suatu email berisi cara untuk membatalkan password Anda. Jika tidak ada, periksa folder spam/junk",
-    "password_reset_success" => "Password Anda telah berhasil diubah. Anda sekarang dapat masuk menggunakan password Anda yang baru <a href=\"{href}\">Masuk</a>",
-    "account_activated_success" => "Akun Anda sekarang telah aktif Anda sekarang bisa <a href=\"{href}\">Login</a>",
+    "password_reset_success" => "Password Anda telah berhasil diubah. Anda sekarang dapat masuk menggunakan password Anda yang baru",
+    "account_activated_success" => "Akun Anda sekarang telah aktif Anda sekarang bisa log in",
     "resend_activation_success_message" => "Suatu email berisi kode aktivasi telah dikirim ke email Anda. Jika tidak ada, periksa folder spam/junk",
     "activation_link_message" => "<h3>Terima kasih karena telah mendaftar!</h3>\n Untuk mengaktifkan akun Anda silahkan klik tautan ini {link}",
     "registration_success_message" => "Pendaftaran Berhasil! Silahkan periksa email Anda untuk menyelesaikan pendaftaran. Jika tidak ada, periksa folder spam/junk",

@@ -365,7 +365,6 @@ $profile = Session::get("profile");
         <div class="event_block <?php echo $key%2 == 0 ? "gray-marked" : "" ?>">
             <div class="event_logo checking">
                 <div class="event_type">
-                    <div><?php echo __("step_num", ["step_number" => EventSteps::enum($event->step, $event->bookProject, true)]) ?></div>
                     <div class="event_mode <?php echo $event->bookProject ?>"><?php echo __($event->bookProject) ?></div>
                     <?php $chk = in_array($event->bookProject, ["tn"]) ?>
                     <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>

@@ -194,8 +194,8 @@ return array (
     // Success messages
     "update_profile_success" => "Votre profil a été enregistré avec succès",
     "pwresettoken_send_success" => "Nous vous avons envoyé un émail avec des instructions pour réinitialiser votre mot de passe. Si vous ne trouvez pas le message, vérifiez le dossier «spam» ou «pourriel».",
-    "password_reset_success" => "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passes. <a href=\"{href}\">Se connecter</a>",
-    "account_activated_success" => "Votre compte est à présent actif. <a href=\"{href}\">Se connecter</a>",
+    "password_reset_success" => "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passes.",
+    "account_activated_success" => "Votre compte est à présent actif. Vous pouvez maintenant vous connecter",
     "resend_activation_success_message" => "Un message avec un code d’activation a été envoyé à votre adresse émail. Vérifiez aussi le dossier «spam» ou «pourriel»",
     "activation_link_message" => "<h3>Merci que vous vous êtes inscrit !</h3>\n Pour activer votre compte, cliquez sur ce lien {link}",
     "registration_success_message" => "L’inscription a été terminé avec succès ! Un message a été envoyé à votre adresse émail. Vérifiez aussi le dossier «spam» ou «pourriel»",

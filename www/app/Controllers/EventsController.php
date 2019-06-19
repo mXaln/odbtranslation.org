@@ -3792,7 +3792,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST))
                         {
                             $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
-                            $chunks = $this->_apiModel->testChunkNotes($chunks, $data["notes"]);
+                            //$chunks = $this->_apiModel->testChunkNotes($chunks, $data["notes"]);
 
                             if(!$chunks === false)
                             {
@@ -3920,7 +3920,7 @@ class EventsController extends Controller
                         if (isset($_POST) && !empty($_POST))
                         {
                             $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
-                            $chunks = $this->_apiModel->testChunkNotes($chunks, $data["notes"]);
+                            //$chunks = $this->_apiModel->testChunkNotes($chunks, $data["notes"]);
 
                             if(!$chunks === false)
                             {
@@ -4766,7 +4766,7 @@ class EventsController extends Controller
                             if ($confirm_step)
                             {
                                 $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : [];
-                                $chunks = $this->_apiModel->testChunkQuestions($chunks, $data["questions"]);
+                                //$chunks = $this->_apiModel->testChunkQuestions($chunks, $data["questions"]);
 
                                 if(!$chunks === false)
                                 {
@@ -13210,6 +13210,9 @@ class EventsController extends Controller
                 $data["questions"] = $questions[$currentChapter];
                 $data["currentChapter"] = $currentChapter;
                 $data["currentChunk"] = $currentChunk;
+
+                end($data["questions"]);
+                $data["totalVerses"] = key($data["questions"]);
 
                 $chunks = json_decode($data["event"][0]->chunks, true);
                 $data["chunks"] = $chunks;

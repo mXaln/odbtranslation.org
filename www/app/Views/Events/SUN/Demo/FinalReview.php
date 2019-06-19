@@ -57,7 +57,7 @@
 
                                 <div class="comments">
                                     <div class="other_comments">
-                                        <div><span>Anna S. (L1):</span> This is comment of a translator</div>
+                                        <div><span>Anna S. - L1:</span> This is comment of a translator</div>
                                     </div>
                                     <div class="my_comment">This is a comment of checker</div>
                                 </div>

@@ -194,8 +194,8 @@ return array (
     // Success messages
     "update_profile_success" => "Profile has been updated successfully",
     "pwresettoken_send_success" => "We've sent you an email with instructions how to reset your password. If it's not there, check spam/junk folders",
-    "password_reset_success" => "Your password has been changed successfully. You may now login using your new password <a href=\"{href}\">Login</a>",
-    "account_activated_success" => "Your account is now active you may now <a href=\"{href}\">Login</a>",
+    "password_reset_success" => "Your password has been changed successfully. You may now login using your new password",
+    "account_activated_success" => "Your account is active, you may now login",
     "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",
     "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {link}",
     "registration_success_message" => "Registration successful! Please check your email to complete registration. If it's not there, check spam/junk folders",
