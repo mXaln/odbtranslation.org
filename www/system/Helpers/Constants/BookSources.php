@@ -11,7 +11,7 @@ namespace Helpers\Constants;
 
 class BookSources
 {
-    const catalog = array(
+    const catalog = [
         "en" => ["ulb", "udb"],
         "ru" => ["rsb"],
         "ar" => ["avd"],
@@ -34,5 +34,5 @@ class BookSources
         "pa" => ["ulb"],
         "ta" => ["ulb"],
         "te" => ["ulb"],
-    );
+    ];
 }

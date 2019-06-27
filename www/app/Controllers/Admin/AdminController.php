@@ -65,7 +65,7 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
-		
+
         $data['menu'] = 1;
 
         $catalog = $this->_apiModel->getCachedFullCatalog();
@@ -95,20 +95,24 @@ class AdminController extends Controller {
 
         $data['menu'] = 1;
         $data["project"] = $this->_eventsModel->getProjects(Session::get("memberID"), $projectID);
-        $data["events"] = array();
+        $data["events"] = [];
         if(!empty($data["project"]))
         {
-            $data["events"] = $this->_eventsModel->getEventsByProject($projectID);
+            $category = $data["project"][0]->bookProject == "tw" ? "tw" :
+                ($data["project"][0]->sourceBible == "odb" ? "odb" : "bible");
+            $data["events"] = $this->_eventsModel->getEventsByProject($projectID, $category);
             $otDone = 0;
             $ntDone = 0;
             $twDone = 0;
+            $odbDone = 0;
             $data["OTprogress"] = 0;
             $data["NTprogress"] = 0;
             $data["TWprogress"] = 0;
+            $data["ODBprogress"] = 0;
 
             foreach ($data["events"] as $event)
             {
-                if($event->abbrID < 41) // Old testament
+                if($event->category == "bible" && $event->abbrID < 41) // Old testament
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -116,7 +120,7 @@ class AdminController extends Controller {
                         $otDone++;
                     }
                 }
-                else if($event->abbrID < 68) // New testament
+                else if($event->category == "bible" && $event->abbrID >= 41) // New testament
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -124,7 +128,7 @@ class AdminController extends Controller {
                         $ntDone++;
                     }
                 }
-                else if($event->abbrID < 71) // tWords categories (kt, names, other)
+                else if($event->category == "tw") // tWords categories (kt, names, other)
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -132,16 +136,33 @@ class AdminController extends Controller {
                         $twDone++;
                     }
                 }
+                else if($event->category == "odb") // ODB books
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $odbDone++;
+                    }
+                }
             }
 
             $data["OTprogress"] = 100*$otDone/39;
             $data["NTprogress"] = 100*$ntDone/27;
             $data["TWprogress"] = 100*$twDone/3;
+
+            if($data["project"][0]->sourceBible == "odb")
+            {
+                $count = $this->_eventsModel->getAbbrByCategory("odb", true);
+                if($count > 0)
+                    $data["ODBprogress"] = 100*$odbDone/$count;
+            }
         }
 
         $page = 'Admin/Main/Project';
         if(!empty($data["project"]) && $data["project"][0]->bookProject == "tw")
             $page = 'Admin/Main/ProjectTW';
+        if(!empty($data["project"]) && $data["project"][0]->sourceBible == "odb")
+            $page = 'Admin/Main/ProjectODB';
 
         return View::make($page)
             ->shares("title", __("admin_events_title"))
@@ -814,7 +835,7 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw|odb)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
@@ -836,7 +857,7 @@ class AdminController extends Controller {
 
         if($sourceTranslation == null)
         {
-            if($projectMode != "tq" && $projectMode != "tw")
+            if($projectMode != "tq" && $projectMode != "tw" && $projectMode != "odb")
                 $error[] = __("choose_source_trans");
         }
 
@@ -872,6 +893,10 @@ class AdminController extends Controller {
         {
             $resSourceTranslation = $sourceTranslationNotes;
         }
+        elseif($projectMode == "odb")
+        {
+            $sourceTranslation = $projectMode."|en";
+        }
 
         if(!isset($error))
         {
@@ -880,12 +905,19 @@ class AdminController extends Controller {
 
             $projType = in_array($projectMode, ['tn','tq','tw']) ?
                 $projectMode : $projectType;
-            
-            $exist = $this->_eventsModel->getProject(["projects.projectID"], [
+
+            $search = [
                 ["projects.gwLang", $gwLangsPair[0]],
                 ["projects.targetLang", $targetLang],
                 ["projects.bookProject", $projType]
-            ]);
+            ];
+
+            if($projectMode == "odb")
+            {
+                $search[] = ["projects.sourceBible", $resSourceTranslation];
+            }
+
+            $exist = $this->_eventsModel->getProject(["projects.projectID"], $search);
 
             if(!empty($exist))
             {
@@ -1360,22 +1392,35 @@ class AdminController extends Controller {
                     
                     if(!empty($bookInfo))
                     {
-                        // Book source
-                        $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->sourceBible."_usfm";
-
-                        if(!Cache::has($cache_keyword))
+                        if($bookInfo[0]->category == "odb")
                         {
-                            $usfm = $this->_apiModel->getCachedSourceBookFromApi(
-                                $project[0]->sourceBible, 
-                                $bookInfo[0]->code, 
-                                $project[0]->sourceLangID,
-                                $bookInfo[0]->abbrID);
-                                
-                            if(!$usfm || empty($usfm))
+                            $odb = $this->_apiModel->getODB($bookInfo[0]->code, $project[0]->sourceLangID);
+                            if(empty($odb))
                             {
                                 $error[] = __("no_source_error");
                                 echo json_encode(array("error" => Error::display($error)));
                                 return;
+                            }
+                        }
+                        else
+                        {
+                            // Book source
+                            $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->sourceBible."_usfm";
+
+                            if(!Cache::has($cache_keyword))
+                            {
+                                $usfm = $this->_apiModel->getCachedSourceBookFromApi(
+                                    $project[0]->sourceBible,
+                                    $bookInfo[0]->code,
+                                    $project[0]->sourceLangID,
+                                    $bookInfo[0]->abbrID);
+
+                                if(!$usfm || empty($usfm))
+                                {
+                                    $error[] = __("no_source_error");
+                                    echo json_encode(array("error" => Error::display($error)));
+                                    return;
+                                }
                             }
                         }
 

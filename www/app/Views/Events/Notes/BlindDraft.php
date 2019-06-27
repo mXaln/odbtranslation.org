@@ -159,5 +159,14 @@ if(isset($data["error"])) return;
                 }, 10);
             })
         });
+
+        $("#next_step").click(function() {
+            if(autosaveTimer != undefined)
+                clearInterval(autosaveTimer);
+            if(autosaveRequest != undefined)
+                autosaveRequest.abort();
+
+            return true;
+        });
     })
 </script>

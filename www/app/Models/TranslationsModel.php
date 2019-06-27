@@ -26,22 +26,27 @@ class TranslationsModel extends Model
     public function getTranslationProjects($lang)
     {
         return $this->db->table("translations")
-            ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject")
+            ->select("translations.targetLang", "languages.langName", "languages.angName",
+                "translations.bookProject", "projects.sourceBible")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
+            ->leftJoin("projects", "translations.projectID", "=", "projects.projectID")
             ->where("translations.targetLang", $lang)
             ->where("translations.translateDone", true)
-            ->groupBy("translations.bookProject")->get();
+            ->groupBy(["translations.bookProject","projects.sourceBible"])->get();
     }
 
-    public function getTranslationBooks($lang, $bookProject)
+    public function getTranslationBooks($lang, $bookProject, $sourceBible)
     {
         return $this->db->table("translations")
-            ->select("translations.targetLang", "languages.langName", "languages.angName", "translations.bookProject",
+            ->select("translations.targetLang", "languages.langName", "languages.angName",
+                "translations.bookProject", "projects.sourceBible",
                 "abbr.name AS bookName", "translations.bookCode", "abbr.abbrID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->leftJoin("abbr", "translations.bookCode","=", "abbr.code")
+            ->leftJoin("projects", "translations.projectID", "=", "projects.projectID")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
+            ->where("projects.sourceBible", $sourceBible)
             ->where("translations.translateDone", true)
             ->orderBy("abbr.abbrID")
             ->groupBy("translations.bookCode")->get();
@@ -51,14 +56,15 @@ class TranslationsModel extends Model
      * Get translation work
      * @param $lang Language ID
      * @param $bookProject book project type (ulb, udb, tn, sun, l2)
+     * @param $sourceBible source bible (ulb, ayt, odb)
      * @param $bookCode Book slug
      * @return array
      */
-    public function getTranslation($lang, $bookProject, $bookCode = null)
+    public function getTranslation($lang, $bookProject, $sourceBible, $bookCode = null)
     {
         $builder = $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
-                "translations.bookProject", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
+                "translations.bookProject", "projects.sourceBible", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
                 "translations.chapter", "translations.chunk", "translations.translatedVerses", "events.state",
                 "translations.eventID", "languages.direction", "projects.sourceLangID", "projects.sourceBible",
                 "projects.projectID", "projects.resLangID")
@@ -68,6 +74,7 @@ class TranslationsModel extends Model
             ->leftJoin("events", "translations.eventID","=", "events.eventID")
             ->where("translations.targetLang", $lang)
             ->where("translations.bookProject", $bookProject)
+            ->where("projects.sourceBible", $sourceBible)
             ->where("translations.translateDone", true)
             ->orderBy("abbr.abbrID")
             ->orderBy("translations.chapter")

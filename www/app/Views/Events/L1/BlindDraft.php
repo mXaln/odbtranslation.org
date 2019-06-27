@@ -91,3 +91,16 @@ if(isset($data["error"])) return;
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $("#next_step").click(function() {
+            if(autosaveTimer != undefined)
+                clearInterval(autosaveTimer);
+            if(autosaveRequest != undefined)
+                autosaveRequest.abort();
+
+            return true;
+        });
+    });
+</script>

@@ -1,48 +1,102 @@
-<?php
-if(isset($data['languages'])) {
-    echo __("bible")."<br><br>";
+<!-- Languages list -->
+<?php if(isset($data['languages'])): ?>
+    <?php echo __("bible") ?>
+    <br>
+    <br>
+    <?php foreach ($data['languages'] as $language): ?>
+        <a href="/translations/<?php echo $language->targetLang ?>">
+            <?php echo $language->angName
+                .($language->langName != $language->angName ? " (".$language->langName.")" : "") ?>
+        </a>
+        <br>
+    <?php endforeach; ?>
+<?php endif; ?>
 
-    foreach ($data['languages'] as $language) {
-        echo "<a href=\"" . SITEURL . "translations/" . $language->targetLang . "\">" . $language->angName . " (".$language->langName.")</a><br>";
-    }
-}
+<!-- Projects list -->
+<?php if(isset($data['bookProjects'])): ?>
+    <a href="/translations">
+        <?php echo __("bible") ?>
+    </a>
+    →
+    <?php echo $data['bookProjects'][0]->angName
+        .($data['bookProjects'][0]->langName != $data['bookProjects'][0]->angName ? ' ('.$data['bookProjects'][0]->langName.')' : '') ?>
+    <br>
+    <br>
+    <?php foreach ($data['bookProjects'] as $bookProject): ?>
+        <a href="/translations/<?php echo $bookProject->targetLang . "/". $bookProject->bookProject . "/" . $bookProject->sourceBible ?>">
+            <?php echo strtoupper($bookProject->bookProject)
+                ." (".__($bookProject->bookProject).")"
+                .($bookProject->sourceBible == "odb" ? " - " . __("odb") : "") ?>
+        </a>
+        <br>
+    <?php endforeach; ?>
+<?php endif; ?>
 
-if(isset($data['bookProjects'])) {
-    echo '<a href="'.SITEURL.'translations">'.__("bible").'</a> → '.$data['bookProjects'][0]->angName . ' ('.$data['bookProjects'][0]->langName.')<br><br>';
+<!-- Books list -->
+<?php if(isset($data['books'])): ?>
+    <a href="/translations">
+        <?php echo __("bible") ?>
+    </a>
+    →
+    <a href="/translations/<?php echo $data['books'][0]->targetLang ?>">
+        <?php echo $data['books'][0]->angName
+            .($data['books'][0]->langName != $data['books'][0]->angName ? ' ('.$data['books'][0]->langName.')' : '') ?>
+    </a>
+    →
+    <?php echo __($data['books'][0]->bookProject)
+        .($data['books'][0]->sourceBible == "odb" ? " - " . __("odb") : "") ?>
+    <br>
+    <br>
+    <?php foreach ($data['books'] as $book): ?>
+        <a href="/translations/<?php echo $book->targetLang . "/" .$book->bookProject . "/" . $book->sourceBible . "/" . $book->bookCode ?>">
+            <?php echo __($book->bookCode) ?>
+        </a>
+        <br>
+    <?php endforeach; ?>
+<?php endif; ?>
 
-    foreach ($data['bookProjects'] as $bookProject) {
-        echo "<a href=\"" . SITEURL . "translations/" . $bookProject->targetLang . "/". $bookProject->bookProject . "\">" . strtoupper($bookProject->bookProject) . " (".__($bookProject->bookProject).")</a><br>";
-    }
-}
+<!-- Book content -->
+<?php if(isset($data['book'])): ?>
+    <a href="/translations">
+        <?php echo __("bible") ?>
+    </a>
+    →
+    <a href="/translations/<?php echo $data["data"]->targetLang ?>">
+        <?php echo $data["data"]->angName
+            .($data["data"]->langName != $data["data"]->angName ? ' ('.$data["data"]->langName.')' : '') ?>
+    </a>
+    →
+    <a href="/translations/<?php echo $data["data"]->targetLang . "/" .$data["data"]->bookProject . "/" . $data["data"]->sourceBible ?>">
+        <?php echo __($data["data"]->bookProject)
+            .($data["data"]->sourceBible == "odb" ? " - " . __("odb") : "") ?>
+    </a>
+    →
+    <?php echo __($data['data']->bookCode) ?>
+    <br>
+    <br>
 
-if(isset($data['books'])) {
-    echo '<a href="'.SITEURL.'translations">'.__("bible").'</a> → ';
-    echo '<a href="'.SITEURL.'translations/'.$data['books'][0]->targetLang.'">'.$data['books'][0]->angName . ' ('.$data['books'][0]->langName.')</a> → ';
-    echo __($data['books'][0]->bookProject).'</a><br><br>';
+    <h1 style="text-align: center">—— <?php echo __($data['data']->bookCode) ?> ——</h1>
 
-    if(!in_array($data["mode"], ["tn","tq","tw"]) && sizeof($data['books']) > 0)
-        echo "<h4 style=\"text-align: right\"><a href='".$data['books'][0]->bookProject."/dl/usfm'>".__("download_usfm")."</a></h4>";
-    else
-        echo "<h4 style=\"text-align: right\"><a href='".$data['books'][0]->bookProject."/dl/md'>".__("download_markdown")."</a></h4>";
+    <h4 style="text-align: right">
+    <?php if($data["data"]->sourceBible == "odb"): ?>
+        <a href="<?php echo $data['data']->bookCode ?>/json">
+            <?php echo __("download_json") ?>
+        </a>
+    <?php elseif(!in_array($data["mode"], ["tn","tq","tw"])): ?>
+        <a href="<?php echo $data['data']->bookCode ?>/usfm">
+            <?php echo __("download_usfm") ?>
+        </a>
+    <?php else: ?>
+        <a href="<?php echo $data['data']->bookCode ?>/md">
+            <?php echo __("download_markdown") ?>
+        </a>
+    <?php endif; ?>
+    </h4>
 
-    foreach ($data['books'] as $book) {
-        echo "<a href=\"" . SITEURL . "translations/" . $book->targetLang . "/" .$book->bookProject . "/" . $book->bookCode . "\">". __($book->bookCode) . "</a><br>";
-    }
-}
-
-if(isset($data['book'])) {
-    echo '<a href="'.SITEURL.'translations">'.__("bible").'</a> → ';
-    echo '<a href="'.SITEURL.'translations/'.$data['data']->targetLang.'">'.$data['data']->angName . ' ('.$data['data']->langName.')</a> → ';
-    echo '<a href="'.SITEURL.'translations/'.$data['data']->targetLang.'/'.$data['data']->bookProject.'">'.__($data["data"]->bookProject).'</a> → ';
-    echo __($data['data']->bookCode).'</a><br><br>';
-
-    echo '<h1 style="text-align: center">—— '.__($data['data']->bookCode).' ——</h1>';
-
-    if(!in_array($data["mode"], ["tn","tq","tw"]))
-        echo "<h4 style=\"text-align: right\"><a href='".$data['data']->bookCode."/usfm'>".__("download_usfm")."</a></h4>";
-    else
-        echo "<h4 style=\"text-align: right\"><a href='".$data['data']->bookCode."/md'>".__("download_markdown")."</a></h4>";
-
-    echo '<div class="bible_book '.($data["data"]->bookProject == "sun" ? "sun_content" : "").' font_'.$data["data"]->targetLang.'" 
-        dir="'.$data["data"]->direction.'">'.$data["book"].'</div>';
-}
+    <div class="bible_book
+        <?php echo ($data["data"]->bookProject == "sun"
+            ? " sun_content" : "") . " font_".$data["data"]->targetLang?>"
+    dir="<?php echo $data["data"]->direction ?>">
+    <?php echo $data["book"] ?>
+    </div>
+<?php endif; ?>

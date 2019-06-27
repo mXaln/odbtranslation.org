@@ -124,7 +124,7 @@ $(function () {
 
 
     $("select[name=projectMode]").change(function() {
-        if($(this).val() == "bible")
+        if($(this).val() == "bible" || $(this).val() == "odb")
         {
             $("#sourceTranslationNotes").val('').trigger("chosen:updated");
             $(".sourceTranslationNotes").addClass("hidden");
@@ -133,7 +133,14 @@ $(function () {
             $("#sourceTranslationWords").val('').trigger("chosen:updated");
             $(".sourceTranslationWords").addClass("hidden");
             $(".projectType").removeClass("hidden");
-            $(".sourceTranslation").removeClass("hidden");
+            if($(this).val() == "odb")
+            {
+                $(".sourceTranslation").addClass("hidden");
+            }
+            else
+            {
+                $(".sourceTranslation").removeClass("hidden");
+            }
         }
         else if($(this).val() == "tn")
         {
@@ -2052,8 +2059,10 @@ function setEventMenuLinks(event, level) {
             $(".event_links_l2").hide();
             $(".event_links_l3").show();
 
-            $(".event_links_l3 .event_progress a").attr("href", "/events/information-sun/"+event.eventID);
-            $(".event_links_l3 .event_manage a").attr("href", "/events/manage/"+event.eventID);
+            $(".event_links_l3 .event_progress a")
+                .attr("href", "/events/information"+(event.category == "odb" ? "-odb" : "")+"-sun/"+event.eventID);
+            $(".event_links_l3 .event_manage a")
+                .attr("href", "/events/manage/"+event.eventID);
             break;
     }
 }

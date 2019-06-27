@@ -1,11 +1,11 @@
 <?php
-use Helpers\Constants\EventMembers;
+use \Helpers\Constants\OdbSections;
 
 if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 4]). ": " . __("symbol-draft")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 3]). ": " . __("symbol-draft")?></div>
     </div>
 
     <div class="row">
@@ -13,9 +13,9 @@ if(isset($data["error"])) return;
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
+                            .__($data["event"][0]->sourceBible)." - "
                             .__($data["event"][0]->bookProject)." - "
-                            .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                            ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".$data["chunk"][0]."-".$data["chunk"][sizeof($data["chunk"])-1]."</span>"?>
+                            ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".__(OdbSections::enum($data["chunk"][0]))."</span>"?>
                     </h4>
 
                     <div class="col-sm-12 no_padding">
@@ -43,7 +43,7 @@ if(isset($data["error"])) return;
                     <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 4])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 3])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -54,7 +54,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 4])?>:</span> <?php echo __("symbol-draft")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 3])?>:</span> <?php echo __("symbol-draft")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("symbol-draft_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -64,15 +64,14 @@ if(isset($data["error"])) return;
                 <div class="event_info">
                     <div class="participant_info">
                         <div class="additional_info">
-                            <a href="/events/information-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                            <a href="/events/information-odb-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="tr_tools">
                     <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+                    <button class="btn btn-primary ttools" data-tool="sunbible"><?php echo __("go_sun_bible") ?></button>
                 </div>
             </div>
         </div>

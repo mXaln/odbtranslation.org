@@ -27,6 +27,10 @@
     text-align: inherit !important;
 }
 
+.odb_section {
+    margin-top: 40px;
+}
+
 .font_fa, .font_ar {
     /*font-family: Lateef;*/
 }

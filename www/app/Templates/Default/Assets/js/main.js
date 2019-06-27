@@ -6,6 +6,7 @@ var lastCommentEditor;
 var lastCommentAltEditor;
 var hasChangesOnPage = false;
 var autosaveTimer;
+var autosaveRequest;
 
 var EventSteps = {
     NONE: "none",
@@ -370,16 +371,17 @@ $(document).ready(function() {
 
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
-            step == EventSteps.CONTENT_REVIEW || step == EventSteps.REARRANGE ||
-            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.MULTI_DRAFT ||
-            step == EventCheckSteps.FST_CHECK || // For Level 2 Check
-            step == EventCheckSteps.SND_CHECK ||
+            step == EventSteps.CONTENT_REVIEW || step == EventSteps.MULTI_DRAFT ||
+            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.REARRANGE ||
+            step == EventCheckSteps.FST_CHECK || step == EventCheckSteps.SND_CHECK || // For Level 2 Check
             step == EventCheckSteps.PEER_REVIEW_L2 ||
             step == EventCheckSteps.PEER_EDIT_L3)
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
-                var item = step == EventSteps.BLIND_DRAFT 
+                var item = step == EventSteps.BLIND_DRAFT ||
+                        step == EventSteps.REARRANGE ||
+                        step == EventSteps.SYMBOL_DRAFT
                     ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk 
                     : "event"+eventID;
 				var saved = localStorage.getItem(item);
@@ -403,7 +405,7 @@ $(document).ready(function() {
 
                 if(hasChangesOnPage)
                 {
-                    $.ajax({
+                    autosaveRequest = $.ajax({
                             url: "/events/rpc/autosave_chunk",
                             method: "post",
                             data: {
@@ -506,9 +508,11 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
-            var tm = typeof tMode != "undefined"
+            var tm = tMode != undefined
                 && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
                 : "";
+
+            if(isOdb != undefined) tm = "-odb" + tm;
 
             var mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
 
@@ -589,7 +593,7 @@ $(document).ready(function() {
                 .always(function() {
 
                 });
-        }, 60000);
+        }, 10000);
     }
 
     var mouseTimeout;
@@ -2328,6 +2332,14 @@ $(document).ready(function() {
     $(".ttools").click(function (e) {
         $this = $(this);
         var tool = $(this).data("tool");
+
+        if(tool == "sunbible")
+        {
+            var win = window.open("/translations/en/sun/ulb/", "_blank");
+            win.focus();
+            return;
+        }
+
         var container = $(".ttools_panel."+tool+"_tool");
 
         var bookCode = $("input#bookCode").val();

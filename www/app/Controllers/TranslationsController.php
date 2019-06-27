@@ -6,6 +6,7 @@ use App\Models\TranslationsModel;
 use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
+use Helpers\Constants\OdbSections;
 use Helpers\Manifest;
 use Helpers\Spyc;
 use Shared\Legacy\Error;
@@ -54,7 +55,7 @@ class TranslationsController extends Controller
         }
     }
 
-    public function index($lang = null, $bookProject = null, $bookCode = null)
+    public function index($lang = null, $bookProject = null, $sourceBible = null, $bookCode = null)
     {
         $data['menu'] = 3;
 
@@ -63,7 +64,7 @@ class TranslationsController extends Controller
             $data['title'] = __('choose_language');
             $data["languages"] = $this->_model->getTranslationLanguages();
         }
-        else if($bookProject == null)
+        else if($bookProject == null && $sourceBible == null)
         {
             $data['title'] = __('choose_book');
             $data['bookProjects'] = $this->_model->getTranslationProjects($lang);
@@ -71,7 +72,7 @@ class TranslationsController extends Controller
         elseif($bookCode == null)
         {
             $data['title'] = __('choose_book');
-            $data['books'] = $this->_model->getTranslationBooks($lang, $bookProject);
+            $data['books'] = $this->_model->getTranslationBooks($lang, $bookProject, $sourceBible);
             $data["mode"] = "bible";
 
             if(sizeof($data['books']) > 0)
@@ -81,7 +82,7 @@ class TranslationsController extends Controller
         }
         else
         {
-            $book = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            $book = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
 
             if(!empty($book))
             {
@@ -91,6 +92,8 @@ class TranslationsController extends Controller
                 $data["mode"] = "bible";
                 $lastChapter = -1;
                 $chapter = [];
+
+                $odbBook = [];
 
                 foreach ($book as $chunk) {
                     $verses = json_decode($chunk->translatedVerses);
@@ -108,45 +111,31 @@ class TranslationsController extends Controller
                         );
                         $chapter = $chapters[0];
 
-                        if(in_array($chunk->bookProject, ["tn","tq","tw"]))
+                        if($chunk->sourceBible != "odb")
                         {
-                            $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"));
+                            if(in_array($chunk->bookProject, ["tn","tq","tw"]))
+                            {
+                                $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"));
+                            }
+                            else
+                            {
+                                $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"));
+                            }
+
+                            $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
+                                ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
+                                : '<h2 class="chapter_title">'.__("front").$level.'</h2>') : "";
                         }
                         else
                         {
-                            $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"));
+                            $odbBook[$lastChapter] = [];
                         }
-
-                        $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
-                            ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
-                            : '<h2 class="chapter_title">'.__("front").$level.'</h2>') : "";
                     }
 
                     // Start of chunk
                     $data['book'] .= '<p>';
 
-                    if(!in_array($chunk->bookProject, ["tn","tq","tw"]))
-                    {
-                        if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                        {
-                            foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
-                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                            }
-                        }
-                        elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
-                        {
-                            foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
-                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                            }
-                        }
-                        else
-                        {
-                            foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                            }
-                        }
-                    }
-                    else
+                    if(in_array($chunk->bookProject, ["tn","tq","tw"]))
                     {
                         $chunks = (array)json_decode($chapter["chunks"], true);
                         $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
@@ -182,9 +171,75 @@ class TranslationsController extends Controller
 
                         $data['book'] .= '<br><strong class="note_chunk_verses">'.$versesLabel.'</strong> '.$text." ";
                     }
+                    else
+                    {
+                        if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                        {
+                            foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                            }
+                        }
+                        elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                        {
+                            foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                            }
+                        }
+                        else
+                        {
+                            foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                                if($chunk->sourceBible == "odb")
+                                {
+                                    if($verse >= OdbSections::CONTENT)
+                                    {
+                                        $odbBook[$lastChapter][OdbSections::enum($verse)][] = $text;
+                                    }
+                                    else
+                                    {
+                                        $odbBook[$lastChapter][OdbSections::enum($verse)] = $text;
+                                    }
+                                }
+                                else
+                                {
+                                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                                }
+                            }
+                        }
+                    }
 
                     // End of chunk
                     $data['book'] .= '</p>';
+                }
+
+                // Render ODB book
+                if(!empty($odbBook))
+                {
+                    foreach ($odbBook as $chapter => $topic) {
+                        $data["book"] .= '<h2 class="chapter_title">'.__("devotion_number", ["devotion" => $chapter]).'</h2>';
+
+                        if(trim($topic[OdbSections::enum(OdbSections::TITLE)]) != "")
+                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::TITLE)].'</p>';
+
+                        if(trim($topic[OdbSections::enum(OdbSections::PASSAGE)]) != "")
+                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::PASSAGE)].'</p>';
+
+                        if(trim($topic[OdbSections::enum(OdbSections::PASSAGE)]) != "")
+                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::VERSE)].'</p>';
+
+                        foreach ($topic[OdbSections::enum(OdbSections::CONTENT)] as $key => $p) {
+                            if(trim($p) != "")
+                                $data["book"] .= '<p '.($key == 0 ? 'class="odb_section"' : '').'>'.$p.'</p>';
+                        }
+
+                        if(trim($topic[OdbSections::enum(OdbSections::AUTHOR)]) != "")
+                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::AUTHOR)].'</p>';
+
+                        if(trim($topic[OdbSections::enum(OdbSections::BIBLE_IN_A_YEAR)]) != "")
+                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::BIBLE_IN_A_YEAR)].'</p>';
+
+                        if(trim($topic[OdbSections::enum(OdbSections::THOUGHT)]) != "")
+                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::THOUGHT)].'</p>';
+                    }
                 }
             }
         }
@@ -194,14 +249,14 @@ class TranslationsController extends Controller
             ->shares("data", $data);
     }
 
-    public function getUsfm($lang, $bookProject, $bookCode)
+    public function getUsfm($lang, $bookProject, $sourceBible, $bookCode)
     {
-        if($lang != null && $bookProject != null && $bookCode != null)
+        if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
         {
             // If bookcode is "dl" then include all the books in archive
             $bookCode = $bookCode != "dl" ? $bookCode : null;
 
-            $books = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
 
             if(!empty($books) && isset($books[0]))
             {
@@ -378,14 +433,177 @@ class TranslationsController extends Controller
         }
     }
 
-    public function getMd($lang, $bookProject, $bookCode)
+    public function getJson($lang, $bookProject, $sourceBible, $bookCode)
     {
-        if($lang != null && $bookProject != null && $bookCode != null)
+        if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
         {
             // If bookcode is "dl" then include all the books in archive
             $bookCode = $bookCode != "dl" ? $bookCode : null;
 
-            $books = $this->_model->getTranslation($lang, $bookProject, $bookCode);
+            $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
+
+            if(!empty($books) && isset($books[0]))
+            {
+                switch ($books[0]->state)
+                {
+                    case EventStates::STARTED:
+                    case EventStates::TRANSLATING:
+                        $chk_lvl = 0;
+                        break;
+                    case EventStates::TRANSLATED:
+                    case EventStates::L2_RECRUIT:
+                    case EventStates::L2_CHECK:
+                        $chk_lvl = 1;
+                        break;
+                    case EventStates::L2_CHECKED:
+                    case EventStates::L3_RECRUIT:
+                    case EventStates::L3_CHECK:
+                        $chk_lvl = 2;
+                        break;
+                    case EventStates::COMPLETE:
+                        $chk_lvl = 3;
+                        break;
+                    default:
+                        $chk_lvl = 0;
+                }
+
+                $manifest = new Manifest();
+
+                $manifest->setCreator("Wycliffe Associates");
+                $manifest->setPublisher("unfoldingWord");
+                $manifest->setFormat("text/json");
+                $manifest->setIdentifier($bookProject);
+                $manifest->setIssued(date("Y-m-d", time()));
+                $manifest->setModified(date("Y-m-d", time()));
+                $manifest->setLanguage(new Manifest\Language(
+                    $books[0]->direction,
+                    $books[0]->targetLang,
+                    $books[0]->langName));
+                $manifest->setRelation([]);
+                $manifest->setSource([]);
+                $manifest->setSubject("Our Daily Bread");
+                $manifest->setTitle(__($bookProject));
+                $manifest->setType("bundle");
+                $manifest->setCheckingEntity(["Wycliffe Associates"]);
+                $manifest->setCheckingLevel($chk_lvl);
+
+                // Set contributor list from entire project contributors
+                if($bookCode == null)
+                {
+                    $manifest->setContributor(array_map(function($contributor) {
+                        return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+                    }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
+                }
+
+                $json_books = [];
+                $lastChapter = 0;
+                $lastCode = null;
+
+                foreach ($books as $chunk) {
+                    $code = strtoupper($chunk->bookCode);
+
+                    if(!isset($json_books[$code]))
+                    {
+                        $json_books[$code] = ["root" => []];
+                    }
+
+                    if($code != $lastCode)
+                    {
+                        $lastChapter = 0;
+                    }
+
+                    if(!isset($json_books[$code]))
+                    {
+                        // Set contributor list from book contributors
+                        if($bookCode != null)
+                        {
+                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
+                            foreach ($contributors as $cat => $list)
+                            {
+                                if($cat == "admins") continue;
+                                foreach ($list as $contributor)
+                                {
+                                    $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
+                                }
+                            }
+                        }
+                    }
+
+                    $verses = json_decode($chunk->translatedVerses);
+
+                    if($chunk->chapter != $lastChapter)
+                    {
+                        $lastChapter = $chunk->chapter;
+                        $json_books[$code]["root"][$lastChapter-1] = [];
+                    }
+
+                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                        }
+                    }
+                    elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                        }
+                    }
+                    else
+                    {
+                        foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                            if($verse >= OdbSections::CONTENT)
+                            {
+                                $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] = html_entity_decode($text, ENT_QUOTES);
+                            }
+                            else
+                            {
+                                $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                            }
+                        }
+                    }
+
+                    $lastCode = $code;
+
+                    if(!$manifest->getProject($chunk->bookCode))
+                    {
+                        $manifest->addProject(new Manifest\Project(
+                            $chunk->bookName,
+                            $chunk->sourceBible,
+                            $chunk->bookCode,
+                            (int)$chunk->abbrID,
+                            "./".(strtoupper($chunk->bookCode)).".json",
+                            ["odb"]
+                        ));
+                    }
+                }
+
+                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+
+                $zip = new ZipStream($books[0]->targetLang . "_" . $bookProject . ($bookCode ? "_".$bookCode : "") . ".zip");
+                foreach ($json_books as $filename => $content)
+                {
+                    $filePath = $filename.".json";
+                    $zip->addFile($filePath, json_encode($content, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+                }
+                $zip->addFile("manifest.yaml", $yaml);
+                $zip->finish();
+            }
+            else
+            {
+                echo "There is no such book translation.";
+            }
+        }
+    }
+
+    public function getMd($lang, $bookProject, $sourceBible, $bookCode)
+    {
+        if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
+        {
+            // If bookcode is "dl" then include all the books in archive
+            $bookCode = $bookCode != "dl" ? $bookCode : null;
+
+            $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
             $lastChapter = -1;
             $chapter = [];
 
@@ -524,14 +742,14 @@ class TranslationsController extends Controller
         echo "An error ocurred! Contact administrator.";
     }
 
-    public function getMdTw($lang, $bookCode)
+    public function getMdTw($lang, $sourceBible, $bookCode)
     {
-        if($lang != null && $bookCode != null)
+        if($lang != null && $sourceBible != null && $bookCode != null)
         {
             // If bookcode is "dl" then include all the books in archive
             $bookCode = $bookCode != "dl" ? $bookCode : null;
 
-            $books = $this->_model->getTranslation($lang, "tw", $bookCode);
+            $books = $this->_model->getTranslation($lang, "tw", $sourceBible, $bookCode);
 
             if(!empty($books) && isset($books[0]))
             {

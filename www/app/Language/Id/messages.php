@@ -64,8 +64,17 @@ return array (
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
     "words_mode" => "Words",
+    "odb_mode" => "Our Daily Bread",
     "project_exists" => "Project exists",
     "personal" => "Personal",
+    "title" => "Title",
+    "author" => "Author",
+    "passage" => "Passage",
+    "bible_in_a_year" => "Bible in a Year",
+    "verse" => "Verse",
+    "thought" => "Thought",
+    "content" => "Content",
+    "go_sun_bible" => "SUN Bible",
 
     // Activate method
     "activate_account_title" => "Aktivasi Akun",
@@ -243,7 +252,8 @@ return array (
     "book_words" => "Source Words",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
-    "sun" => "SUN",
+    "sun" => "Symbolic Universal Notation",
+    "odb" => "Our Daily Bread",
     "rsb" => "Russian Synodal Bible",
     "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
     "kar" => "Karoli Translation",
@@ -274,6 +284,7 @@ return array (
     "step_num" => "Langkah {step_number}",
     "chapters" => "Pasal-pasal",
     "chapter_number" => "Pasal {chapter}",
+    "devotion_number" => "Devotion {devotion}",
     "intro" => "Intro",
     "front" => "Intro",
     "chapter_not_started" => "Belum dimulai",
@@ -1246,6 +1257,7 @@ return array (
     "chapter" => "Pasal {0}",
     "download_usfm" => "Unduh sebagai USFM",
     "download_markdown" => "Unduh sebagai Markdown",
+    "download_json" => "Unduh sebagai JSON",
 
     // Alma keyword plugin
     "to_list" => "To list",

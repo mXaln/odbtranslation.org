@@ -107,3 +107,16 @@ if(isset($data["error"])) return;
 <input type="hidden" id="lang" value="<?php echo "en"/*$data["event"][0]->sourceLangID*/ ?>">
 <input type="hidden" id="totalVerses" value="<?php echo $data["totalVerses"] ?>">
 <input type="hidden" id="targetLang" value="<?php echo $data["event"][0]->targetLang ?>">
+
+<script>
+    $(document).ready(function() {
+        $("#next_step").click(function() {
+            if(autosaveTimer != undefined)
+                clearInterval(autosaveTimer);
+            if(autosaveRequest != undefined)
+                autosaveRequest.abort();
+
+            return true;
+        });
+    });
+</script>

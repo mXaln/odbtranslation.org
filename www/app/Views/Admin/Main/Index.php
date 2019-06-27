@@ -179,6 +179,7 @@
                         <option value="tn"><?php echo __("notes_mode") ?></option>
                         <option value="tq"><?php echo __("questions_mode") ?></option>
                         <option value="tw"><?php echo __("words_mode") ?></option>
+                        <option value="odb"><?php echo __("odb_mode") ?></option>
                     </select>
                 </div>
             

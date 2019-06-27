@@ -64,8 +64,17 @@ return array (
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
     "words_mode" => "Mots",
+    "odb_mode" => "Our Daily Bread",
     "project_exists" => "Le projet existe",
     "personal" => "Personnel",
+    "title" => "Title",
+    "author" => "Author",
+    "passage" => "Passage",
+    "bible_in_a_year" => "Bible in a Year",
+    "verse" => "Verse",
+    "thought" => "Thought",
+    "content" => "Content",
+    "go_sun_bible" => "SUN Bible",
 
     // Activate method
     "activate_account_title" => "Activer le Compte",
@@ -240,7 +249,8 @@ return array (
     "book_words" => "Mots Sources",
     "udb" => "Bible Dynamique Débloquée",
     "ulb" => "Bible Littérale Débloquée",
-    "sun" => "Bible Littérale Débloquée (SUN)",
+    "sun" => "Symbolic Universal Notation",
+    "odb" => "Our Daily Bread",
     "rsb" => "Russian Synodal Bible",
     "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
     "kar" => "Karoli Translation",
@@ -271,6 +281,7 @@ return array (
     "step_num" => "Etape {step_number}",
     "chapters" => "Chapitres",
     "chapter_number" => "Chapitre {chapter}",
+    "devotion_number" => "Devotion {devotion}",
     "intro" => "Introduction",
     "front" => "Introduction",
     "chapter_not_started" => "Pas encore commencé",
@@ -1695,6 +1706,7 @@ return array (
     "chapter" => "Chapitre {0}",
     "download_usfm" => "Télécharger comme USFM",
     "download_markdown" => "DTélécharger comme Markdown",
+    "download_json" => "DTélécharger comme JSON",
 
     // Alma keyword plugin
     "to_list" => "A l’énumération",

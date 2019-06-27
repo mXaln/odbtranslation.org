@@ -62,8 +62,17 @@ return array (
     "notes_mode" => "Заметки",
     "questions_mode" => "Вопросы",
     "words_mode" => "Слова",
+    "odb_mode" => "Our Daily Bread",
     "project_exists" => "Проект существует",
     "personal" => "Личные",
+    "title" => "Название",
+    "author" => "Автор",
+    "passage" => "Послание",
+    "bible_in_a_year" => "Послание года",
+    "verse" => "Стих",
+    "thought" => "Мысль",
+    "content" => "Содержание",
+    "go_sun_bible" => "SUN Библия",
 
     // Activate method
     "activate_account_title" => "Активация учетной записи",
@@ -240,7 +249,8 @@ return array (
     "book_words" => "Источник слов",
     "udb" => "Динамическая Библия",
     "ulb" => "Дословная Библия",
-    "sun" => "SUN",
+    "sun" => "Symbolic Universal Notation",
+    "odb" => "Our Daily Bread",
     "rsb" => "Русская Синодальная Бибилия",
     "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
     "kar" => "Karoli Translation",
@@ -271,6 +281,7 @@ return array (
     "step_num" => "Шаг {step_number}",
     "chapters" => "Главы",
     "chapter_number" => "Глава {chapter}",
+    "devotion_number" => "Devotion {devotion}",
     "intro" => "Введение",
     "front" => "Введение",
     "chapter_not_started" => "Не начато",
@@ -1242,6 +1253,7 @@ return array (
     "chapter" => "Глава {0}",
     "download_usfm" => "Скачать в формате USFM",
     "download_markdown" => "Скачать в формате Markdown",
+    "download_json" => "Скачать в формате JSON",
 
     // Alma keyword plugin
     "to_list" => "К списку",

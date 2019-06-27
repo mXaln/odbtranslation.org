@@ -207,6 +207,56 @@ class ApiModel extends Model
         return null;
     }
 
+
+    /**
+     * Get book source from unfolding word api
+     * @param string $bookCode
+     * @param string $sourceLang
+     * @return mixed
+     */
+    public function getODB($bookCode, $sourceLang = "en")
+    {
+        $source = [];
+        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_odb/".strtoupper($bookCode).".json";
+
+        if(File::exists($filepath))
+        {
+            $sourceData = File::get($filepath);
+            $source = (array)json_decode($sourceData, true);
+            $chapters = [];
+
+            if(!empty($source) && isset($source["root"]))
+            {
+                foreach ($source["root"] as $i => $chapter) {
+                    $chapters[$i+1] = [];
+                    $k = 1;
+                    foreach ($chapter as $key => $section) {
+                        if(!is_array($section))
+                        {
+                            $chapters[$i+1][$k] = $section;
+                            $k++;
+                        }
+                        else
+                        {
+                            foreach ($section as $p) {
+                                $chapters[$i+1][$k] = $p;
+                                $k++;
+                            }
+                        }
+                    }
+                }
+                return ["chapters" => $chapters];
+            }
+            else
+            {
+                return [];
+            }
+        }
+
+        return $source;
+    }
+
+
     public function downloadRubricFromApi($lang = "en") {
         $folderPath = "../app/Templates/Default/Assets/source/".$lang."_rubric/";
         $filepath = $folderPath . "rubric.json";

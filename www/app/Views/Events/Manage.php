@@ -212,7 +212,7 @@ if(!isset($error)):
                         <div class="step_selector_block row">
                             <div class="col-sm-6">
                                 <?php
-                                $mode = $data["event"][0]->bookProject;
+                                $mode = ($data["event"][0]->sourceBible == "odb" ? "odb" : "").$data["event"][0]->bookProject;
                                 $s_disabled = EventSteps::enum($member["step"], $mode) < 2;
                                 ?>
                                 <label><?php echo __("current_step") ?>:</label>
@@ -226,7 +226,7 @@ if(!isset($error)):
                                         // Skip None step
                                         if($step == EventSteps::NONE) continue;
 
-                                        if($mode == "sun") {
+                                        if($mode == "sun" || $mode == "odbsun") {
                                             if (EventSteps::enum($step, $mode) > EventSteps::enum(EventSteps::SELF_CHECK, $mode))
                                                 continue;
                                         }
@@ -288,6 +288,8 @@ if(!isset($error)):
                                                 $altStep = 3;
                                             elseif($mode == "sun")
                                                 $altStep = 4;
+                                            elseif($mode == "odbsun")
+                                                $altStep = 3;
                                             elseif($mode == "tq" || $mode == "tw")
                                                 $altStep = 0;
 
