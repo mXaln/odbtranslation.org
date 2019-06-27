@@ -1,5 +1,5 @@
 <!-- Languages list -->
-<?php if(isset($data['languages'])): ?>
+<?php if(isset($data['languages']) && !empty($data['languages'])): ?>
     <?php echo __("bible") ?>
     <br>
     <br>
@@ -13,7 +13,7 @@
 <?php endif; ?>
 
 <!-- Projects list -->
-<?php if(isset($data['bookProjects'])): ?>
+<?php if(isset($data['bookProjects']) && !empty($data['bookProjects'])): ?>
     <a href="/translations">
         <?php echo __("bible") ?>
     </a>
@@ -33,7 +33,7 @@
 <?php endif; ?>
 
 <!-- Books list -->
-<?php if(isset($data['books'])): ?>
+<?php if(isset($data['books']) && !empty($data['books'])): ?>
     <a href="/translations">
         <?php echo __("bible") ?>
     </a>
@@ -56,7 +56,7 @@
 <?php endif; ?>
 
 <!-- Book content -->
-<?php if(isset($data['book'])): ?>
+<?php if(isset($data['book']) && !empty($data['book'])): ?>
     <a href="/translations">
         <?php echo __("bible") ?>
     </a>
