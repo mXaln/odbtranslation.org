@@ -1602,8 +1602,8 @@ class EventsModel extends Model
                     "role" => "",
                     "signup" => $member->created,
                     "email" => $member->email,
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
                 $admins[$member->memberID] = $tmp;
             }
@@ -1636,8 +1636,8 @@ class EventsModel extends Model
                     "role" => $role != "" ? $role : "",
                     "signup" => $member->created,
                     "email" => $member->email,
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
                 $checkers[$member->memberID] = $tmp;
             }
@@ -1650,8 +1650,8 @@ class EventsModel extends Model
                     "role" => "",
                     "signup" => $member->created,
                     "email" => $member->email,
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
                 $translators[$member->memberID] = $tmp;
             }
@@ -1789,8 +1789,8 @@ class EventsModel extends Model
                     "role" => "",
                     "signup" => "---",
                     "email" => "---",
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
             }, $contributors);
 
@@ -1826,8 +1826,8 @@ class EventsModel extends Model
                         "role" => $role != "" ? $role : "",
                         "signup" => $member->created,
                         "email" => $member->email,
-                        "tou" => true,
-                        "sof" => true
+                        "tou" => "yes",
+                        "sof" => "yes"
                     ];
 
                     $contributors[] = $tmp;
