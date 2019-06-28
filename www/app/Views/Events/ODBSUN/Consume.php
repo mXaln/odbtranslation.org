@@ -6,7 +6,7 @@ if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 1]) . ": " . __("consume")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 1]) . ": " . __("consume_odb")?></div>
     </div>
 
     <div class="row">
@@ -77,7 +77,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content">
-            <h3><?php echo __("consume")?></h3>
+            <h3><?php echo __("consume_odb")?></h3>
             <ul><?php echo __("consume_sun_desc")?></ul>
         </div>
     </div>

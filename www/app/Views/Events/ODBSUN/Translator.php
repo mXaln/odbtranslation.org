@@ -26,7 +26,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </li>
 
         <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CONSUME)?></span>
+            <span><?php echo __(EventSteps::CONSUME."_odb")?></span>
         </li>
 
         <li class="rearrange-step <?php echo $data["event"][0]->step == EventSteps::REARRANGE ? "active" : "" ?>">
@@ -42,11 +42,11 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </li>
 
         <li class="theo-check-step <?php echo $data["event"][0]->step == EventSteps::THEO_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::THEO_CHECK)?></span>
+            <span><?php echo __(EventSteps::THEO_CHECK."_odb")?></span>
         </li>
 
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CONTENT_REVIEW)?></span>
+            <span><?php echo __(EventSteps::CONTENT_REVIEW."_odb")?></span>
         </li>
     </ul>
 </div>

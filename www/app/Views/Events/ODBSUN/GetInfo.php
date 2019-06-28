@@ -63,14 +63,14 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_status"><?php echo __("step_status_" . $chapter["consume"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONSUME.".png") ?>"></div>
-                        <div class="step_name">1. <?php echo __(EventSteps::CONSUME); ?></div>
+                        <div class="step_name">1. <?php echo __(EventSteps::CONSUME."_odb"); ?></div>
                     </div>
                     <!-- Rearrange Step -->
                     <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>">
                         <div class="step_status"><?php echo __("step_status_" . $chapter["rearrange"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::REARRANGE.".png") ?>"></div>
-                        <div class="step_name">3. <?php echo __(EventSteps::REARRANGE); ?></div>
+                        <div class="step_name">2. <?php echo __(EventSteps::REARRANGE); ?></div>
                         <div class="step_chunks <?php echo sizeof($chapter["chunks"]) > 4 ? "more_chunks" : "" ?>">
                             <?php if(isset($chapter["chunks"])): ?>
                                 <?php foreach ($chapter["chunks"] as $index => $chunk):?>
@@ -92,14 +92,14 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_status"><?php echo __("step_status_" . $chapter["symbolDraft"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::SYMBOL_DRAFT.".png") ?>"></div>
-                        <div class="step_name">4. <?php echo __(EventSteps::SYMBOL_DRAFT); ?></div>
+                        <div class="step_name">3. <?php echo __(EventSteps::SYMBOL_DRAFT); ?></div>
                     </div>
                     <!-- Self Check Step -->
                     <div class="section_step <?php echo $chapter["selfEdit"]["state"] ?>">
                         <div class="step_status"><?php echo __("step_status_" . $chapter["selfEdit"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::SELF_CHECK.".png") ?>"></div>
-                        <div class="step_name">5. <?php echo __(EventSteps::SELF_CHECK); ?></div>
+                        <div class="step_name">4. <?php echo __(EventSteps::SELF_CHECK); ?></div>
                     </div>
 
                     <!-- Checking stage -->
@@ -111,7 +111,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_status"><?php echo __("step_status_" . $chapter["theoChk"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::KEYWORD_CHECK.".png") ?>"></div>
-                        <div class="step_name">6. <?php echo __(EventSteps::THEO_CHECK); ?></div>
+                        <div class="step_name">5. <?php echo __(EventSteps::THEO_CHECK."_odb"); ?></div>
                         <?php if($chapter["theoChk"]["state"] == StepsStates::WAITING): ?>
                             <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                         <?php endif; ?>
@@ -126,7 +126,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_status"><?php echo __("step_status_" . $chapter["crc"]["state"]) ?></div>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONTENT_REVIEW.".png") ?>"></div>
-                        <div class="step_name">7. <?php echo __(EventSteps::CONTENT_REVIEW); ?></div>
+                        <div class="step_name">6. <?php echo __(EventSteps::CONTENT_REVIEW."_odb"); ?></div>
                         <?php if($chapter["crc"]["state"] == StepsStates::WAITING): ?>
                             <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                         <?php endif; ?>

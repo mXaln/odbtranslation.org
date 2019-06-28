@@ -488,10 +488,15 @@ return array (
     "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "saildic_uploader_tooltip" => "Upload SUN dictionary in .csv format (comma separated). In following order: symbol, comma, word. Document should be UTF-8 (Unicode) encoded",
     "sun_theo_checker" => "Remove Theological checker",
+    "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "sun_odb_vbv_checker" => "Remove SUN checker",
+    "other_checker" => "Remove first checker",
+    "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
+    "l3_p_checker" => "Remove checker",
     "news" => "News",
     "draft" => "Draft",
     "create_words_group" => "Create group of words",
@@ -520,6 +525,7 @@ return array (
     "multi-draft_lang_input" => "Input",
 
     "consume" => "Pagbasa",
+    "consume" => "Basaha",
     "consume_tn" => "Read Scripture",
     "consume_tn_full" => "Read Scripture in Target Language",
     "consume_desc" => "<li><b>KATUYOUAN:</b> Aron maandam ang imong short-term nga hunahuna aron makatabang kanimo sa paghubad</li><li>Basaha ang tibuok kapitulo nga gihatag sa imo. Sa hinayhinay hunahunaa kung unsa ang gisulti aron masabtan ang kinatibuk-an nga unod sa kapitulo.</li><li>Hunong kadali, hunahunaa, ug basaha pag-usab kung kinahanglan.</li><li>Kinahanglan nga dili ka molapas og 12 ka minuto niini nga lakang.</li>",
@@ -686,6 +692,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
 
     "content-review" => "Verse-by-Verse Check",
+    "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>KATUYOUAN:</b> aron masiguro nga ang matag bahin ug kapitulo haom ang mensahe ngadto sa hinubad nga teksto. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi: </li><li>Kung ang nahibaloan sa tigsusi mao lamang ang gigikanan nga teksto, kinahanglan nga buhaton kini pinaagi sa paghubad balik sa gigikanan nga teksto (back translation). Imong basahon ang nahubad na nga teksto, dayon ang lahi nga tawo hubaron kini sa gigikanan nga teksto, ikumpara sa tigsusi ang iyang nadungog ngadto sa iyang gibasa. Kung kahibalo ang tigsusi sa du ha ka pinulongan, mahimo silang mopili asa nga pamaagi ang ilang buhaton. Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
     "content-review_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang matag bahin ug kapitulo haom nga nagpasabot sa mensahe ngadto sa hinubad nga pinulongan. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li> Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi. Ang makita nimo nga mogawas dayon mao ang una nga pamaagi. <ol><li>Kung ang nahibaloan nimo mao lamang ang gigikanan nga teksto, ang pagsusi kinahanglan buhaton sa ‘back translation’. Basahon sa tighubad ang matag bersikulo sa nahubad na nga teksto, unya ang lahi nga tawo mohubad niini sa gigikanan nga teksto. Imo dayong ikumpara ang imong nadungog sa imong gibasa nga teksto. </li><li> Kung kabalo ka sa duha ka pinulongan, mahimong gamiton ang una nga pamaagi o ang pagsusi uban ang tighubad sa imong kiliran. Niini nga pamaagi, pindota ang “Side by Side” nga toggle button aron malahi ang naa sa screen. Imo dayong ikumpara ang duha. </li></ol></li><li>Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon. </li>",
     
@@ -705,6 +712,7 @@ return array (
     "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li><li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Theological Check",
+    "theo-check_odb" => "ODB Check",
     "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li><li>If you see an incorrect word, double-click the word to highlight it and put a comment in the \"notes\" for the suggested change.</li>",
 
     "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",

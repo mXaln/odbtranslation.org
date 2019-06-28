@@ -18,7 +18,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 2]). ": " . __("content-review")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 6]). ": " . __("content-review_odb")?></div>
     </div>
 
     <div class="row">
@@ -124,7 +124,7 @@ if(isset($data["error"])) return;
                     <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
                 </div>
             </form>
-            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
+            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 6])?></div>
         </div>
 
         <div class="content_help col-sm-3">
@@ -135,7 +135,7 @@ if(isset($data["error"])) return;
 
                     <div class="clear"></div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("content-review")?></div>
+                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("content-review")?></div>
                     <div class="help_descr_steps">
                         <ul><?php echo __("content-review_sun_desc")?></ul>
                         <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -145,7 +145,7 @@ if(isset($data["error"])) return;
                 <div class="event_info is_checker_page_help">
                     <div class="participant_info">
                         <div class="additional_info">
-                            <a href="/events/information-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                            <a href="/events/information-odb-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content is_checker_page_help">
-            <h3><?php echo __("content-review")?></h3>
+            <h3><?php echo __("content-review_odb")?></h3>
             <ul><?php echo __("content-review_sun_desc")?></ul>
         </div>
     </div>

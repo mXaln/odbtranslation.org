@@ -483,10 +483,15 @@ return array (
     "font_uploader_tooltip" => "Загружайте только шрифты SUN и BACKSUN, по одному за раз. Файлы шрифтов должны иметь формат TTF и называться соответственно sun.ttf и backsun.ttf",
     "saildic_uploader_tooltip" => "Загружайте словарь SUN в формате .csv (разделение запятой). В следующем порядке: Символ, запятая, слово. Документ должен быть сохранен, используя кодировку UTF-8 (Unicode)",
     "sun_theo_checker" => "Удалить теологического проверяющего",
+    "sun_odb_theo_checker" => "Удалить ODB проверяющего",
     "sun_vbv_checker" => "Удалить проверяющего по стихам",
+    "sun_odb_vbv_checker" => "Удалить SUN проверяющего",
+    "other_checker" => "Удалить первого проверяющего",
+    "other_peer_checker" => "Удалить парного проверяющего",
     "l2_snd_checker" => "Удалить проверяющего 2-ой проверки",
     "l2_p1_checker" => "Удалить 1-ого парного проверяющего",
     "l2_p2_checker" => "Удалить 2-ого парного проверяющего",
+    "l3_p_checker" => "Удалить проверяющего",
     "news" => "Новости",
     "draft" => "Черновик",
     "create_words_group" => "Создание группы слов",
@@ -515,6 +520,7 @@ return array (
     "multi-draft_lang_input" => "Ввод",
 
     "consume" => "Чтение",
+    "consume_odb" => "Чтение",
     "consume_tn" => "Чтение Писания",
     "consume_tn_full" => "Чтение Писания на целевом языке",
     "consume_desc" => "<li><b>ЦЕЛЬ:</b> подготовить свою кратковременную память к переводу текста</li><li>Прочитайте текст от начала до конца. Попытайтесь как можно более глубоко в него вникнуть; посмотрите, о чем идет речь; постарайтесь полностью понять содержание текста.</li><li>Останавливайтесь, размышляйте и перечитывайте текст по мере необходимости.</li><li>Уделите этому шагу не более 12 минут.</li>",
@@ -700,6 +706,7 @@ return array (
     "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li><li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Теологическая проверка",
+    "theo-check_odb" => "ODB проверка",
     "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li><li>If you see an incorrect word, double-click the word to highlight it and put a comment in the \"notes\" for the suggested change.</li>",
 
     "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",

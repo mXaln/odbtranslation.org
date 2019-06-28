@@ -485,10 +485,15 @@ return array (
     "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "saildic_uploader_tooltip" => "Upload SUN dictionary in .csv format (comma separated). In following order: symbol, comma, word. Document should be UTF-8 (Unicode) encoded",
     "sun_theo_checker" => "Remove Theological checker",
+    "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "sun_odb_vbv_checker" => "Remove SUN checker",
+    "other_checker" => "Remove first checker",
+    "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
+    "l3_p_checker" => "Remove checker",
     "news" => "News",
     "draft" => "Draft",
     "create_words_group" => "Create group of words",
@@ -517,6 +522,7 @@ return array (
     "multi-draft_lang_input" => "Input",
 
     "consume" => "Baca Mendalam",
+    "consume_odb" => "Pembacaan",
     "consume_tn" => "Read Scripture",
     "consume_tn_full" => "Read Scripture in Target Language",
     "consume_desc" => "<li><b>KEGUNAAN:</b> untuk menyiapkan memori jangka pendek Anda untuk membantu Anda dalam penerjemahan</li><li>Baca teks yang ditugaskan secara keseluruhan. Serap secara cermat dan pertimbangkan apa yang dikatakan untuk memahami isi utuh dari nats ini.</li><li>Berhenti, renungkan, dan baca kembali jika perlu.</li><li>Ambil tidak lebih dari 12 menit pada kegiatan ini.</li>",
@@ -687,6 +693,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
 
     "content-review" => "Pengecekan Ayat-per-Ayat",
+    "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan setiap penggalan dan pasal mengomunikasikan secara akurat pesan yang sama dalam bahasa tujuan</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara: <ol><li>Jika pemeriksa hanya mengenal sumbernya, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, anda akan membaca teks yang diterjemahkan penggalan demi penggalan, kemudian Anda atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan pemeriksa akan membandingkan apa yang mereka dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika pemeriksa lancar dalam kedua bahasa, mereka dapat memilih untuk menggunakan metode satu, atau mengkaji terjemahan Anda berdampingan dengan teks sumber.</li></ol></li><li>Kedua-duanya, pemeriksa Anda akan bertanya tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Pastikan kata-kata yang digunakan cocok dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
     "content-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk memastikan setiap penggalan dan pasal mengkomunikasikan secara akurat pesan yang sama dalam bahasa tujuan .</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga.</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telpon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara. Tampilan standar mengasumsikan metode pertama.<ol><li>Jika Anda hanya mengenal bahasa sumber, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, penerjemah akan membaca teks yang diterjemahkan ayat demi ayat, kemudian mereka atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan Anda akan membandingkan apa yang Anda dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika Anda lancar dalam kedua bahasa, anda dapat menggunakan metode satu, atau memilih untuk mengkaji terjemahan berdampingan dengan sumber. Dalam kasus ini, tekan tombol “Side by Side” untuk mengubah tampilan. Anda kemudian membandingkan sendiri keduanya.</li></ol></li><li>Kedua-duanya, Anda harus menanyakan tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap ke dalam bahasa tujuan. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
     
@@ -706,6 +713,7 @@ return array (
     "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li><li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Theological Check",
+    "theo-check_odb" => "ODB Check",
     "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li><li>If you see an incorrect word, double-click the word to highlight it and put a comment in the \"notes\" for the suggested change.</li>",
 
     "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",

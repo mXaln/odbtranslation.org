@@ -479,10 +479,15 @@ return array (
     "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "saildic_uploader_tooltip" => "Upload SUN dictionary in .csv format (comma separated). In following order: symbol, comma, word. Document should be UTF-8 (Unicode) encoded",
     "sun_theo_checker" => "Remove Theological checker",
+    "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "sun_odb_vbv_checker" => "Remove SUN checker",
+    "other_checker" => "Remove first checker",
+    "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Supprimer le 2eme vérificateur",
     "l2_p1_checker" => "Supprimer le 1er vérificateur pair",
     "l2_p2_checker" => "Supprimer le 2eme vérificateur pair",
+    "l3_p_checker" => "Supprimer le vérificateur",
     "news" => "Nouvelles",
     "draft" => "Brouillon",
     "create_words_group" => "Créer un groupe de mots",
@@ -517,6 +522,7 @@ return array (
     "multi-draft_lang_input" => "Input",
 
     "consume" => "Consumer (absorber)",
+    "consume_odb" => "Lis",
     "consume_desc" => "<li><b>BUT:</b> Saisir le texte d’origine pour se préparer à traduire.</li>
                         <li><b>DURÉE:</b> Ayez 7-8 minutes pour cette étape.</li>
                         <li>Lire attentivement le chapître en question.</li>
@@ -925,6 +931,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Vérification Verset par Verset",
+    "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>BUT:</b> assurer que la traduction donne correctement le même message que le texte de départ</li>
                                 <li><b>DURÉE:</b> Le vérificateur doit prendre autours de 30 minutes pour réviser le texte. 
                                     La discussion et la correction doivent prendre autour de 30 à 45 minutes.</li>
@@ -1112,6 +1119,7 @@ return array (
                                 <li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Theological Check",
+    "theo-check_odb" => "ODB Check",
     "theo-check_desc" => "<li><b>BUT:</b> check the backtranslation for theological accuracy.</li>
                             <li>If you see an incorrect word, double-click the word to highlight it and put a comment 
                                 in the \"notes\" for the suggested change.</li>",

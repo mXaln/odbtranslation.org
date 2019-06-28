@@ -105,12 +105,16 @@ if(!isset($error)):
                                 <button class="btn btn-danger remove_checker_alt" id="kw_checker"
                                         data-name="<?php echo $kwName ?>"
                                     <?php echo $cr ? "disabled" : "" ?>
-                                        title="<?php echo __("sun_theo_checker") ?>">Theo</button>
+                                        title="<?php echo __("sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")."_theo_checker") ?>">
+                                    <?php echo $data["event"][0]->sourceBible == "odb" ? "ODB" : "THEO" ?>
+                                </button>
                                 <?php if($cr): ?>
                                     <button class="btn btn-danger remove_checker_alt" id="cr_checker"
                                             data-level="<?php echo $chapData["crCheck"][$chapter]["done"] ?>"
                                             data-name="<?php echo $crName ?>"
-                                            title="<?php echo __("sun_vbv_checker") ?>">V-b-v</button>
+                                            title="<?php echo __("sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")."_vbv_checker") ?>">
+                                        <?php echo $data["event"][0]->sourceBible == "odb" ? "SUN" : "V-B-V" ?>
+                                    </button>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>

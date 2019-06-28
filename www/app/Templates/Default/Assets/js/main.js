@@ -372,7 +372,7 @@ $(document).ready(function() {
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW || step == EventSteps.MULTI_DRAFT ||
-            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.REARRANGE ||
+            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.REARRANGE || step == EventSteps.THEO_CHECK || // For SUN
             step == EventCheckSteps.FST_CHECK || step == EventCheckSteps.SND_CHECK || // For Level 2 Check
             step == EventCheckSteps.PEER_REVIEW_L2 ||
             step == EventCheckSteps.PEER_EDIT_L3)
@@ -593,7 +593,7 @@ $(document).ready(function() {
                 .always(function() {
 
                 });
-        }, 10000);
+        }, 60000);
     }
 
     var mouseTimeout;

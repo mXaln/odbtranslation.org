@@ -479,10 +479,15 @@ return array (
     "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "saildic_uploader_tooltip" => "Upload SUN dictionary in .csv format (comma separated). In following order: symbol, comma, word. Document should be UTF-8 (Unicode) encoded",
     "sun_theo_checker" => "Remove Theological checker",
+    "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "sun_odb_vbv_checker" => "Remove SUN checker",
+    "other_checker" => "Remove first checker",
+    "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
+    "l3_p_checker" => "Remove checker",
     "news" => "News",
     "draft" => "Draft",
     "create_words_group" => "Create group of words",
@@ -527,6 +532,7 @@ return array (
                             reflect on portions and then continue reading the next portion of the chapter.</li>
                         <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
+    "consume_odb" => "Read",
     "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
@@ -904,6 +910,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Verse-by-Verse Check",
+    "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
                                     Discussion and correction section should take about 30-45 minutes.</li>
@@ -1074,6 +1081,7 @@ return array (
                                 <li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Theological Check",
+    "theo-check_odb" => "ODB Check",
     "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li>
                             <li>If you see an incorrect word, double-click the word to highlight it and put a comment 
                                 in the \"notes\" for the suggested change.</li>",
