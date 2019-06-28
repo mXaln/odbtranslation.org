@@ -190,7 +190,7 @@ class AdminController extends Controller {
         $_FILES = Gump::xss_clean($_FILES);
 
         $import = isset($_FILES['import']) && $_FILES['import'] != "" ? $_FILES['import']
-                : (isset($_POST['import']) && $_POST['import'] != "" ? $_POST['import'] : null);
+            : (isset($_POST['import']) && $_POST['import'] != "" ? $_POST['import'] : null);
         $type = isset($_POST['type']) && $_POST['type'] != "" ? $_POST['type'] : "dcs";
         $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : 0;
         $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? (integer)$_POST['eventID'] : 0;
@@ -440,7 +440,7 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
-		
+
         $data['menu'] = 2;
         $data["languages"] = $this->_eventsModel->getAllLanguages();
 
@@ -454,43 +454,46 @@ class AdminController extends Controller {
         $data["count"] = $this->_membersModel->searchMembers(null, "all", null, true);
         $data["members"] = $this->_membersModel->searchMembers(null, "all", null, false, true);
 
-        // All books
-        $data["books"] = [];
+        // All members with their translation events
+        $data["all_members"] = [];
         $list = $this->_eventsModel->getBooksOfTranslators();
         foreach($list as $item)
         {
-            if(!isset($data["books"][$item->userName]))
+            if(!isset($data["all_members"][$item->userName]))
             {
                 $tmp = [];
                 $tmp["firstName"] = $item->firstName;
                 $tmp["lastName"] = $item->lastName;
-                $data["books"][$item->userName] = $tmp;
+                $data["all_members"][$item->userName] = $tmp;
             }
 
-            if(!isset($data["books"][$item->userName]["books"]))
+            if(!isset($data["all_members"][$item->userName]["books"]))
             {
                 $tmp = [];
                 $tmp["name"] = $item->name;
+                $tmp["project"] = "(".$item->bookProject.") ".__($item->bookProject);
+                $tmp["lang"] = "[".$item->targetLang."] ".$item->angName
+                    .($item->angName != $item->langName ? " (".$item->langName.")" : "");
                 $tmp["chapters"] = [];
-                $data["books"][$item->userName]["books"][$item->code] = $tmp;
+                $data["all_members"][$item->userName]["books"][$item->code] = $tmp;
             }
 
-            if(!isset($data["books"][$item->userName]["books"][$item->code]))
+            if(!isset($data["all_members"][$item->userName]["books"][$item->code]))
             {
                 $tmp = [];
                 $tmp["name"] = $item->name;
+                $tmp["project"] = "(".$item->bookProject.") ".__($item->bookProject);
+                $tmp["lang"] = "[".$item->targetLang."] ".$item->angName
+                    .($item->angName != $item->langName ? " (".$item->langName.")" : "");
                 $tmp["chapters"] = [];
-                $data["books"][$item->userName]["books"][$item->code] = $tmp;
+                $data["all_members"][$item->userName]["books"][$item->code] = $tmp;
             }
 
-            if(!isset($data["books"][$item->userName]["books"][$item->code]["chapters"]))
-            {
-                $data["books"][$item->userName]["books"][$item->code]["chapters"][$item->chapter] = $item->done;
-            }
-            else
-            {
-                $data["books"][$item->userName]["books"][$item->code]["chapters"][$item->chapter] = $item->done;
-            }
+            if(!isset($data["all_members"][$item->userName]["books"][$item->code]["chapters"]))
+                $data["all_members"][$item->userName]["books"][$item->code]["chapters"] = [];
+
+            $data["all_members"][$item->userName]["books"][$item->code]["chapters"][$item->chapter]["done"] = $item->done;
+            $data["all_members"][$item->userName]["books"][$item->code]["chapters"][$item->chapter]["words"] = $item->words;
         }
 
         return View::make('Admin/Members/Index')
@@ -935,7 +938,7 @@ class AdminController extends Controller {
                 "sourceLangID" => $sourceTrPair[1],
                 "resLangID" => $resSourceTranslation
             );
-            
+
             $id = $this->_eventsModel->createProject($postdata);
 
             if($id)
@@ -1092,17 +1095,17 @@ class AdminController extends Controller {
             Cache::forget($cache_keyword);
 
         $source = $this->_apiModel->getCachedSourceBookFromApi(
-                $sourceBible,
-                $bookCode, 
-                $sourceLangID,
-                $abbrID);
+            $sourceBible,
+            $bookCode,
+            $sourceLangID,
+            $abbrID);
 
         if($source)
             $response["success"] = true;
 
         echo json_encode($response);
     }
-    
+
     public function updateAllBooksCache()
     {
         $response = ["success" => false];
@@ -1125,7 +1128,7 @@ class AdminController extends Controller {
 
         $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
         $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
-        
+
         $booksUpdated = 0;
 
         if($sourceLangID && $sourceBible)
@@ -1143,7 +1146,7 @@ class AdminController extends Controller {
             {
                 $bookCode = $book->code;
                 $abbrID = $book->abbrID;
-                
+
                 // Book source
                 $cache_keyword = $bookCode."_".$sourceLangID."_".$sourceBible."_usfm";
 
@@ -1151,10 +1154,10 @@ class AdminController extends Controller {
                     Cache::forget($cache_keyword);
 
                 $source = $this->_apiModel->getCachedSourceBookFromApi(
-                        $sourceBible,
-                        $bookCode, 
-                        $sourceLangID,
-                        $abbrID);
+                    $sourceBible,
+                    $bookCode,
+                    $sourceLangID,
+                    $abbrID);
 
                 if($source)
                 {
@@ -1173,9 +1176,9 @@ class AdminController extends Controller {
                 File::move($renDir, $origDir);
             }
         }
-        
+
         $response["booksUpdated"] = $booksUpdated;
-        
+
         echo json_encode($response);
     }
 
@@ -1293,7 +1296,7 @@ class AdminController extends Controller {
             );
 
             $postdata = [];
-            
+
             switch($act)
             {
                 case "create":
@@ -1389,7 +1392,7 @@ class AdminController extends Controller {
                     $postdata["bookCode"] = $bookCode;
 
                     $bookInfo = $this->_translationModel->getBookInfo($bookCode);
-                    
+
                     if(!empty($bookInfo))
                     {
                         if($bookInfo[0]->category == "odb")

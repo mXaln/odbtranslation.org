@@ -435,7 +435,10 @@ if(!empty($data["project"])):
     <div class="contributors_block">
         <div class="contributors-close glyphicon glyphicon-remove"></div>
         <div class="contributors_title"><?php echo __("event_contributors") ?></div>
-        <div class="contributors_title proj"><?php echo __("contributors") ?></div>
+        <div class="contributors_title proj">
+            <?php echo __("contributors") ?>
+            <button class="btn btn-link contribs_download_csv">Download (.scv)</button>
+        </div>
         <div class="contributors_content"></div>
     </div>
 </div>

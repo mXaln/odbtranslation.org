@@ -898,7 +898,7 @@ $(function () {
                     // Render facilitators
                     html += "<div class='admins_list'>" +
                         "<div class='contrib_title'>"+Language.facilitators+":</div>";
-                    html += "<table class='all_contributors'>" +
+                    html += "<table class='table table-bordered table-hover' role='grid'>" +
                         "<tr>"+
                             "<th>First Name</th>"+
                             "<th>Last Name</th>"+
@@ -938,7 +938,7 @@ $(function () {
                     {
                         html += "<div class='translators_list'>" +
                             "<div class='contrib_title'>"+Language.translators+":</div>";
-                        html += "<table class='all_contributors'>" +
+                        html += "<table class='table table-bordered table-hover' role='grid'>" +
                             "<tr>"+
                                 "<th>First Name</th>"+
                                 "<th>Last Name</th>"+
@@ -976,7 +976,7 @@ $(function () {
                     // Render checkers
                     html += "<div class='checkers_list'>" +
                         "<div class='contrib_title'>"+Language.checkers+":</div>";
-                    html += "<table class='all_contributors'>" +
+                    html += "<table class='table table-bordered table-hover' role='grid'>" +
                         "<tr>"+
                             "<th>First Name</th>"+
                             "<th>Last Name</th>"+
@@ -1052,7 +1052,7 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    var html = "<table class='all_contributors'>"+
+                    var html = "<table class='table table-bordered table-hover' role='grid'>"+
                         "<tr>"+
                             "<th>First Name</th>"+
                             "<th>Last Name</th>"+
@@ -1823,6 +1823,16 @@ $(function () {
                 uploadImageContent(image[0], $(this));
             }
         }
+    });
+
+    $(".members_download_csv").on("click", function() {
+        var csv = exportTableToCSV($("#all_books_content")[0], "\t");
+        downloadCSV(csv, "report.csv");
+    });
+
+    $(".contribs_download_csv").on("click", function() {
+        var csv = exportTableToCSV($(".contributors_content")[0], "\t");
+        downloadCSV(csv, "contributors.csv");
     });
 });
 

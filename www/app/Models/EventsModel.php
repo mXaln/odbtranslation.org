@@ -2306,12 +2306,17 @@ class EventsModel extends Model
     {
             return $this->db->table("chapters")
                     ->select(["members.userName", "members.firstName", "members.lastName",
-                        "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
-                        "projects.bookProject", "projects.targetLang"])
+                        "chapters.chapter", "chapters.done", "abbr.name", "abbr.code", "tw_groups.words",
+                        "projects.bookProject", "projects.targetLang", "languages.angName", "languages.langName"])
                     ->leftJoin("members", "chapters.memberID", "=", "members.memberID")
                     ->leftJoin("events", "chapters.eventID", "=", "events.eventID")
                     ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
                     ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+                    ->leftJoin("languages", "projects.targetLang", "=", "languages.langID")
+                    ->leftJoin("tw_groups", function($join) {
+                        $join->on("chapters.chapter", "=", "tw_groups.groupID")
+                            ->where("projects.bookProject", "=", "tw");
+                    })
                     ->orderBy("members.userName")
                     ->orderBy("abbr.abbrID")
                     ->orderBy("chapters.chapter")
