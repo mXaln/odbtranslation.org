@@ -739,7 +739,7 @@ class TranslationsController extends Controller
             }
         }
 
-        echo "An error ocurred! Contact administrator.";
+        echo "An error occurred! Contact administrator.";
     }
 
     public function getMdTw($lang, $sourceBible, $bookCode)
