@@ -1681,6 +1681,7 @@ class EventsModel extends Model
             ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID")
             ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
             ->where("events.projectID", $projectID)
+            ->orderBy("events.eventID")
             ->get();
 
     }
@@ -1696,12 +1697,12 @@ class EventsModel extends Model
             $membersModel = new MembersModel();
 
             $mode = $project[0]->bookProject;
+            $lastEventID = null;
 
             // Checkers
             foreach ($project as $participant) {
                 // Facilitators
-                if($withAdmins)
-                {
+                if ($withAdmins) {
                     $contributorsIDs += (array)json_decode($participant->admins);
                     $contributorsIDs += (array)json_decode($participant->admins_l2);
                     $contributorsIDs += (array)json_decode($participant->admins_l3);
@@ -1718,59 +1719,60 @@ class EventsModel extends Model
                 $peer3Check = (array)json_decode($participant->peer3Check);
 
                 // Resource Checkers
-                if(in_array($mode, ["tn", "sun", "tw", "tq"]))
-                {
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                if (in_array($mode, ["tn", "sun", "tw", "tq"])) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peerCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $kwCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $crCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $otherCheck)));
-                }
-                else
-                {
+                } else {
                     // Scripture Checkers
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($verbCheck));
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($peerCheck));
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($kwCheck));
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($crCheck));
 
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $sndCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peer1Check)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peer2Check)));
                 }
 
-                $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                     return $elm->memberID;
                 }, $peer3Check)));
 
                 // Translators/L2 checkers/L3 checkers
-                $chapters = $this->getChapters($participant->eventID, null, null, null);
+                if ($lastEventID != $participant->eventID) {
+                    $chapters = $this->getChapters($participant->eventID, null, null, null);
 
-                foreach ($chapters as $chapter) {
-                    if ($chapter["memberID"] != null) {
-                        $contributorsIDs[] = $chapter["memberID"];
+                    foreach ($chapters as $chapter) {
+                        if ($chapter["memberID"] != null) {
+                            $contributorsIDs[] = $chapter["memberID"];
+                        }
+                        if ($chapter["l2memberID"] != null) {
+                            $contributorsIDs[] = $chapter["l2memberID"];
+                        }
+                        if ($chapter["l3memberID"] != null) {
+                            $contributorsIDs[] = $chapter["l3memberID"];
+                        }
                     }
-                    if ($chapter["l2memberID"] != null) {
-                        $contributorsIDs[] = $chapter["l2memberID"];
-                    }
-                    if ($chapter["l3memberID"] != null) {
-                        $contributorsIDs[] = $chapter["l3memberID"];
-                    }
+                    $lastEventID = $participant->eventID;
                 }
             }
+
             $contributorsIDs = array_unique($contributorsIDs);
 
             $filteredNumeric = array_filter($contributorsIDs, function($elm) {

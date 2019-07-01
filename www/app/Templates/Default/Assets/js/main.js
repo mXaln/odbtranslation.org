@@ -2349,7 +2349,6 @@ $(document).ready(function() {
         var totalVerses = $("input#totalVerses").val();
 
         if (container.length <= 0) {
-
             var query_params = (["tq","tn","tw"].indexOf(tool) > -1
                 ? bookCode + "/" + chapter + "/" + lang
                 : (tool == "rubric" ? targetLang : ""))
