@@ -197,10 +197,9 @@
             <th>Book</th>
             <th width="400">Chapters</th>
         </tr>
-    <?php $lastUser = null; foreach ($data["all_members"] as $username => $member):?>
+    <?php foreach ($data["all_members"] as $username => $member):?>
         <?php foreach ($member["books"] as $i => $book) : ?>
-            <?php $name = $lastUser != $username ? $member["firstName"]." ".$member["lastName"] ." (".$username.")" : "" ?>
-            <?php $lastUser = $username; ?>
+            <?php $name = $member["firstName"]." ".$member["lastName"] ." (".$username.")" ?>
             <tr>
                 <th><?php echo $name ?></th>
                 <td><?php echo $book["lang"] ?></td>
