@@ -1865,7 +1865,7 @@ class EventsModel extends Model
         ]);
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-                PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
+                PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -1999,7 +1999,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT chks.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mychks.step as myStep, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, mychks.step as myStep, ".
             "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."checkers_l2 AS chks ".
             "LEFT JOIN ".PREFIX."members ON chks.memberID = ".PREFIX."members.memberID ".
@@ -2075,7 +2075,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT chks.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mychks.step as myStep, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, mychks.step as myStep, ".
             "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."checkers_l3 AS chks ".
             "LEFT JOIN ".PREFIX."members ON chks.memberID = ".PREFIX."members.memberID ".
@@ -2204,7 +2204,7 @@ class EventsModel extends Model
             ]);
 
             $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, "
-                .PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
+                .PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
                 "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".

@@ -13249,12 +13249,13 @@ class EventsController extends Controller
         {
             foreach ($this->_notifications as $notification)
             {
-                $text_data = array(
+                $text_data = [
                     "name" => $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
                     "step" => ($notification->step != "other" ? "(".__($notification->step .
                             (in_array($notification->bookProject, ["tq","tw"])
                             && $notification->step == EventSteps::PEER_REVIEW
-                                ? "_".$notification->bookProject : "")).")" : ""),
+                                ? "_".$notification->bookProject : ($notification->sourceBible == "odb"
+                                    ? "_odb" : ""))).")" : ""),
                     "book" => $notification->bookName,
                     "chapter" => ($notification->bookProject == "tw"
                         ? $notification->group
@@ -13263,7 +13264,7 @@ class EventsController extends Controller
                             : $notification->currentChapter)),
                     "language" => $notification->tLang,
                     "project" => __($notification->bookProject)
-                );
+                ];
 
                 if($notification->bookProject == "tw")
                     $text = __('checker_apply_tw', $text_data).(
