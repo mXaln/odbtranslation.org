@@ -279,6 +279,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/edit_super_admins", "AdminController@editSuperAdmins");
     Router::any("rpc/import", "AdminController@import");
     Router::any("rpc/repos_search/{q}", "AdminController@repos_search");
+    Router::any("rpc/get_project", "AdminController@getProject");
     Router::any("rpc/get_event", "AdminController@getEvent");
     Router::any("rpc/get_event_contributors", "AdminController@getEventContributors");
     Router::any("rpc/get_project_contributors", "AdminController@getProjectContributors");

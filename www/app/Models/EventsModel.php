@@ -286,6 +286,7 @@ class EventsModel extends Model
                 ."evnt.dateTo, evnt.admins, evnt.admins_l2, evnt.admins_l3, "
                 .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
+                .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, "
                 .PREFIX."projects.sourceBible, t_lang.langName as tLang, chapters.chunks, "
                 ."t_lang.direction as tLangDir, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, "
@@ -361,6 +362,7 @@ class EventsModel extends Model
                 ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
                 .PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+                .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
                 .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, "
                 ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -405,6 +407,7 @@ class EventsModel extends Model
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
             .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
@@ -557,6 +560,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -721,6 +725,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -881,6 +886,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.gwProjectID, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -1059,6 +1065,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -2368,8 +2375,9 @@ class EventsModel extends Model
     }
 
     /**
-     * Create gateway project
+     * Update gateway project
      * @param array $data
+     * @param array $where
      * @return string
      */
     public function updateGatewayProject($data, $where)
@@ -2388,6 +2396,19 @@ class EventsModel extends Model
     {
         return $this->db->table("projects")
             ->insertGetId($data);
+    }
+
+    /**
+     * Update project
+     * @param array $data
+     * @param array $where
+     * @return string
+     */
+    public function updateProject($data, $where)
+    {
+        return $this->db->table("projects")
+            ->where($where)
+            ->update($data);
     }
 
     /**
@@ -2426,7 +2447,6 @@ class EventsModel extends Model
     /**
      * Add member as new Level 3 checker for event
      * @param array $data
-     * @param array $checkerData
      * @return string
      */
     public function addL3Checker($data)

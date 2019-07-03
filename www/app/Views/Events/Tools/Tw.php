@@ -22,8 +22,8 @@ if(!empty($data["keywords"]) && !empty($data["keywords"]["words"])): ?>
                             <ul>
                                 <li>
                                     <div class="word_term">
-                                        <span style="font-weight: bold;"><?php echo ucfirst(isset($tWord["term"]) ? $tWord["term"] : $title) ?> </span>
-                                        (<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)
+                                        <span style="font-weight: bold;"><?php echo ucfirst(isset($tWord["name"]) ? $tWord["name"] : (isset($tWord["term"]) ? isset($tWord["term"]) : $title)) ?> </span>
+                                        <span style="color: red;">(<?php echo strtolower(__("verses").": ".join(", ", $tWord["range"])); ?>)<span>
                                     </div>
                                     <div class="word_def"><?php echo  preg_replace('#<a.*?>(.*?)</a>#i', '<b>\1</b>', $tWord["text"]); ?></div>
                                 </li>

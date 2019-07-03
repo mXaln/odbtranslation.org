@@ -244,12 +244,12 @@ class TranslationsModel extends Model
                     foreach ($lang->resources as $resource) {
                         if(in_array($resource->identifier, [
                             "ta",
-                            "obs-tn",
                             "obs",
-                            "tq",
+                            "obs-tn",
+                            "obs-tq",
                             "tn",
-                            "tw",
-                            "obs-tq"
+                            "tq",
+                            "tw"
                         ])) continue;
 
                         $res = [];
@@ -263,6 +263,24 @@ class TranslationsModel extends Model
                 }
             }
         }
+
+        // Add some sources manually, because these are not in catalog
+        $sls[] = [
+            "langID" => "fa",
+            "langName" => "فارسی",
+            "bookProjects" => [[
+                "resName" => "Unlocked Literal Bible",
+                "resType" => "ulb"
+            ]]
+        ];
+        $sls[] = [
+            "langID" => "pmy",
+            "langName" => "Papuan Malay",
+            "bookProjects" => [[
+                "resName" => "Unlocked Literal Bible",
+                "resType" => "ulb"
+            ]]
+        ];
 
         return $sls;
     }

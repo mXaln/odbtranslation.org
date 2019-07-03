@@ -124,14 +124,11 @@ $(function () {
 
 
     $("select[name=projectMode]").change(function() {
+        $("#projectType").val('').trigger("chosen:updated");
         if($(this).val() == "bible" || $(this).val() == "odb")
         {
-            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
-            $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
-            $(".sourceTranslationQuestions").addClass("hidden");
-            $("#sourceTranslationWords").val('').trigger("chosen:updated");
-            $(".sourceTranslationWords").addClass("hidden");
+            $("#sourceTools").val('').trigger("chosen:updated");
+            $(".sourceTools").addClass("hidden");
             $(".projectType").removeClass("hidden");
             if($(this).val() == "odb")
             {
@@ -142,52 +139,66 @@ $(function () {
                 $(".sourceTranslation").removeClass("hidden");
             }
         }
-        else if($(this).val() == "tn")
+        else if(["tn","tq","tw"].indexOf($(this).val()) > -1)
         {
-            $(".sourceTranslationNotes").removeClass("hidden");
-            $("#sourceTranslationNotes").chosen();
-            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
-            $(".sourceTranslationQuestions").addClass("hidden");
-            $("#sourceTranslationWords").val('').trigger("chosen:updated");
-            $(".sourceTranslationWords").addClass("hidden");
-            $(".projectType").removeClass("hidden");
+            $(".projectType").addClass("hidden");
             $(".sourceTranslation").removeClass("hidden");
-        }
-        else if($(this).val() == "tq")
-        {
-            $(".sourceTranslationQuestions").removeClass("hidden");
-            $("#sourceTranslationQuestions").chosen();
-            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
-            $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslationWords").val('').trigger("chosen:updated");
-            $(".sourceTranslationWords").addClass("hidden");
-            $(".projectType").addClass("hidden");
-            $(".sourceTranslation").addClass("hidden");
-        }
-        else if($(this).val() == "tw")
-        {
-            $(".sourceTranslationWords").removeClass("hidden");
-            $("#sourceTranslationWords").chosen();
-            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
-            $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
-            $(".sourceTranslationQuestions").addClass("hidden");
-            $(".projectType").addClass("hidden");
-            $(".sourceTranslation").addClass("hidden");
+            $(".sourceTools").removeClass("hidden");
+            $(".sourceTools label").text(Language["book_"+$(this).val()]);
+            $("#sourceTools").attr("data-placeholder", Language["chooseSource_"+$(this).val()]);
+            $("#sourceTools").chosen().trigger("chosen:updated");
         }
     });
     
 
     $("#crepr").click(function () {
-        $("#project").trigger("reset");
-        $(".subErrors").html("");
+        resetProjectForm();
         $(".sub-content").css("left", 0);
-        /*$(".projectType").addClass("hidden");*/
-        $("#project select").val('').trigger("chosen:updated");
-        $("#projectType").chosen();
     });
 
-    // Get list of target languages for gateway language
+
+    $(".editProject").click(function() {
+        var projectID = $(this).data("projectid");
+        resetProjectForm();
+
+        $.ajax({
+            url: "/admin/rpc/get_project",
+            method: "post",
+            data: {projectID: projectID},
+            dataType: "json",
+            beforeSend: function() {
+                $(".editProject").prop("disabled", true);
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $("button[name=project]").text(Language.save);
+                    $("#projectAction").val("edit");
+
+                    setProjectForm(data);
+
+                    $(".sub-content").css("left", 0);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        if(data.error == "login" || data.error == "admin")
+                            window.location.href = "/members/login";
+                        else
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                }
+            })
+            .always(function() {
+                $(".editProject").prop("disabled", false);
+            });
+    });
+
+    // Get list of target languages for selected gateway language
     $("#subGwLangs").change(function() {
         var tlOptions = "<option value=''></option>";
 
@@ -218,6 +229,7 @@ $(function () {
                 });
                 $("#targetLangs").html(tlOptions);
                 $("#project select").trigger("chosen:updated");
+                document.dispatchEvent(new Event("target-langs-updated"));
             })
             .always(function() {
                 $(".subGwLoader").hide();
@@ -288,47 +300,6 @@ $(function () {
             {
                 no_results_text: Language.noResultText
             });
-    }
-
-    function resetEventForm() {
-        $("#startEvent").trigger("reset");
-
-        $(".event_menu").hide();
-        $("#adminsSelect").empty().trigger("chosen:updated");
-        $(".delinput").hide();
-        $(".errors").html("");
-
-        $(".event_links_l1").show();
-        $(".event_links_l1 a").attr("href", "#");
-        $(".event_links_l2").show();
-        $(".event_links_l2 a").attr("href", "#");
-        $(".event_links_l3").show();
-        $(".event_links_l3 a").attr("href", "#");
-
-        $(".event_imports").hide();
-        $("input[name=eventLevel]").prop("disabled", false);
-
-        setImportLinks("l1", ImportStates.DEFAULT);
-        setImportLinks("l2", ImportStates.DEFAULT);
-        setImportLinks("l3", ImportStates.DEFAULT);
-        setImportLinks("tn_l1", ImportStates.DEFAULT);
-        setImportLinks("tn_l2", ImportStates.DEFAULT);
-        setImportLinks("tq_l1", ImportStates.DEFAULT);
-        setImportLinks("tq_l2", ImportStates.DEFAULT);
-        setImportLinks("tw_l1", ImportStates.DEFAULT);
-        setImportLinks("tw_l2", ImportStates.DEFAULT);
-
-        $(".import.l2_import").hide();
-        $(".import.l3_import").hide();
-        $(".import.tn_l1_import").show();
-        $(".import.tn_l2_import").hide();
-        $(".import.tq_l1_import").show();
-        $(".import.tq_l2_import").hide();
-        $(".import.tw_l1_import").show();
-        $(".import.tw_l2_import").hide();
-
-        $("#eventAction").val("create");
-        $("button[name=startEvent]").text(Language.create);
     }
 
     // Open event form
@@ -2116,6 +2087,127 @@ function setStartEventButton(event) {
             $("button[name=startEvent]").text(Language.save);
             $("#eventAction").val("edit");
     }
+}
+
+function resetProjectForm() {
+    $("#project").trigger("reset");
+    $("#projectID").val("");
+    $("#projectMode").prop("disabled", false).trigger("chosen:updated");
+    $("#subGwLangs").prop("disabled", false).trigger("chosen:updated");
+    $("#targetLangs").prop("disabled", false).trigger("chosen:updated");
+    $("#projectType").prop("disabled", false).trigger("chosen:updated");
+    $("#sourceTranslation").val("").trigger("chosen:updated");
+    $(".sourceTools").addClass("hidden");
+    $(".sourceTranslation").removeClass("hidden");
+    $(".projectType").removeClass("hidden");
+    $(".subErrors").html("");
+    $("#project select").val('').chosen();
+    $("button[name=project]").text(Language.create);
+    $("#projectAction").val("create");
+    $(".toolsTn").removeClass("hidden");
+    $("#toolsTn").val("en").trigger("chosen:updated");
+    $(".toolsTq").removeClass("hidden");
+    $("#toolsTq").val("en").trigger("chosen:updated");
+    $(".toolsTw").removeClass("hidden");
+    $("#toolsTw").val("en").trigger("chosen:updated");
+}
+
+function setProjectForm(data) {
+    $("#projectID").val(data.project.projectID);
+
+    var mode = "";
+    if(["ulb","udb","sun"].indexOf(data.project.bookProject) > -1) {
+        if(data.project.sourceBible == "odb") {
+            mode = "odb";
+        } else {
+            mode = "bible";
+        }
+    } else {
+        mode = data.project.bookProject;
+    }
+
+    $("#projectMode")
+        .val(mode)
+        .trigger("chosen:updated")
+        .trigger("change")
+        .prop("disabled", true);
+
+    $("#subGwLangs")
+        .val(data.project.gwLang + "|" + data.project.gwProjectID)
+        .trigger("chosen:updated")
+        .trigger("change")
+        .prop("disabled", true);
+
+    $("#targetLangs").prop("disabled", true);
+    document.addEventListener("target-langs-updated", function() {
+        $("#targetLangs")
+            .val(data.project.targetLang)
+            .trigger("chosen:updated");
+    });
+
+    if(["tq","tw"].indexOf(data.project.bookProject) < 0)
+    {
+        $("#sourceTranslation")
+            .val(data.project.sourceBible + "|" + data.project.sourceLangID)
+            .trigger("chosen:updated");
+    }
+
+    if(["tn","tq","tw"].indexOf(data.project.bookProject) > -1)
+    {
+        $("#sourceTools").val(data.project.resLangID).trigger("chosen:updated");
+        $(".toolsTn").addClass("hidden");
+        $(".toolsTq").addClass("hidden");
+        $(".toolsTw").addClass("hidden");
+    } else {
+        $("#projectType")
+            .val(data.project.bookProject)
+            .trigger("chosen:updated")
+            .prop("disabled", true);
+        $("#toolsTn").val(data.project.tnLangID).trigger("chosen:updated");
+        $("#toolsTq").val(data.project.tqLangID).trigger("chosen:updated");
+        $("#toolsTw").val(data.project.twLangID).trigger("chosen:updated");
+    }
+}
+
+function resetEventForm() {
+    $("#startEvent").trigger("reset");
+
+    $(".event_menu").hide();
+    $("#adminsSelect").empty().trigger("chosen:updated");
+    $(".delinput").hide();
+    $(".errors").html("");
+
+    $(".event_links_l1").show();
+    $(".event_links_l1 a").attr("href", "#");
+    $(".event_links_l2").show();
+    $(".event_links_l2 a").attr("href", "#");
+    $(".event_links_l3").show();
+    $(".event_links_l3 a").attr("href", "#");
+
+    $(".event_imports").hide();
+    $("input[name=eventLevel]").prop("disabled", false);
+
+    setImportLinks("l1", ImportStates.DEFAULT);
+    setImportLinks("l2", ImportStates.DEFAULT);
+    setImportLinks("l3", ImportStates.DEFAULT);
+    setImportLinks("tn_l1", ImportStates.DEFAULT);
+    setImportLinks("tn_l2", ImportStates.DEFAULT);
+    setImportLinks("tq_l1", ImportStates.DEFAULT);
+    setImportLinks("tq_l2", ImportStates.DEFAULT);
+    setImportLinks("tw_l1", ImportStates.DEFAULT);
+    setImportLinks("tw_l2", ImportStates.DEFAULT);
+
+    $(".import.l2_import").hide();
+    $(".import.l3_import").hide();
+    $(".import.tn_l1_import").show();
+    $(".import.tn_l2_import").hide();
+    $(".import.tq_l1_import").show();
+    $(".import.tq_l2_import").hide();
+    $(".import.tw_l1_import").show();
+    $(".import.tw_l2_import").hide();
+
+    $("#eventAction").val("create");
+    $("button[name=startEvent]").text(Language.create);
 }
 
 function uploadImageContent(image, editor) {

@@ -12,6 +12,7 @@ use Cache;
 use Database\Model;
 use DB;
 use File;
+use Helpers\Arrays;
 use Helpers\Data;
 use Helpers\Parsedown;
 use Helpers\Spyc;
@@ -341,31 +342,12 @@ class ApiModel extends Model
 
         $langs = [];
         $langsFinal = [];
-        for($i=0; $i < 81; $i++)
+        $totalPages = 1;
+
+        for($i=0; $i < $totalPages; $i++)
         {
-            $url = "http://td.unfoldingword.org/uw/ajax/languages/?".
-                "draw=7&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&".
-                "columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&".
-                "columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&".
-                "columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&".
-                "columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&".
-                "columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&".
-                "columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&".
-                "columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&".
-                "columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&".
-                "columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&".
-                "columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&".
-                "columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&".
-                "columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=5&columns%5B5%5D%5Bname%5D=&".
-                "columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=true&".
-                "columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&".
-                "columns%5B6%5D%5Bdata%5D=6&columns%5B6%5D%5Bname%5D=&columns%5B6%5D%5Bsearchable%5D=true&".
-                "columns%5B6%5D%5Borderable%5D=true&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D=&".
-                "columns%5B6%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B7%5D%5Bdata%5D=7&columns%5B7%5D%5Bname%5D=&".
-                "columns%5B7%5D%5Bsearchable%5D=true&columns%5B7%5D%5Borderable%5D=true&".
-                "columns%5B7%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B7%5D%5Bsearch%5D%5Bregex%5D=false&".
-                "order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=".($i*100)."&length=100&".
-                "search%5Bvalue%5D=&search%5Bregex%5D=false&_=1507210697041";
+            $url = "http://td.unfoldingword.org/uw/ajax/languages/?draw=1&order[0][column]=0&".
+                "order[0][dir]=asc&start=".($i*500)."&length=500&search[value]=0";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -375,71 +357,55 @@ class ApiModel extends Model
             curl_close($ch);
             $arr = json_decode($cat);
 
-            $langs = array_merge($langs, $arr->data);
-
-        }
-
-        if(!empty($langs))
-        {
-            if(!File::exists("../app/Templates/Default/Assets/source/langnames.json"))
+            if($arr != null)
             {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, "http://td.unfoldingword.org/exports/langnames.json");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                $languages = curl_exec($ch);
-                curl_close($ch);
-
-                File::put("../app/Templates/Default/Assets/source/langnames.json", $languages);
-            }
-            else
-            {
-                $languages = File::get("../app/Templates/Default/Assets/source/langnames.json");
-            }
-
-            $languages = json_decode($languages, true);
-
-            foreach($langs as $lang)
-            {
-                $tmp = [];
-                preg_match('/>(.+)<\//', $lang[0], $matches);
-                $tmp["langID"] = $matches[1];
-                $tmp["langName"] = $lang[2];
-                $tmp["angName"] = $lang[4];
-                $tmp["isGW"] = preg_match("/success/", $lang[7]);
-                $tmp["gwLang"] = $tmp["isGW"] ? $tmp["langName"] : $lang[6];
-
-                if($tmp["gwLang"] == null)
-                    $tmp["gwLang"] = "English";
-
-                foreach($languages as $ln)
+                if($i == 0)
                 {
-                    if($ln["lc"] == $tmp["langID"])
-                    {
-                        $tmp["direction"] = $ln["ld"];
-                        break;
-                    }
-                    else
-                    {
-                        $tmp["direction"] = "ltr";
-                    }
+                    $totalPages = ceil($arr->recordsTotal/500);
                 }
 
-                $langsFinal[] = $tmp;
+                foreach ($arr->data as $lang) {
+                    preg_match('/>(.+)<\//', $lang[0], $matches);
+                    $lang[0] = $matches[1];
+                    $langs[$matches[1]] = $lang[6];
+                }
             }
 
-            if(!empty($langsFinal))
-                $this->db->table("languages")
-                    ->delete();
-
-            foreach($langsFinal as $lnf)
-            {
-                $this->db->table("languages")
-                    ->insert($lnf);
-            }
-
-            $response["success"] = true;
         }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://td.unfoldingword.org/exports/langnames.json");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $languages = curl_exec($ch);
+        curl_close($ch);
+
+        File::put("../app/Templates/Default/Assets/source/langnames.json", $languages);
+
+        $languages = json_decode($languages);
+
+        foreach ($languages as $language) {
+            $tmp = [];
+            $tmp["langID"] = $language->lc;
+            $tmp["langName"] = $language->ln;
+            $tmp["angName"] = $language->ang;
+            $tmp["isGW"] = $language->gw;
+            $tmp["gwLang"] = $language->gw ?
+                $language->ln :
+                (isset($langs[$language->lc]) && $langs[$language->lc] ? $langs[$language->lc] : "English");
+            $tmp["direction"] = $language->ld;
+
+            $langsFinal[] = $tmp;
+        }
+
+        if(!empty($langsFinal))
+            $this->db->table("languages")
+                ->delete();
+
+        $this->db->table("languages")
+            ->insert($langsFinal);
+
+        $response["success"] = true;
 
         return $response;
     }
@@ -584,8 +550,8 @@ class ApiModel extends Model
         $bookFolderPath = null;
         foreach($dirs as $dir)
         {
-            preg_match("/[1-3a-z]{3}$/", $dir, $matches);
-            if(isset($matches[0]) && $matches[0] == $book)
+            preg_match("/[1-3a-z]{3}$/i", $dir, $matches);
+            if(isset($matches[0]) && strtolower($matches[0]) == $book)
             {
                 $bookFolderPath = $dir;
                 break;
@@ -603,7 +569,7 @@ class ApiModel extends Model
         $files = File::allFiles($folderpath);
         foreach($files as $file)
         {
-            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro|index|title).(md|txt)$/", $file, $matches);
+            preg_match("/([0-9]{2,3}|front)\/([0-9]{2,3}|intro|index|title).(md|txt)$/i", $file, $matches);
 
             if(!isset($matches[1]) || !isset($matches[2])) continue;
 
@@ -618,7 +584,7 @@ class ApiModel extends Model
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
-            $ext = $matches[3];
+            $ext = strtolower($matches[3]);
 
             if(!isset($result[$chapter]))
                 $result[$chapter] = [];
@@ -757,6 +723,7 @@ class ApiModel extends Model
         if(!$folderpath) return [];
 
         $words = $this->getWordsDatabase();
+        $dom = new \DOMDocument();
 
         $filtered = [
             "book" => $book,
@@ -775,7 +742,10 @@ class ApiModel extends Model
                     $filtered["words"][$word[5]]["verses"] = [];
 
                 if(!isset($filtered["words"][$word[5]]["term"]))
+                {
                     $filtered["words"][$word[5]]["term"] = $word[3];
+                    $filtered["words"][$word[5]]["name"] = $word[3];
+                }
 
                 $filtered["words"][$word[5]]["verses"][] = (int)$word[2];
             }
@@ -788,11 +758,18 @@ class ApiModel extends Model
             $word["range"] = $this->getRanges($word["verses"]);
 
             foreach ($files as $file) {
-                if(preg_match("/".$key.".md$/", $file))
+                if(preg_match("/".$key.".md$/i", $file))
                 {
                     $md = File::get($file);
-                    $html = $parsedown->text($md);
+                    $html = $parsedown->text($this->remove_utf8_bom($md));
                     $html = preg_replace("//", "", $html);
+
+                    $dom->loadHTML($html);
+                    $headers = $dom->getElementsByTagName("h1");
+                    if(!empty($headers))
+                    {
+                        $word["name"] = $headers[0]->nodeValue;
+                    }
 
                     $word["text"] = $html;
                 }
@@ -827,12 +804,12 @@ class ApiModel extends Model
             $filename = $file->getBasename('.' . $file->getExtension());
             if($this->getCategoryByWord($filename) == $category)
             {
-                preg_match("/\/([0-9a-z-_]+).(md|txt)$/", $file, $matches);
+                preg_match("/\/([0-9a-z-_]+).(md|txt)$/i", $file, $matches);
 
                 if(!isset($matches[1]) || !isset($matches[2])) continue;
 
                 $word_name = $matches[1];
-                $ext = $matches[2];
+                $ext = strtolower($matches[2]);
 
                 $word = [];
 
@@ -1016,8 +993,8 @@ class ApiModel extends Model
         $bookFolderPath = null;
         foreach($dirs as $dir)
         {
-            preg_match("/[1-3a-z]{3}$/", $dir, $matches);
-            if(!empty($matches) && $matches[0] == $book)
+            preg_match("/[1-3a-z]{3}$/i", $dir, $matches);
+            if(!empty($matches) && strtolower($matches[0]) == $book)
             {
                 $bookFolderPath = $dir;
                 break;
@@ -1035,13 +1012,13 @@ class ApiModel extends Model
         $files = File::allFiles($folderpath);
         foreach($files as $file)
         {
-            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).(md|txt)$/", $file, $matches);
+            preg_match("/([0-9]{2,3})\/([0-9]{2,3}).(md|txt)$/i", $file, $matches);
 
             if(!isset($matches[1]) || !isset($matches[2])) continue;
 
             $chapter = (int)$matches[1];
             $chunk = (int)$matches[2];
-            $ext = $matches[3];
+            $ext = strtolower($matches[3]);
 
             if(!isset($result[$chapter]))
                 $result[$chapter] = [];
@@ -1382,5 +1359,12 @@ class ApiModel extends Model
 
     public function clearAllCache() {
         Cache::flush();
+    }
+
+    function remove_utf8_bom($text)
+    {
+        $bom = pack('H*','EFBBBF');
+        $text = preg_replace("/^$bom/", '', $text);
+        return $text;
     }
 }

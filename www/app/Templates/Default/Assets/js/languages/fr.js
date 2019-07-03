@@ -112,4 +112,10 @@ var Language = {
     "tq"                        : "Translation Questions",
     "tw"                        : "Translation Words",
     "import_l2_warning"         : "First import Level 2 Scripture",
+    "book_tn"                   : "Notes Sources",
+    "book_tq"                   : "Questions Sources",
+    "book_tw"                   : "Mots Sources",
+    "chooseSource_tn"           : "Choisir Notes Sources",
+    "chooseSource_tq"           : "Choiser Questions Sources",
+    "chooseSource_tw"           : "Choisir Mots Sources",
 };

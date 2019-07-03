@@ -861,7 +861,7 @@ html, body, .container {
     border-radius: 5px;
     width: 500px;
     left: calc(50% - 250px);
-    top: calc(50% - 250px);
+    top: calc(50% - 400px);
 }
 
 .subGwLoader {
@@ -4332,7 +4332,7 @@ button.startEvnt, button.editEvnt {
     float: left;
 }
 
-#sourceTranslationNotes_chosen {
+#sourceTools_chosen {
     width: 100% !important;
 }
 

@@ -2344,7 +2344,7 @@ $(document).ready(function() {
 
         var bookCode = $("input#bookCode").val();
         var chapter = $("input#chapter").val();
-        var lang = $("input#lang").val();
+        var lang = $("input#"+tool+"_lang").val();
         var targetLang = $("input#targetLang").val();
         var totalVerses = $("input#totalVerses").val();
 
@@ -2382,6 +2382,7 @@ $(document).ready(function() {
         }
         else
         {
+            $(".ttools_panel").draggable({snap: 'inner', handle: '.panel-title'});
             container.css("top", $(window).scrollTop() + 50).show();
         }
 
@@ -2406,7 +2407,7 @@ $(document).ready(function() {
         var parent = $(this).parents(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
-        $(".word_def_popup", parent).hide("slide", {direction: "right"}, 300);
+        $(".word_def_popup", parent).hide("slide", {direction: "left"}, 300);
     });
 
     // Show/hide original/english content of a rubric

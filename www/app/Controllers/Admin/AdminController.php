@@ -603,6 +603,47 @@ class AdminController extends Controller {
 
     }
 
+    public function getProject()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = "login";
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $response["error"] = "admin";
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : null;
+
+        if($projectID == null)
+        {
+            $response["error"] = __('wrong_parameters_error');
+        }
+
+        if(!isset($response["error"]))
+        {
+            $project = $this->_eventsModel->getProject(["projects.*"], [["projectID", $projectID]]);
+
+            if(!empty($project))
+            {
+                $response["success"] = true;
+                $response["project"] = $project[0];
+            }
+            else
+            {
+                $response["error"] = __('wrong_parameters_error');
+            }
+        }
+
+        echo json_encode($response);
+    }
+
 
     /**
      * Get event contributors (translators, facilitators, checkers) list
@@ -842,116 +883,173 @@ class AdminController extends Controller {
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
-        $sourceTranslationNotes = isset($_POST['sourceTranslationNotes']) && $_POST['sourceTranslationNotes'] != "" ? $_POST['sourceTranslationNotes'] : null;
-        $sourceTranslationQuestions = isset($_POST['sourceTranslationQuestions']) && $_POST['sourceTranslationQuestions'] != "" ? $_POST['sourceTranslationQuestions'] : null;
-        $sourceTranslationWords = isset($_POST['sourceTranslationWords']) && $_POST['sourceTranslationWords'] != "" ? $_POST['sourceTranslationWords'] : null;
+        $sourceTools = isset($_POST['sourceTools']) && $_POST['sourceTools'] != "" ? $_POST['sourceTools'] : null;
+        $toolsTn = isset($_POST['toolsTn']) && $_POST['toolsTn'] != "" ? $_POST['toolsTn'] : null;
+        $toolsTq = isset($_POST['toolsTq']) && $_POST['toolsTq'] != "" ? $_POST['toolsTq'] : null;
+        $toolsTw = isset($_POST['toolsTw']) && $_POST['toolsTw'] != "" ? $_POST['toolsTw'] : null;
         $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
-        $resSourceTranslation = null;
+        $act = isset($_POST['act']) && $_POST['act'] != "" ? $_POST['act'] : "create";
+        $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? $_POST['projectID'] : null;
 
-        if($subGwLangs == null)
+        if($act == "create")
         {
-            $error[] = __('choose_gw_lang');
-        }
-
-        if($targetLang == null)
-        {
-            $error[] = __("choose_target_lang");
-        }
-
-        if($sourceTranslation == null)
-        {
-            if($projectMode != "tq" && $projectMode != "tw" && $projectMode != "odb")
-                $error[] = __("choose_source_trans");
-        }
-
-        if($projectType == null)
-        {
-            if($projectMode != "tq" && $projectMode != "tw")
-                $error[] = __("choose_project_type");
-        }
-
-        if($projectMode == "tn" && $sourceTranslationNotes == null)
-        {
-            $error[] = __("choose_source_notes");
-        }
-        else if($projectMode == "tq" && $sourceTranslationQuestions == null)
-        {
-            $error[] = __("choose_source_questions");
-        }
-        else if($projectMode == "tw" && $sourceTranslationWords == null)
-        {
-            $error[] = __("choose_source_words");
-        }
-
-        if($projectMode == "tq" || $projectMode == "tw")
-        {
-            $sourceTranslation = "ulb|en";
-            $projectType = "ulb";
-            if($projectMode == "tq")
-                $resSourceTranslation = $sourceTranslationQuestions;
-            elseif($projectMode == "tw")
-                $resSourceTranslation = $sourceTranslationWords;
-        }
-        elseif($projectMode == "tn")
-        {
-            $resSourceTranslation = $sourceTranslationNotes;
-        }
-        elseif($projectMode == "odb")
-        {
-            $sourceTranslation = $projectMode."|en";
-        }
-
-        if(!isset($error))
-        {
-            $sourceTrPair = explode("|", $sourceTranslation);
-            $gwLangsPair = explode("|", $subGwLangs);
-
-            $projType = in_array($projectMode, ['tn','tq','tw']) ?
-                $projectMode : $projectType;
-
-            $search = [
-                ["projects.gwLang", $gwLangsPair[0]],
-                ["projects.targetLang", $targetLang],
-                ["projects.bookProject", $projType]
-            ];
-
-            if($projectMode == "odb")
+            if($subGwLangs == null)
             {
-                $search[] = ["projects.sourceBible", $resSourceTranslation];
+                $error[] = __('choose_gw_lang');
             }
 
-            $exist = $this->_eventsModel->getProject(["projects.projectID"], $search);
-
-            if(!empty($exist))
+            if($targetLang == null)
             {
-                $error[] = __("project_exists");
-                echo json_encode(array("error" => Error::display($error)));
-                return;
+                $error[] = __("choose_target_lang");
             }
 
-            $postdata = array(
-                "gwProjectID" => $gwLangsPair[1],
-                "gwLang" => $gwLangsPair[0],
-                "targetLang" => $targetLang,
-                "bookProject" => $projType,
-                "sourceBible" => $sourceTrPair[0],
-                "sourceLangID" => $sourceTrPair[1],
-                "resLangID" => $resSourceTranslation
-            );
+            if($sourceTranslation == null)
+            {
+                if(!in_array($projectMode, ["tq","tw","odb"]))
+                    $error[] = __("choose_source_trans");
+            }
 
-            $id = $this->_eventsModel->createProject($postdata);
+            if($projectType == null)
+            {
+                if(!in_array($projectMode, ["tn","tq","tw"]))
+                    $error[] = __("choose_project_type");
+            }
 
-            if($id)
-                echo json_encode(array("success" => __("successfully_created")));
+            if(in_array($projectMode, ["tn","tq","tw"]) && $sourceTools == null)
+            {
+                $error[] = __("choose_source_".$projectMode);
+            }
+
+            if(in_array($projectMode, ["tq","tw"]))
+            {
+                $sourceTranslation = "ulb|en";
+                //$projectType = "ulb";
+            }
+            elseif($projectMode == "odb")
+            {
+                $sourceTranslation = "odb|en";
+            }
+
+            if(!isset($error))
+            {
+                $sourceTrPair = explode("|", $sourceTranslation);
+                $gwLangsPair = explode("|", $subGwLangs);
+
+                $projType = in_array($projectMode, ['tn','tq','tw']) ?
+                    $projectMode : $projectType;
+
+                $search = [
+                    ["projects.gwLang", $gwLangsPair[0]],
+                    ["projects.targetLang", $targetLang],
+                    ["projects.bookProject", $projType]
+                ];
+
+                if($projectMode == "odb")
+                {
+                    $search[] = ["projects.sourceBible", "odb"];
+                }
+
+                $exist = $this->_eventsModel->getProject(["projects.projectID"], $search);
+
+                if(!empty($exist))
+                {
+                    $error[] = __("project_exists");
+                    echo json_encode(array("error" => Error::display($error)));
+                    return;
+                }
+
+                $postdata = array(
+                    "gwProjectID" => $gwLangsPair[1],
+                    "gwLang" => $gwLangsPair[0],
+                    "targetLang" => $targetLang,
+                    "bookProject" => $projType,
+                    "sourceBible" => $sourceTrPair[0],
+                    "sourceLangID" => $sourceTrPair[1],
+                    "resLangID" => $sourceTools
+                );
+
+                if($toolsTn)
+                    $postdata["tnLangID"] = $toolsTn;
+                if($toolsTq)
+                    $postdata["tqLangID"] = $toolsTq;
+                if($toolsTw)
+                    $postdata["twLangID"] = $toolsTw;
+
+                $id = $this->_eventsModel->createProject($postdata);
+
+                if($id)
+                    echo json_encode(array("success" => __("successfully_created")));
+                else
+                {
+                    $error[] = __("error_ocured");
+                    echo json_encode(array("error" => Error::display($error)));
+                }
+            }
             else
             {
-                $error[] = __("error_ocured");
                 echo json_encode(array("error" => Error::display($error)));
             }
         }
-        else
+        elseif($act == "edit")
         {
-            echo json_encode(array("error" => Error::display($error)));
+            if($projectID == null)
+            {
+                $error[] = __("error_ocured");
+            }
+
+            if($sourceTranslation == null)
+            {
+                if(!in_array($projectMode, ["tq","tw","odb"]))
+                    $error[] = __("choose_source_trans");
+            }
+
+            if(in_array($projectMode, ["tn","tq","tw"]) && $sourceTools == null)
+            {
+                $error[] = __("choose_source_".$projectMode);
+            }
+
+            if(in_array($projectMode, ["tq","tw"]))
+            {
+                $sourceTranslation = "ulb|en";
+                //$projectType = "ulb";
+            }
+            elseif($projectMode == "odb")
+            {
+                $sourceTranslation = "odb|en";
+            }
+
+            if(!isset($error))
+            {
+                $project = $this->_eventsModel->getProject(["*"], [
+                    ["projectID", $projectID]
+                ]);
+
+                if(empty($project))
+                {
+                    $error[] = __("error_ocured");
+                    echo json_encode(array("error" => Error::display($error)));
+                    return;
+                }
+
+                $sourceTrPair = explode("|", $sourceTranslation);
+
+                $postdata = array(
+                    "sourceBible" => $sourceTrPair[0],
+                    "sourceLangID" => $sourceTrPair[1],
+                    "resLangID" => $sourceTools
+                );
+
+                if($toolsTn)
+                    $postdata["tnLangID"] = $toolsTn;
+                if($toolsTq)
+                    $postdata["tqLangID"] = $toolsTq;
+                if($toolsTw)
+                    $postdata["twLangID"] = $toolsTw;
+
+                $this->_eventsModel->updateProject($postdata, ["projectID" => $projectID]);
+
+                echo json_encode(array("success" => __("successfully_updated")));
+            }
         }
     }
 
