@@ -419,7 +419,7 @@ $profile = Session::get("profile");
                                     : __("front")) ?>
                         </div>
                         <div>
-                            <?php echo __($event->step) ?>
+                            <?php echo __($event->step.($event->sourceBible == "odb" ? "_odb" : "")) ?>
                         </div>
                     </div>
                 </div>

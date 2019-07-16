@@ -1022,7 +1022,8 @@ class EventsModel extends Model
             foreach ($crCheck as $chap => $data) {
                 if(!isset($chapter) || $chapter == $chap)
                 {
-                    if($data["memberID"] == $checkerID && $data["done"] != 2)
+                    $doneStatus = $event->sourceBible == "odb" ? 1 : 2;
+                    if($data["memberID"] == $checkerID && $data["done"] != $doneStatus)
                     {
                         $ev = clone $event;
 
