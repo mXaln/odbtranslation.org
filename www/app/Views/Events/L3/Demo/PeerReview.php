@@ -61,9 +61,9 @@
                                  title="<?php echo __("write_note_title")?>">
                             <div class="comments">
                                 <div class="my_comment">A note from level 3 checker</div>
-                                <div class="other_comments"><span>Henry M. (L3): </span>A note from level 3 peer checker</div>
-                                <div class="other_comments"><span>Marge S. (L2): </span>A note from level 2 checker</div>
-                                <div class="other_comments"><span>George D. (L1): </span>A note from translator</div>
+                                <div class="other_comments"><span>Henry M. - L3: </span>A note from level 3 peer checker</div>
+                                <div class="other_comments"><span>Marge S. - L2: </span>A note from level 2 checker</div>
+                                <div class="other_comments"><span>George D. - L1: </span>A note from translator</div>
                             </div>
                         </div>
                     </div>

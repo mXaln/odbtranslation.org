@@ -731,7 +731,7 @@ class MembersController extends Controller
                 $where = array('memberID' => $memberID);
                 $this->_model->updateMember($postdata, $where);
 
-                $msg = __('account_activated_success', ["href" => SITEURL . 'members/login']);
+                $msg = __('account_activated_success');
                 Session::set('success', $msg);
 
                 Session::destroy("activation_email");
@@ -1299,7 +1299,7 @@ class MembersController extends Controller
                         $postdata = array('password' => Password::make($password), 'resetToken' => null);
                         $this->_model->updateMember($postdata, array('memberID' => $memberID));
 
-                        $msg = __('password_reset_success', ["link" => SITEURL . 'members/login']);
+                        $msg = __('password_reset_success');
                         Session::set('success', $msg);
 
                         Url::redirect('members/success');

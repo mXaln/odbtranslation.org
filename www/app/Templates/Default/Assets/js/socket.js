@@ -209,7 +209,7 @@ function OnSystemMessage(data)
                     }
                     else
                     {
-                        var commentor = $(".other_comments span:contains('"+data.name+" (L"+data.level+")')", editor.next(".comments"));
+                        var commentor = $(".other_comments span:contains('"+data.name+" - L"+data.level+"')", editor.next(".comments"));
                         if(commentor.length > 0)
                         { // Remove or update comment
                             if(wasDeleted)
@@ -222,13 +222,13 @@ function OnSystemMessage(data)
                             }
                             else
                             {
-                                commentor.parent().html("<span>"+data.name+" (L"+data.level+")"+": </span>"+data.text);
+                                commentor.parent().html("<span>"+data.name+" - L"+data.level+": </span>"+data.text);
                             }
                         }
                         else
                         { // Add comment
                             editor.next(".comments").append(
-                                "<div class='other_comments'><span>"+data.name+" (L"+data.level+")"+": </span>"+data.text+"</div>"
+                                "<div class='other_comments'><span>"+data.name+" - L"+data.level+": </span>"+data.text+"</div>"
                             );
                             num++;
                             editor.prev(".comments_number").text(num);

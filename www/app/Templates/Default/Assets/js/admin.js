@@ -124,63 +124,81 @@ $(function () {
 
 
     $("select[name=projectMode]").change(function() {
-        if($(this).val() == "bible")
+        $("#projectType").val('').trigger("chosen:updated");
+        if($(this).val() == "bible" || $(this).val() == "odb")
         {
-            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
-            $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
-            $(".sourceTranslationQuestions").addClass("hidden");
-            $("#sourceTranslationWords").val('').trigger("chosen:updated");
-            $(".sourceTranslationWords").addClass("hidden");
+            $("#sourceTools").val('').trigger("chosen:updated");
+            $(".sourceTools").addClass("hidden");
             $(".projectType").removeClass("hidden");
-            $(".sourceTranslation").removeClass("hidden");
+            if($(this).val() == "odb")
+            {
+                $(".sourceTranslation").addClass("hidden");
+            }
+            else
+            {
+                $(".sourceTranslation").removeClass("hidden");
+            }
         }
-        else if($(this).val() == "tn")
+        else if(["tn","tq","tw"].indexOf($(this).val()) > -1)
         {
-            $(".sourceTranslationNotes").removeClass("hidden");
-            $("#sourceTranslationNotes").chosen();
-            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
-            $(".sourceTranslationQuestions").addClass("hidden");
-            $("#sourceTranslationWords").val('').trigger("chosen:updated");
-            $(".sourceTranslationWords").addClass("hidden");
-            $(".projectType").removeClass("hidden");
-            $(".sourceTranslation").removeClass("hidden");
-        }
-        else if($(this).val() == "tq")
-        {
-            $(".sourceTranslationQuestions").removeClass("hidden");
-            $("#sourceTranslationQuestions").chosen();
-            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
-            $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslationWords").val('').trigger("chosen:updated");
-            $(".sourceTranslationWords").addClass("hidden");
             $(".projectType").addClass("hidden");
-            $(".sourceTranslation").addClass("hidden");
-        }
-        else if($(this).val() == "tw")
-        {
-            $(".sourceTranslationWords").removeClass("hidden");
-            $("#sourceTranslationWords").chosen();
-            $("#sourceTranslationNotes").val('').trigger("chosen:updated");
-            $(".sourceTranslationNotes").addClass("hidden");
-            $("#sourceTranslationQuestions").val('').trigger("chosen:updated");
-            $(".sourceTranslationQuestions").addClass("hidden");
-            $(".projectType").addClass("hidden");
-            $(".sourceTranslation").addClass("hidden");
+            $(".sourceTranslation").removeClass("hidden");
+            $(".sourceTools").removeClass("hidden");
+            $(".sourceTools label").text(Language["book_"+$(this).val()]);
+            $("#sourceTools").attr("data-placeholder", Language["chooseSource_"+$(this).val()]);
+            $("#sourceTools").chosen().trigger("chosen:updated");
         }
     });
     
 
     $("#crepr").click(function () {
-        $("#project").trigger("reset");
-        $(".subErrors").html("");
+        resetProjectForm();
         $(".sub-content").css("left", 0);
-        /*$(".projectType").addClass("hidden");*/
-        $("#project select").val('').trigger("chosen:updated");
-        $("#projectType").chosen();
     });
 
-    // Get list of target languages for gateway language
+
+    $(".editProject").click(function() {
+        var projectID = $(this).data("projectid");
+        resetProjectForm();
+
+        $.ajax({
+            url: "/admin/rpc/get_project",
+            method: "post",
+            data: {projectID: projectID},
+            dataType: "json",
+            beforeSend: function() {
+                $(".editProject").prop("disabled", true);
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    $("button[name=project]").text(Language.save);
+                    $("#projectAction").val("edit");
+
+                    setProjectForm(data);
+
+                    $(".sub-content").css("left", 0);
+                }
+                else
+                {
+                    if(typeof data.error != "undefined")
+                    {
+                        if(data.error == "login" || data.error == "admin")
+                            window.location.href = "/members/login";
+                        else
+                        {
+                            renderPopup(data.error);
+                        }
+                    }
+                }
+            })
+            .always(function() {
+                $(".editProject").prop("disabled", false);
+            });
+    });
+
+    // Get list of target languages for selected gateway language
     $("#subGwLangs").change(function() {
         var tlOptions = "<option value=''></option>";
 
@@ -211,6 +229,7 @@ $(function () {
                 });
                 $("#targetLangs").html(tlOptions);
                 $("#project select").trigger("chosen:updated");
+                document.dispatchEvent(new Event("target-langs-updated"));
             })
             .always(function() {
                 $(".subGwLoader").hide();
@@ -283,35 +302,6 @@ $(function () {
             });
     }
 
-    function resetEventForm() {
-        $("#startEvent").trigger("reset");
-
-        $(".event_menu").hide();
-        $("#adminsSelect").empty().trigger("chosen:updated");
-        $(".delinput").hide();
-        $(".errors").html("");
-
-        $(".event_links_l1").show();
-        $(".event_links_l1 a").attr("href", "#");
-        $(".event_links_l2").show();
-        $(".event_links_l2 a").attr("href", "#");
-        $(".event_links_l3").show();
-        $(".event_links_l3 a").attr("href", "#");
-
-        $(".event_imports").hide();
-        $("input[name=eventLevel]").prop("disabled", false);
-
-        setImportLinks("l1", ImportStates.DEFAULT);
-        setImportLinks("l2", ImportStates.DEFAULT);
-        setImportLinks("l3", ImportStates.DEFAULT);
-        setImportLinks("tn", ImportStates.DEFAULT);
-        setImportLinks("tq", ImportStates.DEFAULT);
-        setImportLinks("tw", ImportStates.DEFAULT);
-
-        $("#eventAction").val("create");
-        $("button[name=startEvent]").text(Language.create);
-    }
-
     // Open event form
     $(".startEvnt").click(function() {
         $(".event-content").css("left", 0);
@@ -321,6 +311,11 @@ $(function () {
         var bookCode = $(this).data("bookcode");
         var bookName = $(this).data("bookname");
         var chaptersNum = $(this).data("chapternum");
+        var bookProject = $("#bookProject").val();
+
+        if(["tn","tq","tw"].indexOf(bookProject) > -1) {
+            $(".event_imports").show();
+        }
 
         $(".bookName").text(bookName);
         $("#bookCode").val(bookCode);
@@ -366,6 +361,7 @@ $(function () {
         var bookCode = $(this).data("bookcode");
         var eventID = $(this).data("eventid");
         var abbrID = $(this).data("abbrid");
+        var bookProject = $("#bookProject").val();
 
         $("#eID").val(eventID);
         $("#abbrID").val(abbrID);
@@ -373,6 +369,10 @@ $(function () {
 
         $("#eventAction").val("edit");
         $(".event_menu").show();
+
+        if(["tn","tq","tw"].indexOf(bookProject) > -1) {
+            $(".event_imports").show();
+        }
 
         $.ajax({
             url: "/admin/rpc/get_event",
@@ -395,8 +395,7 @@ $(function () {
                     setStartEventButton(data.event);
 
                     // Set the status of ulb translation
-                    if(typeof data.ulb != "undefined")
-                        setImportLinksUlb(data.ulb.state, data.event.state);
+                    setImportLinksUlb(data);
 
                     $(".bookName").text(data.event.name);
                     $(".book_info_content").html(
@@ -490,22 +489,6 @@ $(function () {
         $(".delinput").show();
     });
 
-    $("input[name=eventLevel]").change(function () {
-        var level = $("input[name=eventLevel]:checked").val();
-        var initialLevel = $("#initialLevel").val();
-
-        if(level > initialLevel)
-        {
-            $("button[name=startEvent]").text(Language.create);
-            $("#eventAction").val("create");
-        }
-        else
-        {
-            $("button[name=startEvent]").text(Language.save);
-            $("#eventAction").val("edit");
-        }
-    });
-
     $("button[name=deleteEvent]").click(function (e) {
         var bookName = $(".bookName").text();
         var delName = $("#delevnt").val();
@@ -556,17 +539,39 @@ $(function () {
 
     $("input[name=eventLevel]").change(function () {
         var level = $("input[name=eventLevel]:checked").val();
+        var initialLevel = $("#initialLevel").val();
         var bookProject = $("#bookProject").val();
+
+        if(level > initialLevel)
+        {
+            $("button[name=startEvent]").text(Language.create);
+            $("#eventAction").val("create");
+        }
+        else
+        {
+            $("button[name=startEvent]").text(Language.save);
+            $("#eventAction").val("edit");
+        }
 
         switch (level) {
             case "1":
                 $(".event_imports").hide();
+                $(".language_input_checkbox").slideDown(200);
                 break;
             case "2":
                 if(["ulb","udb"].indexOf(bookProject) > -1)
                 {
                     $(".l1_import").show();
                     $(".l2_import").hide();
+                    $(".event_imports").hide().slideDown(200);
+                    $(".language_input_checkbox").hide();
+                }
+                else if(["tn","tq","tw"].indexOf(bookProject) > -1)
+                {
+                    $("."+bookProject+"_l1_import").show();
+                    $("."+bookProject+"_l2_import").hide();
+                    $(".l2_import").hide();
+                    $(".l3_import").hide();
                     $(".event_imports").hide().slideDown(200);
                 }
                 else
@@ -577,6 +582,14 @@ $(function () {
                 {
                     $(".l1_import").hide();
                     $(".l2_import").show();
+                    $(".language_input_checkbox").hide();
+                }
+                else if(["tn","tq","tw"].indexOf(bookProject) > -1)
+                {
+                    $("."+bookProject+"_l1_import").hide();
+                    $("."+bookProject+"_l2_import").show();
+                    $(".l2_import").show();
+                    $(".l3_import").show();
                 }
                 $(".event_imports").hide().slideDown(200);
                 break;
@@ -588,14 +601,17 @@ $(function () {
         var bookProject = $("#bookProject").val();
 
         switch (source) {
-            case "tq":
-            case "tn":
-            case "tw":
+            case "tq_l1":
+            case "tq_l2":
+            case "tn_l1":
+            case "tn_l2":
+            case "tw_l1":
+            case "tw_l2":
                 $("li[data-type=usfm]").hide();
-                $("li[data-type=ts]").hide();
+                $("li[data-type=ts]").show();
                 $("li[data-type=zip]").show();
-                $("#importLevel").val(2);
 
+                $("#importLevel").val(source.replace( /^\D+/g, ''));
                 $("#importProject").val(bookProject);
                 break;
 
@@ -696,7 +712,16 @@ $(function () {
                         renderPopup(response.message + " " + "(with warning: We couldn't define the related scripture. Contact administrator.)");
 
                     if(["tn","tq","tw"].indexOf(importProject) > -1)
-                        $(".import_done", $(".import."+importProject+"_import")).addClass("done");
+                    {
+                        if(importLevel == 1)
+                        {
+                            $(".import_done", $(".import."+importProject+"_l1_import")).hide();
+                            $(".import_progress", $(".import."+importProject+"_l1_import")).show();
+                            window.location.reload();
+                        }
+                        else
+                            $(".import_done", $(".import."+importProject+"_l2_import")).addClass("done");
+                    }
                     else
                         $(".import_done", $(".import.l"+importLevel+"_import")).addClass("done");
 
@@ -844,7 +869,7 @@ $(function () {
                     // Render facilitators
                     html += "<div class='admins_list'>" +
                         "<div class='contrib_title'>"+Language.facilitators+":</div>";
-                    html += "<table class='all_contributors'>" +
+                    html += "<table class='table table-bordered table-hover' role='grid'>" +
                         "<tr>"+
                             "<th>First Name</th>"+
                             "<th>Last Name</th>"+
@@ -884,7 +909,7 @@ $(function () {
                     {
                         html += "<div class='translators_list'>" +
                             "<div class='contrib_title'>"+Language.translators+":</div>";
-                        html += "<table class='all_contributors'>" +
+                        html += "<table class='table table-bordered table-hover' role='grid'>" +
                             "<tr>"+
                                 "<th>First Name</th>"+
                                 "<th>Last Name</th>"+
@@ -922,7 +947,7 @@ $(function () {
                     // Render checkers
                     html += "<div class='checkers_list'>" +
                         "<div class='contrib_title'>"+Language.checkers+":</div>";
-                    html += "<table class='all_contributors'>" +
+                    html += "<table class='table table-bordered table-hover' role='grid'>" +
                         "<tr>"+
                             "<th>First Name</th>"+
                             "<th>Last Name</th>"+
@@ -998,7 +1023,7 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    var html = "<table class='all_contributors'>"+
+                    var html = "<table class='table table-bordered table-hover' role='grid'>"+
                         "<tr>"+
                             "<th>First Name</th>"+
                             "<th>Last Name</th>"+
@@ -1770,6 +1795,16 @@ $(function () {
             }
         }
     });
+
+    $(".members_download_csv").on("click", function() {
+        var csv = exportTableToCSV($("#all_books_content")[0], "\t");
+        downloadCSV(csv, "report.csv");
+    });
+
+    $(".contribs_download_csv").on("click", function() {
+        var csv = exportTableToCSV($(".contributors_content")[0], "\t");
+        downloadCSV(csv, "contributors.csv");
+    });
 });
 
 
@@ -1813,24 +1848,39 @@ function setImportLinks(project, importState)
     }
 }
 
-function setImportLinksUlb(ulbState, eventState) {
-    switch (EventStates.states[ulbState]) {
-        case EventStates.states.l2_recruit:
-        case EventStates.states.l2_check:
-            setImportLinks("l2", ImportStates.PROGRESS);
-            break;
-        case EventStates.states.l2_checked:
-            setImportLinks("l2", ImportStates.DONE);
-            break;
+function setImportLinksUlb(data) {
+    if(data.ulb != undefined)
+    {
+        switch (EventStates.states[data.ulb.state]) {
+            case EventStates.states.l2_recruit:
+            case EventStates.states.l2_check:
+                setImportLinks("l2", ImportStates.PROGRESS);
+                break;
+            case EventStates.states.l2_checked:
+                setImportLinks("l2", ImportStates.DONE);
+                break;
 
-        case EventStates.states.l3_recruit:
+            case EventStates.states.l3_recruit:
+            case EventStates.states.l3_check:
+                setImportLinks("l2", ImportStates.DONE);
+                setImportLinks("l3", ImportStates.PROGRESS);
+                break;
+            case EventStates.states.complete:
+                setImportLinks("l2", ImportStates.DONE);
+                setImportLinks("l3", ImportStates.DONE);
+                break;
+        }
+    }
+
+    switch (EventStates.states[data.event.state]) {
+        case EventStates.states.translated:
         case EventStates.states.l3_check:
-            setImportLinks("l2", ImportStates.DONE);
-            setImportLinks("l3", ImportStates.PROGRESS);
-            break;
-        case EventStates.states.complete:
-            setImportLinks("l2", ImportStates.DONE);
-            setImportLinks("l3", ImportStates.DONE);
+        case EventStates.states.l3_recruit:
+            if(["tn","tq","tw"].indexOf(data.event.bookProject) > -1)
+            {
+                $(".import.l2_import").show();
+                $(".import.l3_import").show();
+            }
             break;
     }
 }
@@ -1843,11 +1893,14 @@ function setImportComponent(event) {
             {
                 $(".event_l_1").prop("checked", true);
                 setImportLinks("l1", ImportStates.PROGRESS);
+                $(".language_input_checkbox").hide();
             }
             else
             {
                 $(".event_l_2").prop("checked", true);
                 setImportLinks(event.bookProject, ImportStates.PROGRESS);
+                setImportLinks(event.bookProject+"_l1", ImportStates.PROGRESS);
+                setImportLinks(event.bookProject+"_l2", ImportStates.PROGRESS);
                 $(".language_input_checkbox").hide();
             }
             break;
@@ -1859,13 +1912,17 @@ function setImportComponent(event) {
                 $(".event_l_2").prop("checked", true);
                 setImportLinks("l1", ImportStates.DONE);
                 $(".l2_import").hide();
-
+                $(".language_input_checkbox").hide();
             }
             else
             {
                 $(".event_l_2").prop("disabled", true);
                 $(".event_l_3").prop("checked", true);
                 setImportLinks(event.bookProject, ImportStates.DONE);
+                setImportLinks(event.bookProject+"_l1", ImportStates.DONE);
+                setImportLinks(event.bookProject+"_l2", ImportStates.DONE);
+                $("."+event.bookProject+"_l1_import").hide();
+                $("."+event.bookProject+"_l2_import").show();
             }
             $(".event_imports").show();
             $(".language_input_checkbox").hide();
@@ -1908,12 +1965,16 @@ function setImportComponent(event) {
             {
                 $(".l1_import").hide();
                 $(".l2_import").show();
-
                 setImportLinks("l2", ImportStates.DONE);
+                $(".language_input_checkbox").hide();
             }
             else
             {
                 setImportLinks(event.bookProject, ImportStates.DONE);
+                setImportLinks(event.bookProject+"_l1", ImportStates.DONE);
+                setImportLinks(event.bookProject+"_l2", ImportStates.DONE);
+                $("."+event.bookProject+"_l1_import").hide();
+                $("."+event.bookProject+"_l2_import").show();
             }
             $(".event_imports").show();
             $(".language_input_checkbox").hide();
@@ -1979,8 +2040,10 @@ function setEventMenuLinks(event, level) {
             $(".event_links_l2").hide();
             $(".event_links_l3").show();
 
-            $(".event_links_l3 .event_progress a").attr("href", "/events/information-sun/"+event.eventID);
-            $(".event_links_l3 .event_manage a").attr("href", "/events/manage/"+event.eventID);
+            $(".event_links_l3 .event_progress a")
+                .attr("href", "/events/information"+(event.category == "odb" ? "-odb" : "")+"-sun/"+event.eventID);
+            $(".event_links_l3 .event_manage a")
+                .attr("href", "/events/manage/"+event.eventID);
             break;
     }
 }
@@ -2024,6 +2087,127 @@ function setStartEventButton(event) {
             $("button[name=startEvent]").text(Language.save);
             $("#eventAction").val("edit");
     }
+}
+
+function resetProjectForm() {
+    $("#project").trigger("reset");
+    $("#projectID").val("");
+    $("#projectMode").prop("disabled", false).trigger("chosen:updated");
+    $("#subGwLangs").prop("disabled", false).trigger("chosen:updated");
+    $("#targetLangs").prop("disabled", false).trigger("chosen:updated");
+    $("#projectType").prop("disabled", false).trigger("chosen:updated");
+    $("#sourceTranslation").val("").trigger("chosen:updated");
+    $(".sourceTools").addClass("hidden");
+    $(".sourceTranslation").removeClass("hidden");
+    $(".projectType").removeClass("hidden");
+    $(".subErrors").html("");
+    $("#project select").val('').chosen();
+    $("button[name=project]").text(Language.create);
+    $("#projectAction").val("create");
+    $(".toolsTn").removeClass("hidden");
+    $("#toolsTn").val("en").trigger("chosen:updated");
+    $(".toolsTq").removeClass("hidden");
+    $("#toolsTq").val("en").trigger("chosen:updated");
+    $(".toolsTw").removeClass("hidden");
+    $("#toolsTw").val("en").trigger("chosen:updated");
+}
+
+function setProjectForm(data) {
+    $("#projectID").val(data.project.projectID);
+
+    var mode = "";
+    if(["ulb","udb","sun"].indexOf(data.project.bookProject) > -1) {
+        if(data.project.sourceBible == "odb") {
+            mode = "odb";
+        } else {
+            mode = "bible";
+        }
+    } else {
+        mode = data.project.bookProject;
+    }
+
+    $("#projectMode")
+        .val(mode)
+        .trigger("chosen:updated")
+        .trigger("change")
+        .prop("disabled", true);
+
+    $("#subGwLangs")
+        .val(data.project.gwLang + "|" + data.project.gwProjectID)
+        .trigger("chosen:updated")
+        .trigger("change")
+        .prop("disabled", true);
+
+    $("#targetLangs").prop("disabled", true);
+    document.addEventListener("target-langs-updated", function() {
+        $("#targetLangs")
+            .val(data.project.targetLang)
+            .trigger("chosen:updated");
+    });
+
+    if(["tq","tw"].indexOf(data.project.bookProject) < 0)
+    {
+        $("#sourceTranslation")
+            .val(data.project.sourceBible + "|" + data.project.sourceLangID)
+            .trigger("chosen:updated");
+    }
+
+    if(["tn","tq","tw"].indexOf(data.project.bookProject) > -1)
+    {
+        $("#sourceTools").val(data.project.resLangID).trigger("chosen:updated");
+        $(".toolsTn").addClass("hidden");
+        $(".toolsTq").addClass("hidden");
+        $(".toolsTw").addClass("hidden");
+    } else {
+        $("#projectType")
+            .val(data.project.bookProject)
+            .trigger("chosen:updated")
+            .prop("disabled", true);
+        $("#toolsTn").val(data.project.tnLangID).trigger("chosen:updated");
+        $("#toolsTq").val(data.project.tqLangID).trigger("chosen:updated");
+        $("#toolsTw").val(data.project.twLangID).trigger("chosen:updated");
+    }
+}
+
+function resetEventForm() {
+    $("#startEvent").trigger("reset");
+
+    $(".event_menu").hide();
+    $("#adminsSelect").empty().trigger("chosen:updated");
+    $(".delinput").hide();
+    $(".errors").html("");
+
+    $(".event_links_l1").show();
+    $(".event_links_l1 a").attr("href", "#");
+    $(".event_links_l2").show();
+    $(".event_links_l2 a").attr("href", "#");
+    $(".event_links_l3").show();
+    $(".event_links_l3 a").attr("href", "#");
+
+    $(".event_imports").hide();
+    $("input[name=eventLevel]").prop("disabled", false);
+
+    setImportLinks("l1", ImportStates.DEFAULT);
+    setImportLinks("l2", ImportStates.DEFAULT);
+    setImportLinks("l3", ImportStates.DEFAULT);
+    setImportLinks("tn_l1", ImportStates.DEFAULT);
+    setImportLinks("tn_l2", ImportStates.DEFAULT);
+    setImportLinks("tq_l1", ImportStates.DEFAULT);
+    setImportLinks("tq_l2", ImportStates.DEFAULT);
+    setImportLinks("tw_l1", ImportStates.DEFAULT);
+    setImportLinks("tw_l2", ImportStates.DEFAULT);
+
+    $(".import.l2_import").hide();
+    $(".import.l3_import").hide();
+    $(".import.tn_l1_import").show();
+    $(".import.tn_l2_import").hide();
+    $(".import.tq_l1_import").show();
+    $(".import.tq_l2_import").hide();
+    $(".import.tw_l1_import").show();
+    $(".import.tw_l2_import").hide();
+
+    $("#eventAction").val("create");
+    $("button[name=startEvent]").text(Language.create);
 }
 
 function uploadImageContent(image, editor) {

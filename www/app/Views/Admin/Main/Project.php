@@ -39,7 +39,6 @@ if(!empty($data["project"])):
         </div>
 
         <?php foreach($data["events"] as $event): ?>
-            <?php if($event->abbrID > 67) continue; ?>
             <?php if($event->abbrID == 1): ?>
             <div class="row" id="old_test">
                 <div class="project_progress progress <?php echo $data["OTprogress"] <= 0 ? "zero" : ""?>">
@@ -253,9 +252,17 @@ if(!empty($data["project"])):
 
                         <div class="event_imports">
                             <?php if($data["project"][0]->bookProject == "tn"): ?>
-                            <div class="import tn_import">
+                            <div class="import tn_l1_import">
+                                <div class="import_title"><?php echo __("tn") ?> L1</div>
+                                <div class="import_link" data-source="tn_l1" title="<?php echo __("import_translation_tip") ?>">
+                                    Import
+                                </div>
+                                <div class="import_done glyphicon glyphicon-ok"></div>
+                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
+                            </div>
+                            <div class="import tn_l2_import">
                                 <div class="import_title"><?php echo __("tn") ?> L2</div>
-                                <div class="import_link" data-source="tn" title="<?php echo __("import_translation_tip") ?>">
+                                <div class="import_link" data-source="tn_l2" title="<?php echo __("import_translation_tip") ?>">
                                     Import
                                 </div>
                                 <div class="import_done glyphicon glyphicon-ok"></div>
@@ -264,9 +271,17 @@ if(!empty($data["project"])):
                             <?php endif; ?>
 
                             <?php if($data["project"][0]->bookProject == "tq"): ?>
-                            <div class="import tq_import">
+                            <div class="import tq_l1_import">
+                                <div class="import_title"><?php echo __("tq") ?> L1</div>
+                                <div class="import_link" data-source="tq_l1" title="<?php echo __("import_translation_tip") ?>">
+                                    Import
+                                </div>
+                                <div class="import_done glyphicon glyphicon-ok"></div>
+                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
+                            </div>
+                            <div class="import tq_l2_import">
                                 <div class="import_title"><?php echo __("tq") ?> L2</div>
-                                <div class="import_link" data-source="tq" title="<?php echo __("import_translation_tip") ?>">
+                                <div class="import_link" data-source="tq_l2" title="<?php echo __("import_translation_tip") ?>">
                                     Import
                                 </div>
                                 <div class="import_done glyphicon glyphicon-ok"></div>
@@ -274,18 +289,7 @@ if(!empty($data["project"])):
                             </div>
                             <?php endif; ?>
 
-                            <?php if($data["project"][0]->bookProject == "tw"): ?>
-                            <div class="import tw_import">
-                                <div class="import_title"><?php echo __("tw") ?> L2</div>
-                                <div class="import_link" data-source="tw" title="<?php echo __("import_translation_tip") ?>">
-                                    Import
-                                </div>
-                                <div class="import_done glyphicon glyphicon-ok"></div>
-                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if(!in_array($data["project"][0]->bookProject, ["tn","tq","tw"])): ?>
+                            <?php if(!in_array($data["project"][0]->bookProject, ["tn","tq"])): ?>
                             <div class="import l1_import">
                                 <div class="import_title"><?php echo __("book") ?> L1</div>
                                 <div class="import_link" data-source="l1" title="<?php echo __("import_translation_tip") ?>">
@@ -431,7 +435,10 @@ if(!empty($data["project"])):
     <div class="contributors_block">
         <div class="contributors-close glyphicon glyphicon-remove"></div>
         <div class="contributors_title"><?php echo __("event_contributors") ?></div>
-        <div class="contributors_title proj"><?php echo __("contributors") ?></div>
+        <div class="contributors_title proj">
+            <?php echo __("contributors") ?>
+            <button class="btn btn-link contribs_download_csv">Download (.scv)</button>
+        </div>
         <div class="contributors_content"></div>
     </div>
 </div>

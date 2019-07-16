@@ -72,7 +72,7 @@ if(isset($data["error"])) return;
                                                         <div class="other_comments">
                                                             <?php echo
                                                                 "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                    (L".$comment->level."):</span> 
+                                                                    - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
                                                         </div>
                                                     <?php endif; ?>
@@ -139,7 +139,9 @@ if(isset($data["error"])) return;
 <!-- Data for tools -->
 <input type="hidden" id="bookCode" value="<?php echo $data["event"][0]->bookCode ?>">
 <input type="hidden" id="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
-<input type="hidden" id="lang" value="<?php echo "en"/*$data["event"][0]->sourceLangID*/ ?>">
+<input type="hidden" id="tn_lang" value="<?php echo $data["event"][0]->tnLangID ?>">
+<input type="hidden" id="tq_lang" value="<?php echo $data["event"][0]->tqLangID ?>">
+<input type="hidden" id="tw_lang" value="<?php echo $data["event"][0]->twLangID ?>">
 <input type="hidden" id="totalVerses" value="<?php echo $data["totalVerses"] ?>">
 <input type="hidden" id="targetLang" value="<?php echo $data["event"][0]->targetLang ?>">
 

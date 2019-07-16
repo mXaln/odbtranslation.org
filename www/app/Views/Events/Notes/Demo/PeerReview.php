@@ -87,7 +87,7 @@
                             <img class="editComment tncomm" data="1:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>">
                             <div class="comments">
                                 <div class="other_comments">
-                                    <div><span>Lili J. (L1):</span> This is a comment to the chunk made by translator </div>
+                                    <div><span>Lili J. - L1:</span> This is a comment to the chunk made by translator </div>
                                 </div>
                                 <div class="my_comment">This is a comment to the chunk made by Notes checker</div>
                             </div>

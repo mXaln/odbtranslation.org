@@ -45,7 +45,7 @@
                                     <div class="comments">
                                         <div class="my_comment">This is translator's comment on this chunk</div>
                                         <div class="other_comments">
-                                            <div><span>Paul S. (L1):</span> This is checker's comment on this chunk</div>
+                                            <div><span>Paul S. - L1:</span> This is checker's comment on this chunk</div>
                                         </div>
                                     </div>
                                     <div class="clear"></div>

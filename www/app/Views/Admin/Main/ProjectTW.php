@@ -34,21 +34,18 @@ if(!empty($data["project"])):
             </div>
         </div>
 
-        <?php foreach($data["events"] as $event): ?>
-            <?php if($event->abbrID < 68 || $event->abbrID > 70) continue; ?>
-            <div class="row" id="old_test">
-                <div class="project_progress progress <?php echo $data["TWprogress"] <= 0 ? "zero" : ""?>"
-                     style="left: 30px;">
-                    <div class="progress-bar progress-bar-success" role="progressbar"
-                         aria-valuenow="<?php echo floor($data["OTprogress"]) ?>"
-                         aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["OTprogress"])."%" ?>">
-                        <?php echo floor($data["OTprogress"])."%" ?>
-                    </div>
+        <div class="row" id="old_test">
+            <div class="project_progress progress <?php echo $data["TWprogress"] <= 0 ? "zero" : ""?>"
+                 style="left: 30px;">
+                <div class="progress-bar progress-bar-success" role="progressbar"
+                     aria-valuenow="<?php echo floor($data["TWprogress"]) ?>"
+                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["OTprogress"])."%" ?>">
+                    <?php echo floor($data["TWprogress"])."%" ?>
                 </div>
-                <div class="col-sm-12">
-                    <?php if($event->abbrID == 68): ?>
-                    <table class="table table-bordered table-hover" role="grid">
-                        <thead>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-bordered table-hover" role="grid">
+                    <thead>
                         <tr>
                             <th><?php echo __("book") ?></th>
                             <th><?php echo __("time_start") ?></th>
@@ -58,76 +55,73 @@ if(!empty($data["project"])):
                             <th><?php echo __("contributors") ?></th>
                             <th></th>
                         </tr>
-                        </thead>
-                        <tbody>
-                    <?php endif; ?>
-                        <tr>
-                            <td><?php echo $event->name ?></td>
-                            <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                                date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>">
-                                <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom . " UTC" : "" ?></td>
-                            <td class="datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                                date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>">
-                                <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
-                            <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
-                            <td style="position:relative;">
-                                <div class="event_column progress zero" data-eventid="<?php echo $event->eventID?>">
-                                    <div class="progress-bar progress-bar-success" role="progressbar"
-                                         aria-valuenow="0"
-                                         aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 0%">
-                                        0%
-                                    </div>
-                                    <img class="progressLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
+                    </thead>
+                    <tbody>
+                    <?php foreach($data["events"] as $event): ?>
+                    <tr>
+                        <td><?php echo $event->name ?></td>
+                        <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>">
+                            <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom . " UTC" : "" ?></td>
+                        <td class="datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
+                            date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>">
+                            <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
+                        <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
+                        <td style="position:relative;">
+                            <div class="event_column progress zero" data-eventid="<?php echo $event->eventID?>">
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                     aria-valuenow="0"
+                                     aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 0%">
+                                    0%
                                 </div>
-                            </td>
-                            <td>
-                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)): ?>
-                                    <button class="btn btn-warning showContributors"
-                                            data-eventid="<?php echo $event->eventID?>"
-                                            data-level="2"
-                                            data-mode="<?php echo $data["project"][0]->bookProject ?>">
-                                        <?php echo __("L2") ?>
-                                    </button>
-                                <?php endif; ?>
-                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::COMPLETE)): ?>
-                                    <button class="btn btn-warning showContributors"
-                                            data-eventid="<?php echo $event->eventID?>"
-                                            data-level="3"
-                                            data-mode="<?php echo $data["project"][0]->bookProject ?>">
-                                        <?php echo __("L3") ?>
-                                    </button>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php
-                                switch($event->state)
-                                {
-                                    case null:
-                                        echo '<button 
-                                            data-bookcode="'.$event->code.'" 
-                                            data-bookname="'.$event->name.'" 
-                                            data-chapternum="'.$event->chaptersNum.'" 
-                                                class="btn btn-primary startEvnt">'.__("create").'</button>';
-                                        break;
+                                <img class="progressLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
+                            </div>
+                        </td>
+                        <td>
+                            <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)): ?>
+                                <button class="btn btn-warning showContributors"
+                                        data-eventid="<?php echo $event->eventID?>"
+                                        data-level="2"
+                                        data-mode="<?php echo $data["project"][0]->bookProject ?>">
+                                    <?php echo __("L2") ?>
+                                </button>
+                            <?php endif; ?>
+                            <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::COMPLETE)): ?>
+                                <button class="btn btn-warning showContributors"
+                                        data-eventid="<?php echo $event->eventID?>"
+                                        data-level="3"
+                                        data-mode="<?php echo $data["project"][0]->bookProject ?>">
+                                    <?php echo __("L3") ?>
+                                </button>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php
+                            switch($event->state)
+                            {
+                                case null:
+                                    echo '<button 
+                                        data-bookcode="'.$event->code.'" 
+                                        data-bookname="'.$event->name.'" 
+                                        data-chapternum="'.$event->chaptersNum.'" 
+                                            class="btn btn-primary startEvnt">'.__("create").'</button>';
+                                    break;
 
-                                    default:
-                                        echo '<button 
-                                            data-bookcode="'.$event->code.'" 
-                                            data-eventid="'.$event->eventID.'" 
-                                            data-abbrid="'.$event->abbrID.'"
-                                                class="btn btn-success editEvnt">'.__("edit").'</button>';
-                                }
-                                ?>
-                            </td>
-                        </tr>
-
-            <?php if($event->abbrID == 70): ?>
+                                default:
+                                    echo '<button 
+                                        data-bookcode="'.$event->code.'" 
+                                        data-eventid="'.$event->eventID.'" 
+                                        data-abbrid="'.$event->abbrID.'"
+                                            class="btn btn-success editEvnt">'.__("edit").'</button>';
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
-                </div>
             </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
@@ -200,9 +194,18 @@ if(!empty($data["project"])):
                         </div>
 
                         <div class="event_imports">
-                            <div class="import tw_import">
+                            <div class="import tw_l1_import">
+                                <div class="import_title"><?php echo __("tw") ?> L1</div>
+                                <div class="import_link" data-source="tw_l1" title="<?php echo __("import_translation_tip") ?>">
+                                    Import
+                                </div>
+                                <div class="import_done glyphicon glyphicon-ok"></div>
+                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
+                            </div>
+
+                            <div class="import tw_l2_import">
                                 <div class="import_title"><?php echo __("tw") ?> L2</div>
-                                <div class="import_link" data-source="tw" title="<?php echo __("import_translation_tip") ?>">
+                                <div class="import_link" data-source="tw_l2" title="<?php echo __("import_translation_tip") ?>">
                                     Import
                                 </div>
                                 <div class="import_done glyphicon glyphicon-ok"></div>
@@ -238,6 +241,7 @@ if(!empty($data["project"])):
                         <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
                         <input type="hidden" name="targetLangID" id="targetLangID" value="<?php echo $data["project"][0]->targetLang?>" />
                         <input type="hidden" name="initialLevel" id="initialLevel" value="1" />
+                        <input type="hidden" name="importLevel" id="importLevel" value="1" />
                         <input type="hidden" name="importProject" id="importProject" value="<?php echo $data["project"][0]->bookProject?>" />
 
                         <br>
@@ -331,7 +335,10 @@ if(!empty($data["project"])):
     <div class="contributors_block">
         <div class="contributors-close glyphicon glyphicon-remove"></div>
         <div class="contributors_title"><?php echo __("event_contributors") ?></div>
-        <div class="contributors_title proj"><?php echo __("contributors") ?></div>
+        <div class="contributors_title proj">
+            <?php echo __("contributors") ?>
+            <button class="btn btn-link contribs_download_csv">Download (.scv)</button>
+        </div>
         <div class="contributors_content"></div>
     </div>
 </div>

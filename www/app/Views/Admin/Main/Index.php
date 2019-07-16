@@ -131,6 +131,7 @@
                         <th><?php echo __("gw_language") ?></th>
                         <th><?php echo __("project") ?></th>
                         <th><?php echo __("source") ?></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -150,6 +151,11 @@
                                     ? " (" . $project->sAng . ")" : "") ?></td>
                             <td><?php echo __($project->bookProject) ?></td>
                             <td><?php echo __($project->sourceBible). " (".$project->sourceLangID.")"  ?></td>
+                            <td>
+                                <button
+                                        data-projectid="<?php echo $project->projectID ?>"
+                                        class="btn btn-success editProject"><?php echo __("edit") ?></button>
+                            </td>
                         </tr>
                     <?php endforeach ?>
                     </tbody>
@@ -166,7 +172,7 @@
             <span class="panel-close glyphicon glyphicon-remove"></span>
         </div>
 
-        <div class="page-content row panel-body">
+        <div class="page-content panel-body" style="max-height: 750px; overflow-y: auto;">
             <div class="subErrors"></div>
 
             <form action="/admin/rpc/create_project" method="post" id="project" style="width: 400px;">
@@ -179,6 +185,7 @@
                         <option value="tn"><?php echo __("notes_mode") ?></option>
                         <option value="tq"><?php echo __("questions_mode") ?></option>
                         <option value="tw"><?php echo __("words_mode") ?></option>
+                        <option value="odb"><?php echo __("odb_mode") ?></option>
                     </select>
                 </div>
             
@@ -230,29 +237,65 @@
                     </select>
                 </div>
 
-                <div class="form-group sourceTranslationNotes hidden">
-                    <label for="sourceTranslationNotes"><?php echo __('book_notes'); ?></label>
-                    <select name="sourceTranslationNotes" id="sourceTranslationNotes" class="form-control" data-placeholder="<?php echo __('choose_source_notes'); ?>">
+                <div class="form-group sourceTools hidden">
+                    <label for="sourceTools"></label>
+                    <select name="sourceTools" id="sourceTools" class="form-control" data-placeholder="">
                         <option value=""></option>
-                        <option value="en">English</option>
+                        <?php foreach ($data["gwLangs"] as $lang): ?>
+                            <option value="<?php echo $lang->langID ?>">
+                                <?php echo "[".$lang->langID."] " . $lang->langName .
+                                    ($lang->langName != $lang->angName && $lang->angName != ""
+                                        ? " ( ".$lang->angName." )" : ""); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group sourceTranslationQuestions hidden">
-                    <label for="sourceTranslationQuestions"><?php echo __('book_questions'); ?></label>
-                    <select name="sourceTranslationQuestions" id="sourceTranslationQuestions" class="form-control" data-placeholder="<?php echo __('choose_source_questions'); ?>">
+
+                <hr>
+                <div class="form-group toolsTn">
+                    <label for="toolsTn"><?php echo __("tn") ?></label>
+                    <select name="toolsTn" id="toolsTn" class="form-control" data-placeholder="">
                         <option value=""></option>
-                        <option value="en">English</option>
+                        <?php foreach ($data["gwLangs"] as $lang): ?>
+                            <option value="<?php echo $lang->langID ?>">
+                                <?php echo "[".$lang->langID."] " . $lang->langName .
+                                    ($lang->langName != $lang->angName && $lang->angName != ""
+                                        ? " ( ".$lang->angName." )" : ""); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group sourceTranslationWords hidden">
-                    <label for="sourceTranslationWords"><?php echo __('book_words'); ?></label>
-                    <select name="sourceTranslationWords" id="sourceTranslationWords" class="form-control" data-placeholder="<?php echo __('choose_source_words'); ?>">
+                <div class="form-group toolsTq">
+                    <label for="toolsTq"><?php echo __("tq") ?></label>
+                    <select name="toolsTq" id="toolsTq" class="form-control" data-placeholder="">
                         <option value=""></option>
-                        <option value="en">English</option>
+                        <?php foreach ($data["gwLangs"] as $lang): ?>
+                            <option value="<?php echo $lang->langID ?>">
+                                <?php echo "[".$lang->langID."] " . $lang->langName .
+                                    ($lang->langName != $lang->angName && $lang->angName != ""
+                                        ? " ( ".$lang->angName." )" : ""); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group toolsTw">
+                    <label for="toolsTw"><?php echo __("tw") ?></label>
+                    <select name="toolsTw" id="toolsTw" class="form-control" data-placeholder="">
+                        <option value=""></option>
+                        <?php foreach ($data["gwLangs"] as $lang): ?>
+                            <option value="<?php echo $lang->langID ?>">
+                                <?php echo "[".$lang->langID."] " . $lang->langName .
+                                    ($lang->langName != $lang->angName && $lang->angName != ""
+                                        ? " ( ".$lang->angName." )" : ""); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <br><br>
+
+                <input type="hidden" name="act" id="projectAction" value="create">
+                <input type="hidden" name="projectID" id="projectID">
 
                 <button type="submit" name="project" class="btn btn-primary"><?php echo __('create'); ?></button>
                 <img class="projectLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">

@@ -96,25 +96,21 @@ class UsfmParser
                     $vText = htmlspecialchars($vText, ENT_COMPAT | ENT_SUBSTITUTE, "UTF-8");
 
                     // Italic style
-                    $vText = preg_replace("/\\\\it (.*)\\\\it\\*/U", "<em>$1</em>", $vText);
+                    $vText = preg_replace("/\\\\it (.*)\\\\it\\*/Uui", "<em>$1</em>", $vText);
 
                     // Word listing (remove - continue)
-                    $vText = preg_replace("/\\\\w\s?(.*)\s?\\\\w\\*/U", "$1", $vText);
+                    $vText = preg_replace("/\\\\w\s?(.*)\s?\\\\w\\*/Uui", "$1", $vText);
 
                     // Footnotes
-                    //$vText = preg_replace("/\\\\fqa\s?(.*)\s?\\\\fqa\\*/U", "$1", $vText);
-                    //$replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto right\" title=\"$1\" class=\"booknote glyphicon glyphicon-file\"></span>";
-                    //$vText = preg_replace("/\\\\f(.*)\\\\f\\*/uU", $replacement, $vText);
-
-                    $replacement = "<span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2 [$4]\" class=\"booknote glyphicon glyphicon-file\"></span>";
-                    $vText = preg_replace("/(\\\\f[\s+]*\\\\ft\s?(.*)(\\\\fqa\s?(.*)\s?\\\\fqa\*).*\\\\f\*)/U", $replacement, $vText);
+                    $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote glyphicon glyphicon-file\"></span> ";
+                    $vText = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $vText);
 
                     // Proper names
-                    $vText = preg_replace("/\\\\pn\s?(.*)\s?\\\\pn\\*/U", "$1", $vText);
+                    $vText = preg_replace("/\\\\pn\s?(.*)\s?\\\\pn\\*/Uui", "$1", $vText);
 
                     // Remove all other usfm tags
                     // TODO Parse other usfm tags
-                    $vText = preg_replace("/\\\\[a-z0-9]+ ?/", "", $vText);
+                    $vText = preg_replace("/\\\\[a-z0-9]+\\s?\\*?/", "", $vText);
 
                     $result["chapters"][$chapter][$chunk][$vNum] = $vText;
                 }

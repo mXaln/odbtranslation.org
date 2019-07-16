@@ -94,6 +94,7 @@ var Language = {
     "other_self_check"          : "Edit Notes",
     "other_self_check_alt"      : "Self-Edit",
     "other_keyword_check"       : "Check Highlights",
+    "keyword_check"             : "Pagsusi sa mga Mahinungdanon nga Pulong",
     "tq_drafts_not_checked"     : "You need to check all the draft checkboxes before proceeding to the next step.",
     "deleteGroupConfirmTitle"   : "Remove group",
     "deleteGroupConfirm"        : "Remove this group?",
@@ -107,4 +108,10 @@ var Language = {
     "tq"                        : "Translation Questions",
     "tw"                        : "Translation Words",
     "import_l2_warning"         : "First import Level 2 Scripture",
+    "book_tn"                   : "Source Notes",
+    "book_tq"                   : "Source Questions",
+    "book_tw"                   : "Source Words",
+    "chooseSource_tn"           : "Choose Source Notes",
+    "chooseSource_tq"           : "Choose Source Questions",
+    "chooseSource_tw"           : "Choose Source Words",
 };

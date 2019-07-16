@@ -49,7 +49,7 @@
 
                                 <div class="comments">
                                     <div class="my_comment">This is checker's comment on this chunk</div>
-                                    <div class="other_comments"><span>Mark P. (L1):</span> This is translator's comment on this chunk</div>
+                                    <div class="other_comments"><span>Mark P. - L1:</span> This is translator's comment on this chunk</div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -70,7 +70,7 @@
                                 <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                                 <div class="comments">
-                                    <div class="other_comments"><span>Mark P. (L1):</span> This is translator's comment on this chunk</div>
+                                    <div class="other_comments"><span>Mark P. - L1:</span> This is translator's comment on this chunk</div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -215,7 +215,7 @@
 
                             <div class="comments">
                                 <div class="my_comment">This is checker's comment on this chunk</div>
-                                <div class="other_comments"><span>Mark P. (L1):</span> Translator's comment</div>
+                                <div class="other_comments"><span>Mark P. - L1:</span> Translator's comment</div>
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -233,7 +233,7 @@
                             <img class="editComment" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>">
 
                             <div class="comments">
-                                <div class="other_comments"><span>Mark P. (L1):</span> Translator's comment</div>
+                                <div class="other_comments"><span>Mark P. - L1:</span> Translator's comment</div>
                             </div>
                             <div class="clear"></div>
                         </div>

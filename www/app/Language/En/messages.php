@@ -64,8 +64,17 @@ return array (
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
     "words_mode" => "Words",
+    "odb_mode" => "Our Daily Bread",
     "project_exists" => "Project exists",
     "personal" => "Personal",
+    "title" => "Title",
+    "author" => "Author",
+    "passage" => "Passage",
+    "bible_in_a_year" => "Bible in a Year",
+    "verse" => "Verse",
+    "thought" => "Thought",
+    "content" => "Content",
+    "go_sun_bible" => "SUN Bible",
 
     // Activate method
     "activate_account_title" => "Activate Account",
@@ -194,8 +203,8 @@ return array (
     // Success messages
     "update_profile_success" => "Profile has been updated successfully",
     "pwresettoken_send_success" => "We've sent you an email with instructions how to reset your password. If it's not there, check spam/junk folders",
-    "password_reset_success" => "Your password has been changed successfully. You may now login using your new password <a href=\"{href}\">Login</a>",
-    "account_activated_success" => "Your account is now active you may now <a href=\"{href}\">Login</a>",
+    "password_reset_success" => "Your password has been changed successfully. You may now login using your new password",
+    "account_activated_success" => "Your account is active, you may now login",
     "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",
     "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {link}",
     "registration_success_message" => "Registration successful! Please check your email to complete registration. If it's not there, check spam/junk folders",
@@ -235,12 +244,13 @@ return array (
     "admin_members_title" => "Members management",
     "gw_language" => "Gateway Language",
     "book_project" => "Source Translation",
-    "book_notes" => "Source Notes",
-    "book_questions" => "Source Questions",
-    "book_words" => "Source Words",
+    "book_tn" => "Source Notes",
+    "book_tq" => "Source Questions",
+    "book_tw" => "Source Words",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
-    "sun" => "Unlocked Literal Bible (SUN)",
+    "sun" => "Symbolic Universal Notation",
+    "odb" => "Our Daily Bread",
     "rsb" => "Russian Synodal Bible",
     "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
     "kar" => "Karoli Translation",
@@ -271,6 +281,7 @@ return array (
     "step_num" => "Step {step_number}",
     "chapters" => "Chapters",
     "chapter_number" => "Chapter {chapter}",
+    "devotion_number" => "Devotion {devotion}",
     "intro" => "Intro",
     "front" => "Intro",
     "chapter_not_started" => "Not started",
@@ -404,9 +415,9 @@ return array (
     "choose_gw_lang" => "Choose Gateway Language",
     "choose_target_lang" => "Choose Target Language",
     "choose_source_trans" => "Choose Source Translation",
-    "choose_source_notes" => "Choose Source Notes",
-    "choose_source_questions" => "Choose Source Questions",
-    "choose_source_words" => "Choose Source Words",
+    "choose_source_tn" => "Choose Source Notes",
+    "choose_source_tq" => "Choose Source Questions",
+    "choose_source_tw" => "Choose Source Words",
     "choose_project_type" => "Choose Project Type",
     "gw_projects" => "Gateway Projects",
     "gw_project" => "Gateway Project",
@@ -468,10 +479,15 @@ return array (
     "font_uploader_tooltip" => "Upload only SUN and BACKSUN fonts, one at a time. Font files should be of TTF format and be named as sun.ttf and backsun.ttf respectively",
     "saildic_uploader_tooltip" => "Upload SUN dictionary in .csv format (comma separated). In following order: symbol, comma, word. Document should be UTF-8 (Unicode) encoded",
     "sun_theo_checker" => "Remove Theological checker",
+    "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
+    "sun_odb_vbv_checker" => "Remove SUN checker",
+    "other_checker" => "Remove first checker",
+    "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
     "l2_p1_checker" => "Remove 1st peer checker",
     "l2_p2_checker" => "Remove 2nd peer checker",
+    "l3_p_checker" => "Remove checker",
     "news" => "News",
     "draft" => "Draft",
     "create_words_group" => "Create group of words",
@@ -516,6 +532,7 @@ return array (
                             reflect on portions and then continue reading the next portion of the chapter.</li>
                         <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
+    "consume_odb" => "Read",
     "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
@@ -893,6 +910,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Verse-by-Verse Check",
+    "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
                                     Discussion and correction section should take about 30-45 minutes.</li>
@@ -1063,6 +1081,7 @@ return array (
                                 <li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Theological Check",
+    "theo-check_odb" => "ODB Check",
     "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li>
                             <li>If you see an incorrect word, double-click the word to highlight it and put a comment 
                                 in the \"notes\" for the suggested change.</li>",
@@ -1657,6 +1676,7 @@ return array (
     "chapter" => "Chapter {0}",
     "download_usfm" => "Download as USFM",
     "download_markdown" => "Download as Markdown",
+    "download_json" => "Download as JSON",
 
     // Alma keyword plugin
     "to_list" => "To list",

@@ -65,7 +65,7 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
-		
+
         $data['menu'] = 1;
 
         $catalog = $this->_apiModel->getCachedFullCatalog();
@@ -95,20 +95,24 @@ class AdminController extends Controller {
 
         $data['menu'] = 1;
         $data["project"] = $this->_eventsModel->getProjects(Session::get("memberID"), $projectID);
-        $data["events"] = array();
+        $data["events"] = [];
         if(!empty($data["project"]))
         {
-            $data["events"] = $this->_eventsModel->getEventsByProject($projectID);
+            $category = $data["project"][0]->bookProject == "tw" ? "tw" :
+                ($data["project"][0]->sourceBible == "odb" ? "odb" : "bible");
+            $data["events"] = $this->_eventsModel->getEventsByProject($projectID, $category);
             $otDone = 0;
             $ntDone = 0;
             $twDone = 0;
+            $odbDone = 0;
             $data["OTprogress"] = 0;
             $data["NTprogress"] = 0;
             $data["TWprogress"] = 0;
+            $data["ODBprogress"] = 0;
 
             foreach ($data["events"] as $event)
             {
-                if($event->abbrID < 41) // Old testament
+                if($event->category == "bible" && $event->abbrID < 41) // Old testament
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -116,7 +120,7 @@ class AdminController extends Controller {
                         $otDone++;
                     }
                 }
-                else if($event->abbrID < 68) // New testament
+                else if($event->category == "bible" && $event->abbrID >= 41) // New testament
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -124,7 +128,7 @@ class AdminController extends Controller {
                         $ntDone++;
                     }
                 }
-                else if($event->abbrID < 71) // tWords categories (kt, names, other)
+                else if($event->category == "tw") // tWords categories (kt, names, other)
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
@@ -132,16 +136,33 @@ class AdminController extends Controller {
                         $twDone++;
                     }
                 }
+                else if($event->category == "odb") // ODB books
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $odbDone++;
+                    }
+                }
             }
 
             $data["OTprogress"] = 100*$otDone/39;
             $data["NTprogress"] = 100*$ntDone/27;
             $data["TWprogress"] = 100*$twDone/3;
+
+            if($data["project"][0]->sourceBible == "odb")
+            {
+                $count = $this->_eventsModel->getAbbrByCategory("odb", true);
+                if($count > 0)
+                    $data["ODBprogress"] = 100*$odbDone/$count;
+            }
         }
 
         $page = 'Admin/Main/Project';
         if(!empty($data["project"]) && $data["project"][0]->bookProject == "tw")
             $page = 'Admin/Main/ProjectTW';
+        if(!empty($data["project"]) && $data["project"][0]->sourceBible == "odb")
+            $page = 'Admin/Main/ProjectODB';
 
         return View::make($page)
             ->shares("title", __("admin_events_title"))
@@ -169,7 +190,7 @@ class AdminController extends Controller {
         $_FILES = Gump::xss_clean($_FILES);
 
         $import = isset($_FILES['import']) && $_FILES['import'] != "" ? $_FILES['import']
-                : (isset($_POST['import']) && $_POST['import'] != "" ? $_POST['import'] : null);
+            : (isset($_POST['import']) && $_POST['import'] != "" ? $_POST['import'] : null);
         $type = isset($_POST['type']) && $_POST['type'] != "" ? $_POST['type'] : "dcs";
         $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : 0;
         $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? (integer)$_POST['eventID'] : 0;
@@ -200,7 +221,7 @@ class AdminController extends Controller {
                             $tn = $this->_apiModel->getTranslationNotes($bookCode, null, false, $path);
                             if(!empty($tn))
                             {
-                                $response = $this->importTnToEvent($tn, $projectID, $eventID, $bookCode);
+                                $response = $this->importResourceToEvent($tn, $projectID, $eventID, $bookCode, $importLevel);
                             }
                             else
                             {
@@ -208,10 +229,29 @@ class AdminController extends Controller {
                             }
                             break;
                         case "tq":
-                            $response["error"] = __("not_implemented");
+                            $tq = $this->_apiModel->getTranslationQuestions($bookCode, null, false, $path);
+                            if(!empty($tq))
+                            {
+                                $response = $this->importResourceToEvent($tq, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
                             break;
                         case "tw":
-                            $response["error"] = __("not_implemented");
+                            $cat = $bookCode == "wkt" ? "kt" : ($bookCode == "wns" ? "names" : "other");
+                            $tw = $this->_apiModel->getTranslationWordsByCategory($cat, null, false, false, $path);
+                            $tw = array_chunk($tw, 5); // make groups of 5 words each
+
+                            if(!empty($tw))
+                            {
+                                $response = $this->importResourceToEvent($tw, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
                             break;
                         default:
                             $response["error"] = __("not_implemented");
@@ -234,14 +274,53 @@ class AdminController extends Controller {
                 case "ts":
                     if(File::extension($import["name"]) == "tstudio")
                     {
-                        if(!in_array($bookProject, ["tn","tq","tw"]))
+                        $path = $this->_apiModel->processZipFile($import);
+                        if(in_array($bookProject, ["ulb","udb"]))
                         {
-                            $path = $this->_apiModel->processZipFile($import);
                             $usfm = $this->_apiModel->compileUSFMProject($path);
 
                             if($usfm != null)
                             {
                                 $response = $this->importScriptureToEvent($usfm, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        elseif ($bookProject == "tn")
+                        {
+                            $tn = $this->_apiModel->getTranslationNotes($bookCode, null, false, $path);
+                            if(!empty($tn))
+                            {
+                                $response = $this->importResourceToEvent($tn, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        elseif ($bookProject == "tq")
+                        {
+                            $tq = $this->_apiModel->getTranslationQuestions($bookCode, null, false, $path);
+                            if(!empty($tq))
+                            {
+                                $response = $this->importResourceToEvent($tq, $projectID, $eventID, $bookCode, $importLevel);
+                            }
+                            else
+                            {
+                                $response["error"] = __("usfm_not_valid_error");
+                            }
+                        }
+                        elseif ($bookProject == "tw")
+                        {
+                            $cat = $bookCode == "wkt" ? "kt" : ($bookCode == "wns" ? "names" : "other");
+                            $tw = $this->_apiModel->getTranslationWordsByCategory($cat, null, false, false, $path);
+                            $tw = array_chunk($tw, 5); // make groups of 5 words each
+
+                            if(!empty($tw))
+                            {
+                                $response = $this->importResourceToEvent($tw, $projectID, $eventID, $bookCode, $importLevel);
                             }
                             else
                             {
@@ -275,7 +354,7 @@ class AdminController extends Controller {
 
                                 if(!empty($tn))
                                 {
-                                    $response = $this->importTnToEvent($tn, $projectID, $eventID, $bookCode);
+                                    $response = $this->importResourceToEvent($tn, $projectID, $eventID, $bookCode, $importLevel);
                                 }
                                 else
                                 {
@@ -287,7 +366,7 @@ class AdminController extends Controller {
 
                                 if(!empty($tq))
                                 {
-                                    $response = $this->importTqToEvent($tq, $projectID, $eventID, $bookCode);
+                                    $response = $this->importResourceToEvent($tq, $projectID, $eventID, $bookCode, $importLevel);
                                 }
                                 else
                                 {
@@ -297,10 +376,11 @@ class AdminController extends Controller {
                             case "tw":
                                 $cat = $bookCode == "wkt" ? "kt" : ($bookCode == "wns" ? "names" : "other");
                                 $tw = $this->_apiModel->getTranslationWordsByCategory($cat, null, false, false, $path);
+                                $tw = array_chunk($tw, 5); // make groups of 5 words each
 
                                 if(!empty($tw))
                                 {
-                                    $response = $this->importTwToEvent($tw, $projectID, $eventID, $bookCode);
+                                    $response = $this->importResourceToEvent($tw, $projectID, $eventID, $bookCode, $importLevel);
                                 }
                                 else
                                 {
@@ -360,7 +440,7 @@ class AdminController extends Controller {
         {
             Url::redirect('');
         }
-		
+
         $data['menu'] = 2;
         $data["languages"] = $this->_eventsModel->getAllLanguages();
 
@@ -374,43 +454,46 @@ class AdminController extends Controller {
         $data["count"] = $this->_membersModel->searchMembers(null, "all", null, true);
         $data["members"] = $this->_membersModel->searchMembers(null, "all", null, false, true);
 
-        // All books
-        $data["books"] = [];
+        // All members with their translation events
+        $data["all_members"] = [];
         $list = $this->_eventsModel->getBooksOfTranslators();
         foreach($list as $item)
         {
-            if(!isset($data["books"][$item->userName]))
+            if(!isset($data["all_members"][$item->userName]))
             {
                 $tmp = [];
                 $tmp["firstName"] = $item->firstName;
                 $tmp["lastName"] = $item->lastName;
-                $data["books"][$item->userName] = $tmp;
+                $data["all_members"][$item->userName] = $tmp;
             }
 
-            if(!isset($data["books"][$item->userName]["books"]))
+            if(!isset($data["all_members"][$item->userName]["books"]))
             {
                 $tmp = [];
                 $tmp["name"] = $item->name;
+                $tmp["project"] = "(".$item->bookProject.") ".__($item->bookProject);
+                $tmp["lang"] = "[".$item->targetLang."] ".$item->angName
+                    .($item->angName != $item->langName ? " (".$item->langName.")" : "");
                 $tmp["chapters"] = [];
-                $data["books"][$item->userName]["books"][$item->code] = $tmp;
+                $data["all_members"][$item->userName]["books"][$item->code] = $tmp;
             }
 
-            if(!isset($data["books"][$item->userName]["books"][$item->code]))
+            if(!isset($data["all_members"][$item->userName]["books"][$item->code]))
             {
                 $tmp = [];
                 $tmp["name"] = $item->name;
+                $tmp["project"] = "(".$item->bookProject.") ".__($item->bookProject);
+                $tmp["lang"] = "[".$item->targetLang."] ".$item->angName
+                    .($item->angName != $item->langName ? " (".$item->langName.")" : "");
                 $tmp["chapters"] = [];
-                $data["books"][$item->userName]["books"][$item->code] = $tmp;
+                $data["all_members"][$item->userName]["books"][$item->code] = $tmp;
             }
 
-            if(!isset($data["books"][$item->userName]["books"][$item->code]["chapters"]))
-            {
-                $data["books"][$item->userName]["books"][$item->code]["chapters"][$item->chapter] = $item->done;
-            }
-            else
-            {
-                $data["books"][$item->userName]["books"][$item->code]["chapters"][$item->chapter] = $item->done;
-            }
+            if(!isset($data["all_members"][$item->userName]["books"][$item->code]["chapters"]))
+                $data["all_members"][$item->userName]["books"][$item->code]["chapters"] = [];
+
+            $data["all_members"][$item->userName]["books"][$item->code]["chapters"][$item->chapter]["done"] = $item->done;
+            $data["all_members"][$item->userName]["books"][$item->code]["chapters"][$item->chapter]["words"] = $item->words;
         }
 
         return View::make('Admin/Members/Index')
@@ -518,6 +601,47 @@ class AdminController extends Controller {
 
         echo json_encode($response);
 
+    }
+
+    public function getProject()
+    {
+        $response = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $response["error"] = "login";
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $response["error"] = "admin";
+        }
+
+        $_POST = Gump::xss_clean($_POST);
+
+        $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : null;
+
+        if($projectID == null)
+        {
+            $response["error"] = __('wrong_parameters_error');
+        }
+
+        if(!isset($response["error"]))
+        {
+            $project = $this->_eventsModel->getProject(["projects.*"], [["projectID", $projectID]]);
+
+            if(!empty($project))
+            {
+                $response["success"] = true;
+                $response["project"] = $project[0];
+            }
+            else
+            {
+                $response["error"] = __('wrong_parameters_error');
+            }
+        }
+
+        echo json_encode($response);
     }
 
 
@@ -755,109 +879,177 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw|odb)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
-        $sourceTranslationNotes = isset($_POST['sourceTranslationNotes']) && $_POST['sourceTranslationNotes'] != "" ? $_POST['sourceTranslationNotes'] : null;
-        $sourceTranslationQuestions = isset($_POST['sourceTranslationQuestions']) && $_POST['sourceTranslationQuestions'] != "" ? $_POST['sourceTranslationQuestions'] : null;
-        $sourceTranslationWords = isset($_POST['sourceTranslationWords']) && $_POST['sourceTranslationWords'] != "" ? $_POST['sourceTranslationWords'] : null;
+        $sourceTools = isset($_POST['sourceTools']) && $_POST['sourceTools'] != "" ? $_POST['sourceTools'] : null;
+        $toolsTn = isset($_POST['toolsTn']) && $_POST['toolsTn'] != "" ? $_POST['toolsTn'] : null;
+        $toolsTq = isset($_POST['toolsTq']) && $_POST['toolsTq'] != "" ? $_POST['toolsTq'] : null;
+        $toolsTw = isset($_POST['toolsTw']) && $_POST['toolsTw'] != "" ? $_POST['toolsTw'] : null;
         $projectType = isset($_POST['projectType']) && $_POST['projectType'] != "" ? $_POST['projectType'] : null;
-        $resSourceTranslation = null;
+        $act = isset($_POST['act']) && $_POST['act'] != "" ? $_POST['act'] : "create";
+        $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? $_POST['projectID'] : null;
 
-        if($subGwLangs == null)
+        if($act == "create")
         {
-            $error[] = __('choose_gw_lang');
-        }
-
-        if($targetLang == null)
-        {
-            $error[] = __("choose_target_lang");
-        }
-
-        if($sourceTranslation == null)
-        {
-            if($projectMode != "tq" && $projectMode != "tw")
-                $error[] = __("choose_source_trans");
-        }
-
-        if($projectType == null)
-        {
-            if($projectMode != "tq" && $projectMode != "tw")
-                $error[] = __("choose_project_type");
-        }
-
-        if($projectMode == "tn" && $sourceTranslationNotes == null)
-        {
-            $error[] = __("choose_source_notes");
-        }
-        else if($projectMode == "tq" && $sourceTranslationQuestions == null)
-        {
-            $error[] = __("choose_source_questions");
-        }
-        else if($projectMode == "tw" && $sourceTranslationWords == null)
-        {
-            $error[] = __("choose_source_words");
-        }
-
-        if($projectMode == "tq" || $projectMode == "tw")
-        {
-            $sourceTranslation = "ulb|en";
-            $projectType = "ulb";
-            if($projectMode == "tq")
-                $resSourceTranslation = $sourceTranslationQuestions;
-            elseif($projectMode == "tw")
-                $resSourceTranslation = $sourceTranslationWords;
-        }
-        elseif($projectMode == "tn")
-        {
-            $resSourceTranslation = $sourceTranslationNotes;
-        }
-
-        if(!isset($error))
-        {
-            $sourceTrPair = explode("|", $sourceTranslation);
-            $gwLangsPair = explode("|", $subGwLangs);
-
-            $projType = in_array($projectMode, ['tn','tq','tw']) ?
-                $projectMode : $projectType;
-            
-            $exist = $this->_eventsModel->getProject(["projects.projectID"], [
-                ["projects.gwLang", $gwLangsPair[0]],
-                ["projects.targetLang", $targetLang],
-                ["projects.bookProject", $projType]
-            ]);
-
-            if(!empty($exist))
+            if($subGwLangs == null)
             {
-                $error[] = __("project_exists");
-                echo json_encode(array("error" => Error::display($error)));
-                return;
+                $error[] = __('choose_gw_lang');
             }
 
-            $postdata = array(
-                "gwProjectID" => $gwLangsPair[1],
-                "gwLang" => $gwLangsPair[0],
-                "targetLang" => $targetLang,
-                "bookProject" => $projType,
-                "sourceBible" => $sourceTrPair[0],
-                "sourceLangID" => $sourceTrPair[1],
-                "resLangID" => $resSourceTranslation
-            );
-            
-            $id = $this->_eventsModel->createProject($postdata);
+            if($targetLang == null)
+            {
+                $error[] = __("choose_target_lang");
+            }
 
-            if($id)
-                echo json_encode(array("success" => __("successfully_created")));
+            if($sourceTranslation == null)
+            {
+                if(!in_array($projectMode, ["tq","tw","odb"]))
+                    $error[] = __("choose_source_trans");
+            }
+
+            if($projectType == null)
+            {
+                if(!in_array($projectMode, ["tn","tq","tw"]))
+                    $error[] = __("choose_project_type");
+            }
+
+            if(in_array($projectMode, ["tn","tq","tw"]) && $sourceTools == null)
+            {
+                $error[] = __("choose_source_".$projectMode);
+            }
+
+            if(in_array($projectMode, ["tq","tw"]))
+            {
+                $sourceTranslation = "ulb|en";
+                //$projectType = "ulb";
+            }
+            elseif($projectMode == "odb")
+            {
+                $sourceTranslation = "odb|en";
+            }
+
+            if(!isset($error))
+            {
+                $sourceTrPair = explode("|", $sourceTranslation);
+                $gwLangsPair = explode("|", $subGwLangs);
+
+                $projType = in_array($projectMode, ['tn','tq','tw']) ?
+                    $projectMode : $projectType;
+
+                $search = [
+                    ["projects.gwLang", $gwLangsPair[0]],
+                    ["projects.targetLang", $targetLang],
+                    ["projects.bookProject", $projType]
+                ];
+
+                if($projectMode == "odb")
+                {
+                    $search[] = ["projects.sourceBible", "odb"];
+                }
+
+                $exist = $this->_eventsModel->getProject(["projects.projectID"], $search);
+
+                if(!empty($exist))
+                {
+                    $error[] = __("project_exists");
+                    echo json_encode(array("error" => Error::display($error)));
+                    return;
+                }
+
+                $postdata = array(
+                    "gwProjectID" => $gwLangsPair[1],
+                    "gwLang" => $gwLangsPair[0],
+                    "targetLang" => $targetLang,
+                    "bookProject" => $projType,
+                    "sourceBible" => $sourceTrPair[0],
+                    "sourceLangID" => $sourceTrPair[1],
+                    "resLangID" => $sourceTools
+                );
+
+                if($toolsTn)
+                    $postdata["tnLangID"] = $toolsTn;
+                if($toolsTq)
+                    $postdata["tqLangID"] = $toolsTq;
+                if($toolsTw)
+                    $postdata["twLangID"] = $toolsTw;
+
+                $id = $this->_eventsModel->createProject($postdata);
+
+                if($id)
+                    echo json_encode(array("success" => __("successfully_created")));
+                else
+                {
+                    $error[] = __("error_ocured");
+                    echo json_encode(array("error" => Error::display($error)));
+                }
+            }
             else
             {
-                $error[] = __("error_ocured");
                 echo json_encode(array("error" => Error::display($error)));
             }
         }
-        else
+        elseif($act == "edit")
         {
-            echo json_encode(array("error" => Error::display($error)));
+            if($projectID == null)
+            {
+                $error[] = __("error_ocured");
+            }
+
+            if($sourceTranslation == null)
+            {
+                if(!in_array($projectMode, ["tq","tw","odb"]))
+                    $error[] = __("choose_source_trans");
+            }
+
+            if(in_array($projectMode, ["tn","tq","tw"]) && $sourceTools == null)
+            {
+                $error[] = __("choose_source_".$projectMode);
+            }
+
+            if(in_array($projectMode, ["tq","tw"]))
+            {
+                $sourceTranslation = "ulb|en";
+                //$projectType = "ulb";
+            }
+            elseif($projectMode == "odb")
+            {
+                $sourceTranslation = "odb|en";
+            }
+
+            if(!isset($error))
+            {
+                $project = $this->_eventsModel->getProject(["*"], [
+                    ["projectID", $projectID]
+                ]);
+
+                if(empty($project))
+                {
+                    $error[] = __("error_ocured");
+                    echo json_encode(array("error" => Error::display($error)));
+                    return;
+                }
+
+                $sourceTrPair = explode("|", $sourceTranslation);
+
+                $postdata = array(
+                    "sourceBible" => $sourceTrPair[0],
+                    "sourceLangID" => $sourceTrPair[1],
+                    "resLangID" => $sourceTools
+                );
+
+                if($toolsTn)
+                    $postdata["tnLangID"] = $toolsTn;
+                if($toolsTq)
+                    $postdata["tqLangID"] = $toolsTq;
+                if($toolsTw)
+                    $postdata["twLangID"] = $toolsTw;
+
+                $this->_eventsModel->updateProject($postdata, ["projectID" => $projectID]);
+
+                echo json_encode(array("success" => __("successfully_updated")));
+            }
         }
     }
 
@@ -1001,17 +1193,17 @@ class AdminController extends Controller {
             Cache::forget($cache_keyword);
 
         $source = $this->_apiModel->getCachedSourceBookFromApi(
-                $sourceBible,
-                $bookCode, 
-                $sourceLangID,
-                $abbrID);
+            $sourceBible,
+            $bookCode,
+            $sourceLangID,
+            $abbrID);
 
         if($source)
             $response["success"] = true;
 
         echo json_encode($response);
     }
-    
+
     public function updateAllBooksCache()
     {
         $response = ["success" => false];
@@ -1034,7 +1226,7 @@ class AdminController extends Controller {
 
         $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
         $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
-        
+
         $booksUpdated = 0;
 
         if($sourceLangID && $sourceBible)
@@ -1052,7 +1244,7 @@ class AdminController extends Controller {
             {
                 $bookCode = $book->code;
                 $abbrID = $book->abbrID;
-                
+
                 // Book source
                 $cache_keyword = $bookCode."_".$sourceLangID."_".$sourceBible."_usfm";
 
@@ -1060,10 +1252,10 @@ class AdminController extends Controller {
                     Cache::forget($cache_keyword);
 
                 $source = $this->_apiModel->getCachedSourceBookFromApi(
-                        $sourceBible,
-                        $bookCode, 
-                        $sourceLangID,
-                        $abbrID);
+                    $sourceBible,
+                    $bookCode,
+                    $sourceLangID,
+                    $abbrID);
 
                 if($source)
                 {
@@ -1082,9 +1274,9 @@ class AdminController extends Controller {
                 File::move($renDir, $origDir);
             }
         }
-        
+
         $response["booksUpdated"] = $booksUpdated;
-        
+
         echo json_encode($response);
     }
 
@@ -1202,7 +1394,7 @@ class AdminController extends Controller {
             );
 
             $postdata = [];
-            
+
             switch($act)
             {
                 case "create":
@@ -1298,25 +1490,38 @@ class AdminController extends Controller {
                     $postdata["bookCode"] = $bookCode;
 
                     $bookInfo = $this->_translationModel->getBookInfo($bookCode);
-                    
+
                     if(!empty($bookInfo))
                     {
-                        // Book source
-                        $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->sourceBible."_usfm";
-
-                        if(!Cache::has($cache_keyword))
+                        if($bookInfo[0]->category == "odb")
                         {
-                            $usfm = $this->_apiModel->getCachedSourceBookFromApi(
-                                $project[0]->sourceBible, 
-                                $bookInfo[0]->code, 
-                                $project[0]->sourceLangID,
-                                $bookInfo[0]->abbrID);
-                                
-                            if(!$usfm || empty($usfm))
+                            $odb = $this->_apiModel->getODB($bookInfo[0]->code, $project[0]->sourceLangID);
+                            if(empty($odb))
                             {
                                 $error[] = __("no_source_error");
                                 echo json_encode(array("error" => Error::display($error)));
                                 return;
+                            }
+                        }
+                        else
+                        {
+                            // Book source
+                            $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->sourceBible."_usfm";
+
+                            if(!Cache::has($cache_keyword))
+                            {
+                                $usfm = $this->_apiModel->getCachedSourceBookFromApi(
+                                    $project[0]->sourceBible,
+                                    $bookInfo[0]->code,
+                                    $project[0]->sourceLangID,
+                                    $bookInfo[0]->abbrID);
+
+                                if(!$usfm || empty($usfm))
+                                {
+                                    $error[] = __("no_source_error");
+                                    echo json_encode(array("error" => Error::display($error)));
+                                    return;
+                                }
                             }
                         }
 
@@ -1442,11 +1647,8 @@ class AdminController extends Controller {
                         return;
                     }
 
-                    //if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
-                    //{
                     $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
                     echo json_encode(array("success" => __("successfully_deleted")));
-                    //}
 
                     break;
             }
@@ -1609,11 +1811,8 @@ class AdminController extends Controller {
                         return;
                     }
 
-                    if ($exist[0]->state == EventStates::STARTED || $exist[0]->state == EventStates::TRANSLATING)
-                    {
-                        $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
-                        echo json_encode(array("success" => __("successfully_deleted")));
-                    }
+                    $this->_eventsModel->deleteEvent(["eventID" => $exist[0]->eventID]);
+                    echo json_encode(array("success" => __("successfully_deleted")));
 
                     break;
             }
@@ -2023,7 +2222,7 @@ class AdminController extends Controller {
     }
 
 
-    private function importTnToEvent($notes, $projectID, $eventID, $bookCode)
+    private function importResourceToEvent($resource, $projectID, $eventID, $bookCode, $importLevel)
     {
         $response = ["success" => false];
 
@@ -2059,7 +2258,7 @@ class AdminController extends Controller {
             $newEventID = $this->_eventsModel->createEvent([
                 "projectID" => $project[0]->projectID,
                 "bookCode" => $bookCode,
-                "state" => EventStates::TRANSLATED,
+                "state" => $importLevel == 1 ? EventStates::TRANSLATING : EventStates::TRANSLATED,
                 "admins" => json_encode([$mid]),
             ]);
 
@@ -2087,19 +2286,33 @@ class AdminController extends Controller {
                     );
                     $trID = $this->_eventsModel->addTranslator($trData);
 
-                    foreach ($notes as $chapter => $chunks)
+                    foreach ($resource as $chapter => $chunks)
                     {
+                        ksort($chunks, SORT_NUMERIC);
+                        if($event[0]->bookProject == "tw")
+                        {
+                            $words_list = array_map(function ($elm) {
+                                return $elm["word"];
+                            }, $chunks);
+
+                            $chapter = $this->_eventsModel->createTwGroup([
+                                "eventID" => $eventID,
+                                "words" => json_encode($words_list)
+                            ]);
+                        }
+
                         $peerCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
-                        $otherCheckData[$chapter] = ["memberID" => $mid, "done" => 6];
+                        $done = $event[0]->bookProject == "tn" ? 6 : 3;
+                        $otherCheckData[$chapter] = ["memberID" => $mid, "done" => $done];
 
                         $chunkKey = 0;
                         foreach ($chunks as $firstvs => $chunk) {
                             $translationVerses = [
                                 EventMembers::TRANSLATOR => [
-                                    "verses" => $chunk[0]
+                                    "verses" => $event[0]->bookProject == "tw" ? $chunk["text"] : $chunk[0]
                                 ],
                                 EventMembers::CHECKER => [
-                                    "verses" => $chunk[0]
+                                    "verses" => $event[0]->bookProject == "tw" ? $chunk["text"] : $chunk[0]
                                 ],
                                 EventMembers::L2_CHECKER => [
                                     "verses" => array()
@@ -2128,35 +2341,67 @@ class AdminController extends Controller {
                             $chunkKey++;
                         }
 
-                        if($chapter > 0)
+                        if($event[0]->bookProject == "tw")
                         {
-                            // Get related Scripture to define total verses of the chapter
-                            $relatedScripture = $this->_apiModel->getBookText([
-                                "sourceBible" => $project[0]->sourceBible,
-                                "bookCode" => $event[0]->bookCode,
-                                "sourceLangID" => $project[0]->sourceLangID,
-                                "abbrID" => $event[0]->abbrID
-                            ], $chapter);
-
-                            if(empty($relatedScripture))
-                                $relatedScripture = $this->_apiModel->getBookText([
-                                    "sourceBible" => "ulb",
-                                    "bookCode" => $event[0]->bookCode,
-                                    "sourceLangID" => "en",
-                                    "abbrID" => $event[0]->abbrID
-                                ], $chapter);
-
-                            if(empty($relatedScripture))
-                                $response["warning"] = true;
-
-                            $notes = [
-                                "notes" => $chunks,
-                                "totalVerses" => isset($relatedScripture) ? $relatedScripture["totalVerses"] : 0];
-                            $tn_chunks = $this->_apiModel->getNotesChunks($notes);
+                            $resource_chunks = array_keys($words_list);
+                            usort($resource_chunks, function($a, $b) {
+                                if(!isset($a[0])) return -1;
+                                if(!isset($b[0])) return 1;
+                                return $a[0] <= $b[0] ? -1 : 1;
+                            });
                         }
                         else
                         {
-                            $tn_chunks = [[0]];
+                            if($chapter > 0)
+                            {
+                                // Get related Scripture to define total verses of the chapter
+                                $relatedScripture = $this->_apiModel->getBookText([
+                                    "sourceBible" => $project[0]->sourceBible,
+                                    "bookCode" => $event[0]->bookCode,
+                                    "sourceLangID" => $project[0]->sourceLangID,
+                                    "abbrID" => $event[0]->abbrID
+                                ], $chapter);
+
+                                if(empty($relatedScripture))
+                                    $relatedScripture = $this->_apiModel->getBookText([
+                                        "sourceBible" => "ulb",
+                                        "bookCode" => $event[0]->bookCode,
+                                        "sourceLangID" => "en",
+                                        "abbrID" => $event[0]->abbrID
+                                    ], $chapter);
+
+                                if(empty($relatedScripture))
+                                    $response["warning"] = true;
+
+                                if($event[0]->bookProject == "tn")
+                                {
+                                    $notes = [
+                                        "notes" => $chunks,
+                                        "totalVerses" => isset($relatedScripture) ? $relatedScripture["totalVerses"] : 0];
+                                    $resource_chunks = $this->_apiModel->getNotesChunks($notes);
+                                    usort($resource_chunks, function($a, $b) {
+                                        if(!isset($a[0])) return -1;
+                                        if(!isset($b[0])) return 1;
+                                        return $a[0] <= $b[0] ? -1 : 1;
+                                    });
+                                }
+                                else
+                                {
+                                    $questions = [
+                                        "questions" => $chunks,
+                                        "totalVerses" => isset($relatedScripture) ? $relatedScripture["totalVerses"] : 0];
+                                    $resource_chunks = $this->_apiModel->getQuestionsChunks($questions);
+                                    usort($resource_chunks, function($a, $b) {
+                                        if(!isset($a[0])) return -1;
+                                        if(!isset($b[0])) return 1;
+                                        return $a[0] <= $b[0] ? -1 : 1;
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                $resource_chunks = [[0]];
+                            }
                         }
 
                         // Assign chapters to new translator
@@ -2165,7 +2410,7 @@ class AdminController extends Controller {
                             "memberID" => $mid,
                             "trID" => $trID,
                             "chapter" => $chapter,
-                            "chunks" => json_encode($tn_chunks),
+                            "chunks" => json_encode($resource_chunks),
                             "done" => true,
                             "checked" => true,
                         ]);
@@ -2188,7 +2433,7 @@ class AdminController extends Controller {
                 }
                 else
                 {
-                    $contentChunks = array_reduce($notes, function ($arr, $elm) {
+                    $contentChunks = array_reduce($resource, function ($arr, $elm) {
                         return array_merge((array)$arr, array_keys($elm));
                     });
 
@@ -2197,11 +2442,11 @@ class AdminController extends Controller {
                         foreach ($trans as $tran) {
                             $verses = (array)json_decode($tran->translatedVerses, true);
 
-                            if(isset($notes[$tran->chapter]) &&
-                                isset($notes[$tran->chapter][$tran->firstvs]) &&
-                                trim($notes[$tran->chapter][$tran->firstvs][0]) != "")
+                            if(isset($resource[$tran->chapter]) &&
+                                isset($resource[$tran->chapter][$tran->firstvs]) &&
+                                trim($resource[$tran->chapter][$tran->firstvs][0]) != "")
                             {
-                                $verses[EventMembers::CHECKER]["verses"] = $notes[$tran->chapter][$tran->firstvs][0];
+                                $verses[EventMembers::CHECKER]["verses"] = $resource[$tran->chapter][$tran->firstvs][0];
                             }
 
                             $this->_translationModel->updateTranslation([
@@ -2218,268 +2463,25 @@ class AdminController extends Controller {
                     }
                 }
             }
-            else
+            elseif (isset($newEventID))
             {
-                $response["error"] = __("event_has_translations_error");
-            }
-        }
-        else
-        {
-            $response["error"] = __("event_notexist_error");
-        }
+                // Add level 1 translation for a just created event
 
-        return $response;
-    }
+                // Create new translator
+                $otherCheckData = [];
 
-    private function importTqToEvent($questions, $projectID, $eventID, $bookCode)
-    {
-        $response = ["success" => false];
+                $trData = [
+                    "memberID" => $mid,
+                    "eventID" => $eventID,
+                    "step" => EventSteps::NONE,
+                    "currentChapter" => 0
+                ];
+                $trID = $this->_eventsModel->addTranslator($trData);
 
-        // Check if a "fake" user exists
-        $member = $this->_membersModel->getMemberWithProfile("spec");
-        if(empty($member))
-        {
-            $mid = $this->_membersModel->createMember([
-                "userName" => "spec",
-                "firstName" => "Special",
-                "lastName" => "User",
-                "password" => "none",
-                "email" => "none",
-                "active" => true,
-                "verified" => true
-            ]);
-
-            $this->_membersModel->createProfile([
-                "mID" => $mid
-            ]);
-        }
-        else
-        {
-            $mid = $member[0]->memberID;
-        }
-
-        $project = $this->_eventsModel->getProject(["*"],["projectID", $projectID]);
-        $event = $this->_eventsModel->getEvent($eventID);
-
-        // Create event if it doesn't exist
-        if(empty($event))
-        {
-            $newEventID = $this->_eventsModel->createEvent([
-                "projectID" => $project[0]->projectID,
-                "bookCode" => $bookCode,
-                "state" => EventStates::TRANSLATED,
-                "admins" => json_encode([$mid]),
-            ]);
-
-            $event = $this->_eventsModel->getEvent($newEventID);
-            $eventID = $newEventID;
-        }
-
-        if(!empty($event))
-        {
-            if($event[0]->state == EventStates::TRANSLATED)
-            {
-                // Check if there are translations of this event in database
-                $trans = $this->_translationModel->getEventTranslationByEventID($eventID);
-                if(empty($trans))
+                foreach ($resource as $chapter => $chunks)
                 {
-                    // Create new translator
-                    $kwCheckData = [];
-                    $peerCheckData = [];
-
-                    $trData = array(
-                        "memberID" => $mid,
-                        "eventID" => $eventID,
-                        "step" => EventSteps::NONE,
-                        "currentChapter" => 0
-                    );
-                    $trID = $this->_eventsModel->addTranslator($trData);
-
-                    foreach ($questions as $chapter => $chunks)
-                    {
-                        ksort($chunks);
-
-                        $kwCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
-                        $peerCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
-
-                        $chunkKey = 0;
-                        foreach ($chunks as $firstvs => $chunk) {
-                            $translationVerses = [
-                                EventMembers::TRANSLATOR => [
-                                    "verses" => $chunk[0]
-                                ],
-                                EventMembers::CHECKER => [
-                                    "verses" => $chunk[0]
-                                ],
-                                EventMembers::L2_CHECKER => [
-                                    "verses" => array()
-                                ],
-                                EventMembers::L3_CHECKER => [
-                                    "verses" => array()
-                                ],
-                            ];
-
-                            // Create new translations
-                            $this->_translationModel->createTranslation([
-                                "projectID" => $event[0]->projectID,
-                                "eventID" => $eventID,
-                                "trID" => $trID,
-                                "targetLang" => $event[0]->targetLang,
-                                "bookProject" => $event[0]->bookProject,
-                                "abbrID" => $event[0]->abbrID,
-                                "bookCode" => $event[0]->bookCode,
-                                "chapter" => $chapter,
-                                "chunk" => $chunkKey,
-                                "firstvs" => $firstvs,
-                                "translatedVerses" => json_encode($translationVerses),
-                                "translateDone" => true
-                            ]);
-
-                            $chunkKey++;
-                        }
-
-                        $questions = ["questions" => $chunks];
-                        $tq_chunks = $this->_apiModel->getQuestionsChunks($questions);
-
-                        // Assign chapters to new translator
-                        $this->_eventsModel->assignChapter([
-                            "eventID" => $eventID,
-                            "memberID" => $mid,
-                            "trID" => $trID,
-                            "chapter" => $chapter,
-                            "chunks" => json_encode($tq_chunks),
-                            "done" => true,
-                            "checked" => true,
-                        ]);
-
-                        $this->_eventsModel->updateEvent([
-                            "state" => EventStates::TRANSLATED,
-                            "admins" => json_encode([$mid])
-                        ], [
-                            "eventID" => $eventID
-                        ]);
-                    }
-
-                    $this->_eventsModel->updateTranslator([
-                        "kwCheck" => json_encode($kwCheckData),
-                        "peerCheck" => json_encode($peerCheckData)
-                    ], ["trID" => $trID]);
-
-                    $response["success"] = true;
-                    $response["message"] = __("import_successful_message");
-                }
-                else
-                {
-                    $contentChunks = array_reduce($questions, function ($arr, $elm) {
-                        return array_merge((array)$arr, array_keys($elm));
-                    });
-
-                    if(sizeof($contentChunks) == sizeof($trans))
-                    {
-                        foreach ($trans as $tran) {
-                            $verses = (array)json_decode($tran->translatedVerses, true);
-
-                            if(isset($questions[$tran->chapter]) &&
-                                isset($questions[$tran->chapter][$tran->firstvs]) &&
-                                trim($questions[$tran->chapter][$tran->firstvs][0]) != "")
-                            {
-                                $verses[EventMembers::CHECKER]["verses"] = $questions[$tran->chapter][$tran->firstvs][0];
-                            }
-
-                            $this->_translationModel->updateTranslation([
-                                "translatedVerses" => json_encode($verses),
-                            ], ["tID" => $tran->tID]);
-                        }
-
-                        $response["success"] = true;
-                        $response["message"] = __("import_successful_message");
-                    }
-                    else
-                    {
-                        $response["message"] = __("content_chunks_not_equal_error");
-                    }
-                }
-            }
-            else
-            {
-                $response["error"] = __("event_has_translations_error");
-            }
-        }
-        else
-        {
-            $response["error"] = __("event_notexist_error");
-        }
-
-        return $response;
-    }
-
-    private function importTwToEvent($words, $projectID, $eventID, $bookCode)
-    {
-        $response = ["success" => false];
-
-        $words = array_chunk($words, 15);
-
-        // Check if a "fake" user exists
-        $member = $this->_membersModel->getMemberWithProfile("spec");
-        if(empty($member))
-        {
-            $mid = $this->_membersModel->createMember([
-                "userName" => "spec",
-                "firstName" => "Special",
-                "lastName" => "User",
-                "password" => "none",
-                "email" => "none",
-                "active" => true,
-                "verified" => true
-            ]);
-
-            $this->_membersModel->createProfile([
-                "mID" => $mid
-            ]);
-        }
-        else
-        {
-            $mid = $member[0]->memberID;
-        }
-
-        $project = $this->_eventsModel->getProject(["*"],["projectID", $projectID]);
-        $event = $this->_eventsModel->getEvent($eventID);
-
-        // Create event if it doesn't exist
-        if(empty($event))
-        {
-            $newEventID = $this->_eventsModel->createEvent([
-                "projectID" => $project[0]->projectID,
-                "bookCode" => $bookCode,
-                "state" => EventStates::TRANSLATED,
-                "admins" => json_encode([$mid]),
-            ]);
-
-            $event = $this->_eventsModel->getEvent($newEventID);
-            $eventID = $newEventID;
-        }
-
-        if(!empty($event))
-        {
-            if($event[0]->state == EventStates::TRANSLATED)
-            {
-                // Check if there are translations of this event in database
-                $trans = $this->_translationModel->getEventTranslationByEventID($eventID);
-                if(empty($trans))
-                {
-                    // Create new translator
-                    $kwCheckData = [];
-                    $peerCheckData = [];
-
-                    $trData = array(
-                        "memberID" => $mid,
-                        "eventID" => $eventID,
-                        "step" => EventSteps::NONE,
-                        "currentChapter" => 0
-                    );
-                    $trID = $this->_eventsModel->addTranslator($trData);
-
-                    foreach ($words as $chunks)
+                    ksort($chunks, SORT_NUMERIC);
+                    if($event[0]->bookProject == "tw")
                     {
                         $words_list = array_map(function ($elm) {
                             return $elm["word"];
@@ -2489,104 +2491,134 @@ class AdminController extends Controller {
                             "eventID" => $eventID,
                             "words" => json_encode($words_list)
                         ]);
-
-                        $kwCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
-                        $peerCheckData[$chapter] = ["memberID" => $mid, "done" => 1];
-
-                        $chunkKey = 0;
-                        foreach ($chunks as $firstvs => $chunk) {
-                            $translationVerses = [
-                                EventMembers::TRANSLATOR => [
-                                    "verses" => $chunk["text"]
-                                ],
-                                EventMembers::CHECKER => [
-                                    "verses" => $chunk["text"]
-                                ],
-                                EventMembers::L2_CHECKER => [
-                                    "verses" => array()
-                                ],
-                                EventMembers::L3_CHECKER => [
-                                    "verses" => array()
-                                ],
-                            ];
-
-                            // Create new translations
-                            $this->_translationModel->createTranslation([
-                                "projectID" => $event[0]->projectID,
-                                "eventID" => $eventID,
-                                "trID" => $trID,
-                                "targetLang" => $event[0]->targetLang,
-                                "bookProject" => $event[0]->bookProject,
-                                "abbrID" => $event[0]->abbrID,
-                                "bookCode" => $event[0]->bookCode,
-                                "chapter" => $chapter,
-                                "chunk" => $chunkKey,
-                                "firstvs" => $firstvs,
-                                "translatedVerses" => json_encode($translationVerses),
-                                "translateDone" => true
-                            ]);
-
-                            $chunkKey++;
-                        }
-
-                        // Assign chapters to new translator
-                        $this->_eventsModel->assignChapter([
-                            "eventID" => $eventID,
-                            "memberID" => $mid,
-                            "trID" => $trID,
-                            "chapter" => $chapter,
-                            "chunks" => json_encode(array_keys($words_list)),
-                            "done" => true
-                        ]);
-
-                        $this->_eventsModel->updateEvent([
-                            "state" => EventStates::TRANSLATED,
-                            "admins" => json_encode([$mid])
-                        ], [
-                            "eventID" => $eventID
-                        ]);
                     }
 
-                    $this->_eventsModel->updateTranslator([
-                        "kwCheck" => json_encode($kwCheckData),
-                        "peerCheck" => json_encode($peerCheckData)
-                    ], ["trID" => $trID]);
+                    $otherCheckData[$chapter] = ["memberID" => 0, "done" => 0];
 
-                    $response["success"] = true;
-                    $response["message"] = __("import_successful_message");
-                }
-                else
-                {
-                    $contentChunks = array_reduce($words, function ($arr, $elm) {
-                        return array_merge((array)$arr, array_keys($elm));
-                    });
+                    $chunkKey = 0;
+                    foreach ($chunks as $firstvs => $chunk) {
+                        $translationVerses = [
+                            EventMembers::TRANSLATOR => [
+                                "verses" => $event[0]->bookProject == "tw" ? $chunk["text"] : $chunk[0]
+                            ],
+                            EventMembers::CHECKER => [
+                                "verses" => []
+                            ],
+                            EventMembers::L2_CHECKER => [
+                                "verses" => []
+                            ],
+                            EventMembers::L3_CHECKER => [
+                                "verses" => []
+                            ],
+                        ];
 
-                    if(sizeof($contentChunks) == sizeof($trans))
+                        // Create new translations
+                        $this->_translationModel->createTranslation([
+                            "projectID" => $event[0]->projectID,
+                            "eventID" => $eventID,
+                            "trID" => $trID,
+                            "targetLang" => $event[0]->targetLang,
+                            "bookProject" => $event[0]->bookProject,
+                            "abbrID" => $event[0]->abbrID,
+                            "bookCode" => $event[0]->bookCode,
+                            "chapter" => $chapter,
+                            "chunk" => $chunkKey,
+                            "firstvs" => $firstvs,
+                            "translatedVerses" => json_encode($translationVerses),
+                            "translateDone" => true
+                        ]);
+
+                        $chunkKey++;
+                    }
+
+                    if($event[0]->bookProject == "tw")
                     {
-                        $tw_chapters = array_values(array_unique(array_map(function($elm) { return $elm->chapter; }, $trans)));
-                        foreach ($trans as $tran) {
-                            $index = array_search($tran->chapter, $tw_chapters);
-                            $verses = (array)json_decode($tran->translatedVerses, true);
-                            if(isset($words[$index]) &&
-                                isset($words[$index][$tran->firstvs]) &&
-                                trim($words[$index][$tran->firstvs]["text"]) != "")
-                            {
-                                $verses[EventMembers::CHECKER]["verses"] = $words[$index][$tran->firstvs]["text"];
-                            }
-
-                            $this->_translationModel->updateTranslation([
-                                "translatedVerses" => json_encode($verses),
-                            ], ["tID" => $tran->tID]);
-                        }
-
-                        $response["success"] = true;
-                        $response["message"] = __("import_successful_message");
+                        $resource_chunks = array_keys($words_list);
+                        usort($resource_chunks, function($a, $b) {
+                            if(!isset($a[0])) return -1;
+                            if(!isset($b[0])) return 1;
+                            return $a[0] <= $b[0] ? -1 : 1;
+                        });
                     }
                     else
                     {
-                        $response["message"] = __("content_chunks_not_equal_error");
+                        if($chapter > 0)
+                        {
+                            // Get related Scripture to define total verses of the chapter
+                            $relatedScripture = $this->_apiModel->getBookText([
+                                "sourceBible" => $project[0]->sourceBible,
+                                "bookCode" => $event[0]->bookCode,
+                                "sourceLangID" => $project[0]->sourceLangID,
+                                "abbrID" => $event[0]->abbrID
+                            ], $chapter);
+
+                            if(empty($relatedScripture))
+                                $relatedScripture = $this->_apiModel->getBookText([
+                                    "sourceBible" => "ulb",
+                                    "bookCode" => $event[0]->bookCode,
+                                    "sourceLangID" => "en",
+                                    "abbrID" => $event[0]->abbrID
+                                ], $chapter);
+
+                            if(empty($relatedScripture))
+                                $response["warning"] = true;
+
+                            if($event[0]->bookProject == "tn")
+                            {
+                                $notes = [
+                                    "notes" => $chunks,
+                                    "totalVerses" => isset($relatedScripture) ? $relatedScripture["totalVerses"] : 0];
+                                $resource_chunks = $this->_apiModel->getNotesChunks($notes);
+                                usort($resource_chunks, function($a, $b) {
+                                    if(!isset($a[0])) return -1;
+                                    if(!isset($b[0])) return 1;
+                                    return $a[0] <= $b[0] ? -1 : 1;
+                                });
+                            }
+                            else
+                            {
+                                $questions = [
+                                    "questions" => $chunks,
+                                    "totalVerses" => isset($relatedScripture) ? $relatedScripture["totalVerses"] : 0];
+                                $resource_chunks = $this->_apiModel->getQuestionsChunks($questions);
+                                usort($resource_chunks, function($a, $b) {
+                                    if(!isset($a[0])) return -1;
+                                    if(!isset($b[0])) return 1;
+                                    return $a[0] <= $b[0] ? -1 : 1;
+                                });
+                            }
+                        }
+                        else
+                        {
+                            $resource_chunks = [[0]];
+                        }
                     }
+
+                    // Assign chapters to new translator
+                    $this->_eventsModel->assignChapter([
+                        "eventID" => $eventID,
+                        "memberID" => $mid,
+                        "trID" => $trID,
+                        "chapter" => $chapter,
+                        "chunks" => json_encode($resource_chunks),
+                        "done" => true,
+                        "checked" => false,
+                    ]);
+
+                    $this->_eventsModel->updateEvent([
+                        "state" => EventStates::TRANSLATING,
+                        "admins" => json_encode([$mid])
+                    ], [
+                        "eventID" => $eventID
+                    ]);
                 }
+
+                $this->_eventsModel->updateTranslator([
+                    "otherCheck" => json_encode($otherCheckData)
+                ], ["trID" => $trID]);
+
+                $response["success"] = true;
+                $response["message"] = __("import_successful_message");
             }
             else
             {

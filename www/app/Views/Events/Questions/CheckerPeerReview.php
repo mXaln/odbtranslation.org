@@ -51,11 +51,14 @@ if(empty($error) && empty($data["success"])):
                         </div>
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <div class="note_content">
-                                <?php if (isset($data["questions"][$verse])): ?>
-                                    <?php foreach ($data["questions"][$verse] as $note): ?>
-                                        <?php echo $note ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                                <?php $lv = isset($data["chunks"][$chunkNo+1]) ? $data["chunks"][$chunkNo+1][0] : $data["totalVerses"]+1; ?>
+                                <?php for ($i=$verse; $i<$lv; $i++): ?>
+                                    <?php if (isset($data["questions"][$i])): ?>
+                                        <?php foreach ($data["questions"][$i] as $question): ?>
+                                            <?php echo $question ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
                             </div>
                         </div>
                         <div class="col-md-6 vnote font_<?php echo $data["event"][0]->targetLang ?>"
@@ -83,7 +86,7 @@ if(empty($error) && empty($data["success"])):
                                             <div class="other_comments">
                                                 <?php echo
                                                     "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                    (L".$comment->level."):</span> 
+                                                                    - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
                                             </div>
                                         <?php endif; ?>

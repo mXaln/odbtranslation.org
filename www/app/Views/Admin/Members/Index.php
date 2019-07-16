@@ -66,15 +66,15 @@
                 <div class="col-sm-12">
                     <table class="table table-bordered table-hover" role="grid">
                         <thead>
-                            <tr>
-                                <th><?php echo __("userName") ?></th>
-                                <th><?php echo __("name") ?></th>
-                                <th><?php echo __("Email") ?></th>
-                                <th><?php echo __("projects_public") ?></th>
-                                <th><?php echo __("proj_lang_public") ?></th>
-                                <th><?php echo __("profile_message") ?></th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th><?php echo __("userName") ?></th>
+                            <th><?php echo __("name") ?></th>
+                            <th><?php echo __("Email") ?></th>
+                            <th><?php echo __("projects_public") ?></th>
+                            <th><?php echo __("proj_lang_public") ?></th>
+                            <th><?php echo __("profile_message") ?></th>
+                            <th></th>
+                        </tr>
                         </thead>
                         <tbody>
                         <?php foreach($data["members"] as $member):?>
@@ -186,29 +186,42 @@
 </div>
 
 <div class="members_content" id="all_books_content">
-    <?php
-    foreach($data["books"] as $username => $member)
-    {
-        echo "<div>";
-        echo "<div>{$member["firstName"]} {$member["lastName"]} ($username)</div>";
-        echo "<ul>";
-        foreach($member["books"] as $book)
-        {
-            echo "<li>";
-            echo $book["name"]." (Chapters: ";
-            $chapters = "";
-            foreach($book["chapters"] as $chapter => $done)
-            {
-                $chapters .= "<span style=\"font-weight:bold; color:".($done ? "green" : "red")."\">$chapter</span>, ";
-            }
-            $chapters = preg_replace("/, $/", "", $chapters);
-            echo $chapters;
-            echo ")</li>";
-        }
-        echo "</ul>";
-        echo "</div>";
-    }
-    ?>
+    <div style="width: 100%; text-align: right; margin-bottom: 20px;">
+        <button class="btn btn-primary members_download_csv">Download Report (.csv)</button>
+    </div>
+    <table class="table table-bordered table-hover" role="grid" >
+        <tr>
+            <th>Name</th>
+            <th>Language</th>
+            <th>Project</th>
+            <th>Book</th>
+            <th width="400">Chapters</th>
+        </tr>
+    <?php foreach ($data["all_members"] as $username => $member):?>
+        <?php foreach ($member["books"] as $i => $book) : ?>
+            <?php $name = $member["firstName"]." ".$member["lastName"] ." (".$username.")" ?>
+            <tr>
+                <th><?php echo $name ?></th>
+                <td><?php echo $book["lang"] ?></td>
+                <td><?php echo $book["project"] ?></td>
+                <td><?php echo $book["name"] ?></td>
+                <td>
+                    <?php
+                    $chapters = "";
+                    foreach($book["chapters"] as $chapter => $chapData)
+                    {
+                        $chapters .= "<span style=\"font-weight:bold; color:".($chapData["done"] ? "green" : "red")."\">";
+                        $chapters .= !$chapData["words"] ? $chapter : join(", ", json_decode($chapData["words"], true));
+                        $chapters .= "</span>, ";
+                    }
+                    $chapters = preg_replace("/, $/", "", $chapters);
+                    echo "\"".$chapters."\"";
+                    ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+    </table>
 </div>
 
 <link href="<?php echo template_url("css/chosen.min.css")?>" type="text/css" rel="stylesheet" />

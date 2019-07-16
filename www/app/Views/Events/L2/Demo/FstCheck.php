@@ -42,7 +42,7 @@
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
                                 <div class="comments">
                                     <div class="other_comments">
-                                        <span>Anna S. (L1):</span> This is comment from Level 1 Event
+                                        <span>Anna S. - L1:</span> This is comment from Level 1 Event
                                     </div>
                                 </div>
                                 <div class="clear"></div>

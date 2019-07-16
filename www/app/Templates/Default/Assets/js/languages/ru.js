@@ -98,6 +98,7 @@ var Language = {
     "other_self_check"          : "Правка заметок",
     "other_self_check_alt"      : "Самопроверка",
     "other_keyword_check"       : "Check Highlights",
+    "keyword_check"             : "Проверка ключевых слов",
     "tq_drafts_not_checked"     : "Вам необходимо отметить галочками все черновики перед тем, как переходить на следующий шаг.",
     "deleteGroupConfirmTitle"   : "Удаление группы",
     "deleteGroupConfirm"        : "Вы действительно хотите удалить эту группу?",
@@ -111,4 +112,10 @@ var Language = {
     "tq"                        : "Вопросы для перевода",
     "tw"                        : "Слова для перевода",
     "import_l2_warning"         : "Сначала импортируйте Писание второго уровня",
+    "book_tn"                   : "Источник заметок",
+    "book_tq"                   : "Источник вопросов",
+    "book_tw"                   : "Источник слов",
+    "chooseSource_tn"           : "Выберите источник заметок",
+    "chooseSource_tq"           : "Выберите источник вопросов",
+    "chooseSource_tw"           : "Выберите источник слов",
 };

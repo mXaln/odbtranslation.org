@@ -111,6 +111,18 @@ class EventsModel extends Model
         return $this->db->select($sql, $prepare);
     }
 
+
+    public function getAbbrByCategory($category, $count = false)
+    {
+        $builder = $this->db->table("abbr")
+            ->where("category", $category);
+
+        if($count)
+            return $builder->count(["*"]);
+
+        return $builder->get();
+    }
+
     /**
      * Get all events
      * @return array|static[]
@@ -162,9 +174,10 @@ class EventsModel extends Model
     /**
      * Get all books with events of a project
      * @param $projectID
+     * @param $category
      * @return array
      */
-    public function getEventsByProject($projectID)
+    public function getEventsByProject($projectID, $category)
     {
         $sql = "SELECT ".PREFIX."abbr.*, ".PREFIX."events.*, COUNT(DISTINCT ".PREFIX."translators.memberID) AS translators, ".
             "COUNT(DISTINCT ".PREFIX."checkers_l2.memberID) AS checkers_l2, COUNT(DISTINCT ".PREFIX."checkers_l3.memberID) AS checkers_l3 ".
@@ -173,9 +186,10 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."translators ON ".PREFIX."translators.eventID=".PREFIX."events.eventID ".
             "LEFT JOIN ".PREFIX."checkers_l2 ON ".PREFIX."checkers_l2.eventID=".PREFIX."events.eventID ".
             "LEFT JOIN ".PREFIX."checkers_l3 ON ".PREFIX."checkers_l3.eventID=".PREFIX."events.eventID ".
+            "WHERE ".PREFIX."abbr.category=:category ".
             "GROUP BY ".PREFIX."abbr.abbrID ORDER BY ".PREFIX."abbr.abbrID";
 
-        $prepare = array(":projectID" => $projectID);
+        $prepare = [":projectID" => $projectID, ":category" => $category];
 
         return $this->db->select($sql, $prepare);
     }
@@ -272,6 +286,7 @@ class EventsModel extends Model
                 ."evnt.dateTo, evnt.admins, evnt.admins_l2, evnt.admins_l3, "
                 .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.gwLang, "
+                .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, "
                 .PREFIX."projects.sourceBible, t_lang.langName as tLang, chapters.chunks, "
                 ."t_lang.direction as tLangDir, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, "
@@ -347,6 +362,7 @@ class EventsModel extends Model
                 ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
                 .PREFIX."abbr.name AS bookName, ".PREFIX."abbr.abbrID, "
                 .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+                .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
                 .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, "
                 ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -391,6 +407,7 @@ class EventsModel extends Model
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
             .PREFIX."abbr.chaptersNum, ".PREFIX."projects.projectID ".
@@ -543,6 +560,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, res_lang.direction as resLangDir, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -707,6 +725,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -867,6 +886,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, ".PREFIX."projects.gwProjectID, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -1002,7 +1022,8 @@ class EventsModel extends Model
             foreach ($crCheck as $chap => $data) {
                 if(!isset($chapter) || $chapter == $chap)
                 {
-                    if($data["memberID"] == $checkerID && $data["done"] != 2)
+                    $doneStatus = $event->sourceBible == "odb" ? 1 : 2;
+                    if($data["memberID"] == $checkerID && $data["done"] != $doneStatus)
                     {
                         $ev = clone $event;
 
@@ -1045,6 +1066,7 @@ class EventsModel extends Model
             ."t_lang.langName AS tLang, s_lang.langName AS sLang, "
             .PREFIX."abbr.name AS name, ".PREFIX."abbr.abbrID, "
             .PREFIX."projects.sourceLangID, ".PREFIX."projects.bookProject, "
+            .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
             .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
             .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, ".
             "t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
@@ -1588,8 +1610,8 @@ class EventsModel extends Model
                     "role" => "",
                     "signup" => $member->created,
                     "email" => $member->email,
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
                 $admins[$member->memberID] = $tmp;
             }
@@ -1622,8 +1644,8 @@ class EventsModel extends Model
                     "role" => $role != "" ? $role : "",
                     "signup" => $member->created,
                     "email" => $member->email,
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
                 $checkers[$member->memberID] = $tmp;
             }
@@ -1636,8 +1658,8 @@ class EventsModel extends Model
                     "role" => "",
                     "signup" => $member->created,
                     "email" => $member->email,
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
                 $translators[$member->memberID] = $tmp;
             }
@@ -1667,6 +1689,7 @@ class EventsModel extends Model
             ->leftJoin("checkers_l3", "events.eventID", "=", "checkers_l3.eventID")
             ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
             ->where("events.projectID", $projectID)
+            ->orderBy("events.eventID")
             ->get();
 
     }
@@ -1682,12 +1705,12 @@ class EventsModel extends Model
             $membersModel = new MembersModel();
 
             $mode = $project[0]->bookProject;
+            $lastEventID = null;
 
             // Checkers
             foreach ($project as $participant) {
                 // Facilitators
-                if($withAdmins)
-                {
+                if ($withAdmins) {
                     $contributorsIDs += (array)json_decode($participant->admins);
                     $contributorsIDs += (array)json_decode($participant->admins_l2);
                     $contributorsIDs += (array)json_decode($participant->admins_l3);
@@ -1704,59 +1727,60 @@ class EventsModel extends Model
                 $peer3Check = (array)json_decode($participant->peer3Check);
 
                 // Resource Checkers
-                if(in_array($mode, ["tn", "sun", "tw", "tq"]))
-                {
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                if (in_array($mode, ["tn", "sun", "tw", "tq"])) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peerCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $kwCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $crCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $otherCheck)));
-                }
-                else
-                {
+                } else {
                     // Scripture Checkers
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($verbCheck));
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($peerCheck));
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($kwCheck));
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values($crCheck));
 
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $sndCheck)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peer1Check)));
-                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                    $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peer2Check)));
                 }
 
-                $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function($elm) {
+                $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                     return $elm->memberID;
                 }, $peer3Check)));
 
                 // Translators/L2 checkers/L3 checkers
-                $chapters = $this->getChapters($participant->eventID, null, null, null);
+                if ($lastEventID != $participant->eventID) {
+                    $chapters = $this->getChapters($participant->eventID, null, null, null);
 
-                foreach ($chapters as $chapter) {
-                    if ($chapter["memberID"] != null) {
-                        $contributorsIDs[] = $chapter["memberID"];
+                    foreach ($chapters as $chapter) {
+                        if ($chapter["memberID"] != null) {
+                            $contributorsIDs[] = $chapter["memberID"];
+                        }
+                        if ($chapter["l2memberID"] != null) {
+                            $contributorsIDs[] = $chapter["l2memberID"];
+                        }
+                        if ($chapter["l3memberID"] != null) {
+                            $contributorsIDs[] = $chapter["l3memberID"];
+                        }
                     }
-                    if ($chapter["l2memberID"] != null) {
-                        $contributorsIDs[] = $chapter["l2memberID"];
-                    }
-                    if ($chapter["l3memberID"] != null) {
-                        $contributorsIDs[] = $chapter["l3memberID"];
-                    }
+                    $lastEventID = $participant->eventID;
                 }
             }
+
             $contributorsIDs = array_unique($contributorsIDs);
 
             $filteredNumeric = array_filter($contributorsIDs, function($elm) {
@@ -1775,8 +1799,8 @@ class EventsModel extends Model
                     "role" => "",
                     "signup" => "---",
                     "email" => "---",
-                    "tou" => true,
-                    "sof" => true
+                    "tou" => "yes",
+                    "sof" => "yes"
                 ];
             }, $contributors);
 
@@ -1812,8 +1836,8 @@ class EventsModel extends Model
                         "role" => $role != "" ? $role : "",
                         "signup" => $member->created,
                         "email" => $member->email,
-                        "tou" => true,
-                        "sof" => true
+                        "tou" => "yes",
+                        "sof" => "yes"
                     ];
 
                     $contributors[] = $tmp;
@@ -1842,7 +1866,7 @@ class EventsModel extends Model
         ]);
 
         $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-                PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
+                PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -1873,7 +1897,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT trs.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.sourceBible, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
             "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."translators AS trs ".
             "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -1976,7 +2000,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT chks.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mychks.step as myStep, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, mychks.step as myStep, ".
             "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."checkers_l2 AS chks ".
             "LEFT JOIN ".PREFIX."members ON chks.memberID = ".PREFIX."members.memberID ".
@@ -2052,7 +2076,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT chks.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mychks.step as myStep, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, mychks.step as myStep, ".
             "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."checkers_l3 AS chks ".
             "LEFT JOIN ".PREFIX."members ON chks.memberID = ".PREFIX."members.memberID ".
@@ -2109,7 +2133,7 @@ class EventsModel extends Model
     {
         $sql = "SELECT trs.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
-            PREFIX."events.bookCode, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.sourceBible, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
             "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
             "FROM ".PREFIX."translators AS trs ".
             "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -2181,7 +2205,7 @@ class EventsModel extends Model
             ]);
 
             $sql = "SELECT trs.*, ".PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, "
-                .PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".
+                .PREFIX."events.bookCode, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".
                 "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
                 "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
@@ -2292,12 +2316,17 @@ class EventsModel extends Model
     {
             return $this->db->table("chapters")
                     ->select(["members.userName", "members.firstName", "members.lastName",
-                        "chapters.chapter", "chapters.done", "abbr.name", "abbr.code",
-                        "projects.bookProject", "projects.targetLang"])
+                        "chapters.chapter", "chapters.done", "abbr.name", "abbr.code", "tw_groups.words",
+                        "projects.bookProject", "projects.targetLang", "languages.angName", "languages.langName"])
                     ->leftJoin("members", "chapters.memberID", "=", "members.memberID")
                     ->leftJoin("events", "chapters.eventID", "=", "events.eventID")
                     ->leftJoin("projects", "events.projectID", "=", "projects.projectID")
                     ->leftJoin("abbr", "events.bookCode", "=", "abbr.code")
+                    ->leftJoin("languages", "projects.targetLang", "=", "languages.langID")
+                    ->leftJoin("tw_groups", function($join) {
+                        $join->on("chapters.chapter", "=", "tw_groups.groupID")
+                            ->where("projects.bookProject", "=", "tw");
+                    })
                     ->orderBy("members.userName")
                     ->orderBy("abbr.abbrID")
                     ->orderBy("chapters.chapter")
@@ -2347,8 +2376,9 @@ class EventsModel extends Model
     }
 
     /**
-     * Create gateway project
+     * Update gateway project
      * @param array $data
+     * @param array $where
      * @return string
      */
     public function updateGatewayProject($data, $where)
@@ -2367,6 +2397,19 @@ class EventsModel extends Model
     {
         return $this->db->table("projects")
             ->insertGetId($data);
+    }
+
+    /**
+     * Update project
+     * @param array $data
+     * @param array $where
+     * @return string
+     */
+    public function updateProject($data, $where)
+    {
+        return $this->db->table("projects")
+            ->where($where)
+            ->update($data);
     }
 
     /**
@@ -2405,7 +2448,6 @@ class EventsModel extends Model
     /**
      * Add member as new Level 3 checker for event
      * @param array $data
-     * @param array $checkerData
      * @return string
      */
     public function addL3Checker($data)
@@ -4382,6 +4424,240 @@ class EventsModel extends Model
                 $data["chapters"][$key]["progress"] += 12.5;
             if($data["chapters"][$key]["finalReview"]["state"] == StepsStates::FINISHED)
                 $data["chapters"][$key]["progress"] += 12.5;
+
+            $overallProgress += $data["chapters"][$key]["progress"];
+        }
+
+        $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
+        $data["members"] = $members;
+
+        if($progressOnly)
+        {
+            return $data["overall_progress"];
+        }
+        else {
+            return $data;
+        }
+    }
+
+    public function calculateOdbSunLevel1EventProgress($event, $progressOnly = false) {
+        $data = [];
+        $data["overall_progress"] = 0;
+        $data["chapters"] = [];
+        for($i=1; $i <= $event[0]->chaptersNum; $i++)
+        {
+            $data["chapters"][$i] = [];
+        }
+
+        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
+
+        foreach ($chapters as $chapter) {
+            $tmp["trID"] = $chapter["trID"];
+            $tmp["memberID"] = $chapter["memberID"];
+            $tmp["chunks"] = json_decode($chapter["chunks"], true);
+            $tmp["done"] = $chapter["done"];
+
+            $data["chapters"][$chapter["chapter"]] = $tmp;
+        }
+
+        $overallProgress = 0;
+        $memberSteps = [];
+        $members = [];
+
+        $translationModel = new TranslationsModel();
+        $chunks = $translationModel->getTranslationByEventID($event[0]->eventID);
+
+        foreach ($chunks as $chunk) {
+            if(!array_key_exists($chunk->memberID, $memberSteps))
+            {
+                $memberSteps[$chunk->memberID]["step"] = $chunk->step;
+                $memberSteps[$chunk->memberID]["kwCheck"] = $chunk->kwCheck;
+                $memberSteps[$chunk->memberID]["crCheck"] = $chunk->crCheck;
+                $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
+                $members[$chunk->memberID] = "";
+            }
+
+            if($chunk->chapter == null)
+                continue;
+
+            $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
+
+            if(!isset($data["chapters"][$chunk->chapter]["lastEdit"]))
+            {
+                $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+            }
+            else
+            {
+                $prevDate = strtotime($data["chapters"][$chunk->chapter]["lastEdit"]);
+                if($prevDate < strtotime($chunk->dateUpdate))
+                    $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+            }
+        }
+
+        foreach ($data["chapters"] as $key => $chapter) {
+            if(empty($chapter)) continue;
+
+            $currentStep = EventSteps::PRAY;
+            $consumeState = StepsStates::NOT_STARTED;
+            $rearrangeState = StepsStates::NOT_STARTED;
+            $symbolDraftState = StepsStates::NOT_STARTED;
+
+            $members[$chapter["memberID"]] = "";
+            $data["chapters"][$key]["progress"] = 0;
+
+            $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
+            $kwCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["kwCheck"], true);
+            $crCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["crCheck"], true);
+
+            // Set default values
+            $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["rearrange"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
+
+            $data["chapters"][$key]["theoChk"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["theoChk"]["checkerID"] = 'na';
+            $data["chapters"][$key]["crc"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["crc"]["checkerID"] = 'na';
+
+            // When no chunks created or translation not started
+            if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
+            {
+                if($currentChapter == $key)
+                {
+                    $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+
+                    if($currentStep == EventSteps::CONSUME)
+                    {
+                        $consumeState = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::REARRANGE)
+                    {
+                        $consumeState = StepsStates::FINISHED;
+                        $rearrangeState = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::SYMBOL_DRAFT)
+                    {
+                        $consumeState = StepsStates::FINISHED;
+                        $rearrangeState = StepsStates::FINISHED;
+                        $symbolDraftState = StepsStates::IN_PROGRESS;
+                    }
+                }
+
+                $data["chapters"][$key]["step"] = $currentStep;
+                $data["chapters"][$key]["consume"]["state"] = $consumeState;
+                $data["chapters"][$key]["rearrange"]["state"] = $rearrangeState;
+                $data["chapters"][$key]["symbolDraft"]["state"] = $symbolDraftState;
+
+                // Progress checks
+                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 16.6;
+                if($data["chapters"][$key]["rearrange"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 16.6;
+                if($data["chapters"][$key]["symbolDraft"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 16.6;
+
+                $overallProgress += $data["chapters"][$key]["progress"];
+
+                $data["chapters"][$key]["chunksData"] = [];
+                continue;
+            }
+
+            $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+
+            $kw = !empty($kwCheck)
+                && array_key_exists($key, $kwCheck);
+            $cr = !empty($crCheck)
+                && array_key_exists($key, $crCheck)
+                && $crCheck[$key]["memberID"] > 0;
+
+            if($kw)
+            {
+                // Theo check
+                $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::FINISHED;
+                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                if($kwCheck[$key]["memberID"] > 0)
+                {
+                    $members[$kwCheck[$key]["memberID"]] = "";
+                    $data["chapters"][$key]["theoChk"]["checkerID"] = $kwCheck[$key]["memberID"];
+
+                    if($kwCheck[$key]["done"] == 1)
+                    {
+                        // Verse-by-verse check
+                        $data["chapters"][$key]["theoChk"]["state"] = StepsStates::FINISHED;
+
+                        if($cr)
+                        {
+                            $members[$crCheck[$key]["memberID"]] = "";
+                            $data["chapters"][$key]["crc"]["checkerID"] = $crCheck[$key]["memberID"];
+
+                            if($crCheck[$key]["done"] == 1)
+                            {
+                                $data["chapters"][$key]["crc"]["state"] = StepsStates::FINISHED;
+                            }
+                            else
+                            {
+                                $data["chapters"][$key]["crc"]["state"] = StepsStates::IN_PROGRESS;
+                            }
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["crc"]["state"] = StepsStates::WAITING;
+                        }
+                    }
+                    else
+                    {
+                        $data["chapters"][$key]["theoChk"]["state"] = StepsStates::IN_PROGRESS;
+                    }
+                }
+                else
+                {
+                    $data["chapters"][$key]["theoChk"]["state"] = StepsStates::WAITING;
+                }
+            }
+            else
+            {
+                if($currentStep == EventSteps::CONSUME)
+                {
+                    $data["chapters"][$key]["consume"]["state"] = StepsStates::IN_PROGRESS;
+                }
+                elseif($currentStep == EventSteps::REARRANGE)
+                {
+                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["rearrange"]["state"] = StepsStates::IN_PROGRESS;
+                }
+                elseif($currentStep == EventSteps::SYMBOL_DRAFT)
+                {
+                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::IN_PROGRESS;
+                }
+                elseif($currentStep == EventSteps::SELF_CHECK)
+                {
+                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["rearrange"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["symbolDraft"]["state"] = StepsStates::FINISHED;
+                    $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
+                }
+            }
+
+
+            // Progress checks
+            if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 16.6;
+            if($data["chapters"][$key]["rearrange"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 16.6;
+            if($data["chapters"][$key]["symbolDraft"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 16.6;
+            if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 16.6;
+            if($data["chapters"][$key]["theoChk"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 16.6;
+            if($data["chapters"][$key]["crc"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 17;
 
             $overallProgress += $data["chapters"][$key]["progress"];
         }
