@@ -27,6 +27,10 @@
     text-align: inherit !important;
 }
 
+.odb_section {
+    margin-top: 40px;
+}
+
 .font_fa, .font_ar {
     /*font-family: Lateef;*/
 }
@@ -857,7 +861,7 @@ html, body, .container {
     border-radius: 5px;
     width: 500px;
     left: calc(50% - 250px);
-    top: calc(50% - 250px);
+    top: calc(50% - 400px);
 }
 
 .subGwLoader {
@@ -4202,18 +4206,6 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
-.all_contributors {
-    width: 100%;
-}
-
-.all_contributors, .all_contributors th, .all_contributors td {
-    border: 1px solid black;
-}
-
-.all_contributors td, .all_contributors th {
-    padding-left: 5px;
-}
-
 .events_separator {
     border-bottom: 1px solid #cccccc;
     text-align: center;
@@ -4340,7 +4332,7 @@ button.startEvnt, button.editEvnt {
     float: left;
 }
 
-#sourceTranslationNotes_chosen {
+#sourceTools_chosen {
     width: 100% !important;
 }
 

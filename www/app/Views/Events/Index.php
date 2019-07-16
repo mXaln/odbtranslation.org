@@ -106,7 +106,7 @@ $profile = Session::get("profile");
                         ? (!in_array($mode, ["tn","tq","tw"])
                             ? ($event->langInput ? __("lang_input") : __("8steps_vmast"))
                             : "")
-                        : __("vsail");
+                        : ($event->sourceBible == "odb" ? __("odb") : __("vsail"));
                     $eventImg = $mode != "sun"
                         ? ($event->langInput ?
                             template_url("img/steps/big/consume.png") :
@@ -118,6 +118,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage".($mode == "tw" ? "-tw" : "")."/".$event->eventID;
                     $progressLink = "/events/information".
+                        ($event->sourceBible == "odb" ? "-odb" : "").
                         (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
@@ -203,7 +204,7 @@ $profile = Session::get("profile");
                     $eventType = $mode != "sun"
                         ? (!in_array($mode, ["tn","tq","tw"])
                             ? ($event->langInput ? __("lang_input") : __("8steps_vmast"))
-                            : "") : __("vsail");
+                            : "") : ($event->sourceBible == "odb" ? __("odb") : __("vsail"));
                     $eventImg = $mode != "sun"
                         ? ($event->langInput ?
                             template_url("img/steps/big/consume.png") :
@@ -215,6 +216,7 @@ $profile = Session::get("profile");
                     $members = __("translators");
                     $manageLink = "/events/manage/".$event->eventID;
                     $progressLink = "/events/information".
+                        ($event->sourceBible == "odb" ? "-odb" : "").
                         (in_array($mode, ["tn","sun","tq","tw"]) ? "-".$mode : "").
                         "/".$event->eventID;
                     break;
@@ -272,7 +274,7 @@ $profile = Session::get("profile");
             ? (!in_array($mode, ["tn","tq","tw"])
                 ? ($event->langInput ? __("lang_input") : __("8steps_vmast"))
                 : "")
-            : __("vsail");
+            : ($event->sourceBible == "odb" ? __("odb") : __("vsail"));
         $eventImg = $mode != "sun"
             ? ($event->langInput ?
                 template_url("img/steps/big/consume.png") :
@@ -333,7 +335,7 @@ $profile = Session::get("profile");
             </div>
             <div class="event_action">
                 <div class="event_link">
-                    <a href="/events/translator<?php echo in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "" ?>/<?php echo $event->eventID ?>">
+                    <a href="/events/translator<?php echo ($event->sourceBible == "odb" ? "-odb" : "").(in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "") ?>/<?php echo $event->eventID ?>">
                         <?php echo __("continue_alt") ?>
                     </a>
                 </div>
@@ -356,7 +358,10 @@ $profile = Session::get("profile");
     <?php foreach($data["myCheckerL1Events"] as $key => $event): ?>
         <?php
             $mode = $event->bookProject;
-            $eventType = $mode != "sun" ? (!in_array($mode, ["tn","tq","tw"]) ? __("8steps_vmast") : "") : __("vsail");
+            $eventType = $mode != "sun"
+                ? (!in_array($mode, ["tn","tq","tw"])
+                    ? __("8steps_vmast") : "")
+                : ($event->sourceBible == "odb" ? __("odb") : __("vsail"));
             $eventImg = $mode != "sun"
                 ? template_url("img/steps/icons/". $event->step ."-gray.png")
                 : template_url("img/steps/big/vsail.png");
@@ -414,14 +419,14 @@ $profile = Session::get("profile");
                                     : __("front")) ?>
                         </div>
                         <div>
-                            <?php echo __($event->step) ?>
+                            <?php echo __($event->step.($event->sourceBible == "odb" ? "_odb" : "")) ?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="event_action check1">
                 <div class="event_link">
-                    <a href="/events/checker<?php echo (in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "")
+                    <a href="/events/checker<?php echo ($event->sourceBible == "odb" ? "-odb" : "").(in_array($event->bookProject, ["tn","sun","tq","tw"]) ? "-".$event->bookProject : "")
                             ."/".$event->eventID."/".$event->memberID
                             .(isset($event->isContinue) || in_array($event->bookProject, ["tq","tw"]) ? "/".$event->currentChapter : "")?>"
                        data="<?php echo $event->eventID."_".$event->memberID?>">

@@ -88,6 +88,18 @@ class EventSteps
         "finished" => 10,
     ];
 
+    private static $enumOdbSun = [
+        "none" => 0,
+        "pray" => 1,
+        "consume" => 2,
+        "rearrange" => 3,
+        "symbol-draft" => 4,
+        "self-check" => 5,
+        "theo-check" => 6,
+        "content-review" => 7,
+        "finished" => 8,
+    ];
+
     private static $enumQuestions = [
         "none" => 0,
         "pray" => 1,
@@ -135,6 +147,10 @@ class EventSteps
                 return self::$enumSun[$step];
                 break;
 
+            case "odbsun":
+                return self::$enumOdbSun[$step];
+                break;
+
             case "tq":
                 if($chk)
                     return self::$enumQuestionsChk[$step];
@@ -172,6 +188,10 @@ class EventSteps
 
             case "sun":
                 return self::$enumSun;
+                break;
+
+            case "odbsun":
+                return self::$enumOdbSun;
                 break;
 
             case "tq":

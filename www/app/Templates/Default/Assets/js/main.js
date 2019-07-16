@@ -6,6 +6,7 @@ var lastCommentEditor;
 var lastCommentAltEditor;
 var hasChangesOnPage = false;
 var autosaveTimer;
+var autosaveRequest;
 
 var EventSteps = {
     NONE: "none",
@@ -370,16 +371,17 @@ $(document).ready(function() {
 
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
-            step == EventSteps.CONTENT_REVIEW || step == EventSteps.REARRANGE ||
-            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.MULTI_DRAFT ||
-            step == EventCheckSteps.FST_CHECK || // For Level 2 Check
-            step == EventCheckSteps.SND_CHECK ||
+            step == EventSteps.CONTENT_REVIEW || step == EventSteps.MULTI_DRAFT ||
+            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.REARRANGE || step == EventSteps.THEO_CHECK || // For SUN
+            step == EventCheckSteps.FST_CHECK || step == EventCheckSteps.SND_CHECK || // For Level 2 Check
             step == EventCheckSteps.PEER_REVIEW_L2 ||
             step == EventCheckSteps.PEER_EDIT_L3)
         {
             if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
-                var item = step == EventSteps.BLIND_DRAFT 
+                var item = step == EventSteps.BLIND_DRAFT ||
+                        step == EventSteps.REARRANGE ||
+                        step == EventSteps.SYMBOL_DRAFT
                     ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk 
                     : "event"+eventID;
 				var saved = localStorage.getItem(item);
@@ -403,7 +405,7 @@ $(document).ready(function() {
 
                 if(hasChangesOnPage)
                 {
-                    $.ajax({
+                    autosaveRequest = $.ajax({
                             url: "/events/rpc/autosave_chunk",
                             method: "post",
                             data: {
@@ -506,9 +508,11 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
-            var tm = typeof tMode != "undefined"
+            var tm = tMode != undefined
                 && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
                 : "";
+
+            if(isOdb != undefined) tm = "-odb" + tm;
 
             var mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
 
@@ -2328,16 +2332,23 @@ $(document).ready(function() {
     $(".ttools").click(function (e) {
         $this = $(this);
         var tool = $(this).data("tool");
+
+        if(tool == "sunbible")
+        {
+            var win = window.open("/translations/en/sun/ulb/", "_blank");
+            win.focus();
+            return;
+        }
+
         var container = $(".ttools_panel."+tool+"_tool");
 
         var bookCode = $("input#bookCode").val();
         var chapter = $("input#chapter").val();
-        var lang = $("input#lang").val();
+        var lang = $("input#"+tool+"_lang").val();
         var targetLang = $("input#targetLang").val();
         var totalVerses = $("input#totalVerses").val();
 
         if (container.length <= 0) {
-
             var query_params = (["tq","tn","tw"].indexOf(tool) > -1
                 ? bookCode + "/" + chapter + "/" + lang
                 : (tool == "rubric" ? targetLang : ""))
@@ -2371,6 +2382,7 @@ $(document).ready(function() {
         }
         else
         {
+            $(".ttools_panel").draggable({snap: 'inner', handle: '.panel-title'});
             container.css("top", $(window).scrollTop() + 50).show();
         }
 
@@ -2395,7 +2407,7 @@ $(document).ready(function() {
         var parent = $(this).parents(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
-        $(".word_def_popup", parent).hide("slide", {direction: "right"}, 300);
+        $(".word_def_popup", parent).hide("slide", {direction: "left"}, 300);
     });
 
     // Show/hide original/english content of a rubric
@@ -2975,6 +2987,49 @@ function highlightKeyword(verseID, text, index, remove) {
         });
         verseEl.html(html);
     }
+}
+
+function downloadCSV(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV file
+    csvFile = new Blob([csv], {type: "application/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // Create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Hide download link
+    downloadLink.style.display = "none";
+
+    // Add the link to DOM
+    document.body.appendChild(downloadLink);
+
+    // Click download link
+    downloadLink.click();
+}
+
+function exportTableToCSV(parent, separator) {
+    var csv = [];
+    var rows = parent.querySelectorAll("table tr");
+
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+
+        for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+
+        csv.push(row.join(separator));
+    }
+
+    // return CSV content
+    return csv.join("\n");
 }
 
 /**
