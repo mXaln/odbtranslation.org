@@ -10669,6 +10669,7 @@ class EventsController extends Controller
             $notifObj->tLang = "English";
             $notifObj->bookName = "2 Timothy";
             $notifObj->manageMode = "l1";
+            $notifObj->sourceBible = "ulb";
 
             $notifications[] = $notifObj;
         }
@@ -10839,6 +10840,7 @@ class EventsController extends Controller
                 $notifObj->bookName = "Acts";
                 $notifObj->step = "other";
                 $notifObj->manageMode = "tn";
+                $notifObj->sourceBible = "ulb";
             }
             else
             {
@@ -10851,6 +10853,7 @@ class EventsController extends Controller
                 $notifObj->tLang = "Bahasa Indonesia";
                 $notifObj->bookName = "Acts";
                 $notifObj->manageMode = "tn";
+                $notifObj->sourceBible = "ulb";
             }
 
             $notifications[] = $notifObj;
@@ -10968,6 +10971,7 @@ class EventsController extends Controller
                 $notifObj->bookName = "3 John";
                 $notifObj->step = "other";
                 $notifObj->manageMode = "tq";
+                $notifObj->sourceBible = "ulb";
             }
             else
             {
@@ -10980,6 +10984,7 @@ class EventsController extends Controller
                 $notifObj->tLang = "Русский";
                 $notifObj->bookName = "3 John";
                 $notifObj->manageMode = "tq";
+                $notifObj->sourceBible = "ulb";
             }
 
             $notifications[] = $notifObj;
@@ -11070,6 +11075,7 @@ class EventsController extends Controller
                 $notifObj->step = "other";
                 $notifObj->manageMode = "tw";
                 $notifObj->group = "aaron...adam";
+                $notifObj->sourceBible = "ulb";
             }
             else
             {
@@ -11083,6 +11089,7 @@ class EventsController extends Controller
                 $notifObj->bookName = "names";
                 $notifObj->manageMode = "tw";
                 $notifObj->group = "aaron...adam";
+                $notifObj->sourceBible = "ulb";
             }
 
             $notifications[] = $notifObj;
@@ -11172,6 +11179,7 @@ class EventsController extends Controller
             $notifObj->tLang = "English";
             $notifObj->bookName = "2 Timothy";
             $notifObj->manageMode = "l2";
+            $notifObj->sourceBible = "ulb";
 
             $notifications[] = $notifObj;
         }
@@ -11247,6 +11255,7 @@ class EventsController extends Controller
         $notifObj->tLang = "Papuan Malay";
         $notifObj->bookName = "2 Timothy";
         $notifObj->manageMode = "l3";
+        $notifObj->sourceBible = "ulb";
 
         $notifications[] = $notifObj;
 
@@ -11314,6 +11323,7 @@ class EventsController extends Controller
         $notifObj->tLang = "Bahasa Indonesia";
         $notifObj->bookName = "James";
         $notifObj->manageMode = "l3";
+        $notifObj->sourceBible = "ulb";
 
         $notifications[] = $notifObj;
 
@@ -11388,6 +11398,7 @@ class EventsController extends Controller
             $notifObj->tLang = "English";
             $notifObj->bookName = "Matthew";
             $notifObj->manageMode = "sun";
+            $notifObj->sourceBible = "ulb";
 
             $notifications[] = $notifObj;
         }
