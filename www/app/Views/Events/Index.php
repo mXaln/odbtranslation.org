@@ -374,7 +374,8 @@ $profile = Session::get("profile");
                     <?php $chk = in_array($event->bookProject, ["tn"]) ?>
                     <?php $add = in_array($event->bookProject, ["tn"]) ? "_tn" : ""; ?>
                     <?php $add = $event->step == EventSteps::SELF_CHECK && $chk ? $add."_chk" : $add; ?>
-                    <div><?php echo __($event->step.$add) ?></div>
+                    <?php $add .= $event->sourceBible == "odb" ? "_odb" : "" ?>
+                    <div><?php echo __($event->step . $add) ?></div>
                 </div>
                 <div class="event_img">
                     <img width="85" src="<?php echo $eventImg ?>">
