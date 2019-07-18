@@ -42,7 +42,13 @@ use \Helpers\Constants\EventSteps;
                                         ($notification->currentChapter > 0 ? $notification->currentChapter : __("intro")))) ?></td>
                             <td><?php echo $notification->tLang ?></td>
                             <td><?php echo __($notification->bookProject) ?></td>
-                            <td><?php echo __($step)?></td>
+                            <td><?php echo ($notification->step != "other" ? __($notification->step .
+                                        (in_array($notification->bookProject, ["tq","tw"])
+                                        && $notification->step == EventSteps::PEER_REVIEW
+                                            ? "_".$notification->bookProject : ($notification->sourceBible == "odb"
+                                                ? "_odb" : ""))) : __("check")).(
+                                    in_array($notification->bookProject, ["tn","tq","tw"]) && $notification->manageMode != "l3"
+                                        ? " (".($notification->step == "other" ? "#1" : "#2").")" : "") ?></td>
                             <td><?php echo $notification->firstName . " " . mb_substr($notification->lastName, 0, 1)."." ?></td>
                             <td><a href="<?php echo $link ?>"
                                    data="check:<?php echo $notification->eventID.":".$notification->memberID ?>">
