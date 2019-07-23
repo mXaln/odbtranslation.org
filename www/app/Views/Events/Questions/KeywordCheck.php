@@ -44,7 +44,7 @@ if(isset($data["error"])) return;
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <div class="note_content">
                                 <?php $lv = isset($data["chunks"][$chunkNo+1]) ? $data["chunks"][$chunkNo+1][0] : $data["totalVerses"]+1; ?>
-                                    <?php for ($i=$verse; $i<$lv; $i++): ?>
+                                <?php for ($i=$verse; $i<$lv; $i++): ?>
                                     <?php if (isset($data["questions"][$i])): ?>
                                         <?php foreach ($data["questions"][$i] as $question): ?>
                                             <?php echo $question ?>
@@ -70,12 +70,12 @@ if(isset($data["error"])) return;
                                 "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
                                 $text);
                             ?>
-                            <textarea 
-                                name="chunks[<?php echo $chunkNo ?>]" 
+                            <textarea
+                                name="chunks[<?php echo $chunkNo ?>]"
                                 class="add_notes_editor"><?php echo $text ?></textarea>
-                        
-                            <?php 
-                            $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); 
+
+                            <?php
+                            $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]);
                             ?>
                             <div class="comments_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
                                 <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
@@ -167,9 +167,9 @@ if(isset($data["error"])) return;
             <img src="<?php echo template_url("img/steps/big/keyword-check.png") ?>" width="280px" height="280px">
             <div class="hide_tutorial">
                 <label>
-                    <input id="hide_tutorial" 
-                        data="<?php echo $data["event"][0]->step ?>" 
-                        type="checkbox" value="0" /> 
+                    <input id="hide_tutorial"
+                        data="<?php echo $data["event"][0]->step ?>"
+                        type="checkbox" value="0" />
                             <?php echo __("do_not_show_tutorial")?>
                 </label>
             </div>
