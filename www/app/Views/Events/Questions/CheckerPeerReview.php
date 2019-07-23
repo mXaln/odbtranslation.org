@@ -52,8 +52,7 @@ if(empty($error) && empty($data["success"])):
                         <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
                             <div class="note_content">
                                 <?php $lv = isset($data["chunks"][$chunkNo+1]) ? $data["chunks"][$chunkNo+1][0] : $data["totalVerses"]+1; ?>
-                                <?php for ($i=$verse; $i<$lv; $i++): ?>
-                                    <?php if (isset($data["questions"][$i])): ?>
+                                <?php for ($i=$verse; $i<$lv; $i++): ?><?php if (isset($data["questions"][$i])): ?>
                                         <?php foreach ($data["questions"][$i] as $question): ?>
                                             <?php echo $question ?>
                                         <?php endforeach; ?>
