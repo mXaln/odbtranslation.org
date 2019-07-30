@@ -839,12 +839,6 @@ class AdminController extends Controller {
             exit;
         }
 
-        if(Config::get("app.type") == "remote")
-        {
-            echo json_encode(array("error" => "not_available"));
-            exit;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
