@@ -111,6 +111,7 @@ var Language = {
     "tn"                        : "Translation Notes",
     "tq"                        : "Translation Questions",
     "tw"                        : "Translation Words",
+    "odb"                       : "Our Daily Bread",
     "import_l2_warning"         : "First import Level 2 Scripture",
     "book_tn"                   : "Notes Sources",
     "book_tq"                   : "Questions Sources",

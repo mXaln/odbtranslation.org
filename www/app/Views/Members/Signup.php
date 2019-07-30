@@ -96,6 +96,8 @@ use Shared\Legacy\Error;
                         value="vmast"><?php echo __("8steps_vmast") ?></option>
                 <option <?php echo isset($_POST["projects"]) && "vsail" == $_POST["projects"] ? "selected" : "" ?>
                         value="vsail"><?php echo __("vsail") ?></option>
+                <option <?php echo isset($_POST["projects"]) && "odb" == $_POST["projects"] ? "selected" : "" ?>
+                        value="odb"><?php echo __("odb") ?></option>
                 <option <?php echo isset($_POST["projects"]) && "l2" == $_POST["projects"] ? "selected" : "" ?>
                         value="l2"><?php echo __("l2_3_events", ["level" => 2]) ?></option>
                 <option <?php echo isset($_POST["projects"]) && "l3" == $_POST["projects"] ? "selected" : "" ?>

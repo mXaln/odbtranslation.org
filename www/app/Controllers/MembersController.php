@@ -1042,7 +1042,7 @@ class MembersController extends Controller
                 $error['sof'] = __('sof_accept_error');
             }
 
-            if(!in_array($projects, ["vmast","vsail","l2","l3","tn","tq","tw"])) {
+            if(!in_array($projects, ["vmast","vsail","odb","l2","l3","tn","tq","tw"])) {
                 $error["projects"] = __("projects_empty_error");
             }
 
