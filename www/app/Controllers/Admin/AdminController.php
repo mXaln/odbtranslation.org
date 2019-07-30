@@ -788,12 +788,6 @@ class AdminController extends Controller {
             exit;
         }
 
-        if(Config::get("app.type") == "remote")
-        {
-            echo json_encode(array("error" => "not_available"));
-            exit;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
@@ -802,6 +796,14 @@ class AdminController extends Controller {
 
         if(!empty($gwProject))
         {
+            $admins = (array) json_decode($gwProject[0]->admins, true);
+
+            if(!in_array(Session::get("memberID"), $admins))
+            {
+                echo json_encode(array("error" => __("not_enough_rights_error")));
+                return;
+            }
+
             $members = [];
             $membersArray = (array)$this->_membersModel->getMembers(json_decode($gwProject[0]->admins));
 
