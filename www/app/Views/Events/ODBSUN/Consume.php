@@ -19,7 +19,9 @@ if(isset($data["error"])) return;
 
                 <?php foreach($data["text"] as $verse => $text): ?>
                 <?php if($verse == OdbSections::DATE) continue; ?>
-                    <p><?php echo "<strong>".__(OdbSections::enum($verse)).":</strong> ".$text; ?></p>
+                    <p><?php echo "<strong>".($verse >= OdbSections::CONTENT
+                                ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                : __(OdbSections::enum($verse))).":</strong> ".$text; ?></p>
                 <?php endforeach; ?>
             </div>
 

@@ -9686,7 +9686,7 @@ class EventsController extends Controller
             }
 
             $chapters = $this->_model->getChapters($data["event"][0]->eventID, null, null, $data["event"][0]->bookProject);
-            foreach ($chapters as $chapter) {
+            foreach ($chapters as $key => $chapter) {
                 $tmp["trID"] = $chapter["trID"];
                 $tmp["memberID"] = $chapter["memberID"];
                 $tmp["chunks"] = json_decode($chapter["chunks"], true);
@@ -9695,7 +9695,7 @@ class EventsController extends Controller
                 $tmp["crCheck"] = (array)json_decode($chapter["crCheck"], true);
                 $tmp["peerCheck"] = (array)json_decode($chapter["peerCheck"], true);
                 $tmp["otherCheck"] = (array)json_decode($chapter["otherCheck"], true);
-
+                
                 $data["chapters"][$chapter["chapter"]] = $tmp;
             }
 

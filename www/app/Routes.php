@@ -18,31 +18,31 @@ Router::get("maintenance", "App\Controllers\MainController@maintenance");
 Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], function() {
     Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/usfm", "TranslationsController@getUsfm")
         ->where([
-            "lang" => "[a-z0-9-]+",
+            "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/json", "TranslationsController@getJson")
         ->where([
-            "lang" => "[a-z0-9-]+",
+            "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang}/tw/{sourceBible?}/{bookCode}/md", "TranslationsController@getMdTw")
         ->where([
-            "lang" => "[a-z0-9-]+",
+            "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/md", "TranslationsController@getMd")
         ->where([
-            "lang" => "[a-z0-9-]+",
+            "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
     Router::any("{lang?}/{bookProject?}/{sourceBible?}/{bookCode?}", "TranslationsController@index")
         ->where([
-            "lang" => "[a-z0-9-]+",
+            "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "sourceBible" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"

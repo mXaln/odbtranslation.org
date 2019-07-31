@@ -33,13 +33,15 @@ if(isset($data["error"])) return;
                     <div class="col-sm-12 no_padding">
                         <?php foreach($data["chunks"] as $key => $chunk) : $verse = $chunk[0] ?>
                             <?php $hidden = $verse == OdbSections::DATE || trim($data["text"][$verse]) == ""; ?>
+                            <strong class="<?php echo $data["event"][0]->sLangDir ?>" style="font-size: 20px; <?php echo $hidden ? "display: none;" : "" ?>">
+                                <sup><?php echo $verse >= OdbSections::CONTENT
+                                        ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                        : __(OdbSections::enum($verse)); ?></sup>
+                            </strong>
                             <div class="row chunk_block words_block verse"
                                  style="width: 100%; <?php echo $hidden ? "display: none;" : "" ?>">
                                 <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
-                                    <strong class="<?php echo $data["event"][0]->sLangDir ?>">
-                                        <sup><?php echo __(OdbSections::enum($verse)); ?></sup>
-                                    </strong>
                                     <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"><?php
                                         echo isset($_POST["symbols"]) && isset($_POST["symbols"][$key]) ? $_POST["symbols"][$key] : $text
                                         ?></textarea>

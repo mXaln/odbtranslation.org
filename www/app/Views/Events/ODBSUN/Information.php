@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\OdbSections;
 use Helpers\Session;
 use Helpers\Constants\EventSteps;
 use Helpers\Constants\StepsStates;
@@ -105,7 +107,9 @@ if(!isset($error)):
                                         <?php if(isset($chapter["chunks"])): ?>
                                             <?php foreach ($chapter["chunks"] as $index => $chunk):?>
                                                 <div class="section_translator_chunk">
-                                                    <?php echo $chunk[0]." - ".$chunk[sizeof($chunk)-1]; ?>
+                                                    <?php echo $chunk[0] >= OdbSections::CONTENT
+                                                        ? __(OdbSections::enum($chunk[0]), ["number" => $chunk[0] - OdbSections::DATE])
+                                                        : __(OdbSections::enum($chunk[0])); ?>
                                                     <?php if(array_key_exists($index, (array)$chapter["chunksData"])) {
                                                         echo __("chunk_finished");
                                                     } ?>

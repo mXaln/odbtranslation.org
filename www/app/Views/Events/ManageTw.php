@@ -75,7 +75,7 @@ if(!isset($error)):
                                 <button class="btn btn-success add_person_chapter"
                                         data="<?php echo $chapter ?>"
                                         data-group="<?php echo $group_order ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>
-                                    <?php echo __("add_person") ?>
+                                    <?php echo __("assign") ?>
                                 </button>
                                 <div class="manage_username" <?php echo !empty($chapData) ? 'style="display: block"' : '' ?>>
                                     <div class="uname"><?php echo !empty($chapData) ? '<a href="/members/profile/'.$chapData["memberID"].'" target="_blank">'.$name.'</a>' : '' ?></div>
@@ -216,7 +216,7 @@ if(!isset($error)):
     <div class="chapter_members">
         <div class="chapter_members_div panel panel-default">
             <div class="panel-heading">
-                <h1 class="panel-title"><?php echo __("assign_chapter_title")?> <span></span></h1>
+                <h1 class="panel-title"><?php echo __("assign_group_title")?> <span></span></h1>
                 <span class="chapter-members-close glyphicon glyphicon-remove-sign"></span>
             </div>
             <div class="assignChapterLoader dialog_f">

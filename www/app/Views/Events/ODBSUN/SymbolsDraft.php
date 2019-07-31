@@ -15,8 +15,18 @@ if(isset($data["error"])) return;
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->sourceBible)." - "
                             .__($data["event"][0]->bookProject)." - "
-                            ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":".__(OdbSections::enum($data["chunk"][0]))."</span>"?>
+                            ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]." : "
+                            .($data["chunk"][0] >= OdbSections::CONTENT
+                                ? __(OdbSections::enum($data["chunk"][0]), ["number" => $data["chunk"][0] - OdbSections::DATE])
+                                : __(OdbSections::enum($data["chunk"][0])))."</span>"?>
                     </h4>
+
+                    <h2 style="margin-bottom: 5px">
+                        <?php echo $data["chunk"][0] >= OdbSections::CONTENT
+                            ? __(OdbSections::enum($data["chunk"][0]), ["number" => $data["chunk"][0] - OdbSections::DATE])
+                            : __(OdbSections::enum($data["chunk"][0])) ?>:
+                    </h2>
+                    <hr style="margin-top: 5px">
 
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
