@@ -11445,13 +11445,13 @@ class EventsController extends Controller
                 $data["step"] = EventSteps::SELF_CHECK;
                 break;
 
-            case "theo-check":
+            case "theo_check_checker":
                 $view->nest("page", "Events/SUN/Demo/TheoCheck");
                 $data["step"] = EventSteps::THEO_CHECK;
                 $data["isCheckerPage"] = true;
                 break;
 
-            case "verse-by-verse-check":
+            case "content_review_checker":
                 $view->nest("page", "Events/SUN/Demo/ContentReview");
                 $data["step"] = EventSteps::CONTENT_REVIEW;
                 $data["isCheckerPage"] = true;
@@ -11465,6 +11465,93 @@ class EventsController extends Controller
 
             case "information":
                 return View::make("Events/SUN/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
+    public function demoSunOdb($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-sun-odb/pray");
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new stdClass();
+
+            if($i==0)
+                $notifObj->step = EventSteps::THEO_CHECK;
+            else
+                $notifObj->step = EventSteps::CONTENT_REVIEW;
+
+            $notifObj->currentChapter = 2;
+            $notifObj->firstName = "Mark";
+            $notifObj->lastName = "Patton";
+            $notifObj->bookCode = "a01";
+            $notifObj->bookProject = "sun";
+            $notifObj->tLang = "English";
+            $notifObj->bookName = "A01";
+            $notifObj->manageMode = "sun-odb";
+            $notifObj->sourceBible = "odb";
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["isCheckerPage"] = false;
+        $data["menu"] = 5;
+
+        $this->_saildictModel = new SailDictionaryModel();
+
+        $view = View::make("Events/ODBSUN/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/ODBSUN/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/ODBSUN/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "rearrange":
+                $view->nest("page", "Events/ODBSUN/Demo/WordsDraft");
+                $data["step"] = EventSteps::REARRANGE;
+                break;
+
+            case "symbol-draft":
+                $view->nest("page", "Events/ODBSUN/Demo/SymbolsDraft");
+                $data["step"] = EventSteps::SYMBOL_DRAFT;
+                break;
+
+            case "self-check":
+                $view->nest("page", "Events/ODBSUN/Demo/SelfCheck");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "theo_check_checker":
+                $view->nest("page", "Events/ODBSUN/Demo/TheoCheck");
+                $data["step"] = EventSteps::THEO_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "content_review_checker":
+                $view->nest("page", "Events/ODBSUN/Demo/ContentReview");
+                $data["step"] = EventSteps::CONTENT_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/ODBSUN/Demo/Information")
                     ->shares("title", __("event_info"));
                 break;
         }

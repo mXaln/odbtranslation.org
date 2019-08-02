@@ -98,7 +98,7 @@ if(!isset($error)):
                                     <div class="step_name">1. <?php echo __(EventSteps::CONSUME."_odb"); ?></div>
                                 </div>
                                 <!-- Rearrange Step -->
-                                <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>">
+                                <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>" style="width: 180px">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["rearrange"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::REARRANGE.".png") ?>"></div>

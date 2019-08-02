@@ -2,44 +2,36 @@
 use Helpers\Constants\EventSteps;
 ?>
 
-<div id="translator_steps" class="open pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page" : "" ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page" : "" ?>"></div>
+<div id="translator_steps" class="open pray <?php echo $data["isCheckerPage"] ? " is_checker_page" : "" ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo $data["isCheckerPage"] ? " is_checker_page" : "" ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
-            <a href="/events/demo-sun/pray"><span><?php echo __(EventSteps::PRAY)?></span></a>
+            <a href="/events/demo-sun-odb/pray"><span><?php echo __(EventSteps::PRAY)?></span></a>
         </li>
 
         <li class="consume-step <?php echo $data["step"] == EventSteps::CONSUME ? "active" : "" ?>">
-            <a href="/events/demo-sun/consume"><span><?php echo __(EventSteps::CONSUME)?></span></a>
-        </li>
-
-        <li class="chunking-step <?php echo $data["step"] == EventSteps::CHUNKING ? "active" : "" ?>">
-            <a href="/events/demo-sun/chunking"><span><?php echo __(EventSteps::CHUNKING . "_sun")?></span></a>
+            <a href="/events/demo-sun-odb/consume"><span><?php echo __(EventSteps::CONSUME."_odb")?></span></a>
         </li>
 
         <li class="rearrange-step <?php echo $data["step"] == EventSteps::REARRANGE ? "active" : "" ?>">
-            <a href="/events/demo-sun/rearrange"><span><?php echo __(EventSteps::REARRANGE)?></span></a>
+            <a href="/events/demo-sun-odb/rearrange"><span><?php echo __(EventSteps::REARRANGE)?></span></a>
         </li>
 
         <li class="symbol-draft-step <?php echo $data["step"] == EventSteps::SYMBOL_DRAFT ? "active" : "" ?>">
-            <a href="/events/demo-sun/symbol-draft"><span><?php echo __(EventSteps::SYMBOL_DRAFT)?></span></a>
+            <a href="/events/demo-sun-odb/symbol-draft"><span><?php echo __(EventSteps::SYMBOL_DRAFT)?></span></a>
         </li>
 
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-sun/self-check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
+            <a href="/events/demo-sun-odb/self-check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
         </li>
 
         <li class="theo-check-step <?php echo $data["step"] == EventSteps::THEO_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-sun/theo-check"><span><?php echo __(EventSteps::THEO_CHECK)?></span></a>
+            <a href="/events/demo-sun-odb/theo_check_checker"><span><?php echo __(EventSteps::THEO_CHECK."_odb")?></span></a>
         </li>
 
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-sun/verse-by-verse-check"><span><?php echo __(EventSteps::CONTENT_REVIEW)?></span></a>
-        </li>
-
-        <li class="final-review-step <?php echo $data["step"] == EventSteps::FINAL_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-sun/verse-markers"><span><?php echo __(EventSteps::FINAL_REVIEW)?></span></a>
+            <a href="/events/demo-sun-odb/content_review_checker"><span><?php echo __(EventSteps::CONTENT_REVIEW."_odb")?></span></a>
         </li>
     </ul>
 </div>
@@ -55,7 +47,7 @@ $isCheckPage = $data["step"] == EventSteps::THEO_CHECK || $data["step"] == Event
     var step = '<?php echo $data["step"]; ?>';
     var isDemo = true;
     var myChapter = 2;
-    var tMode = "sun";
+    var tMode = "sun-odb";
 </script>
 
 <div style="position: fixed; right: 0;">

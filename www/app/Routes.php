@@ -194,6 +194,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-tq/{page?}", "EventsController@demoTq");
     Router::any("demo-tw/{page?}", "EventsController@demoTw");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
+    Router::any("demo-sun-odb/{page?}", "EventsController@demoSunOdb");
     Router::any("news", "EventsController@news");
     Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");
