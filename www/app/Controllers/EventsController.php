@@ -56,7 +56,7 @@ class EventsController extends Controller
         }
 
         if (!Session::get('loggedin')
-            && !preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
+            && !preg_match("/^\\/events\\/demo|\\/events\\/faq/", $_SERVER["REQUEST_URI"]))
         {
             if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 $response["errorType"] = "logout";
@@ -74,6 +74,10 @@ class EventsController extends Controller
         {
             if(!preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
                 Url::redirect('events/demo');
+        }
+        elseif(preg_match("/^\\/events\\/faq/", $_SERVER["REQUEST_URI"]))
+        {
+            // continue
         }
         elseif(!Session::get("verified"))
         {
@@ -11591,13 +11595,8 @@ class EventsController extends Controller
 
     public function faqs()
     {
-        if (Session::get('loggedin') !== true)
-        {
-            Url::redirect("members/login");
-        }
-
+        $this->_newsModel = new NewsModel();
         $data["menu"] = 0;
-        $data["notifications"] = $this->_notifications;
         $data["faqs"] = $this->_newsModel->getFaqs();
 
         return View::make('Events/Faq')
