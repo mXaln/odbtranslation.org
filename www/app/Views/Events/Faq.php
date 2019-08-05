@@ -46,7 +46,7 @@
 <script>
     $(function() {
         $(".faq_question_header").click(function () {
-            $(this).next().toggle(300);
+            $(this).next().slideToggle(300);
             $("span", this).toggleClass("glyphicon-triangle-bottom glyphicon-triangle-right");
         });
 
