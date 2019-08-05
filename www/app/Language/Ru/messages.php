@@ -507,8 +507,9 @@ return array (
     "faq_tools" => "FAQ",
     "faq_enter_question" => "Введте вопрос",
     "faq_enter_answer" => "Введите ответ",
-    "filter_by_search" => "Фильтр поиска",
+    "filter_by_search" => "Искать вопрос",
     "faq_title" => "Часто задаваемые вопросы",
+    "filter_by_category" => "Фильтровать по категории",
 
     // Steps
     "pray" => "Подготовка: Молитва",

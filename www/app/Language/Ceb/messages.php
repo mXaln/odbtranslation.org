@@ -512,8 +512,9 @@ return array (
     "faq_tools" => "FAQ",
     "faq_enter_question" => "Enter question",
     "faq_enter_answer" => "Enter answer",
-    "filter_by_search" => "Search filter",
+    "filter_by_search" => "Search for a question",
     "faq_title" => "Frequently asked questions",
+    "filter_by_category" => "Filter by category",
 
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

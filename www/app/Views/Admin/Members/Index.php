@@ -50,7 +50,7 @@
                 <button class="btn btn-success"><?php echo __("apply_filter") ?></button>
             </div>
             <div class="mems_filter_item filter_clear">
-                <button class="btn btn-primary"><?php echo __("clear_filter") ?></button>
+                <button class="btn btn-danger"><?php echo __("clear_filter") ?></button>
             </div>
             <div class="mems_filter_item filter_loader">
                 <img src="<?php echo template_url("img/loader.gif") ?>">
