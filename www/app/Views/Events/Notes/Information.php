@@ -34,16 +34,15 @@ if(!isset($error)):
     <div class="row" style="position:relative;">
         <div class="chapter_list">
             <?php foreach ($data["chapters"] as $key => $chapter):?>
-                <?php
-                if(empty($chapter)) {
-                    echo '<div class="chapter_item">
-                            <div class="chapter_number nofloat">'.($key > 0 
+                <?php if(empty($chapter)): ?>
+                    <div class="chapter_item">
+                        <div class="chapter_number nofloat">
+                            <?php echo ($key > 0
                                 ? __("chapter_number", ["chapter" => $key])
-                                : __("front")).'</div>
-                        </div>';
-                    continue;
-                }
-                ?>
+                                : __("front")) ?>
+                        </div>
+                    </div>
+                <?php continue; endif; ?>
                 <div class="chapter_item">
                     <div class="chapter_accordion">
                         <div class="section_header" data="<?php echo "sec_".$key?>">

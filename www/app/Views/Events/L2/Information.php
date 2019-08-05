@@ -34,14 +34,13 @@ if(!isset($error)):
     <div class="row" style="position:relative;">
         <div class="chapter_list">
             <?php foreach ($data["chapters"] as $key => $chapter):?>
-                <?php
-                if(empty($chapter) || $chapter["l2memberID"] == 0) {
-                    echo '<div class="chapter_item">
-                            <div class="chapter_number nofloat">'.__("chapter_number", ["chapter" => $key]).'</div>
-                        </div>';
-                    continue;
-                }
-                ?>
+                <?php if(empty($chapter) || $chapter["l2memberID"] == 0): ?>
+                    <div class="chapter_item">
+                        <div class="chapter_number nofloat">
+                            <?php echo __("chapter_number", ["chapter" => $key]) ?>
+                        </div>
+                    </div>
+                <?php continue; endif; ?>
                 <div class="chapter_item">
                     <div class="chapter_accordion">
                         <div class="section_header" data="<?php echo "sec_".$key?>">

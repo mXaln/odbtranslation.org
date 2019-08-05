@@ -51,6 +51,12 @@ if(!isset($error)):
                         </div>
                         <div class="manage_chapter">
                             <?php echo $chapter > 0 ? __("chapter_number", ["chapter" => $chapter]) : __("chapter_number", ["chapter" => __("intro")]); ?>
+                            <?php if(isset($data["odb"]) && isset($data["odb"]["chapters"][$chapter])): ?>
+                            <span class='glyphicon glyphicon-info-sign'
+                                  data-toggle='tooltip'
+                                  title="<?php echo $data["odb"]["chapters"][$chapter][1] ?>"
+                                  style="font-size: 16px;"></span>
+                            <?php endif; ?>
                         </div>
                         <div class="manage_chapters_user chapter_<?php echo $chapter ?>">
                             <button class="btn btn-success add_person_chapter" data="<?php echo $chapter ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>

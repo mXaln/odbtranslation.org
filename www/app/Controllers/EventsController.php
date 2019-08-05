@@ -9620,6 +9620,8 @@ class EventsController extends Controller
 
             $data["admins"] = $admins;
             $data["members"] = $members;
+
+            $data["odb"] = $this->_apiModel->getODB($data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
         }
 
         $data["notifications"] = $this->_notifications;
@@ -9701,6 +9703,11 @@ class EventsController extends Controller
                 $tmp["otherCheck"] = (array)json_decode($chapter["otherCheck"], true);
                 
                 $data["chapters"][$chapter["chapter"]] = $tmp;
+            }
+
+            if($data["event"][0]->sourceBible == "odb")
+            {
+                $data["odb"] = $this->_apiModel->getODB($data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
             }
 
             $data["members"] = $this->_model->getMembersForEvent(

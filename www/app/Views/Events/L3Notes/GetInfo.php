@@ -4,14 +4,15 @@ use Helpers\Constants\EventCheckSteps;
 use Helpers\Constants\StepsStates;
 
 foreach ($data["chapters"] as $key => $chapter):?>
-    <?php
-    if(empty($chapter["l3chID"])) {
-        echo '<div class="chapter_item">
-                <div class="chapter_number nofloat">'.__("chapter_number", ["chapter" => $key]).'</div>
-            </div>';
-        continue;
-    }
-    ?>
+    <?php if(empty($chapter["l3chID"])): ?>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat">
+                <?php echo ($key > 0
+                    ? __("chapter_number", ["chapter" => $key])
+                    : __("intro")) ?>
+            </div>
+        </div>
+    <?php continue; endif; ?>
     <div class="chapter_item">
         <div class="chapter_accordion">
             <div class="section_header" data="<?php echo "sec_".$key?>">

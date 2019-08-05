@@ -35,19 +35,28 @@ if(!isset($error)):
     <div class="row" style="position:relative;">
         <div class="chapter_list">
             <?php foreach ($data["chapters"] as $key => $chapter):?>
-                <?php
-                if(empty($chapter)) {
-                    echo '<div class="chapter_item">
-                            <div class="chapter_number nofloat">'.__("chapter_number", ["chapter" => $key]).'</div>
-                        </div>';
-                    continue;
-                }
-                ?>
+                <?php if(empty($chapter)): ?>
+                    <div class="chapter_item">
+                        <div class="chapter_number nofloat">
+                            <?php echo __("chapter_number", ["chapter" => $key]) ?>
+                            <span class="glyphicon glyphicon-info-sign"
+                                  data-toggle="tooltip"
+                                  title="<?php echo $data["odb"]["chapters"][$key][1] ?>"
+                                  style="font-size: 16px;"></span>
+                        </div>
+                    </div>
+                <?php continue; endif; ?>
                 <div class="chapter_item">
                     <div class="chapter_accordion">
                         <div class="section_header" data="<?php echo "sec_".$key?>">
                             <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                            <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => $key]) ?></div>
+                            <div class="chapter_number section_title">
+                                <?php echo __("chapter_number", ["chapter" => $key]) ?>
+                                <span class="glyphicon glyphicon-info-sign"
+                                      data-toggle="tooltip"
+                                      title="<?php echo $data["odb"]["chapters"][$key][1] ?>"
+                                      style="font-size: 16px;"></span>
+                            </div>
                             <div class="section_translator_progress_bar">
                                 <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
                                     <div class="progress-bar progress-bar-success" role="progressbar"
