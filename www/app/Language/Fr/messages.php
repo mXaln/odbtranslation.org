@@ -503,8 +503,9 @@ return array (
     "faq_tools" => "FAQ",
     "faq_enter_question" => "Rédiger une question",
     "faq_enter_answer" => "Rédiger une réponse",
-    "filter_by_search" => "Filtrage et recherche",
+    "filter_by_search" => "Rechercher une question",
     "faq_title" => "Questions fréquemment posées",
+    "filter_by_category" => "Filter by category",
 
     // Steps
     "pray" => "Préparation: Prière",
