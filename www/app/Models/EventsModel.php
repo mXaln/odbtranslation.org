@@ -222,7 +222,7 @@ class EventsModel extends Model
             ."checkers.checkerID AS checker, evnt.admins, evnt.admins_l2, evnt.admins_l3, ".PREFIX."translators.step, "
             .PREFIX."translators.checkerID, ".PREFIX."translators.peerCheck, ".PREFIX."translators.currentChapter, "
             .PREFIX."checkers_l2.memberID AS checker_l2, ".PREFIX."checkers_l3.memberID AS checker_l3, "
-            .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceLangID, "
+            .PREFIX."projects.projectID, ".PREFIX."projects.bookProject, ".PREFIX."projects.sourceBible, ".PREFIX."projects.sourceLangID, "
             .PREFIX."projects.gwLang, ".PREFIX."projects.targetLang, ".PREFIX."projects.gwProjectID, evnt.state, evnt.langInput "
             .($getInfo ?
                 ", evnt.eventID, evnt.bookCode, "

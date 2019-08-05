@@ -73,7 +73,7 @@ return array (
     "bible_in_a_year" => "Bible in a Year",
     "verse" => "Verse",
     "thought" => "Thought",
-    "content" => "Content",
+    "content" => "Paragraph {number}",
     "go_sun_bible" => "SUN Bible",
 
     // Activate method
@@ -369,6 +369,7 @@ return array (
     "add_translator" => "Ajouter des traducteurs ou des vérificateurs",
     "add_checker" => "Ajouter un vérificateur",
     "assign_chapter_title" => "Assigner le chapitre",
+    "assign_group_title" => "Assign group",
     "assign" => "Assigner",
     "start_translation" => "Commencer la traduction",
     "start_checking" => "Commencer la vérification",

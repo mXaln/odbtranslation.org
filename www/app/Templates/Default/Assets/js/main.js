@@ -508,11 +508,11 @@ $(document).ready(function() {
     if(typeof isInfoPage != "undefined")
     {
         var infoUpdateTimer = setInterval(function() {
-            var tm = tMode != undefined
+            var tm = typeof tMode != "undefined"
                 && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
                 : "";
 
-            if(isOdb != undefined) tm = "-odb" + tm;
+            if(typeof isOdb != "undefined") tm = "-odb" + tm;
 
             var mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
 
@@ -763,7 +763,7 @@ $(document).ready(function() {
                     message += v + "<br>";
                 });
 
-                if (data.kw_exist != undefined) {
+                if (typeof data.kw_exist != "undefined") {
                     renderConfirmPopup(Language.skip_keywords, Language.skip_keywords_message,
                         function () {
                             $("input[name=skip_kw]").val(1);
@@ -1184,7 +1184,7 @@ $(document).ready(function() {
     $(".video-close").click(function() {
         $("body").css("overflow", "auto");
         $(".video_container").hide();
-        if(player != "undefined")
+        if(typeof player != "undefined")
         {
             player.seekTo(0);
             player.pauseVideo();
@@ -1231,7 +1231,7 @@ $(document).ready(function() {
         var sel;
         if (window.getSelection) {
             sel = window.getSelection();
-            if(sel != "undefined")
+            if(typeof sel != "undefined")
             {
                 if(!sel.isCollapsed)    // Skip caret insert (zero characters select)
                 {
@@ -2116,7 +2116,7 @@ $(document).ready(function() {
                 date_options.minute = 'numeric';
             }
 
-            var lang = getCookie("lang") != "undefined" ? getCookie("lang") : "en";
+            var lang = typeof getCookie("lang") != "undefined" ? getCookie("lang") : "en";
 
             var date = new Date(dateStr + " UTC");
             $(this).text(date.toLocaleString(lang, date_options));

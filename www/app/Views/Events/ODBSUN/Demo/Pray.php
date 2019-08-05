@@ -1,7 +1,9 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("vsail").")" ?></div>
+            <div class="demo_title">
+                <?php echo __("demo") . " (".__("odb")." - ".__("vsail").")" ?>
+            </div>
             <div><?php echo __("pray")?></div>
         </div>
         <div class="demo_video">
@@ -53,7 +55,7 @@
                 <div class="event_info">
                     <div class="participant_info">
                         <div class="additional_info">
-                            <a href="/events/demo-sun/information"><?php echo __("event_info") ?></a>
+                            <a href="/events/demo-sun-odb/information"><?php echo __("event_info") ?></a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +71,7 @@
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-sun/consume';
+            window.location.href = '/events/demo-sun-odb/consume';
             return false;
         });
     });

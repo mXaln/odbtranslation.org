@@ -71,7 +71,7 @@ return array (
     "bible_in_a_year" => "Послание года",
     "verse" => "Стих",
     "thought" => "Мысль",
-    "content" => "Содержание",
+    "content" => "Параграф {number}",
     "go_sun_bible" => "SUN Библия",
 
     // Activate method
@@ -369,6 +369,7 @@ return array (
     "add_translator" => "Добавить переводчиков/проверяющих",
     "add_checker" => "Добавить проверяющего",
     "assign_chapter_title" => "Назначить главу",
+    "assign_group_title" => "Назначить группу",
     "assign_pair_title" => "Назначить пару",
     "reset_pair_title" => "Удалить пару",
     "assign" => "Назначить",

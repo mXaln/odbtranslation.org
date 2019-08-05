@@ -15,8 +15,8 @@ use Helpers\Constants\EventSteps;
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">
-            <div style="min-width: 0em; width: 12%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="12" role="progressbar" class="progress-bar progress-bar-success">
-                12%
+            <div style="min-width: 0em; width: 9%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="9" role="progressbar" class="progress-bar progress-bar-success">
+                9%
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@ use Helpers\Constants\EventSteps;
                     <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
                     <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => 2]) ?></div>
                     <div class="section_translator_progress_bar">
-                        <div class="progress ">
+                        <div class="progress zero">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: 0%"> 0% </div>
                         </div>
                         <div class=" finished_icon"></div>
@@ -128,6 +128,30 @@ use Helpers\Constants\EventSteps;
         </div>
         <div class="chapter_item">
             <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 7]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 8]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 9]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 10]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 11]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 12]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 13]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 14]) ?></div>
+        </div>
+        <div class="chapter_item">
+            <div class="chapter_number nofloat"><?php echo __("chapter_number", ["chapter" => 15]) ?></div>
         </div>
 
         <div class="chapter_item">

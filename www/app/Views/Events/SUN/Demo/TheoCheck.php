@@ -3220,7 +3220,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-sun/verse-by-verse-check';
+            window.location.href = '/events/demo-sun/content_review_checker';
 
             return false;
         });

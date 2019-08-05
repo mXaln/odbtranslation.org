@@ -46,7 +46,7 @@ class MainController extends Controller
             Url::redirect("events");
         }
 
-        $data['menu'] = 1;
+        $data['menu'] = 5;
         $data["isMain"] = true;
 
         return View::make('Main/Index')

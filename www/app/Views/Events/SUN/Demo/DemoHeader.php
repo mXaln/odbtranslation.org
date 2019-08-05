@@ -31,11 +31,11 @@ use Helpers\Constants\EventSteps;
         </li>
 
         <li class="theo-check-step <?php echo $data["step"] == EventSteps::THEO_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-sun/theo-check"><span><?php echo __(EventSteps::THEO_CHECK)?></span></a>
+            <a href="/events/demo-sun/theo_check_checker"><span><?php echo __(EventSteps::THEO_CHECK)?></span></a>
         </li>
 
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-sun/verse-by-verse-check"><span><?php echo __(EventSteps::CONTENT_REVIEW)?></span></a>
+            <a href="/events/demo-sun/content_review_checker"><span><?php echo __(EventSteps::CONTENT_REVIEW)?></span></a>
         </li>
 
         <li class="final-review-step <?php echo $data["step"] == EventSteps::FINAL_REVIEW ? "active" : "" ?>">

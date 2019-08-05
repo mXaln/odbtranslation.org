@@ -32,12 +32,10 @@
                                     : "") ?>
                             </td>
                             <td width="70">
-                                <?php if(Config::get("app.type") == "local"): ?>
                                 <button data-id="<?php echo $gwProject->gwProjectID ?>"
                                         class="btn btn-warning gwproj_edit">
                                     <?php echo __("edit") ?>
                                 </button>
-                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach ?>

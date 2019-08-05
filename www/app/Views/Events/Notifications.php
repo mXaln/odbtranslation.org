@@ -41,7 +41,9 @@ use \Helpers\Constants\EventSteps;
                                     : (", chapter ".
                                         ($notification->currentChapter > 0 ? $notification->currentChapter : __("intro")))) ?></td>
                             <td><?php echo $notification->tLang ?></td>
-                            <td><?php echo __($notification->bookProject) ?></td>
+                            <td><?php echo $notification->sourceBible == "odb"
+                                ? __($notification->sourceBible)
+                                : __($notification->bookProject) ?></td>
                             <td><?php echo ($notification->step != "other" ? __($notification->step .
                                         (in_array($notification->bookProject, ["tq","tw"])
                                         && $notification->step == EventSteps::PEER_REVIEW

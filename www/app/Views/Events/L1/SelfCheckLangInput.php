@@ -23,7 +23,7 @@ if(isset($data["error"])) return;
     <div class="row">
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
-                <div class="main_content_text row" style="padding-left: 15px">
+                <div class="main_content_text row" style="padding-left: 15px" dir="<?php echo $data["event"][0]->sLangDir ?>">
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->bookProject)." - "
                             .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "

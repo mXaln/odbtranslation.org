@@ -781,6 +781,8 @@ class MembersController extends Controller
             $error[] = __("wrong_activation_email");
         }
 
+        $data['menu'] = 5;
+
         return View::make('Members/EmailActivation')
             ->shares("title", __("resend_activation_title"))
             ->shares("data", $data)
@@ -926,6 +928,7 @@ class MembersController extends Controller
             }
         }
 
+        $data["menu"] = 5;
         $data['csrfToken'] = Csrf::makeToken();
 
         return View::make('Members/Login')
@@ -941,7 +944,7 @@ class MembersController extends Controller
     public function signup()
     {
         // Registration
-        $data["menu"] = 1;
+        $data["menu"] = 5;
         $data["languages"] = $this->_eventModel->getAllLanguages();
 
         if (Session::get('loggedin')) {
@@ -1042,7 +1045,7 @@ class MembersController extends Controller
                 $error['sof'] = __('sof_accept_error');
             }
 
-            if(!in_array($projects, ["vmast","vsail","l2","l3","tn","tq","tw"])) {
+            if(!in_array($projects, ["vmast","vsail","odb","l2","l3","tn","tq","tw"])) {
                 $error["projects"] = __("projects_empty_error");
             }
 
@@ -1225,6 +1228,7 @@ class MembersController extends Controller
             }
         }
 
+        $data['menu'] = 5;
         $data['csrfToken'] = Csrf::makeToken();
 
         return View::make('Members/PasswordReset')
@@ -1247,6 +1251,7 @@ class MembersController extends Controller
         }
 
         $data['step'] = 1;
+        $data['menu'] = 5;
 
         if (($memberID > 0) && (strlen($resetToken) == 32))
         {

@@ -16,8 +16,8 @@ use Helpers\Constants\StepsStates;
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">
-            <div style="min-width: 0em; width: 28%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="56" role="progressbar" class="progress-bar progress-bar-success">
-                56%
+            <div style="min-width: 0em; width: 9%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="9" role="progressbar" class="progress-bar progress-bar-success">
+                9%
             </div>
         </div>
     </div>

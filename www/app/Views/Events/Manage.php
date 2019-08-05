@@ -17,7 +17,11 @@ if(!isset($error)):
     <div class="row">
         <div class="col-sm-6">
             <div class="book_title" style="padding-left: 15px"><?php echo $data["event"][0]->name ?></div>
-            <div class="project_title" style="padding-left: 15px"><?php echo __($data["event"][0]->bookProject)." - ".$data["event"][0]->langName ?></div>
+            <div class="project_title" style="padding-left: 15px">
+                <?php echo ($data["event"][0]->sourceBible == "odb"
+                        ? __($data["event"][0]->sourceBible)
+                    : __($data["event"][0]->bookProject))." - ".$data["event"][0]->langName ?>
+            </div>
         </div>
         <div class="col-sm-6 start_translation">
             <?php if($data["event"][0]->state == EventStates::STARTED): ?>
@@ -51,6 +55,12 @@ if(!isset($error)):
                         </div>
                         <div class="manage_chapter">
                             <?php echo $chapter > 0 ? __("chapter_number", ["chapter" => $chapter]) : __("chapter_number", ["chapter" => __("intro")]); ?>
+                            <?php if(isset($data["odb"]) && isset($data["odb"]["chapters"][$chapter])): ?>
+                            <span class='glyphicon glyphicon-info-sign'
+                                  data-toggle='tooltip'
+                                  title="<?php echo $data["odb"]["chapters"][$chapter][1] ?>"
+                                  style="font-size: 16px;"></span>
+                            <?php endif; ?>
                         </div>
                         <div class="manage_chapters_user chapter_<?php echo $chapter ?>">
                             <button class="btn btn-success add_person_chapter" data="<?php echo $chapter ?>" <?php echo !empty($chapData) ? 'style="display: none"' : '' ?>>

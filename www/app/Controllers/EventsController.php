@@ -56,7 +56,7 @@ class EventsController extends Controller
         }
 
         if (!Session::get('loggedin')
-            && !preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
+            && !preg_match("/^\\/events\\/demo|\\/events\\/faq/", $_SERVER["REQUEST_URI"]))
         {
             if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 $response["errorType"] = "logout";
@@ -74,6 +74,10 @@ class EventsController extends Controller
         {
             if(!preg_match("/^\\/events\\/demo/", $_SERVER["REQUEST_URI"]))
                 Url::redirect('events/demo');
+        }
+        elseif(preg_match("/^\\/events\\/faq/", $_SERVER["REQUEST_URI"]))
+        {
+            // continue
         }
         elseif(!Session::get("verified"))
         {
@@ -9616,6 +9620,8 @@ class EventsController extends Controller
 
             $data["admins"] = $admins;
             $data["members"] = $members;
+
+            $data["odb"] = $this->_apiModel->getODB($data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
         }
 
         $data["notifications"] = $this->_notifications;
@@ -9686,7 +9692,7 @@ class EventsController extends Controller
             }
 
             $chapters = $this->_model->getChapters($data["event"][0]->eventID, null, null, $data["event"][0]->bookProject);
-            foreach ($chapters as $chapter) {
+            foreach ($chapters as $key => $chapter) {
                 $tmp["trID"] = $chapter["trID"];
                 $tmp["memberID"] = $chapter["memberID"];
                 $tmp["chunks"] = json_decode($chapter["chunks"], true);
@@ -9695,8 +9701,13 @@ class EventsController extends Controller
                 $tmp["crCheck"] = (array)json_decode($chapter["crCheck"], true);
                 $tmp["peerCheck"] = (array)json_decode($chapter["peerCheck"], true);
                 $tmp["otherCheck"] = (array)json_decode($chapter["otherCheck"], true);
-
+                
                 $data["chapters"][$chapter["chapter"]] = $tmp;
+            }
+
+            if($data["event"][0]->sourceBible == "odb")
+            {
+                $data["odb"] = $this->_apiModel->getODB($data["event"][0]->bookCode, $data["event"][0]->sourceLangID);
             }
 
             $data["members"] = $this->_model->getMembersForEvent(
@@ -11445,13 +11456,13 @@ class EventsController extends Controller
                 $data["step"] = EventSteps::SELF_CHECK;
                 break;
 
-            case "theo-check":
+            case "theo_check_checker":
                 $view->nest("page", "Events/SUN/Demo/TheoCheck");
                 $data["step"] = EventSteps::THEO_CHECK;
                 $data["isCheckerPage"] = true;
                 break;
 
-            case "verse-by-verse-check":
+            case "content_review_checker":
                 $view->nest("page", "Events/SUN/Demo/ContentReview");
                 $data["step"] = EventSteps::CONTENT_REVIEW;
                 $data["isCheckerPage"] = true;
@@ -11465,6 +11476,93 @@ class EventsController extends Controller
 
             case "information":
                 return View::make("Events/SUN/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
+    public function demoSunOdb($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-sun-odb/pray");
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new stdClass();
+
+            if($i==0)
+                $notifObj->step = EventSteps::THEO_CHECK;
+            else
+                $notifObj->step = EventSteps::CONTENT_REVIEW;
+
+            $notifObj->currentChapter = 2;
+            $notifObj->firstName = "Mark";
+            $notifObj->lastName = "Patton";
+            $notifObj->bookCode = "a01";
+            $notifObj->bookProject = "sun";
+            $notifObj->tLang = "English";
+            $notifObj->bookName = "A01";
+            $notifObj->manageMode = "sun-odb";
+            $notifObj->sourceBible = "odb";
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["isCheckerPage"] = false;
+        $data["menu"] = 5;
+
+        $this->_saildictModel = new SailDictionaryModel();
+
+        $view = View::make("Events/ODBSUN/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/ODBSUN/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/ODBSUN/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "rearrange":
+                $view->nest("page", "Events/ODBSUN/Demo/WordsDraft");
+                $data["step"] = EventSteps::REARRANGE;
+                break;
+
+            case "symbol-draft":
+                $view->nest("page", "Events/ODBSUN/Demo/SymbolsDraft");
+                $data["step"] = EventSteps::SYMBOL_DRAFT;
+                break;
+
+            case "self-check":
+                $view->nest("page", "Events/ODBSUN/Demo/SelfCheck");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "theo_check_checker":
+                $view->nest("page", "Events/ODBSUN/Demo/TheoCheck");
+                $data["step"] = EventSteps::THEO_CHECK;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "content_review_checker":
+                $view->nest("page", "Events/ODBSUN/Demo/ContentReview");
+                $data["step"] = EventSteps::CONTENT_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/ODBSUN/Demo/Information")
                     ->shares("title", __("event_info"));
                 break;
         }
@@ -11504,13 +11602,8 @@ class EventsController extends Controller
 
     public function faqs()
     {
-        if (Session::get('loggedin') !== true)
-        {
-            Url::redirect("members/login");
-        }
-
+        $this->_newsModel = new NewsModel();
         $data["menu"] = 0;
-        $data["notifications"] = $this->_notifications;
         $data["faqs"] = $this->_newsModel->getFaqs();
 
         return View::make('Events/Faq')
@@ -13274,7 +13367,9 @@ class EventsController extends Controller
                             ? __("intro")
                             : $notification->currentChapter)),
                     "language" => $notification->tLang,
-                    "project" => __($notification->bookProject)
+                    "project" => ($notification->sourceBible == "odb"
+                        ?__($notification->sourceBible)
+                        : $notification->bookProject)
                 ];
 
                 if($notification->bookProject == "tw")

@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\OdbSections;
 use Helpers\Session;
 use Helpers\Constants\EventSteps;
 use Helpers\Constants\StepsStates;
@@ -16,7 +18,11 @@ if(!isset($error)):
 
     <div>
         <div class="book_title"><?php echo $data["event"][0]->name ?></div>
-        <div class="project_title"><?php echo __($data["event"][0]->bookProject)." - ".$data["event"][0]->tLang ?></div>
+        <div class="project_title">
+            <?php echo ($data["event"][0]->sourceBible == "odb"
+                    ? __($data["event"][0]->sourceBible)
+                    : __($data["event"][0]->bookProject))." - ".$data["event"][0]->tLang ?>
+        </div>
         <div class="overall_progress_bar">
             <h3><?php echo __("progress_all") ?></h3>
             <div class="progress progress_all <?php echo $data["overall_progress"] <= 0 ? "zero" : ""?>">
@@ -33,19 +39,28 @@ if(!isset($error)):
     <div class="row" style="position:relative;">
         <div class="chapter_list">
             <?php foreach ($data["chapters"] as $key => $chapter):?>
-                <?php
-                if(empty($chapter)) {
-                    echo '<div class="chapter_item">
-                            <div class="chapter_number nofloat">'.__("chapter_number", ["chapter" => $key]).'</div>
-                        </div>';
-                    continue;
-                }
-                ?>
+                <?php if(empty($chapter)): ?>
+                    <div class="chapter_item">
+                        <div class="chapter_number nofloat">
+                            <?php echo __("chapter_number", ["chapter" => $key]) ?>
+                            <span class="glyphicon glyphicon-info-sign"
+                                  data-toggle="tooltip"
+                                  title="<?php echo $data["odb"]["chapters"][$key][1] ?>"
+                                  style="font-size: 16px;"></span>
+                        </div>
+                    </div>
+                <?php continue; endif; ?>
                 <div class="chapter_item">
                     <div class="chapter_accordion">
                         <div class="section_header" data="<?php echo "sec_".$key?>">
                             <div class="section_arrow glyphicon glyphicon-triangle-right"></div>
-                            <div class="chapter_number section_title"><?php echo __("chapter_number", ["chapter" => $key]) ?></div>
+                            <div class="chapter_number section_title">
+                                <?php echo __("chapter_number", ["chapter" => $key]) ?>
+                                <span class="glyphicon glyphicon-info-sign"
+                                      data-toggle="tooltip"
+                                      title="<?php echo $data["odb"]["chapters"][$key][1] ?>"
+                                      style="font-size: 16px;"></span>
+                            </div>
                             <div class="section_translator_progress_bar">
                                 <div class="progress <?php echo $chapter["progress"] <= 0 ? "zero" : ""?>">
                                     <div class="progress-bar progress-bar-success" role="progressbar"
@@ -96,7 +111,7 @@ if(!isset($error)):
                                     <div class="step_name">1. <?php echo __(EventSteps::CONSUME."_odb"); ?></div>
                                 </div>
                                 <!-- Rearrange Step -->
-                                <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>">
+                                <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>" style="width: 180px">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["rearrange"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::REARRANGE.".png") ?>"></div>
@@ -105,7 +120,9 @@ if(!isset($error)):
                                         <?php if(isset($chapter["chunks"])): ?>
                                             <?php foreach ($chapter["chunks"] as $index => $chunk):?>
                                                 <div class="section_translator_chunk">
-                                                    <?php echo $chunk[0]." - ".$chunk[sizeof($chunk)-1]; ?>
+                                                    <?php echo $chunk[0] >= OdbSections::CONTENT
+                                                        ? __(OdbSections::enum($chunk[0]), ["number" => $chunk[0] - OdbSections::DATE])
+                                                        : __(OdbSections::enum($chunk[0])); ?>
                                                     <?php if(array_key_exists($index, (array)$chapter["chunksData"])) {
                                                         echo __("chunk_finished");
                                                     } ?>

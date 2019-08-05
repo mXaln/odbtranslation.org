@@ -27,7 +27,6 @@ if(isset($data["error"])) return;
                 <div class="main_content_text row" style="padding-left: 15px">
                     <h4><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->sourceBible)." - "
-                            .__($data["event"][0]->bookProject)." - "
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]."</span>"?></h4>
 
                     <ul class="nav nav-tabs">
@@ -48,7 +47,9 @@ if(isset($data["error"])) return;
                                         <div>
                                             <strong dir="<?php echo $data["event"][0]->sLangDir ?>"
                                                     class="<?php echo $data["event"][0]->sLangDir ?>">
-                                                <?php echo __(OdbSections::enum($verse)); ?>:
+                                                <?php echo ($verse >= OdbSections::CONTENT
+                                                    ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                                    : __(OdbSections::enum($verse))); ?>:
                                             </strong>
                                             <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>"
                                                  dir="<?php echo $data["event"][0]->sLangDir ?>">
@@ -100,7 +101,9 @@ if(isset($data["error"])) return;
                             <div class="row chunk_block" style="<?php echo $hidden ? "display: none;" : "" ?>">
                                 <div class="chunk_verses col-sm-12" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <strong class="<?php echo $data["event"][0]->sLangDir ?>">
-                                        <?php echo __(OdbSections::enum($verse)); ?>:
+                                        <?php echo ($verse >= OdbSections::CONTENT
+                                            ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                            : __(OdbSections::enum($verse))); ?>:
                                     </strong>
                                     <?php echo $data["translation"][$key][EventMembers::TRANSLATOR]["words"]; ?>
                                 </div>

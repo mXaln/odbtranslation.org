@@ -752,7 +752,10 @@ class AdminController extends Controller {
                 return;
             }
 
-            $id = $this->_eventsModel->createGatewayProject(["gwLang" => $gwLang]);
+            $id = $this->_eventsModel->createGatewayProject([
+                "gwLang" => $gwLang,
+                "admins" => json_encode([Session::get("memberID")])
+            ]);
             $msg = json_encode(array("success" => __("successfully_created")));
 
             if($id)
@@ -785,12 +788,6 @@ class AdminController extends Controller {
             exit;
         }
 
-        if(Config::get("app.type") == "remote")
-        {
-            echo json_encode(array("error" => "not_available"));
-            exit;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
@@ -799,6 +796,14 @@ class AdminController extends Controller {
 
         if(!empty($gwProject))
         {
+            $admins = (array) json_decode($gwProject[0]->admins, true);
+
+            if(!in_array(Session::get("memberID"), $admins))
+            {
+                echo json_encode(array("error" => __("not_enough_rights_error")));
+                return;
+            }
+
             $members = [];
             $membersArray = (array)$this->_membersModel->getMembers(json_decode($gwProject[0]->admins));
 
@@ -836,16 +841,22 @@ class AdminController extends Controller {
             exit;
         }
 
-        if(Config::get("app.type") == "remote")
-        {
-            echo json_encode(array("error" => "not_available"));
-            exit;
-        }
-
         $_POST = Gump::xss_clean($_POST);
 
         $gwProjectID = isset($_POST['gwProjectID']) && $_POST['gwProjectID'] != "" ? (integer)$_POST['gwProjectID'] : 0;
         $superadmins = isset($_POST['superadmins']) && !empty($_POST['superadmins']) ? array_unique($_POST['superadmins']) : [];
+
+        $gwProject = $this->_eventsModel->getGatewayProject(["admins"], [
+            ["gwProjectID", $gwProjectID]
+        ]);
+
+        $admins = (array) json_decode($gwProject[0]->admins, true);
+
+        if(!in_array(Session::get("memberID"), $admins))
+        {
+            echo json_encode(array("error" => __("not_enough_rights_error")));
+            return;
+        }
 
         $superadmins = array_filter($superadmins, function($elm) {
             return is_numeric($elm);
@@ -934,6 +945,18 @@ class AdminController extends Controller {
             {
                 $sourceTrPair = explode("|", $sourceTranslation);
                 $gwLangsPair = explode("|", $subGwLangs);
+
+                $gwProject = $this->_eventsModel->getGatewayProject(["admins"], [
+                    ["gwProjectID", $gwLangsPair[1]]
+                ]);
+                $admins = (array) json_decode($gwProject[0]->admins, true);
+
+                if(!in_array(Session::get("memberID"), $admins))
+                {
+                    $error[] = __("not_enough_rights_error");
+                    echo json_encode(array("error" => Error::display($error)));
+                    return;
+                }
 
                 $projType = in_array($projectMode, ['tn','tq','tw']) ?
                     $projectMode : $projectType;
@@ -1027,6 +1050,18 @@ class AdminController extends Controller {
                 if(empty($project))
                 {
                     $error[] = __("error_ocured");
+                    echo json_encode(array("error" => Error::display($error)));
+                    return;
+                }
+
+                $gwProject = $this->_eventsModel->getGatewayProject(["admins"], [
+                    ["gwProjectID", $project[0]->gwProjectID]
+                ]);
+                $admins = (array) json_decode($gwProject[0]->admins, true);
+
+                if(!in_array(Session::get("memberID"), $admins))
+                {
+                    $error[] = __("not_enough_rights_error");
                     echo json_encode(array("error" => Error::display($error)));
                     return;
                 }
@@ -1541,6 +1576,14 @@ class AdminController extends Controller {
                             }
                             else
                             {
+                                $superadmins = (array)json_decode($exist[0]->superadmins, true);
+                                if(!in_array(Session::get("memberID"), $superadmins))
+                                {
+                                    $error[] = __("wrong_project_id");
+                                    echo json_encode(array("error" => Error::display($error)));
+                                    return;
+                                }
+
                                 // Create(change state) L2 event
                                 if($exist[0]->state == EventStates::TRANSLATED)
                                 {

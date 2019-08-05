@@ -14,12 +14,13 @@ if(isset($data["error"])) return;
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->sourceBible)." - "
-                        .__($data["event"][0]->bookProject)." - "
                     ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]."</span>"?></h4>
 
                 <?php foreach($data["text"] as $verse => $text): ?>
                 <?php if($verse == OdbSections::DATE) continue; ?>
-                    <p><?php echo "<strong>".__(OdbSections::enum($verse)).":</strong> ".$text; ?></p>
+                    <p><?php echo "<strong>".($verse >= OdbSections::CONTENT
+                                ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                : __(OdbSections::enum($verse))).":</strong> ".$text; ?></p>
                 <?php endforeach; ?>
             </div>
 
