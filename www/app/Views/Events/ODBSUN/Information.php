@@ -18,7 +18,11 @@ if(!isset($error)):
 
     <div>
         <div class="book_title"><?php echo $data["event"][0]->name ?></div>
-        <div class="project_title"><?php echo __($data["event"][0]->bookProject)." - ".$data["event"][0]->tLang ?></div>
+        <div class="project_title">
+            <?php echo ($data["event"][0]->sourceBible == "odb"
+                    ? __($data["event"][0]->sourceBible)
+                    : __($data["event"][0]->bookProject))." - ".$data["event"][0]->tLang ?>
+        </div>
         <div class="overall_progress_bar">
             <h3><?php echo __("progress_all") ?></h3>
             <div class="progress progress_all <?php echo $data["overall_progress"] <= 0 ? "zero" : ""?>">

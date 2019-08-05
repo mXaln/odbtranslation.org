@@ -13367,7 +13367,9 @@ class EventsController extends Controller
                             ? __("intro")
                             : $notification->currentChapter)),
                     "language" => $notification->tLang,
-                    "project" => __($notification->bookProject)
+                    "project" => ($notification->sourceBible == "odb"
+                        ?__($notification->sourceBible)
+                        : $notification->bookProject)
                 ];
 
                 if($notification->bookProject == "tw")

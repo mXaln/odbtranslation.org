@@ -14,7 +14,7 @@ use Helpers\Constants\StepsStates;
 
 <div>
     <div class="book_title">Matthew</div>
-    <div class="project_title"><?php echo __("sun") ?> - English</div>
+    <div class="project_title"><?php echo __("sun") ?> - <?php echo __("odb") ?></div>
     <div class="overall_progress_bar">
         <h3><?php echo __("progress_all") ?></h3>
         <div class="progress progress_all ">

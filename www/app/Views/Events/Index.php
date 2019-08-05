@@ -137,7 +137,7 @@ $profile = Session::get("profile");
                 <div class="event_project">
                     <div class="event_book"><?php echo $event->name ?></div>
                     <div class="event_proj">
-                        <div><?php echo __($event->bookProject) ?></div>
+                        <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
                         <div><?php echo $event->langName . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
                     </div>
                     <div class="event_facilitator">
@@ -235,7 +235,7 @@ $profile = Session::get("profile");
                 <div class="event_project">
                     <div class="event_book"><?php echo $event->name ?></div>
                     <div class="event_proj">
-                        <div><?php echo __($event->bookProject) ?></div>
+                        <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
                         <div><?php echo $event->langName . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
                     </div>
                     <div class="event_facilitator">
@@ -294,7 +294,7 @@ $profile = Session::get("profile");
             <div class="event_project">
                 <div class="event_book"><?php echo $event->name ?></div>
                 <div class="event_proj">
-                    <div><?php echo __($event->bookProject) ?></div>
+                    <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
                     <div><?php echo $event->tLang . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
                 </div>
                 <div class="event_facilitator">
@@ -385,7 +385,7 @@ $profile = Session::get("profile");
             <div class="event_project">
                 <div class="event_book"><?php echo isset($event->bookName) ? $event->bookName : $event->name ?></div>
                 <div class="event_proj">
-                    <div><?php echo __($event->bookProject) ?></div>
+                    <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
                     <div><?php echo $event->tLang . ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test"))?></div>
                 </div>
                 <div class="event_facilitator">

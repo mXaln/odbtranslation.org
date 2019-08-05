@@ -26,7 +26,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text row" style="padding-left: 15px">
-                <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - Symbolic Universal Notation - <span class="book_name">A01 4</span></h4>
+                <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - <span class="book_name">A01 4</span></h4>
 
                 <ul class="nav nav-tabs">
                     <li role="presentation" id="source_scripture" class="my_tab">

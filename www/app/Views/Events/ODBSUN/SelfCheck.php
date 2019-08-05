@@ -27,7 +27,6 @@ if(isset($data["error"])) return;
                 <div class="main_content_text row" style="padding-left: 15px">
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->sourceBible)." - "
-                            .__($data["event"][0]->bookProject)." - "
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]."</span>"?></h4>
 
                     <div class="col-sm-12 no_padding">

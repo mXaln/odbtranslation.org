@@ -15,7 +15,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text">
-                <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - Symbolic Universal Notation - <span class="book_name">A01 4</span></h4>
+                <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - <span class="book_name">A01 4</span></h4>
 
                 <br>
 

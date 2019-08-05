@@ -19,7 +19,7 @@ use Helpers\Constants\EventMembers;
         <div class="main_content col-sm-9">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
-                    <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - Symbolic Universal Notation - <span class="book_name">A01 4 : <?php echo __("title") ?></span></h4>
+                    <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - <span class="book_name">A01 4 : <?php echo __("title") ?></span></h4>
 
                     <h2 style="margin-bottom: 5px"><?php echo __("title") ?>:</h2>
                     <hr style="margin-top: 5px">

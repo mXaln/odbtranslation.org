@@ -28,7 +28,7 @@
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
 
-                    <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - Symbolic Universal Notation - <span class="book_name">A01 4</span></h4>
+                    <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - <span class="book_name">A01 4</span></h4>
 
                     <div class="col-sm-12 no_padding">
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("title") ?></sup> </strong>

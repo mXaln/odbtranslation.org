@@ -17,7 +17,11 @@ if(!isset($error)):
     <div class="row">
         <div class="col-sm-6">
             <div class="book_title" style="padding-left: 15px"><?php echo $data["event"][0]->name ?></div>
-            <div class="project_title" style="padding-left: 15px"><?php echo __($data["event"][0]->bookProject)." - ".$data["event"][0]->langName ?></div>
+            <div class="project_title" style="padding-left: 15px">
+                <?php echo ($data["event"][0]->sourceBible == "odb"
+                        ? __($data["event"][0]->sourceBible)
+                    : __($data["event"][0]->bookProject))." - ".$data["event"][0]->langName ?>
+            </div>
         </div>
         <div class="col-sm-6 start_translation">
             <?php if($data["event"][0]->state == EventStates::STARTED): ?>
