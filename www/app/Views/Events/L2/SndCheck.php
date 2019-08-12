@@ -29,21 +29,15 @@ use Helpers\Constants\EventMembers;
                         ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                     <ul class="nav nav-tabs">
-                        <li role="presentation" id="source_scripture" class="my_tab">
-                            <a href="#"><?php echo __("source_text") ?></a>
-                        </li>
                         <li role="presentation" id="target_scripture" class="my_tab">
                             <a href="#"><?php echo __("target_text") ?></a>
                         </li>
+                        <li role="presentation" id="source_scripture" class="my_tab">
+                            <a href="#"><?php echo __("source_text") ?></a>
+                        </li>
                     </ul>
 
-                    <div id="source_scripture_content" class="my_content shown">
-                        <?php foreach($data["text"] as $verse => $text): ?>
-                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
-                        <?php endforeach; ?>
-                    </div>
-
-                    <div id="target_scripture_content" class="my_content">
+                    <div id="target_scripture_content" class="my_content shown">
                         <div class="no_padding">
                             <?php foreach($data["chunks"] as $key => $chunk) : ?>
                                 <div class="row chunk_block no_autosize">
@@ -105,6 +99,12 @@ use Helpers\Constants\EventMembers;
                                 <div class="chunk_divider col-sm-12"></div>
                             <?php endforeach; ?>
                         </div>
+                    </div>
+
+                    <div id="source_scripture_content" class="my_content">
+                        <?php foreach($data["text"] as $verse => $text): ?>
+                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
