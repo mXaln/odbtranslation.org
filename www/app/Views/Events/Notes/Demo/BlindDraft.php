@@ -13,12 +13,10 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text" dir="ltr">
-                <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1-3</span></h4>
+                <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1</span></h4>
 
                 <div class="scripture_chunk">
-                    <p> <strong><sup>1</sup></strong> Teofilus, dalam buku pertama yang saya tuliskan, dijelaskan semua yang telah dilakukan dan diajarkan Yesus, </p>
-                    <p> <strong><sup>2</sup></strong> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui Roh Kudus kepada rasul-rasul yang telah dipilihNya. </p>
-                    <p> <strong><sup>3</sup></strong> Setelah penderitaanNya, dia menunjukkan diriNya yang hidup kepada mereka dengan banyak bukti yang meyakinkan. Selama empat puluh hari Ia menampakkan diri kepada mereka, dan Ia berbicara tentang kerajaan Allah. </p>
+                    <p><strong><sup>1</sup></strong> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote glyphicon glyphicon-file" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan,</p>
                 </div>
 
                 <ul class="nav nav-tabs">
@@ -36,23 +34,6 @@
                         <p>The former book is the Gospel of Luke.</p>
                         <h1>Theophilus</h1>
                         <p>Luke wrote this book to a man named Theophilus. Some translations follow their own culture's way of addressing a letter and write "Dear Theophilus" at the beginning of the sentence. Theophilus means "friend of God" (See: <span class="uwlink" title="Leave it as it is">[[rc://en/ta/man/translate/translate-names]]</span>)</p>
-                        <h1>until the day that he was taken up</h1>
-                        <p>This refers to Jesus' ascension into heaven. AT: "until the day on which God took him up to heaven" or "until the day that he ascended into heaven" (See: <span class="uwlink" title="Leave it as it is">[[rc://en/ta/man/translate/figs-activepassive]]</span>)</p>
-                        <h1>commands through the Holy Spirit</h1>
-                        <p>The Holy Spirit led Jesus to instruct his apostles on certain things.</p>
-                        <h1>After his suffering</h1>
-                        <p>This refers to Jesus' suffering and death on the cross.</p>
-                        <h1>he presented himself alive to them</h1>
-                        <p>Jesus appeared to his apostles and to many other disciples.</p>
-                        <h1>translationWords</h1>
-                        <ul>
-                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/jesus]]</span></li>
-                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/command]]</span></li>
-                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/holyspirit]]</span></li>
-                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/apostle]]</span></li>
-                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/other/suffer]]</span></li>
-                            <li><span class="uwlink" title="<?php echo __("leaveit") ?>">[[rc://en/tw/dict/bible/kt/kingdomofgod]]</span></li>
-                        </ul>
                     </div>
                 </div>
 

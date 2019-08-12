@@ -32,53 +32,15 @@ use Helpers\Constants\EventMembers;
                         ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
 
                     <ul class="nav nav-tabs">
-                        <li role="presentation" id="source_scripture" class="my_tab">
-                            <a href="#"><?php echo __("source_text") ?></a>
-                        </li>
                         <li role="presentation" id="target_scripture" class="my_tab">
                             <a href="#"><?php echo __("target_text") ?></a>
                         </li>
+                        <li role="presentation" id="source_scripture" class="my_tab">
+                            <a href="#"><?php echo __("source_text") ?></a>
+                        </li>
                     </ul>
 
-                    <div id="source_scripture_content" class="my_content shown">
-                        <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                        <div class="chunk_block">
-                            <div class="chunk_verses" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                            <?php $firstVerse = 0; ?>
-                            <?php foreach ($chunk as $verse): ?>
-                                <?php
-                                // process combined verses
-                                if (!isset($data["text"][$verse]))
-                                {
-                                    if($firstVerse == 0)
-                                    {
-                                        $firstVerse = $verse;
-                                        continue;
-                                    }
-                                    $combinedVerse = $firstVerse . "-" . $verse;
-
-                                    if(!isset($data["text"][$combinedVerse]))
-                                        continue;
-                                    $verse = $combinedVerse;
-                                }
-                                ?>
-                                <div>
-                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>"
-                                            class="<?php echo $data["event"][0]->sLangDir ?>">
-                                        <sup><?php echo $verse; ?></sup>
-                                    </strong>
-                                    <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>"
-                                         dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                        <?php echo $data["text"][$verse]; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                    <div id="target_scripture_content" class="my_content">
+                    <div id="target_scripture_content" class="my_content shown">
                         <div class="no_padding">
                             <?php foreach($data["chunks"] as $key => $chunk) : ?>
                                 <div class="row chunk_block no_autosize">
@@ -144,6 +106,44 @@ use Helpers\Constants\EventMembers;
                                 <div class="chunk_divider col-sm-12"></div>
                             <?php endforeach; ?>
                         </div>
+                    </div>
+
+                    <div id="source_scripture_content" class="my_content">
+                        <?php foreach($data["chunks"] as $key => $chunk) : ?>
+                            <div class="chunk_block">
+                                <div class="chunk_verses" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                    <?php $firstVerse = 0; ?>
+                                    <?php foreach ($chunk as $verse): ?>
+                                        <?php
+                                        // process combined verses
+                                        if (!isset($data["text"][$verse]))
+                                        {
+                                            if($firstVerse == 0)
+                                            {
+                                                $firstVerse = $verse;
+                                                continue;
+                                            }
+                                            $combinedVerse = $firstVerse . "-" . $verse;
+
+                                            if(!isset($data["text"][$combinedVerse]))
+                                                continue;
+                                            $verse = $combinedVerse;
+                                        }
+                                        ?>
+                                        <div>
+                                            <strong dir="<?php echo $data["event"][0]->sLangDir ?>"
+                                                    class="<?php echo $data["event"][0]->sLangDir ?>">
+                                                <sup><?php echo $verse; ?></sup>
+                                            </strong>
+                                            <div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>"
+                                                 dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                                <?php echo $data["text"][$verse]; ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 

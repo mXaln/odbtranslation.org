@@ -13,7 +13,7 @@
     <div class="row">
         <div class="main_content col-sm-9">
             <div class="main_content_text" dir="ltr">
-                <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1-3</span></h4>
+                <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1</span></h4>
 
                 <p></p>
 
@@ -22,23 +22,6 @@
                     <p>The former book is the Gospel of Luke.</p>
                     <h1>Theophilus</h1>
                     <p>Luke wrote this book to a man named Theophilus. Some translations follow their own culture's way of addressing a letter and write "Dear Theophilus" at the beginning of the sentence. Theophilus means "friend of God" (See: [[rc://en/ta/man/translate/translate-names]])</p>
-                    <h1>until the day that he was taken up</h1>
-                    <p>This refers to Jesus' ascension into heaven. AT: "until the day on which God took him up to heaven" or "until the day that he ascended into heaven" (See: [[rc://en/ta/man/translate/figs-activepassive]])</p>
-                    <h1>commands through the Holy Spirit</h1>
-                    <p>The Holy Spirit led Jesus to instruct his apostles on certain things.</p>
-                    <h1>After his suffering</h1>
-                    <p>This refers to Jesus' suffering and death on the cross.</p>
-                    <h1>he presented himself alive to them</h1>
-                    <p>Jesus appeared to his apostles and to many other disciples.</p>
-                    <h1>translationWords</h1>
-                    <ul>
-                        <li>[[rc://en/tw/dict/bible/kt/jesus]]</li>
-                        <li>[[rc://en/tw/dict/bible/kt/command]]</li>
-                        <li>[[rc://en/tw/dict/bible/kt/holyspirit]]</li>
-                        <li>[[rc://en/tw/dict/bible/kt/apostle]]</li>
-                        <li>[[rc://en/tw/dict/bible/other/suffer]]</li>
-                        <li>[[rc://en/tw/dict/bible/kt/kingdomofgod]]</li>
-                    </ul>
                 </div>
             </div>
 

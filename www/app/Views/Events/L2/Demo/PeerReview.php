@@ -27,76 +27,15 @@
                 <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <ul class="nav nav-tabs">
-                    <li role="presentation" id="source_scripture" class="my_tab">
-                        <a href="#"><?php echo __("source_text") ?></a>
-                    </li>
                     <li role="presentation" id="target_scripture" class="my_tab">
                         <a href="#"><?php echo __("target_text") ?></a>
                     </li>
+                    <li role="presentation" id="source_scripture" class="my_tab">
+                        <a href="#"><?php echo __("source_text") ?></a>
+                    </li>
                 </ul>
 
-                <div id="source_scripture_content" class="my_content shown">
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in Christ Jesus.</div></div>
-                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</div></div>
-                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of Christ Jesus.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
-                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</div></div>
-                            <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
-                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what I am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</div></div>
-                            <div> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</div></div>
-                            <div> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">This saying is trustworthy: "If we have died with him, we will also live with him.</div></div>
-                            <div> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">If we endure, we will also reign with him. If we deny him, he also will deny us.</div></div>
-                            <div> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">if we are unfaithful, he remains faithful, for he cannot deny himself."</div></div>
-                            <div> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</div></div>
-                            <div> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">Avoid profane talk, which leads to more and more godlessness.</div></div>
-                            <div> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</div></div>
-                            <div> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</div></div>
-                            <div> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21">If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</div></div>
-                            <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</div></div>
-                            <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">But refuse foolish and ignorant questions. You know that they give birth to arguments.</div></div>
-                        </div>
-                    </div>
-                    <div class="chunk_block">
-                        <div class="chunk_verses" dir="ltr">
-                            <div> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</div></div>
-                            <div> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</div></div>
-                            <div> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">They may become sober again and leave the devil's trap, after they have been captured by him for his will.</div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="target_scripture_content" class="my_content">
+                <div id="target_scripture_content" class="my_content shown">
                     <div class="no_padding">
                         <div class="row chunk_block no_autosize">
                             <div class="chunk_verses col-sm-6" dir="ltr">
@@ -265,6 +204,67 @@
                             </div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
+                    </div>
+                </div>
+
+                <div id="source_scripture_content" class="my_content">
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in Christ Jesus.</div></div>
+                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to faithful people who will be able to teach others also.</div></div>
+                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of Christ Jesus.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No soldier serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
+                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</div></div>
+                            <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
+                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what I am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</div></div>
+                            <div> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</div></div>
+                            <div> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">This saying is trustworthy: "If we have died with him, we will also live with him.</div></div>
+                            <div> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">If we endure, we will also reign with him. If we deny him, he also will deny us.</div></div>
+                            <div> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">if we are unfaithful, he remains faithful, for he cannot deny himself."</div></div>
+                            <div> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</div></div>
+                            <div> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">Avoid profane talk, which leads to more and more godlessness.</div></div>
+                            <div> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</div></div>
+                            <div> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</div></div>
+                            <div> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21">If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</div></div>
+                            <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</div></div>
+                            <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">But refuse foolish and ignorant questions. You know that they give birth to arguments.</div></div>
+                        </div>
+                    </div>
+                    <div class="chunk_block">
+                        <div class="chunk_verses" dir="ltr">
+                            <div> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</div></div>
+                            <div> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</div></div>
+                            <div> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">They may become sober again and leave the devil's trap, after they have been captured by him for his will.</div></div>
+                        </div>
                     </div>
                 </div>
             </div>
