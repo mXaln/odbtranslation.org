@@ -4463,8 +4463,13 @@ class EventsController extends Controller
 
                             if(!$chunks === false)
                             {
+                                $converter = new \Helpers\Markdownify\Converter;
+                                $converter->setKeepHTML(false);
+
                                 foreach ($chunks as $key => $chunk) 
                                 {
+                                    $chunk = $converter->parseString($chunk);
+
                                     if ($translation[$key][EventMembers::CHECKER]["verses"] != $chunk) {
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
@@ -4591,8 +4596,13 @@ class EventsController extends Controller
 
                             if(!$chunks === false)
                             {
+                                $converter = new \Helpers\Markdownify\Converter;
+                                $converter->setKeepHTML(false);
+
                                 foreach ($chunks as $key => $chunk) 
                                 {
+                                    $chunk = $converter->parseString($chunk);
+
                                     if ($translation[$key][EventMembers::CHECKER]["verses"] != $chunk) {
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
@@ -5806,8 +5816,13 @@ class EventsController extends Controller
 
                                 if(!$chunks === false)
                                 {
+                                    $converter = new \Helpers\Markdownify\Converter;
+                                    $converter->setKeepHTML(false);
+
                                     foreach ($chunks as $key => $chunk)
                                     {
+                                        $chunk = $converter->parseString($chunk);
+
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
 
