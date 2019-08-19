@@ -1271,6 +1271,7 @@ class ApiModel extends Model
             return false;
 
         $converter = new \Helpers\Markdownify\Converter;
+        $converter->setKeepHTML(false);
         foreach ($chunks as $key => $chunk) {
             if(trim($chunk) == "")
                 return false;
@@ -1294,6 +1295,7 @@ class ApiModel extends Model
             return false;
 
         $converter = new \Helpers\Markdownify\Converter;
+        $converter->setKeepHTML(false);
         foreach ($chunks as $key => $chunk) {
             if(trim($chunk) == "")
                 return false;
@@ -1317,6 +1319,7 @@ class ApiModel extends Model
             return false;
 
         $converter = new \Helpers\Markdownify\Converter;
+        $converter->setKeepHTML(false);
         foreach ($chunks as $key => $chunk) {
             if(trim($chunk) == "")
                 return false;
