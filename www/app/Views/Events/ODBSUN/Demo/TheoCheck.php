@@ -28,16 +28,7 @@
             <div class="main_content_text">
                 <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - <span class="book_name">A01 4</span></h4>
 
-                <ul class="nav nav-tabs">
-                    <li role="presentation" id="source_scripture" class="my_tab">
-                        <a href="#"><?php echo __("source_text") ?></a>
-                    </li>
-                    <li role="presentation" id="rearrange" class="my_tab">
-                        <a href="#"><?php echo __("rearrange") ?></a>
-                    </li>
-                </ul>
-
-                <div id="source_scripture_content" class="col-sm-12 no_padding my_content shown">
+                <div class="no_padding">
                     <div class="row chunk_block">
                         <div class="chunk_verses col-sm-6" dir="ltr">
                             <div>
@@ -47,9 +38,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 verse_ta textarea sun_content"
-                                          style="min-height: 80px;">    </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>    </p>
+                                </div>
+
                                 <div class="comments_number hasComment">2 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -73,9 +65,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;"> </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>  </p>
+                                </div>
+
                                 <div class="comments_number hasComment">1 </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -99,9 +92,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;">  :      :  -  </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>  :      :  -  </p>
+                                </div>
+
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -120,9 +114,9 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;"> </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p> </p>
+                                </div>
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -142,9 +136,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;">                        :   </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>                        :   </p>
+                                </div>
+
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -163,9 +158,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;">      </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>      </p>
+                                </div>
+
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -187,9 +183,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;">                                       </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>                                       </p>
+                                </div>
+
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -212,9 +209,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;">                                                                        </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>                                                                        </p>
+                                </div>
+
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -235,9 +233,10 @@
                         </div>
                         <div class="col-sm-6 editor_area" dir="ltr">
                             <div class="vnote">
-                                <textarea name="chunks[]"
-                                          class="col-sm-6 peer_verse_ta textarea sun_content"
-                                          style="min-height: 80px;">                                       </textarea>
+                                <div class="verse_block font_backsun">
+                                    <p>                                       </p>
+                                </div>
+
                                 <div class="comments_number "> </div>
                                 <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
                                      title="<?php echo __("write_note_title")?>" width="16">
@@ -245,63 +244,6 @@
                                 <div class="clear"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                </div>
-
-                <div id="rearrange_content" class="my_content">
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("title") ?>: </strong> good man </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("author") ?>: </strong> </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("passage") ?>: </strong> read : Romans 3:10-18 </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("bible_in_a_year") ?>: </strong> Numbers 26-27, Mark 8:1-21 </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("verse") ?>: </strong> God save you in grace.
-                            though faith. this no from you. this gift from God. Ephesians 2:8 </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("thought") ?>: </strong> God&#34;s work save us. </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("content", ["number" => 1]) ?>: </strong> me
-                            friend John good man. John die. pastor mouth John love family. John&#39;s wife trust John.
-                            John serve country in army. John good dad. John great friend. John good man. </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("content", ["number" => 2]) ?>: </strong> John
-                            do good thing thing. pastor mouth good things no way to heaven. Bible write no person
-                            perfect. John do good thing thing. not good for heaven. John know sin. sin worth death
-                            and hell. last place after death . good life no give last place.  John know need Jesus.
-                            Jesus die for John. John believe Jesus. believe Jesus way to heaven. </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-12" dir="ltr">
-                            <strong class="ltr"> <?php echo __("content", ["number" => 3]) ?>: </strong> all
-                            people need God&#39;s forgiveness. Jesus die on cross for our sin sin. we no good .
-                            we need faith in Jesus. heaven God&#39;s gift. we no earn gift. God&#39;s gift very great. </div>
                     </div>
                     <div class="chunk_divider col-sm-12"></div>
                 </div>
