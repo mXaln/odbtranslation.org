@@ -372,7 +372,7 @@ class TranslationsController extends Controller
                         $chapterStarted = true;
                     }
 
-                    // Start of chunk
+                    // Start of chunk.
                     if(!$chapterStarted)
                     {
                         $usfm_books[$code] .= "\\s5 \n";
