@@ -374,10 +374,7 @@ class TranslationsController extends Controller
 
                     // Start of chunk
                     if(!$chapterStarted)
-                    {
                         $usfm_books[$code] .= "\\s5 \n";
-                        $usfm_books[$code] .= "\\p \n";
-                    }
 
                     $chapterStarted = false;
 
