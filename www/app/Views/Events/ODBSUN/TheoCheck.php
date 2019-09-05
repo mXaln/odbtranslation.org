@@ -29,7 +29,16 @@ if(isset($data["error"])) return;
                             .__($data["event"][0]->sourceBible)." - "
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]."</span>"?></h4>
 
-                    <div class="no_padding">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" id="source_scripture" class="my_tab">
+                            <a href="#"><?php echo __("source_text") ?></a>
+                        </li>
+                        <li role="presentation" id="rearrange" class="my_tab">
+                            <a href="#"><?php echo __("rearrange") ?></a>
+                        </li>
+                    </ul>
+
+                    <div id="source_scripture_content" class="col-sm-12 no_padding my_content shown">
                         <?php foreach($data["chunks"] as $key => $chunk) : $verse = $chunk[0] ?>
                             <?php $hidden = $verse == OdbSections::DATE || trim($data["text"][$verse]) == ""; ?>
                             <div class="row chunk_block" style="<?php echo $hidden ? "display: none;" : "" ?>">
@@ -50,11 +59,11 @@ if(isset($data["error"])) return;
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $bt = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <div class="vnote">
-                                        <div class="verse_block font_backsun">
-                                            <p><?php echo $bt; ?></p>
-                                        </div>
+                                        <textarea name="chunks[]" class="col-sm-6 verse_ta textarea sun_content"><?php
+                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                        ?></textarea>
 
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
@@ -80,6 +89,23 @@ if(isset($data["error"])) return;
                                         </div>
                                         <div class="clear"></div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="chunk_divider col-sm-12" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div id="rearrange_content" class="my_content">
+                        <?php foreach($data["chunks"] as $key => $chunk) : $verse = $chunk[0]; ?>
+                            <?php $hidden = $verse == OdbSections::DATE || trim($data["text"][$verse]) == ""; ?>
+                            <div class="row chunk_block" style="<?php echo $hidden ? "display: none;" : "" ?>">
+                                <div class="chunk_verses col-sm-12" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                    <strong class="<?php echo $data["event"][0]->sLangDir ?>">
+                                        <?php echo ($verse >= OdbSections::CONTENT
+                                            ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                            : __(OdbSections::enum($verse))); ?>:
+                                    </strong>
+                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR]["words"]; ?>
                                 </div>
                             </div>
                             <div class="chunk_divider col-sm-12" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
