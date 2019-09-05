@@ -5383,6 +5383,59 @@ class EventsController extends Controller
                         {
                             if (isset($_POST["confirm_step"]))
                             {
+                                $text = $data["text"];
+                                $chunks = isset($_POST["chunks"]) ? (array)$_POST["chunks"] : array();
+                                $chunks = array_map("trim", $chunks);
+                                $chunks = array_filter($chunks, function($v, $key) use ($text) {
+                                    $section = $key+1;
+                                    if($section == OdbSections::DATE) return true; // do not validate DATE section
+                                    if(trim($text[$section]) == "") return true; // do not validate empty source section
+                                    return !empty($v);
+                                }, ARRAY_FILTER_USE_BOTH);
+
+                                if(sizeof($chunks) < sizeof($data["chapters"][$data["currentChapter"]]["chunks"]))
+                                    $error[] = __("empty_verses_error");
+
+                                if(!isset($error))
+                                {
+                                    if(!empty($translation))
+                                    {
+                                        foreach ($translation as $key => $chunk)
+                                        {
+                                            $shouldUpdate = false;
+                                            if($chunk[EventMembers::TRANSLATOR]["symbols"] != $chunks[$key])
+                                                $shouldUpdate = true;
+
+                                            $translation[$key][EventMembers::TRANSLATOR]["symbols"] = $chunks[$key];
+
+                                            if($shouldUpdate)
+                                            {
+                                                $tID = $translation[$key]["tID"];
+                                                unset($translation[$key]["tID"]);
+
+                                                $encoded = json_encode($translation[$key]);
+                                                $json_error = json_last_error();
+
+                                                if($json_error == JSON_ERROR_NONE)
+                                                {
+                                                    $trData = array(
+                                                        "translatedVerses"  => $encoded
+                                                    );
+                                                    $this->_translationModel->updateTranslation(
+                                                        $trData,
+                                                        array(
+                                                            "trID" => $data["event"][0]->trID,
+                                                            "tID" => $tID));
+                                                }
+                                                else
+                                                {
+                                                    $error[] = __("error_ocured", array($tID));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
                                 if(!isset($error))
                                 {
                                     $kwCheck = (array)json_decode($data["event"][0]->kwCheck, true);
