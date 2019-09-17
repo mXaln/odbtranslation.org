@@ -90,8 +90,8 @@ class UsfmParser
                     $vText = join(" ", $vData);
 
                     // Word listing (remove - beginning)
-                    $vText = preg_replace("/\s?\|strong=\"[A-Z0-9]+\"\s?/Uui", "", $vText);
-                    $vText = preg_replace("/\s?x-morph=\"strongMorph:[A-Z0-9]+\"\s?/Uui", "", $vText);
+                    $vText = preg_replace("/(?:\\\\zaln-s.*)(\\\\w.*\\\\w\\*)(?:\\\\zaln-e\\\\?\\*)/Uui", "$1", $vText);
+                    $vText = preg_replace("/\\\\w\s?(.*)\\|.*\\\\w\\*/Uui", "$1", $vText);
 
                     $vText = htmlspecialchars($vText, ENT_COMPAT | ENT_SUBSTITUTE, "UTF-8");
 
@@ -110,13 +110,12 @@ class UsfmParser
 
                     // Remove all other usfm tags
                     // TODO Parse other usfm tags
-                    $vText = preg_replace("/\\\\[a-z0-9]+\\s?\\*?/", "", $vText);
+                    $vText = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $vText);
 
                     $result["chapters"][$chapter][$chunk][$vNum] = $vText;
                 }
             }
         }
-
         return $result;
     }
 }
