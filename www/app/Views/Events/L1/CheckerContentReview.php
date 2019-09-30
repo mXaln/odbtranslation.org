@@ -47,38 +47,41 @@ if(empty($error) && empty($data["success"])):
                 <div class="col-sm-12 side_by_side_content">
                     <?php foreach($data["chunks"] as $key => $chunk) : ?>
                         <div class="row chunk_block">
-                            <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                <?php $firstVerse = 0; ?>
-                                <?php foreach ($chunk as $verse): ?>
-                                    <?php
-                                    // process combined verses
-                                    if (!isset($data["text"][$verse]))
-                                    {
-                                        if($firstVerse == 0)
+                            <div class="flex_container">
+                                <div class="chunk_verses flex_left" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                    <?php $firstVerse = 0; ?>
+                                    <?php foreach ($chunk as $verse): ?>
+                                        <?php
+                                        // process combined verses
+                                        if (!isset($data["text"][$verse]))
                                         {
-                                            $firstVerse = $verse;
-                                            continue;
+                                            if($firstVerse == 0)
+                                            {
+                                                $firstVerse = $verse;
+                                                continue;
+                                            }
+                                            $combinedVerse = $firstVerse . "-" . $verse;
+
+                                            if(!isset($data["text"][$combinedVerse]))
+                                                continue;
+                                            $verse = $combinedVerse;
                                         }
-                                        $combinedVerse = $firstVerse . "-" . $verse;
-
-                                        if(!isset($data["text"][$combinedVerse]))
-                                            continue;
-                                        $verse = $combinedVerse;
-                                    }
-                                    ?>
-                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
-                                <?php endforeach; ?>
-                            </div>
-                            <div class="col-sm-6 editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
-                                <div class="vnote">
-                                    <div><?php echo $text; ?></div>
-
+                                        ?>
+                                        <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="flex_middle editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
+                                    <div class="vnote">
+                                        <div><?php echo $text; ?></div>
+                                    </div>
+                                </div>
+                                <div class="flex_right">
                                     <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                    <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                         <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                     </div>
-                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                    <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
                                     <div class="comments">
                                         <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
@@ -96,66 +99,66 @@ if(empty($error) && empty($data["success"])):
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="clear"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="chunk_divider col-sm-12"></div>
+                        <div class="chunk_divider"></div>
                     <?php endforeach; ?>
                 </div>
 
                 <div class="col-sm-12 one_side_content" dir="<?php echo $data["event"][0]->sLangDir ?>">
                     <?php foreach($data["chunks"] as $key => $chunk) : ?>
                         <div class="chunk_block">
-                            <div style="padding-right: 15px" class="chunk_verses">
-                                <?php $firstVerse = 0; ?>
-                                <?php foreach ($chunk as $verse): ?>
-                                    <?php
-                                    // process combined verses
-                                    if (!isset($data["text"][$verse]))
-                                    {
-                                        if($firstVerse == 0)
+                            <div class="flex_container">
+                                <div class="chunk_verses flex_middle">
+                                    <?php $firstVerse = 0; ?>
+                                    <?php foreach ($chunk as $verse): ?>
+                                        <?php
+                                        // process combined verses
+                                        if (!isset($data["text"][$verse]))
                                         {
-                                            $firstVerse = $verse;
-                                            continue;
+                                            if($firstVerse == 0)
+                                            {
+                                                $firstVerse = $verse;
+                                                continue;
+                                            }
+                                            $combinedVerse = $firstVerse . "-" . $verse;
+
+                                            if(!isset($data["text"][$combinedVerse]))
+                                                continue;
+                                            $verse = $combinedVerse;
                                         }
-                                        $combinedVerse = $firstVerse . "-" . $verse;
-
-                                        if(!isset($data["text"][$combinedVerse]))
-                                            continue;
-                                        $verse = $combinedVerse;
-                                    }
-                                    ?>
-                                    <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
-                                <?php endforeach; ?>
-                            </div>
-                            <div class="vnote">
-                                <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
-                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
+                                        ?>
+                                        <strong dir="<?php echo $data["event"][0]->sLangDir ?>" class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><div class="<?php echo "kwverse_".$data["currentChapter"]."_".$key."_".$verse ?>" dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["text"][$verse]; ?></div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                <div class="vnote flex_right">
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
+                                    </div>
+                                    <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
-                                <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                            <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments">
-                                                    <?php echo
-                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->checkerID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                                <div class="clear"></div>
                             </div>
                         </div>
-                        <div class="chunk_divider col-sm-12"></div>
+                        <div class="chunk_divider"></div>
                     <?php endforeach; ?>
                 </div>
             </div>

@@ -40,62 +40,64 @@ if(isset($data["error"])) return;
                                 <?php //echo $data["words"][$chunkNo]["word"] ?>
                             </div>
                         </div>
-                        <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
-                            <div class="note_content">
+                        <div class="flex_container">
+                            <div class="flex_left" dir="<?php echo $data["event"][0]->resLangDir ?>">
+                                <div class="note_content">
+                                    <?php
+                                    $source = $data["words"][$chunkNo]["text"];
+                                    $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
+                                    $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
+                                    echo $source
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="flex_middle notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                                 dir="<?php echo $data["event"][0]->tLangDir ?>"
+                                 data-chunkno="<?php echo $chunkNo ?>">
                                 <?php
-                                $source = $data["words"][$chunkNo]["text"];
-                                $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
-                                $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
-                                echo $source
+                                $parsedown = new Parsedown();
+                                $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                                && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                    : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+                                $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
+                                    ? $_POST["chunks"][$chunkNo]
+                                    : $text;
+                                $text = preg_replace(
+                                    "/(\[\[[a-z:\/\-]+\]\])/",
+                                    "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                    $text);
                                 ?>
+                                <textarea
+                                        name="chunks[<?php echo $chunkNo ?>]"
+                                        class="add_notes_editor"><?php echo $text ?></textarea>
                             </div>
-                        </div>
-                        <div class="col-md-6 notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
-                            dir="<?php echo $data["event"][0]->tLangDir ?>"
-                            data-chunkno="<?php echo $chunkNo ?>">
-                            <?php
-                            $parsedown = new Parsedown();
-                            $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
-                            && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
-                            $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
-                                ? $_POST["chunks"][$chunkNo]
-                                : $text;
-                            $text = preg_replace(
-                                "/(\[\[[a-z:\/\-]+\]\])/",
-                                "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
-                                $text);
-                            ?>
-                            <textarea 
-                                name="chunks[<?php echo $chunkNo ?>]" 
-                                class="add_notes_editor"><?php echo $text ?></textarea>
-                        
-                            <?php 
-                            $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); 
-                            ?>
-                            <div class="comments_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
-                                <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
-                            </div>
-                            <img class="editComment tncomm" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                            <div class="flex_right">
+                                <?php
+                                $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]);
+                                ?>
+                                <div class="comments_number tncomm flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
+                                </div>
+                                <img class="editComment tncomm flex_commn_img" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
-                            <div class="comments">
-                                <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                    <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID && $comment->level == 2): ?>
-                                            <div class="my_comment"><?php echo $comment->text; ?></div>
-                                        <?php else: ?>
-                                            <div class="other_comments">
-                                                <?php echo
-                                                    "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                <div class="comments">
+                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                        <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                            <?php if($comment->memberID == $data["event"][0]->myChkMemberID && $comment->level == 2): ?>
+                                                <div class="my_comment"><?php echo $comment->text; ?></div>
+                                            <?php else: ?>
+                                                <div class="other_comments">
+                                                    <?php echo
+                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="clear"></div>
                         </div>
                     </div>
                     <?php endforeach; ?>

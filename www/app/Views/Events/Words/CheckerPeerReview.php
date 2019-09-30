@@ -48,49 +48,51 @@ if(empty($error) && empty($data["success"])):
                                 <?php //echo $data["words"][$chunkNo]["word"] ?>
                             </div>
                         </div>
-                        <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
-                            <div class="note_content">
+                        <div class="flex_container">
+                            <div class="flex_left" dir="<?php echo $data["event"][0]->resLangDir ?>">
+                                <div class="note_content">
+                                    <?php
+                                    $source = $data["words"][$chunkNo]["text"];
+                                    $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
+                                    $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
+                                    echo $source
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="flex_middle vnote font_<?php echo $data["event"][0]->targetLang ?>"
+                                 dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php
-                                $source = $data["words"][$chunkNo]["text"];
-                                $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
-                                $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
-                                echo $source
+                                $parsedown = new Parsedown();
+                                $text = isset($data["translation"][$chunkNo])
+                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                    : "";
                                 ?>
+                                <div class="questions_target"><?php echo $text ?></div>
                             </div>
-                        </div>
-                        <div class="col-md-6 vnote font_<?php echo $data["event"][0]->targetLang ?>"
-                             dir="<?php echo $data["event"][0]->tLangDir ?>">
-                            <?php 
-                            $parsedown = new Parsedown();
-                            $text = isset($data["translation"][$chunkNo]) 
-                                ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                : "";
-                            ?>
-                            <div class="questions_target"><?php echo $text ?></div>
+                            <div class="flex_right">
+                                <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
+                                <div class="comments_number tncommpeer flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
+                                </div>
+                                <img class="editComment tncommpeer flex_commn_img" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
-                            <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
-                            <div class="comments_number tncommpeer <?php echo $hasComments ? "hasComment" : "" ?>">
-                                <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
-                            </div>
-                            <img class="editComment tncommpeer" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                            <div class="comments">
-                                <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                    <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                        <?php if($comment->memberID == Session::get("memberID") && $comment->level == 2): ?>
-                                            <div class="my_comment"><?php echo $comment->text; ?></div>
-                                        <?php else: ?>
-                                            <div class="other_comments">
-                                                <?php echo
-                                                    "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                <div class="comments">
+                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                        <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                            <?php if($comment->memberID == Session::get("memberID") && $comment->level == 2): ?>
+                                                <div class="my_comment"><?php echo $comment->text; ?></div>
+                                            <?php else: ?>
+                                                <div class="other_comments">
+                                                    <?php echo
+                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="clear"></div>
                         </div>
                     </div>
                     <?php endforeach; ?>

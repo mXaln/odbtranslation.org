@@ -6,7 +6,7 @@ use Helpers\Constants\EventMembers;
 <div class="comment_div panel panel-default">
     <div class="panel-heading">
         <h1 class="panel-title"><?php echo __("write_note_title")?></h1>
-        <span class="editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="editor-close btn btn-success" data-level="2"><?php echo __("save") ?></span>
         <span class="xbtn glyphicon glyphicon-remove"></span>
     </div>
     <textarea style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;" class="textarea textarea_editor"></textarea>
@@ -41,39 +41,42 @@ use Helpers\Constants\EventMembers;
                         <div class="no_padding">
                             <?php foreach($data["chunks"] as $key => $chunk) : ?>
                                 <div class="row chunk_block no_autosize">
-                                    <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                        <?php $verses = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]; ?>
-                                        <?php foreach ($verses as $verse => $text): ?>
-                                        <p>
-                                            <strong class="<?php echo $data["event"][0]->sLangDir ?>">
-                                                <sup><?php echo $verse; ?></sup>
-                                            </strong>
-                                            <span class="orig_text" data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></span>
-                                        </p>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                        <?php
-                                        if(!empty($_POST["chunks"][$key]))
-                                            $verses = $_POST["chunks"][$key];
-                                        else
-                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
-                                        ?>
-                                        <div class="vnote">
-                                            <?php foreach($verses as $verse => $text): ?>
-                                                <div class="verse_block">
-                                                    <span class="verse_number_l2"><?php echo $verse?></span>
-                                                    <textarea name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
-                                                              class="peer_verse_ta textarea"
-                                                              data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></textarea>
-                                                </div>
+                                    <div class="flex_container">
+                                        <div class="chunk_verses flex_left" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                            <?php $verses = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]; ?>
+                                            <?php foreach ($verses as $verse => $text): ?>
+                                                <p>
+                                                    <strong class="<?php echo $data["event"][0]->sLangDir ?>">
+                                                        <sup><?php echo $verse; ?></sup>
+                                                    </strong>
+                                                    <span class="orig_text" data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></span>
+                                                </p>
                                             <?php endforeach; ?>
-
+                                        </div>
+                                        <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                            <?php
+                                            if(!empty($_POST["chunks"][$key]))
+                                                $verses = $_POST["chunks"][$key];
+                                            else
+                                                $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
+                                            ?>
+                                            <div class="vnote">
+                                                <?php foreach($verses as $verse => $text): ?>
+                                                    <div class="verse_block">
+                                                        <span class="verse_number_l2"><?php echo $verse?></span>
+                                                        <textarea name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
+                                                                  class="peer_verse_ta textarea"
+                                                                  data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></textarea>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                        <div class="flex_right">
                                             <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                            <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                            <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                                 <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                             </div>
-                                            <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                            <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
                                             <div class="comments">
                                                 <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
@@ -92,11 +95,10 @@ use Helpers\Constants\EventMembers;
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
                                             </div>
-                                            <div class="clear"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="chunk_divider col-sm-12"></div>
+                                <div class="chunk_divider"></div>
                             <?php endforeach; ?>
                         </div>
                     </div>

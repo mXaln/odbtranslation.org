@@ -53,68 +53,70 @@ $parsedown = new Parsedown();
                                 </label>
                             </div>
                             <?php endif; ?>
-                            <div class="scripture_l3">
-                                <?php if(!empty($data["ulb_translation"]["l3"])): ?>
-                                    <?php foreach(array_values($chunk) as $verse): ?>
-                                        <?php if($verse <= 0) continue; ?>
-                                        <?php echo isset($data["ulb_translation"]["l3"][$verse])
-                                            ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l3"][$verse]."</span>" : ""; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="scripture_l2">
-                                <?php if(!empty($data["ulb_translation"]["l2"])): ?>
-                                    <?php foreach(array_values($chunk) as $verse): ?>
-                                        <?php if($verse <= 0) continue; ?>
-                                        <?php echo isset($data["ulb_translation"]["l2"][$verse])
-                                            ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l2"][$verse]."</span>" : ""; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="scripture_compare">
-                                <?php if(!empty($data["ulb_translation"]["l3"])): ?>
-                                    <?php foreach(array_values($chunk) as $verse): ?>
-                                        <?php if($verse <= 0) continue; ?>
-                                        <?php echo isset($data["ulb_translation"]["l3"][$verse])
-                                            ? $verse . ". <span data-verse=\"$verse\"></span>" : ""; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="vnote l3 font_<?php echo $data["event"][0]->targetLang ?>"
-                                 dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                <?php
-                                $text = empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]) ?
-                                    $data["translation"][$chunkNo][EventMembers::CHECKER]["verses"] :
-                                    $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
-                                $text = $parsedown->text($text);
-                                $text = preg_replace('/( title=".*")/', '', $text);
-                                echo $text;
-                                ?>
-
-                                <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
-                                <div class="comments_number tncomml3 <?php echo $hasComments ? "hasComment" : "" ?>">
-                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
-                                </div>
-                                <img class="editComment tncomml3" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                            <?php if($comment->memberID == Session::get("memberID")
-                                                && $comment->level == 3): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments">
-                                                    <?php echo
-                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                        - L".$comment->level.":</span> 
-                                                                    ".$comment->text; ?>
-                                                </div>
-                                            <?php endif; ?>
+                            <div class="flex_container">
+                                <div class="scripture_l3 flex_left">
+                                    <?php if(!empty($data["ulb_translation"]["l3"])): ?>
+                                        <?php foreach(array_values($chunk) as $verse): ?>
+                                            <?php if($verse <= 0) continue; ?>
+                                            <?php echo isset($data["ulb_translation"]["l3"][$verse])
+                                                ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l3"][$verse]."</span>" : ""; ?>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                                <div class="clear"></div>
+                                <div class="scripture_l2 flex_left">
+                                    <?php if(!empty($data["ulb_translation"]["l2"])): ?>
+                                        <?php foreach(array_values($chunk) as $verse): ?>
+                                            <?php if($verse <= 0) continue; ?>
+                                            <?php echo isset($data["ulb_translation"]["l2"][$verse])
+                                                ? $verse . ". <span data-verse=\"$verse\">" . $data["ulb_translation"]["l2"][$verse]."</span>" : ""; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="scripture_compare flex_left">
+                                    <?php if(!empty($data["ulb_translation"]["l3"])): ?>
+                                        <?php foreach(array_values($chunk) as $verse): ?>
+                                            <?php if($verse <= 0) continue; ?>
+                                            <?php echo isset($data["ulb_translation"]["l3"][$verse])
+                                                ? $verse . ". <span data-verse=\"$verse\"></span>" : ""; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="vnote l3 flex_middle font_<?php echo $data["event"][0]->targetLang ?>"
+                                     dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                    <?php
+                                    $text = empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]) ?
+                                        $data["translation"][$chunkNo][EventMembers::CHECKER]["verses"] :
+                                        $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
+                                    $text = $parsedown->text($text);
+                                    $text = preg_replace('/( title=".*")/', '', $text);
+                                    echo $text;
+                                    ?>
+                                </div>
+                                <div class="flex_right">
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number tncomml3 flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
+                                    </div>
+                                    <img class="editComment tncomml3 flex_commn_img" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                                <?php if($comment->memberID == Session::get("memberID")
+                                                    && $comment->level == 3): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                                        - L".$comment->level.":</span> 
+                                                                    ".$comment->text; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     <?php endforeach; ?>

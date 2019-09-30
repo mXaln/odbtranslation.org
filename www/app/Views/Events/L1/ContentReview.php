@@ -44,19 +44,22 @@ if(isset($data["error"])) return;
                                         : $data["chunks"][$key][0])
                                     : ""?></div>
 
-                            <div class="chunk_verse editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                <div class="vnote">
-                                    <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
-                                    <textarea name="chunks[]" class="peer_verse_ta textarea"><?php
-                                        echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
-                                    ?></textarea>
-
+                            <div class="flex_container">
+                                <div class="chunk_verse editor_area flex_middle" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                    <div class="vnote">
+                                        <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
+                                        <textarea name="chunks[]" class="peer_verse_ta textarea"><?php
+                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
+                                            ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="flex_right">
                                     <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                    <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                         <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                     </div>
 
-                                    <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>"/>
+                                    <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>"/>
 
                                     <div class="comments">
                                         <?php if($hasComments): ?>
@@ -74,12 +77,9 @@ if(isset($data["error"])) return;
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="clear"></div>
                                 </div>
                             </div>
-
-                            <div class="chunk_divider col-sm-12"></div>
-                            <div class="clear"></div>
+                            <div class="chunk_divider"></div>
                         <?php endforeach; ?>
                     </div>
                 </div>
