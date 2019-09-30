@@ -5281,3 +5281,25 @@ button.add_verse_ta {
     left: 50px;
     top: 1px;
 }
+
+.flex_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex_left {
+    flex: 1;
+    margin-right: 15px;
+}
+
+.flex_middle {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.flex_right {
+}
+
+.flex_commn_number, .flex_commn_img {
+    position: initial;
+}

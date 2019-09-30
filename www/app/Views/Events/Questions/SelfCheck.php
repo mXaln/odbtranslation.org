@@ -40,41 +40,43 @@ if(isset($data["error"])) return;
                                         <?php echo __("verse_number", $verse) ?>
                                     </div>
                                 </div>
-                                <div class="col-md-6" dir="<?php echo $data["event"][0]->resLangDir ?>">
-                                    <div class="note_content">
-                                        <?php if (isset($data["questions"][$verse])): ?>
-                                            <?php foreach ($data["questions"][$verse] as $question): ?>
-                                                <?php echo $question ?>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                <div class="flex_container">
+                                    <div class="flex_left" dir="<?php echo $data["event"][0]->resLangDir ?>">
+                                        <div class="note_content">
+                                            <?php if (isset($data["questions"][$verse])): ?>
+                                                <?php foreach ($data["questions"][$verse] as $question): ?>
+                                                    <?php echo $question ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
-                                    dir="<?php echo $data["event"][0]->tLangDir ?>"
-                                    data-chunkno="<?php echo $chunkNo ?>">
-                                    <?php
-                                    $parsedown = new Parsedown();
-                                    $text = isset($data["translation"][$chunkNo])
-                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
-                                        : "";
-                                    $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
-                                        ? $_POST["chunks"][$chunkNo]
-                                        : $text;
-                                    ?>
-                                    <textarea
-                                        name="chunks[<?php echo $chunkNo ?>]"
-                                        class="add_notes_editor"><?php echo $text ?></textarea>
-
-                                    <img class="editComment tncomm" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                    <div class="comments">
-                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                            <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                    <div class="flex_middle notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                                         dir="<?php echo $data["event"][0]->tLangDir ?>"
+                                         data-chunkno="<?php echo $chunkNo ?>">
+                                        <?php
+                                        $parsedown = new Parsedown();
+                                        $text = isset($data["translation"][$chunkNo])
+                                            ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
+                                            : "";
+                                        $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
+                                            ? $_POST["chunks"][$chunkNo]
+                                            : $text;
+                                        ?>
+                                        <textarea
+                                                name="chunks[<?php echo $chunkNo ?>]"
+                                                class="add_notes_editor"><?php echo $text ?></textarea>
                                     </div>
-                                    <div class="clear"></div>
+                                    <div class="flex_right">
+                                        <img class="editComment tncomm flex_commn_img" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+
+                                        <div class="comments">
+                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                                <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>

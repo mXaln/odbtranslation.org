@@ -39,40 +39,43 @@ if(isset($data["error"])) return;
                     <div class="col-sm-12">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
                             <div class="row chunk_block">
-                                <div class="chunk_verses col-sm-6" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                    <?php $firstVerse = 0; ?>
-                                    <?php foreach ($chunk as $verse): ?>
-                                        <?php
-                                        // process combined verses
-                                        if (!isset($data["text"][$verse]))
-                                        {
-                                            if($firstVerse == 0)
+                                <div class="flex_container">
+                                    <div class="chunk_verses flex_left" style="padding: 0 15px 0 0;" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                        <?php $firstVerse = 0; ?>
+                                        <?php foreach ($chunk as $verse): ?>
+                                            <?php
+                                            // process combined verses
+                                            if (!isset($data["text"][$verse]))
                                             {
-                                                $firstVerse = $verse;
-                                                continue;
-                                            }
-                                            $combinedVerse = $firstVerse . "-" . $verse;
+                                                if($firstVerse == 0)
+                                                {
+                                                    $firstVerse = $verse;
+                                                    continue;
+                                                }
+                                                $combinedVerse = $firstVerse . "-" . $verse;
 
-                                            if(!isset($data["text"][$combinedVerse]))
-                                                continue;
-                                            $verse = $combinedVerse;
-                                        }
-                                        ?>
+                                                if(!isset($data["text"][$combinedVerse]))
+                                                    continue;
+                                                $verse = $combinedVerse;
+                                            }
+                                            ?>
                                         <strong class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong><?php echo $data["text"][$verse]; ?>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="col-sm-6 editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
-                                    <div class="vnote">
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <div class="flex_middle editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                        <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
+                                        <div class="vnote">
                                         <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea"><?php
                                             echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
-                                        ?></textarea>
-
+                                            ?></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="flex_right">
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                        <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                             <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                         </div>
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
 
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
@@ -90,11 +93,10 @@ if(isset($data["error"])) return;
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>
-                                        <div class="clear"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="chunk_divider col-sm-12"></div>
+                            <div class="chunk_divider"></div>
                         <?php endforeach; ?>
                     </div>
                 </div>
