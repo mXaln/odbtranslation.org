@@ -11870,39 +11870,79 @@ class EventsController extends Controller
             }
             elseif($level == "l2continue")
             {
-                $event = $this->_model->getMemberEventsForCheckerL2(
-                    Session::get("memberID"),
-                    $eventID,
-                    $post["memberID"],
-                    $post["chapter"]
-                );
+                if(isset($post["memberID"]) && isset($post["chapter"]))
+                {
+                    $event = $this->_model->getMemberEventsForCheckerL2(
+                        Session::get("memberID"),
+                        $eventID,
+                        $post["memberID"],
+                        $post["chapter"]
+                    );
+                }
+                else
+                {
+                    $response["errorType"] = "error";
+                    $response["error"] = "POST data incorrect: memberID, chapter";
+                    echo json_encode($response);
+                    exit;
+                }
             }
             elseif ($level == "sunContinue")
             {
-                $event = $this->_model->getMemberEventsForSun(
-                    Session::get("memberID"),
-                    $eventID,
-                    $post["memberID"],
-                    $post["chapter"]
-                );
+                if(isset($post["memberID"]) && isset($post["chapter"]))
+                {
+                    $event = $this->_model->getMemberEventsForSun(
+                        Session::get("memberID"),
+                        $eventID,
+                        $post["memberID"],
+                        $post["chapter"]
+                    );
+                }
+                else
+                {
+                    $response["errorType"] = "error";
+                    $response["error"] = "POST data incorrect: memberID, chapter";
+                    echo json_encode($response);
+                    exit;
+                }
             }
             elseif ($level == "tnContinue")
             {
-                $event = $this->_model->getMemberEventsForNotes(
-                    Session::get("memberID"),
-                    $eventID,
-                    $post["memberID"],
-                    $post["chapter"]
-                );
+                if(isset($post["memberID"]) && isset($post["chapter"]))
+                {
+                    $event = $this->_model->getMemberEventsForNotes(
+                        Session::get("memberID"),
+                        $eventID,
+                        $post["memberID"],
+                        $post["chapter"]
+                    );
+                }
+                else
+                {
+                    $response["errorType"] = "error";
+                    $response["error"] = "POST data incorrect: memberID, chapter";
+                    echo json_encode($response);
+                    exit;
+                }
             }
             elseif (in_array($level, ["tqContinue", "twContinue"]))
             {
-                $event = $this->_model->getCheckerEventsForQuestionsWords(
-                    Session::get("memberID"),
-                    $eventID,
-                    $post["memberID"],
-                    $post["chapter"]
-                );
+                if(isset($post["memberID"]) && isset($post["chapter"]))
+                {
+                    $event = $this->_model->getCheckerEventsForQuestionsWords(
+                        Session::get("memberID"),
+                        $eventID,
+                        $post["memberID"],
+                        $post["chapter"]
+                    );
+                }
+                else
+                {
+                    $response["errorType"] = "error";
+                    $response["error"] = "POST data incorrect: memberID, chapter";
+                    echo json_encode($response);
+                    exit;
+                }
             }
 
             if(!empty($event))
@@ -11917,7 +11957,7 @@ class EventsController extends Controller
                         if($event[0]->step == EventSteps::SYMBOL_DRAFT)
                             $post["draft"] = $post["symbols"];
 
-                        if(trim(strip_tags($post["draft"])) != "") {
+                        if(isset($post["draft"]) && trim(strip_tags($post["draft"])) != "") {
                             $chunks = json_decode($event[0]->chunks, true);
                             $chunk = $chunks[$event[0]->currentChunk];
 
@@ -12063,7 +12103,7 @@ class EventsController extends Controller
                     case EventSteps::KEYWORD_CHECK:
                     case EventSteps::CONTENT_REVIEW:
                     case EventSteps::THEO_CHECK:
-                        if(is_array($post["chunks"]) && !empty($post["chunks"]))
+                        if(isset($post["chunks"]) && is_array($post["chunks"]) && !empty($post["chunks"]))
                         {
                             if($event[0]->step == EventSteps::PEER_REVIEW
                                 || $event[0]->step == EventSteps::KEYWORD_CHECK 
@@ -12239,7 +12279,7 @@ class EventsController extends Controller
                     case EventCheckSteps::SND_CHECK:
                     case EventCheckSteps::PEER_REVIEW_L2:
                     case EventCheckSteps::PEER_EDIT_L3:
-                        if(is_array($post["chunks"]) && !empty($post["chunks"]))
+                        if(isset($post["chunks"]) && is_array($post["chunks"]) && !empty($post["chunks"]))
                         {
                             if($event[0]->step == EventCheckSteps::PEER_REVIEW_L2)
                             {
