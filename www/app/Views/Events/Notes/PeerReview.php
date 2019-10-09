@@ -20,6 +20,7 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <?php echo __("step_num", ["step_number" => 5]) . ": " . __("peer-review_tn")?>
+            <div class="action_type type_checking"><?php echo __("type_checking1"); ?></div>
         </div>
     </div>
 

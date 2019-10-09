@@ -442,6 +442,8 @@ return array (
     "noscript_message" => "Javascript est désactivé. Javascript est requis pour le fonctionnement correcte de v-mast.",
     "type_translation" => "Mode Traduction",
     "type_checking" => "Mode Vérification",
+    "type_checking1" => "Checker 1 Mode",
+    "type_checking2" => "Checker 2 Mode",
     "clear_cache" => "Mettre à jour le cache",
     "update_cache_all" => "Mettre à jour le cache (tous les livres)",
     "clear_cache_info" => "Mettre à jour le texte source dans le cache",

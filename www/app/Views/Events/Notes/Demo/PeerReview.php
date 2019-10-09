@@ -14,6 +14,7 @@
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("tn").")" ?></div>
             <div><?php echo __("step_num", ["step_number" => 5]) . ": " . __("peer-review_tn")?></div>
+            <div class="action_type type_checking"><?php echo __("type_checking1"); ?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
