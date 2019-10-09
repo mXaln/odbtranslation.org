@@ -446,6 +446,8 @@ return array (
     "noscript_message" => "Javascript выключен! Пожалуйста включите его, чтобы задействовать все функции v-mast.",
     "type_translation" => "Режим перевода",
     "type_checking" => "Режим проверки",
+    "type_checking1" => "Режим проверяющего 1",
+    "type_checking2" => "Режим проверяющего 2",
     "clear_cache" => "Обновить кэш",
     "update_cache_all" => "Обновить кэш (все книги)",
     "clear_cache_info" => "Обновить исходный текст в кэше.",

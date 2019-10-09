@@ -46,30 +46,32 @@ if(isset($data["error"])) return;
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="<?php echo $data["event"][0]->resLangDir ?>">
-                                <?php
-                                $source = $data["words"][$chunkNo]["text"];
-                                $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
-                                $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
-                                echo $source
-                                ?>
+                            <div class="flex_container">
+                                <div class="flex_left question_content" dir="<?php echo $data["event"][0]->resLangDir ?>">
+                                    <?php
+                                    $source = $data["words"][$chunkNo]["text"];
+                                    $source = preg_replace("/(title=\"([^\"]+)\")/", "", $source);
+                                    $source = preg_replace("/(href=\"([^\"]+)\")/", "$1 title='$2'", $source);
+                                    echo $source
+                                    ?>
+                                </div>
+                                <div class="flex_middle questions_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                                     dir="<?php echo $data["event"][0]->tLangDir ?>" style="min-height: 100px">
+                                    <?php
+                                    $parsedown = new Parsedown();
+                                    $text = isset($data["translation"][$chunkNo])
+                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
+                                        : "";
+                                    $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
+                                        ? $_POST["chunks"][$chunkNo]
+                                        : $text;
+                                    ?>
+                                    <textarea
+                                            name="chunks[<?php echo $chunkNo ?>]"
+                                            class="add_questions_editor blind_ta draft_question"><?php echo $text ?></textarea>
+                                </div>
                             </div>
-                            <div class="col-md-6 questions_editor font_<?php echo $data["event"][0]->targetLang ?>"
-                                 dir="<?php echo $data["event"][0]->tLangDir ?>" style="min-height: 100px">
-                                <?php
-                                $parsedown = new Parsedown();
-                                $text = isset($data["translation"][$chunkNo])
-                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
-                                    : "";
-                                $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
-                                    ? $_POST["chunks"][$chunkNo]
-                                    : $text;
-                                ?>
-                                <textarea
-                                        name="chunks[<?php echo $chunkNo ?>]"
-                                        class="add_questions_editor blind_ta draft_question"><?php echo $text ?></textarea>
-                            </div>
-                            <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
+                            <div class="chunk_divider" style="margin-top: 10px;"></div>
                         </div>
                         <?php endforeach; ?>
                     </div>

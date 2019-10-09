@@ -448,6 +448,8 @@ return array (
     "noscript_message" => "Javascript tidak hidup! Mohon, hidupkan untuk menggunakan semua fungsi dari v-mast.",
     "type_translation" => "Modus Penerjemahan",
     "type_checking" => "Mode Pengecekan",
+    "type_checking1" => "Checker 1 Mode",
+    "type_checking2" => "Checker 2 Mode",
     "clear_cache" => "Perbarui Cache",
     "update_cache_all" => "Perbarui Cache (all books)",
     "clear_cache_info" => "Perbarui teks sumber dalam cache.",

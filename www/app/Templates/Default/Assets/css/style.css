@@ -1275,7 +1275,7 @@ div.ui-datepicker {
     float: left;
     position: relative;
     padding-top: 40px;
-    width: 900px;
+    width: 100%;
 }
 
 .main_content_title .demo_title {
@@ -1287,13 +1287,14 @@ div.ui-datepicker {
 .action_type {
     position: absolute;
     top: -10px;
-    left: 380px;
+    left: calc(50% - 150px);
     border-radius: 0 0 10px 10px;
     color: #fff;
-    width: 400px;
-    height: 50px;
+    width: 300px;
+    height: 43px;
     text-align: center;
     padding-top: 5px;
+    font-size: 22px;
 }
 
 .action_type.type_translation {

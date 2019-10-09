@@ -442,6 +442,8 @@ return array (
     "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
+    "type_checking1" => "Checker 1 Mode",
+    "type_checking2" => "Checker 2 Mode",
     "clear_cache" => "Update Cache",
     "update_cache_all" => "Update Cache (all books)",
     "clear_cache_info" => "Update source text in cache.",
