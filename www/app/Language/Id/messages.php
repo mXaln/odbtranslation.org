@@ -238,7 +238,6 @@ return array (
     "not_facilitator_error" => "Anda hanya bisa mengirim pesan kepada para fasilitator",
     "facilitator_yourself_error" => "Anda tidak bisa mengirim pesan kepada diri Anda sendiri",
     "delete_warning" => "Ketik nama buku dan klik tombol \"Delete\" lagi untuk menghapus kegiatan",
-    "local_use_restriction" => "Fitur ini tidak tersedia pada server lokal.",
     "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
@@ -1202,6 +1201,7 @@ return array (
     "event_notexist_error" => "Kegiatan tidak ada.",
     "no_source_error" => "Teks terjemahan sumber tidak ada.",
     "not_enough_rights_error" => "Tidak memiliki hak yang cukup untuk tindakan ini!",
+    "not_enough_lang_rights_error" => "Not enough rights to create the source for this language.",
     "event_translating_error" => "Anda tidak dapat memindahkan pasal ini, karena memiliki ayat-ayat yang sudah diterjemahkan.",
     "chapter_aready_assigned_error" => "Pasal telah ditugaskan kepada penerjemah yang lain!",
     "chapter_checker_used_error" => "Chapter was checked by this checker!",
@@ -1235,6 +1235,8 @@ return array (
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
     "font_should_be_ttf_format_error" => "Only TTF format is accepted",
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
+    "local_use_restriction" => "Fitur ini tidak tersedia pada server lokal.",
+    "error_zip_file_required" => "The file should of ZIP format",
 
     // Success messages
     "you_event_finished_success" => "Anda telah menyelesaikan penerjemahan semua pasal Anda.",
@@ -1375,6 +1377,7 @@ return array (
     // Admin Controller
     "admin_tools_title" => "Administrator Tools",
     "update_lang_db" => "Update Languages Database",
+    "update_src_catalog" => "Update Sources",
     "go" => "GO",
     "create_multiple_users" => "Create multiple users",
     "tools_quantity_members" => "Quantity (default: 50)",
@@ -1388,5 +1391,18 @@ return array (
     "tools_news_category" => "Category",
     "select_news_category" => "Select category",
     "tools_news_text" => "News text",
-    "enter_news_text" => "Enter text"
+    "enter_news_text" => "Enter text",
+    "create_source" => "Create Source Record",
+    "tools_src_language" => "Source Language",
+    "select_src_language" => "Select source language",
+    "tools_src_type" => "Source Type",
+    "select_src_type" => "Select source type",
+    "add_custom_src" => "Didn't find?",
+    "tools_src_slug" => "Source Slug",
+    "enter_src_slug" => "Enter source slug",
+    "tools_src_name" => "Source Name",
+    "enter_src_name" => "Enter source name",
+    "upload_source" => "Upload Source",
+    "tools_src" => "Source Type",
+    "select_src" => "Select source type",
 );

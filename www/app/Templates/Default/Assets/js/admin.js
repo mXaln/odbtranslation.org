@@ -12,7 +12,8 @@ $(function () {
         $("#subGwLangs, #targetLangs, "
             + "#sourceTranslation, #superadmins, "
             + "#sourceTranslationNotes, "
-            + "#gwLang, #projectMode")
+            + "#gwLang, #projectMode, "
+            + "#src_language, #src_type, #src")
             .chosen();
 
     // Open gateway project form
@@ -1392,6 +1393,34 @@ $(function () {
             });
     });
 
+    // Update source catalog
+    $(".update_catalog button").click(function () {
+        $.ajax({
+            url: "/admin/rpc/update_catalog",
+            method: "post",
+            dataType: "json",
+            beforeSend: function() {
+                $(".update_catalog img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup("Updated!");
+                }
+                else
+                {
+                    if(data.error != undefined)
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".update_catalog img").hide();
+            });
+    });
+
     // Clear all cache
     $(".clear_cache button").click(function () {
         $.ajax({
@@ -1804,6 +1833,112 @@ $(function () {
     $(".contribs_download_csv").on("click", function() {
         var csv = exportTableToCSV($(".contributors_content")[0], "\t");
         downloadCSV(csv, "contributors.csv");
+    });
+
+    $(".add_custom_src").click(function () {
+        $(".custom_src_type").toggle(200);
+    });
+
+    $(".custom_src_type button").on("click", function () {
+        var srcSlug = $(".custom_src_type #src_slug").val();
+        var srcName = $(".custom_src_type #src_name").val();
+
+        if(srcSlug.trim() != "" && srcName.trim() != "") {
+            if(!/\|/g.test(srcSlug) && !/\|/g.test(srcName)) {
+                var newOption = '<option value="'+srcSlug+'|'+srcName+'" selected>' +
+                    '['+srcSlug+'] ' + srcName +
+                    '</option>';
+                $("#src_type").append(newOption);
+                $("#src_type").val(srcSlug + "|" + srcName).trigger("chosen:updated");
+
+                $(".custom_src_type #src_slug").val("");
+                $(".custom_src_type #src_name").val("")
+                $(".custom_src_type").slideUp(200);
+            } else {
+                renderPopup("Please don't use '|' character");
+            }
+        }
+    });
+
+    $(".src_create").click(function () {
+        var srcLang = $("#src_language").val();
+        var srcType = $("#src_type").val();
+
+        if(srcLang.trim() != "" && srcType.trim() != "") {
+            $.ajax({
+                url: "/admin/rpc/create_custom_src",
+                method: "post",
+                dataType: "json",
+                data: {
+                    lang: srcLang,
+                    type: srcType
+                },
+                beforeSend: function() {
+                    $(".src_loader").show();
+                }
+            })
+                .done(function(data) {
+                    if(data.success)
+                    {
+                        if(data.message != undefined) {
+                            renderPopup(data.message, function () {
+                                location.reload();
+                            });
+                        } else {
+                            location.reload();
+                        }
+                    }
+                    else
+                    {
+                        if(data.error != undefined) {
+                            renderPopup(data.error);
+                        }
+                    }
+                })
+                .always(function() {
+                    $(".src_loader").hide();
+                });
+        }
+    });
+
+    // Upload source
+    $("button.src_upload").click(function (e) {
+        var formData = new FormData();
+        formData.append("file", $('#src_upload')[0].files[0]);
+        formData.append("src", $("#src").val());
+
+        $.ajax({
+            url: "/admin/rpc/upload_source",
+            method: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            beforeSend: function() {
+                $(".source_upload img").show();
+            }
+        })
+            .done(function(data) {
+                if(data.success)
+                {
+                    renderPopup(data.message);
+                    $("#src").val("").trigger("chosen:updated");
+                    $('#src_upload').val("");
+                }
+                else
+                {
+                    if(data.error != undefined)
+                    {
+                        renderPopup(data.error);
+                    }
+                }
+            })
+            .always(function() {
+                $(".source_upload img").hide();
+            });
+
+        e.preventDefault();
+        return false;
     });
 });
 

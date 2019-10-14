@@ -239,10 +239,10 @@ return array (
     "not_facilitator_error" => "Sa mga tiggiya lang ka pwede makapadala og mensahe",
     "facilitator_yourself_error" => "Dili ka makapadala og mensahe sa imong kaugalingon",
     "delete_warning" => "isulat ang ngalan sa libro ug pindota \"Papas\" button pag-usab aron mapapas ang nabuhat na",
-    "local_use_restriction" => "This feature is not available on local server.",
     "font_should_be_ttf_format_error" => "Only TTF format is accepted",
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
-    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
+    "local_use_restriction" => "This feature is not available on local server.",
+    "error_zip_file_required" => "The file should of ZIP format",
 
     // ------------ Events Controller ------------- //
 
@@ -1201,6 +1201,7 @@ return array (
     "event_notexist_error" => "Wala nahimo ang trabaho",
     "no_source_error" => "Wala nakita ang gigikanan nga hinubad",
     "not_enough_rights_error" => "Walay igong katungod sa pagbuhat niini",
+    "not_enough_lang_rights_error" => "Not enough rights to create the source for this language.",
     "event_translating_error" => "Dili nimo mahimong walaon kini nga kapitulo tungod kay aduna kini hinubad nga mga bersikulo",
     "chapter_aready_assigned_error" => "Lahi nga tighubad ang nanag-iya niini nga kapitulo",
     "chapter_checker_used_error" => "Chapter was checked by this checker!",
@@ -1232,6 +1233,7 @@ return array (
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
+    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // Success messages
     "you_event_finished_success" => "Wala pa nimo nahuman og hubad ang tanan nimo nga kapitulo.",
@@ -1372,6 +1374,7 @@ return array (
     // Admin Controller
     "admin_tools_title" => "Administrator Tools",
     "update_lang_db" => "Update Languages Database",
+    "update_src_catalog" => "Update Sources",
     "go" => "GO",
     "create_multiple_users" => "Create multiple users",
     "tools_quantity_members" => "Quantity (default: 50)",
@@ -1385,5 +1388,18 @@ return array (
     "tools_news_category" => "Category",
     "select_news_category" => "Select category",
     "tools_news_text" => "News text",
-    "enter_news_text" => "Enter text"
+    "enter_news_text" => "Enter text",
+    "create_source" => "Create Source Record",
+    "tools_src_language" => "Source Language",
+    "select_src_language" => "Select source language",
+    "tools_src_type" => "Source Type",
+    "select_src_type" => "Select source type",
+    "add_custom_src" => "Didn't find?",
+    "tools_src_slug" => "Source Slug",
+    "enter_src_slug" => "Enter source slug",
+    "tools_src_name" => "Source Name",
+    "enter_src_name" => "Enter source name",
+    "upload_source" => "Upload Source",
+    "tools_src" => "Source Type",
+    "select_src" => "Select source type",
 );
