@@ -235,7 +235,6 @@ return array (
     "not_facilitator_error" => "Vous ne pouvez envoyer des messages qu’aux facilitateurs",
     "facilitator_yourself_error" => "Vous ne pouver pas envoyer des messages à vous mêmes",
     "delete_warning" => "Rédigez le nom du livre et cliquez sur «supprimer» pour supprimer l’évènement",
-    "local_use_restriction" => "Cette fonctionnalité n’est pas disponible sur le serveur local",
     "lang_input_not_allowed" => "La mode de saisie des écritures n’est pas autorisé que dans les évènements ULB niveau 1",
 
     // ------------ Events Controller ------------- //
@@ -1656,6 +1655,7 @@ return array (
     "event_notexist_error" => "L’évènement n’existe pas.",
     "no_source_error" => "Impossible de trouver le texte source.",
     "not_enough_rights_error" => "Pas de permission pour faire cette action!",
+    "not_enough_lang_rights_error" => "Not enough rights to create the source for this language.",
     "event_translating_error" => "Vous ne pouvez pas enlever ce chapitre, parce qu’il contient des versets traduits.",
     "chapter_aready_assigned_error" => "Le chapitre est assigné à un autre traducteur!",
     "chapter_checker_used_error" => "Le chapitre a été vérifié par ce vérificateur!",
@@ -1684,6 +1684,8 @@ return array (
     "translator_finished_chapter" => "Le traducteur a terminé de travailler sur ce chapitre, et ne peut pas être enlevé.",
     "font_should_be_ttf_format_error" => "Only TTF format is accepted",
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
+    "local_use_restriction" => "Cette fonctionnalité n’est pas disponible sur le serveur local",
+    "error_zip_file_required" => "The file should of ZIP format",
 
     // Success messages
     "you_event_finished_success" => "Vous avez terminé de traduire tous vos chapitres.",
@@ -1825,6 +1827,7 @@ return array (
     // Admin Controller
     "admin_tools_title" => "Outils d’Aministration",
     "update_lang_db" => "Mettre à jour le base de données des langues",
+    "update_src_catalog" => "Update Sources",
     "go" => "GO",
     "create_multiple_users" => "Créer multiple utilisateurs",
     "tools_quantity_members" => "Quantité (par défaut: 50)",
@@ -1839,4 +1842,17 @@ return array (
     "select_news_category" => "Choisir une catégorie",
     "tools_news_text" => "Texte",
     "enter_news_text" => "Saisir le texte",
+    "create_source" => "Create Source Record",
+    "tools_src_language" => "Source Language",
+    "select_src_language" => "Select source language",
+    "tools_src_type" => "Source Type",
+    "select_src_type" => "Select source type",
+    "add_custom_src" => "Didn't find?",
+    "tools_src_slug" => "Source Slug",
+    "enter_src_slug" => "Enter source slug",
+    "tools_src_name" => "Source Name",
+    "enter_src_name" => "Enter source name",
+    "upload_source" => "Upload Source",
+    "tools_src" => "Source Type",
+    "select_src" => "Select source type",
 );
