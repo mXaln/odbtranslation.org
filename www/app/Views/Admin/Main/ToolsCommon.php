@@ -21,6 +21,9 @@
         <div class="tools_left">
             <div class="update_langs">
                 <div class="tools_title"><?php echo __("update_lang_db"); ?></div>
+                <div class="form-group">
+                    <label><input class="download_again" type="checkbox"> Download again</label>
+                </div>
                 <button class="btn btn-warning"><?php echo __("go"); ?></button>
                 <img src="<?php echo template_url("img/loader.gif") ?>">
             </div>
@@ -29,6 +32,9 @@
 
             <div class="update_catalog">
                 <div class="tools_title"><?php echo __("update_src_catalog"); ?></div>
+                <div class="form-group">
+                    <label><input class="download_again" type="checkbox"> Download again</label>
+                </div>
                 <button class="btn btn-warning"><?php echo __("go"); ?></button>
                 <img src="<?php echo template_url("img/loader.gif") ?>">
             </div>
