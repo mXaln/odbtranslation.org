@@ -13,6 +13,7 @@ use Database\Model;
 use Database\QueryException;
 use DB;
 use File;
+use Filesystem\FileNotFoundException;
 use Helpers\Arrays;
 use Helpers\Data;
 use Helpers\Parsedown;
@@ -338,74 +339,92 @@ class ApiModel extends Model
     }
 
 
-    public function insertLangsFromTD()
+    public function insertLangsFromTD($reDownload)
     {
         $response = ["success" => false];
 
         $langs = [];
-        $langsFinal = [];
-        $totalPages = 1;
 
-        for($i=0; $i < $totalPages; $i++)
-        {
-            $url = "http://td.unfoldingword.org/uw/ajax/languages/?draw=1&order[0][column]=0&".
-                "order[0][dir]=asc&start=".($i*500)."&length=500&search[value]=0";
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            $cat = curl_exec($ch);
-            curl_close($ch);
-            $arr = json_decode($cat);
-
-            if($arr != null)
+        try {
+            if($reDownload)
             {
-                if($i == 0)
+                $totalPages = 1;
+                for($i=0; $i < $totalPages; $i++)
                 {
-                    $totalPages = ceil($arr->recordsTotal/500);
+                    $url = "http://td.unfoldingword.org/uw/ajax/languages/?draw=1&order[0][column]=0&".
+                        "order[0][dir]=asc&start=".($i*500)."&length=500&search[value]=0";
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    $cat = curl_exec($ch);
+                    curl_close($ch);
+                    $arr = json_decode($cat);
+
+                    if($arr != null)
+                    {
+                        if($i == 0)
+                        {
+                            $totalPages = ceil($arr->recordsTotal/500);
+                        }
+
+                        foreach ($arr->data as $lang) {
+                            preg_match('/>(.+)<\//', $lang[0], $matches);
+                            $lang[0] = $matches[1];
+                            $langs[$matches[1]] = $lang[6];
+                        }
+                    }
+
                 }
 
-                foreach ($arr->data as $lang) {
-                    preg_match('/>(.+)<\//', $lang[0], $matches);
-                    $lang[0] = $matches[1];
-                    $langs[$matches[1]] = $lang[6];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://td.unfoldingword.org/exports/langnames.json");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $languages = curl_exec($ch);
+
+                if(curl_errno($ch)){
+                    throw new \Exception(curl_error($ch));
                 }
+
+                curl_close($ch);
+
+                File::put("../app/Templates/Default/Assets/source/langnames.json", $languages);
+            }
+            else
+            {
+                $languages = File::get("../app/Templates/Default/Assets/source/langnames.json");
             }
 
+            $languages = json_decode($languages);
+        } catch (FileNotFoundException $e) {
+            $response["error"] = "File langnames.json not found";
+        } catch (\Exception $e) {
+            $response["error"] = "Couldn't download the file langnames.json";
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://td.unfoldingword.org/exports/langnames.json");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $languages = curl_exec($ch);
-        curl_close($ch);
-
-        File::put("../app/Templates/Default/Assets/source/langnames.json", $languages);
-
-        $languages = json_decode($languages);
+        if(isset($response["error"]))
+            return $response;
 
         foreach ($languages as $language) {
             $tmp = [];
             $tmp["langID"] = $language->lc;
             $tmp["langName"] = $language->ln;
             $tmp["angName"] = $language->ang;
+            $tmp["direction"] = $language->ld;
             $tmp["isGW"] = $language->gw;
             $tmp["gwLang"] = $language->gw ?
                 $language->ln :
                 (isset($langs[$language->lc]) && $langs[$language->lc] ? $langs[$language->lc] : "English");
-            $tmp["direction"] = $language->ld;
 
-            $langsFinal[] = $tmp;
+            try {
+                $this->db->table("languages")
+                    ->insert($tmp);
+            } catch (QueryException $e) {
+
+            }
         }
-
-        if(!empty($langsFinal))
-            $this->db->table("languages")
-                ->delete();
-
-        $this->db->table("languages")
-            ->insert($langsFinal);
 
         $response["success"] = true;
 
@@ -413,7 +432,12 @@ class ApiModel extends Model
     }
 
 
-    public function insertSourcesFromCatalog() {
+    public function insertSourcesFromCatalog($reDownload) {
+        if($reDownload)
+        {
+            File::delete("../app/Templates/Default/Assets/source/catalog.json");
+        }
+
         $sourceLangs = $this->getSourceTranslations();
 
         foreach ($sourceLangs as $lang) {
@@ -530,24 +554,6 @@ class ApiModel extends Model
                 }
             }
         }
-
-        // Add some sources manually, because these are not in catalog
-        /*$sls[] = [
-            "langID" => "fa",
-            "langName" => "فارسی",
-            "bookProjects" => [[
-                "resName" => "Unlocked Literal Bible",
-                "resType" => "ulb"
-            ]]
-        ];
-        $sls[] = [
-            "langID" => "pmy",
-            "langName" => "Papuan Malay",
-            "bookProjects" => [[
-                "resName" => "Unlocked Literal Bible",
-                "resType" => "ulb"
-            ]]
-        ];*/
 
         return $sls;
     }

@@ -2795,7 +2795,9 @@ class AdminController extends Controller {
             exit;
         }
 
-        $result = $this->_apiModel->insertLangsFromTD();
+        $reDownload = Input::get("download", false);
+
+        $result = $this->_apiModel->insertLangsFromTD($reDownload);
 
         echo json_encode($result);
     }
@@ -2818,7 +2820,9 @@ class AdminController extends Controller {
             exit;
         }
 
-        $this->_apiModel->insertSourcesFromCatalog();
+        $reDownload = Input::get("download", false);
+
+        $this->_apiModel->insertSourcesFromCatalog($reDownload);
 
         $result["success"] = true;
         echo json_encode($result);

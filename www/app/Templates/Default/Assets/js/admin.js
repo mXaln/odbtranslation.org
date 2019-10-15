@@ -1367,9 +1367,11 @@ $(function () {
 
     // Update languages database
     $(".update_langs button").click(function () {
+        var downloadAgain = $(".update_langs .download_again").is(":checked");
         $.ajax({
             url: "/admin/rpc/update_languages",
             method: "post",
+            data: { download: downloadAgain ? 1 : 0 },
             dataType: "json",
             beforeSend: function() {
                 $(".update_langs img").show();
@@ -1395,9 +1397,11 @@ $(function () {
 
     // Update source catalog
     $(".update_catalog button").click(function () {
+        var downloadAgain = $(".update_catalog .download_again").is(":checked");
         $.ajax({
             url: "/admin/rpc/update_catalog",
             method: "post",
+            data: { download: downloadAgain ? 1 : 0 },
             dataType: "json",
             beforeSend: function() {
                 $(".update_catalog img").show();
