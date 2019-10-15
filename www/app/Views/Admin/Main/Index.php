@@ -177,7 +177,8 @@
                 
                 <div class="form-group">
                     <label for="projectMode"><?php echo __('project_mode'); ?></label>
-                    <select name="projectMode" id="projectMode" class="form-control" data-placeholder="<?php echo __('choose_project_mode'); ?>">
+                    <select name="projectMode" id="projectMode" class="form-control"
+                            data-placeholder="<?php echo __('choose_project_mode'); ?>">
                         <option value=""></option>
                         <option value="bible"><?php echo __("bible_mode") ?></option>
                         <option value="tn"><?php echo __("notes_mode") ?></option>
@@ -189,7 +190,8 @@
             
                 <div class="form-group">
                     <label for="subGwLangs"><?php echo __('gw_language'); ?></label>
-                    <select class="form-control" id="subGwLangs" name="subGwLangs" data-placeholder="<?php echo __('choose_gw_lang'); ?>">
+                    <select class="form-control" id="subGwLangs" name="subGwLangs"
+                            data-placeholder="<?php echo __('choose_gw_lang'); ?>">
                         <option value=""></option>
                         <?php foreach ($data["gwProjects"] as $gwLang): ?>
                             <option value="<?php echo $gwLang->langID ."|".$gwLang->gwProjectID ?>">
@@ -204,30 +206,35 @@
 
                 <div class="form-group">
                     <label for="targetLangs"><?php echo __('target_lang'); ?></label>
-                    <select class="form-control" id="targetLangs" name="targetLangs" data-placeholder="<?php echo __('choose_target_lang'); ?>">
+                    <select class="form-control" id="targetLangs" name="targetLangs"
+                            data-placeholder="<?php echo __('choose_target_lang'); ?>">
                         <option value=""></option>
                     </select>
                 </div>
 
                 <div class="form-group sourceTranslation">
                     <label for="sourceTranslation"><?php echo __('book_project'); ?></label>
-                    <select name="sourceTranslation" id="sourceTranslation" class="form-control" data-placeholder="<?php echo __('choose_source_trans'); ?>">
+                    <select name="sourceTranslation" id="sourceTranslation" class="form-control"
+                            data-placeholder="<?php echo __('choose_source_trans'); ?>">
                         <option value=""></option>
-                        <?php foreach ($data["sourceTranslations"] as $sourceTranslation):?>
-                            <?php foreach ($sourceTranslation["bookProjects"] as $project):?>
-                            <option value="<?php echo $project["resType"] . "|" . $sourceTranslation["langID"]; ?>">
-                                <?php echo "[".$sourceTranslation["langID"]."] "
-                                    . $sourceTranslation["langName"] . " - "
-                                    . $project["resName"] . " [".$project["resType"]."]" ?>
+                        <?php foreach ($data["sources"] as $source): ?>
+                            <?php if(in_array($source->slug, ["tn","tq","tw"])) continue; ?>
+                            <option value="<?php echo $source->slug . "|" . $source->langID; ?>">
+                                <?php echo "[".$source->langID."] "
+                                    . $source->langName . " - "
+                                    . $source->name . " [".$source->slug."]" ?>
                             </option>
-                            <?php endforeach; ?>
                         <?php endforeach; ?>
                     </select>
+                    <div class="add_custom_src">
+                        <a href="/admin/tools/source"><?php echo __("add_custom_src") ?></a>
+                    </div>
                 </div>
 
                 <div class="form-group projectType">
                     <label for="projectType"><?php echo __('project_type'); ?></label>
-                    <select name="projectType" id="projectType" class="form-control" data-placeholder="<?php echo __('choose_project_type'); ?>">
+                    <select name="projectType" id="projectType" class="form-control"
+                            data-placeholder="<?php echo __('choose_project_type'); ?>">
                         <option value=""></option>
                         <option value="udb"><?php echo __("udb") ?></option>
                         <option value="ulb"><?php echo __("ulb") ?></option>

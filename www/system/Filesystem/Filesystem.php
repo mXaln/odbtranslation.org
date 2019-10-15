@@ -274,20 +274,29 @@ class Filesystem
      */
     public function allFiles($directory)
     {
-        return iterator_to_array(Finder::create()->files()->in($directory), false);
+        $files = array();
+
+        foreach (Finder::create()->in($directory)->files() as $file) {
+            $files[] = $file;
+        }
+
+        return $files;
+
+        //return iterator_to_array(Finder::create()->in($directory)->files(), false);
     }
 
     /**
      * Get all of the directories within a given directory.
      *
      * @param  string  $directory
+     * @param  string  $depth
      * @return array
      */
-    public function directories($directory)
+    public function directories($directory, $depth = "0")
     {
         $directories = array();
 
-        foreach (Finder::create()->in($directory)->directories()->depth(0) as $dir) {
+        foreach (Finder::create()->in($directory)->directories()->depth($depth) as $dir) {
             $directories[] = $dir->getPathname();
         }
 

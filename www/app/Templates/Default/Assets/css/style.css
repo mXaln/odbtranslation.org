@@ -3888,13 +3888,17 @@ div[class^="member_usname mid"] {
     color: #f00;
 }
 
-.my_tab, .my_tab > a {
+.my_tab, .url_tab, .my_tab > a, .url_tab > a {
     color: #222;
 }
 
-.my_tab.active, .my_tab.active > a {
+.my_tab.active, .url_tab.active, .my_tab.active > a, .url_tab.active > a {
     font-weight: bold;
     color: #4596cc !important;
+}
+
+.url_tab {
+    text-transform: uppercase;
 }
 
 .create_info_tip span {
@@ -4868,20 +4872,6 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
-.tools_left {
-    width: 40%;
-    float: left;
-    padding-left: 20px;
-}
-
-.tools_right {
-    width: 50%;
-    float: right;
-    border-left: 1px solid #ccc;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
 .update_langs, .create_users {
     margin-top: 20px;
 }
@@ -5088,7 +5078,7 @@ button.startEvnt, button.editEvnt {
 }
 
 .questions_editor.locked {
-    background: #fff9e4 url("/templates/default/assets/img/lock.png") no-repeat center/30px;
+    background: #fff9e4 url("/templates/default/assets/img/lock.png") no-repeat 98% 95%/25px;
 }
 
 .buttons_chunk label, .buttons_chunk input {
@@ -5303,4 +5293,36 @@ button.add_verse_ta {
 
 .flex_commn_number, .flex_commn_img {
     position: initial;
+}
+
+.custom_src_type {
+    display: none;
+}
+
+.add_custom_src {
+    margin-top: 5px;
+    text-decoration: underline;
+    color: #0f86fe;
+    text-align: right;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tools_content {
+    display: flex;
+}
+
+.tools_content.shown {
+    display: flex;
+}
+
+.tools_left {
+    flex: 1;
+    padding: 20px;
+}
+
+.tools_right {
+    flex: 1;
+    border-left: 1px solid #ccc;
+    padding: 20px;
 }

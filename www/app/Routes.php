@@ -272,7 +272,11 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
             "projectID" => "[0-9]+"
     ]);
     Router::any("members", "AdminController@members");
-    Router::any("tools", "AdminController@tools");
+    Router::any("tools", "AdminController@toolsCommon");
+    Router::any("tools/vsun", "AdminController@toolsVsun");
+    Router::any("tools/faq", "AdminController@toolsFaq");
+    Router::any("tools/news", "AdminController@toolsNews");
+    Router::any("tools/source", "AdminController@toolsSource");
     Router::any("migrate/chapters", "AdminController@migrateChapters");
     Router::any("migrate/questions_words", "AdminController@migrateQuestionsWords");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
@@ -296,6 +300,7 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/clear_cache", "AdminController@clearCache");
     Router::any("rpc/update_all_cache", "AdminController@updateAllBooksCache");
     Router::any("rpc/update_languages", "AdminController@updateLanguages");
+    Router::any("rpc/update_catalog", "AdminController@updateCatalog");
     Router::any("rpc/clear_all_cache", "AdminController@clearAllCache");
     Router::any("rpc/create_multiple_users", "AdminController@createMultipleUsers");
     Router::any("rpc/delete_sail_word", "AdminController@deleteSailWord");
@@ -306,6 +311,8 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/upload_sun_font", "AdminController@uploadSunFont");
     Router::any("rpc/upload_sun_dict", "AdminController@uploadSunDict");
     Router::any("rpc/upload_image", "AdminController@uploadImage");
+    Router::any("rpc/upload_source", "AdminController@uploadSource");
+    Router::any("rpc/create_custom_src", "AdminController@createCustomSource");
     Router::any("rpc/get_event_progress/{eventID}", "AdminController@getEventProgress")
         ->where([
             "eventID" => "[0-9]+"

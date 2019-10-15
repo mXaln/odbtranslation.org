@@ -10,6 +10,7 @@ namespace App\Models;
 
 use Cache;
 use Database\Model;
+use Database\QueryException;
 use DB;
 use File;
 use Helpers\Arrays;
@@ -17,6 +18,7 @@ use Helpers\Data;
 use Helpers\Parsedown;
 use Helpers\Spyc;
 use Helpers\UsfmParser;
+use Helpers\ZipStream\Exception;
 use ZipArchive;
 use SplFileObject;
 
@@ -411,6 +413,41 @@ class ApiModel extends Model
     }
 
 
+    public function insertSourcesFromCatalog() {
+        $sourceLangs = $this->getSourceTranslations();
+
+        foreach ($sourceLangs as $lang) {
+            foreach ($lang["sources"] as $source) {
+                if(trim($lang["langID"]) == "" || trim($source["slug"]) == "" || trim($source["name"]) == "")
+                    continue;
+
+                try {
+                    $insert = [
+                        "langID" => $lang["langID"],
+                        "slug" => $source["slug"],
+                        "name" => $source["name"],
+                    ];
+                    $this->db->table("sources")
+                        ->insert($insert);
+                } catch(QueryException $e) {
+                    //pr($e->getMessage(),0);
+                }
+            }
+        }
+    }
+
+
+    public function insertSource($lang, $slug, $name) {
+        $insert = [
+            "langID" => $lang,
+            "slug" => $slug,
+            "name" => $name,
+        ];
+        return $this->db->table("sources")
+            ->insert($insert);
+    }
+
+
     public function getFullCatalog()
     {
         $ch = curl_init();
@@ -451,6 +488,68 @@ class ApiModel extends Model
         $catalog = json_decode($catalog);
 
         return $catalog;
+    }
+
+    /**
+     * Get source translations
+     * @return array
+     */
+    public function getSourceTranslations()
+    {
+        $catalog = $this->getCachedFullCatalog();
+        $sls = [];
+
+        foreach ($catalog as $key => $data) {
+            if($key == "languages")
+            {
+                foreach ($data as $lang)
+                {
+                    $tmp = [];
+                    $tmp["langID"] = $lang->identifier;
+                    $tmp["langName"] = $lang->title;
+                    $tmp["sources"] = [];
+
+                    foreach ($lang->resources as $resource) {
+                        if(in_array($resource->identifier, [
+                            "ta",
+                            "obs",
+                            "obs-tn",
+                            "obs-tq"
+                        ])) continue;
+
+                        if(preg_match("/obs/i", $resource->title)) continue;
+
+                        $res = [];
+                        $res["slug"] = $resource->identifier;
+                        $res["name"] = $resource->title;
+                        $tmp["sources"][] = $res;
+                    }
+
+                    if(!empty($tmp["sources"]))
+                        $sls[] = $tmp;
+                }
+            }
+        }
+
+        // Add some sources manually, because these are not in catalog
+        /*$sls[] = [
+            "langID" => "fa",
+            "langName" => "فارسی",
+            "bookProjects" => [[
+                "resName" => "Unlocked Literal Bible",
+                "resType" => "ulb"
+            ]]
+        ];
+        $sls[] = [
+            "langID" => "pmy",
+            "langName" => "Papuan Malay",
+            "bookProjects" => [[
+                "resName" => "Unlocked Literal Bible",
+                "resType" => "ulb"
+            ]]
+        ];*/
+
+        return $sls;
     }
 
 
@@ -598,8 +697,8 @@ class ApiModel extends Model
                 $data = (array)json_decode($md);
                 $md = "";
                 foreach ($data as $q) {
-                    $md .= "# ".$q->title."  \n";
-                    $md .= $q->body."  \n";
+                    $md .= "# ".$q->title."  \n\n";
+                    $md .= $q->body."  \n\n";
                 }
             }
 
@@ -822,8 +921,8 @@ class ApiModel extends Model
                         $data = (array)json_decode($md);
                         $md = "";
                         foreach ($data as $q) {
-                            $md .= "# ".$q->title."  \n";
-                            $md .= $q->body."  \n";
+                            $md .= "# ".$q->title."  \n\n";
+                            $md .= $q->body."  \n\n";
                         }
                     }
 
@@ -1031,8 +1130,8 @@ class ApiModel extends Model
                 $data = (array)json_decode($md);
                 $md = "";
                 foreach ($data as $q) {
-                    $md .= "# ".$q->title."  \n";
-                    $md .= $q->body."  \n";
+                    $md .= "# ".$q->title."  \n\n";
+                    $md .= $q->body."  \n\n";
                 }
             }
 
@@ -1077,7 +1176,7 @@ class ApiModel extends Model
             }
 
             // Iterate through all the chapters and chunks
-            $dirs = File::directories($folderpath);
+            $dirs = File::directories($folderpath, "<0");
             sort($dirs);
             foreach($dirs as $dir)
             {
@@ -1098,11 +1197,11 @@ class ApiModel extends Model
                                 // Fix usfm with missed chapter number tags
                                 if(!preg_match("/^\\\\c/", $text))
                                 {
-                                    $text = "\c ".$chapter." ".$text;
+                                    $text = "\c ".$chapter." \n\n".$text;
                                 }
                             }
 
-                            File::append($filepath, "\s5\n" . $text);
+                            File::append($filepath, "\n\s5\n" . $text);
                         }
                     }
                 }
@@ -1159,6 +1258,143 @@ class ApiModel extends Model
         }
 
         return $folderpath;
+    }
+
+
+    /**
+     * Exctracts .zip file into temporary directory
+     * @param $file
+     * @return string Path to directory
+     */
+    public function processSourceZipFile($file, $format)
+    {
+        $folderpath = "/tmp/".uniqid();
+
+        $zip = new ZipArchive();
+        $zip->open($file);
+        $zip->extractTo($folderpath);
+        $zip->close();
+
+        return $folderpath;
+    }
+
+
+    public function processUsfmSource($path, $lang, $slug)
+    {
+        try {
+            $target = "../app/Templates/Default/Assets/source/" . $lang . "_" . $slug;
+
+            if(!File::isDirectory($target)) {
+                File::makeDirectory($target);
+            }
+
+            $notUsfm = false;
+
+            $allFiles = File::allFiles($path);
+            foreach ($allFiles as $file) {
+                if($file->getExtension() == "usfm") {
+                    File::copy($file, $target . "/" . $file->getFilename());
+                    $cache_keyword = sprintf(
+                        "%s_%s_%s_%s",
+                        preg_replace(
+                            "/^[0-9]+-/",
+                            "",
+                            strtolower($file->getBasename('.'.$file->getExtension()))
+                        ),
+                        $lang,
+                        $slug,
+                        "usfm");
+                    Cache::forget($cache_keyword);
+                }
+                elseif($file->getExtension() == "txt")
+                {
+                    $notUsfm = true;
+                    break;
+                }
+            }
+
+            if($notUsfm) // possibly translationStudio project
+            {
+                $translationModel = new TranslationsModel();
+                $allDirs = File::directories($path, "<0");
+                foreach ($allDirs as $dirPath)
+                {
+                    $dir = new \SplFileInfo($dirPath);
+                    if(preg_match("/^[1-3]?[a-z]{2,3}$/", $dir->getBasename()))
+                    {
+                        $usfm = $this->compileUSFMProject($dirPath);
+                        $bookInfo = $translationModel->getBookInfo($dir->getBasename());
+                        File::put($target . "/" . sprintf(
+                            "%02d-%s",
+                            $bookInfo[0]->abbrID,
+                            strtoupper($bookInfo[0]->code)
+                            ) . ".usfm", $usfm);
+                        $cache_keyword = sprintf(
+                            "%s_%s_%s_%s",
+                            $dir->getBasename(),
+                            $lang,
+                            $slug,
+                            "usfm");
+                        Cache::forget($cache_keyword);
+                    }
+                }
+            }
+
+            File::deleteDirectory($path);
+            return true;
+        } catch (Exception $e) {
+
+        }
+
+        File::deleteDirectory($path);
+        return false;
+    }
+
+
+    public function processMdSource($path, $lang, $slug)
+    {
+        try {
+            $target = "../app/Templates/Default/Assets/source/" . $lang . "_" . $slug .
+                ($slug == "tw" ? "/bible" : "");
+
+            if(!File::isDirectory($target)) {
+                File::makeDirectory($target, 0755, true);
+            }
+
+            $regex = $slug == "tw" ? "/^kt|names|other$/" : "/^[1-3]?[a-z]{2,3}$/";
+
+            $allDirs = File::directories($path, "<0");
+            foreach ($allDirs as $dirPath) {
+                $dir = new \SplFileInfo($dirPath);
+                if(preg_match($regex, $dir->getBasename()))
+                {
+                    $files = File::allFiles($dirPath);
+                    foreach ($files as $file)
+                    {
+                        if($file->getExtension() == "txt") // possibly translationStudio project
+                        {
+                            $content = File::get($file);
+                            $data = (array)json_decode($content);
+                            $md = "";
+                            foreach ($data as $q) {
+                                $md .= "# ".$q->title."  \n\n";
+                                $md .= $q->body."  \n\n";
+                            }
+                            File::put($file->getPathname(), $md);
+                            File::move($file, preg_replace("/txt$/", "md", $file->getPathname()));
+                        }
+                    }
+                    File::copyDirectory($dir, $target . "/" . $dir->getBasename());
+                }
+            }
+            File::deleteDirectory($path);
+            return true;
+        } catch (Exception $e) {
+
+        }
+
+        File::deleteDirectory($path);
+        return false;
     }
 
 

@@ -9,6 +9,7 @@ use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
 use Config\Config;
+use Database\QueryException;
 use File;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
@@ -68,12 +69,10 @@ class AdminController extends Controller {
 
         $data['menu'] = 1;
 
-        $catalog = $this->_apiModel->getCachedFullCatalog();
-
         $data["gwProjects"] = $this->_eventsModel->getGatewayProject();
         $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true);
         $data["projects"] = $this->_eventsModel->getProjects(Session::get("memberID"));
-        $data["sourceTranslations"] = $this->_translationModel->getSourceTranslations($catalog);
+        $data["sources"] = $this->_translationModel->getSources();
 
         return View::make('Admin/Main/Index')
             ->shares("title", __("admin_project_title"))
@@ -501,7 +500,29 @@ class AdminController extends Controller {
             ->shares("data", $data);
     }
 
-    public function tools()
+    public function toolsCommon()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            Url::redirect('');
+        }
+
+        $data["menu"] = 3;
+
+        $data["faqs"] = $this->_newsModel->getFaqs();
+
+        return View::make('Admin/Main/ToolsCommon')
+            ->shares("title", __("admin_tools_title"))
+            ->shares("data", $data);
+    }
+
+    public function toolsVsun()
     {
         if (!Session::get('loggedin'))
         {
@@ -518,9 +539,89 @@ class AdminController extends Controller {
 
         $data["saildict"] = $this->_saildictModel->getSunDictionary();
 
+        return View::make('Admin/Main/ToolsVsun')
+            ->shares("title", __("admin_tools_title"))
+            ->shares("data", $data);
+    }
+
+    public function toolsFaq()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            Url::redirect('');
+        }
+
+        $data["menu"] = 3;
+
         $data["faqs"] = $this->_newsModel->getFaqs();
 
-        return View::make('Admin/Main/Tools')
+        return View::make('Admin/Main/ToolsFaq')
+            ->shares("title", __("admin_tools_title"))
+            ->shares("data", $data);
+    }
+
+    public function toolsNews()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            Url::redirect('');
+        }
+
+        $data["menu"] = 3;
+
+        return View::make('Admin/Main/ToolsNews')
+            ->shares("title", __("admin_tools_title"))
+            ->shares("data", $data);
+    }
+
+    public function toolsSource()
+    {
+        if (!Session::get('loggedin'))
+        {
+            Session::set('redirect', 'admin');
+            Url::redirect('members/login');
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            Url::redirect('');
+        }
+
+        $data["menu"] = 3;
+
+        $arr = $this->_eventsModel->getSuperadminLanguages(Session::get("memberID"));
+        $adminLangs = [];
+        foreach ($arr as $item)
+        {
+            $adminLangs[] = $item->gwLang;
+        }
+
+        $data["gwLangs"] = $this->_eventsModel->getAllLanguages(true, $adminLangs);
+        $data["sources"] = $this->_translationModel->getSources();
+        $data["sourceTypes"] = $this->_translationModel->getKnownSourceTypes();
+
+        // Filter resources of the languages that this user donsn't have access to
+        $tmp = [];
+        foreach ($data["sources"] as $source) {
+            if(in_array($source->langID, $adminLangs)) {
+                $tmp[] = $source;
+            }
+        }
+        $data["sources"] = $tmp;
+
+        return View::make('Admin/Main/ToolsSource')
             ->shares("title", __("admin_tools_title"))
             ->shares("data", $data);
     }
@@ -2699,6 +2800,30 @@ class AdminController extends Controller {
         echo json_encode($result);
     }
 
+    public function updateCatalog()
+    {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $this->_apiModel->insertSourcesFromCatalog();
+
+        $result["success"] = true;
+        echo json_encode($result);
+    }
+
     public function clearAllCache()
     {
         $result = ["success" => false];
@@ -3071,6 +3196,85 @@ class AdminController extends Controller {
         }
     }
 
+    public function uploadSource() {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $src = Input::get("src", "");
+        $sourceZip = Input::file("file");
+
+        if(isset($sourceZip) && $sourceZip->isValid() && trim($src) != "")
+        {
+            $srcArr = explode("|", $src);
+            if(sizeof($srcArr) == 2)
+            {
+                $lang = $srcArr[0];
+                $slug = $srcArr[1];
+
+                $arr = $this->_eventsModel->getSuperadminLanguages(Session::get("memberID"));
+                $adminLangs = [];
+                foreach ($arr as $item)
+                {
+                    $adminLangs[] = $item->gwLang;
+                }
+
+                if(in_array($lang, $adminLangs))
+                {
+                    $mime = $sourceZip->getMimeType();
+                    if($mime == "application/zip")
+                    {
+                        $format = in_array($slug, ["tn","tq","tw"]) ? "md" : "usfm";
+
+                        $path = $this->_apiModel->processSourceZipFile($sourceZip, $format);
+
+                        if($format == "usfm")
+                        {
+                            $result["success"] = $this->_apiModel->processUsfmSource($path, $lang, $slug);
+                        }
+                        else
+                        {
+                            $result["success"] = $this->_apiModel->processMdSource($path, $lang, $slug);
+                        }
+
+                        $result["message"] = "Uploaded!";
+                    }
+                    else
+                    {
+                        $result["error"] = __("error_zip_file_required");
+                    }
+                }
+                else
+                {
+                    $result["error"] = __("not_enough_lang_rights_error");
+                }
+            }
+            else
+            {
+                $result["error"] = __("wrong_parameters");
+            }
+        }
+        else
+        {
+            $result["error"] = __("wrong_parameters");
+        }
+
+        echo json_encode($result);
+        exit;
+    }
+
     public function createFaq()
     {
         $result = ["success" => false];
@@ -3231,6 +3435,82 @@ class AdminController extends Controller {
 
         echo json_encode($result);
 
+    }
+
+    public function createCustomSource() {
+        $result = ["success" => false];
+
+        if (!Session::get('loggedin'))
+        {
+            $result["error"] = __("not_loggedin_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        if(!Session::get('isSuperAdmin'))
+        {
+            $result["error"] = __("not_enough_rights_error");
+            echo json_encode($result);
+            exit;
+        }
+
+        $lang = Input::get("lang", "");
+        $type = Input::get("type", "");
+
+        if(trim($lang) != "" && trim($type))
+        {
+            $arr = $this->_eventsModel->getSuperadminLanguages(Session::get("memberID"));
+            $adminLangs = [];
+            foreach ($arr as $item)
+            {
+                $adminLangs[] = $item->gwLang;
+            }
+
+            if(in_array($lang, $adminLangs))
+            {
+                $typeArr = explode("|", $type);
+                if(sizeof($typeArr) == 2) {
+                    $slug = $typeArr[0];
+                    $name = $typeArr[1];
+
+                    if(preg_match("/[a-z-]+/", $slug))
+                    {
+                        try {
+                            $insert = $this->_apiModel->insertSource($lang, $slug, $name);
+                            if($insert)
+                            {
+                                $result["success"] = true;
+                                $result["message"] = __("successfully_created");
+                            }
+                            else
+                            {
+                                $result["error"] = __("error_ocured", ["insert failed"]);
+                            }
+                        } catch(QueryException $e) {
+                            $result["success"] = true;
+                        }
+                    }
+                    else
+                    {
+                        $result["error"] = __("Only english letters and hyphens are allowed for the source slug");
+                    }
+                }
+                else
+                {
+                    $result["error"] = __("wrong_parameters");
+                }
+            }
+            else
+            {
+                $result["error"] = __("not_enough_lang_rights_error");
+            }
+        }
+        else
+        {
+            $result["error"] = __("wrong_parameters");
+        }
+
+        echo json_encode($result);
     }
 
 

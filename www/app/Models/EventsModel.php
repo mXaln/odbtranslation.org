@@ -2283,6 +2283,14 @@ class EventsModel extends Model
             ->get();
     }
 
+    public function getSuperadminLanguages($memberID)
+    {
+        return $this->db->table("gateway_projects")
+            ->select("gwLang")
+            ->where("admins", "LIKE", "%\"$memberID\"%")
+            ->get();
+    }
+
 
     /**
      * Get members that can write notes on translation
