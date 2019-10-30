@@ -10071,7 +10071,7 @@ class EventsController extends Controller
 
             if(!Session::get("isSuperAdmin"))
             {
-                $adms = (array)json_decode($data["event"][0]->admins_l2, true);
+                $adms = (array)json_decode($data["event"][0]->admins_l3, true);
                 if(!in_array(Session::get("memberID"), $adms))
                 {
                     Url::redirect("/events");
