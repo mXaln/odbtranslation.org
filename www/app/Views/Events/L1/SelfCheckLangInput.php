@@ -196,7 +196,7 @@ if(isset($data["error"])) return;
         });
 
         $(".peer_verse_ta").highlightWithinTextarea({
-            highlight: /\\f\s[+|-]\s(.*?)\\f\*/gi
+            highlight: /\\f\s[+-]\s(.*?)\\f\*/gi
         });
     });
 
