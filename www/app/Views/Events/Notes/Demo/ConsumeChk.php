@@ -16,7 +16,7 @@
                 <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1-26</span></h4>
 
                 <div>
-                    <p><strong><sup>1</sup></strong> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote glyphicon glyphicon-file" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan,</p>
+                    <p><strong><sup>1</sup></strong> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote mdi mdi-bookmark" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan,</p>
                 </div>
                 <div>
                     <p><strong><sup>2</sup></strong> sampai hari Ia terangkat naik. Ini terjadi setelah Ia memberikan perintah melalui Roh Kudus kepada rasul-rasul yang telah dipilihNya.</p>

@@ -102,7 +102,7 @@ class UsfmParser
                     $vText = preg_replace("/\\\\w\s?(.*)\s?\\\\w\\*/Uui", "$1", $vText);
 
                     // Footnotes
-                    $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote glyphicon glyphicon-file\"></span> ";
+                    $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
                     $vText = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $vText);
 
                     // Proper names

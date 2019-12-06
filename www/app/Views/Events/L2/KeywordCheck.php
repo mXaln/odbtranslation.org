@@ -51,7 +51,7 @@ use Helpers\Constants\EventMembers;
                                                 $verse = $combinedVerse;
                                             }
                                             ?>
-                                            <div>
+                                            <div class="verse_text" data-verse="<?php echo $verse; ?>" style="margin-bottom: 10px;">
                                                 <strong dir="<?php echo $data["event"][0]->sLangDir ?>"
                                                         class="<?php echo $data["event"][0]->sLangDir ?>">
                                                     <sup><?php echo $verse; ?></sup>
@@ -69,7 +69,7 @@ use Helpers\Constants\EventMembers;
                                         ?>
                                         <div class="vnote">
                                             <?php foreach($verses as $verse => $text): ?>
-                                                <div class="verse_block">
+                                                <div class="verse_block" data-verse="<?php echo $verse; ?>" style="margin-bottom: 10px;">
                                                     <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
                                                 </div>
                                             <?php endforeach; ?>
@@ -80,7 +80,9 @@ use Helpers\Constants\EventMembers;
                                         <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                             <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                         </div>
-                                        <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <span class="editComment mdi mdi-lead-pencil"
+                                              data="<?php echo $data["currentChapter"].":".$key ?>"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
 
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
@@ -191,4 +193,24 @@ use Helpers\Constants\EventMembers;
 <script>
     isChecker = true;
     isLevel2 = true;
+
+    $(document).ready(function () {
+        setTimeout(function() {
+            equal_verses_height();
+        }, 3000);
+
+        function equal_verses_height() {
+            $(".verse_text").each(function() {
+                var verse = $(this).data("verse");
+                var p_height = $(this).outerHeight();
+                var p = $(".verse_block[data-verse="+verse+"]");
+
+                if(p.length > 0) {
+                    var t_height = p.outerHeight();
+                    p.outerHeight(Math.max(p_height, t_height));
+                    $(this).outerHeight(Math.max(p_height, t_height));
+                }
+            });
+        }
+    });
 </script>

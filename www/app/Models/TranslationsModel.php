@@ -20,7 +20,8 @@ class TranslationsModel extends Model
             ->select("translations.targetLang", "languages.langName", "languages.angName")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")
             ->where("translations.translateDone", true)
-            ->groupBy("translations.targetLang")->get();
+            ->groupBy("translations.targetLang")
+            ->get();
     }
 
     public function getTranslationProjects($lang)

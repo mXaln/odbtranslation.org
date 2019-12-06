@@ -219,7 +219,7 @@
                             <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21"><note
                                             data-original-title="The best ancient copies do not have v. 21, 'But
                                                             this kind of demon does not go out except with prayer and fasting'"
-                                            data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note></div></div>
+                                            data-toggle="tooltip" data-placement="auto right" title="" class="mdi mdi-bookmark"></note></div></div>
                             <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">While they stayed
                                     in Galilee, Jesus said to his disciples, "The Son of Man will be delivered into the hands of people,</div></div>
                             <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">and they will kill him,

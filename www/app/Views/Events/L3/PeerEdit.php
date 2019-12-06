@@ -19,6 +19,27 @@ $parsedown = new Parsedown();
     <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
+<div class="footnote_editor panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_footnote_title")?></h1>
+        <span class="footnote-editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtnf glyphicon glyphicon-remove"></span>
+    </div>
+    <div class="footnote_window">
+        <div class="fn_preview"></div>
+        <div class="fn_buttons" dir="<?php echo $data["event"][0]->sLangDir ?>">
+            <button class="btn btn-default" data-fn="fr" title="footnote origin reference">fr</button>
+            <button class="btn btn-default" data-fn="ft" title="footnote text">ft</button>
+            <button class="btn btn-default" data-fn="fq" title="footnote translation quotation">fq</button>
+            <button class="btn btn-default" data-fn="fqa" title="footnote alternate translation">fqa</button>
+            <button class="btn btn-default" data-fn="fk" title="footnote keyword">fk</button>
+            <button class="btn btn-default" data-fn="fl" title="footnote label text">fl</button>
+            <button class="btn btn-link" data-fn="link">Footnotes Specification</button>
+        </div>
+        <div class="fn_builder"></div>
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", ["step_number" => 2]) . ": " . __("peer-edit-l3_full")?></div>
@@ -63,7 +84,7 @@ $parsedown = new Parsedown();
                                                 $verse = $combinedVerse;
                                             }
                                             ?>
-                                            <p>
+                                            <p class="verse_text" data-verse="<?php echo $verse; ?>">
                                                 <strong class="<?php echo $data["event"][0]->sLangDir ?>"><sup><?php echo $verse; ?></sup></strong>
                                                 <span><?php echo $data["text"][$verse]; ?></span>
                                             </p>
@@ -80,37 +101,46 @@ $parsedown = new Parsedown();
                                             $verses = $data["translation"][$chunkNo][EventMembers::L2_CHECKER]["verses"];
                                         ?>
                                         <?php foreach($verses as $verse => $text): ?>
-                                            <div class="verse_block">
+                                            <div class="verse_block flex_container" data-verse="<?php echo $verse; ?>">
                                                 <span class="verse_number_l3"><?php echo $verse?></span>
                                                 <textarea name="chunks[<?php echo $chunkNo ?>][<?php echo $verse ?>]"
+                                                          style="min-width: 400px;"
                                                           class="peer_verse_ta textarea"
                                                           data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></textarea>
+
+                                                <span class="editFootNote mdi mdi-bookmark"
+                                                      style="margin-top: -5px"
+                                                      title="<?php echo __("write_footnote_title") ?>"></span>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
                                     <div class="flex_right">
-                                        <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
-                                        <div class="comments_number tncomml3_alt flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
-                                            <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
-                                        </div>
-                                        <img class="editComment tncomml3_alt flex_commn_img" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <div class="notes_tools">
+                                            <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
+                                            <div class="comments_number tncomml3_alt flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                                <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
+                                            </div>
+                                            <span class="editComment mdi mdi-lead-pencil"
+                                                  data="<?php echo $data["currentChapter"].":".$chunkNo ?>"
+                                                  title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                        <div class="comments">
-                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                                <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                                    <?php if($comment->memberID == Session::get("memberID")
-                                                        && $comment->level == 3): ?>
-                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                    <?php else: ?>
-                                                        <div class="other_comments">
-                                                            <?php echo
-                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                            <div class="comments">
+                                                <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                                    <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                                        <?php if($comment->memberID == Session::get("memberID")
+                                                            && $comment->level == 3): ?>
+                                                            <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                        <?php else: ?>
+                                                            <div class="other_comments">
+                                                                <?php echo
+                                                                    "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                         - L".$comment->level.":</span> 
                                                                     ".$comment->text; ?>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -209,3 +239,33 @@ $parsedown = new Parsedown();
 <input type="hidden" id="tw_lang" value="<?php echo $data["event"][0]->twLangID ?>">
 <input type="hidden" id="totalVerses" value="<?php echo $data["totalVerses"] ?>">
 <input type="hidden" id="targetLang" value="<?php echo $data["event"][0]->targetLang ?>">
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function() {
+            equal_verses_height();
+        }, 3000);
+
+        $(".peer_verse_ta").blur(function() {
+            equal_verses_height();
+        });
+
+        function equal_verses_height() {
+            $(".verse_text").each(function() {
+                var verse = $(this).data("verse");
+                var p_height = $(this).outerHeight();
+                var ta = $(".verse_block[data-verse="+verse+"] textarea");
+
+                if(ta.length > 0) {
+                    var t_height = ta.outerHeight();
+                    ta.outerHeight(Math.max(p_height, t_height));
+                    $(this).outerHeight(Math.max(p_height, t_height));
+                }
+            });
+        }
+
+        $(".peer_verse_ta").highlightWithinTextarea({
+            highlight: /\\f\s[+|-]\s(.*?)\\f\*/gi
+        });
+    })
+</script>

@@ -5,11 +5,11 @@ use Shared\Legacy\Error;
 <div class="members_login center-block" style="width:370px;">
     <h1><?php echo __('login_message'); ?></h1>
     <p><?php echo __('already_member'); ?> <a href='<?php echo SITEURL;?>members/login'><?php echo __('login'); ?></a>
-    <?if (isset($error) AND is_array($error)):?>
+    <?php if (isset($error) AND is_array($error)):?>
     <script>
     $(function(){
-    <?foreach($error as $k=>$v):?>
-    <?if (in_array($k, array('tou', 'sof'))):?>
+    <?php foreach($error as $k=>$v):?>
+    <?php if (in_array($k, array('tou', 'sof'))):?>
       $("input[name=<?=$k?>]").parents("label").popover({
               trigger: 'manual',
               placement: 'right',
@@ -17,7 +17,7 @@ use Shared\Legacy\Error;
               delay: 0,
               content:  "<?=$v?>"
             }).popover('show');
-    <?elseif($k == 'recaptcha' && Config::get("app.type") == "remote"):?>
+    <?php elseif($k == 'recaptcha' && Config::get("app.type") == "remote"):?>
       $(".g-recaptcha").popover({
               trigger: 'manual',
               placement: 'right',
@@ -25,7 +25,7 @@ use Shared\Legacy\Error;
               delay: 0,
               content:  "<?=$v?>"
             }).popover('show');
-    <?elseif(in_array($k, array('projects', 'proj_lang'))):?>
+    <?php elseif(in_array($k, array('projects', 'proj_lang'))):?>
         var formGroup = $("select#<?=$k?>").parents(".form-group");
         formGroup.addClass('has-error');
         var popover = $(".chosen-single", formGroup);
@@ -39,7 +39,7 @@ use Shared\Legacy\Error;
             delay: 0,
             content:  "<?=$v?>"
         }).popover('show');
-    <?else:?>
+    <?php else:?>
       $("input[name=<?=$k?>]").popover({
               trigger: 'manual',
               placement: 'right',
@@ -47,11 +47,11 @@ use Shared\Legacy\Error;
               delay: 0,
               content:  "<?=$v?>"
             }).popover('show');
-    <?endif;?>
-    <?endforeach;?>
+    <?php endif;?>
+    <?php endforeach;?>
     });
     </script>
-    <?endif;?>
+    <?php endif;?>
     <form action='' method='post'>
         <div class="form-group">
             <label for="userName" class="sr-only"><?php echo __('userName'); ?></label>

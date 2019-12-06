@@ -382,6 +382,7 @@ return array (
     "reset_chunks" => "Réinitialiser les tronçons",
     "make_chunk" => "Créer un tronçon",
     "write_note_title" => "Ecrirer une note au tronçon",
+    "write_footnote_title" => "Add a footnote",
     "all_notifications_title" => "Toutes les notifications",
     "video_call_title" => "Discuter avec vidéo/audio (en beta encore)",
     "video_call" => "Appel par vidéo",
@@ -530,7 +531,7 @@ return array (
                         <li><b>DURÉE:</b> Ayez 7-8 minutes pour cette étape.</li>
                         <li>Lire attentivement le chapître en question.</li>
                         <li>Essayez d’en comprendre le sens et les details du texte à première vue.</li>
-                        <li>Si vous voyez l’icône papier, (<span class='glyphicon glyphicon-file'></span>), glissez la souris dessus. 
+                        <li>Si vous voyez l’icône papier, (<span class='mdi mdi-bookmark'></span>), glissez la souris dessus. 
                             C’est une note du traducteur pour ce verset.</li>
                         <li>Si le texte est plus long, et demande plus de temps c’est okay, mais arrêtez-vous et 
                             réfléchissez sur les passages et continuez de lire le passage suivant du chapître. </li>
@@ -547,7 +548,7 @@ return array (
     "consume_tn_desc" => "<li><b>BUT:</b> to intake source text to prepare for translating notes.</li>
                             <li>Read the assigned chapter carefully.</li>
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
-                            <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over 
+                            <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), hover over 
                                 it with your mouse. It is a translator’s note for that verse.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
@@ -599,7 +600,7 @@ return array (
     "read-chunk_tn_desc" => "<li><b>BUT:</b> to read through the chunk of Notes you will translate.</li>
                                 <li>Read the assigned chunk of Notes carefully.</li>
                                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
-                                <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), 
+                                <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), 
                                     hover over it with your mouse. It is a translator’s note for that verse.</li>
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     
@@ -677,7 +678,7 @@ return array (
                             </li>
                             <li>N’effacez pas ou n’écrivez pas de nouveau le texte traduit. Vous perdrez le flot naturel du texte.</li>
                             <li>Si vous pensez à d’autres choses ou si vous avez des questions au sujet de la traduction, 
-                                cliquez sur l’icône <br>(<span class='glyphicon glyphicon-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.
+                                cliquez sur l’icône <br>(<span class='mdi mdi-lead-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.
                                 Les vérificateurs, verset par verset du terme important verront  cette note et aidera à résoudre la question ou le problème.</li>
                             <li>Quand on a fait tous les changements et les notes cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
 
@@ -698,7 +699,7 @@ return array (
                                     </ol>
                                 </li>
                                 <li>If you have additional thoughts or questions about your translation, click the note 
-                                    icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the 
+                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the 
                                     note and click save. The checkers will see this note and help to resolve the question or problem.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
@@ -713,7 +714,7 @@ return array (
                                     <li>Any resources can be used.</li>
                                     <li>Do not completely delete or re-write the translated text. You will lose the language's naturalness.</li>
                                     <li>If you have additional thoughts or questions about the translation, click the note 
-                                        icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add 
+                                        icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add 
                                         the note and click save. The 2nd checker will see this note and help to resolve the question or problem.</li>
                                     <li>If the formatting needs to be corrected, use the following instructions to format.  Format the text by clicking 
                                     the line you want to format, and then click the format icon ( <i class='note-icon-magic'></i> ) and select the size text for that line.
@@ -761,7 +762,7 @@ return array (
                                 perdez pas de temps à en parler. Laissez le texte tel qu’il est et faites une note 
                                 stipulant le désagrément. Cela peut être discutés dans les prochaines étapes de vérification.</li>
                             <li>S’il y a d’autres pensées ou questions au sujet de la traduction, cliquez l’icône 
-                                note (<span class='glyphicon glyphicon-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.</li>
+                                note (<span class='mdi mdi-lead-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.</li>
                             <li>Une fois que les changements et notes sont effectués le vérificateur devrait cliquer 
                                 “Oui, je l’ai fait” et “Continuer”. Puis vous devriez cliquer Cliquez “Oui, je l’ai 
                                 fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
@@ -778,7 +779,7 @@ return array (
                                     <li>Vérifiez s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
                                     <li>Vérifiez en détail la précision de la traduction.</li>
                                     <li>Si vous pensez que quelque chose devrait changer, écrivez une note sur le morceau 
-                                        en cliquant sur l'icône de note (<span class='glyphicon glyphicon-pencil'></span>) 
+                                        en cliquant sur l'icône de note (<span class='mdi mdi-lead-pencil'></span>) 
                                         près de la section, ajoutez la note et cliquez Sauvegarder.</li>
                                     <li>On peut utiliser les ressources suivantes:
                                         <ol>
@@ -842,7 +843,7 @@ return array (
                                     <li>Check the accuracy of translation in detail.</li>
                                     <li>Make sure to look at notes on the chunk of the translation Note.</li>
                                     <li>Any resources can be used.</li>
-                                    <li>If you have recommended changes, click the note icon (<span class='glyphicon glyphicon-pencil'></span>) next 
+                                    <li>If you have recommended changes, click the note icon (<span class='mdi mdi-lead-pencil'></span>) next 
                                         to the chunk and add the note and click save.</li>
                                     <li>When you have completed the check, contact the other checker to discuss recommended 
                                         changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
@@ -878,7 +879,7 @@ return array (
                                 d’accord, ne perd pas beaucoup de temps en discutant ces changements. Laisse le texte 
                                 comme il était déjà et note le désaccord sur la section. On doit le résoudre dans la Prochaine étape.</li>
                             <li>S’il y a d’autres opinions ou d’autres questions concernant la traduction, clique le 
-                                symbole pour noter (<span class='glyphicon glyphicon-pencil'></span>) à côté de la section, mets-y la note et clique Sauvegarder.</li>
+                                symbole pour noter (<span class='mdi mdi-lead-pencil'></span>) à côté de la section, mets-y la note et clique Sauvegarder.</li>
                             <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
                                 le vérificateur devrait cliquer “Oui, je l’ai faite” et \"Continuer\", et ensuite tu 
                                 devrais cliquer “Oui, je l’ai faite” et \"Prochaine étape\" pour continuer à la prochaine étape.</li>",
@@ -916,7 +917,7 @@ return array (
                                         le texte comme il était déjà et note le désaccord sur la section. On doit 
                                         le résoudre dans la Prochaine étape.</li>
                                     <li>S’il y a d’autres opinions ou d’autres questions concernant la traduction, 
-                                        clique le symbole pour noter (<span class='glyphicon glyphicon-pencil'></span>) 
+                                        clique le symbole pour noter (<span class='mdi mdi-lead-pencil'></span>) 
                                         à côté de la section, mets-y la note et clique Sauvegarder.</li>
                                     <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
                                         le vérificateur devrait cliquer “Oui, je l’ai faite” et \"Continuer\". Ne 
@@ -929,7 +930,7 @@ return array (
                                 <li>Look for highlighting in the scripture and look to make sure there is an accurate Note that reflects the scripture accurately.</li>
                                 <li>Any resources can be used.</li>
                                 <li>If you have additional thoughts or questions about the translation, click the note 
-                                    icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save. 
+                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save. 
                                     The 2nd checker will see this note and help to resolve the question or problem.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
@@ -1137,7 +1138,7 @@ return array (
                     </ol>
                 </li>
                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
-                <li>If you see the paper icon (<span class='glyphicon glyphicon-file'></span>), hover over it with your mouse. 
+                <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), hover over it with your mouse. 
                     It is a translator’s note for that verse.</li>
                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
@@ -1159,7 +1160,7 @@ return array (
                         <li>Correct errors in spelling, punctuation, and flow/naturalness.</li>
                         <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
                             <ol>
-                                <li>Notes are marked by a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
+                                <li>Notes are marked by a number next to the (<span class='mdi mdi-lead-pencil'></span>) icon.</li>
                                 <li>Notes are viewed per \"chunk\", because they are carried from the translation process, 
                                     which is done in chunks rather than verses. </li>
                                 <li>If you have questions or thoughts for the next checkers, leave a note for the chunk.</li>
@@ -1193,7 +1194,7 @@ return array (
                     <li>If you see errors in spelling, punctuation, flow/naturalness, please correct it.</li>
                     <li>Check notes for each chunk to see what questions or corrections were made from the translation process (Level 1).
                         <ol>
-                            <li>Notes are marked by a number next to the (<span class='glyphicon glyphicon-pencil'></span>) icon.</li>
+                            <li>Notes are marked by a number next to the (<span class='mdi mdi-lead-pencil'></span>) icon.</li>
                             <li>Notes are viewed per \"chunk\", because they are carried from the translation process, which is done in chunks rather than verses.</li>
                             <li>If you have questions or thoughts for the next checkers, you can leave a note for the chunk.</li>
                         </ol>
@@ -1217,16 +1218,16 @@ return array (
                                         and accurate. Otherwise click 'No'. The keyword is: _____.</li>
                                     <li>If the keyword is represented correctly click 'YES' and the highlighting will disappear.</li>
                                     <li>If the keyword is not represented correctly click 'No' and the highlighting will stay. 
-                                        Click the note icon (<span class='glyphicon glyphicon-pencil'></span>) next 
+                                        Click the note icon (<span class='mdi mdi-lead-pencil'></span>) next 
                                         to the chunk and add a note regarding the incorrect word and click save.</li>
                                 </ol>
                             </li>
                             <li>The RIGHT column is target text and cannot be edited. Any changes to keywords should 
                                 be added to the notes by clicking the note icon 
-                                (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add a note.</li>
+                                (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add a note.</li>
                             <li>Any resources can be used.	</li>
                             <li>If there are additional thoughts or questions about the translation, click the note 
-                                icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
+                                icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save.</li>
                             <li>When all highlighted words have been checked, click \"Yes, I did\" and \"Next step\".</li>",
 
     "peer-review-l2" => "Discrepancies",
@@ -1336,7 +1337,7 @@ return array (
                         <li>Look for any missing portions of text or missing or added facts.</li>
                         <li>Check the accuracy of your translation in detail.</li>
                         <li>If you have additional thoughts or questions about your translation, click the note 
-                            icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and 
+                            icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note and 
                             click Save. The checkers will see this note and help resolve the question or problem.</li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>
                         <li>WARNING: This is the last chance you will have to change your translation. 
@@ -1351,7 +1352,7 @@ return array (
                         <li>When the checker has finished checking the text, they will contact you to discuss keyword 
                             and recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
                         <li>The checker’s comments on corrections will be in the notes which you can see by clicking the 
-                            note icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk.</li>
+                            note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
                         <li>You and the checker should discuss any changes they think should be made. 
                             If you agree to the changes, the translator should make the changes right away. 
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
@@ -1363,7 +1364,7 @@ return array (
                         <li>You will look for Keywords in the Questions and Answers and compare them to the 
                             translated Questions and Answers to ensure the meaning is represented properly.</li>
                         <li>If you think changes should be made, click the note 
-                            icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and click save.</li>
+                            icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save.</li>
                         <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
                         <li><b>The point is not word-for-word translation, it is to see if the word/meaning is 
                             represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
@@ -1386,7 +1387,7 @@ return array (
                         <li>When the reviewer has finished checking the text, they will contact you to 
                             discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
                         <li>The reviewer’s comments on corrections will be in the notes which you can see by 
-                            clicking the note icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk.</li>
+                            clicking the note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
                         <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
                             make the changes right away.  If you disagree, discuss the issue with your facilitator 
                             and resolve before you complete this step.</li>
@@ -1440,7 +1441,7 @@ return array (
                         <li>Subtitles, such as Facts, Definitions, or Translation Suggestions select: Header 2.</li>
                         <li>You should not need to change the format of the content. It is the \"normal\" font.</li>
                         <li>If you have additional thoughts or questions about your translation, click the note 
-                            icon <br>(<span class='glyphicon glyphicon-pencil'></span>) next to the chunk and add the note and 
+                            icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and 
                             click save. The checkers will see this note and help resolve the question or problem.</li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
@@ -1451,7 +1452,7 @@ return array (
                         <li>When the checker has finished checking the text, they will contact you to discuss keyword 
                             and recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
                         <li>The checker's comments on corrections will be in the notes which you can see by clicking the 
-                            note icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk.</li>
+                            note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
                         <li>You and the checker should discuss any changes they think should be made. 
                             If you agree to the changes, the translator should make the changes right away. 
                             If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
@@ -1464,7 +1465,7 @@ return array (
                         <li>You will look for keywords and compare them to the 
                             translated Words to ensure the meaning is represented properly.</li>
                         <li>If you think changes should be made, click the note 
-                            icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk, add the note and click Save.</li>
+                            icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note and click Save.</li>
                         <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
                         <li>When you finish checking the text, contact the translator to discuss keyword and 
                             recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
@@ -1481,7 +1482,7 @@ return array (
                         <li>When the reviewer has finished checking the text, they will contact you to 
                             discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
                         <li>The reviewer’s comments on corrections will be in the notes which you can see by 
-                            clicking the note icon (<span class='glyphicon glyphicon-pencil'></span>) next to the chunk.</li>
+                            clicking the note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
                         <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
                             make the changes right away.  If you disagree, discuss the issue with your facilitator 
                             and resolve before you complete this step.</li>
@@ -1527,8 +1528,8 @@ return array (
                             <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
                             <li>Check the notes for each chunk to see what questions or corrections were made in previous steps.
                                 <ol>
-                                    <li>Notes are found in the top right of the chunk marked by the (<span class='glyphicon glyphicon-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
-                                    <li>If there are changes to be made to the translated Notes, click on the (<span class='glyphicon glyphicon-pencil'></span>) icon and leave a note.</li>
+                                    <li>Notes are found in the top right of the chunk marked by the (<span class='mdi mdi-lead-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
+                                    <li>If there are changes to be made to the translated Notes, click on the (<span class='mdi mdi-lead-pencil'></span>) icon and leave a note.</li>
                                     <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
                                 </ol>
                             </li>
@@ -1543,8 +1544,8 @@ return array (
                             <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
                             <li>Check the notes for each chunk to see what questions or corrections were made from the translation process (Level 1) and checking process (Level 2).
                                 <ol>
-                                    <li>Notes are found in the top right of the chunk marked by the (<span class='glyphicon glyphicon-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
-                                    <li>If there are changes to be made to the target text, click on the (<span class='glyphicon glyphicon-pencil'></span>) icon and leave a note.</li>
+                                    <li>Notes are found in the top right of the chunk marked by the (<span class='mdi mdi-lead-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
+                                    <li>If there are changes to be made to the target text, click on the (<span class='mdi mdi-lead-pencil'></span>) icon and leave a note.</li>
                                     <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
                                 </ol>
                             </li>
@@ -1565,7 +1566,7 @@ return array (
     "peer-edit-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
                             <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
                             <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
-                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='mdi mdi-lead-pencil'></span>).</li>
                             <li>Discuss the accuracy of the translation Notes.</li>
                             <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
                             <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
@@ -1586,7 +1587,7 @@ return array (
     "peer-edit-l3_tn_chk_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
                             <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
                             <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
-                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='mdi mdi-lead-pencil'></span>).</li>
                             <li>Discuss the accuracy of the translation Notes.</li>
                             <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
                             <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
@@ -1599,7 +1600,7 @@ return array (
     "peer-edit-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
                             <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
-                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='mdi mdi-lead-pencil'></span>).</li>
                             <li>Discuss the accuracy of the translation.</li>
                             <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
                             <li>Make changes to the target text as you discuss the changes that should be made. If you disagree on a change consult your facilitator or language leader. </li>
@@ -1617,7 +1618,7 @@ return array (
     "peer-edit-l3_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
                             <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
-                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='glyphicon glyphicon-pencil'></span>).</li>
+                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='mdi mdi-lead-pencil'></span>).</li>
                             <li>Discuss the accuracy of the translation.</li>
                             <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
                             <li>Your peer will make changes to the target text as you discuss the changes that should be made. You can see all changes by clicking \"refresh\" in your browser. If you disagree on a change consult your facilitator or language leader.</li>

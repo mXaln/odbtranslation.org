@@ -27,8 +27,8 @@
                 <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div id="my_notes_content" class="my_content">
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>1</sup></strong>
                                 <span>You therefore, my child, be strengthened in the grace that is in Christ Jesus.</span>
@@ -39,7 +39,7 @@
                                     who will be able to teach others also.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>1</sup></strong>
@@ -55,10 +55,13 @@
                                         dong dapat mengajar dong yang lain juga.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt  hasComment">3</div>
-                            <img class="editComment tncomml3_alt" data="2:0" width="16"
-                                 src="<?php echo template_url("img/edit_done.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                                      data="0:0"
+                                                      title="<?php echo __("write_note_title", [""])?>"></span>
+                                 
                             <div class="comments">
                                 <div class="my_comment">A note from level 3 peer checker</div>
                                 <div class="other_comments"><span>Mark P. - L3: </span>A note from level 3 checker</div>
@@ -67,8 +70,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>3</sup></strong>
                                 <span>Suffer hardship with me, as a good soldier of Christ Jesus.</span>
@@ -83,7 +86,7 @@
                                 <span>Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>3</sup></strong>
@@ -105,15 +108,18 @@
                                         terima mahkota kalo tra ikut aturan dalam lomba.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:1" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>6</sup></strong>
                                 <span>It is necessary that the hardworking farmer receive his share of the crops first.</span>
@@ -123,7 +129,7 @@
                                 <span>Think about what I am saying, for the Lord will give you understanding in everything.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>6</sup></strong>
@@ -138,15 +144,18 @@
                                         akan kasi ko pengertian untuk mengerti semua ini,</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:2" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>8</sup></strong>
                                 <span>Remember Jesus Christ, from David's seed, who was raised from the dead. This is
@@ -163,7 +172,7 @@
                                     the salvation that is in Christ Jesus, with eternal glory.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>8</sup></strong>
@@ -186,15 +195,18 @@
                                         kemuliaan yang abadi..</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:3" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>11</sup></strong>
                                 <span>This is a trustworthy saying: "If we have died with him, we will also live with him. </span>
@@ -208,7 +220,7 @@
                                 <span>if we are unfaithful, he remains faithful, for he cannot deny himself." </span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>11</sup></strong>
@@ -230,21 +242,24 @@
                                         De tra bisa menyangkal diri.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:4" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>14</sup></strong>
                                 <span>Keep reminding them of these things. Warn them before God against quarreling
                                     about words; it is of no value, and only ruins those who listen.
                                     <span data-toggle="tooltip" data-placement="auto right" title=""
-                                          class="booknote glyphicon glyphicon-file" data-original-title=" + Some versions read,
+                                          class="booknote mdi mdi-bookmark" data-original-title=" + Some versions read,
                                           Warn them before the Lord . "></span>
                                 </span>
                             </p>
@@ -254,7 +269,7 @@
                                     reason to be ashamed, who accurately teaches the word of truth.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>14</sup></strong>
@@ -270,15 +285,18 @@
                                         yang ajar kebeneran Firman dengan pas.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:5" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>16</sup></strong>
                                 <span>Avoid profane talk, which leads to more and more godlessness.</span>
@@ -293,7 +311,7 @@
                                     happened, and they destroy the faith of some.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>16</sup></strong>
@@ -316,15 +334,18 @@
                                         berapa orang tu.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:6" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>19</sup></strong> <span>However, the firm foundation of God stands.
                                     It has this inscription: "The Lord knows those who are his" and "Everyone who names the
@@ -341,7 +362,7 @@
                                     for every good work.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>19</sup></strong>
@@ -366,15 +387,18 @@
                                         untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:7" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>22</sup></strong>
                                 <span>Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who
@@ -385,7 +409,7 @@
                                 <span>But refuse foolish and ignorant questions. You know that they give birth to arguments.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>22</sup></strong>
@@ -401,15 +425,18 @@
                                         bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:8" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>
-                    <div class="note_chunk l3">
-                        <div class="scripture_compare_alt" dir="ltr">
+                    <div class="note_chunk l3 flex_container">
+                        <div class="scripture_compare_alt flex_left" dir="ltr">
                             <p>
                                 <strong class="ltr"><sup>24</sup></strong>
                                 <span>The Lord's servant must not quarrel. Instead he must be gentle toward all, able to
@@ -426,7 +453,7 @@
                                     captured by him for his will.</span>
                             </p>
                         </div>
-                        <div class="vnote l3 font_en" dir="ltr" style="padding-right: 20px">
+                        <div class="vnote l3 font_en flex_middle" dir="ltr" style="padding-right: 20px">
                             <div class="verse_block">
                                 <p>
                                     <strong><sup>24</sup></strong>
@@ -449,10 +476,13 @@
                                         tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</span>
                                 </p>
                             </div>
+                        </div>
+                        <div class="flex_right">
                             <div class="comments_number tncomml3_alt "> </div>
-                            <img class="editComment tncomml3_alt" data="2:9" width="16"
-                                 src="<?php echo template_url("img/edit.png") ?>"
-                                 title="<?php echo __("write_note_title")?>">
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+
                             <div class="comments"> </div>
                         </div>
                     </div>

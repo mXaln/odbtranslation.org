@@ -69,7 +69,9 @@ if(isset($data["error"])) return;
                                         <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                             <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                         </div>
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <span class="editComment mdi mdi-lead-pencil"
+                                              data="<?php echo $data["currentChapter"].":".$key ?>"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
 
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>

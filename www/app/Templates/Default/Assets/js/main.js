@@ -139,7 +139,7 @@ $(document).ready(function() {
     $("#sof_agree").click(function() {
         $("#sof").prop('checked', true);
         $('#sof_modal').modal('hide');
-        $("#sof").parents("label").popover('destroy');
+        $("#sof").closest("label").popover('destroy');
     });
 
     $("#sof_cancel").click(function() {
@@ -155,7 +155,7 @@ $(document).ready(function() {
 
     $("#tou_agree").click(function() {
         $("#tou").prop('checked', true);
-        $("#tou").parents("label").popover('destroy');
+        $("#tou").closest("label").popover('destroy');
         $('#tou_modal').modal('hide');
     });
 
@@ -289,7 +289,7 @@ $(document).ready(function() {
     });
 
     $(".panel-close").click(function() {
-        $(this).parents(".form-panel").css("left", -9999);
+        $(this).closest(".form-panel").css("left", -9999);
     });
 
 
@@ -332,21 +332,17 @@ $(document).ready(function() {
     $(".verse_ta:first").focus();
 
     $(".my_comment").each(function() {
-        var img = $(this).parent(".comments").prev(".editComment");
+        var pencil = $(this).parent(".comments").prev(".editComment");
 
-        if(img.length > 0)
+        if(pencil.length > 0)
         {
-            var src = img.attr("src");
-
             if($(this).text() == "")
             {
-                src = src.replace(/edit_done.png/, "edit.png");
-                img.attr("src", src);
+                pencil.css("color", "black");
             }
             else
             {
-                src = src.replace(/edit.png/, "edit_done.png");
-                img.attr("src", src);
+                pencil.css("color", "#a52f20");
             }
         }
     });
@@ -713,7 +709,7 @@ $(document).ready(function() {
         if(window.opener != null)
         {
             window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]")
-                .parents(".event_block").remove();
+                .closest(".event_block").remove();
         }
 
         $.ajax({
@@ -1091,21 +1087,19 @@ $(document).ready(function() {
                     if(data.success)
                     {
                         $(".comment_div").hide();
-                        var src = lastCommentEditor.attr("src");
 
                         data.text = unEscapeStr(data.text);
 
                         if(data.text.trim() == "")
                         {
-                            src = src.replace(/edit_done.png/, "edit.png");
+                            lastCommentEditor.css("color", "black")
                             comment.remove();
                         }
                         else
                         {
-                            src = src.replace(/edit.png/, "edit_done.png");
+                            lastCommentEditor.css("color", "#a52f20");
                             comment.text(data.text);
                         }
-                        lastCommentEditor.attr("src", src);
 
                         num = comments.children().length > 0 ? comments.children().length : "";
                         lastCommentEditor.prev(".comments_number").addClass("hasComment").text(num);
@@ -1143,7 +1137,163 @@ $(document).ready(function() {
 		}
     });
 
-    $(".comment_div").draggable({snap: 'inner', handle: '.panel-heading'});
+    $(".comment_div, .footnote_editor").draggable({snap: 'inner', handle: '.panel-heading'});
+
+    var footnoteCallback;
+    $(document).on("click", ".editFootNote", function() {
+        var textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta");
+
+        if(textarea.length == 0)
+            textarea = $(this).closest(".flex_container").find(".peer_verse_ta");
+
+        if(textarea.length > 0) {
+            var startPosition = textarea.prop("selectionStart");
+            var endPosition = textarea.prop("selectionEnd");
+            var text = textarea.val();
+            var matchedNote = "";
+            var matches = text.match(/\\f\s[+|-]\s(.*?)\\f\*/gi);
+            var ranges = [];
+
+            if(matches != null && matches.length > 0) {
+                for(var i=0; i<matches.length; i++) {
+                    ranges.push([
+                        text.indexOf(matches[i]),
+                        text.indexOf(matches[i]) + matches[i].length
+                    ])
+                }
+            }
+
+            // define if cursor is in the range of an existent footnote
+            for (var i=0; i<ranges.length; i++) {
+                if(startPosition >= ranges[i][0] && startPosition <= ranges[i][1]) {
+                    startPosition = ranges[i][0];
+                    endPosition = ranges[i][1];
+                    matchedNote = matches[i];
+                }
+            }
+
+            openFootnoteEditor(startPosition, endPosition, matchedNote, $(this).offset().top - 80);
+
+            footnoteCallback = function(footnote) {
+                if(footnote.trim() == "\\f + \\f*")
+                    footnote = "";
+
+                text = text.substring(0, startPosition)
+                    + footnote
+                    + text.substring(endPosition, text.length);
+                textarea.val(text);
+
+                $(".peer_verse_ta").highlightWithinTextarea("update");
+                autosize.update($('textarea'));
+                $(".peer_verse_ta").keyup();
+                $(".footnote_editor").hide();
+            }
+        }
+    });
+
+    $(".xbtnf").click(function () {
+        $(".footnote_editor").hide();
+    });
+
+    function openFootnoteEditor(startPos, endPos, footnote, offset) {
+        $(".footnote_editor").hide();
+        $(".footnote_editor .fn_builder").html("");
+        $(".footnote_editor .fn_preview").text("");
+
+        var footnoteHtml = parseFootnote(footnote);
+        $(".footnote_editor .fn_builder").html(footnoteHtml);
+        renderFootnotesPreview();
+
+        $(".footnote_editor").css("top", offset).show();
+    }
+
+    $(document).on("DOMSubtreeModified", ".fn_builder", function () {
+        renderFootnotesPreview();
+    });
+
+    $(document).on("keyup", ".fn_builder", function () {
+        renderFootnotesPreview();
+    });
+
+    $(".footnote-editor-close").click(function () {
+        var footnote = $(".footnote_editor .fn_preview").text();
+        if(footnoteCallback) {
+            footnoteCallback(footnote);
+            footnoteCallback = null;
+        }
+    });
+
+    function renderFootnotesPreview() {
+        var footnote = "\\f + ";
+
+        $(".footnote_editor .fn_builder input").each(function() {
+            if($(this).val().trim() != "")
+                footnote += "\\" + $(this).data("fn") + " " + $(this).val() + " ";
+        });
+
+        footnote += "\\f*";
+
+        $(".footnote_editor .fn_preview").text(footnote);
+    }
+
+    function parseFootnote(footnote) {
+        if(footnote == "") {
+            return "";
+        }
+
+        var tags = ["fr","ft","fq","fqa","fk","fl"];
+        var html = "";
+
+        footnote = footnote
+            .replace(/\\f\s[+|-]\s/gi, "")
+            .replace(/\\f\*/gi, "")
+            .replace(/\\fqa\*/gi, "");
+
+        var parts = footnote.split(/\\(f(?:r|t|qa|q|k|l))/gi);
+        var map = [];
+        var prevTag = "";
+        if(parts.length > 1) {
+            for(var i=0; i<parts.length; i++) {
+                if(i == 0) continue;
+
+                if(tags.includes(parts[i])) { // tag
+                    if(prevTag != parts[i]) {
+                        prevTag = parts[i];
+                    }
+                } else {
+                    map.push([prevTag, parts[i]]); // content
+                }
+            }
+        }
+
+        for(var i=0; i<map.length; i++) {
+            html += "<label class='fn_lm'>"
+                + map[i][0]
+                + ": <input data-fn='" + map[i][0] + "' class='form-control' value='" + map[i][1].trim() + "' />"
+                + "<span class='glyphicon glyphicon-remove fn-remove'></span></label>"
+                + "</label>";
+        }
+
+        return html;
+    }
+
+    $(document).on("click", ".fn_buttons button", function () {
+        var tag = $(this).data("fn");
+
+        if(tag == "link") {
+            window.open("https://ubsicap.github.io/usfm/notes_basic/fnotes.html");
+            return;
+        }
+
+        $(".fn_builder").append(
+            "<label class='fn_lm'>" + tag + ": <input data-fn='" + tag + "' class='form-control' />" +
+            "<span class='glyphicon glyphicon-remove fn-remove'></span></label>"
+        );
+    })
+
+    $(document).on("click", ".fn-remove", function () {
+        $(this).closest("label").remove();
+    });
 
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
@@ -1372,7 +1522,7 @@ $(document).ready(function() {
             renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>', function () {
                 $(this).dialog("close");
 
-                var parent = $this.parents("div[class^=kwverse]");
+                var parent = $this.closest("div[class^=kwverse]");
                 var verseID = parent.attr("class");
                 var index = $this.attr("data");
 
@@ -1464,7 +1614,7 @@ $(document).ready(function() {
                 ],
                 callbacks: {
                     onInit: function() {
-                        var parent = $(this).parents(".note_chunk, .questions_chunk");
+                        var parent = $(this).closest(".note_chunk, .questions_chunk");
                         var noteContent = $(".note_content, .question_content", parent);
                         var height = noteContent.actual("height");
                         $(".notes_editor, .questions_editor", parent).css("min-height", height);
@@ -1619,7 +1769,7 @@ $(document).ready(function() {
                 e.target.id = (new Date()).getTime();
 
             e.originalEvent.dataTransfer.setData('text', e.target.outerHTML);
-            var parent = $(e.target).parents(".vnote");
+            var parent = $(e.target).closest(".vnote");
             $("body").data("bubble", $(e.target));
             $("body").data("focused", $(".textWithBubbles", parent));
         });
@@ -1794,7 +1944,7 @@ $(document).ready(function() {
         $(".langs").prop("disabled", false);
 
     $(".language").change(function() {
-        var parent = $(this).parents(".language_block");
+        var parent = $(this).closest(".language_block");
         if($(this).val() != "")
         {
             $(".fluency", parent).prop("name", "lang["+$(this).val()+"][fluency]").prop("disabled", false);
@@ -2393,7 +2543,7 @@ $(document).ready(function() {
     $("body").on("click", ".word_term", function () {
         var word = $("span", this).text();
         var def = $(this).next(".word_def").html();
-        var parent = $(this).parents(".ttools_content");
+        var parent = $(this).closest(".ttools_content");
 
         $(".word_def_title", parent).text(word);
         $(".word_def_content", parent).html(def);
@@ -2404,7 +2554,7 @@ $(document).ready(function() {
 
     $("body").on("click", ".word_def-close", function() {
         $(".labels_list").children().show();
-        var parent = $(this).parents(".ttools_content");
+        var parent = $(this).closest(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
         $(".word_def_popup", parent).hide("slide", {direction: "left"}, 300);
@@ -2455,7 +2605,7 @@ $(document).ready(function() {
     // ################ Question Editor ############### //
 
     $(".consume_q, .verbalize_q, .draft_q").click(function () {
-        var parent = $(this).parents(".parent_q");
+        var parent = $(this).closest(".parent_q");
         var verse = parent.data("verse");
         var chapter = parent.data("chapter");
         var event = parent.data("event");
@@ -2493,7 +2643,7 @@ $(document).ready(function() {
     });
 
     $(".consume_q, .verbalize_q, .draft_q").each(function () {
-        var parent = $(this).parents(".parent_q");
+        var parent = $(this).closest(".parent_q");
         var verse = parent.data("verse");
         var chapter = parent.data("chapter");
         var event = parent.data("event");
@@ -2552,7 +2702,7 @@ $(document).ready(function() {
     // Delete verse block and verse from database if it exists
     $("body").on("click", "button.delete_verse_ta", function (e) {
         var $this = $(this);
-        var parent = $this.parents(".lang_input_verse");
+        var parent = $this.closest(".lang_input_verse");
         var id = parent.data("id"); // id of the verse from database
 
         if(id)
@@ -2599,8 +2749,8 @@ $(document).ready(function() {
 
         var newVerseHtml = "" +
             "<div class=\"lang_input_verse\" data-verse=\""+newVerse+"\">" +
-            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta\"></textarea>" +
-            "<span>"+newVerse+"</span>" +
+            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta peer_verse_ta\"></textarea>" +
+            "<span class=\"vn\">"+newVerse+"</span>" +
             "<button class=\"delete_verse_ta btn btn-danger glyphicon glyphicon-remove\" />" +
             "</div>";
 

@@ -90,7 +90,9 @@ if(isset($data["error"])) return;
                                 <div class="comments_number flex_commn_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
                                     <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
                                 </div>
-                                <img class="editComment tncomm flex_commn_img" data="<?php echo $data["currentChapter"].":".$chunkNo ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="<?php echo $data["currentChapter"].":".$chunkNo ?>"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
 
                                 <div class="comments">
                                     <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
