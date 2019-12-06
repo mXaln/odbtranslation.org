@@ -4149,7 +4149,7 @@
         }
 
         $(".peer_verse_ta").highlightWithinTextarea({
-            highlight: /\\f\s[+|-]\s(.*?)\\f\*/gi
+            highlight: /\\f\s[+-]\s(.*?)\\f\*/gi
         });
 
         $(".orig_text").each(function() {

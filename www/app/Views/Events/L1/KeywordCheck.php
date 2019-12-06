@@ -210,7 +210,7 @@ if(isset($data["error"])) return;
 <script>
     $(document).ready(function() {
         $(".peer_verse_ta").highlightWithinTextarea({
-            highlight: /\\f\s[+|-]\s(.*?)\\f\*/gi
+            highlight: /\\f\s[+-]\s(.*?)\\f\*/gi
         });
     });
 </script>

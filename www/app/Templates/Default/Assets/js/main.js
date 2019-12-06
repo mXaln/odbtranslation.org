@@ -1151,7 +1151,7 @@ $(document).ready(function() {
             var endPosition = textarea.prop("selectionEnd");
             var text = textarea.val();
             var matchedNote = "";
-            var matches = text.match(/\\f\s[+|-]\s(.*?)\\f\*/gi);
+            var matches = text.match(/\\f\s[+-]\s(.*?)\\f\*/gi);
             var ranges = [];
 
             if(matches != null && matches.length > 0) {
@@ -1245,7 +1245,7 @@ $(document).ready(function() {
         var html = "";
 
         footnote = footnote
-            .replace(/\\f\s[+|-]\s/gi, "")
+            .replace(/\\f\s[+-]\s/gi, "")
             .replace(/\\f\*/gi, "")
             .replace(/\\fqa\*/gi, "");
 
@@ -1269,7 +1269,7 @@ $(document).ready(function() {
         for(var i=0; i<map.length; i++) {
             html += "<label class='fn_lm'>"
                 + map[i][0]
-                + ": <input data-fn='" + map[i][0] + "' class='form-control' value='" + map[i][1].trim() + "' />"
+                + ": <input data-fn='" + map[i][0] + "' class='form-control' value='" + escapeQuotes(map[i][1].trim()) + "' />"
                 + "<span class='glyphicon glyphicon-remove fn-remove'></span></label>"
                 + "</label>";
         }
@@ -2955,6 +2955,10 @@ function parseCombinedVerses(verse)
 
 function unEscapeStr(string) {
     return $('<div/>').html(string).text();
+}
+
+function escapeQuotes(str) {
+    return str.replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
 
 /**
