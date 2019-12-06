@@ -182,9 +182,7 @@ function OnSystemMessage(data)
                                 editor.prev(".comments_number").text(num);
                                 if(num <= 0) editor.prev(".comments_number").removeClass("hasComment");
 
-                                var src = editor.attr("src");
-                                src = src.replace(/edit_done.png/, "edit.png");
-                                editor.attr("src", src);
+                                editor.css("color", "black");
                             }
                             else
                             {
@@ -202,9 +200,7 @@ function OnSystemMessage(data)
                             editor.prev(".comments_number").text(num);
                             if(num == 1) editor.prev(".comments_number").addClass("hasComment");
 
-                            var src = editor.attr("src");
-                            src = src.replace(/edit.png/, "edit_done.png");
-                            editor.attr("src", src);
+                            editor.css("color", "#a52f20");
                         }
                     }
                     else

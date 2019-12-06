@@ -54,7 +54,9 @@ if(isset($data["error"])) return;
                                             echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
                                         ?></textarea>
 
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                        <span class="editComment mdi mdi-lead-pencil"
+                                              data="<?php echo $data["currentChapter"].":".$key ?>"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
 
                                         <div class="comments">
                                             <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>

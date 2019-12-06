@@ -176,12 +176,20 @@ class TranslationsController extends Controller
                         if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
                         {
                             foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                                // Footnotes
+                                $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                                $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                                $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
                                 $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                             }
                         }
                         elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
                         {
                             foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                                // Footnotes
+                                $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                                $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                                $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
                                 $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                             }
                         }
@@ -201,6 +209,10 @@ class TranslationsController extends Controller
                                 }
                                 else
                                 {
+                                    // Footnotes
+                                    $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                                    $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                                    $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
                                     $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                                 }
                             }

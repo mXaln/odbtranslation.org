@@ -84,7 +84,7 @@
                 <p class="verse_p">
                     <label class="verse_number_label">
                         <input name="verse" class="verse_number" value="14" type="checkbox">
-                        <strong><sup>14</sup></strong> Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen. <note data-original-title="Some versions read, Warn them before the Lord " data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note>                        </label>
+                        <strong><sup>14</sup></strong> Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen. <note data-original-title="Some versions read, Warn them before the Lord " data-toggle="tooltip" data-placement="auto right" title="" class="mdi mdi-bookmark"></note>                        </label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">

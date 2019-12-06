@@ -132,7 +132,7 @@
                         <input name="verse" class="verse_number" value="21" type="checkbox">
                         <strong><sup>21</sup></strong> <note data-original-title="The best ancient copies do not have v. 21, 'But
                                                             this kind of demon does not go out except with prayer and fasting'"
-                                                             data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note></label>
+                                                             data-toggle="tooltip" data-placement="auto right" title="" class="mdi mdi-bookmark"></note></label>
                 </p>
                 <p class="verse_p">
                     <label class="verse_number_label">
