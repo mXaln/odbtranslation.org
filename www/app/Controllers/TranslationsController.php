@@ -325,7 +325,7 @@ class TranslationsController extends Controller
                 $manifest->setCheckingEntity(["Wycliffe Associates"]);
                 $manifest->setCheckingLevel($chk_lvl);
 
-                // Set contrubutor list from entire project contributors
+                // Set contributor list from entire project contributors
                 if($bookCode == null)
                 {
                     $manifest->setContributor(array_map(function($contributor) {
@@ -702,8 +702,9 @@ class TranslationsController extends Controller
                     $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
 
                     $bookPath = $chunk->bookCode;
-                    $chapPath = $chunk->chapter > 0 ? sprintf("%02d", $chunk->chapter) : "front";
-                    $chunkPath = $currChunk[0] > 0 ? sprintf("%02d", $currChunk[0]) : "intro";
+                    $format = $chunk->bookCode == "psa" ? "%03d" : "%02d";
+                    $chapPath = $chunk->chapter > 0 ? sprintf($format, $chunk->chapter) : "front";
+                    $chunkPath = $currChunk[0] > 0 ? sprintf($format, $currChunk[0]) : "intro";
                     $filePath = $root. "/" . $bookPath . "/" . $chapPath . "/" . $chunkPath . ".md";
 
                     if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
