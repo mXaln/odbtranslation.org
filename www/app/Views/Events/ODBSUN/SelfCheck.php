@@ -37,15 +37,15 @@ if(isset($data["error"])) return;
                                         ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
                                         : __(OdbSections::enum($verse)); ?></sup>
                             </strong>
-                            <div class="row chunk_block words_block verse"
+                            <div class="flex_container chunk_block words_block verse"
                                  style="width: 100%; <?php echo $hidden ? "display: none;" : "" ?>">
-                                <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                <div class="chunk_verses flex_left sun_content sun_ta" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"><?php
                                         echo isset($_POST["symbols"]) && isset($_POST["symbols"][$key]) ? $_POST["symbols"][$key] : $text
                                         ?></textarea>
                                 </div>
-                                <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] != "" ?
                                         $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] :
                                         $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
@@ -53,32 +53,32 @@ if(isset($data["error"])) return;
                                         <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun"><?php
                                             echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
                                         ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="flex_right">
+                                    <span class="editComment mdi mdi-lead-pencil"
+                                          data="<?php echo $data["currentChapter"].":".$key ?>"
+                                          title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                        <span class="editComment mdi mdi-lead-pencil"
-                                              data="<?php echo $data["currentChapter"].":".$key ?>"
-                                              title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                        <div class="comments">
-                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
-                                                <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                                    <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                    <?php else: ?>
-                                                        <div class="other_comments">
-                                                            <?php echo
-                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </div>
-                                        <div class="clear"></div>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="chunk_divider col-sm-12" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
+                            <div class="chunk_divider" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
                         <?php endforeach; ?>
                     </div>
                 </div>

@@ -32,165 +32,201 @@
 
                     <div class="col-sm-12 no_padding">
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("title") ?></sup> </strong>
-                        <div class="row chunk_block words_block verse" style="width: 100%;">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block verse" style="width: 100%;">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px">   </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">   </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("author") ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                 style="min-height: 80px"> </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;"> </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("passage") ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;">  :      :  -  </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">  :      :  -  </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("bible_in_a_year") ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;"> </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;"> </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("verse") ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;">                        :   </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">                        :   </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("thought") ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;">      </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">      </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("content", ["number" => 1]) ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;">                                       </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">                                       </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("content", ["number" => 2]) ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;">                                                                        </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">                                                                        </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                         <strong class="ltr" style="font-size: 20px;"> <sup><?php echo __("content", ["number" => 3]) ?></sup> </strong>
-                        <div class="row chunk_block words_block">
-                            <div class="chunk_verses col-sm-6 sun_content sun_ta" dir="ltr">
+                        <div class="flex_container chunk_block words_block">
+                            <div class="chunk_verses flex_left sun_content sun_ta" dir="ltr">
                                 <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"
                                           style="min-height: 80px;">                                       </textarea>
                             </div>
-                            <div class="col-sm-6 editor_area" dir="ltr">
+                            <div class="flex_middle editor_area" dir="ltr">
                                 <div class="vnote">
                                     <textarea name="chunks[]"
                                               class="col-sm-6 peer_verse_ta textarea font_backsun"
                                               style="min-height: 80px;">                                       </textarea>
-                                    <img class="editComment" data="2:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="Write a note to the chunk">
-                                    <div class="comments"> </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
-                            </div>
+							</div>
+							<div class="flex_right">
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
                         </div>
                         <div class="chunk_divider col-sm-12"></div>
                     </div>

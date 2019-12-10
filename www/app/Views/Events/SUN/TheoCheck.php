@@ -30,8 +30,8 @@ use Helpers\Constants\EventMembers;
 
                     <div class="no_padding">
                         <?php foreach($data["chunks"] as $key => $chunk) : ?>
-                            <div class="row chunk_block">
-                                <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                            <div class="flex_container chunk_block">
+                                <div class="chunk_verses flex_left" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php $firstVerse = 0; ?>
                                     <?php foreach ($chunk as $verse): ?>
                                         <?php
@@ -62,7 +62,7 @@ use Helpers\Constants\EventMembers;
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-                                <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php
                                     $bt = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"];
                                     ?>
@@ -70,37 +70,37 @@ use Helpers\Constants\EventMembers;
                                         <div class="verse_block font_backsun">
                                             <p><?php echo $bt; ?></p>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="flex_right">
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
+                                    </div>
+                                    <span class="editComment mdi mdi-lead-pencil"
+                                          data="<?php echo $data["currentChapter"].":".$key ?>"
+                                          title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                        <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                        <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
-                                            <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
-                                        </div>
-                                        <span class="editComment mdi mdi-lead-pencil"
-                                              data="<?php echo $data["currentChapter"].":".$key ?>"
-                                              title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                        <div class="comments">
-                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
-                                                <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                                    <?php if($comment->memberID == $data["event"][0]->myChkMemberID
-                                                        && $comment->level == 2): ?>
-                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                    <?php else: ?>
-                                                        <div class="other_comments">
-                                                            <?php echo
-                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myChkMemberID
+                                                    && $comment->level == 2): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </div>
-                                        <div class="clear"></div>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="chunk_divider col-sm-12"></div>
+                            <div class="chunk_divider"></div>
                         <?php endforeach; ?>
                     </div>
                 </div>

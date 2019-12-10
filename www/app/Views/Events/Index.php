@@ -17,8 +17,8 @@ $profile = Session::get("profile");
                 <a href="/events/demo-scripture-input"><li><?php echo __("lang_input") ?></li></a>
                 <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", ["level" => 2]); ?></li></a>
                 <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", ["level" => 3]); ?></li></a>
-                <a href="/events/demo-tn-l3"><li><?php echo __("tn") . " " . __("l2_3_events", ["level" => 3]); ?></li></a>
                 <a href="/events/demo-tn"><li><?php echo __("tn") ?></li></a>
+                <a href="/events/demo-tn-l3"><li><?php echo __("tn") . " " . __("l2_3_events", ["level" => 3]); ?></li></a>
                 <a href="/events/demo-tq"><li><?php echo __("tq") ?></li></a>
                 <a href="/events/demo-tw"><li><?php echo __("tw") ?></li></a>
                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
