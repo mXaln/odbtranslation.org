@@ -8,7 +8,7 @@ var Language = {
     "noKeywords"                : "walay makita nga mga pulong sa kini nga sinultihan.",
     "checkBookConfirm"          : "Gusto ba nimo tan-awon kini nga libroha? Adunay bag-o nga pahina ang moabri.",
     "checkBookConfirmTitle"     : "ginasusi",
-    "saveChangesConfirm"        : "Adunay mga kausaban sa kini nga pahina. Gusto ba nimo nga magpadayon ug kini e-save?",
+    "saveChangesConfirm"        : "Adunay mga kausaban sa kini nga pahina. Palihug, paghulat hangtud nga mabag-o ang mga pagbag-o, unya pagsulay na usab.",
     "saveChangesConfirmTitle"   : "nausab na",
     "partnerJoinedVerbalize"    : "Aduna kay kauban sa 'Verbalize' step",
     "partnerJoinedPeerEdit"     : "Aduna kay kauban sa 'Peer-Edit' step",

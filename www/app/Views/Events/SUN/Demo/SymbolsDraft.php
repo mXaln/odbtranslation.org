@@ -3007,7 +3007,7 @@ use Helpers\Constants\EventMembers;
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-sun/self-check';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-sun/self-check';
 
             return false;
         });

@@ -1167,7 +1167,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/keyword_check';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/keyword_check';
 
             return false;
         });

@@ -445,6 +445,7 @@
                     </div>
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </form>
                 <div class="step_right"><?php echo __("step_num", ["step_number" => 1])?></div>
             </div>
@@ -4118,7 +4119,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-l2/keyword_check_l2';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-l2/keyword_check_l2';
 
             return false;
         });

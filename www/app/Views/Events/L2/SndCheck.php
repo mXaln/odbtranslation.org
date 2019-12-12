@@ -149,6 +149,7 @@ use Helpers\Constants\EventMembers;
                     <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
                     <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->l2memberID ?>">
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 1])?></div>

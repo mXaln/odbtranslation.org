@@ -3872,7 +3872,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/final_review';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/final_review';
 
             return false;
         });

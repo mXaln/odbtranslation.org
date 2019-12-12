@@ -957,6 +957,7 @@
                     </div>
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </form>
                 <div class="step_right"><?php echo __("step_num", ["step_number" => 5])?></div>
             </div>
@@ -1028,7 +1029,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-tn/pray';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-tn/pray';
 
             return false;
         });

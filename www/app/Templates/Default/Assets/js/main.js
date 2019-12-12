@@ -392,11 +392,12 @@ $(document).ready(function() {
 					hasChangesOnPage = true;
 				}
 			}
-			
+
             autosaveTimer = setInterval(function() {
                 if(typeof isDemo != "undefined" && isDemo)
                 {
                     hasChangesOnPage = false;
+                    $(".unsaved_alert").hide();
                 }
 
                 if(hasChangesOnPage)
@@ -672,17 +673,13 @@ $(document).ready(function() {
             if(step != EventSteps.BLIND_DRAFT && step != EventSteps.REARRANGE
                 && step != EventSteps.SYMBOL_DRAFT && step != EventSteps.MULTI_DRAFT)
             {
-                renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
+                renderPopup(Language.saveChangesConfirm, function () {
                     $(this).dialog("close");
-                    $this.data("yes", true);
-                    $this.click();
                 }, function () {
                     $( this ).dialog("close");
                 });
 
-                if(typeof $this.data("yes") == "undefined")
-                    e.preventDefault();
-
+                e.preventDefault();
                 return false;
             }
         }
@@ -2772,6 +2769,7 @@ $(document).ready(function() {
         if(typeof isDemo != "undefined" && isDemo)
         {
             hasLangInputChangesOnPage = false;
+            $(".unsaved_alert").hide();
         }
 
         if(hasLangInputChangesOnPage)

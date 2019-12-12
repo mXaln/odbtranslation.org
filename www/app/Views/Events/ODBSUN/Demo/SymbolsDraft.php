@@ -108,7 +108,7 @@ use Helpers\Constants\EventMembers;
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-sun-odb/self-check';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-sun-odb/self-check';
 
             return false;
         });

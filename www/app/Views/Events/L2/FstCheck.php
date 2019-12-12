@@ -147,6 +147,7 @@ use Helpers\Constants\EventMembers;
 
                     <input type="hidden" name="level" value="l2">
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("continue")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
