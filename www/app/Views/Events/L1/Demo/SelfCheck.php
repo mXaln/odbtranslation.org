@@ -1138,7 +1138,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/peer_review';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/peer_review';
 
             return false;
         });

@@ -327,7 +327,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/blind_draft';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/blind_draft';
 
             return false;
         });

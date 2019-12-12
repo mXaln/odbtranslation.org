@@ -757,7 +757,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/information';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/information';
 
             return false;
         });

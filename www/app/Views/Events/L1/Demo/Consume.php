@@ -350,7 +350,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/verbalize';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/verbalize';
 
             return false;
         });

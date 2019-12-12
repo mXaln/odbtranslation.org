@@ -478,6 +478,7 @@
                     </div>
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </form>
                 <div class="step_right"></div>
             </div>
@@ -4163,7 +4164,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-l2/information';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-l2/information';
 
             return false;
         });

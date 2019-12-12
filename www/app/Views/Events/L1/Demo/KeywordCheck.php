@@ -3330,7 +3330,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/content_review';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/content_review';
 
             return false;
         });

@@ -85,6 +85,7 @@
                     </div>
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 1])?></div>
@@ -127,7 +128,8 @@
             <img src="<?php echo template_url("img/steps/big/content-review.png") ?>" height="280px" width="280px">
             <div class="hide_tutorial">
                 <label><input id="hide_tutorial" data="keyword-check" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            </div>            hasChangesOnPage = false;
+
         </div>
 
         <div class="tutorial_content">
@@ -151,7 +153,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-scripture-input/self_check';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-scripture-input/self_check';
 
             return false;
         });

@@ -459,7 +459,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/read_chunk';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/read_chunk';
 
             return false;
         });

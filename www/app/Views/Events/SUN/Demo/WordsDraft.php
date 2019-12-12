@@ -3008,7 +3008,7 @@ use Helpers\Constants\EventMembers;
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-sun/symbol-draft';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-sun/symbol-draft';
 
             return false;
         });

@@ -3254,7 +3254,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-sun/content_review_checker';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-sun/content_review_checker';
 
             return false;
         });

@@ -146,6 +146,7 @@ $parsedown = new Parsedown();
                     <input type="hidden" name="level" value="l3">
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
