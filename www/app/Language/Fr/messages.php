@@ -19,6 +19,7 @@ return array (
     "members" => "Membres",
     "on" => "Activé",
     "off" => "Désactivé",
+    "submit_crash_report" => "Soumettre un rapport de plantage",
 
     // ------------ Members Controller ------------------ //
 
@@ -1646,7 +1647,7 @@ return array (
     "not_possible_to_save_error" => "Vous ne pouvez pas modifier votre traduction après que le vérificateur l’a approuvée.",
     "empty_verses_error" => "Vous n’avez pas traduit tous les tronçons.",
     "wrong_chunks_error" => "Mauvaise configuration des tronçons",
-    "error_ocured" => "Une erreur s’est produite. {0}",
+    "error_ocured" => "Whoops! Une erreur s’est produite. {0}",
     "error_member_in_event" => "Ce membre a déjà postulé pour cette évènement, peut-être dans des niveaux antérieurs.",
     "no_l2_3_checkers_available_error" => "Pas de poste vacant pour les vérificateurs niveau {0}.",
     "no_translators_available_error" => "Pas de poste vacant pour les traducteurs.",
