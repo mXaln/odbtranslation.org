@@ -8,4 +8,7 @@
 
 use Config\Config;
 
-Sentry\init(['dsn' => Config::get("sentry.dsn") ]);
+Sentry\init([
+    'dsn' => Config::get("sentry.dsn"),
+    'release' => Config::get("app.release")
+]);
