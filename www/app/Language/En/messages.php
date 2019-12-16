@@ -19,6 +19,7 @@ return array (
     "members" => "Members",
     "on" => "On",
     "off" => "Off",
+    "submit_crash_report" => "Submit Crash Report",
 
     // ------------ Members Controller ------------------ //
 
@@ -1609,7 +1610,7 @@ return array (
     "not_possible_to_save_error" => "You cannot edit your translation after checker has approved it.",
     "empty_verses_error" => "You haven't translated all the chunks.",
     "wrong_chunks_error" => "Wrong setting of chunks.",
-    "error_ocured" => "An error occured. {0}",
+    "error_ocured" => "Whoops! An error has occurred. {0}",
     "error_member_in_event" => "The member has already applied to this event. Perhaps on previous levels.",
     "no_l2_3_checkers_available_error" => "No more vacancy available for level {0} checkers.",
     "no_translators_available_error" => "No more vacancy available for translators.",
