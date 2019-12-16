@@ -5,6 +5,7 @@ var chunks = [];
 var lastCommentEditor;
 var lastCommentAltEditor;
 var hasChangesOnPage = false;
+var hasLangInputChangesOnPage = false;
 var autosaveTimer;
 var autosaveRequest;
 
@@ -250,14 +251,14 @@ $(document).ready(function() {
     $("#applyEvent").submit(function(e) {
 
         $.ajax({
-                url: $("#applyEvent").prop("action"),
-                method: "post",
-                data: $("#applyEvent").serialize(),
-                dataType: "json",
-                beforeSend: function() {
-                    $(".applyEventLoader").show();
-                }
-            })
+            url: $("#applyEvent").prop("action"),
+            method: "post",
+            data: $("#applyEvent").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".applyEventLoader").show();
+            }
+        })
             .done(function(data) {
                 $("label").removeClass("label_error");
 
@@ -373,12 +374,12 @@ $(document).ready(function() {
             step == EventCheckSteps.PEER_REVIEW_L2 ||
             step == EventCheckSteps.PEER_EDIT_L3)
         {
-            if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
+            /*if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
                 var item = step == EventSteps.BLIND_DRAFT ||
                         step == EventSteps.REARRANGE ||
                         step == EventSteps.SYMBOL_DRAFT
-                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk 
+                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk
                     : "event"+eventID;
 				var saved = localStorage.getItem(item);
 				if(saved)
@@ -391,7 +392,7 @@ $(document).ready(function() {
 					localStorage.removeItem(item);
 					hasChangesOnPage = true;
 				}
-			}
+			}*/
 
             autosaveTimer = setInterval(function() {
                 if(typeof isDemo != "undefined" && isDemo)
@@ -403,23 +404,23 @@ $(document).ready(function() {
                 if(hasChangesOnPage)
                 {
                     autosaveRequest = $.ajax({
-                            url: "/events/rpc/autosave_chunk",
-                            method: "post",
-                            data: {
-                                eventID: eventID,
-                                formData: $("#main_form").serialize()
-                            },
-                            dataType: "json",
-                            beforeSend: function() {
+                        url: "/events/rpc/autosave_chunk",
+                        method: "post",
+                        data: {
+                            eventID: eventID,
+                            formData: $("#main_form").serialize()
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
 
-                            }
-                        })
+                        }
+                    })
                         .done(function(data) {
                             if(data.success)
                             {
                                 $(".unsaved_alert").hide();
                                 hasChangesOnPage = false;
-                                localStorage.removeItem(item);
+                                //localStorage.removeItem(item);
                             }
                             else
                             {
@@ -441,12 +442,12 @@ $(document).ready(function() {
                                             break;
 
                                         case "checkDone":
-                                            hasChangesOnPage = false;
+                                            //hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
-                                            
+
                                         case "json":
-                                            hasChangesOnPage = false;
+                                            //hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
                                     }
@@ -457,8 +458,8 @@ $(document).ready(function() {
                         .error(function (xhr, status, error) {
                             debug(status);
                             debug(error);
-                            localStorage.setItem(item, $("#main_form").serialize());
-                            hasChangesOnPage = false;
+                            //localStorage.setItem(item, $("#main_form").serialize());
+                            //hasChangesOnPage = false;
                         })
                         .always(function() {
 
@@ -506,7 +507,7 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             var tm = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
+            && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
                 : "";
 
             if(typeof isOdb != "undefined") tm = "-odb" + tm;
@@ -646,16 +647,16 @@ $(document).ready(function() {
             $("#translator_steps").removeClass("closed")
                 .addClass("open");
             $("#translator_steps").animate({left: 0}, 500, function() {
-            $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
-                .addClass("glyphicon-chevron-left");
-            //deleteCookie("close_left_panel");
-            setCookie("close_left_panel", false, {expires: 365*24*60*60, path: "/"});
-        });
+                $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
+                    .addClass("glyphicon-chevron-left");
+                //deleteCookie("close_left_panel");
+                setCookie("close_left_panel", false, {expires: 365*24*60*60, path: "/"});
+            });
         }
     });
 
-	$("form #confirm_step").prop("checked", false);
-	$("form #next_step").prop("disabled", true);
+    $("form #confirm_step").prop("checked", false);
+    $("form #next_step").prop("disabled", true);
 
     // Confirm to go to the next step
     $("#confirm_step").change(function() {
@@ -722,68 +723,68 @@ $(document).ready(function() {
                 $(".ui-dialog-buttonset button").prop("disabled", true);
             }
         })
-        .done(function(data) {
-            if(data.success)
-            {
-                var data = {
-                    type: "checkDone",
-                    eventID: eventID,
-                    chkMemberID: chkMemberID,
-                };
-                socket.emit("system message", data);
-
-                if(window.opener != null)
+            .done(function(data) {
+                if(data.success)
                 {
-                    if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                    var data = {
+                        type: "checkDone",
+                        eventID: eventID,
+                        chkMemberID: chkMemberID,
+                    };
+                    socket.emit("system message", data);
+
+                    if(window.opener != null)
                     {
-                        window.location.reload(true);
+                        if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                        {
+                            window.location.reload(true);
+                        }
+                        else
+                        {
+                            window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                            window.close();
+                        }
                     }
                     else
                     {
-                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
-                        window.close();
+                        window.location = "/events";
                     }
                 }
                 else
                 {
-                    window.location = "/events";
-                }
-            }
-            else
-            {
-                var message = "";
-                $.each(data.errors, function(i, v) {
-                    message += v + "<br>";
-                });
+                    var message = "";
+                    $.each(data.errors, function(i, v) {
+                        message += v + "<br>";
+                    });
 
-                if (typeof data.kw_exist != "undefined") {
-                    renderConfirmPopup(Language.skip_keywords, Language.skip_keywords_message,
-                        function () {
-                            $("input[name=skip_kw]").val(1);
-                            $("input[name=confirm_step]").prop("checked", true);
-                            $("#checker_submit").submit();
-                            $( this ).dialog("close");
-                        },
-                        function () {
-                            $("#confirm_step").prop("checked", false);
-                            $("#next_step").prop("disabled", true);
-                            $( this ).dialog("close");
-                        },
-                        function () {
-                            $("#confirm_step").prop("checked", false);
-                            $("#next_step").prop("disabled", true);
-                            $( this ).dialog("close");
-                        })
-                } else {
-                    renderPopup(message);
+                    if (typeof data.kw_exist != "undefined") {
+                        renderConfirmPopup(Language.skip_keywords, Language.skip_keywords_message,
+                            function () {
+                                $("input[name=skip_kw]").val(1);
+                                $("input[name=confirm_step]").prop("checked", true);
+                                $("#checker_submit").submit();
+                                $( this ).dialog("close");
+                            },
+                            function () {
+                                $("#confirm_step").prop("checked", false);
+                                $("#next_step").prop("disabled", true);
+                                $( this ).dialog("close");
+                            },
+                            function () {
+                                $("#confirm_step").prop("checked", false);
+                                $("#next_step").prop("disabled", true);
+                                $( this ).dialog("close");
+                            })
+                    } else {
+                        renderPopup(message);
+                    }
+                    console.log(data);
                 }
-                console.log(data);
-            }
-        })
-        .always(function() {
-            $(".checkerLoader").hide();
-            $(".ui-dialog-buttonset button").prop("disabled", false);
-        });
+            })
+            .always(function() {
+                $(".checkerLoader").hide();
+                $(".ui-dialog-buttonset button").prop("disabled", false);
+            });
 
         return false;
     });
@@ -1004,7 +1005,7 @@ $(document).ready(function() {
                 var notifBlock = '' +
                     '<div class="no_notif">'+Language.noNotifsMsg+'</div>' +
                     '<div class="all_notifs">' +
-                        '<a href="/events/notifications">'+Language.seeAll+'</a>' +
+                    '<a href="/events/notifications">'+Language.seeAll+'</a>' +
                     '</div>';
                 $(".notif_block").html(notifBlock);
             }
@@ -1067,19 +1068,19 @@ $(document).ready(function() {
         if(comment.text() != text)
         {
             $.ajax({
-                    url: "/events/rpc/save_comment",
-                    method: "post",
-                    data: {
-                        eventID: eventID,
-                        chapter: chapchunk[0],
-                        chunk: chapchunk[1],
-                        comment: text,
-                        level: level},
-                    dataType: "json",
-                    beforeSend: function() {
-                        $(".commentEditorLoader").show();
-                    }
-                })
+                url: "/events/rpc/save_comment",
+                method: "post",
+                data: {
+                    eventID: eventID,
+                    chapter: chapchunk[0],
+                    chunk: chapchunk[1],
+                    comment: text,
+                    level: level},
+                dataType: "json",
+                beforeSend: function() {
+                    $(".commentEditorLoader").show();
+                }
+            })
                 .done(function(data) {
                     if(data.success)
                     {
@@ -1128,10 +1129,10 @@ $(document).ready(function() {
                     $(".commentEditorLoader").hide();
                 });
         }
-		else
-		{
-			$(".comment_div").hide();
-		}
+        else
+        {
+            $(".comment_div").hide();
+        }
     });
 
     $(".comment_div, .footnote_editor").draggable({snap: 'inner', handle: '.panel-heading'});
@@ -1369,9 +1370,9 @@ $(document).ready(function() {
         if(typeof isInfoPage != "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
-            && step != EventSteps.THEO_CHECK
-            && step != EventSteps.HIGHLIGHT)) return;
-        
+                && step != EventSteps.THEO_CHECK
+                && step != EventSteps.HIGHLIGHT)) return;
+
         var verseID = $(this).attr("class");
         var text;
 
@@ -1441,7 +1442,7 @@ $(document).ready(function() {
                                 }, 500);
                                 //renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
                                 //    $(this).dialog("close");
-                                    saveOrRemoveKeyword(verseID, text, index, false);
+                                saveOrRemoveKeyword(verseID, text, index, false);
                                 //});
                             }
                             else
@@ -1496,7 +1497,7 @@ $(document).ready(function() {
         if(!window.getSelection().isCollapsed) return;
 
         var isL2Checker = typeof isLevel2 != "undefined"
-                && !isChecker ? true : false;
+        && !isChecker ? true : false;
 
         if((isChecker || ["tn"].indexOf(tMode) > -1 || isL2Checker)
             && (step == EventSteps.KEYWORD_CHECK
@@ -1535,15 +1536,15 @@ $(document).ready(function() {
         if(typeof eventID == "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
-            && step != EventSteps.CONTENT_REVIEW
-            && step != EventSteps.FINAL_REVIEW
-            && step != EventSteps.HIGHLIGHT
-            && step != EventSteps.PEER_REVIEW
-            && step != EventCheckSteps.KEYWORD_CHECK_L2
-            && step != EventSteps.THEO_CHECK
-            && step != EventCheckSteps.PEER_REVIEW_L2)) return;
-        
-        if(step == EventSteps.PEER_REVIEW && 
+                && step != EventSteps.CONTENT_REVIEW
+                && step != EventSteps.FINAL_REVIEW
+                && step != EventSteps.HIGHLIGHT
+                && step != EventSteps.PEER_REVIEW
+                && step != EventCheckSteps.KEYWORD_CHECK_L2
+                && step != EventSteps.THEO_CHECK
+                && step != EventCheckSteps.PEER_REVIEW_L2)) return;
+
+        if(step == EventSteps.PEER_REVIEW &&
             typeof disableHighlight == "undefined") return;
 
         /*$("div[class^=kwverse]").html(function() {
@@ -1624,45 +1625,45 @@ $(document).ready(function() {
                     },
                     onPaste: function(e) {
                         e.preventDefault();
-                        
+
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
-                        
+
                         var html = (e.originalEvent || e).clipboardData.getData('text/html') || (e.originalEvent || e).clipboardData.getData('text/plain');
                         var dom = $("<div>" + html + "</div>");
 
                         $("*", dom).each(function() {
-							// Remove colgroup tag
+                            // Remove colgroup tag
                             if($(this).is("colgroup"))
                                 $(this).remove();
 
                             // Remove style tag
-							if($(this).is("style"))
-								$(this).remove();
-							
-							// Unwrap font tag if any
-							if($(this).is("font"))
-								$(this).contents().unwrap();
-							
-							// Unwrap pre tag if any
-							if($(this).parent().is("pre"))
-								$(this).unwrap();
-							
-							// Replace absolute urls by relative ones when using keyboard to paste
-							if($(this).is("a"))
-								$(this).attr("href", $(this).attr("title"));
-							
-							// Fix when bold links come without spaces
-							if($(this).is("strong"))
-								$("<span> </span>").insertAfter($(this));
-							
-							$(this).removeAttr("style")
-								.removeAttr("class")
-								.removeAttr("id")
-								.removeAttr("rel")
-								.removeAttr("title")
-								.removeAttr("bgcolor");
-						});
+                            if($(this).is("style"))
+                                $(this).remove();
+
+                            // Unwrap font tag if any
+                            if($(this).is("font"))
+                                $(this).contents().unwrap();
+
+                            // Unwrap pre tag if any
+                            if($(this).parent().is("pre"))
+                                $(this).unwrap();
+
+                            // Replace absolute urls by relative ones when using keyboard to paste
+                            if($(this).is("a"))
+                                $(this).attr("href", $(this).attr("title"));
+
+                            // Fix when bold links come without spaces
+                            if($(this).is("strong"))
+                                $("<span> </span>").insertAfter($(this));
+
+                            $(this).removeAttr("style")
+                                .removeAttr("class")
+                                .removeAttr("id")
+                                .removeAttr("rel")
+                                .removeAttr("title")
+                                .removeAttr("bgcolor");
+                        });
 
                         var container = $("<div>").append(dom.clone()).html();
 
@@ -1727,7 +1728,7 @@ $(document).ready(function() {
                     autosize.update($('textarea'));
             }
         }
-        else 
+        else
         {
             // Show
             $(".main_content").addClass("col-sm-9")
@@ -1751,7 +1752,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         $(this).data("pasted", true);
-        
+
         $(".note-editable").html("");
         var content = $(".note_content").clone();
         $(".add_notes_editor").summernote("insertNode", content[0]);
@@ -2222,19 +2223,19 @@ $(document).ready(function() {
                 },
                 dataType: "json",
             })
-            .done(function(data) {
-                if(typeof data.success != "undefined" && data.success)
-                {
-                    window.location.reload();
-                }
-                else
-                {
-                    if(typeof data.error != "undefined")
+                .done(function(data) {
+                    if(typeof data.success != "undefined" && data.success)
                     {
-                        window.location.href = "/";
+                        window.location.reload();
                     }
-                }
-            });
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            window.location.href = "/";
+                        }
+                    }
+                });
         }, 60000);
     }
 
@@ -2757,8 +2758,6 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    var hasLangInputChangesOnPage = false;
-
     // Autosave verse in language input mode
     $("body").on("keyup", ".lang_input_ta", function() {
         hasLangInputChangesOnPage = true;
@@ -2971,9 +2970,9 @@ function renderPopup(message, onOK, onClose) {
     };
 
     onClose = typeof onClose != "undefined" ? onClose : function(){
-            $( this ).dialog( "close" );
-            return false;
-        };
+        $( this ).dialog( "close" );
+        return false;
+    };
 
     $(".alert_message").html(message);
     $( "#dialog-message" ).dialog({
@@ -3046,7 +3045,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         highlightKeyword(verseID, text, index, remove);
         return false;
     }
-    
+
     $.ajax({
         url: "/events/rpc/save_keyword",
         method: "post",
@@ -3107,7 +3106,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
 function highlightKeyword(verseID, text, index, remove) {
     remove = remove || false;
     var verseEl = $("."+verseID);
-    
+
     if(verseEl.length <= 0) return;
 
     text = unEscapeStr(text);
