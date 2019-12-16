@@ -384,10 +384,11 @@ $(document).ready(function() {
 				var saved = localStorage.getItem(item);
 				if(saved)
 				{
-					$.each(saved.split('&'), function (index, elem) {
-						var vals = elem.split('=');
-						$("#main_form [name='" + vals[0] + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
-					});
+					saved.split("&").forEach(function(elem, index) {
+                        var vals = elem.split('=');
+                        var key = decodeURIComponent(vals[0]);
+                        $("#main_form textarea[name='" + key + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+                    });
 
 					localStorage.removeItem(item);
 					hasChangesOnPage = true;
