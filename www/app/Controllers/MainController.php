@@ -89,4 +89,18 @@ class MainController extends Controller
             ->shares("title", __("contact_us_title"))
             ->shares("data", $data);
     }
+
+    /**
+     * Contact Us page
+     */
+    public function version()
+    {
+        $data['menu'] = 5;
+        $data['title'] = "VMAST Version";
+        $data['version'] = Config::get("app.release");
+
+        return View::make('Main/Version')
+            ->shares("title", __("Version"))
+            ->shares("data", $data);
+    }
 }
