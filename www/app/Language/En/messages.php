@@ -674,6 +674,19 @@ return array (
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
+                            <li>To add or edit a footnote for this chapter:
+                                <ol>
+                                    <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                    <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                        about an alternate translation.</li>
+                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                    <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                </ol>
+                            </li>
                             <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
                             <li>If you have additional thoughts or questions about your translation, click the note 
                                 icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save. 
@@ -750,6 +763,19 @@ return array (
                                     <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
                                     <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
                                     <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li>To add or edit a footnote for this chapter:
+                                <ol>
+                                    <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                    <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                        about an alternate translation.</li>
+                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                    <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
                             <li>When the checker has completed the check, they will contact you to discuss recommended changes via: 
@@ -860,6 +886,19 @@ return array (
                                 </ol>
                             </li>
                             <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
+                            <li>To add or edit a footnote for this chapter:
+                                <ol>
+                                    <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                    <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                        about an alternate translation.</li>
+                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                    <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                </ol>
+                            </li>
                             <li><b>The point is not word for word translation; rather, it is to see if the word/meaning is represented in the text in a way 
                                 that is grammatically and culturally appropriate in the target language.</b></li>
                             <li>When the checker has finished highlighting, they will contact you to discuss keyword and recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
@@ -946,6 +985,19 @@ return array (
                                         <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
                                         <li>Translation Questions in the sidebar. To access the questions click the tQ icon.</li>
                                         <li>Any other resources you choose.</li>
+                                    </ol>
+                                </li>
+                                <li>To add or edit a footnote for this chapter:
+                                    <ol>
+                                        <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                        <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                        <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                            about an alternate translation.</li>
+                                        <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                        <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                        <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                            icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                            click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                     </ol>
                                 </li>
                                 <li>When the checker has completed the check, they will contact you to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
@@ -1131,6 +1183,19 @@ return array (
                             </ol>
                         </li>
                         <li>Any resources can be used for checking.</li>
+                        <li>To add or edit a footnote for this chapter:
+                            <ol>
+                                <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                    about an alternate translation.</li>
+                                <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                    icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                    click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                            </ol>
+                        </li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "snd-check" => "Peer Check",
@@ -1164,6 +1229,19 @@ return array (
                         </ol>
                     </li>
                     <li>Any resources can be used for checking.</li>
+                    <li>To add or edit a footnote for this chapter:
+                        <ol>
+                            <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                            <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                            <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                about an alternate translation.</li>
+                            <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                            <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                            <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                        </ol>
+                    </li>
                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
@@ -1231,6 +1309,19 @@ return array (
                             contact your facilitator to discuss the disagreement. DO NOT complete this step until 
                             discrepancies are resolved and changed.</li>
                         <li>Any resources can be used for checking.</li>
+                        <li>To add or edit a footnote for this chapter:
+                            <ol>
+                                <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                    about an alternate translation.</li>
+                                <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                    icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                    click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                            </ol>
+                        </li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with 
@@ -1574,6 +1665,19 @@ return array (
                                     <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
                                     <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
                                     <li>Any other resources you choose.</li>
+                                </ol>
+                            </li>
+                            <li>To add or edit a footnote for this chapter:
+                                <ol>
+                                    <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                    <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
+                                        about an alternate translation.</li>
+                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                    <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
+                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>

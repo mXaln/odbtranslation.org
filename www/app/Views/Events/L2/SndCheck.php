@@ -23,13 +23,13 @@ use Helpers\Constants\EventMembers;
     <div class="footnote_window">
         <div class="fn_preview"></div>
         <div class="fn_buttons" dir="<?php echo $data["event"][0]->sLangDir ?>">
-            <button class="btn btn-default" data-fn="fr" title="footnote origin reference">fr</button>
+            <!--<button class="btn btn-default" data-fn="fr" title="footnote text">fr</button>-->
             <button class="btn btn-default" data-fn="ft" title="footnote text">ft</button>
-            <button class="btn btn-default" data-fn="fq" title="footnote translation quotation">fq</button>
+            <!--<button class="btn btn-default" data-fn="fq" title="footnote translation quotation">fq</button>-->
             <button class="btn btn-default" data-fn="fqa" title="footnote alternate translation">fqa</button>
-            <button class="btn btn-default" data-fn="fk" title="footnote keyword">fk</button>
-            <button class="btn btn-default" data-fn="fl" title="footnote label text">fl</button>
-            <button class="btn btn-link" data-fn="link">Footnotes Specification</button>
+            <!--<button class="btn btn-default" data-fn="fk" title="footnote keyword">fk</button>-->
+            <!--<button class="btn btn-default" data-fn="fl" title="footnote label text">fl</button>-->
+            <!--<button class="btn btn-link" data-fn="link">Footnotes Specification</button>-->
         </div>
         <div class="fn_builder"></div>
     </div>

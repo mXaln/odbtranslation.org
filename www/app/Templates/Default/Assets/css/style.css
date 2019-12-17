@@ -5325,3 +5325,13 @@ button.add_verse_ta {
     border-left: 1px solid #ccc;
     padding: 20px;
 }
+
+.footnote {
+    background-color: #99edf0;
+}
+
+.footer_container {
+    margin: 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+}

@@ -70,7 +70,7 @@ use Helpers\Constants\EventMembers;
                                         <div class="vnote">
                                             <?php foreach($verses as $verse => $text): ?>
                                                 <div class="verse_block" data-verse="<?php echo $verse; ?>" style="margin-bottom: 10px;">
-                                                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                                                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".preg_replace("/(\\\\f(?:.*)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></p>
                                                 </div>
                                             <?php endforeach; ?>
                                         </div>
