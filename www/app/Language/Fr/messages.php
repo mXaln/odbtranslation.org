@@ -681,13 +681,14 @@ return array (
                                 <ol>
                                     <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                     <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                        about an alternate translation.</li>
-                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>Click on \"ft\" to add footnote text.</li>
+                                    <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                        then click \"fqa\" to add the alternate text.</li>
+                                    <li>Click \"Save\" when text is added.</li>
                                     <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                     <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        icon and it will pop up the window for you edit the footnote.</li>
+                                    <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
                             <li>N’effacez pas ou n’écrivez pas de nouveau le texte traduit. Vous perdrez le flot naturel du texte.</li>
@@ -773,13 +774,14 @@ return array (
                                 <ol>
                                     <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                     <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                        about an alternate translation.</li>
-                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>Click on \"ft\" to add footnote text.</li>
+                                    <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                        then click \"fqa\" to add the alternate text.</li>
+                                    <li>Click \"Save\" when text is added.</li>
                                     <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                     <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        icon and it will pop up the window for you edit the footnote.</li>
+                                    <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
                             <li>Quand le vérificateur a fini il vous contactera pour discuter des changements qu’il 
@@ -899,13 +901,14 @@ return array (
                                 <ol>
                                     <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                     <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                        about an alternate translation.</li>
-                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>Click on \"ft\" to add footnote text.</li>
+                                    <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                        then click \"fqa\" to add the alternate text.</li>
+                                    <li>Click \"Save\" when text is added.</li>
                                     <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                     <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        icon and it will pop up the window for you edit the footnote.</li>
+                                    <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
                             <li><b>Le point n’est pas de faire une traduction mot par mot; plutôt, c’est pour voir si 
@@ -1014,13 +1017,14 @@ return array (
                                     <ol>
                                         <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                         <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                        <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                            about an alternate translation.</li>
-                                        <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                        <li>Click on \"ft\" to add footnote text.</li>
+                                        <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                            then click \"fqa\" to add the alternate text.</li>
+                                        <li>Click \"Save\" when text is added.</li>
                                         <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                         <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                            icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                            click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                            icon and it will pop up the window for you edit the footnote.</li>
+                                        <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                     </ol>
                                 </li>
                                 <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te contactera 
@@ -1224,13 +1228,14 @@ return array (
                             <ol>
                                 <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                 <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                    about an alternate translation.</li>
-                                <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                <li>Click on \"ft\" to add footnote text.</li>
+                                <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                    then click \"fqa\" to add the alternate text.</li>
+                                <li>Click \"Save\" when text is added.</li>
                                 <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                 <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                    icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                    click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                    icon and it will pop up the window for you edit the footnote.</li>
+                                <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                             </ol>
                         </li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
@@ -1270,13 +1275,14 @@ return array (
                         <ol>
                             <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                             <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                            <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                about an alternate translation.</li>
-                            <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                            <li>Click on \"ft\" to add footnote text.</li>
+                            <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                then click \"fqa\" to add the alternate text.</li>
+                            <li>Click \"Save\" when text is added.</li>
                             <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                             <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                icon and it will pop up the window for you edit the footnote.</li>
+                            <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                         </ol>
                     </li>
                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
@@ -1350,13 +1356,14 @@ return array (
                             <ol>
                                 <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                 <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                    about an alternate translation.</li>
-                                <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                <li>Click on \"ft\" to add footnote text.</li>
+                                <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                    then click \"fqa\" to add the alternate text.</li>
+                                <li>Click \"Save\" when text is added.</li>
                                 <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                 <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                    icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                    click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                    icon and it will pop up the window for you edit the footnote.</li>
+                                <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                             </ol>
                         </li>
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
@@ -1708,13 +1715,14 @@ return array (
                                 <ol>
                                     <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
                                     <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
-                                    <li>In the pop-up window, click on \"ft\" to leave a footnote or \"fqa\" to leave a note 
-                                        about an alternate translation.</li>
-                                    <li>A text field will appear after you click \"ft\" or \"fqa\". Type your note there and click \"Save\".</li>
+                                    <li>Click on \"ft\" to add footnote text.</li>
+                                    <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                        then click \"fqa\" to add the alternate text.</li>
+                                    <li>Click \"Save\" when text is added.</li>
                                     <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
                                     <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
-                                        icon and it will pop up the window for you edit the footnote. To delete a footnote, 
-                                        click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        icon and it will pop up the window for you edit the footnote.</li>
+                                    <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
