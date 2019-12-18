@@ -41,8 +41,8 @@ if(isset($data["error"])) return;
                     <div id="source_scripture_content" class="col-sm-12 no_padding my_content shown">
                         <?php foreach($data["chunks"] as $key => $chunk) : $verse = $chunk[0] ?>
                             <?php $hidden = $verse == OdbSections::DATE || trim($data["text"][$verse]) == ""; ?>
-                            <div class="row chunk_block" style="<?php echo $hidden ? "display: none;" : "" ?>">
-                                <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                            <div class="flex_container chunk_block" style="<?php echo $hidden ? "display: none;" : "" ?>">
+                                <div class="chunk_verses flex_left" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                     <?php foreach ($chunk as $verse): ?>
                                         <div>
                                             <strong dir="<?php echo $data["event"][0]->sLangDir ?>"
@@ -58,40 +58,42 @@ if(isset($data["error"])) return;
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-                                <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
+                                <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <div class="vnote">
                                         <textarea name="chunks[]" class="col-sm-6 verse_ta textarea sun_content"><?php
                                             echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
                                         ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="flex_right">
+                                    <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
+                                    <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
+                                    </div>
+                                    <span class="editComment mdi mdi-lead-pencil"
+                                          data="<?php echo $data["currentChapter"].":".$key ?>"
+                                          title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                        <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                        <div class="comments_number <?php echo $hasComments ? "hasComment" : "" ?>">
-                                            <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
-                                        </div>
-                                        <img class="editComment" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                        <div class="comments">
-                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
-                                                <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                                    <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
-                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                    <?php else: ?>
-                                                        <div class="other_comments">
-                                                            <?php echo
-                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </div>
-                                        <div class="clear"></div>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="chunk_divider col-sm-12" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
+                            <div class="chunk_divider" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
                         <?php endforeach; ?>
                     </div>
 

@@ -2010,7 +2010,7 @@ mark {
     cursor: pointer;
 }
 
-.comment_div, .alt_comment_div {
+.comment_div, .alt_comment_div, .footnote_editor {
     text-align: center;
     position: absolute;
     left: calc(50% - 250px);
@@ -2025,7 +2025,7 @@ mark {
     cursor: pointer;
 }
 
-.editor-close, .alt_editor-close {
+.editor-close, .alt_editor-close, .footnote-editor-close {
     position: absolute;
     top: 3px;
     right: 2px;
@@ -2033,12 +2033,46 @@ mark {
     padding: 4px 12px;
 }
 
-.xbtn {
+.xbtn, .xbtnf {
     position: absolute;
     top: 10px;
     left: 7px;
     right: auto;
     font-size: 16px;
+}
+
+.fn_preview {
+    min-height: 50px;
+    background-color: antiquewhite;
+    align-items: center;
+    padding: 5px;
+}
+
+.fn_buttons {
+    margin: 5px 0;
+}
+
+.fn_builder {
+    min-height: 100px;
+    border-top: 1px solid #ccc;
+    text-align: left;
+    padding: 5px;
+}
+
+.fn_builder div {
+    margin: 5px 0;
+}
+
+.fn_lm {
+    display: flex;
+}
+
+.fn_lm input {
+    margin: 0 5px;
+}
+
+.fn-remove {
+    cursor: pointer;
 }
 
 .verse_with_note {
@@ -2057,64 +2091,38 @@ mark {
     max-width: 400px;
 }
 
-.editCommentAlt, .editComment {
-    position: absolute;
-    top: 5px; right: -20px;
+.notes_tools {
+    display: flex;
+    flex-direction: column;
+}
+
+.editFootNote {
+    margin-top: 5px;
     cursor: pointer;
 }
 
-.editComment.tncomm {
-    right: 5px;
+.editComment, .editCommentAlt {
+    cursor: pointer;
 }
 
-.editComment.tncommpeer {
-    right: 20px;
+span.mdi.mdi-bookmark, note.mdi.mdi-bookmark {
+    font-size: 22px;
 }
 
-.editComment.tncomml3 {
-    right: 5px;
-    top: 10px;
-}
-
-.editComment.tncomml3_alt {
-    right: -5px;
-    top: 0px;
-}
-
-.comments_number.tncomml3 {
-    right: -25px;
-    top: 5px;
-}
-
-.comments_number.tncomml3_alt {
-    right: -30px;
-    top: -5px;
+span.mdi.mdi-lead-pencil {
+    font-size: 22px;
 }
 
 .comments_number {
-    position: absolute;
-    top: 0px; right: -42px;
     z-index: 10;
     width: 20px;
     height: 25px;
     background-image: url("/templates/default/assets/img/note_empty.png");
 }
 
-.comments_number.tncomm {
-    right: -24px;
-}
-
-.comments_number.tncommpeer {
-    right: -5px;
-}
-
 .hasComment {
-    /*background-color: #ffd800;
-    border: 1px solid #d58512;
-    border-radius: 10px;*/
     text-align: center;
     font-weight: bold;
-    /*padding: 0 0 2px 0;*/
     color: #fff;
     background-image: url("/templates/default/assets/img/note_has.png");
 }
@@ -4350,11 +4358,6 @@ button.startEvnt, button.editEvnt {
     padding: 10px 0;
 }
 
-.note_chunk.l3 {
-    display: flex;
-    justify-content: space-between;
-}
-
 .notes_content_block {
     display: none;
 }
@@ -5186,14 +5189,14 @@ button.startEvnt, button.editEvnt {
 
 .lang_input_verse {
     position: relative;
+    display: flex;
 }
 
 .lang_input_verse > textarea {
-    width: 95%;
     height: 40px;
 }
 
-.lang_input_verse > span {
+.lang_input_verse > span.vn {
     display: block;
     position: absolute;
     top: 0px;
@@ -5206,7 +5209,7 @@ button.startEvnt, button.editEvnt {
     display: none;
     position: absolute;
     top: 0px;
-    right: -25px;
+    right: -40px;
     padding-left: 10px;
     width: 35px;
 }
@@ -5216,7 +5219,7 @@ button.startEvnt, button.editEvnt {
 }
 
 button.add_verse_ta {
-    width: 95%;
+    width: 100%;
 }
 
 .faq_list.tools ul {
@@ -5291,10 +5294,6 @@ button.add_verse_ta {
 .flex_right {
 }
 
-.flex_commn_number, .flex_commn_img {
-    position: initial;
-}
-
 .custom_src_type {
     display: none;
 }
@@ -5325,4 +5324,14 @@ button.add_verse_ta {
     flex: 1;
     border-left: 1px solid #ccc;
     padding: 20px;
+}
+
+.footnote {
+    background-color: #99edf0;
+}
+
+.footer_container {
+    margin: 15px 0 0;
+    display: flex;
+    justify-content: space-between;
 }

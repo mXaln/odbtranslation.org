@@ -28,7 +28,7 @@
                 <p><strong><sup>11</sup></strong> This saying is trustworthy:   "If we have died with him, we will also live with him. </p>
                 <p><strong><sup>12</sup></strong> If we endure, we will also reign with him. If we deny him, he also will deny us. </p>
                 <p><strong><sup>13</sup></strong> if we are unfaithful, he remains faithful,  for he cannot deny himself." </p>
-                <p><strong><sup>14</sup></strong> Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen. <note data-original-title="Some versions read, Warn them before the Lord " data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note></p>
+                <p><strong><sup>14</sup></strong> Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen. <note data-original-title="Some versions read, Warn them before the Lord " data-toggle="tooltip" data-placement="auto right" title="" class="mdi mdi-bookmark"></note></p>
                 <p><strong><sup>15</sup></strong> Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</p>
                 <p><strong><sup>16</sup></strong> Avoid profane talk, which leads to more and more godlessness.</p>
                 <p><strong><sup>17</sup></strong> Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</p>
@@ -350,7 +350,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo/verbalize';
+            if(!hasChangesOnPage) window.location.href = '/events/demo/verbalize';
 
             return false;
         });

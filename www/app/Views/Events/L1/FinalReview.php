@@ -88,7 +88,7 @@ if(isset($data["error"])) return;
                                                     }
                                                     else
                                                     {
-                                                        $words = preg_split("/ /", $item);
+                                                        $words = preg_split("/\s/", $item);
                                                         foreach ($words as $word) {
                                                             echo "<div class='splword' contenteditable='true'>{$word}</div> ";
                                                         }

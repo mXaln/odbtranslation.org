@@ -8,7 +8,7 @@ var Language = {
     "noKeywords"                : "Tidak ada kata kunci untuk bahasa ini.",
     "checkBookConfirm"          : "Apakah Anda benar-benar ingin memeriksa buku ini? Halaman akan terbuka pada tab/window baru.",
     "checkBookConfirmTitle"     : "Permohonan pengecekan",
-    "saveChangesConfirm"        : "Ada beberapa hal yang diubah pada halaman ini. Apakah Anda ingin melanjutkan tanpa menyimpan?",
+    "saveChangesConfirm"        : "Ada beberapa hal yang diubah pada halaman ini. Harap tunggu hingga perubahan disimpan, lalu coba lagi.",
     "saveChangesConfirmTitle"   : "Perubahan telah dibuat",
     "partnerJoinedVerbalize"    : "Rekan Anda telah bergabung pada langkah 'Verbalize'",
     "partnerJoinedPeerEdit"     : "Rekan Anda telah bergabung pada langkah 'Peer-Edit'",

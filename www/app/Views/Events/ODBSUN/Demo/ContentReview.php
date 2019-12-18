@@ -38,145 +38,161 @@
                 </ul>
 
                 <div id="source_scripture_content" class="col-sm-12 no_padding my_content shown">
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("title") ?>: </strong>
                                 <div class="kwverse_2_0_1">A Good Man</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 verse_ta textarea sun_content"
                                           style="min-height: 80px;">    </textarea>
-                                <div class="comments_number hasComment">2 </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments">
-                                    <div class="other_comments">
-                                        <div><span>Anna S. - L1:</span> This is comment of a translator</div>
-                                    </div>
-                                    <div class="my_comment">This is a comment of checker</div>
+
+                            </div>
+                        </div>
+                        <div class="flex_right">
+                            <div class="comments_number hasComment">2</div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments">
+                                <div class="other_comments">
+                                    <div><span>Anna S. - L1:</span> This is comment of a translator</div>
                                 </div>
-                                <div class="clear"></div>
+                                <div class="my_comment">This is a comment of checker</div>
                             </div>
                         </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("author") ?>: </strong>
                                 <div class="kwverse_2_0_3">Cindy Hess Kasper</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;"> </textarea>
-                                <div class="comments_number hasComment">1 </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments">
-                                    <div class="other_comments">
 
-                                    </div>
-                                    <div class="my_comment">This is a comment of checker</div>
-                                </div>
-                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="flex_right">
+                            <div class="comments_number hasComment">1</div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments">
+                                <div class="other_comments"></div>
+                                <div class="my_comment">This is a comment of checker</div>
                             </div>
                         </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("passage") ?>: </strong>
                                 <div class="kwverse_2_0_5">Romans 3:10-18</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;">  :      :  -  </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("bible_in_a_year") ?>: </strong>
                                 <div class="kwverse_2_0_10">Numbers 26-27; Mark 8:1-21</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;"> </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("verse") ?>: </strong>
                                 <div class="kwverse_2_0_14">Salvation is God’s gift. It is not based on anything you
                                     have done. Ephesians 2:8</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;">                        :   </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("thought") ?>: </strong>
                                 <div class="kwverse_2_0_17">We are saved by God’s work</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;">      </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("content", ["number" => 1]) ?>: </strong>
                                 <div class="kwverse_2_0_19">My friend Jerry was a good man. When he died the past said
@@ -185,22 +201,25 @@
                                     was a good man.</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;">                                       </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("content", ["number" => 2]) ?>: </strong>
                                 <div class="kwverse_2_0_21">The pastor said Jerry’s good things do not get him to heaven.
@@ -210,22 +229,25 @@
                                     Jerry. Jerry knew believing in Jesus was his way to heaven.</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;">                                                                        </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
+                    <div class="chunk_divider"></div>
+                    <div class="flex_container chunk_block">
+                        <div class="chunk_verses flex_left" dir="ltr">
                             <div>
                                 <strong class="ltr"> <?php echo __("content", ["number" => 3]) ?>: </strong>
                                 <div class="kwverse_2_0_24">Every person needs God to forgive them. Jesus died on the
@@ -233,20 +255,23 @@
                                     God’s figt. It is not based on anything we do. His gift is wonderful.</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="flex_middle editor_area" dir="ltr">
                             <div class="vnote">
                                 <textarea name="chunks[]"
                                           class="col-sm-6 peer_verse_ta textarea sun_content"
                                           style="min-height: 80px;">                                       </textarea>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>"
-                                     title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"> </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"></div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
+                    <div class="chunk_divider"></div>
                 </div>
 
                 <div id="rearrange_content" class="my_content">
@@ -315,6 +340,7 @@
                     </div>
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </form>
                 <div class="step_right"><?php echo __("step_num", ["step_number" => 6])?></div>
             </div>
@@ -379,7 +405,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-sun-odb/pray';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-sun-odb/pray';
 
             return false;
         });

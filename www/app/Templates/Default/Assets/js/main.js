@@ -5,6 +5,7 @@ var chunks = [];
 var lastCommentEditor;
 var lastCommentAltEditor;
 var hasChangesOnPage = false;
+var hasLangInputChangesOnPage = false;
 var autosaveTimer;
 var autosaveRequest;
 
@@ -139,7 +140,7 @@ $(document).ready(function() {
     $("#sof_agree").click(function() {
         $("#sof").prop('checked', true);
         $('#sof_modal').modal('hide');
-        $("#sof").parents("label").popover('destroy');
+        $("#sof").closest("label").popover('destroy');
     });
 
     $("#sof_cancel").click(function() {
@@ -155,7 +156,7 @@ $(document).ready(function() {
 
     $("#tou_agree").click(function() {
         $("#tou").prop('checked', true);
-        $("#tou").parents("label").popover('destroy');
+        $("#tou").closest("label").popover('destroy');
         $('#tou_modal').modal('hide');
     });
 
@@ -250,14 +251,14 @@ $(document).ready(function() {
     $("#applyEvent").submit(function(e) {
 
         $.ajax({
-                url: $("#applyEvent").prop("action"),
-                method: "post",
-                data: $("#applyEvent").serialize(),
-                dataType: "json",
-                beforeSend: function() {
-                    $(".applyEventLoader").show();
-                }
-            })
+            url: $("#applyEvent").prop("action"),
+            method: "post",
+            data: $("#applyEvent").serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $(".applyEventLoader").show();
+            }
+        })
             .done(function(data) {
                 $("label").removeClass("label_error");
 
@@ -289,7 +290,7 @@ $(document).ready(function() {
     });
 
     $(".panel-close").click(function() {
-        $(this).parents(".form-panel").css("left", -9999);
+        $(this).closest(".form-panel").css("left", -9999);
     });
 
 
@@ -332,21 +333,17 @@ $(document).ready(function() {
     $(".verse_ta:first").focus();
 
     $(".my_comment").each(function() {
-        var img = $(this).parent(".comments").prev(".editComment");
+        var pencil = $(this).parent(".comments").prev(".editComment");
 
-        if(img.length > 0)
+        if(pencil.length > 0)
         {
-            var src = img.attr("src");
-
             if($(this).text() == "")
             {
-                src = src.replace(/edit_done.png/, "edit.png");
-                img.attr("src", src);
+                pencil.css("color", "black");
             }
             else
             {
-                src = src.replace(/edit.png/, "edit_done.png");
-                img.attr("src", src);
+                pencil.css("color", "#a52f20");
             }
         }
     });
@@ -377,52 +374,54 @@ $(document).ready(function() {
             step == EventCheckSteps.PEER_REVIEW_L2 ||
             step == EventCheckSteps.PEER_EDIT_L3)
         {
-            if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
+            /*if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
 			{
                 var item = step == EventSteps.BLIND_DRAFT ||
                         step == EventSteps.REARRANGE ||
                         step == EventSteps.SYMBOL_DRAFT
-                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk 
+                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk
                     : "event"+eventID;
 				var saved = localStorage.getItem(item);
 				if(saved)
 				{
-					$.each(saved.split('&'), function (index, elem) {
-						var vals = elem.split('=');
-						$("#main_form [name='" + vals[0] + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
-					});
+					saved.split("&").forEach(function(elem, index) {
+                        var vals = elem.split('=');
+                        var key = decodeURIComponent(vals[0]);
+                        $("#main_form textarea[name='" + key + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+                    });
 
 					localStorage.removeItem(item);
 					hasChangesOnPage = true;
 				}
-			}
-			
+			}*/
+
             autosaveTimer = setInterval(function() {
                 if(typeof isDemo != "undefined" && isDemo)
                 {
                     hasChangesOnPage = false;
+                    $(".unsaved_alert").hide();
                 }
 
                 if(hasChangesOnPage)
                 {
                     autosaveRequest = $.ajax({
-                            url: "/events/rpc/autosave_chunk",
-                            method: "post",
-                            data: {
-                                eventID: eventID,
-                                formData: $("#main_form").serialize()
-                            },
-                            dataType: "json",
-                            beforeSend: function() {
+                        url: "/events/rpc/autosave_chunk",
+                        method: "post",
+                        data: {
+                            eventID: eventID,
+                            formData: $("#main_form").serialize()
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
 
-                            }
-                        })
+                        }
+                    })
                         .done(function(data) {
                             if(data.success)
                             {
                                 $(".unsaved_alert").hide();
                                 hasChangesOnPage = false;
-                                localStorage.removeItem(item);
+                                //localStorage.removeItem(item);
                             }
                             else
                             {
@@ -444,12 +443,12 @@ $(document).ready(function() {
                                             break;
 
                                         case "checkDone":
-                                            hasChangesOnPage = false;
+                                            //hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
-                                            
+
                                         case "json":
-                                            hasChangesOnPage = false;
+                                            //hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
                                     }
@@ -460,8 +459,8 @@ $(document).ready(function() {
                         .error(function (xhr, status, error) {
                             debug(status);
                             debug(error);
-                            localStorage.setItem(item, $("#main_form").serialize());
-                            hasChangesOnPage = false;
+                            //localStorage.setItem(item, $("#main_form").serialize());
+                            //hasChangesOnPage = false;
                         })
                         .always(function() {
 
@@ -509,7 +508,7 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             var tm = typeof tMode != "undefined"
-                && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
+            && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
                 : "";
 
             if(typeof isOdb != "undefined") tm = "-odb" + tm;
@@ -649,16 +648,16 @@ $(document).ready(function() {
             $("#translator_steps").removeClass("closed")
                 .addClass("open");
             $("#translator_steps").animate({left: 0}, 500, function() {
-            $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
-                .addClass("glyphicon-chevron-left");
-            //deleteCookie("close_left_panel");
-            setCookie("close_left_panel", false, {expires: 365*24*60*60, path: "/"});
-        });
+                $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
+                    .addClass("glyphicon-chevron-left");
+                //deleteCookie("close_left_panel");
+                setCookie("close_left_panel", false, {expires: 365*24*60*60, path: "/"});
+            });
         }
     });
 
-	$("form #confirm_step").prop("checked", false);
-	$("form #next_step").prop("disabled", true);
+    $("form #confirm_step").prop("checked", false);
+    $("form #next_step").prop("disabled", true);
 
     // Confirm to go to the next step
     $("#confirm_step").change(function() {
@@ -676,17 +675,13 @@ $(document).ready(function() {
             if(step != EventSteps.BLIND_DRAFT && step != EventSteps.REARRANGE
                 && step != EventSteps.SYMBOL_DRAFT && step != EventSteps.MULTI_DRAFT)
             {
-                renderConfirmPopup(Language.saveChangesConfirmTitle, Language.saveChangesConfirm, function () {
+                renderPopup(Language.saveChangesConfirm, function () {
                     $(this).dialog("close");
-                    $this.data("yes", true);
-                    $this.click();
                 }, function () {
                     $( this ).dialog("close");
                 });
 
-                if(typeof $this.data("yes") == "undefined")
-                    e.preventDefault();
-
+                e.preventDefault();
                 return false;
             }
         }
@@ -713,7 +708,7 @@ $(document).ready(function() {
         if(window.opener != null)
         {
             window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]")
-                .parents(".event_block").remove();
+                .closest(".event_block").remove();
         }
 
         $.ajax({
@@ -729,68 +724,68 @@ $(document).ready(function() {
                 $(".ui-dialog-buttonset button").prop("disabled", true);
             }
         })
-        .done(function(data) {
-            if(data.success)
-            {
-                var data = {
-                    type: "checkDone",
-                    eventID: eventID,
-                    chkMemberID: chkMemberID,
-                };
-                socket.emit("system message", data);
-
-                if(window.opener != null)
+            .done(function(data) {
+                if(data.success)
                 {
-                    if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                    var data = {
+                        type: "checkDone",
+                        eventID: eventID,
+                        chkMemberID: chkMemberID,
+                    };
+                    socket.emit("system message", data);
+
+                    if(window.opener != null)
                     {
-                        window.location.reload(true);
+                        if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                        {
+                            window.location.reload(true);
+                        }
+                        else
+                        {
+                            window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
+                            window.close();
+                        }
                     }
                     else
                     {
-                        window.opener.$(".check1 .event_link a[data="+eventID+"_"+chkMemberID+"]").parent(".event_block").remove();
-                        window.close();
+                        window.location = "/events";
                     }
                 }
                 else
                 {
-                    window.location = "/events";
-                }
-            }
-            else
-            {
-                var message = "";
-                $.each(data.errors, function(i, v) {
-                    message += v + "<br>";
-                });
+                    var message = "";
+                    $.each(data.errors, function(i, v) {
+                        message += v + "<br>";
+                    });
 
-                if (typeof data.kw_exist != "undefined") {
-                    renderConfirmPopup(Language.skip_keywords, Language.skip_keywords_message,
-                        function () {
-                            $("input[name=skip_kw]").val(1);
-                            $("input[name=confirm_step]").prop("checked", true);
-                            $("#checker_submit").submit();
-                            $( this ).dialog("close");
-                        },
-                        function () {
-                            $("#confirm_step").prop("checked", false);
-                            $("#next_step").prop("disabled", true);
-                            $( this ).dialog("close");
-                        },
-                        function () {
-                            $("#confirm_step").prop("checked", false);
-                            $("#next_step").prop("disabled", true);
-                            $( this ).dialog("close");
-                        })
-                } else {
-                    renderPopup(message);
+                    if (typeof data.kw_exist != "undefined") {
+                        renderConfirmPopup(Language.skip_keywords, Language.skip_keywords_message,
+                            function () {
+                                $("input[name=skip_kw]").val(1);
+                                $("input[name=confirm_step]").prop("checked", true);
+                                $("#checker_submit").submit();
+                                $( this ).dialog("close");
+                            },
+                            function () {
+                                $("#confirm_step").prop("checked", false);
+                                $("#next_step").prop("disabled", true);
+                                $( this ).dialog("close");
+                            },
+                            function () {
+                                $("#confirm_step").prop("checked", false);
+                                $("#next_step").prop("disabled", true);
+                                $( this ).dialog("close");
+                            })
+                    } else {
+                        renderPopup(message);
+                    }
+                    console.log(data);
                 }
-                console.log(data);
-            }
-        })
-        .always(function() {
-            $(".checkerLoader").hide();
-            $(".ui-dialog-buttonset button").prop("disabled", false);
-        });
+            })
+            .always(function() {
+                $(".checkerLoader").hide();
+                $(".ui-dialog-buttonset button").prop("disabled", false);
+            });
 
         return false;
     });
@@ -1011,7 +1006,7 @@ $(document).ready(function() {
                 var notifBlock = '' +
                     '<div class="no_notif">'+Language.noNotifsMsg+'</div>' +
                     '<div class="all_notifs">' +
-                        '<a href="/events/notifications">'+Language.seeAll+'</a>' +
+                    '<a href="/events/notifications">'+Language.seeAll+'</a>' +
                     '</div>';
                 $(".notif_block").html(notifBlock);
             }
@@ -1074,38 +1069,36 @@ $(document).ready(function() {
         if(comment.text() != text)
         {
             $.ajax({
-                    url: "/events/rpc/save_comment",
-                    method: "post",
-                    data: {
-                        eventID: eventID,
-                        chapter: chapchunk[0],
-                        chunk: chapchunk[1],
-                        comment: text,
-                        level: level},
-                    dataType: "json",
-                    beforeSend: function() {
-                        $(".commentEditorLoader").show();
-                    }
-                })
+                url: "/events/rpc/save_comment",
+                method: "post",
+                data: {
+                    eventID: eventID,
+                    chapter: chapchunk[0],
+                    chunk: chapchunk[1],
+                    comment: text,
+                    level: level},
+                dataType: "json",
+                beforeSend: function() {
+                    $(".commentEditorLoader").show();
+                }
+            })
                 .done(function(data) {
                     if(data.success)
                     {
                         $(".comment_div").hide();
-                        var src = lastCommentEditor.attr("src");
 
                         data.text = unEscapeStr(data.text);
 
                         if(data.text.trim() == "")
                         {
-                            src = src.replace(/edit_done.png/, "edit.png");
+                            lastCommentEditor.css("color", "black")
                             comment.remove();
                         }
                         else
                         {
-                            src = src.replace(/edit.png/, "edit_done.png");
+                            lastCommentEditor.css("color", "#a52f20");
                             comment.text(data.text);
                         }
-                        lastCommentEditor.attr("src", src);
 
                         num = comments.children().length > 0 ? comments.children().length : "";
                         lastCommentEditor.prev(".comments_number").addClass("hasComment").text(num);
@@ -1137,13 +1130,169 @@ $(document).ready(function() {
                     $(".commentEditorLoader").hide();
                 });
         }
-		else
-		{
-			$(".comment_div").hide();
-		}
+        else
+        {
+            $(".comment_div").hide();
+        }
     });
 
-    $(".comment_div").draggable({snap: 'inner', handle: '.panel-heading'});
+    $(".comment_div, .footnote_editor").draggable({snap: 'inner', handle: '.panel-heading'});
+
+    var footnoteCallback;
+    $(document).on("click", ".editFootNote", function() {
+        var textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta");
+
+        if(textarea.length == 0)
+            textarea = $(this).closest(".flex_container").find(".peer_verse_ta");
+
+        if(textarea.length > 0) {
+            var startPosition = textarea.prop("selectionStart");
+            var endPosition = textarea.prop("selectionEnd");
+            var text = textarea.val();
+            var matchedNote = "";
+            var matches = text.match(/\\f\s[+-]\s(.*?)\\f\*/gi);
+            var ranges = [];
+
+            if(matches != null && matches.length > 0) {
+                for(var i=0; i<matches.length; i++) {
+                    ranges.push([
+                        text.indexOf(matches[i]),
+                        text.indexOf(matches[i]) + matches[i].length
+                    ])
+                }
+            }
+
+            // define if cursor is in the range of an existent footnote
+            for (var i=0; i<ranges.length; i++) {
+                if(startPosition >= ranges[i][0] && startPosition <= ranges[i][1]) {
+                    startPosition = ranges[i][0];
+                    endPosition = ranges[i][1];
+                    matchedNote = matches[i];
+                }
+            }
+
+            openFootnoteEditor(startPosition, endPosition, matchedNote, $(this).offset().top - 80);
+
+            footnoteCallback = function(footnote) {
+                if(footnote.trim() == "\\f + \\f*")
+                    footnote = "";
+
+                text = text.substring(0, startPosition)
+                    + footnote
+                    + text.substring(endPosition, text.length);
+                textarea.val(text);
+
+                $(".peer_verse_ta").highlightWithinTextarea("update");
+                autosize.update($('textarea'));
+                $(".peer_verse_ta").keyup();
+                $(".footnote_editor").hide();
+            }
+        }
+    });
+
+    $(".xbtnf").click(function () {
+        $(".footnote_editor").hide();
+    });
+
+    function openFootnoteEditor(startPos, endPos, footnote, offset) {
+        $(".footnote_editor").hide();
+        $(".footnote_editor .fn_builder").html("");
+        $(".footnote_editor .fn_preview").text("");
+
+        var footnoteHtml = parseFootnote(footnote);
+        $(".footnote_editor .fn_builder").html(footnoteHtml);
+        renderFootnotesPreview();
+
+        $(".footnote_editor").css("top", offset).show();
+    }
+
+    $(document).on("DOMSubtreeModified", ".fn_builder", function () {
+        renderFootnotesPreview();
+    });
+
+    $(document).on("keyup", ".fn_builder", function () {
+        renderFootnotesPreview();
+    });
+
+    $(".footnote-editor-close").click(function () {
+        var footnote = $(".footnote_editor .fn_preview").text();
+        if(footnoteCallback) {
+            footnoteCallback(footnote);
+            footnoteCallback = null;
+        }
+    });
+
+    function renderFootnotesPreview() {
+        var footnote = "\\f + ";
+
+        $(".footnote_editor .fn_builder input").each(function() {
+            if($(this).val().trim() != "")
+                footnote += "\\" + $(this).data("fn") + " " + $(this).val() + " ";
+        });
+
+        footnote += "\\f*";
+
+        $(".footnote_editor .fn_preview").text(footnote);
+    }
+
+    function parseFootnote(footnote) {
+        if(footnote == "") {
+            return "";
+        }
+
+        var tags = ["fr","ft","fq","fqa","fk","fl"];
+        var html = "";
+
+        footnote = footnote
+            .replace(/\\f\s[+-]\s/gi, "")
+            .replace(/\\f\*/gi, "")
+            .replace(/\\fqa\*/gi, "");
+
+        var parts = footnote.split(/\\(f(?:r|t|qa|q|k|l))/gi);
+        var map = [];
+        var prevTag = "";
+        if(parts.length > 1) {
+            for(var i=0; i<parts.length; i++) {
+                if(i == 0) continue;
+
+                if(tags.includes(parts[i])) { // tag
+                    if(prevTag != parts[i]) {
+                        prevTag = parts[i];
+                    }
+                } else {
+                    map.push([prevTag, parts[i]]); // content
+                }
+            }
+        }
+
+        for(var i=0; i<map.length; i++) {
+            html += "<label class='fn_lm'>"
+                + map[i][0]
+                + ": <input data-fn='" + map[i][0] + "' class='form-control' value='" + escapeQuotes(map[i][1].trim()) + "' />"
+                + "<span class='glyphicon glyphicon-remove fn-remove'></span></label>"
+                + "</label>";
+        }
+
+        return html;
+    }
+
+    $(document).on("click", ".fn_buttons button", function () {
+        var tag = $(this).data("fn");
+
+        if(tag == "link") {
+            window.open("https://ubsicap.github.io/usfm/notes_basic/fnotes.html");
+            return;
+        }
+
+        $(".fn_builder").append(
+            "<label class='fn_lm'>" + tag + ": <input data-fn='" + tag + "' class='form-control' />" +
+            "<span class='glyphicon glyphicon-remove fn-remove'></span></label>"
+        );
+    })
+
+    $(document).on("click", ".fn-remove", function () {
+        $(this).closest("label").remove();
+    });
 
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
@@ -1222,9 +1371,9 @@ $(document).ready(function() {
         if(typeof isInfoPage != "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
-            && step != EventSteps.THEO_CHECK
-            && step != EventSteps.HIGHLIGHT)) return;
-        
+                && step != EventSteps.THEO_CHECK
+                && step != EventSteps.HIGHLIGHT)) return;
+
         var verseID = $(this).attr("class");
         var text;
 
@@ -1294,7 +1443,7 @@ $(document).ready(function() {
                                 }, 500);
                                 //renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
                                 //    $(this).dialog("close");
-                                    saveOrRemoveKeyword(verseID, text, index, false);
+                                saveOrRemoveKeyword(verseID, text, index, false);
                                 //});
                             }
                             else
@@ -1349,7 +1498,7 @@ $(document).ready(function() {
         if(!window.getSelection().isCollapsed) return;
 
         var isL2Checker = typeof isLevel2 != "undefined"
-                && !isChecker ? true : false;
+        && !isChecker ? true : false;
 
         if((isChecker || ["tn"].indexOf(tMode) > -1 || isL2Checker)
             && (step == EventSteps.KEYWORD_CHECK
@@ -1372,7 +1521,7 @@ $(document).ready(function() {
             renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>', function () {
                 $(this).dialog("close");
 
-                var parent = $this.parents("div[class^=kwverse]");
+                var parent = $this.closest("div[class^=kwverse]");
                 var verseID = parent.attr("class");
                 var index = $this.attr("data");
 
@@ -1388,15 +1537,15 @@ $(document).ready(function() {
         if(typeof eventID == "undefined") return;
         if(typeof step == "undefined"
             || (step != EventSteps.KEYWORD_CHECK
-            && step != EventSteps.CONTENT_REVIEW
-            && step != EventSteps.FINAL_REVIEW
-            && step != EventSteps.HIGHLIGHT
-            && step != EventSteps.PEER_REVIEW
-            && step != EventCheckSteps.KEYWORD_CHECK_L2
-            && step != EventSteps.THEO_CHECK
-            && step != EventCheckSteps.PEER_REVIEW_L2)) return;
-        
-        if(step == EventSteps.PEER_REVIEW && 
+                && step != EventSteps.CONTENT_REVIEW
+                && step != EventSteps.FINAL_REVIEW
+                && step != EventSteps.HIGHLIGHT
+                && step != EventSteps.PEER_REVIEW
+                && step != EventCheckSteps.KEYWORD_CHECK_L2
+                && step != EventSteps.THEO_CHECK
+                && step != EventCheckSteps.PEER_REVIEW_L2)) return;
+
+        if(step == EventSteps.PEER_REVIEW &&
             typeof disableHighlight == "undefined") return;
 
         /*$("div[class^=kwverse]").html(function() {
@@ -1464,7 +1613,7 @@ $(document).ready(function() {
                 ],
                 callbacks: {
                     onInit: function() {
-                        var parent = $(this).parents(".note_chunk, .questions_chunk");
+                        var parent = $(this).closest(".note_chunk, .questions_chunk");
                         var noteContent = $(".note_content, .question_content", parent);
                         var height = noteContent.actual("height");
                         $(".notes_editor, .questions_editor", parent).css("min-height", height);
@@ -1477,45 +1626,45 @@ $(document).ready(function() {
                     },
                     onPaste: function(e) {
                         e.preventDefault();
-                        
+
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
-                        
+
                         var html = (e.originalEvent || e).clipboardData.getData('text/html') || (e.originalEvent || e).clipboardData.getData('text/plain');
                         var dom = $("<div>" + html + "</div>");
 
                         $("*", dom).each(function() {
-							// Remove colgroup tag
+                            // Remove colgroup tag
                             if($(this).is("colgroup"))
                                 $(this).remove();
 
                             // Remove style tag
-							if($(this).is("style"))
-								$(this).remove();
-							
-							// Unwrap font tag if any
-							if($(this).is("font"))
-								$(this).contents().unwrap();
-							
-							// Unwrap pre tag if any
-							if($(this).parent().is("pre"))
-								$(this).unwrap();
-							
-							// Replace absolute urls by relative ones when using keyboard to paste
-							if($(this).is("a"))
-								$(this).attr("href", $(this).attr("title"));
-							
-							// Fix when bold links come without spaces
-							if($(this).is("strong"))
-								$("<span> </span>").insertAfter($(this));
-							
-							$(this).removeAttr("style")
-								.removeAttr("class")
-								.removeAttr("id")
-								.removeAttr("rel")
-								.removeAttr("title")
-								.removeAttr("bgcolor");
-						});
+                            if($(this).is("style"))
+                                $(this).remove();
+
+                            // Unwrap font tag if any
+                            if($(this).is("font"))
+                                $(this).contents().unwrap();
+
+                            // Unwrap pre tag if any
+                            if($(this).parent().is("pre"))
+                                $(this).unwrap();
+
+                            // Replace absolute urls by relative ones when using keyboard to paste
+                            if($(this).is("a"))
+                                $(this).attr("href", $(this).attr("title"));
+
+                            // Fix when bold links come without spaces
+                            if($(this).is("strong"))
+                                $("<span> </span>").insertAfter($(this));
+
+                            $(this).removeAttr("style")
+                                .removeAttr("class")
+                                .removeAttr("id")
+                                .removeAttr("rel")
+                                .removeAttr("title")
+                                .removeAttr("bgcolor");
+                        });
 
                         var container = $("<div>").append(dom.clone()).html();
 
@@ -1580,7 +1729,7 @@ $(document).ready(function() {
                     autosize.update($('textarea'));
             }
         }
-        else 
+        else
         {
             // Show
             $(".main_content").addClass("col-sm-9")
@@ -1604,7 +1753,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         $(this).data("pasted", true);
-        
+
         $(".note-editable").html("");
         var content = $(".note_content").clone();
         $(".add_notes_editor").summernote("insertNode", content[0]);
@@ -1619,7 +1768,7 @@ $(document).ready(function() {
                 e.target.id = (new Date()).getTime();
 
             e.originalEvent.dataTransfer.setData('text', e.target.outerHTML);
-            var parent = $(e.target).parents(".vnote");
+            var parent = $(e.target).closest(".vnote");
             $("body").data("bubble", $(e.target));
             $("body").data("focused", $(".textWithBubbles", parent));
         });
@@ -1794,7 +1943,7 @@ $(document).ready(function() {
         $(".langs").prop("disabled", false);
 
     $(".language").change(function() {
-        var parent = $(this).parents(".language_block");
+        var parent = $(this).closest(".language_block");
         if($(this).val() != "")
         {
             $(".fluency", parent).prop("name", "lang["+$(this).val()+"][fluency]").prop("disabled", false);
@@ -2075,19 +2224,19 @@ $(document).ready(function() {
                 },
                 dataType: "json",
             })
-            .done(function(data) {
-                if(typeof data.success != "undefined" && data.success)
-                {
-                    window.location.reload();
-                }
-                else
-                {
-                    if(typeof data.error != "undefined")
+                .done(function(data) {
+                    if(typeof data.success != "undefined" && data.success)
                     {
-                        window.location.href = "/";
+                        window.location.reload();
                     }
-                }
-            });
+                    else
+                    {
+                        if(typeof data.error != "undefined")
+                        {
+                            window.location.href = "/";
+                        }
+                    }
+                });
         }, 60000);
     }
 
@@ -2393,7 +2542,7 @@ $(document).ready(function() {
     $("body").on("click", ".word_term", function () {
         var word = $("span", this).text();
         var def = $(this).next(".word_def").html();
-        var parent = $(this).parents(".ttools_content");
+        var parent = $(this).closest(".ttools_content");
 
         $(".word_def_title", parent).text(word);
         $(".word_def_content", parent).html(def);
@@ -2404,7 +2553,7 @@ $(document).ready(function() {
 
     $("body").on("click", ".word_def-close", function() {
         $(".labels_list").children().show();
-        var parent = $(this).parents(".ttools_content");
+        var parent = $(this).closest(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
         $(".word_def_popup", parent).hide("slide", {direction: "left"}, 300);
@@ -2455,7 +2604,7 @@ $(document).ready(function() {
     // ################ Question Editor ############### //
 
     $(".consume_q, .verbalize_q, .draft_q").click(function () {
-        var parent = $(this).parents(".parent_q");
+        var parent = $(this).closest(".parent_q");
         var verse = parent.data("verse");
         var chapter = parent.data("chapter");
         var event = parent.data("event");
@@ -2493,7 +2642,7 @@ $(document).ready(function() {
     });
 
     $(".consume_q, .verbalize_q, .draft_q").each(function () {
-        var parent = $(this).parents(".parent_q");
+        var parent = $(this).closest(".parent_q");
         var verse = parent.data("verse");
         var chapter = parent.data("chapter");
         var event = parent.data("event");
@@ -2552,7 +2701,7 @@ $(document).ready(function() {
     // Delete verse block and verse from database if it exists
     $("body").on("click", "button.delete_verse_ta", function (e) {
         var $this = $(this);
-        var parent = $this.parents(".lang_input_verse");
+        var parent = $this.closest(".lang_input_verse");
         var id = parent.data("id"); // id of the verse from database
 
         if(id)
@@ -2599,8 +2748,8 @@ $(document).ready(function() {
 
         var newVerseHtml = "" +
             "<div class=\"lang_input_verse\" data-verse=\""+newVerse+"\">" +
-            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta\"></textarea>" +
-            "<span>"+newVerse+"</span>" +
+            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta peer_verse_ta\"></textarea>" +
+            "<span class=\"vn\">"+newVerse+"</span>" +
             "<button class=\"delete_verse_ta btn btn-danger glyphicon glyphicon-remove\" />" +
             "</div>";
 
@@ -2609,8 +2758,6 @@ $(document).ready(function() {
 
         e.preventDefault();
     });
-
-    var hasLangInputChangesOnPage = false;
 
     // Autosave verse in language input mode
     $("body").on("keyup", ".lang_input_ta", function() {
@@ -2622,6 +2769,7 @@ $(document).ready(function() {
         if(typeof isDemo != "undefined" && isDemo)
         {
             hasLangInputChangesOnPage = false;
+            $(".unsaved_alert").hide();
         }
 
         if(hasLangInputChangesOnPage)
@@ -2807,6 +2955,10 @@ function unEscapeStr(string) {
     return $('<div/>').html(string).text();
 }
 
+function escapeQuotes(str) {
+    return str.replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+
 /**
  * Renders and shows dialog window with OK button
  * @param message
@@ -2819,9 +2971,9 @@ function renderPopup(message, onOK, onClose) {
     };
 
     onClose = typeof onClose != "undefined" ? onClose : function(){
-            $( this ).dialog( "close" );
-            return false;
-        };
+        $( this ).dialog( "close" );
+        return false;
+    };
 
     $(".alert_message").html(message);
     $( "#dialog-message" ).dialog({
@@ -2894,7 +3046,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         highlightKeyword(verseID, text, index, remove);
         return false;
     }
-    
+
     $.ajax({
         url: "/events/rpc/save_keyword",
         method: "post",
@@ -2955,7 +3107,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
 function highlightKeyword(verseID, text, index, remove) {
     remove = remove || false;
     var verseEl = $("."+verseID);
-    
+
     if(verseEl.length <= 0) return;
 
     text = unEscapeStr(text);

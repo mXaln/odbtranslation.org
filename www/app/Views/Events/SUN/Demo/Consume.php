@@ -49,7 +49,7 @@
                         'Move from here to there,' and it will move, and nothing will be impossible for you.</p>
                     <p><strong><sup>21</sup></strong> <note data-original-title="The best ancient copies do not have v. 21, 'But
                                                             this kind of demon does not go out except with prayer and fasting'"
-                        data-toggle="tooltip" data-placement="auto right" title="" class="glyphicon glyphicon-file"></note></p>
+                        data-toggle="tooltip" data-placement="auto right" title="" class="mdi mdi-bookmark"></note></p>
                     <p><strong><sup>22</sup></strong> While they stayed in Galilee, Jesus said to his disciples, "The Son of Man will be delivered into the hands of people,</p>
                     <p><strong><sup>23</sup></strong> and they will kill him, and the third day he will be raised up." The disciples became very upset.</p>
                     <p><strong><sup>24</sup></strong> When they had come to Capernaum, the men who collected the

@@ -17,7 +17,7 @@
 
                 <div  class="chunk_verses" style="padding: 5px 0">
                     <strong><sup>1</sup></strong>
-                    <div class="kwverse_1_0_1"> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote glyphicon glyphicon-file" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan, </div>
+                    <div class="kwverse_1_0_1"> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote mdi mdi-bookmark" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan, </div>
                 </div>
                 <div  class="chunk_verses" style="padding: 5px 0">
                     <strong><sup>2</sup></strong>

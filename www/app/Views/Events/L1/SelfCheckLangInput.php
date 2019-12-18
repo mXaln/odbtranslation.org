@@ -15,6 +15,27 @@ if(isset($data["error"])) return;
     <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
+<div class="footnote_editor panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_footnote_title")?></h1>
+        <span class="footnote-editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtnf glyphicon glyphicon-remove"></span>
+    </div>
+    <div class="footnote_window">
+        <div class="fn_preview"></div>
+        <div class="fn_buttons" dir="<?php echo $data["event"][0]->sLangDir ?>">
+            <!--<button class="btn btn-default" data-fn="fr" title="footnote text">fr</button>-->
+            <button class="btn btn-default" data-fn="ft" title="footnote text">ft</button>
+            <!--<button class="btn btn-default" data-fn="fq" title="footnote translation quotation">fq</button>-->
+            <button class="btn btn-default" data-fn="fqa" title="footnote alternate translation">fqa</button>
+            <!--<button class="btn btn-default" data-fn="fk" title="footnote keyword">fk</button>-->
+            <!--<button class="btn btn-default" data-fn="fl" title="footnote label text">fl</button>-->
+            <!--<button class="btn btn-link" data-fn="link">Footnotes Specification</button>-->
+        </div>
+        <div class="fn_builder"></div>
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("step_num", ["step_number" => 2]). ": " . __("self-check")?></div>
@@ -29,14 +50,14 @@ if(isset($data["error"])) return;
                             .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
                             ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["chunks"][sizeof($data["chunks"])-1][0]."</span>"?></h4>
 
-                    <div class="row no_padding">
-                        <div class="col-sm-6">
+                    <div class="flex_container no_padding">
+                        <div class="flex_left">
                             <?php foreach($data["text"] as $verse => $text): ?>
-                                <p style="margin: 0 0 5px;" class="verse_p" data-verse="<?php echo $verse ?>"><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                                <p style="margin: 0 0 10px;" class="verse_p" data-verse="<?php echo $verse ?>"><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="col-sm-6 lang_input_list">
+                        <div class="flex_middle lang_input_list">
                             <?php for($verse=1; $verse <= $data["translation"][sizeof($data["translation"])-1]["firstvs"]; $verse++): ?>
                                 <?php
                                 $text = "";
@@ -56,32 +77,33 @@ if(isset($data["error"])) return;
                                 <div class="lang_input_verse" data-verse="<?php echo $verse ?>" data-id="<?php echo $id ?>">
                                     <textarea
                                             name="verses[<?php echo $verse ?>]"
-                                            class="textarea lang_input_ta"
-                                            style="width: 100%;"><?php echo $text ?></textarea>
-                                    <span><?php echo $verse ?></span>
+                                            class="textarea lang_input_ta peer_verse_ta"
+                                            style="width: 400px;"><?php echo $text ?></textarea>
+                                    <span class="vn"><?php echo $verse ?></span>
 
-                                    <img class="editComment"
-                                         data="<?php echo $data["currentChapter"].":".$chunk ?>"
-                                         width="16"
-                                         src="<?php echo template_url("img/edit.png") ?>"
-                                         title="<?php echo __("write_note_title", [""])?>"
-                                    />
+                                    <div class="notes_tools">
+                                        <span class="editComment mdi mdi-lead-pencil"
+                                              data="<?php echo $data["currentChapter"].":".$chunk ?>"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                    <div class="comments">
-                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunk, $data["comments"][$data["currentChapter"]])): ?>
-                                            <?php foreach($data["comments"][$data["currentChapter"]][$chunk] as $comment): ?>
-                                                <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
-                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                <?php else: ?>
-                                                    <div class="other_comments">
-                                                        <?php echo
-                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                        <div class="comments">
+                                            <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunk, $data["comments"][$data["currentChapter"]])): ?>
+                                                <?php foreach($data["comments"][$data["currentChapter"]][$chunk] as $comment): ?>
+                                                    <?php if($comment->memberID == $data["event"][0]->myMemberID): ?>
+                                                        <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                    <?php else: ?>
+                                                        <div class="other_comments">
+                                                            <?php echo
+                                                                "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
                                     </div>
                                 </div>
                             <?php endfor; ?>
@@ -171,6 +193,10 @@ if(isset($data["error"])) return;
 
         $(".lang_input_ta").blur(function() {
             equal_verses_height();
+        });
+
+        $(".peer_verse_ta").highlightWithinTextarea({
+            highlight: /\\f\s[+-]\s(.*?)\\f\*/gi
         });
     });
 

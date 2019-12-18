@@ -8,7 +8,7 @@ var Language = {
     "noKeywords"                : "There are no keywords for this language.",
     "checkBookConfirm"          : "Do you really want to check this chapter? The page will be opened in new tab/window.",
     "checkBookConfirmTitle"     : "Checking request",
-    "saveChangesConfirm"        : "There are some changes made on this page. Do you want to continue without saving?",
+    "saveChangesConfirm"        : "There are changes made on this page. Please, wait until changes saved, then try again.",
     "saveChangesConfirmTitle"   : "Changes made",
     "partnerJoinedVerbalize"    : "Your partner has joined 'Verbalize' step",
     "partnerJoinedPeerEdit"     : "Your partner has joined 'Peer-Edit' step",

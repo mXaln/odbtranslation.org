@@ -37,7 +37,8 @@ if(isset($data["error"])) return;
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 1) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Aaron</h1>
                                 <h2>Facts:</h2>
                                 <p>Aaron was Moses' older brother. God chose Aaron to be the first high priest for the people of Israel.</p>
@@ -79,7 +80,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H175, G2</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[0]" class="add_questions_editor blind_ta"><h1>Аарон</h1>
                                     <h2>Факты:</h2>
                                     <p>Аарон был старшим братом Моисея. Бог избрал Аарона первым первосвященником израильского народа.</p>
@@ -93,9 +94,12 @@ if(isset($data["error"])) return;
                                         <a href="../kt/priest.md">священник</a>,&nbsp;
                                         <a href="../names/moses.md" rel="nofollow">Моисей</a>,&nbsp;
                                         <a href="../kt/israel.md" rel="nofollow">Израиль</a>)</p></textarea>
-
+                                </div>
+							<div class="flex_right">
                                 <div class="comments_number tncomm hasComment"> 2 </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                <span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
 
                                 <div class="comments">
                                     <div class="my_comment">This is the note of the translator...</div>
@@ -103,15 +107,16 @@ if(isset($data["error"])) return;
                                         <span>Tanya C. - L1</span> This is the note of the checker...
                                     </div>
                                 </div>
-                                <div class="clear"></div>
                             </div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="2" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 2) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Abel</h1>
                                 <h2>Facts:</h2>
                                 <p>Abel was Adam and Eve's second son. He was Cain's younger brother.</p>
@@ -140,7 +145,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H01893, G6</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[1]" class="add_questions_editor blind_ta"><h1>Авель</h1>
                                     <h2>Факты:</h2>
                                     <p>Авель был вторым сыном Адама и Евы. Он был младшим братом Каина.</p>
@@ -156,20 +161,24 @@ if(isset($data["error"])) return;
                                         <a href="../other/sacrifice.md">жертвоприношение, дар</a>,&nbsp;
                                         <a href="../other/shepherd.md">пастух, пасти</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="4" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 4) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Abiathar</h1>
                                 <h2>Definition:</h2>
                                 <p>Abiathar was a high priest for the nation of Israel during the time of King David.</p>
@@ -198,7 +207,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H54, G8</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[2]" class="add_questions_editor blind_ta"><h1>Авиафар</h1>
                                     <h2>Определение:</h2>
                                     <p>Авиафар был первосвященником израильского народа во время царя Давида.</p>
@@ -215,20 +224,24 @@ if(isset($data["error"])) return;
                                         <a href="../names/solomon.md">Соломон</a>,&nbsp;
                                         <a href="../names/adonijah.md">Адония</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="6" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 6) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Abijah</h1>
                                 <h2>Facts:</h2>
                                 <p>Abijah was a king of Judah who reigned from 915 to 913 B.C. He was a son of King Rehoboam. There were also several other men named Abijah in the Old Testament:</p>
@@ -253,7 +266,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H29, G7</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[3]" class="add_questions_editor blind_ta"><h1>Авия</h1>
                                     <h2>Факты:</h2>
                                     <p>Авия был царём, правившим над Иудеей с 915 по 913 гг. до н. э.
@@ -269,20 +282,24 @@ if(isset($data["error"])) return;
                                     <p>(Варианты перевода:&nbsp;
                                         <a href="rc://en/ta/man/translate/translate-names" target="_blank" rel="noopener">Как переводить имена</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="7" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 7) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Abimelech</h1>
                                 <h2>Facts:</h2>
                                 <p>Abimelech was a Philistine king over the region of Gerar during the time when Abraham and Isaac were living in the land of Canaan.</p>
@@ -316,7 +333,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H40</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[4]" class="add_questions_editor blind_ta"><h1>Авимелех</h1>
                                     <h2>Факты:</h2>
                                     <p>Авимелех был царём филистимлян и правил в Гераре в то время,
@@ -339,20 +356,24 @@ if(isset($data["error"])) return;
                                         <a href="../names/jotham.md">Иофам</a>,&nbsp;
                                         <a href="../names/philistines.md">филистимляне</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="8" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 8) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Abner</h1>
                                 <h2>Definition:</h2>
                                 <p>Abner was a cousin of King Saul in the Old Testament.</p>
@@ -378,7 +399,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H74</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[5]" class="add_questions_editor blind_ta"><h1>Авенир</h1>
                                     <h2>Определение:</h2>
                                     <p>В Ветхом Завете Авенир был двоюродным братом царя Саула.</p>
@@ -392,20 +413,24 @@ if(isset($data["error"])) return;
                                     <p>(Варианты перевода:&nbsp;
                                         <a href="rc://en/ta/man/translate/translate-names" target="_blank" rel="noopener">Как переводить имена</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="9" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 9) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Abraham, Abram</h1>
                                 <h2>Facts:</h2>
                                 <p>Abram was a Chaldean man from the city of Ur who was chosen by God to be the
@@ -460,7 +485,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H87, H85, G11</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[6]" class="add_questions_editor blind_ta"><h1>Авраам, Аврам</h1>
                                     <h2>Факты:</h2>
                                     <p>Аврам был халдеем из города Ур. Бог избрал его быть родоначальником израильского
@@ -477,20 +502,24 @@ if(isset($data["error"])) return;
                                     <p>(Варианты перевода:&nbsp;
                                         <a href="rc://en/ta/man/translate/translate-names" target="_blank" rel="noopener">Как переводить имена</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="10" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 10) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Absalom</h1>
                                 <h2>Facts:</h2>
                                 <p>Absalom was the third son of King David. He was known for his handsome appearance and fiery temperament.</p>
@@ -519,7 +548,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H53</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[7]" class="add_questions_editor blind_ta"><h1>Авессалом</h1>
                                     <h2>Факты:</h2>
                                     <p>Авесалом был третьим сыном царя Давида. Он прославился своей красотой и вспыльчивым характером.</p>
@@ -535,20 +564,24 @@ if(isset($data["error"])) return;
                                     <p>(См. также:&nbsp;
                                         <a href="../names/geshur.md">Гессур</a>,&nbsp;<a href="../names/amnon.md">Амнон</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                         <div class="parent_q questions_chunk" data-question="11" data-chapter="1" data-event="0">
                             <div class="row">
                                 <div class="col-md-4" style="color: #00a74d; font-weight: bold;"> <?php //echo __("verse_number", 11) ?> </div>
                             </div>
-                            <div class="col-md-6 question_content" dir="ltr">
+                            <div class="flex_container">
+							<div class="question_content flex_left" dir="ltr">
                                 <h1>Adam</h1>
                                 <h2>Facts:</h2>
                                 <p>Adam was the first person whom God created. He and his wife Eve were made in the image of God.</p>
@@ -593,7 +626,7 @@ if(isset($data["error"])) return;
                                     <li>Strong's: H120, G76</li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 questions_editor font_ru" dir="ltr">
+                            <div class="questions_editor font_ru flex_middle" dir="ltr">
                                 <textarea name="chunks[8]" class="add_questions_editor blind_ta"><h1>Адам</h1>
                                     <h2>Факты:</h2>
                                     <p>Адам был первым человеком, которого создал Бог. Адам и его жена Ева
@@ -615,13 +648,16 @@ if(isset($data["error"])) return;
                                         <a href="../kt/imageofgod.md">образ Божий, образ</a>,&nbsp;
                                         <a href="../kt/life.md">жизнь, жить, живой, живущий</a>)</p></textarea>
 
-                                <div class="comments_number tncomm"> </div>
-                                <img class="editComment tncomm" data="0:0" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
-
-                                <div class="comments">
+                                
                                 </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="flex_right">
+								<div class="comments_number tncomm"> </div>
+								<span class="editComment mdi mdi-lead-pencil"
+                                              data="0:0"
+                                              title="<?php echo __("write_note_title", [""])?>"></span>
+								<div class="comments"></div>
+							</div>
+							</div>
                             <div class="chunk_divider col-sm-12" style="margin-top: 10px"></div>
                         </div>
                     </div>
@@ -634,6 +670,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 3])?></div>
@@ -692,7 +729,7 @@ if(isset($data["error"])) return;
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-tw/peer_review';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-tw/peer_review';
             return false;
         });
     });

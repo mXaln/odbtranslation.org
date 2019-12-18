@@ -95,7 +95,7 @@ if(!empty($data["project"])):
                                     <img class="progressLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
                                 </div>
                             </td>
-                            <td>
+                            <td style="white-space: nowrap">
                                 <?php if($event->state != ""
                                     && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)
                                     && in_array($data["project"][0]->bookProject, ["ulb","udb"])): ?>

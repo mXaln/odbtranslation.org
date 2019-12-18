@@ -16,7 +16,7 @@
                 <h4>Bahasa Indonesia - <?php echo __("tn") ?> - <?php echo __("new_test") ?> - <span class="book_name">Acts 1:1</span></h4>
 
                 <div class="scripture_chunk">
-                    <p><strong><sup>1</sup></strong> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote glyphicon glyphicon-file" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan,</p>
+                    <p><strong><sup>1</sup></strong> Dalam buku yang aku tulis sebelumnya <span data-toggle="tooltip" data-placement="auto auto" title="" class="booknote mdi mdi-bookmark" data-original-title="Buku yang dimaksud adalah Injil Lukas."></span> , Teofilus, tentang semua yang Yesus mulai lakukan dan ajarkan,</p>
                 </div>
 
                 <ul class="nav nav-tabs">
@@ -52,6 +52,7 @@
                     </div>
 
                     <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </form>
                 <div class="step_right"><?php echo __("step_num", ["step_number" => 3])?></div>
             </div>
@@ -110,7 +111,7 @@
             e.preventDefault();
 
             deleteCookie("temp_tutorial");
-            window.location.href = '/events/demo-tn/self_check';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-tn/self_check';
 
             return false;
         });

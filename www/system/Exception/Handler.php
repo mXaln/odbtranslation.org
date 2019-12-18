@@ -19,6 +19,8 @@ use Exception;
 use ErrorException;
 use ReflectionFunction;
 
+use Sentry;
+
 
 class Handler
 {
@@ -175,6 +177,8 @@ class Handler
         if (! is_null($response)) {
             return $this->prepareResponse($response);
         }
+
+        Sentry\captureException($exception);
 
         return $this->displayException($exception);
     }

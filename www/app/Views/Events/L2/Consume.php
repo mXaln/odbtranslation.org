@@ -28,7 +28,7 @@ use Helpers\Constants\EventMembers;
                 <div id="target_scripture_content" class="my_content shown">
                     <?php foreach ($data["translation"] as $translation): ?>
                         <?php foreach ($translation[EventMembers::TRANSLATOR]["verses"] as $verse => $text): ?>
-                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                            <p><?php echo "<strong><sup>".$verse."</sup></strong> ".preg_replace("/(\\\\f(?:.*)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></p>
                         <?php endforeach; ?>
                     <?php endforeach; ?>
                 </div>

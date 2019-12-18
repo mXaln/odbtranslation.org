@@ -69,7 +69,7 @@ if(empty($error) && empty($data["success"])):
                                 <div class="flex_middle editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
                                     <div class="vnote">
-                                        <div><?php echo $text; ?></div>
+                                        <div><?php echo preg_replace("/(\\\\f(?:.*)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></div>
                                     </div>
                                 </div>
                                 <div class="flex_right">
@@ -77,7 +77,10 @@ if(empty($error) && empty($data["success"])):
                                     <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
                                         <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
                                     </div>
-                                    <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+
+                                    <span class="editComment mdi mdi-lead-pencil"
+                                          data="<?php echo $data["currentChapter"].":".$key ?>"
+                                          title="<?php echo __("write_note_title", [""])?>"></span>
 
                                     <div class="comments">
                                         <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>

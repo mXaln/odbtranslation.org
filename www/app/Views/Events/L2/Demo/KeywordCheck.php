@@ -27,172 +27,196 @@
                 <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div class="no_padding">
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in <b data="0">Christ Jesus</b>.</div></div>
-                            <div> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to <b data="0">faithful</b> people who will be able to teach others also.</div></div>
-                            <div> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of <b data="0">Christ Jesus</b>.</div></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="1" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>1</sup> </strong> <div class="kwverse_2_0_1">You therefore, my <b data="0">child</b>, be strengthened in the grace that is in <b data="0">Christ Jesus</b>.</div></div>
+                            <div class="verse_text" data-verse="2" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>2</sup> </strong> <div class="kwverse_2_0_2">And the things you heard from me among many witnesses, entrust them to <b data="0">faithful</b> people who will be able to teach others also.</div></div>
+                            <div class="verse_text" data-verse="3" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>3</sup> </strong> <div class="kwverse_2_0_3">Suffer hardship with me, as a good soldier of <b data="0">Christ Jesus</b>.</div></div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"><p><strong><sup>1</sup></strong>Jadi begitu, anakku kuat sudah dengan anugerah di dalam Kristus Yesus.</p> </div>
-                                <div class="verse_block"><p><strong><sup>2</sup></strong>Dan banyak hal yang ko dengar dari sa deng saksi yang banyak itu, beri percaya itu sama orang-orang yang setia, supaya dong dapat mengajar dong yang lain juga.</p></div>
-                                <div class="verse_block"><p><strong><sup>3</sup></strong>Mari, tong sama sa dalam penderitaan jadi prajurit Kristus Yesus yang baik.</p></div>
-                                <div class="comments_number hasComment">2 </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments">
-                                    <div class="other_comments">
-                                        <div><span>Anna S. - L1:</span> This is comment from Level 1 Event</div>
-                                        <div><span>Genry M. - L2:</span> This is comment of previous checker from Level 2 Event</div>
-                                    </div>
+                                <div class="verse_block" data-verse="1" style="margin-bottom: 10px;"><p><strong><sup>1</sup></strong>Jadi begitu, anakku kuat sudah dengan anugerah di dalam Kristus Yesus.</p> </div>
+                                <div class="verse_block" data-verse="2" style="margin-bottom: 10px;"><p><strong><sup>2</sup></strong>Dan banyak hal yang ko dengar dari sa deng saksi yang banyak itu, beri percaya itu sama orang-orang yang setia, supaya dong dapat mengajar dong yang lain juga.</p></div>
+                                <div class="verse_block" data-verse="3" style="margin-bottom: 10px;"><p><strong><sup>3</sup></strong>Mari, tong sama sa dalam penderitaan jadi prajurit Kristus Yesus yang baik.</p></div>
+                            </div>
+                        </div>
+                        <div class="flex_right">
+                            <div class="comments_number hasComment">2 </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments">
+                                <div class="other_comments">
+                                    <div><span>Anna S. - L1:</span> This is comment from Level 1 Event</div>
+                                    <div><span>Genry M. - L2:</span> This is comment of previous checker from Level 2 Event</div>
                                 </div>
-                                <div class="clear"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No <b data="0">soldier</b> serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
-                            <div> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an <b data="0">athlete</b>, he is not crowned unless he competes by the rules.</div></div>
-                            <div> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
-                            <div> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what <b data="0">I</b> am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="4" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>4</sup> </strong> <div class="kwverse_2_0_4">No <b data="0">soldier</b> serves while entangled in the affairs of this life, so that he may please his superior officer.</div></div>
+                            <div class="verse_text" data-verse="5" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>5</sup> </strong> <div class="kwverse_2_0_5">Also, if someone competes as an <b data="0">athlete</b>, he is not crowned unless he competes by the rules.</div></div>
+                            <div class="verse_text" data-verse="6" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>6</sup> </strong> <div class="kwverse_2_0_6">It is necessary that the hardworking farmer receive his share of the crops first.</div></div>
+                            <div class="verse_text" data-verse="7" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>7</sup> </strong> <div class="kwverse_2_0_7">Think about what <b data="0">I</b> am saying, for the <b data="0">Lord</b> will give you understanding in everything.</div></div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>4</sup></strong>Trada satu orang tentara yang kerja sambil sibuk dengan de pu urusan hidup supaya de bisa buat de pu komandan senang.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>5</sup></strong>Begitu juga dengan atlit , tra akan terima mahkota kalo tra ikut aturan dalam lomba.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>6</sup></strong>Petani dong yang kerja keras akan terima hasil yang pertama,</p> </div>
-                                <div class="verse_block"> <p><strong><sup>7</sup></strong>Ingat apa yang sa bilang, karena Tuhan akan kasi ko pengertian untuk mengerti semua ini,</p> </div>
-                                <div class="comments_number hasComment">2 </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments">
-                                    <div class="other_comments">
-                                        <div><span>Genry M. - L2:</span> This is another comment of previous checker from Level 2 Event</div>
-                                        <div><span>Mark P. - L2:</span> This is another comment of previous checker from Level 2 Event</div>
-                                    </div>
+                                <div class="verse_block" data-verse="4" style="margin-bottom: 10px;"><p><strong><sup>4</sup></strong>Trada satu orang tentara yang kerja sambil sibuk dengan de pu urusan hidup supaya de bisa buat de pu komandan senang.</p> </div>
+                                <div class="verse_block" data-verse="5" style="margin-bottom: 10px;"><p><strong><sup>5</sup></strong>Begitu juga dengan atlit , tra akan terima mahkota kalo tra ikut aturan dalam lomba.</p> </div>
+                                <div class="verse_block" data-verse="6" style="margin-bottom: 10px;"><p><strong><sup>6</sup></strong>Petani dong yang kerja keras akan terima hasil yang pertama,</p> </div>
+                                <div class="verse_block" data-verse="7" style="margin-bottom: 10px;"><p><strong><sup>7</sup></strong>Ingat apa yang sa bilang, karena Tuhan akan kasi ko pengertian untuk mengerti semua ini,</p> </div>
+                            </div>
+                        </div>
+                        <div class="flex_right">
+                            <div class="comments_number hasComment">2 </div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments">
+                                <div class="other_comments">
+                                    <div><span>Genry M. - L2:</span> This is another comment of previous checker from Level 2 Event</div>
+                                    <div><span>Mark P. - L2:</span> This is another comment of previous checker from Level 2 Event</div>
                                 </div>
-                                <div class="clear"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</div></div>
-                            <div> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</div></div>
-                            <div> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</div></div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="8" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>8</sup> </strong> <div class="kwverse_2_0_8">Remember Jesus Christ, from David's seed, who was raised from the dead ones. This is according to my gospel message,</div></div>
+                            <div class="verse_text" data-verse="9" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>9</sup> </strong> <div class="kwverse_2_0_9">for which I am suffering to the point of being chained as a criminal. But the word of God is not chained.</div></div>
+                            <div class="verse_text" data-verse="10" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>10</sup> </strong> <div class="kwverse_2_0_10">Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</div></div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>8</sup></strong>Ingat: Yesus Kristus, keturunan Daud, su bangkit dari kematian. ini su sesuai dengan pesan Injil yang sa percaya.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>9</sup></strong>Sampe pada titik penderitaan karna diikat rantai seperti kriminal. tapi firman Allah tra diikat deng rantai.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>10</sup></strong>Jadi sa bertahan untuk orang-orang yang Tuhan pilih, supaya dong dapat keselamatan yang kekal dalam Kristus Yesus, deng kemuliaan yang abadi..</p> </div>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+                                <div class="verse_block" data-verse="8" style="margin-bottom: 10px;"><p><strong><sup>8</sup></strong>Ingat: Yesus Kristus, keturunan Daud, su bangkit dari kematian. ini su sesuai dengan pesan Injil yang sa percaya.</p> </div>
+                                <div class="verse_block" data-verse="9" style="margin-bottom: 10px;"><p><strong><sup>9</sup></strong>Sampe pada titik penderitaan karna diikat rantai seperti kriminal. tapi firman Allah tra diikat deng rantai.</p> </div>
+                                <div class="verse_block" data-verse="10" style="margin-bottom: 10px;"><p><strong><sup>10</sup></strong>Jadi sa bertahan untuk orang-orang yang Tuhan pilih, supaya dong dapat keselamatan yang kekal dalam Kristus Yesus, deng kemuliaan yang abadi..</p> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">This saying is trustworthy: "If we have died with him, we will also live with him.</div></div>
-                            <div> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">If we endure, we will also reign with him. If we deny him, he also will deny us.</div></div>
-                            <div> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">if we are unfaithful, he remains faithful, for he cannot deny himself."</div></div>
-                            <div> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen.</div></div>
+                        <div class="flex_right">
+                            <div class="comments_number"></div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"> </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                    </div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="11" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>11</sup> </strong> <div class="kwverse_2_0_11">This saying is trustworthy: "If we have died with him, we will also live with him.</div></div>
+                            <div class="verse_text" data-verse="12" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>12</sup> </strong> <div class="kwverse_2_0_12">If we endure, we will also reign with him. If we deny him, he also will deny us.</div></div>
+                            <div class="verse_text" data-verse="13" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>13</sup> </strong> <div class="kwverse_2_0_13">if we are unfaithful, he remains faithful, for he cannot deny himself."</div></div>
+                            <div class="verse_text" data-verse="14" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>14</sup> </strong> <div class="kwverse_2_0_14">Keep reminding them of these things. Warn them before God not to quarrel about words. Because of this there is nothing useful. Because of this there is destruction for those who listen.</div></div>
+                        </div>
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>11</sup></strong>Apa yang sa bilang ini, bisa dipercaya: kalo tong mau mati untuk Dia, torang juga akan hidup bersama deng Dia.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>12</sup></strong>Apalagi kalo tong bertahan , tong juga akan ditinggikan deng Dia. Klo tong menyangkal Dia, Dia juga akan menyangkal ketong,</p> </div>
-                                <div class="verse_block"> <p><strong><sup>13</sup></strong>Klo tong tra setia, De tetap setia karena De tra bisa menyangkal diri.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>14</sup></strong>Selalu kasi ingat dong di hadapan Allah, supaya dong jangan berdebat tentang Firman karena itu akan bikin kacau orang yang dengar,</p> </div>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+                                <div class="verse_block" data-verse="11" style="margin-bottom: 10px;"><p><strong><sup>11</sup></strong>Apa yang sa bilang ini, bisa dipercaya: kalo tong mau mati untuk Dia, torang juga akan hidup bersama deng Dia.</p> </div>
+                                <div class="verse_block" data-verse="12" style="margin-bottom: 10px;"><p><strong><sup>12</sup></strong>Apalagi kalo tong bertahan , tong juga akan ditinggikan deng Dia. Klo tong menyangkal Dia, Dia juga akan menyangkal ketong,</p> </div>
+                                <div class="verse_block" data-verse="13" style="margin-bottom: 10px;"><p><strong><sup>13</sup></strong>Klo tong tra setia, De tetap setia karena De tra bisa menyangkal diri.</p> </div>
+                                <div class="verse_block" data-verse="14" style="margin-bottom: 10px;"><p><strong><sup>14</sup></strong>Selalu kasi ingat dong di hadapan Allah, supaya dong jangan berdebat tentang Firman karena itu akan bikin kacau orang yang dengar,</p> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</div></div>
-                            <div> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">Avoid profane talk, which leads to more and more godlessness.</div></div>
-                            <div> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</div></div>
+                        <div class="flex_right">
+                            <div class="comments_number"></div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"> </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                    </div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="15" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>15</sup> </strong> <div class="kwverse_2_0_15">Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</div></div>
+                            <div class="verse_text" data-verse="16" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>16</sup> </strong> <div class="kwverse_2_0_16">Avoid profane talk, which leads to more and more godlessness.</div></div>
+                            <div class="verse_text" data-verse="17" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>17</sup> </strong> <div class="kwverse_2_0_17">Their talk will spread like gangrene. Among whom are Hymenaeus and Philetus.</div></div>
+                        </div>
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>15</sup></strong>Lakukan yang paling baik itu adalah persembahan yang Tuhan terima, jadi pekerja trada alasan untuk dapat kasi malu, yang ajar kebeneran Firman dengan pas.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>16</sup></strong>Hindari omong kosong dan tra bersih yang nanti jadi tra baik.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>17</sup></strong>Perkataan dong akan menyebar seperti kangker. Diantara dong itu ada Himeneus dan Filetus.</p> </div>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+                                <div class="verse_block" data-verse="15" style="margin-bottom: 10px;"><p><strong><sup>15</sup></strong>Lakukan yang paling baik itu adalah persembahan yang Tuhan terima, jadi pekerja trada alasan untuk dapat kasi malu, yang ajar kebeneran Firman dengan pas.</p> </div>
+                                <div class="verse_block" data-verse="16" style="margin-bottom: 10px;"><p><strong><sup>16</sup></strong>Hindari omong kosong dan tra bersih yang nanti jadi tra baik.</p> </div>
+                                <div class="verse_block" data-verse="17" style="margin-bottom: 10px;"><p><strong><sup>17</sup></strong>Perkataan dong akan menyebar seperti kangker. Diantara dong itu ada Himeneus dan Filetus.</p> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</div></div>
-                            <div> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</div></div>
-                            <div> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.</div></div>
+                        <div class="flex_right">
+                            <div class="comments_number"></div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"> </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                    </div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="18" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>18</sup> </strong> <div class="kwverse_2_0_18">These are men who have missed the truth. They say that the resurrection has already happened. They overturn the faith of some.</div></div>
+                            <div class="verse_text" data-verse="19" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>19</sup> </strong> <div class="kwverse_2_0_19">However, the firm foundation of God stands. It has this inscription: "The Lord knows those who are his" and "Everyone who names the name of the Lord must depart from unrighteousness."</div></div>
+                            <div class="verse_text" data-verse="20" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>20</sup> </strong> <div class="kwverse_2_0_20">In a wealthy home, there are not only containers of gold and silver. There are also containers of wood and clay. Some of these are for honorable use, and some for dishonorable.</div></div>
+                        </div>
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>18</sup></strong>Dong adalah orang-orang yang sudah tidak benar. dong katakan kebangkitan sudah terjadi, dong putar balik iman dari berapa orang tu.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>19</sup></strong>Biar begitu, Allah pu fondasi kuat tetap berdiri. ada piagam dengan tulisan yang bilang" Tuhan kenal dong Dia pu milik." . dan orang yang percaya Tuhan harus kasi tinggal yang tra benar.</p></div>
-                                <div class="verse_block"> <p><strong><sup>20</sup></strong>Dalam rumah kaya bukan saja ada emas dan perak tapi juga ada kotak-kotak kayu sama tanah liat. barang itu di pake untuk hal-hal yang terhormat, dan ada juga untuk hal-hal tra terhormat.</p> </div>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+                                <div class="verse_block" data-verse="18" style="margin-bottom: 10px;"><p><strong><sup>18</sup></strong>Dong adalah orang-orang yang sudah tidak benar. dong katakan kebangkitan sudah terjadi, dong putar balik iman dari berapa orang tu.</p> </div>
+                                <div class="verse_block" data-verse="19" style="margin-bottom: 10px;"><p><strong><sup>19</sup></strong>Biar begitu, Allah pu fondasi kuat tetap berdiri. ada piagam dengan tulisan yang bilang" Tuhan kenal dong Dia pu milik." . dan orang yang percaya Tuhan harus kasi tinggal yang tra benar.</p></div>
+                                <div class="verse_block" data-verse="20" style="margin-bottom: 10px;"><p><strong><sup>20</sup></strong>Dalam rumah kaya bukan saja ada emas dan perak tapi juga ada kotak-kotak kayu sama tanah liat. barang itu di pake untuk hal-hal yang terhormat, dan ada juga untuk hal-hal tra terhormat.</p> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21">If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</div></div>
-                            <div> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</div></div>
-                            <div> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">But refuse foolish and ignorant questions. You know that they give birth to arguments.</div></div>
+                        <div class="flex_right">
+                            <div class="comments_number"></div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"> </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                    </div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="21" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>21</sup> </strong> <div class="kwverse_2_0_21">If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</div></div>
+                            <div class="verse_text" data-verse="22" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>22</sup> </strong> <div class="kwverse_2_0_22">Flee youthful lusts. Pursue righteousness, faith, love, and peace with those who call on the Lord out of a clean heart.</div></div>
+                            <div class="verse_text" data-verse="23" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>23</sup> </strong> <div class="kwverse_2_0_23">But refuse foolish and ignorant questions. You know that they give birth to arguments.</div></div>
+                        </div>
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>21</sup></strong>Jika satu orang kasi bersih de pu diri dari yang tra terhormat, de itu bejana yang terhormat. de dipilih , dipake untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>22</sup></strong>Jauhi sudah dari nafsu anak-anak muda, kejar itu kebenaran, iman, kasih, dan damai, sama-sama deng dong yang panggil Tuhan dengan hati yang bersih.</p> </div>
-                                <div class="verse_block"> <p><strong><sup>23</sup></strong>Tapi tolak sudah pertanyaan-pertanyaan bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</p> </div>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+                                <div class="verse_block" data-verse="21" style="margin-bottom: 10px;"><p><strong><sup>21</sup></strong>Jika satu orang kasi bersih de pu diri dari yang tra terhormat, de itu bejana yang terhormat. de dipilih , dipake untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</p> </div>
+                                <div class="verse_block" data-verse="22" style="margin-bottom: 10px;"><p><strong><sup>22</sup></strong>Jauhi sudah dari nafsu anak-anak muda, kejar itu kebenaran, iman, kasih, dan damai, sama-sama deng dong yang panggil Tuhan dengan hati yang bersih.</p> </div>
+                                <div class="verse_block" data-verse="23" style="margin-bottom: 10px;"><p><strong><sup>23</sup></strong>Tapi tolak sudah pertanyaan-pertanyaan bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</p> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chunk_divider col-sm-12"></div>
-                    <div class="row chunk_block">
-                        <div class="chunk_verses col-sm-6" dir="ltr">
-                            <div> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</div></div>
-                            <div> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</div></div>
-                            <div> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">They may become sober again and leave the devil's trap, after they have been captured by him for his will.</div></div>
+                        <div class="flex_right">
+                            <div class="comments_number"></div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"> </div>
                         </div>
-                        <div class="col-sm-6 editor_area" dir="ltr">
+                    </div>
+                    <div class="chunk_divider"></div>
+                    <div class="row chunk_block flex_container">
+                        <div class="chunk_verses flex_left" dir="ltr">
+                            <div class="verse_text" data-verse="24" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>24</sup> </strong> <div class="kwverse_2_0_24">The Lord's servant must not quarrel. Instead he must be gentle toward all, able to teach, and patient.</div></div>
+                            <div class="verse_text" data-verse="25" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>25</sup> </strong> <div class="kwverse_2_0_25">He must in meekness educate those who oppose him. God may perhaps give them repentance for the knowledge of the truth.</div></div>
+                            <div class="verse_text" data-verse="26" style="margin-bottom: 10px;"> <strong class="ltr"> <sup>26</sup> </strong> <div class="kwverse_2_0_26">They may become sober again and leave the devil's trap, after they have been captured by him for his will.</div></div>
+                        </div>
+                        <div class="editor_area flex_middle" dir="ltr">
                             <div class="vnote">
-                                <div class="verse_block"> <p><strong><sup>24</sup></strong>Orang yang melayani Tuhan tra boleh bertengkar tapi harus lemah lembut pada semua dong, Dong harus pintar mengajar, sabar</p> </div>
-                                <div class="verse_block"> <p><strong><sup>25</sup></strong>de kasi ajaran deng lemah lembut sama dong yang melawan dia. mungkin Allah kasi kesempatan untuk dong bertobat pada pengetahuan akan kebenaran.</p></div>
-                                <div class="verse_block"> <p><strong><sup>26</sup></strong>mungkin dong sadar kembali dan kasi tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</p> </div>
-                                <div class="comments_number "> </div>
-                                <img class="editComment" data="0:0" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title")?>" width="16">
-                                <div class="comments"> </div>
-                                <div class="clear"></div>
+                                <div class="verse_block" data-verse="24" style="margin-bottom: 10px;"><p><strong><sup>24</sup></strong>Orang yang melayani Tuhan tra boleh bertengkar tapi harus lemah lembut pada semua dong, Dong harus pintar mengajar, sabar</p> </div>
+                                <div class="verse_block" data-verse="25" style="margin-bottom: 10px;"><p><strong><sup>25</sup></strong>de kasi ajaran deng lemah lembut sama dong yang melawan dia. mungkin Allah kasi kesempatan untuk dong bertobat pada pengetahuan akan kebenaran.</p></div>
+                                <div class="verse_block" data-verse="26" style="margin-bottom: 10px;"><p><strong><sup>26</sup></strong>mungkin dong sadar kembali dan kasi tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</p> </div>
                             </div>
                         </div>
+                        <div class="flex_right">
+                            <div class="comments_number"></div>
+                            <span class="editComment mdi mdi-lead-pencil"
+                                  data="0:0"
+                                  title="<?php echo __("write_note_title", [""])?>"></span>
+                            <div class="comments"> </div>
+                        </div>
                     </div>
-                    <div class="chunk_divider col-sm-12"></div>
+                    <div class="chunk_divider"></div>
                 </div>
             </div>
 
@@ -3252,5 +3276,23 @@
 
             return false;
         });
+
+        setTimeout(function() {
+            equal_verses_height();
+        }, 3000);
+
+        function equal_verses_height() {
+            $(".verse_text").each(function() {
+                var verse = $(this).data("verse");
+                var p_height = $(this).outerHeight();
+                var p = $(".verse_block[data-verse="+verse+"]");
+
+                if(p.length > 0) {
+                    var t_height = p.outerHeight();
+                    p.outerHeight(Math.max(p_height, t_height));
+                    $(this).outerHeight(Math.max(p_height, t_height));
+                }
+            });
+        }
     });
 </script>

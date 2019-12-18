@@ -266,6 +266,7 @@ if(isset($data["error"])) return;
                     </div>
 
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 1])?></div>
@@ -324,7 +325,7 @@ if(isset($data["error"])) return;
         deleteCookie("temp_tutorial");
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-tq/self_check';
+            if(!hasChangesOnPage) window.location.href = '/events/demo-tq/self_check';
             return false;
         });
     });

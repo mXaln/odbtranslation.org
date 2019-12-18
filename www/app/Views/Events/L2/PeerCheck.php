@@ -14,6 +14,27 @@ use Helpers\Constants\EventMembers;
     <img src="<?php echo template_url("img/loader.gif") ?>" class="commentEditorLoader">
 </div>
 
+<div class="footnote_editor panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><?php echo __("write_footnote_title")?></h1>
+        <span class="footnote-editor-close btn btn-success"><?php echo __("save") ?></span>
+        <span class="xbtnf glyphicon glyphicon-remove"></span>
+    </div>
+    <div class="footnote_window">
+        <div class="fn_preview"></div>
+        <div class="fn_buttons" dir="<?php echo $data["event"][0]->sLangDir ?>">
+            <!--<button class="btn btn-default" data-fn="fr" title="footnote text">fr</button>-->
+            <button class="btn btn-default" data-fn="ft" title="footnote text">ft</button>
+            <!--<button class="btn btn-default" data-fn="fq" title="footnote translation quotation">fq</button>-->
+            <button class="btn btn-default" data-fn="fqa" title="footnote alternate translation">fqa</button>
+            <!--<button class="btn btn-default" data-fn="fk" title="footnote keyword">fk</button>-->
+            <!--<button class="btn btn-default" data-fn="fl" title="footnote label text">fl</button>-->
+            <!--<button class="btn btn-link" data-fn="link">Footnotes Specification</button>-->
+        </div>
+        <div class="fn_builder"></div>
+    </div>
+</div>
+
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title"><?php echo __("peer-review-l2_full")?></div>
@@ -48,7 +69,7 @@ use Helpers\Constants\EventMembers;
                                         <div class="chunk_verses flex_left" dir="<?php echo $data["event"][0]->sLangDir ?>">
                                             <?php $verses = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]; ?>
                                             <?php foreach ($verses as $verse => $text): ?>
-                                                <p>
+                                                <p class="verse_text" data-verse="<?php echo $verse; ?>">
                                                     <strong class="<?php echo $data["event"][0]->sLangDir ?>">
                                                         <sup><?php echo $verse; ?></sup>
                                                     </strong>
@@ -62,16 +83,21 @@ use Helpers\Constants\EventMembers;
                                             ?>
                                             <div class="vnote">
                                                 <?php foreach($verses as $verse => $text): ?>
-                                                    <div class="verse_block">
+                                                    <div class="verse_block flex_container" data-verse="<?php echo $verse; ?>"
+                                                         style="<?php if($data["event"][0]->peer == 2) echo "margin-bottom: 10px;" ?>">
                                                         <?php if($data["event"][0]->peer == 1): ?>
                                                             <span class="verse_number_l2"><?php echo $verse?></span>
-                                                            <textarea name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
+                                                            <textarea style="min-width: 400px;" name="chunks[<?php echo $key ?>][<?php echo $verse ?>]"
                                                                       class="peer_verse_ta textarea"
                                                                       data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></textarea>
+
+                                                            <span class="editFootNote mdi mdi-bookmark"
+                                                                  style="margin-top: -5px"
+                                                                  title="<?php echo __("write_footnote_title") ?>"></span>
                                                         <?php else: ?>
                                                             <p>
                                                                 <strong><sup><?php echo $verse?></sup></strong>
-                                                                <span class="targetVerse" data-orig-verse="<?php echo $verse ?>"><?php echo $text; ?></span>
+                                                                <span class="targetVerse" data-orig-verse="<?php echo $verse ?>"><?php echo preg_replace("/(\\\\f(?:.*)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></span>
                                                             </p>
                                                         <?php endif; ?>
                                                     </div>
@@ -79,28 +105,32 @@ use Helpers\Constants\EventMembers;
                                             </div>
                                         </div>
                                         <div class="flex_right">
-                                            <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
-                                            <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
-                                                <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
-                                            </div>
-                                            <img class="editComment flex_commn_img" data="<?php echo $data["currentChapter"].":".$key ?>" width="16" src="<?php echo template_url("img/edit.png") ?>" title="<?php echo __("write_note_title", [""])?>"/>
+                                            <div class="notes_tools">
+                                                <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]]); ?>
+                                                <div class="comments_number flex_commn_number <?php echo $hasComments ? "hasComment" : "" ?>">
+                                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$key]) : ""?>
+                                                </div>
+                                                <span class="editComment mdi mdi-lead-pencil"
+                                                      data="<?php echo $data["currentChapter"].":".$key ?>"
+                                                      title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                            <div class="comments">
-                                                <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
-                                                    <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
-                                                        <?php if($comment->memberID == $data["event"][0]->myChkMemberID
-                                                            && $comment->level == 2): ?>
-                                                            <div class="my_comment"><?php echo $comment->text; ?></div>
-                                                        <?php else: ?>
-                                                            <div class="other_comments">
-                                                                <?php echo
-                                                                    "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                <div class="comments">
+                                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($key, $data["comments"][$data["currentChapter"]])): ?>
+                                                        <?php foreach($data["comments"][$data["currentChapter"]][$key] as $comment): ?>
+                                                            <?php if($comment->memberID == $data["event"][0]->myChkMemberID
+                                                                && $comment->level == 2): ?>
+                                                                <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                            <?php else: ?>
+                                                                <div class="other_comments">
+                                                                    <?php echo
+                                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
                                                                     - L".$comment->level.":</span> 
                                                                 ".$comment->text; ?>
-                                                            </div>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -160,6 +190,7 @@ use Helpers\Constants\EventMembers;
                     <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->l2memberID ?>">
                     <input type="hidden" name="skip_kw" value="0">
                     <button id="next_step" type="submit" name="submit_chk" class="btn btn-primary" disabled><?php echo __("continue")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
             </form>
             <div class="step_right alt"></div>
@@ -257,6 +288,42 @@ use Helpers\Constants\EventMembers;
                 }
             }, 10);
             return false;
+        });
+
+        setTimeout(function() {
+            equal_verses_height();
+        }, 500);
+
+        $(".peer_verse_ta").blur(function() {
+            equal_verses_height();
+        });
+
+        function equal_verses_height() {
+            $(".verse_text").each(function() {
+                var verse = $(this).data("verse");
+                var p_height = $(this).outerHeight();
+                var ta = $(".verse_block[data-verse="+verse+"] textarea");
+
+                <?php if($data["event"][0]->peer == 1): ?>
+                if(ta.length > 0) {
+                    var t_height = ta.outerHeight();
+                    ta.outerHeight(Math.max(p_height, t_height));
+                    $(this).outerHeight(Math.max(p_height, t_height));
+                }
+                <?php else: ?>
+                var p = $(".verse_block[data-verse="+verse+"]");
+
+                if(p.length > 0) {
+                    var t_height = p.outerHeight();
+                    p.outerHeight(Math.max(p_height, t_height));
+                    $(this).outerHeight(Math.max(p_height, t_height));
+                }
+                <?php endif; ?>
+            });
+        }
+
+        $(".peer_verse_ta").highlightWithinTextarea({
+            highlight: /\\f\s[+-]\s(.*?)\\f\*/gi
         });
 
         $(".orig_text").each(function() {
