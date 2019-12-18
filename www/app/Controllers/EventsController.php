@@ -11848,7 +11848,7 @@ class EventsController extends Controller
         $response = array("success" => false);
 
         $_POST = Gump::xss_clean($_POST);
-        
+
         $eventID = isset($_POST["eventID"]) && is_numeric($_POST["eventID"]) ? $_POST["eventID"] : null;
         $formData = isset($_POST["formData"]) && $_POST["formData"] != "" ? $_POST["formData"] : null;
 
@@ -11856,6 +11856,7 @@ class EventsController extends Controller
         {
             $post = array();
             parse_str(htmlspecialchars_decode($formData, ENT_QUOTES), $post);
+
             $level = isset($post["level"]) && $post["level"] != "" ? $post["level"] : "l1";
 
             $memberType = EventMembers::TRANSLATOR;
@@ -11969,7 +11970,9 @@ class EventsController extends Controller
                                 $converter->setKeepHTML(false);
                                 $post["draft"] = $converter->parseString($post["draft"]);
                             }
-                            
+
+                            $post["draft"] = filter_var($post["draft"], FILTER_SANITIZE_STRING);
+
                             $role = EventMembers::TRANSLATOR;
 
                             $translationData = $this->_translationModel->getEventTranslationByEventID(
@@ -12240,6 +12243,7 @@ class EventsController extends Controller
                                         $translation[$key][$role]["symbols"] = $symbols[$key];
                                     }
 
+                                    $post["chunks"][$key] = filter_var($post["chunks"][$key], FILTER_SANITIZE_STRING);
                                     $translation[$key][$role][$section] = $post["chunks"][$key];
 
                                     if($shouldUpdate)
@@ -12384,6 +12388,7 @@ class EventsController extends Controller
                                         }
                                     }
 
+                                    $post["chunks"][$key] = filter_var($post["chunks"][$key], FILTER_SANITIZE_STRING);
                                     $translation[$key][$memberType]["verses"] = $post["chunks"][$key];
 
                                     if($shouldUpdate)
