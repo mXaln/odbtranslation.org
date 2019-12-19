@@ -198,7 +198,7 @@ use Helpers\Constants\EventMembers;
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps <?php echo $data["event"][0]->peer == 2 ? "is_checker_page_help" : "" ?>">
+                <div class="help_info_steps is_checker_page_help <?php echo $data["event"][0]->peer == 2 ? "isPeer" : "" ?>">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close"
                          data-mode="l2alt"
                          title="<?php echo __("hide_help") ?>"></div>
@@ -215,7 +215,7 @@ use Helpers\Constants\EventMembers;
                     </div>
                 </div>
 
-                <div class="event_info <?php echo $data["event"][0]->peer == 2 ? "is_checker_page_help" : "" ?>">
+                <div class="event_info is_checker_page_help <?php echo $data["event"][0]->peer == 2 ? "isPeer" : "" ?>">
                     <div class="participant_info">
                         <div class="participant_name">
                             <span><?php echo __("your_checker") ?>:</span>

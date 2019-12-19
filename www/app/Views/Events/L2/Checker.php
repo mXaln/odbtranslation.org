@@ -17,7 +17,7 @@ if(!empty($data["event"]) && !isset($data["error"])):
     </div>
 </noscript>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
+<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : " is_checker_page isPeer") ?>">
     <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
 
     <ul class="steps_list">

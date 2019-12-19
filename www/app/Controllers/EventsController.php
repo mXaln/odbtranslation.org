@@ -6441,6 +6441,7 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
         $data["event"] = $this->_model->getMemberEvents(Session::get("memberID"), EventMembers::L2_CHECKER, $eventID);
         
         $title = "";
@@ -6819,6 +6820,7 @@ class EventsController extends Controller
         $data["menu"] = 1;
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
+        $data["isCheckerPage"] = true;
         $data["event"] = $this->_model->getMemberEventsForCheckerL2(
             Session::get("memberID"), $eventID, $memberID, $chapter);
 
@@ -7108,7 +7110,9 @@ class EventsController extends Controller
                                 $data["translation"] = $translation;
 
                                 if($data["event"][0]->peer == 2)
-                                    $data["isCheckerPage"] = true;
+                                {
+                                    unset($data["isCheckerPage"]);
+                                }
                             }
                             else
                             {
@@ -12388,7 +12392,17 @@ class EventsController extends Controller
                                         }
                                     }
 
-                                    $post["chunks"][$key] = filter_var($post["chunks"][$key], FILTER_SANITIZE_STRING);
+                                    if(is_array($post["chunks"][$key]))
+                                    {
+                                        $post["chunks"][$key] = array_map(function($elm) {
+                                            return filter_var($elm, FILTER_SANITIZE_STRING);
+                                        }, $post["chunks"][$key]);
+                                    }
+                                    else
+                                    {
+                                        $post["chunks"][$key] = filter_var($post["chunks"][$key], FILTER_SANITIZE_STRING);
+                                    }
+
                                     $translation[$key][$memberType]["verses"] = $post["chunks"][$key];
 
                                     if($shouldUpdate)
