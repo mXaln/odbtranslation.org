@@ -253,6 +253,11 @@ if(!isset($error)):
     </audio>
     <?php endif; ?>
 
+    <!-- Audio for notifications -->
+    <audio id="notif">
+        <source src="<?php echo template_url("sounds/notif.ogg")?>" type="audio/ogg" />
+    </audio>
+
     <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
     <script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
     <script src="<?php echo template_url("js/socket.js?12")?>"></script>
