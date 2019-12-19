@@ -353,7 +353,7 @@ if(isset($data["error"])) return;
                 </div>
 
                 <div class="checker_view">
-                    <a href="<?php echo SITEURL ?>events/demo-tq/peer_review"><?php echo __("translator_view") ?></a>
+                    <a href="<?php echo SITEURL ?>events/demo-tq/peer_review"><?php echo __("checker_other_view", [1]) ?></a>
                 </div>
             </div>
         </div>

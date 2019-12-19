@@ -69,7 +69,7 @@ if(empty($error) && empty($data["success"])):
                                 <div class="flex_middle editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
                                     <div class="vnote">
-                                        <div><?php echo preg_replace("/(\\\\f(?:.*)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></div>
+                                        <div><?php echo preg_replace("/(\\\\f(?:.*?)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></div>
                                     </div>
                                 </div>
                                 <div class="flex_right">

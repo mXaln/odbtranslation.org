@@ -362,6 +362,7 @@ return array (
     "state_l3_check" => "Проверка ур.3",
     "state_complete" => "Complete",
     "checker_view" => "Вид проверяющего",
+    "checker_other_view" => "Вид {0}-го проверяющего",
     "translator_view" => "Вид переводчика",
     "progress_all" => "Общий прогресс",
     "people_number" => "Людей: <span>{people_number}</span>",

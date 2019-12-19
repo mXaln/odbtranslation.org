@@ -11217,6 +11217,7 @@ class EventsController extends Controller
         $data["notifications"] = $notifications;
         $data["isDemo"] = true;
         $data["menu"] = 5;
+        $data["isCheckerPage"] = true;
 
         $view = View::make("Events/L2/Demo/DemoHeader");
         $data["step"] = "";
@@ -11256,7 +11257,7 @@ class EventsController extends Controller
             case "peer_review_l2_checker":
                 $view->nest("page", "Events/L2/Demo/PeerReviewChecker");
                 $data["step"] = EventCheckSteps::PEER_REVIEW_L2;
-                $data["isCheckerPage"] = true;
+                unset($data["isCheckerPage"]);
                 break;
 
             case "information":

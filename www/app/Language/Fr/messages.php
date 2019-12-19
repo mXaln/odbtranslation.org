@@ -362,6 +362,7 @@ return array (
     "state_l3_check" => "Level 3 check",
     "state_complete" => "Terminé",
     "checker_view" => "Vue de vérificateur",
+    "checker_other_view" => "Vue de vérificateur {0}",
     "translator_view" => "Vue de traducteur",
     "progress_all" => "Progrès d’Ensemble",
     "people_number" => "Les personnes: <span>{people_number}</span>",

@@ -97,7 +97,7 @@ use Helpers\Constants\EventMembers;
                                                         <?php else: ?>
                                                             <p>
                                                                 <strong><sup><?php echo $verse?></sup></strong>
-                                                                <span class="targetVerse" data-orig-verse="<?php echo $verse ?>"><?php echo preg_replace("/(\\\\f(?:.*)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></span>
+                                                                <span class="targetVerse" data-orig-verse="<?php echo $verse ?>"><?php echo preg_replace("/(\\\\f(?:.*?)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></span>
                                                             </p>
                                                         <?php endif; ?>
                                                     </div>
