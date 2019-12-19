@@ -7,8 +7,19 @@
  */
 
 use Config\Config;
+use Helpers\Session;
 
 Sentry\init([
     'dsn' => Config::get("sentry.dsn"),
-    'release' => Config::get("version.release")
+    'release' => Config::get("version.release"),
+    'environment' => ENVIRONMENT,
 ]);
+
+if(Session::get("loggedin"))
+{
+    Sentry\configureScope(function (Sentry\State\Scope $scope) {
+        $scope->setExtras([
+            'username' => Session::get("userName")
+        ]);
+    });
+}
