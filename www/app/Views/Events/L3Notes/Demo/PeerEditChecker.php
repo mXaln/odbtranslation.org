@@ -570,7 +570,7 @@
                 </div>
 
                 <div class="checker_view">
-                    <a href="/events/demo-tn-l3/peer_edit_l3"><?php echo __("translator_view") ?></a>
+                    <a href="/events/demo-tn-l3/peer_edit_l3"><?php echo __("checker_other_view", [1]) ?></a>
                 </div>
             </div>
         </div>

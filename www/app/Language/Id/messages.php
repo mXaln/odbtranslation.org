@@ -365,6 +365,7 @@ return array (
     "state_l3_check" => "Pemeriksaan Level 3",
     "state_complete" => "Selesai",
     "checker_view" => "Tampilan Pemeriksa",
+    "checker_other_view" => "Tampilan Pemeriksa {0}",
     "translator_view" => "Tampilan Penerjemah",
     "progress_all" => "Penyelesaian Keseluruhan",
     "people_number" => "Orang: <span>{people_number}</span>",

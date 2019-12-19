@@ -369,6 +369,7 @@ return array (
     "state_l3_check" => "Ikatulong Ang-ang sa pagsusi",
     "state_complete" => "Kumpleto",
     "checker_view" => "Paglantaw sa Tigsusi",
+    "checker_other_view" => "Paglantaw sa Tigsusi {0}",
     "translator_view" => "Paglantaw sa Tighubad",
     "progress_all" => "Kinatibuk-ang Pag-uswag",
     "people_number" => "Katawhan: <span>{people_number}</span>",

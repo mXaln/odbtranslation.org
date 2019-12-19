@@ -486,7 +486,7 @@
 
         <div class="content_help col-sm-3">
             <div class="help_float">
-                <div class="help_info_steps">
+                <div class="help_info_steps is_checker_page_help">
                     <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
                     <div class="help_title_steps"><?php echo __("help") ?></div>
 
@@ -499,7 +499,7 @@
                     </div>
                 </div>
 
-                <div class="event_info">
+                <div class="event_info is_checker_page_help">
                     <div class="participant_info">
                         <div class="participant_name">
                             <span><?php echo __("your_checker") ?>:</span>
@@ -521,7 +521,7 @@
                 </div>
 
                 <div class="checker_view">
-                    <a href="/events/demo-l2/peer_review_l2_checker"><?php echo __("checker_view") ?></a>
+                    <a href="/events/demo-l2/peer_review_l2_checker"><?php echo __("checker_other_view", [2]) ?></a>
                 </div>
             </div>
         </div>

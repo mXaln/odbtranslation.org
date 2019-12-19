@@ -572,7 +572,7 @@
                 </div>
 
                 <div class="checker_view">
-                    <a href="/events/demo-tn-l3/peer_review_l3_checker"><?php echo __("checker_view") ?></a>
+                    <a href="/events/demo-tn-l3/peer_review_l3_checker"><?php echo __("checker_other_view", [2]) ?></a>
                 </div>
             </div>
         </div>
