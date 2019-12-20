@@ -1234,6 +1234,8 @@ return array (
     "font_name_error" => "Имя файла должно содержать \"sun\" или \"backsun\" для соответствующего шрифта",
     "local_use_restriction" => "Эта функция не доступна на локальном сервере.",
     "error_zip_file_required" => "Файл должен быть в формате ZIP",
+    "projects_empty_error" => "Выберите проект",
+    "proj_lang_empty_error" => "Выберите язык проекта",
 
     // Success messages
     "you_event_finished_success" => "Вы закончили переводить все свои главы.",

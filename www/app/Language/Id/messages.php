@@ -1240,6 +1240,8 @@ return array (
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
     "local_use_restriction" => "Fitur ini tidak tersedia pada server lokal.",
     "error_zip_file_required" => "The file should of ZIP format",
+    "projects_empty_error" => "Pilih proyek",
+    "proj_lang_empty_error" => "Pilih bahasa proyek",
 
     // Success messages
     "you_event_finished_success" => "Anda telah menyelesaikan penerjemahan semua pasal Anda.",

@@ -228,9 +228,7 @@ if(empty($error) && empty($data["success"])):
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/content-review.png") ?>" width="100" height="100">
             <img src="<?php echo template_url("img/steps/big/content-review.png") ?>" width="280" height="280">
-            <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="<?php echo "content-review_checker" ?>" data2="checker" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            
         </div>
 
         <div class="tutorial_content <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">

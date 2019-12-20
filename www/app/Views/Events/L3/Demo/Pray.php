@@ -66,7 +66,7 @@
 
 <script>
     $(document).ready(function () {
-        deleteCookie("temp_tutorial");
+        
         $("#next_step").click(function (e) {
             e.preventDefault();
             window.location.href = '/events/demo-l3/peer_review_l3';

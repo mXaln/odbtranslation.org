@@ -88,9 +88,7 @@ if(isset($data["error"])) return;
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/symbol-draft.png") ?>" width="100" height="100">
             <img src="<?php echo template_url("img/steps/big/symbol-draft.png") ?>" width="280" height="280">
-            <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            
         </div>
 
         <div class="tutorial_content">

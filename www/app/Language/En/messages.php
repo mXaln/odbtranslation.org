@@ -811,6 +811,15 @@ return array (
                                             <li>Any other resources you choose.</li>
                                         </ol>
                                     </li>
+                                    <li>Footnotes added to the translation are inserted in blue highlighting.
+                                        <ol>
+                                            <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                            <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                            <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                            <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                            <li>Check to see if the footnote is relevant and correct.</li>
+                                        </ol>
+                                    </li>
                                     <li>When you have completed the check, contact the translator to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
                                     <li>You and the translator should discuss any changes you think should be made. 
                                         If you agree to the changes, the translator should make the changes right away. 
@@ -932,6 +941,15 @@ return array (
                                             <li>Any other resources you choose.</li>
                                         </ol>
                                     </li>
+                                    <li>Footnotes added to the translation are inserted in blue highlighting.
+                                        <ol>
+                                            <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                            <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                            <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                            <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                            <li>Check to see if the footnote is relevant and correct.</li>
+                                        </ol>
+                                    </li>
                                     <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
                                     <li><b>The point is not word-for-word translation; rather, it is to see if the word/meaning is represented in the text 
                                         in a way that is grammatically and culturally appropriate in the target language.</b></li>
@@ -1045,6 +1063,15 @@ return array (
                                                 <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
                                                 <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
                                                 <li>Any other resources you choose.</li>
+                                            </ol>
+                                        </li>
+                                        <li>Footnotes added to the translation are inserted in blue highlighting.
+                                            <ol>
+                                                <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                                <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                                <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                                <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                                <li>Check to see if the footnote is relevant and correct.</li>
                                             </ol>
                                         </li>
                                         <li>When you have completed the check, contact the translator to discuss recommended changes via: 
@@ -1368,6 +1395,15 @@ return array (
                                 not agree, contact your facilitator to discuss the disagreement. DO NOT complete 
                                 this step until discrepancies are resolved and changed.</li>
                             <li>Any resources can be used for checking.</li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
                             <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "multi-draft" => "Draft",
@@ -1620,6 +1656,15 @@ return array (
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
 
@@ -1707,6 +1752,15 @@ return array (
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa.\"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
@@ -1764,6 +1818,8 @@ return array (
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
     "local_use_restriction" => "This feature is not available on local server.",
     "error_zip_file_required" => "The file should of ZIP format",
+    "projects_empty_error" => "Select the project",
+    "proj_lang_empty_error" => "Select the project language",
 
     // Success messages
     "you_event_finished_success" => "You have finished translation of all your chapters.",

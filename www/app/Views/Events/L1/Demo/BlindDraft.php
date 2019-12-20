@@ -326,9 +326,7 @@
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/blind-draft.png") ?>" height="100px" width="100px">
             <img src="<?php echo template_url("img/steps/big/blind-draft.png") ?>" height="280px" width="280px">
-            <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="blind-draft" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            
         </div>
 
         <div class="tutorial_content">
@@ -343,7 +341,7 @@
         $("#next_step").click(function (e) {
             e.preventDefault();
 
-            deleteCookie("temp_tutorial");
+            
             if(!hasChangesOnPage) window.location.href = '/events/demo/self_check';
 
             return false;
