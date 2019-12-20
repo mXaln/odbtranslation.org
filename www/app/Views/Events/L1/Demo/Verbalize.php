@@ -353,9 +353,7 @@
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/verbalize.png") ?>" height="100px" width="100px">
             <img src="<?php echo template_url("img/steps/big/verbalize.png") ?>" height="280px" width="280px">
-            <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="verbalize" value="0" type="checkbox"> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            
         </div>
 
         <div class="tutorial_content">
@@ -370,7 +368,7 @@
         $("#next_step").click(function (e) {
             e.preventDefault();
 
-            deleteCookie("temp_tutorial");
+            
             window.location.href = '/events/demo/chunking';
 
             return false;

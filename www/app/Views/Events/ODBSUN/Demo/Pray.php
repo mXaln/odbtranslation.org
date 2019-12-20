@@ -68,7 +68,7 @@
 
 <script>
     $(document).ready(function () {
-        deleteCookie("temp_tutorial");
+        
         $("#next_step").click(function (e) {
             e.preventDefault();
             window.location.href = '/events/demo-sun-odb/consume';

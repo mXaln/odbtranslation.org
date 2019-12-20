@@ -350,22 +350,6 @@ $(document).ready(function() {
 
     if(typeof step != "undefined")
     {
-        var stepl = ""; //step;
-        var role = $("#hide_tutorial").attr("data2");
-        var tutorialCookie = typeof role != "undefined" && role == "checker" ?
-            getCookie(stepl + "_checker_tutorial") : getCookie(stepl + "_tutorial");
-
-        if(typeof tutorialCookie == "undefined")
-        {
-            var tempTutorialCookie = getCookie("temp_tutorial");
-            if(typeof tempTutorialCookie == "undefined")
-            {
-                //$(".tutorial_container").show();
-                //$("body").css("overflow", "hidden");
-                setCookie("temp_tutorial", true, {expires: 365*24*60*60, path: "/"});
-            }
-        }
-
         if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
             step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
             step == EventSteps.CONTENT_REVIEW || step == EventSteps.MULTI_DRAFT ||
@@ -380,7 +364,7 @@ $(document).ready(function() {
                         step == EventSteps.REARRANGE ||
                         step == EventSteps.SYMBOL_DRAFT
                     ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk
-                    : "event"+eventID;
+                    : "event"+eventID+"_chapter";
 				var saved = localStorage.getItem(item);
 				if(saved)
 				{
@@ -443,7 +427,7 @@ $(document).ready(function() {
                                             break;
 
                                         case "checkDone":
-                                            //hasChangesOnPage = false;
+                                            hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
 

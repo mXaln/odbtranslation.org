@@ -818,6 +818,15 @@ return array (
                                             <li>Choisissez toutes autres ressources.</li>
                                         </ol>
                                     </li>
+                                    <li>Footnotes added to the translation are inserted in blue highlighting.
+                                        <ol>
+                                            <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                            <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                            <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                            <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                            <li>Check to see if the footnote is relevant and correct.</li>
+                                        </ol>
+                                    </li>
                                     <li>Quand vous avez complété la vérification, contactez le traducteur pour discuter 
                                         des changements recommandés par: Skype, Messenger, WhatsApp, phone, etc.</li>
                                     <li>Vous et le traducteur devraint discuter de tous changements que vous avez 
@@ -944,6 +953,15 @@ return array (
                                         <ol>
                                             <li>Mots de traduction (tW) dans la barre latérale.</li>
                                             <li>AN’importe quelle ressource que tu choisis.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Footnotes added to the translation are inserted in blue highlighting.
+                                        <ol>
+                                            <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                            <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                            <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                            <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                            <li>Check to see if the footnote is relevant and correct.</li>
                                         </ol>
                                     </li>
                                     <li>Les mots de traduction (tW) dans la barre latérale peuvent t’aider à identifier 
@@ -1077,6 +1095,15 @@ return array (
                                                 <li>Mots de traduction dans la barre latérale. Pour accéder les mots, clique le symbole tW.</li>
                                                 <li>Questions de traduction dans la barre latérale. Pour accéder les questions, clique le symbole tQ.</li>
                                                 <li>N’importe quelle ressource que tu choisis.</li>
+                                            </ol>
+                                        </li>
+                                        <li>Footnotes added to the translation are inserted in blue highlighting.
+                                            <ol>
+                                                <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                                <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                                <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                                <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                                <li>Check to see if the footnote is relevant and correct.</li>
                                             </ol>
                                         </li>
                                         <li>Quand le vérificateur finit de souligner les mots-clés dans le document, 
@@ -1405,6 +1432,15 @@ return array (
                                 not agree, contact your facilitator to discuss the disagreement. DO NOT complete 
                                 this step until discrepancies are resolved and changed.</li>
                             <li>Any resources can be used for checking.</li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
                             <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "multi-draft" => "Draft",
@@ -1657,6 +1693,15 @@ return array (
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
 
@@ -1744,6 +1789,15 @@ return array (
                                     <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
@@ -1801,6 +1855,8 @@ return array (
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
     "local_use_restriction" => "Cette fonctionnalité n’est pas disponible sur le serveur local",
     "error_zip_file_required" => "The file should of ZIP format",
+    "projects_empty_error" => "Sélectionnez le projet",
+    "proj_lang_empty_error" => "Sélectionnez la langue du projet",
 
     // Success messages
     "you_event_finished_success" => "Vous avez terminé de traduire tous vos chapitres.",

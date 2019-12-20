@@ -3273,9 +3273,7 @@
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/keyword-check.png") ?>" width="100px" height="100px">
             <img src="<?php echo template_url("img/steps/big/keyword-check.png") ?>" width="280px" height="280px">
-            <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="keyword-check_checker" data2="checker" type="checkbox" value="0"> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            
         </div>
 
         <div class="tutorial_content is_checker_page_help">
@@ -3291,7 +3289,7 @@
         $("#next_step").click(function (e) {
             renderConfirmPopup(Language.checkerConfirmTitle, Language.checkerConfirm,
                 function () {
-                    deleteCookie("temp_tutorial");
+                    
                     window.location.href = '/events/demo/content_review';
                 },
                 function () {

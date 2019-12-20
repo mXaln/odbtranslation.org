@@ -1237,6 +1237,8 @@ return array (
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
     "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
+    "projects_empty_error" => "Select the project",
+    "proj_lang_empty_error" => "Select the project language",
 
     // Success messages
     "you_event_finished_success" => "Wala pa nimo nahuman og hubad ang tanan nimo nga kapitulo.",

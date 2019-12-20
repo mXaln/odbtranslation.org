@@ -203,9 +203,7 @@ $parsedown = new Parsedown();
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/peer-review.png") ?>" width="100px" height="100px">
             <img src="<?php echo template_url("img/steps/big/peer-review.png") ?>" width="280px" height="280px">
-            <div class="hide_tutorial">
-                <label><input id="hide_tutorial" data="<?php echo $data["event"][0]->step ?>" type="checkbox" value="0" /> <?php echo __("do_not_show_tutorial")?></label>
-            </div>
+            
         </div>
 
         <div class="tutorial_content <?php echo "is_checker_page_help" ?>">
