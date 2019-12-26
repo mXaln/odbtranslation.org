@@ -4116,7 +4116,7 @@ class EventsController extends Controller
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
 
-        $page = "Error";
+        $page = null;
         if(!isset($error))
         {
             if($data["event"][0]->step != EventSteps::VERBALIZE)
@@ -4145,28 +4145,31 @@ class EventsController extends Controller
             switch ($data["event"][0]->step)
             {
                 case EventSteps::PEER_REVIEW:
-                    $page = "CheckerPeerReview";
+                    $page = "Events/L1/CheckerPeerReview";
                     break;
 
                 case EventSteps::KEYWORD_CHECK:
-                    $page = "CheckerKeywordCheck";
+                    $page = "Events/L1/CheckerKeywordCheck";
                     break;
 
                 case EventSteps::CONTENT_REVIEW:
-                    $page = "CheckerContentReview";
+                    $page = "Events/L1/CheckerContentReview";
                     break;
 
                 default:
-                    $page = "Error";
+                    $page = null;
                     break;
             }
         }
 
-        return View::make('Events/L1/Translator')
-            ->nest('page', 'Events/L1/'.$page)
+        $view = View::make('Events/L1/Translator')
             ->shares("title", $title)
             ->shares("data", $data)
             ->shares("error", @$error);
+
+        if($page != null) $view->nest('page', $page);
+
+        return $view;
     }
 
     public function checkerNotes($eventID, $memberID, $chapter)
@@ -7330,15 +7333,27 @@ class EventsController extends Controller
                                 $data["event"][0]->eventID,
                                 $data["event"][0]->memberID,
                                 "l3");
-                            $data["currentChapter"] = $nextChapter[0]->chapter;
+
+                            if(!empty($nextChapter))
+                            {
+                                $data["currentChapter"] = $nextChapter[0]->chapter;
+                            }
+                            else
+                            {
+                                $postdata = [
+                                    "step" => EventCheckSteps::NONE,
+                                    "currentChapter" => -1
+                                ];
+                                $this->_model->updateL3Checker($postdata, ["l3chID" => $data["event"][0]->l3chID]);
+
+                                Url::redirect('events/checker-tn-l3/' . $data["event"][0]->eventID);
+                            }
                         }
 
                         if (isset($_POST) && !empty($_POST))
                         {
                             if (isset($_POST["confirm_step"]))
                             {
-
-
                                 $peerCheck = (array)json_decode($data["event"][0]->peerCheck, true);
                                 $peerCheck[$data["currentChapter"]] = [
                                     "memberID" => 0,
