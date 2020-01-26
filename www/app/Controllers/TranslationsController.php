@@ -138,7 +138,7 @@ class TranslationsController extends Controller
                     if(in_array($chunk->bookProject, ["tn","tq","tw"]))
                     {
                         $chunks = (array)json_decode($chapter["chunks"], true);
-                        $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
+                        $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : [$chunk->chunk];
 
                         $versesLabel = "";
                         if($chunk->bookProject != "tw")
