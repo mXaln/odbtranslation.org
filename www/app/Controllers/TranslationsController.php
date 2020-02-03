@@ -68,11 +68,14 @@ class TranslationsController extends Controller
         {
             $data['title'] = __('choose_book');
             $data['bookProjects'] = $this->_model->getTranslationProjects($lang);
+            $data['language'] = $this->_model->getLanguageInfo($lang);
         }
         elseif($bookCode == null)
         {
             $data['title'] = __('choose_book');
             $data['books'] = $this->_model->getTranslationBooks($lang, $bookProject, $sourceBible);
+            $data['language'] = $this->_model->getLanguageInfo($lang);
+            $data['project'] = ["bookProject" => $bookProject, "sourceBible" => $sourceBible];
             $data["mode"] = "bible";
 
             if(sizeof($data['books']) > 0)
@@ -83,12 +86,15 @@ class TranslationsController extends Controller
         else
         {
             $book = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
+            $data['language'] = $this->_model->getLanguageInfo($lang);
+            $data['project'] = ["bookProject" => $bookProject, "sourceBible" => $sourceBible];
+            $data['bookInfo'] = $this->_model->getBookInfo($bookCode);
+            $data['book'] = "";
 
             if(!empty($book))
             {
                 $data["data"] = $book[0];
                 $data['title'] = $data['data']->bookName;
-                $data['book'] = "";
                 $data["mode"] = "bible";
                 $lastChapter = -1;
                 $chapter = [];

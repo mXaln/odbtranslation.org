@@ -110,9 +110,11 @@ class UsfmParser
 
                     // Remove all other usfm tags
                     // TODO Parse other usfm tags
-                    $vText = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $vText);
+                    $vText = preg_replace("/\\\\[a-z0-9-]+\\s*?\\\\?\\*?/", "", $vText);
 
                     $result["chapters"][$chapter][$chunk][$vNum] = $vText;
+
+
                 }
             }
         }

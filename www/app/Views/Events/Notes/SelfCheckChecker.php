@@ -71,9 +71,7 @@ if(isset($data["error"])) return;
                                 && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
                                     ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
                                     : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
-                                $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
-                                    ? $_POST["chunks"][$chunkNo]
-                                    : $text;
+
                                 $text = preg_replace(
                                     "/(\[\[[a-z:\/\-]+\]\])/",
                                     "<span class='uwlink' title='".__("leaveit")."'>$1</span>",

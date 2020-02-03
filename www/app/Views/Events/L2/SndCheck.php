@@ -76,10 +76,7 @@ use Helpers\Constants\EventMembers;
                                         </div>
                                         <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                             <?php
-                                            if(!empty($_POST["chunks"][$key]))
-                                                $verses = $_POST["chunks"][$key];
-                                            else
-                                                $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
+                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
                                             ?>
                                             <div class="vnote">
                                                 <?php foreach($verses as $verse => $text): ?>

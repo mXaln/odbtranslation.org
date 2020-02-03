@@ -93,9 +93,7 @@ $parsedown = new Parsedown();
                                     <div class="vnote l3 flex_middle font_<?php echo $data["event"][0]->targetLang ?>"
                                          dir="<?php echo $data["event"][0]->tLangDir ?>">
                                         <?php
-                                        if(!empty($_POST["chunks"][$chunkNo]))
-                                            $verses = $_POST["chunks"][$chunkNo];
-                                        elseif(!empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]))
+                                        if(!empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]))
                                             $verses = $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
                                         else
                                             $verses = $data["translation"][$chunkNo][EventMembers::L2_CHECKER]["verses"];

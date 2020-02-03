@@ -89,10 +89,6 @@ $parsedown = new Parsedown();
                                             $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
                                         $text = $parsedown->text($text);
 
-                                        $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
-                                            ? $_POST["chunks"][$chunkNo]
-                                            : $text;
-
                                         $text = preg_replace(
                                             "/(\[\[[0-9a-z:\/\-]+\]\])/",
                                             "<span class='uwlink' title='".__("leaveit")."'>$1</span>",

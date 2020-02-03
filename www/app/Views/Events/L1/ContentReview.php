@@ -69,9 +69,7 @@ if(isset($data["error"])) return;
                                 <div class="chunk_verse editor_area flex_middle" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <div class="vnote">
                                         <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
-                                        <textarea name="chunks[]" class="peer_verse_ta textarea"><?php
-                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
-                                            ?></textarea>
+                                        <textarea name="chunks[]" class="peer_verse_ta textarea"><?php echo $text ?></textarea>
                                     </div>
                                 </div>
                                 <div class="flex_right">
