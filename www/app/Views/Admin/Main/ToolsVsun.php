@@ -56,6 +56,10 @@
                     <div class="form-group">
                         <label for="sailfilter" class="sr-only">Filter</label>
                         <input type="text" class="form-control" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
+                        <label for="sailfilter_global" style="margin-top: 10px;">
+                            <input type="checkbox" class="" id="sailfilter_global" value="">
+                            <span style="font-size: 16px; font-weight: normal;">full text search</span>
+                        </label>
                     </div>
                 </div>
 

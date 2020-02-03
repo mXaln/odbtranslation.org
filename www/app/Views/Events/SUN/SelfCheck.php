@@ -47,18 +47,14 @@ if(isset($data["error"])) return;
                                         <sup><?php echo $verse; ?></sup>
                                     </strong>
                                     <?php //echo $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
-                                    <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"><?php
-                                        echo isset($_POST["symbols"]) && isset($_POST["symbols"][$key]) ? $_POST["symbols"][$key] : $text
-                                        ?></textarea>
+                                    <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"><?php echo $text ?></textarea>
                                 </div>
                                 <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] != "" ?
                                         $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] :
                                         $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
                                     <div class="vnote">
-                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun"><?php
-                                            echo isset($_POST["chunks"]) && isset($_POST["chunks"][$key]) ? $_POST["chunks"][$key] : $text
-                                        ?></textarea>
+                                        <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun"><?php echo $text ?></textarea>
                                     </div>
                                 </div>
                                 <div class="flex_right">

@@ -18,6 +18,7 @@ if(!empty($data["saildict"])): ?>
         <div class="form-group">
             <label for="sailfilter" class="sr-only">Filter</label>
             <input type="text" class="form-control input-lg" id="sailfilter" placeholder="<?php echo __("filter_by_word") ?>" value="">
+            <label for="sailfilter_global"><input type="checkbox" class="" id="sailfilter_global" value=""> <span style="font-size: 16px">full text search</span></label>
         </div>
     </div>
     <div class="sail_list">

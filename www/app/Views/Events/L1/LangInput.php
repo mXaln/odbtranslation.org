@@ -26,7 +26,7 @@ if(isset($data["error"])) return;
                             <?php if(empty($data["translation"])): ?>
                                 <?php foreach($data["text"] as $verse => $text): ?>
                                     <div class="lang_input_verse" data-verse="<?php echo $verse ?>">
-                                        <textarea style="min-width: 400px;" name="verses[<?php echo $verse ?>]" class="textarea lang_input_ta peer_verse_ta"></textarea>
+                                        <textarea style="min-width: 400px;" name="verses[<?php echo $verse ?>]" class="textarea lang_input_ta"></textarea>
                                         <span class="vn"><?php echo $verse ?></span>
                                         <button class="delete_verse_ta btn btn-danger glyphicon glyphicon-remove" />
                                     </div>
@@ -45,10 +45,9 @@ if(isset($data["error"])) return;
                                             break;
                                         }
                                     }
-                                    $text = isset($_POST["verses"]) && isset($_POST["verses"][$verse]) ? $_POST["verses"][$verse] : $text;
                                     ?>
                                     <div class="lang_input_verse" data-verse="<?php echo $verse ?>" data-id="<?php echo $id ?>">
-                                        <textarea style="min-width: 400px;" name="verses[<?php echo $verse ?>]" class="textarea lang_input_ta peer_verse_ta"><?php echo $text ?></textarea>
+                                        <textarea style="min-width: 400px;" name="verses[<?php echo $verse ?>]" class="textarea lang_input_ta"><?php echo $text ?></textarea>
                                         <span class="vn"><?php echo $verse ?></span>
                                         <button class="delete_verse_ta btn btn-danger glyphicon glyphicon-remove" />
                                     </div>

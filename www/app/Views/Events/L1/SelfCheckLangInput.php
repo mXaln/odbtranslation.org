@@ -72,12 +72,11 @@ if(isset($data["error"])) return;
                                         break;
                                     }
                                 }
-                                $text = isset($_POST["verses"]) && isset($_POST["verses"][$verse]) ? $_POST["verses"][$verse] : $text;
                                 ?>
                                 <div class="lang_input_verse" data-verse="<?php echo $verse ?>" data-id="<?php echo $id ?>">
                                     <textarea
                                             name="verses[<?php echo $verse ?>]"
-                                            class="textarea lang_input_ta peer_verse_ta"
+                                            class="textarea lang_input_ta"
                                             style="width: 400px;"><?php echo $text ?></textarea>
                                     <span class="vn"><?php echo $verse ?></span>
 
@@ -193,7 +192,7 @@ if(isset($data["error"])) return;
             equal_verses_height();
         });
 
-        $(".peer_verse_ta").highlightWithinTextarea({
+        $(".lang_input_ta").highlightWithinTextarea({
             highlight: /\\f\s[+-]\s(.*?)\\f\*/gi
         });
     });

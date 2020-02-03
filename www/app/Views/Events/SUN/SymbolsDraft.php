@@ -25,9 +25,7 @@ if(isset($data["error"])) return;
                             </div>
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php $text = isset($data["symbols"]) ? $data["symbols"] : ""; ?>
-                                <textarea name="symbols" class="col-sm-6 verse_ta textarea sun_content"><?php
-                                    echo isset($_POST["symbols"]) ? $_POST["symbols"] : $text
-                                ?></textarea>
+                                <textarea name="symbols" class="col-sm-6 verse_ta textarea sun_content"><?php echo $text ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -106,16 +104,3 @@ if(isset($data["error"])) return;
 <input type="hidden" id="tw_lang" value="<?php echo $data["event"][0]->twLangID ?>">
 <input type="hidden" id="totalVerses" value="<?php echo $data["totalVerses"] ?>">
 <input type="hidden" id="targetLang" value="<?php echo $data["event"][0]->targetLang ?>">
-
-<script>
-    $(document).ready(function() {
-        $("#next_step").click(function() {
-            if(autosaveTimer != undefined)
-                clearInterval(autosaveTimer);
-            if(autosaveRequest != undefined)
-                autosaveRequest.abort();
-
-            return true;
-        });
-    });
-</script>

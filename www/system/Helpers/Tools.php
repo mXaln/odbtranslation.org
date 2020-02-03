@@ -37,4 +37,14 @@ class Tools
 
     return $versesArr;
     }
+
+    /**
+     * Advanced trim the string
+     * @param $str
+     * @return string
+     */
+    public static function trim($str)
+    {
+        return trim(html_entity_decode($str), " \t\n\r\0\x0B\xC2\xA0");
+    }
 }

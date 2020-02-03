@@ -167,7 +167,7 @@ $(function () {
                 }
                 else
                 {
-                    renderPopup(data.error);
+                    renderPopup(data.error + (data.errors != undefined ? " ("+Object.keys(data.errors).join(", ")+")" : ""));
                 }
             })
             .always(function () {

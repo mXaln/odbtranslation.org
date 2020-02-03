@@ -20,7 +20,7 @@ if(isset($data["error"])) return;
                     <div class="row">
                         <div class="col-sm-12" dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php
-                                echo isset($_POST["draft"]) ? $_POST["draft"] : (isset($data["blind"]) ? $data["blind"] : "")
+                                echo isset($data["blind"]) ? $data["blind"] : ""
                             ?></textarea>
                         </div>
                     </div>
@@ -90,16 +90,3 @@ if(isset($data["error"])) return;
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $("#next_step").click(function() {
-            if(autosaveTimer != undefined)
-                clearInterval(autosaveTimer);
-            if(autosaveRequest != undefined)
-                autosaveRequest.abort();
-
-            return true;
-        });
-    });
-</script>
