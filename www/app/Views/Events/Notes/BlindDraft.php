@@ -69,9 +69,6 @@ if(isset($data["error"])) return;
                                         "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
                                         $parsedown->text($data["translation"]))
                                     : "";
-                                $text = isset($_POST["draft"]) && isset($_POST["draft"])
-                                    ? $_POST["draft"]
-                                    : $text
                                 ?>
                                 <textarea
                                         name="draft"
@@ -151,15 +148,6 @@ if(isset($data["error"])) return;
                     parent.css("min-height", height);
                 }, 10);
             })
-        });
-
-        $("#next_step").click(function() {
-            if(autosaveTimer != undefined)
-                clearInterval(autosaveTimer);
-            if(autosaveRequest != undefined)
-                autosaveRequest.abort();
-
-            return true;
         });
     })
 </script>

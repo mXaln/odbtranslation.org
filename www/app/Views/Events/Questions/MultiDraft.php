@@ -53,9 +53,6 @@ if(isset($data["error"])) return;
                                     $text = isset($data["translation"][$chunkNo])
                                         ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
                                         : "";
-                                    $text = isset($_POST["chunks"]) && isset($_POST["chunks"][$chunkNo])
-                                        ? $_POST["chunks"][$chunkNo]
-                                        : $text;
                                     ?>
                                     <textarea
                                             name="chunks[<?php echo $chunkNo ?>]"

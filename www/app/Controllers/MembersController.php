@@ -155,7 +155,6 @@ class MembersController extends Controller
                 $data["errors"]['lastName'] = true;
             }
 
-
             if($prefered_roles == null)
             {
                 $data["errors"]["prefered_roles"] = true;

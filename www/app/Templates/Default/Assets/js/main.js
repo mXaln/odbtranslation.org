@@ -321,10 +321,6 @@ $(document).ready(function() {
         });
     }
 
-    $(".peer_verse_ta, .blind_ta, .verse_ta").change(function() {
-
-    });
-
     $(".peer_verse_ta, .blind_ta, .verse_ta").keyup(function() {
         hasChangesOnPage = true;
         $(".unsaved_alert").show();
@@ -358,27 +354,6 @@ $(document).ready(function() {
             step == EventCheckSteps.PEER_REVIEW_L2 ||
             step == EventCheckSteps.PEER_EDIT_L3)
         {
-            /*if(typeof myChapter != "undefined" && typeof myChunk != "undefined")
-			{
-                var item = step == EventSteps.BLIND_DRAFT ||
-                        step == EventSteps.REARRANGE ||
-                        step == EventSteps.SYMBOL_DRAFT
-                    ? "event"+eventID+"_chapter"+myChapter+"_chunk"+myChunk
-                    : "event"+eventID+"_chapter";
-				var saved = localStorage.getItem(item);
-				if(saved)
-				{
-					saved.split("&").forEach(function(elem, index) {
-                        var vals = elem.split('=');
-                        var key = decodeURIComponent(vals[0]);
-                        $("#main_form textarea[name='" + key + "']").val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
-                    });
-
-					localStorage.removeItem(item);
-					hasChangesOnPage = true;
-				}
-			}*/
-
             autosaveTimer = setInterval(function() {
                 if(typeof isDemo != "undefined" && isDemo)
                 {
@@ -427,12 +402,12 @@ $(document).ready(function() {
                                             break;
 
                                         case "checkDone":
+                                            $(".unsaved_alert").hide();
                                             hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
 
                                         case "json":
-                                            //hasChangesOnPage = false;
                                             renderPopup(data.error);
                                             break;
                                     }
@@ -654,20 +629,16 @@ $(document).ready(function() {
     $("#next_step").click(function(e) {
         $this = $(this);
 
-        if(hasChangesOnPage)
+        if(hasChangesOnPage || hasLangInputChangesOnPage)
         {
-            if(step != EventSteps.BLIND_DRAFT && step != EventSteps.REARRANGE
-                && step != EventSteps.SYMBOL_DRAFT && step != EventSteps.MULTI_DRAFT)
-            {
-                renderPopup(Language.saveChangesConfirm, function () {
-                    $(this).dialog("close");
-                }, function () {
-                    $( this ).dialog("close");
-                });
+            renderPopup(Language.saveChangesConfirm, function () {
+                $(this).dialog("close");
+            }, function () {
+                $( this ).dialog("close");
+            });
 
-                e.preventDefault();
-                return false;
-            }
+            e.preventDefault();
+            return false;
         }
 
         var sending = $this.data("sending");
@@ -1124,10 +1095,10 @@ $(document).ready(function() {
 
     var footnoteCallback;
     $(document).on("click", ".editFootNote", function() {
-        var textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta");
+        var textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta, .lang_input_ta");
 
         if(textarea.length == 0)
-            textarea = $(this).closest(".flex_container").find(".peer_verse_ta");
+            textarea = $(this).closest(".flex_container").find(".peer_verse_ta, .lang_input_ta");
 
         if(textarea.length > 0) {
             var startPosition = textarea.prop("selectionStart");
@@ -1166,9 +1137,9 @@ $(document).ready(function() {
                     + text.substring(endPosition, text.length);
                 textarea.val(text);
 
-                $(".peer_verse_ta").highlightWithinTextarea("update");
+                $(".peer_verse_ta, .lang_input_ta").highlightWithinTextarea("update");
                 autosize.update($('textarea'));
-                $(".peer_verse_ta").keyup();
+                $(".peer_verse_ta, .lang_input_ta").keyup();
                 $(".footnote_editor").hide();
             }
         }
@@ -2426,8 +2397,10 @@ $(document).ready(function() {
 
     // Sail dictionary
     $("body").on("keyup", "#sailfilter", function () {
-        var w = $(this).val();
-        var re = new RegExp(w, "ig");
+        var w = escape($(this).val());
+        var isGlobal = $("#sailfilter_global").is(":checked");
+        var pattern = (!isGlobal ? "^" : "") + w;
+        var re = new RegExp(pattern, "ig");
 
         $(".sail_list li").hide();
         $(".sail_list li").filter(function () {
@@ -2732,7 +2705,7 @@ $(document).ready(function() {
 
         var newVerseHtml = "" +
             "<div class=\"lang_input_verse\" data-verse=\""+newVerse+"\">" +
-            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta peer_verse_ta\"></textarea>" +
+            "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta\"></textarea>" +
             "<span class=\"vn\">"+newVerse+"</span>" +
             "<button class=\"delete_verse_ta btn btn-danger glyphicon glyphicon-remove\" />" +
             "</div>";
