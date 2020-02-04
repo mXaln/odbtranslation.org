@@ -1274,6 +1274,7 @@ return array (
     "download_usfm" => "Download isip USFM",
     "download_markdown" => "Download as Markdown",
     "download_json" => "Download as JSON",
+    "download_ts" => "Download as tStudio",
 
     // Alma keyword plugin
     "to_list" => "To list",

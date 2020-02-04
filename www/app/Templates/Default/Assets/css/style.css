@@ -5339,3 +5339,8 @@ button.add_verse_ta {
     display: flex;
     justify-content: space-between;
 }
+
+.download_header a {
+    display: block;
+    margin-top: 10px;
+}

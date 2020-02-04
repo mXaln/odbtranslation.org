@@ -40,6 +40,12 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/ts", "TranslationsController@getTs")
+        ->where([
+            "lang" => "[a-zA-Z0-9-]+",
+            "bookProject" => "[a-z0-9]+",
+            "bookCode" => "[a-z0-9]+"
+        ]);
     Router::any("{lang?}/{bookProject?}/{sourceBible?}/{bookCode?}", "TranslationsController@index")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
