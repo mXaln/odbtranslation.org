@@ -1272,6 +1272,7 @@ return array (
     "download_usfm" => "Скачать в формате USFM",
     "download_markdown" => "Скачать в формате Markdown",
     "download_json" => "Скачать в формате JSON",
+    "download_ts" => "Скачать в формате tStudio",
 
     // Alma keyword plugin
     "to_list" => "К списку",

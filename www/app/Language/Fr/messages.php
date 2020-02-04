@@ -1892,6 +1892,7 @@ return array (
     "download_usfm" => "Télécharger comme USFM",
     "download_markdown" => "DTélécharger comme Markdown",
     "download_json" => "DTélécharger comme JSON",
+    "download_ts" => "DTélécharger comme tStudio",
 
     // Alma keyword plugin
     "to_list" => "A l’énumération",

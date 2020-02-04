@@ -1156,6 +1156,65 @@ class ApiModel extends Model
         return $result;
     }
 
+    private function downloadPredefinedChunks($book, $lang = "en", $project = "ulb")
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://api.unfoldingword.org/ts/txt/2/$book/$lang/$project/chunks.json");
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        $response = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            return "error: " . curl_error($ch);
+        }
+
+        curl_close($ch);
+
+        return $response;
+    }
+
+    public function getPredefinedChunks($book, $lang = "en", $project = "ulb")
+    {
+        try
+        {
+            $json = $this->downloadPredefinedChunks($book, $lang, $project);
+            $chunks = json_decode($json, true);
+
+            if($chunks == null)
+            {
+                $json = $this->downloadPredefinedChunks($book, "en", "ulb");
+                $chunks = json_decode($json, true);
+            }
+
+            $book = [];
+
+            foreach ($chunks as $chunk)
+            {
+                $id = $chunk["id"];
+                $chapter = (int)preg_replace("/-[0-9]+$/", "", $id);
+
+                if(!array_key_exists($chapter, $book))
+                {
+                    $book[$chapter] = [];
+                }
+
+                $range = range($chunk["firstvs"],$chunk["lastvs"]);
+                $book[$chapter][] = array_fill_keys(array_values($range), '');
+            }
+
+            return $book;
+        }
+        catch (\Exception $e)
+        {
+            return [];
+        }
+    }
+
 
     /**
      * Compiles all the chunks into a single usfm file

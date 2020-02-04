@@ -302,8 +302,6 @@ class Language
 }
 
 
-namespace Helpers\Manifest;
-
 class Source
 {
     private $identifier;
@@ -338,8 +336,6 @@ class Source
     }
 }
 
-
-namespace Helpers\Manifest;
 
 class Project
 {

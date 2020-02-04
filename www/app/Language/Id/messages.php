@@ -1277,6 +1277,7 @@ return array (
     "download_usfm" => "Unduh sebagai USFM",
     "download_markdown" => "Unduh sebagai Markdown",
     "download_json" => "Unduh sebagai JSON",
+    "download_ts" => "Unduh sebagai tStudio",
 
     // Alma keyword plugin
     "to_list" => "To list",

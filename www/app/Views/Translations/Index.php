@@ -48,7 +48,7 @@
     <br>
     <br>
 
-    <?php if(sizeof($data['books']) > 0): ?>
+    <?php if(sizeof($data['books']) > 0 && $data['books'][0]->bookCode != ""): ?>
         <?php if($data['books'][0]->sourceBible == "odb"): ?>
             <h4 style="text-align: right">
                 <a href="<?php echo $data['books'][0]->sourceBible ?>/dl/json">
@@ -68,14 +68,14 @@
                 </a>
             </h4>
         <?php endif; ?>
-    <?php endif; ?>
 
-    <?php foreach ($data['books'] as $book): ?>
-        <a href="/translations/<?php echo $book->targetLang . "/" .$book->bookProject . "/" . $book->sourceBible . "/" . $book->bookCode ?>">
-            <?php echo __($book->bookCode) ?>
-        </a>
-        <br>
-    <?php endforeach; ?>
+        <?php foreach ($data['books'] as $book): ?>
+            <a href="/translations/<?php echo $book->targetLang . "/" .$book->bookProject . "/" . $book->sourceBible . "/" . $book->bookCode ?>">
+                <?php echo __($book->bookCode) ?>
+            </a>
+            <br>
+        <?php endforeach; ?>
+    <?php endif; ?>
 <?php endif; ?>
 
 <!-- Book content -->
@@ -101,7 +101,7 @@
     <?php if(!empty($data['book'])): ?>
         <h1 style="text-align: center">—— <?php echo __($data['data']->bookCode) ?> ——</h1>
 
-        <h4 style="text-align: right">
+        <h4 class="download_header" style="text-align: right">
         <?php if($data["data"]->sourceBible == "odb"): ?>
             <a href="<?php echo $data['data']->bookCode ?>/json">
                 <?php echo __("download_json") ?>
@@ -109,6 +109,9 @@
         <?php elseif(!in_array($data["mode"], ["tn","tq","tw"])): ?>
             <a href="<?php echo $data['data']->bookCode ?>/usfm">
                 <?php echo __("download_usfm") ?>
+            </a>
+            <a href="<?php echo $data['data']->bookCode ?>/ts">
+                <?php echo __("download_ts") ?>
             </a>
         <?php else: ?>
             <a href="<?php echo $data['data']->bookCode ?>/md">
