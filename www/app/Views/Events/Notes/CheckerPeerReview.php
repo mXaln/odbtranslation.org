@@ -10,6 +10,8 @@ use Helpers\Session;
 use Helpers\Parsedown;
 
 if(empty($error) && empty($data["success"])):
+
+$parsedown = new Parsedown();
 ?>
 
 <div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
@@ -84,10 +86,11 @@ if(empty($error) && empty($data["success"])):
                             <div class="flex_middle vnote font_<?php echo $data["event"][0]->targetLang ?>"
                                  dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php
-                                $parsedown = new Parsedown();
-                                $text = isset($data["translation"][$chunkNo])
-                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                    : "";
+                                $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                                    && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                        : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+
                                 $text = preg_replace('/( title=".*")/', '', $text);
                                 ?>
                                 <div class="notes_target"><?php echo $text ?></div>
@@ -133,7 +136,6 @@ if(empty($error) && empty($data["success"])):
                 </div>
             </div>
 
-            <?php //if(empty($error)):?>
             <div class="main_content_footer row">
                 <form action="" method="post" id="checker_submit">
                     <div class="form-group">
@@ -145,7 +147,6 @@ if(empty($error) && empty($data["success"])):
                 </form>
                 <div class="step_right chk"><?php echo __("step_num", ["step_number" => 5])?></div>
             </div>
-            <?php //endif; ?>
         </div>
 
         <div class="content_help col-sm-3">

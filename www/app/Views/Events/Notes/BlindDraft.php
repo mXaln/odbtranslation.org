@@ -58,23 +58,21 @@ if(isset($data["error"])) return;
 
 
                     <div id="my_translate_chunk_content" class="my_content" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                        <?php $key=$data["chunk"][0]; //foreach($data["notes"] as $key => $note): ?>
-                            <div class="notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
-                                 dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                <?php
-                                $parsedown = new Parsedown();
-                                $text = isset($data["translation"])
-                                    ? preg_replace(
-                                        "/(\[\[[a-z:\/\-]+\]\])/",
-                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
-                                        $parsedown->text($data["translation"]))
-                                    : "";
-                                ?>
-                                <textarea
-                                        name="draft"
-                                        class="add_notes_editor blind_ta" data-key="verse"><?php echo $text ?></textarea>
-                            </div>
-                        <?php //endforeach; ?>
+                        <div class="notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                             dir="<?php echo $data["event"][0]->tLangDir ?>">
+                            <?php
+                            $parsedown = new Parsedown();
+                            $text = isset($data["translation"])
+                                ? preg_replace(
+                                    "/(\[\[[a-z:\/\-]+\]\])/",
+                                    "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                    $parsedown->text($data["translation"]))
+                                : "";
+                            ?>
+                            <textarea
+                                    name="draft"
+                                    class="add_notes_editor blind_ta" data-key="verse"><?php echo $text ?></textarea>
+                        </div>
                     </div>
                 </div>
 

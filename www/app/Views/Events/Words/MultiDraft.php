@@ -3,6 +3,8 @@ use Helpers\Constants\EventMembers;
 use Helpers\Parsedown;
 
 if(isset($data["error"])) return;
+
+$parsedown = new Parsedown();
 ?>
 
 <div id="translator_contents" class="row panel-body">
@@ -58,7 +60,6 @@ if(isset($data["error"])) return;
                                 <div class="flex_middle questions_editor font_<?php echo $data["event"][0]->targetLang ?>"
                                      dir="<?php echo $data["event"][0]->tLangDir ?>" style="min-height: 100px">
                                     <?php
-                                    $parsedown = new Parsedown();
                                     $text = isset($data["translation"][$chunkNo])
                                         ? $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"])
                                         : "";

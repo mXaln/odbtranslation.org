@@ -10,6 +10,8 @@ use Helpers\Session;
 use Helpers\Parsedown;
 
 if(empty($error) && empty($data["success"])):
+
+$parsedown = new Parsedown();
 ?>
 
 <div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
@@ -62,10 +64,10 @@ if(empty($error) && empty($data["success"])):
                             <div class="flex_middle vnote font_<?php echo $data["event"][0]->targetLang ?>"
                                  dir="<?php echo $data["event"][0]->tLangDir ?>">
                                 <?php
-                                $parsedown = new Parsedown();
-                                $text = isset($data["translation"][$chunkNo])
-                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                    : "";
+                                $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                                    && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                        : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
                                 ?>
                                 <div class="questions_target"><?php echo $text ?></div>
                             </div>

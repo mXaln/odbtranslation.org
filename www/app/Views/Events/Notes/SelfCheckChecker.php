@@ -3,6 +3,8 @@ use \Helpers\Constants\EventMembers;
 use \Helpers\Parsedown;
 
 if(isset($data["error"])) return;
+
+$parsedown = new Parsedown();
 ?>
 <div class="comment_div panel panel-default font_<?php echo $data["event"][0]->targetLang ?>"
      dir="<?php echo $data["event"][0]->tLangDir ?>">
@@ -66,11 +68,10 @@ if(isset($data["error"])) return;
                                  dir="<?php echo $data["event"][0]->tLangDir ?>"
                                  data-chunkno="<?php echo $chunkNo ?>">
                                 <?php
-                                $parsedown = new Parsedown();
                                 $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
-                                && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                    ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                    : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+                                    && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                        : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
 
                                 $text = preg_replace(
                                     "/(\[\[[a-z:\/\-]+\]\])/",
