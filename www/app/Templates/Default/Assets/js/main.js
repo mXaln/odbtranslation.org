@@ -2816,9 +2816,6 @@ $(document).ready(function() {
         var cloudUrl = $("#cloudUrl").val();
 
         $(".login_cloud_server .cloudError").text("");
-        $(".cloud_otp_code_group #cloud_otp_code").val("");
-        $("#cloud_otp").prop("checked", false);
-        $(".cloud_otp_code_group").hide();
         $(".cloudLoginLoader").show();
 
         if(username != "" && password != "") {
@@ -2889,6 +2886,11 @@ function exportToCloud(url) {
                     $(".login_cloud_server .page-content #cloudServer").val(data.server);
                     $(".login_cloud_server .page-content #cloudUrl").val(url);
                     $(".login_cloud_server .cloudError").text("");
+
+                    $(".cloud_otp_code_group #cloud_otp_code").val("");
+                    $("#cloud_otp").prop("checked", false);
+                    $(".cloud_otp_code_group").hide();
+
                     $(".login_cloud_server").css("left", 0);
                 } else if(data.error != undefined) {
                     renderPopup(data.error);
