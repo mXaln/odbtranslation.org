@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\CloudModel;
 use App\Models\NewsModel;
 use Helpers\Constants\EventStates;
 use View;
@@ -1389,7 +1390,7 @@ class MembersController extends Controller
 
 
     public function sendMessageToAdmin()
-    {$data = ["fEmail" => "murmax82@gmail.com", "fName" => "Max"];
+    {
         $response = ["success" => false];
 
         if (!Session::get('loggedin'))
@@ -1478,6 +1479,50 @@ class MembersController extends Controller
             {
                 $response["errorType"] = "data";
                 $response["error"] = __("required_fields_empty_error");
+            }
+        }
+
+        echo json_encode($response);
+    }
+
+
+    public function cloudLogin() {
+        $response = ["success" => false];
+
+        if(!empty($_POST)) {
+
+            $_POST = Gump::xss_clean($_POST);
+
+            $server = isset($_POST["server"]) && $_POST["server"] != "" ? $_POST["server"] : null;
+            $username = isset($_POST["username"]) && $_POST["username"] != "" ? $_POST["username"] : null;
+            $password = isset($_POST["password"]) && $_POST["password"] != "" ? $_POST["password"] : null;
+            $otp = isset($_POST["otp"]) && $_POST["otp"] != "" ? $_POST["otp"] : "";
+
+            if ($server != null && $username != null && $password != null)
+            {
+                $cloudModel = new CloudModel($server, $username, $password, $otp);
+                $data = $cloudModel->getAccessTokens();
+                $token = $cloudModel->getVmastAccessToken($data);
+
+                if(empty($token) || $token["sha1"] == "")
+                {
+                    $data = $cloudModel->createAccessToken();
+                    $token = $cloudModel->getVmastAccessToken($data);
+                }
+
+                if(!empty($token))
+                {
+                    Session::set($server, [
+                        "username" => $username,
+                        "token" => $token["sha1"]
+                    ]);
+
+                    $response["success"] = true;
+                }
+                else
+                {
+                    $response["error"] = "could_not_get_token";
+                }
             }
         }
 

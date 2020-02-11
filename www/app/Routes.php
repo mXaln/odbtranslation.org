@@ -16,31 +16,37 @@ Router::get("maintenance", "App\Controllers\MainController@maintenance");
 
 // TRANSLATIONS
 Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], function() {
-    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/usfm", "TranslationsController@getUsfm")
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/usfm", "TranslationsController@downloadUsfm")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
-    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/json", "TranslationsController@getJson")
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/json", "TranslationsController@downloadJson")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
-    Router::any("{lang}/tw/{sourceBible?}/{bookCode}/md", "TranslationsController@getMdTw")
+    Router::any("{lang}/tw/{sourceBible?}/{bookCode}/md", "TranslationsController@downloadMdTw")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
-    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/md", "TranslationsController@getMd")
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/md", "TranslationsController@downloadMd")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
-    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/ts", "TranslationsController@getTs")
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/ts", "TranslationsController@downloadTs")
+        ->where([
+            "lang" => "[a-zA-Z0-9-]+",
+            "bookProject" => "[a-z0-9]+",
+            "bookCode" => "[a-z0-9]+"
+        ]);
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/{server}/export", "TranslationsController@export")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
@@ -267,6 +273,7 @@ Route::group(["prefix" => "members", "namespace" => "App\Controllers"], function
         ]);
     Router::any("rpc/search_members", "MembersController@searchMembers");
     Router::any("rpc/send_message", "MembersController@sendMessageToAdmin");
+    Router::any("rpc/cloud_login", "MembersController@cloudLogin");
 });
 
 

@@ -1856,6 +1856,12 @@ return array (
     "download_markdown" => "Download as Markdown",
     "download_json" => "Download as JSON",
     "download_ts" => "Download as tStudio",
+    "login_cloud_server" => "Please use login and password of the specified server. If you don't have an account, click here to",
+    "upload_wacs" => "Upload to WACS",
+    "upload_door43" => "Upload to Door43",
+    "two_factor_auth" => "Two factor authentication",
+    "cloud_otp_code" => "Code",
+    "not_implemented" => "Not implemented!",
 
     // Alma keyword plugin
     "to_list" => "To list",

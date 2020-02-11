@@ -2,9 +2,24 @@
 namespace App\Models;
 
 use Database\Model;
-use Helpers\Constants\BookSources;
-use Helpers\Constants\EventSteps;
-use Helpers\Data;
+use Helpers\Manifest\Normal\Language;
+use Helpers\Manifest\Normal\Manifest;
+use Helpers\Manifest\Normal\Source;
+use Helpers\Manifest\Package\CommitHash;
+use Helpers\Manifest\Tstudio\Manifest as TstudioManifest;
+use Helpers\Manifest\Tstudio\Generator;
+use Helpers\Manifest\Tstudio\Project;
+use Helpers\Manifest\Tstudio\Resource;
+use Helpers\Manifest\Tstudio\SourceTranslation;
+use Helpers\Manifest\Tstudio\TargetLanguage;
+use Helpers\Manifest\Tstudio\Type;
+use Helpers\Manifest\Package\Manifest as PackageManifest;
+use Helpers\Manifest\Package\Generator as PackageGenerator;
+use Helpers\Manifest\Package\TargetTranslation as PackageTargetTranslation;
+use Helpers\ProjectFile;
+use Helpers\ZipStream\Exception\OverflowException;
+use Helpers\ZipStream\ZipStream;
+use Helpers\ZipStream\Option\Archive as ZipOptions;
 
 class TranslationsModel extends Model
 {
@@ -350,4 +365,162 @@ class TranslationsModel extends Model
             ->delete();
     }
 
+    public function generateManifest($data) {
+        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
+        {
+            $format = "text/markdown";
+        }
+        elseif ($data->sourceBible == "odb")
+        {
+            $format = "text/json";
+        }
+        else
+        {
+            $format = "text/usfm";
+        }
+
+        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
+        {
+            $type = $data->bookProject == "tw" ? "dict" : "help";
+        }
+        else
+        {
+            $type = "bundle";
+        }
+
+        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
+        {
+            $subject = __($data->bookProject);
+        }
+        elseif ($data->sourceBible == "odb")
+        {
+            $subject = "Our Daily Bread";
+        }
+        else
+        {
+            $subject = "Bible";
+        }
+
+        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
+        {
+            $relation = [
+                $data->targetLang."/ulb",
+                $data->targetLang."/udb"
+            ];
+
+            if($data->bookProject == "tw")
+            {
+                $relation[] = $data->targetLang."/obs";
+                $relation[] = $data->targetLang."/tn";
+                $relation[] = $data->targetLang."/tq";
+            }
+        }
+        else
+        {
+            $relation = [
+                $data->targetLang."/tw",
+                $data->targetLang."/tq",
+                $data->targetLang."/tn"
+            ];
+        }
+
+        $source = in_array($data->bookProject, ["tn", "tq", "tw"]) ? [
+            new Source(
+                $data->bookProject,
+                $data->resLangID,
+                "1"
+            )
+        ] : [
+            new Source(
+                $data->sourceBible,
+                $data->sourceLangID,
+                "1"
+            )
+        ];
+
+        $manifest = new Manifest();
+
+        $manifest->setCreator("Wycliffe Associates");
+        $manifest->setPublisher("unfoldingWord");
+        $manifest->setFormat($format);
+        $manifest->setIdentifier($data->bookProject);
+        $manifest->setIssued(date("Y-m-d", time()));
+        $manifest->setModified(date("Y-m-d", time()));
+        $manifest->setLanguage(new Language(
+            $data->direction,
+            $data->targetLang,
+            $data->langName));
+        $manifest->setRelation($relation);
+        $manifest->setSource($source);
+        $manifest->setSubject($subject);
+        $manifest->setTitle(__($data->bookProject));
+        $manifest->setType($type);
+        $manifest->setCheckingEntity(["Wycliffe Associates"]);
+
+        return $manifest;
+    }
+
+    public function generateTstudioManifest($data)
+    {
+        $manifest = new TstudioManifest();
+
+        $manifest->setPackageVersion("6");
+        $manifest->setFormat("usfm");
+        $manifest->setGenerator(new Generator("ts-desktop", "1"));
+        $manifest->setTargetLanguage(new TargetLanguage($data->targetLang, $data->langName, $data->direction));
+        $manifest->setProject(new Project($data->bookCode, $data->bookName));
+        $manifest->setType(new Type("text", "Text"));
+        $manifest->setResource(new Resource($data->bookProject, __($data->bookProject)));
+        $manifest->setSourceTranslations([new SourceTranslation($data->sourceLangID, $data->sourceBible, "3", "", "")]);
+
+        return $manifest;
+    }
+
+    public function generatePackageManifest($data)
+    {
+        $root = $data->targetLang."_".$data->bookCode."_text_".$data->bookProject;
+
+        $manifest = new PackageManifest();
+
+        $manifest->setGenerator(new PackageGenerator("ts-desktop", "1"));
+        $manifest->setPackageVersion(2);
+        $manifest->setTimestamp(time() * 1000);
+        $manifest->setRoot($root);
+        $manifest->setTargetTranslations([new PackageTargetTranslation(
+            $root,
+            $root,
+            new CommitHash("", "", ""),
+            $data->direction)
+        ]);
+
+        return $manifest;
+    }
+
+    /**
+     * Make zipstream file
+     * @param string File name
+     * @param ProjectFile[] $files
+     * @param bool Should output header
+     * @throws OverflowException
+     */
+    public function generateZip($filename, $files, $out = false)
+    {
+        $zipOptions = new ZipOptions();
+        $zipOptions->setSendHttpHeaders($out);
+        $zip = new ZipStream($filename, $zipOptions);
+
+        foreach ($files as $file)
+        {
+            if($file->isFromDisk())
+            {
+                $zip->addFileFromPath($file->relPath(), $file->absPath());
+            }
+            else
+            {
+                $zip->addFile($file->relPath(), $file->content());
+            }
+        }
+
+        $zip->finish();
+    }
 }

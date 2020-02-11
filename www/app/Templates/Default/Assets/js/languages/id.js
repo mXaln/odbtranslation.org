@@ -119,4 +119,5 @@ var Language = {
     "chooseSource_tn"           : "Choose Source Notes",
     "chooseSource_tq"           : "Choose Source Questions",
     "chooseSource_tw"           : "Choose Source Words",
+    "pushSuccess"               : "Successfully pushed to the server!"
 }

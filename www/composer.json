@@ -13,36 +13,39 @@
         }
     ],
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=7.1",
         "symfony/console": "~3.4",
         "symfony/finder": "~3.4",
         "symfony/http-foundation": "~3.4",
         "symfony/http-kernel": "~3.4",
         "symfony/routing": "~3.4",
         "stack/builder": "~1.0",
-        "doctrine/inflector": "1.0.1.0",
+        "doctrine/inflector": "~1.0.1.0",
         "phpmailer/phpmailer": "~5.2",
-        "patchwork/utf8": "^1.2",
-        "nesbot/carbon": "^1.21",
+        "patchwork/utf8": "~1.2",
+        "nesbot/carbon": "~2.0.0",
         "swiftmailer/swiftmailer": "~5.4",
         "twbs/bootstrap": "~3.3",
-        "monolog/monolog": "^1.19",
-        "predis/predis": "0.8.7.0",
-        "tecnickcom/tcpdf":"6.2.12",
-        "php-http/guzzle6-adapter": "^2.0",
-        "sentry/sdk": "2.0.3",
-        "filp/whoops": "^2.5"
+        "monolog/monolog": "~1.19",
+        "predis/predis": "~0.8.7.0",
+        "tecnickcom/tcpdf": "~6.2.12",
+        "php-http/guzzle6-adapter": "~2.0",
+        "sentry/sdk": "~2.0.3",
+        "filp/whoops": "~2.5",
+        "myclabs/php-enum": "~1.7.4"
     },
     "autoload": {
         "psr-4": {
-            "App\\" : "app/",
-            "Shared\\" : "shared/",
-            "" : "system/"
+            "App\\": "app/",
+            "Shared\\": "shared/",
+            "": "system/"
         },
         "files": [
             "system/functions.php"
         ]
     },
     "prefer-stable": true,
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+    }
 }

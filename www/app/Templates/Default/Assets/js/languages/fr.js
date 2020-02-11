@@ -119,4 +119,5 @@ var Language = {
     "chooseSource_tn"           : "Choisir Notes Sources",
     "chooseSource_tq"           : "Choiser Questions Sources",
     "chooseSource_tw"           : "Choisir Mots Sources",
+    "pushSuccess"               : "Successfully pushed to the server!"
 };

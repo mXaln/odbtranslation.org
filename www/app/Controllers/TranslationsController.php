@@ -3,16 +3,17 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\ApiModel;
+use App\Models\CloudModel;
 use App\Models\TranslationsModel;
 use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\OdbSections;
-use Helpers\Manifest;
-use Helpers\PackageManifest;
+use Helpers\GitRepo;
+use Helpers\Manifest\Normal\Project;
+use Helpers\ProjectFile;
 use Helpers\Spyc;
 use Helpers\Tools;
-use Helpers\TsManifest;
 use Shared\Legacy\Error;
 use View;
 use Config\Config;
@@ -20,6 +21,7 @@ use Helpers\Session;
 use Helpers\Url;
 use Helpers\Parsedown;
 use Helpers\ZipStream\ZipStream;
+use Helpers\ZipStream\Option\Archive as ZipOptions;
 use File;
 
 class TranslationsController extends Controller
@@ -64,6 +66,8 @@ class TranslationsController extends Controller
     public function index($lang = null, $bookProject = null, $sourceBible = null, $bookCode = null)
     {
         $data['menu'] = 3;
+
+
 
         if($lang == null)
         {
@@ -273,7 +277,7 @@ class TranslationsController extends Controller
             ->shares("data", $data);
     }
 
-    public function getUsfm($lang, $bookProject, $sourceBible, $bookCode)
+    public function downloadUsfm($lang, $bookProject, $sourceBible, $bookCode)
     {
         if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
         {
@@ -284,172 +288,9 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
-                switch ($books[0]->state)
-                {
-                    case EventStates::STARTED:
-                    case EventStates::TRANSLATING:
-                        $chk_lvl = 0;
-                        break;
-                    case EventStates::TRANSLATED:
-                    case EventStates::L2_RECRUIT:
-                    case EventStates::L2_CHECK:
-                        $chk_lvl = 1;
-                        break;
-                    case EventStates::L2_CHECKED:
-                    case EventStates::L3_RECRUIT:
-                    case EventStates::L3_CHECK:
-                        $chk_lvl = 2;
-                        break;
-                    case EventStates::COMPLETE:
-                        $chk_lvl = 3;
-                        break;
-                    default:
-                        $chk_lvl = 0;
-                }
-
-                $manifest = new Manifest();
-
-                $manifest->setCreator("Wycliffe Associates");
-                $manifest->setPublisher("unfoldingWord");
-                $manifest->setFormat("text/usfm");
-                $manifest->setIdentifier($bookProject);
-                $manifest->setIssued(date("Y-m-d", time()));
-                $manifest->setModified(date("Y-m-d", time()));
-                $manifest->setLanguage(new Manifest\Language(
-                    $books[0]->direction,
-                    $books[0]->targetLang,
-                    $books[0]->langName));
-                $manifest->setRelation([
-                    $lang."/tw",
-                    $lang."/tq",
-                    $lang."/tn"
-                ]);
-                $manifest->setSource([
-                    new Manifest\Source(
-                        $books[0]->sourceBible,
-                        $books[0]->sourceLangID,
-                        "?"
-                    )
-                ]);
-                $manifest->setSubject("Bible");
-                $manifest->setTitle(__($bookProject));
-                $manifest->setType("bundle");
-                $manifest->setCheckingEntity(["Wycliffe Associates"]);
-                $manifest->setCheckingLevel($chk_lvl);
-
-                // Set contributor list from entire project contributors
-                if($bookCode == null)
-                {
-                    $manifest->setContributor(array_map(function($contributor) {
-                        return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
-                    }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
-                }
-                else
-                { // Only for specific book
-                    $contributors = $this->_eventModel->getEventContributors($books[0]->eventID, $chk_lvl, $books[0]->bookProject, false);
-                    foreach ($contributors as $cat => $list)
-                    {
-                        if($cat == "admins") continue;
-                        foreach ($list as $contributor)
-                        {
-                            $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
-                        }
-                    }
-                }
-
-                $usfm_books = [];
-                $lastChapter = 0;
-                $lastCode = null;
-                $chapterStarted = false;
-
-                foreach ($books as $chunk) {
-                    $code = sprintf('%02d', $chunk->abbrID)."-".strtoupper($chunk->bookCode);
-
-                    if($code != $lastCode)
-                    {
-                        $lastChapter = 0;
-                        $chapterStarted = false;
-                    }
-
-                    if(!isset($usfm_books[$code]))
-                    {
-                        $usfm_books[$code] = "\\id ".strtoupper($chunk->bookCode)." ".__($chunk->bookProject)."\n";
-                        $usfm_books[$code] .= "\\ide UTF-8 \n";
-                        $usfm_books[$code] .= "\\h ".mb_strtoupper(__($chunk->bookCode))."\n";
-                        $usfm_books[$code] .= "\\toc1 ".__($chunk->bookCode)."\n";
-                        $usfm_books[$code] .= "\\toc2 ".__($chunk->bookCode)."\n";
-                        $usfm_books[$code] .= "\\toc3 ".ucfirst($chunk->bookCode)."\n";
-                        $usfm_books[$code] .= "\\mt1 ".mb_strtoupper(__($chunk->bookCode))."\n\n\n\n";
-                    }
-
-                    $verses = json_decode($chunk->translatedVerses);
-
-                    if($chunk->chapter != $lastChapter)
-                    {
-                        $usfm_books[$code] .= "\\s5 \n";
-                        $usfm_books[$code] .= "\\c ".$chunk->chapter." \n";
-                        $usfm_books[$code] .= "\\p \n";
-
-                        $lastChapter = $chunk->chapter;
-                        $chapterStarted = true;
-                    }
-
-                    // Start of chunk
-                    if(!$chapterStarted)
-                    {
-                        $usfm_books[$code] .= "\\s5\n";
-                        $usfm_books[$code] .= "\\p\n";
-                    }
-
-                    $chapterStarted = false;
-
-                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                    {
-                        foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
-                            $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
-                        }
-                    }
-                    elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
-                    {
-                        foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
-                            $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
-                        }
-                    }
-                    else
-                    {
-                        foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                            $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
-                        }
-                    }
-
-                    // End of chunk
-                    $usfm_books[$code] .= "\n\n";
-
-                    $lastCode = $code;
-
-                    if(!$manifest->getProject($chunk->bookCode))
-                    {
-                        $manifest->addProject(new Manifest\Project(
-                            $chunk->bookName,
-                            $chunk->sourceBible,
-                            $chunk->bookCode,
-                            (int)$chunk->abbrID,
-                            "./".(sprintf("%02d", $chunk->abbrID))."-".(strtoupper($chunk->bookCode)).".usfm",
-                            ["bible-".($chunk->abbrID < 41 ? "ot" : "nt")]
-                        ));
-                    }
-                }
-
-                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
-
-                $zip = new ZipStream($books[0]->targetLang . "_" . $bookProject . ($bookCode ? "_".$bookCode : "") . ".zip");
-                foreach ($usfm_books as $filename => $content)
-                {
-                    $filePath = $filename.".usfm";
-                    $zip->addFile($filePath, $content);
-                }
-                $zip->addFile("manifest.yaml", $yaml);
-                $zip->finish();
+                $projectFiles = $this->getUsfmProjectFiles($books, $bookCode != null);
+                $filename = $books[0]->targetLang . "_" . $bookProject . ($bookCode ? "_".$bookCode : "") . ".zip";
+                $this->_model->generateZip($filename, $projectFiles, true);
             }
             else
             {
@@ -458,7 +299,7 @@ class TranslationsController extends Controller
         }
     }
 
-    public function getTs($lang, $bookProject, $sourceBible, $bookCode)
+    public function downloadTs($lang, $bookProject, $sourceBible, $bookCode)
     {
         if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
         {
@@ -469,139 +310,12 @@ class TranslationsController extends Controller
             }
 
             $book = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
-            $lastChapter = -1;
-            $chapter = [];
 
             if(!empty($book) && isset($book[0]))
             {
-                switch ($book[0]->state)
-                {
-                    case EventStates::STARTED:
-                    case EventStates::TRANSLATING:
-                        $chk_lvl = 0;
-                        break;
-                    case EventStates::TRANSLATED:
-                    case EventStates::L2_RECRUIT:
-                    case EventStates::L2_CHECK:
-                        $chk_lvl = 1;
-                        break;
-                    case EventStates::L2_CHECKED:
-                    case EventStates::L3_RECRUIT:
-                    case EventStates::L3_CHECK:
-                        $chk_lvl = 2;
-                        break;
-                    case EventStates::COMPLETE:
-                        $chk_lvl = 3;
-                        break;
-                    default:
-                        $chk_lvl = 0;
-                }
-
-                $root = $book[0]->targetLang."_".$book[0]->bookCode."_text_".$bookProject;
-
-                $manifest = new TsManifest();
-
-                $manifest->setPackageVersion("6");
-                $manifest->setFormat("usfm");
-                $manifest->setGenerator(new TsManifest\Generator("ts-desktop", "1"));
-                $manifest->setTargetLanguage(new TsManifest\TargetLanguage($book[0]->targetLang, $book[0]->langName, $book[0]->direction));
-                $manifest->setProject(new TsManifest\Project($book[0]->bookCode, $book[0]->bookName));
-                $manifest->setType(new TsManifest\Type("text", "Text"));
-                $manifest->setResource(new TsManifest\Resource($book[0]->bookProject, __($book[0]->bookProject)));
-                $manifest->setSourceTranslations([new TsManifest\SourceTranslation($book[0]->sourceLangID, $book[0]->sourceBible, "3", "", "")]);
-
-                // Set translators/checkers
-                $contributors = $this->_eventModel->getEventContributors($book[0]->eventID, $chk_lvl, $book[0]->bookProject, false);
-                foreach ($contributors as $cat => $list)
-                {
-                    if($cat == "admins") continue;
-                    foreach ($list as $contributor)
-                    {
-                        $manifest->addTranslator($contributor["fname"] . " " . $contributor["lname"]);
-                    }
-                }
-
-                $manifest->setFinishedChunks([]);
-
-                $packageManifest = new PackageManifest();
-
-                $packageManifest->setGenerator(new PackageManifest\Generator("ts-desktop", "1"));
-                $packageManifest->setPackageVersion(2);
-                $packageManifest->setTimestamp(time() * 1000);
-                $packageManifest->setTargetTranslations([new PackageManifest\TargetTranslation($root, $root, new PackageManifest\CommitHash("", "", ""), $book[0]->direction)]);
-
-                $bookChunks = $this->_apiModel->getPredefinedChunks($book[0]->bookCode, $book[0]->sourceLangID, $book[0]->sourceBible);
-
-                $zip = new ZipStream($root . ".tstudio");
-
-                foreach ($book as $chunk) {
-                    $verses = json_decode($chunk->translatedVerses, true);
-
-                    if(!empty($verses[EventMembers::L3_CHECKER]["verses"]))
-                    {
-                        $chunkVerses = $verses[EventMembers::L3_CHECKER]["verses"];
-                    }
-                    elseif (!empty($verses[EventMembers::L2_CHECKER]["verses"]))
-                    {
-                        $chunkVerses = $verses[EventMembers::L2_CHECKER]["verses"];
-                    }
-                    else
-                    {
-                        $chunkVerses = $verses[EventMembers::TRANSLATOR]["verses"];
-                    }
-
-                    foreach ($chunkVerses as $vNum => $vText)
-                    {
-                        if(array_key_exists($chunk->chapter, $bookChunks))
-                        {
-                            foreach ($bookChunks[$chunk->chapter] as $index => $chk)
-                            {
-                                if(array_key_exists($vNum, $chk))
-                                {
-                                    $bookChunks[$chunk->chapter][$index][$vNum] = "\\v $vNum ".$vText;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                foreach ($bookChunks as $cNum => $chap)
-                {
-                    foreach ($chap as $chk)
-                    {
-                        $format = "%02d";
-                        $chapPath = sprintf($format, $cNum);
-                        reset($chk);
-                        $chunkPath = sprintf($format, key($chk));
-                        $filePath = $root. "/" . $chapPath . "/" . $chunkPath . ".txt";
-
-                        $t = join(" ", $chk);
-
-                        $zip->addFile($filePath, $t);
-
-                        $manifest->addFinishedChunk($chapPath."-".$chunkPath);
-                    }
-                }
-
-                // Add git initial files
-                $tmpDir = "/tmp";
-                if(Tools::unzip("../app/Templates/Default/Assets/.git.zip", $tmpDir))
-                {
-                    foreach (Tools::iterateDir($tmpDir . "/.git/") as $file)
-                    {
-                        $zip->addFileFromPath($root . "/.git/" . $file["rel"], $file["abs"]);
-                    }
-                    File::delete($tmpDir . "/.git");
-                }
-
-                // Add license file
-                $license = File::get("../app/Templates/Default/Assets/LICENSE.md");
-                $zip->addFile($root . "/LICENSE.md", $license);
-                // Add package manifest
-                $zip->addFile("manifest.json", json_encode($packageManifest->output(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-                // Add project manifest
-                $zip->addFile($root . "/manifest.json", json_encode($manifest->output(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-                $zip->finish();
+                $root = $book[0]->targetLang."_".$book[0]->bookCode."_text_".$book[0]->bookProject;
+                $projectFiles = $this->getTsProjectFiles($book);
+                $this->_model->generateZip($root . ".tstudio", $projectFiles, true);
             }
             else
             {
@@ -610,7 +324,7 @@ class TranslationsController extends Controller
         }
     }
 
-    public function getJson($lang, $bookProject, $sourceBible, $bookCode)
+    public function downloadJson($lang, $bookProject, $sourceBible, $bookCode)
     {
         if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
         {
@@ -621,150 +335,9 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
-                switch ($books[0]->state)
-                {
-                    case EventStates::STARTED:
-                    case EventStates::TRANSLATING:
-                        $chk_lvl = 0;
-                        break;
-                    case EventStates::TRANSLATED:
-                    case EventStates::L2_RECRUIT:
-                    case EventStates::L2_CHECK:
-                        $chk_lvl = 1;
-                        break;
-                    case EventStates::L2_CHECKED:
-                    case EventStates::L3_RECRUIT:
-                    case EventStates::L3_CHECK:
-                        $chk_lvl = 2;
-                        break;
-                    case EventStates::COMPLETE:
-                        $chk_lvl = 3;
-                        break;
-                    default:
-                        $chk_lvl = 0;
-                }
-
-                $manifest = new Manifest();
-
-                $manifest->setCreator("Wycliffe Associates");
-                $manifest->setPublisher("unfoldingWord");
-                $manifest->setFormat("text/json");
-                $manifest->setIdentifier($bookProject);
-                $manifest->setIssued(date("Y-m-d", time()));
-                $manifest->setModified(date("Y-m-d", time()));
-                $manifest->setLanguage(new Manifest\Language(
-                    $books[0]->direction,
-                    $books[0]->targetLang,
-                    $books[0]->langName));
-                $manifest->setRelation([]);
-                $manifest->setSource([]);
-                $manifest->setSubject("Our Daily Bread");
-                $manifest->setTitle(__($bookProject));
-                $manifest->setType("bundle");
-                $manifest->setCheckingEntity(["Wycliffe Associates"]);
-                $manifest->setCheckingLevel($chk_lvl);
-
-                // Set contributor list from entire project contributors
-                if($bookCode == null)
-                {
-                    $manifest->setContributor(array_map(function($contributor) {
-                        return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
-                    }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
-                }
-
-                $json_books = [];
-                $lastChapter = 0;
-                $lastCode = null;
-
-                foreach ($books as $chunk) {
-                    $code = strtoupper($chunk->bookCode);
-
-                    if(!isset($json_books[$code]))
-                    {
-                        $json_books[$code] = ["root" => []];
-                    }
-
-                    if($code != $lastCode)
-                    {
-                        $lastChapter = 0;
-                    }
-
-                    if(!isset($json_books[$code]))
-                    {
-                        // Set contributor list from book contributors
-                        if($bookCode != null)
-                        {
-                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
-                            foreach ($contributors as $cat => $list)
-                            {
-                                if($cat == "admins") continue;
-                                foreach ($list as $contributor)
-                                {
-                                    $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
-                                }
-                            }
-                        }
-                    }
-
-                    $verses = json_decode($chunk->translatedVerses);
-
-                    if($chunk->chapter != $lastChapter)
-                    {
-                        $lastChapter = $chunk->chapter;
-                        $json_books[$code]["root"][$lastChapter-1] = [];
-                    }
-
-                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                    {
-                        foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
-                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
-                        }
-                    }
-                    elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
-                    {
-                        foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
-                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
-                        }
-                    }
-                    else
-                    {
-                        foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                            if($verse >= OdbSections::CONTENT)
-                            {
-                                $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] = html_entity_decode($text, ENT_QUOTES);
-                            }
-                            else
-                            {
-                                $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
-                            }
-                        }
-                    }
-
-                    $lastCode = $code;
-
-                    if(!$manifest->getProject($chunk->bookCode))
-                    {
-                        $manifest->addProject(new Manifest\Project(
-                            $chunk->bookName,
-                            $chunk->sourceBible,
-                            $chunk->bookCode,
-                            (int)$chunk->abbrID,
-                            "./".(strtoupper($chunk->bookCode)).".json",
-                            ["odb"]
-                        ));
-                    }
-                }
-
-                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
-
-                $zip = new ZipStream($books[0]->targetLang . "_" . $bookProject . ($bookCode ? "_".$bookCode : "") . ".zip");
-                foreach ($json_books as $filename => $content)
-                {
-                    $filePath = $filename.".json";
-                    $zip->addFile($filePath, json_encode($content, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
-                }
-                $zip->addFile("manifest.yaml", $yaml);
-                $zip->finish();
+                $projectFiles = $this->getJsonProjectFiles($books, $bookCode == null);
+                $filename = $books[0]->targetLang . "_" . $bookProject . ($bookCode ? "_".$bookCode : "") . ".zip";
+                $this->_model->generateZip($filename, $projectFiles, true);
             }
             else
             {
@@ -773,7 +346,7 @@ class TranslationsController extends Controller
         }
     }
 
-    public function getMd($lang, $bookProject, $sourceBible, $bookCode)
+    public function downloadMd($lang, $bookProject, $sourceBible, $bookCode)
     {
         if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
         {
@@ -781,146 +354,19 @@ class TranslationsController extends Controller
             $bookCode = $bookCode != "dl" ? $bookCode : null;
 
             $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
-            $lastChapter = -1;
-            $chapter = [];
 
             if(!empty($books) && isset($books[0]))
             {
-                switch ($books[0]->state)
-                {
-                    case EventStates::STARTED:
-                        $chk_lvl = 0;
-                        break;
-                    case EventStates::TRANSLATING:
-                        $chk_lvl = 1;
-                        break;
-                    case EventStates::TRANSLATED:
-                    case EventStates::L3_CHECK:
-                        $chk_lvl = 2;
-                        break;
-                    case EventStates::COMPLETE:
-                        $chk_lvl = 3;
-                        break;
-                    default:
-                        $chk_lvl = 0;
-                }
-
-                $manifest = new Manifest();
-
-                $manifest->setCreator("Wycliffe Associates");
-                $manifest->setPublisher("unfoldingWord");
-                $manifest->setFormat("text/markdown");
-                $manifest->setIdentifier($bookProject);
-                $manifest->setIssued(date("Y-m-d", time()));
-                $manifest->setModified(date("Y-m-d", time()));
-                $manifest->setLanguage(new Manifest\Language(
-                    $books[0]->direction,
-                    $books[0]->targetLang,
-                    $books[0]->langName));
-                $manifest->setRelation([
-                    $lang."/ulb",
-                    $lang."/udb"
-                ]);
-                $manifest->setSource([
-                    new Manifest\Source(
-                        $bookProject,
-                        $books[0]->resLangID,
-                        "?"
-                    )
-                ]);
-                $manifest->setSubject(__($bookProject));
-                $manifest->setTitle(__($bookProject));
-                $manifest->setType("help");
-                $manifest->setCheckingEntity(["Wycliffe Associates"]);
-                $manifest->setCheckingLevel($chk_lvl);
-
-                // Set contributor list from entire project contributors
-                if($bookCode == null)
-                {
-                    $manifest->setContributor(array_map(function($contributor) {
-                        return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
-                    }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
-                }
-
-                $zip = new ZipStream($books[0]->targetLang."_" . $bookProject . ($bookCode != null ? "_".$books[0]->bookCode : "") . ".zip");
-                $root = "".$books[0]->targetLang."_" . $bookProject;
-
-                foreach ($books as $chunk) {
-                    $verses = json_decode($chunk->translatedVerses);
-
-                    if($chunk->chapter != $lastChapter)
-                    {
-                        $lastChapter = $chunk->chapter;
-
-                        $chapters = $this->_eventModel->getChapters(
-                            $chunk->eventID,
-                            null,
-                            $chunk->chapter
-                        );
-                        $chapter = $chapters[0];
-                    }
-
-                    $chunks = (array)json_decode($chapter["chunks"], true);
-                    $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
-
-                    $bookPath = $chunk->bookCode;
-                    $format = $chunk->bookCode == "psa" ? "%03d" : "%02d";
-                    $chapPath = $chunk->chapter > 0 ? sprintf($format, $chunk->chapter) : "front";
-                    $chunkPath = $currChunk[0] > 0 ? sprintf($format, $currChunk[0]) : "intro";
-                    $filePath = $root. "/" . $bookPath . "/" . $chapPath . "/" . $chunkPath . ".md";
-
-                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                    {
-                        $text = $verses->{EventMembers::L3_CHECKER}->verses;
-                    }
-                    elseif (!empty($verses->{EventMembers::CHECKER}->verses))
-                    {
-                        $text = $verses->{EventMembers::CHECKER}->verses;
-                    }
-                    else
-                    {
-                        $text = $verses->{EventMembers::TRANSLATOR}->verses;
-                    }
-
-                    $zip->addFile($filePath, $text);
-
-                    if(!$manifest->getProject($chunk->bookCode))
-                    {
-                        // Set contributor list from book contributors
-                        if($bookCode != null)
-                        {
-                            $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
-                            foreach ($contributors as $cat => $list)
-                            {
-                                if($cat == "admins") continue;
-                                foreach ($list as $contributor)
-                                {
-                                    $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
-                                }
-                            }
-                        }
-
-                        $manifest->addProject(new Manifest\Project(
-                            $chunk->bookName . " " . __($bookProject),
-                            "",
-                            $chunk->bookCode,
-                            (int)$chunk->abbrID,
-                            "./".$chunk->bookCode,
-                            []
-                        ));
-                    }
-                }
-
-                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
-                $zip->addFile($root . "/manifest.yaml", $yaml);
-                $zip->finish();
+                $projectFiles = $this->getMdProjectFiles($books, $bookCode == null);
+                $filename = $books[0]->targetLang."_" . $bookProject . ($bookCode != null ? "_".$books[0]->bookCode : "") . ".zip";
+                $this->_model->generateZip($filename, $projectFiles, true);
             }
         }
 
         echo "An error occurred! Contact administrator.";
     }
 
-    public function getMdTw($lang, $sourceBible, $bookCode)
+    public function downloadMdTw($lang, $sourceBible, $bookCode)
     {
         if($lang != null && $sourceBible != null && $bookCode != null)
         {
@@ -931,103 +377,658 @@ class TranslationsController extends Controller
 
             if(!empty($books) && isset($books[0]))
             {
-                switch ($books[0]->state)
-                {
-                    case EventStates::STARTED:
-                        $chk_lvl = 0;
-                        break;
-                    case EventStates::TRANSLATING:
-                        $chk_lvl = 1;
-                        break;
-                    case EventStates::TRANSLATED:
-                    case EventStates::L3_CHECK:
-                        $chk_lvl = 2;
-                        break;
-                    case EventStates::COMPLETE:
-                        $chk_lvl = 3;
-                        break;
-                    default:
-                        $chk_lvl = 0;
-                }
-
-                $manifest = new Manifest();
-
-                $manifest->setCreator("Wycliffe Associates");
-                $manifest->setPublisher("unfoldingWord");
-                $manifest->setFormat("text/markdown");
-                $manifest->setIdentifier($books[0]->bookProject);
-                $manifest->setIssued(date("Y-m-d", time()));
-                $manifest->setModified(date("Y-m-d", time()));
-                $manifest->setLanguage(new Manifest\Language(
-                    $books[0]->direction,
-                    $books[0]->targetLang,
-                    $books[0]->langName));
-                $manifest->setRelation([
-                    $lang."/ulb",
-                    $lang."/udb",
-                    $lang."/obs",
-                    $lang."/tn",
-                    $lang."/tq"
-                ]);
-                $manifest->setSource([
-                    new Manifest\Source(
-                        $books[0]->bookProject,
-                        $books[0]->resLangID,
-                        "?"
-                    )
-                ]);
-                $manifest->setSubject(__($books[0]->bookProject));
-                $manifest->setTitle(__($books[0]->bookProject));
-                $manifest->setType("dict");
-                $manifest->setCheckingEntity(["Wycliffe Associates"]);
-                $manifest->setCheckingLevel($chk_lvl);
-
-                // Set contributor list from entire project contributors
-                $manifest->setContributor(array_map(function($contributor) {
-                    return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
-                }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
-                $manifest->addProject(new Manifest\Project(
-                    __($books[0]->bookProject),
-                    "",
-                    "bible",
-                    0,
-                    "./bible",
-                    []
-                ));
-
-                $zip = new ZipStream($lang . "_tw" .($bookCode != null ? "_".$books[0]->bookName : ""). ".zip");
-                $root = $books[0]->targetLang."_tw/bible";
-
-                foreach ($books as $chunk) {
-                    $verses = json_decode($chunk->translatedVerses);
-                    $words = (array) json_decode($chunk->words, true);
-
-                    $currWord = isset($words[$chunk->chunk]) ? $words[$chunk->chunk] : null;
-
-                    if(!$currWord) continue;
-
-                    $bookPath = $chunk->bookName;
-                    $chunkPath = $currWord;
-                    $filePath = $root. "/" . $bookPath ."/". $chunkPath.".md";
-
-                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                    {
-                        $text = $verses->{EventMembers::L3_CHECKER}->verses;
-                    }
-                    else
-                    {
-                        $text = $verses->{EventMembers::TRANSLATOR}->verses;
-                    }
-
-                    $zip->addFile($filePath, $text);
-                }
-
-                $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
-                $zip->addFile($books[0]->targetLang."_tw/manifest.yaml", $yaml);
-                $zip->finish();
+                $projectFiles = $this->getMdTwProjectFiles($books);
+                $filename = $lang . "_tw" .($bookCode != null ? "_".$books[0]->bookName : ""). ".zip";
+                $this->_model->generateZip($filename, $projectFiles, true);
             }
         }
 
-        echo "An error ocurred! Contact administrator.";
+        echo "An error occurred! Contact administrator.";
+    }
+
+
+    public function export($lang, $bookProject, $sourceBible, $bookCode, $server)
+    {
+        $response = ["success" => false];
+
+        // Check if user is logged in to the server
+        if(Session::exists($server))
+        {
+            $repoName = null;
+            $projectFiles = [];
+
+            if(in_array($bookProject, ["tn", "tq", "tw"]))
+            {
+                $repoName = "{$lang}_{$bookCode}_{$bookProject}";
+                if($bookProject == "tw")
+                {
+                    $books = $this->_model->getTranslation($lang, "tw", $sourceBible, $bookCode);
+                    if(!empty($books) && isset($books[0]))
+                    {
+                        $projectFiles = $this->getMdTwProjectFiles($books, true);
+                    }
+                }
+                else
+                {
+                    $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
+                    if(!empty($books) && isset($books[0]))
+                    {
+                        $projectFiles = $this->getMdProjectFiles($books, false, true);
+                    }
+                }
+            }
+            elseif (in_array($bookProject, ["ulb", "udb", "sun"]))
+            {
+                if($sourceBible != "odb")
+                {
+                    $repoName = "{$lang}_{$bookCode}_text_{$bookProject}";
+                    $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
+                    if(!empty($books) && isset($books[0]))
+                    {
+                        $projectFiles = $this->getUsfmProjectFiles($books);
+                    }
+                }
+            }
+
+            $cloudModel = new CloudModel($server, Session::get($server)["username"], null, "", Session::get($server)["token"]);
+            $result = $cloudModel->uploadRepo($repoName, $projectFiles);
+
+            if($result["success"])
+            {
+                $response["success"] = true;
+                $response["url"] = $result["message"]["html_url"];
+            }
+            else
+            {
+                $response["error"] = $result["message"];
+            }
+        }
+        else
+        {
+            $response["authenticated"] = false;
+            $response["server"] = $server;
+        }
+
+        echo json_encode($response);
+    }
+
+
+    private function getUsfmProjectFiles($books, $all = false)
+    {
+        $projectFiles = [];
+
+        switch ($books[0]->state)
+        {
+            case EventStates::STARTED:
+            case EventStates::TRANSLATING:
+                $chk_lvl = 0;
+                break;
+            case EventStates::TRANSLATED:
+            case EventStates::L2_RECRUIT:
+            case EventStates::L2_CHECK:
+                $chk_lvl = 1;
+                break;
+            case EventStates::L2_CHECKED:
+            case EventStates::L3_RECRUIT:
+            case EventStates::L3_CHECK:
+                $chk_lvl = 2;
+                break;
+            case EventStates::COMPLETE:
+                $chk_lvl = 3;
+                break;
+            default:
+                $chk_lvl = 0;
+        }
+
+        $manifest = $this->_model->generateManifest($books[0]);
+        $manifest->setCheckingLevel($chk_lvl);
+
+        // Set contributor list from entire project contributors
+        if($all)
+        {
+            $manifest->setContributor(array_map(function($contributor) {
+                return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+            }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
+        }
+        else
+        { // Only for specific book
+            $contributors = $this->_eventModel->getEventContributors($books[0]->eventID, $manifest->getCheckingLevel(), $books[0]->bookProject, false);
+            foreach ($contributors as $cat => $list)
+            {
+                if($cat == "admins") continue;
+                foreach ($list as $contributor)
+                {
+                    $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
+                }
+            }
+        }
+
+        $usfm_books = [];
+        $lastChapter = 0;
+        $lastCode = null;
+        $chapterStarted = false;
+
+        foreach ($books as $chunk) {
+            $code = sprintf('%02d', $chunk->abbrID)."-".strtoupper($chunk->bookCode);
+
+            if($code != $lastCode)
+            {
+                $lastChapter = 0;
+                $chapterStarted = false;
+            }
+
+            if(!isset($usfm_books[$code]))
+            {
+                $usfm_books[$code] = "\\id ".strtoupper($chunk->bookCode)." ".__($chunk->bookProject)."\n";
+                $usfm_books[$code] .= "\\ide UTF-8 \n";
+                $usfm_books[$code] .= "\\h ".mb_strtoupper(__($chunk->bookCode))."\n";
+                $usfm_books[$code] .= "\\toc1 ".__($chunk->bookCode)."\n";
+                $usfm_books[$code] .= "\\toc2 ".__($chunk->bookCode)."\n";
+                $usfm_books[$code] .= "\\toc3 ".ucfirst($chunk->bookCode)."\n";
+                $usfm_books[$code] .= "\\mt1 ".mb_strtoupper(__($chunk->bookCode))."\n\n\n\n";
+            }
+
+            $verses = json_decode($chunk->translatedVerses);
+
+            if($chunk->chapter != $lastChapter)
+            {
+                $usfm_books[$code] .= "\\s5 \n";
+                $usfm_books[$code] .= "\\c ".$chunk->chapter." \n";
+                $usfm_books[$code] .= "\\p \n";
+
+                $lastChapter = $chunk->chapter;
+                $chapterStarted = true;
+            }
+
+            // Start of chunk
+            if(!$chapterStarted)
+            {
+                $usfm_books[$code] .= "\\s5\n";
+                $usfm_books[$code] .= "\\p\n";
+            }
+
+            $chapterStarted = false;
+
+            if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+            {
+                foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                    $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                }
+            }
+            elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+            {
+                foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                    $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                }
+            }
+            else
+            {
+                foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                    $usfm_books[$code] .= "\\v ".$verse." ".html_entity_decode($text, ENT_QUOTES)."\n";
+                }
+            }
+
+            // End of chunk
+            $usfm_books[$code] .= "\n\n";
+
+            $lastCode = $code;
+
+            if(!$manifest->getProject($chunk->bookCode))
+            {
+                $manifest->addProject(new Project(
+                    $chunk->bookName,
+                    $chunk->sourceBible,
+                    $chunk->bookCode,
+                    (int)$chunk->abbrID,
+                    "./".(sprintf("%02d", $chunk->abbrID))."-".(strtoupper($chunk->bookCode)).".usfm",
+                    ["bible-".($chunk->abbrID < 41 ? "ot" : "nt")]
+                ));
+            }
+        }
+
+        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+
+        foreach ($usfm_books as $filename => $content)
+        {
+            $filePath = $filename.".usfm";
+            $projectFiles[] = ProjectFile::withContent($filePath, $content);
+        }
+        $projectFiles[] = ProjectFile::withContent("manifest.yaml", $yaml);
+
+        return $projectFiles;
+    }
+
+
+    private function getTsProjectFiles($book)
+    {
+        $projectFiles = [];
+
+        switch ($book[0]->state)
+        {
+            case EventStates::STARTED:
+            case EventStates::TRANSLATING:
+                $chk_lvl = 0;
+                break;
+            case EventStates::TRANSLATED:
+            case EventStates::L2_RECRUIT:
+            case EventStates::L2_CHECK:
+                $chk_lvl = 1;
+                break;
+            case EventStates::L2_CHECKED:
+            case EventStates::L3_RECRUIT:
+            case EventStates::L3_CHECK:
+                $chk_lvl = 2;
+                break;
+            case EventStates::COMPLETE:
+                $chk_lvl = 3;
+                break;
+            default:
+                $chk_lvl = 0;
+        }
+
+        $manifest = $this->_model->generateTstudioManifest($book[0]);
+
+        // Set translators/checkers
+        $contributors = $this->_eventModel->getEventContributors($book[0]->eventID, $chk_lvl, $book[0]->bookProject, false);
+        foreach ($contributors as $cat => $list)
+        {
+            if($cat == "admins") continue;
+            foreach ($list as $contributor)
+            {
+                $manifest->addTranslator($contributor["fname"] . " " . $contributor["lname"]);
+            }
+        }
+
+        $manifest->setFinishedChunks([]);
+
+        $packageManifest = $this->_model->generatePackageManifest($book[0]);
+        $root = $packageManifest->getRoot();
+
+        $bookChunks = $this->_apiModel->getPredefinedChunks($book[0]->bookCode, $book[0]->sourceLangID, $book[0]->sourceBible);
+
+        foreach ($book as $chunk) {
+            $verses = json_decode($chunk->translatedVerses, true);
+
+            if(!empty($verses[EventMembers::L3_CHECKER]["verses"]))
+            {
+                $chunkVerses = $verses[EventMembers::L3_CHECKER]["verses"];
+            }
+            elseif (!empty($verses[EventMembers::L2_CHECKER]["verses"]))
+            {
+                $chunkVerses = $verses[EventMembers::L2_CHECKER]["verses"];
+            }
+            else
+            {
+                $chunkVerses = $verses[EventMembers::TRANSLATOR]["verses"];
+            }
+
+            foreach ($chunkVerses as $vNum => $vText)
+            {
+                if(array_key_exists($chunk->chapter, $bookChunks))
+                {
+                    foreach ($bookChunks[$chunk->chapter] as $index => $chk)
+                    {
+                        if(array_key_exists($vNum, $chk))
+                        {
+                            $bookChunks[$chunk->chapter][$index][$vNum] = "\\v $vNum ".$vText;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($bookChunks as $cNum => $chap)
+        {
+            foreach ($chap as $chk)
+            {
+                $format = "%02d";
+                $chapPath = sprintf($format, $cNum);
+                reset($chk);
+                $chunkPath = sprintf($format, key($chk));
+                $filePath = $root. "/" . $chapPath . "/" . $chunkPath . ".txt";
+
+                $t = join(" ", $chk);
+
+                $projectFiles[] = ProjectFile::withContent($filePath, $t);
+
+                $manifest->addFinishedChunk($chapPath."-".$chunkPath);
+            }
+        }
+
+        // Add git initial files
+        $tmpDir = "/tmp";
+        if(Tools::unzip("../app/Templates/Default/Assets/.git.zip", $tmpDir))
+        {
+            foreach (Tools::iterateDir($tmpDir . "/.git/") as $file)
+            {
+                $projectFiles[] = ProjectFile::withFile($root . "/.git/" . $file["rel"], $file["abs"]);
+            }
+            File::delete($tmpDir . "/.git");
+        }
+
+        // Add license file
+        $license = File::get("../app/Templates/Default/Assets/LICENSE.md");
+        $projectFiles[] = ProjectFile::withContent($root . "/LICENSE.md", $license);
+        // Add package manifest
+        $packageManifestContent = json_encode($packageManifest->output(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $projectFiles[] = ProjectFile::withContent("manifest.json", $packageManifestContent);
+        // Add project manifest
+        $manifestContent = json_encode($manifest->output(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $projectFiles[] = ProjectFile::withContent($root . "/manifest.json", $manifestContent);
+
+        return $projectFiles;
+    }
+
+
+    private function getJsonProjectFiles($books, $all = false)
+    {
+        $projectFiles = [];
+
+        switch ($books[0]->state)
+        {
+            case EventStates::STARTED:
+            case EventStates::TRANSLATING:
+            case EventStates::TRANSLATED:
+            case EventStates::L2_RECRUIT:
+            case EventStates::L2_CHECK:
+                $chk_lvl = 1;
+                break;
+            case EventStates::L2_CHECKED:
+            case EventStates::L3_RECRUIT:
+            case EventStates::L3_CHECK:
+                $chk_lvl = 2;
+                break;
+            case EventStates::COMPLETE:
+                $chk_lvl = 3;
+                break;
+            default:
+                $chk_lvl = 0;
+        }
+
+        $manifest = $this->_model->generateManifest($books[0]);
+
+        // Set contributor list from entire project contributors
+        if($all)
+        {
+            $manifest->setContributor(array_map(function($contributor) {
+                return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+            }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
+        }
+
+        $json_books = [];
+        $lastChapter = 0;
+        $lastCode = null;
+
+        foreach ($books as $chunk) {
+            $code = strtoupper($chunk->bookCode);
+
+            if($code != $lastCode)
+            {
+                $lastChapter = 0;
+            }
+
+            if(!isset($json_books[$code]))
+            {
+                $json_books[$code] = ["root" => []];
+
+                // Set contributor list from book contributors
+                if(!$all)
+                {
+                    $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
+                    foreach ($contributors as $cat => $list)
+                    {
+                        if($cat == "admins") continue;
+                        foreach ($list as $contributor)
+                        {
+                            $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
+                        }
+                    }
+                }
+            }
+
+            $verses = json_decode($chunk->translatedVerses);
+
+            if($chunk->chapter != $lastChapter)
+            {
+                $lastChapter = $chunk->chapter;
+                $json_books[$code]["root"][$lastChapter-1] = [];
+            }
+
+            if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+            {
+                foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                    $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                }
+            }
+            elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+            {
+                foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                    $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                }
+            }
+            else
+            {
+                foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                    if($verse >= OdbSections::CONTENT)
+                    {
+                        $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] = html_entity_decode($text, ENT_QUOTES);
+                    }
+                    else
+                    {
+                        $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                    }
+                }
+            }
+
+            $lastCode = $code;
+
+            if(!$manifest->getProject($chunk->bookCode))
+            {
+                $manifest->addProject(new Project(
+                    $chunk->bookName,
+                    $chunk->sourceBible,
+                    $chunk->bookCode,
+                    (int)$chunk->abbrID,
+                    "./".(strtoupper($chunk->bookCode)).".json",
+                    ["odb"]
+                ));
+            }
+        }
+
+        foreach ($json_books as $filename => $content)
+        {
+            $filePath = $filename.".json";
+            $content = json_encode($content, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            $projectFiles[] = ProjectFile::withContent($filePath, $content);
+        }
+
+        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+        $projectFiles[] = ProjectFile::withContent("manifest.yaml", $yaml);
+
+        return $projectFiles;
+    }
+
+
+    private function getMdProjectFiles($books, $all = false, $upload = false)
+    {
+        $projectFiles = [];
+        $lastChapter = -1;
+        $chapter = [];
+
+        switch ($books[0]->state)
+        {
+            case EventStates::STARTED:
+                $chk_lvl = 0;
+                break;
+            case EventStates::TRANSLATING:
+                $chk_lvl = 1;
+                break;
+            case EventStates::TRANSLATED:
+            case EventStates::L3_CHECK:
+                $chk_lvl = 2;
+                break;
+            case EventStates::COMPLETE:
+                $chk_lvl = 3;
+                break;
+            default:
+                $chk_lvl = 0;
+        }
+
+        $manifest = $this->_model->generateManifest($books[0]);
+        $manifest->setCheckingLevel($chk_lvl);
+
+        // Set contributor list from entire project contributors
+        if($all)
+        {
+            $manifest->setContributor(array_map(function($contributor) {
+                return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+            }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
+        }
+
+        $root = !$upload ? $books[0]->targetLang."_".$books[0]->bookProject . "/" : "";
+
+        foreach ($books as $chunk) {
+            $verses = json_decode($chunk->translatedVerses);
+
+            if($chunk->chapter != $lastChapter)
+            {
+                $lastChapter = $chunk->chapter;
+
+                $chapters = $this->_eventModel->getChapters(
+                    $chunk->eventID,
+                    null,
+                    $chunk->chapter
+                );
+                $chapter = $chapters[0];
+            }
+
+            $chunks = (array)json_decode($chapter["chunks"], true);
+            $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
+
+            $bookPath = $chunk->bookCode;
+            $format = $chunk->bookCode == "psa" ? "%03d" : "%02d";
+            $chapPath = $chunk->chapter > 0 ? sprintf($format, $chunk->chapter) : "front";
+            $chunkPath = $currChunk[0] > 0 ? sprintf($format, $currChunk[0]) : "intro";
+            $filePath = $root . $bookPath . "/" . $chapPath . "/" . $chunkPath . ".md";
+
+            if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+            {
+                $text = $verses->{EventMembers::L3_CHECKER}->verses;
+            }
+            elseif (!empty($verses->{EventMembers::CHECKER}->verses))
+            {
+                $text = $verses->{EventMembers::CHECKER}->verses;
+            }
+            else
+            {
+                $text = $verses->{EventMembers::TRANSLATOR}->verses;
+            }
+
+            $projectFiles[] = ProjectFile::withContent($filePath, $text);
+
+            if(!$manifest->getProject($chunk->bookCode))
+            {
+                // Set contributor list from book contributors
+                if(!$all)
+                {
+                    $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $manifest->getCheckingLevel(), $chunk->bookProject, false);
+                    foreach ($contributors as $cat => $list)
+                    {
+                        if($cat == "admins") continue;
+                        foreach ($list as $contributor)
+                        {
+                            $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
+                        }
+                    }
+                }
+
+                $manifest->addProject(new Project(
+                    $chunk->bookName . " " . __($books[0]->bookProject),
+                    "",
+                    $chunk->bookCode,
+                    (int)$chunk->abbrID,
+                    "./".$chunk->bookCode,
+                    []
+                ));
+            }
+        }
+
+        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+        $projectFiles[] = ProjectFile::withContent($root . "manifest.yaml", $yaml);
+
+        return $projectFiles;
+    }
+
+
+    private function getMdTwProjectFiles($books, $upload = false)
+    {
+        $projectFiles = [];
+
+        switch ($books[0]->state)
+        {
+            case EventStates::STARTED:
+                $chk_lvl = 0;
+                break;
+            case EventStates::TRANSLATING:
+                $chk_lvl = 1;
+                break;
+            case EventStates::TRANSLATED:
+            case EventStates::L3_CHECK:
+                $chk_lvl = 2;
+                break;
+            case EventStates::COMPLETE:
+                $chk_lvl = 3;
+                break;
+            default:
+                $chk_lvl = 0;
+        }
+
+        $manifest = $this->_model->generateManifest($books[0]);
+        $manifest->setCheckingLevel($chk_lvl);
+
+        // Set contributor list from entire project contributors
+        $manifest->setContributor(array_map(function($contributor) {
+            return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
+        }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
+
+        $manifest->addProject(new Project(
+            __($books[0]->bookProject),
+            "",
+            "bible",
+            0,
+            "./bible",
+            []
+        ));
+
+        $root = !$upload ? $books[0]->targetLang."_tw/" : "";
+
+        foreach ($books as $chunk) {
+            $verses = json_decode($chunk->translatedVerses);
+            $words = (array) json_decode($chunk->words, true);
+
+            $currWord = isset($words[$chunk->chunk]) ? $words[$chunk->chunk] : null;
+
+            if(!$currWord) continue;
+
+            $bookPath = $chunk->bookName;
+            $chunkPath = $currWord;
+            $filePath = $root. "bible/" . $bookPath ."/". $chunkPath.".md";
+
+            if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
+            {
+                $text = $verses->{EventMembers::L3_CHECKER}->verses;
+            }
+            else
+            {
+                $text = $verses->{EventMembers::TRANSLATOR}->verses;
+            }
+
+            $projectFiles[] = ProjectFile::withContent($filePath, $text);
+        }
+
+        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+        $projectFiles[] = ProjectFile::withContent($root."manifest.yaml", $yaml);
+
+        return $projectFiles;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Helpers\ZipStream\Exception;
 
@@ -6,9 +7,6 @@ use Helpers\ZipStream\Exception;
 
 /**
  * This Exception gets invoked if a file wasn't found
- *
- * @author Jonatan Männchen <jonatan@maennchen.ch>
- * @copyright Copyright (c) 2014, Jonatan Männchen
  */
 class FileNotReadableException extends Exception
 {
@@ -17,8 +15,8 @@ class FileNotReadableException extends Exception
      *
      * @param String $path - The path which wasn't found
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
-        parent::__construct("Ths file with the path $path isn't readable.");
+        parent::__construct("The file with the path $path isn't readable.");
     }
 }

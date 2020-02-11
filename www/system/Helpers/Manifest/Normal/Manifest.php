@@ -1,12 +1,7 @@
 <?php
 
 
-namespace Helpers;
-
-
-use Helpers\Manifest\Language;
-use Helpers\Manifest\Project;
-use Helpers\Manifest\Source;
+namespace Helpers\Manifest\Normal;
 
 class Manifest
 {
@@ -181,6 +176,11 @@ class Manifest
         $this->checkingLevel = $level;
     }
 
+    public function getCheckingLevel()
+    {
+        return $this->checkingLevel;
+    }
+
     /**
      * Projects
      * @param Project[] $projects
@@ -262,136 +262,5 @@ class Manifest
                 ];
             }, $this->projects)
         ];
-    }
-}
-
-namespace Helpers\Manifest;
-
-class Language
-{
-    private $direction;
-    private $identifier;
-    private $title;
-
-    /**
-     * Language constructor.
-     * @param string $direction
-     * @param string $identifier
-     * @param string $title
-     */
-    function __construct($direction, $identifier, $title) {
-        $this->direction = $direction;
-        $this->identifier = $identifier;
-        $this->title = $title;
-    }
-
-    public function direction()
-    {
-        return $this->direction;
-    }
-
-    public function identifier()
-    {
-        return $this->identifier;
-    }
-
-    public function title()
-    {
-        return $this->title;
-    }
-}
-
-
-class Source
-{
-    private $identifier;
-    private $language;
-    private $version;
-
-    /**
-     * Source constructor.
-     * @param string $identifier
-     * @param string $language
-     * @param string $version
-     */
-    function __construct($identifier, $language, $version) {
-        $this->identifier = $identifier;
-        $this->language = $language;
-        $this->version = $version;
-    }
-
-    public function identifier()
-    {
-        return $this->identifier;
-    }
-
-    public function language()
-    {
-        return $this->language;
-    }
-
-    public function version()
-    {
-        return $this->version;
-    }
-}
-
-
-class Project
-{
-    private $title;
-    private $versification;
-    private $identifier;
-
-    private $sort;
-    private $path;
-    private $categories;
-
-    /**
-     * Project constructor.
-     * @param string $title
-     * @param string $versification
-     * @param string $identifier
-     * @param integer $sort
-     * @param string $path
-     * @param array $categories
-     */
-    function __construct($title, $versification, $identifier, $sort, $path, $categories) {
-        $this->title = $title;
-        $this->versification = $versification;
-        $this->identifier = $identifier;
-        $this->sort = $sort;
-        $this->path = $path;
-        $this->categories = $categories;
-    }
-
-    public function title()
-    {
-        return $this->title;
-    }
-
-    public function versification()
-    {
-        return $this->versification;
-    }
-
-    public function identifier()
-    {
-        return $this->identifier;
-    }
-
-    public function sort()
-    {
-        return $this->sort;
-    }
-
-    public function path()
-    {
-        return $this->path;
-    }
-
-    public function categories()
-    {
-        return $this->categories;
     }
 }

@@ -119,4 +119,5 @@ var Language = {
     "chooseSource_tn"           : "Выберите источник заметок",
     "chooseSource_tq"           : "Выберите источник вопросов",
     "chooseSource_tw"           : "Выберите источник слов",
+    "pushSuccess"               : "Успешно отправлено на сервер!"
 };
