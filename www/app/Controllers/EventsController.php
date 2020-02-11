@@ -1864,6 +1864,14 @@ class EventsController extends Controller
                                 $chunks = $this->_apiModel->testChunkQuestions($chunks, $data["questions"]);
                                 if(!$chunks === false)
                                 {
+                                    $this->_translationModel->updateTranslation(
+                                        ["translateDone" => true],
+                                        [
+                                            "trID" => $data["event"][0]->trID,
+                                            "chapter" => $data["event"][0]->currentChapter
+                                        ]
+                                    );
+
                                     $chapters = [];
                                     for($i=1; $i <= $data["event"][0]->chaptersNum; $i++)
                                     {
@@ -2198,6 +2206,14 @@ class EventsController extends Controller
                                 $chunks = $this->_apiModel->testChunkWords($chunks, $data["words"]);
                                 if(!$chunks === false)
                                 {
+                                    $this->_translationModel->updateTranslation(
+                                        ["translateDone" => true],
+                                        [
+                                            "trID" => $data["event"][0]->trID,
+                                            "chapter" => $data["event"][0]->currentChapter
+                                        ]
+                                    );
+
                                     $tw_groups = $this->_model->getTwGroups([
                                         "eventID" => $data["event"][0]->eventID
                                     ]);

@@ -1273,6 +1273,12 @@ return array (
     "download_markdown" => "Скачать в формате Markdown",
     "download_json" => "Скачать в формате JSON",
     "download_ts" => "Скачать в формате tStudio",
+    "login_cloud_server" => "Пожалуйста, используйте логин и пароль указанного сервера. Если у вас нет аккаунта, нажмите",
+    "upload_wacs" => "Отправить в WACS",
+    "upload_door43" => "Отправить в Door43",
+    "two_factor_auth" => "Двух-факторная авторизация",
+    "cloud_otp_code" => "Код",
+    "not_implemented" => "Не реализовано!",
 
     // Alma keyword plugin
     "to_list" => "К списку",

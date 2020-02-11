@@ -2783,7 +2783,123 @@ $(document).ready(function() {
                 });
         }
     }, 3000);
+
+    // Export menu
+    $("#upload_menu span").click(function(e) {
+        e.stopPropagation();
+        if(!$("#upload_menu ul").is(":visible")) {
+            $("#upload_menu ul").slideDown(200);
+        } else {
+            $("#upload_menu ul").slideUp(200);
+        }
+    });
+
+    $("body").click(function() {
+        if($("#upload_menu ul").is(":visible")) {
+            $("#upload_menu ul").slideUp(200);
+        }
+    });
+
+    $(".export_cloud a").click(function(e) {
+        var url = $(this).prop("href");
+
+        exportToCloud(url);
+
+        e.preventDefault();
+    });
+
+    $(".login_cloud_server button[name=cloudLogin]").on("click", function(e) {
+        var username = $("#cloud_username").val();
+        var password = $("#cloud_password").val();
+        var otp = $("#cloud_otp_code").val();
+        var server = $("#cloudServer").val();
+        var cloudUrl = $("#cloudUrl").val();
+
+        $(".login_cloud_server .cloudError").text("");
+        $(".cloudLoginLoader").show();
+
+        if(username != "" && password != "") {
+            $.ajax({
+                url: "/members/rpc/cloud_login",
+                method: "post",
+                dataType: "json",
+                data: {
+                    server: server,
+                    username: username,
+                    password: password,
+                    otp: otp
+                }
+            })
+                .done(function(data) {
+                    if(data.success) {
+                        $(".login_cloud_server").css("left", -9999);
+                        exportToCloud(cloudUrl);
+                    } else {
+                        $(".cloudError").text("Could not login. Please try again!");
+                    }
+                })
+                .error(function (xhr, status, error) {
+                    debug(status);
+                    debug(error);
+                })
+                .always(function() {
+                    $(".cloudLoginLoader").hide();
+                });
+        } else {
+            alert("Some fields are empty");
+        }
+
+        e.preventDefault();
+    });
+
+    $("#cloud_otp").on("click", function() {
+        if($(this).is(":checked")) {
+            $(".cloud_otp_code_group").show();
+        } else {
+            $(".cloud_otp_code_group").hide();
+            $(".cloud_otp_code_group #cloud_otp_code").val("");
+        }
+    });
 });
+
+function exportToCloud(url) {
+    var dialog = renderPopup(Language.sending, null, null, false);
+
+    $.ajax({
+        url: url,
+        method: "get",
+        dataType: "json"
+    })
+        .done(function(data) {
+            if(data.success) {
+                dialog.dialog("destroy");
+                renderPopup(Language.pushSuccess + " <a href='"+data.url+"' target='_blank'>"+data.url+"</a>");
+            } else {
+                dialog.dialog("destroy");
+                if(data.authenticated != undefined && !data.authenticated) {
+                    var createLink = data.server === "wacs" ?
+                        "https://wacs.bibletranslationtools.org/user/sign_up" :
+                        "https://git.door43.org/user/sign_up";
+
+                    $(".login_cloud_server .panel-title span.cloud_server_name").text(data.server.toUpperCase());
+                    $(".login_cloud_server .page-content a.create_login_link").prop("href", createLink);
+                    $(".login_cloud_server .page-content #cloudServer").val(data.server);
+                    $(".login_cloud_server .page-content #cloudUrl").val(url);
+                    $(".login_cloud_server .cloudError").text("");
+                    $(".login_cloud_server").css("left", 0);
+                } else if(data.error != undefined) {
+                    renderPopup(data.error);
+                }
+            }
+        })
+        .error(function (xhr, status, error) {
+            debug(status);
+            debug(error);
+        })
+        .always(function() {
+
+        });
+}
 
 function animateIntro() {
     var  grl=$( "#ground-left" );
@@ -2922,29 +3038,43 @@ function escapeQuotes(str) {
  * @param onOK Ok button callback
  * @returns {boolean}
  */
-function renderPopup(message, onOK, onClose) {
-    onOK = typeof onOK != "undefined" ? onOK : function(){
-        $( this ).dialog( "close" );
-    };
+function renderPopup(message, onOK, onClose, closable) {
+    var buttons = {};
+    var dialogClass = "no-close";
 
-    onClose = typeof onClose != "undefined" ? onClose : function(){
-        $( this ).dialog( "close" );
-        return false;
-    };
+    closable = closable != undefined ? closable : true;
+
+    if(closable) {
+        onOK = onOK != undefined ? onOK : function(){
+            $( this ).dialog( "close" );
+        };
+
+        onClose = onClose != undefined ? onClose : function(){
+            $( this ).dialog( "close" );
+            return false;
+        };
+
+        buttons = {
+            Ok: onOK
+        };
+
+        dialogClass = "";
+    }
 
     $(".alert_message").html(message);
-    $( "#dialog-message" ).dialog({
+
+    return $( "#dialog-message" ).dialog({
+        dialogClass: dialogClass,
         modal: true,
         resizable: false,
         draggable: false,
         width: 500,
-        buttons: {
-            Ok: onOK
-        },
+        buttons: buttons,
         close: onClose,
+        beforeClose: function(){
+            return closable;
+        }
     });
-
-    return true;
 }
 
 /**

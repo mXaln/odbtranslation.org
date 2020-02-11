@@ -1,17 +1,9 @@
 <?php
 
 
-namespace Helpers;
+namespace Helpers\Manifest\Tstudio;
 
-
-use Helpers\TsManifest\Generator;
-use Helpers\TsManifest\Project;
-use Helpers\TsManifest\Resource;
-use Helpers\TsManifest\SourceTranslation;
-use Helpers\TsManifest\TargetLanguage;
-use Helpers\TsManifest\Type;
-
-class TsManifest
+class Manifest
 {
     private $packageVersion;
     private $format;
@@ -167,138 +159,5 @@ class TsManifest
             "translators" => $this->translators,
             "finished_chunks" => $this->finishedChunks
         ];
-    }
-}
-
-namespace Helpers\TsManifest;
-
-class Generator
-{
-    private $name;
-    private $build;
-
-    /**
-     * Generator constructor.
-     * @param string $name
-     * @param string $build
-     */
-    function __construct($name, $build) {
-        $this->name = $name;
-        $this->build = $build;
-    }
-
-    public function name()
-    {
-        return $this->name;
-    }
-
-    public function build()
-    {
-        return $this->build;
-    }
-}
-
-
-class TargetLanguage extends BasicCategory
-{
-    private $direction;
-
-    /**
-     * TargetLanguage constructor.
-     * @param string $id
-     * @param string $name
-     * @param string $direction
-     */
-    function __construct($id, $name, $direction) {
-        parent::__construct($id, $name);
-        $this->direction = $direction;
-    }
-
-    public function direction()
-    {
-        return $this->direction;
-    }
-}
-
-
-class BasicCategory
-{
-    private $id;
-    private $name;
-
-    /**
-     * BasicCategory constructor.
-     * @param string $id
-     * @param string $name
-     */
-    function __construct($id, $name) {
-        $this->id = $id;
-        $this->name = $name;
-    }
-
-    public function id()
-    {
-        return $this->id;
-    }
-
-    public function name()
-    {
-        return $this->name;
-    }
-}
-
-
-class Project extends BasicCategory {}
-class Type extends BasicCategory {}
-class Resource extends BasicCategory {}
-
-
-class SourceTranslation
-{
-    private $languageId;
-    private $resourceId;
-    private $checkingLevel;
-    private $dateModified;
-    private $version;
-
-    /**
-     * SourceTranslation constructor.
-     * @param string $languageId
-     * @param string $resourceId
-     * @param string $checkingLevel
-     * @param string $dateModified
-     * @param string $version
-     */
-    function __construct($languageId, $resourceId, $checkingLevel, $dateModified, $version) {
-        $this->languageId = $languageId;
-        $this->resourceId = $resourceId;
-        $this->checkingLevel = $checkingLevel;
-        $this->dateModified = $dateModified;
-        $this->version = $version;
-    }
-
-    public function languageId()
-    {
-        return $this->languageId;
-    }
-
-    public function resourceId()
-    {
-        return $this->resourceId;
-    }
-
-    public function checkingLevel()
-    {
-        return $this->checkingLevel;
-    }
-
-    public function dateModified()
-    {
-        return $this->dateModified;
-    }
-
-    public function version()
-    {
-        return $this->version;
     }
 }

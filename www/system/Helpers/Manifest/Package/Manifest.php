@@ -1,14 +1,9 @@
 <?php
 
 
-namespace Helpers;
+namespace Helpers\Manifest\Package;
 
-
-
-use Helpers\PackageManifest\Generator;
-use Helpers\PackageManifest\TargetTranslation;
-
-class PackageManifest
+class Manifest
 {
     /** @var Generator */
     private $generator;
@@ -16,6 +11,7 @@ class PackageManifest
     private $timestamp;
     /** @var TargetTranslation[] */
     private $targetTranslations;
+    private $root;
 
     function __construct() {
         $this->generator = new Generator("ts-desktop", 1);
@@ -56,6 +52,17 @@ class PackageManifest
         }
     }
 
+    public function setRoot($root)
+    {
+        $this->root = $root;
+    }
+
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+
     public function output()
     {
         return [
@@ -78,110 +85,5 @@ class PackageManifest
                 ];
             }, $this->targetTranslations),
         ];
-    }
-}
-
-namespace Helpers\PackageManifest;
-
-class Generator
-{
-    private $name;
-    private $build;
-
-    /**
-     * Generator constructor.
-     * @param string $name
-     * @param string $build
-     */
-    function __construct($name, $build) {
-        $this->name = $name;
-        $this->build = $build;
-    }
-
-    public function name()
-    {
-        return $this->name;
-    }
-
-    public function build()
-    {
-        return $this->build;
-    }
-}
-
-class TargetTranslation
-{
-    private $path;
-    private $id;
-    private $commitHash;
-    private $direction;
-
-    /**
-     * TargetTranslation constructor.
-     * @param string $path
-     * @param string $id
-     * @param CommitHash $commitHash
-     * @param string $direction
-     */
-    function __construct($path, $id, $commitHash, $direction) {
-        $this->path = $path;
-        $this->id = $id;
-        $this->commitHash = $commitHash;
-        $this->direction = $direction;
-    }
-
-    public function path()
-    {
-        return $this->path;
-    }
-
-    public function id()
-    {
-        return $this->id;
-    }
-
-    public function commitHash()
-    {
-        return $this->commitHash;
-    }
-
-    public function direction()
-    {
-        return $this->direction;
-    }
-}
-
-
-class CommitHash
-{
-    private $stdout;
-    private $stderr;
-    private $error;
-
-    /**
-     * CommitHash constructor.
-     * @param string $stdout
-     * @param string $stderr
-     * @param string $error
-     */
-    function __construct($stdout, $stderr, $error) {
-        $this->stdout = $stdout;
-        $this->stderr = $stderr;
-        $this->error = $error;
-    }
-
-    public function stdout()
-    {
-        return $this->stdout;
-    }
-
-    public function stderr()
-    {
-        return $this->stderr;
-    }
-
-    public function error()
-    {
-        return $this->error;
     }
 }

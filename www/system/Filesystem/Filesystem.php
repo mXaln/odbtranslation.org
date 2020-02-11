@@ -74,6 +74,16 @@ class Filesystem
         return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
     }
 
+    public function putWithDirs($path, $contents, $lock = false)
+    {
+        $dirname = $this->dirname($path);
+        if(!$this->exists($dirname))
+        {
+            mkdir($dirname, 0777, true);
+        }
+        return $this->put($path, $contents, $lock);
+    }
+
     /**
      * Prepend to a file.
      *
@@ -143,6 +153,17 @@ class Filesystem
     public function copy($path, $target)
     {
         return copy($path, $target);
+    }
+
+    /**
+     * Extract the parent directory name from a file path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public function dirname($path)
+    {
+        return pathinfo($path, PATHINFO_DIRNAME);
     }
 
     /**

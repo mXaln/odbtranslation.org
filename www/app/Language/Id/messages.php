@@ -1278,6 +1278,12 @@ return array (
     "download_markdown" => "Unduh sebagai Markdown",
     "download_json" => "Unduh sebagai JSON",
     "download_ts" => "Unduh sebagai tStudio",
+    "login_cloud_server" => "Please use login and password of the specified server. If you don't have an account, click here to",
+    "upload_wacs" => "Upload to WACS",
+    "upload_door43" => "Upload to Door43",
+    "two_factor_auth" => "Two factor authentication",
+    "cloud_otp_code" => "Code",
+    "not_implemented" => "Not implemented!",
 
     // Alma keyword plugin
     "to_list" => "To list",
