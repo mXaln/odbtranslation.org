@@ -114,3 +114,14 @@ if(isset($data["error"])) return;
 <input type="hidden" id="tw_lang" value="<?php echo $data["event"][0]->twLangID ?>">
 <input type="hidden" id="totalVerses" value="<?php echo $data["totalVerses"] ?>">
 <input type="hidden" id="targetLang" value="<?php echo $data["event"][0]->targetLang ?>">
+
+<script>
+    $(function() {
+        /* Clean BFCache on page load */
+        $(window).bind("pageshow", function() {
+            $('form').each(function() {
+                this.reset();
+            });
+        });
+    });
+</script>

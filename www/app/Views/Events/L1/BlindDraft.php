@@ -90,3 +90,14 @@ if(isset($data["error"])) return;
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        /* Clean BFCache on page load */
+        $(window).bind("pageshow", function() {
+            $('form').each(function() {
+                this.reset();
+            });
+        });
+    });
+</script>

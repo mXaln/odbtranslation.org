@@ -1,5 +1,4 @@
 <?php
-use \Helpers\Constants\EventMembers;
 use \Helpers\Parsedown;
 
 if(isset($data["error"])) return;
@@ -146,6 +145,13 @@ if(isset($data["error"])) return;
                     parent.css("min-height", height);
                 }, 10);
             })
+        });
+
+        /* Clean BFCache on page load */
+        $(window).bind("pageshow", function() {
+            $('form').each(function() {
+                this.reset();
+            });
         });
     })
 </script>
