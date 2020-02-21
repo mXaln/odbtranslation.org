@@ -43,246 +43,239 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="main_content col-sm-9">
-            <form action="" method="post" id="main_form">
-                <div class="main_content_text row">
-                    <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
+    <div class="main_content">
+        <form action="" method="post" id="main_form">
+            <div class="main_content_text row">
+                <h4>English - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
-                    <div class="col-sm-12">
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number hasComment">2</div>
+                <div class="col-sm-12">
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number hasComment">2</div>
 
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
 
-                                    <div class="comments">
-                                        <div class="my_comment">This is translator's comment on this chunk</div>
-                                        <div class="other_comments">
-                                            <div><span>John B. - L1:</span> This is checker's comment on this chunk</div>
-                                        </div>
+                                <div class="comments">
+                                    <div class="my_comment">This is translator's comment on this chunk</div>
+                                    <div class="other_comments">
+                                        <div><span>John B. - L1:</span> This is checker's comment on this chunk</div>
                                     </div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
                                 </div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
                         </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number hasComment">1</div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments">
-                                        <div class="my_comment">This is translator's comment on this chunk</div>
-                                    </div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number"></div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments"></div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number"></div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments"></div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number"></div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments"></div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number"></div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments"></div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number"></div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments"></div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                        <div class="chunk_verse flex_container editor_area">
-                            <div class="vnote flex_left">
-                                <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
-                            </div>
-                            <div class="flex_right">
-                                <div class="notes_tools">
-                                    <div class="comments_number"></div>
-
-                                    <span class="editComment mdi mdi-lead-pencil"
-                                          data="0:0"
-                                          title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                    <div class="comments"></div>
-
-                                    <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chunk_divider"></div>
-
-                    </div>
-                </div>
-
-                <div class="main_content_footer row">
-                    <div class="form-group">
-                        <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
-                        <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
                     </div>
 
-                    <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
-                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number hasComment">1</div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments">
+                                    <div class="my_comment">This is translator's comment on this chunk</div>
+                                </div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number"></div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments"></div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number"></div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments"></div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number"></div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments"></div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number"></div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments"></div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number"></div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments"></div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
+                    <div class="chunk_verse flex_container editor_area">
+                        <div class="vnote flex_left">
+                            <textarea style="overflow: hidden; word-wrap: break-word; height: 142px;" name="chunks[]" class="peer_verse_ta textarea">Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text, Demo translation text</textarea>
+                        </div>
+                        <div class="flex_right">
+                            <div class="notes_tools">
+                                <div class="comments_number"></div>
+
+                                <span class="editComment mdi mdi-lead-pencil"
+                                      data="0:0"
+                                      title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                <div class="comments"></div>
+
+                                <span class="editFootNote mdi mdi-bookmark" title="<?php echo __("write_footnote_title") ?>"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chunk_divider"></div>
+
                 </div>
-            </form>
-            <div class="step_right alt"><?php echo __("step_num", ["step_number" => 8])?></div>
+            </div>
+
+            <div class="main_content_footer row">
+                <div class="form-group">
+                    <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
+                    <label><input name="confirm_step" id="confirm_step" value="1" type="checkbox"> <?php echo __("confirm_yes")?></label>
+                </div>
+
+                <button id="next_step" class="btn btn-primary" disabled="disabled"><?php echo __("next_step")?></button>
+                <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
+            </div>
+        </form>
+        <div class="step_right alt"><?php echo __("step_num", ["step_number" => 8])?></div>
+    </div>
+</div>
+
+<div class="content_help closed">
+    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+
+    <div class="help_float">
+        <div class="help_info_steps">
+            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 8])?>:</span> <?php echo __("content-review")?></div>
+            <div class="help_descr_steps">
+                <ul><?php echo __("content-review_desc")?></ul>
+                <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+            </div>
         </div>
 
-        <div class="content_help col-sm-3">
-            <div class="help_float">
-                <div class="help_info_steps">
-                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                    <div class="help_title_steps"><?php echo __("help") ?></div>
-
-                    <div class="clear"></div>
-
-                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 8])?>:</span> <?php echo __("content-review")?></div>
-                    <div class="help_descr_steps">
-                        <ul><?php echo __("content-review_desc")?></ul>
-                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                    </div>
+        <div class="event_info">
+            <div class="participant_info">
+                <div class="participant_name">
+                    <span><?php echo __("your_checker") ?>:</span>
+                    <span class="checker_name_span">John B.</span>
                 </div>
-
-                <div class="event_info">
-                    <div class="participant_info">
-                        <div class="participant_name">
-                            <span><?php echo __("your_checker") ?>:</span>
-                            <span class="checker_name_span">John B.</span>
-                        </div>
-                        <div class="additional_info">
-                            <a href="/events/demo/information"><?php echo __("event_info") ?></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tr_tools">
-                    <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
-                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
-                </div>
-
-                <div class="checker_view">
-                    <a href="<?php echo SITEURL ?>events/demo/content_review_checker"><?php echo __("checker_view") ?></a>
+                <div class="additional_info">
+                    <a href="/events/demo/information"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
+        <div class="tr_tools">
+            <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
+            <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
+            <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+            <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
+        </div>
+
+        <div class="checker_view">
+            <a href="/events/demo/content_review_checker"><?php echo __("checker_view") ?></a>
+        </div>
+    </div>
 </div>
 
 

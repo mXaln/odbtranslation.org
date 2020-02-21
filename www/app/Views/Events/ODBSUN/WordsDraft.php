@@ -8,8 +8,8 @@ if(isset($data["error"])) return;
         <div class="main_content_title"><?php echo __("step_num", ["step_number" => 2]). ": " . __("rearrange")?></div>
     </div>
 
-    <div class="row">
-        <div class="main_content col-sm-9">
+    <div class="">
+        <div class="main_content">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
@@ -54,41 +54,35 @@ if(isset($data["error"])) return;
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
         </div>
+    </div>
+</div>
 
-        <div class="content_help col-sm-3">
-            <div class="help_float">
-                <div class="help_info_steps">
-                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                    <div class="help_title_steps"><?php echo __("help") ?></div>
+<div class="content_help closed">
+    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
 
-                    <div class="clear"></div>
+    <div class="help_float">
+        <div class="help_info_steps">
+            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("rearrange")?></div>
+            <div class="help_descr_steps">
+                <ul><?php echo __("rearrange_desc")?></ul>
+                <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+            </div>
+        </div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("rearrange")?></div>
-                    <div class="help_descr_steps">
-                        <ul><?php echo __("rearrange_desc")?></ul>
-                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                    </div>
-                </div>
-
-                <div class="event_info">
-                    <div class="participant_info">
-                        <div class="additional_info">
-                            <a href="/events/information-odb-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tr_tools">
-                    <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="sunbible"><?php echo __("go_sun_bible") ?></button>
+        <div class="event_info">
+            <div class="participant_info">
+                <div class="additional_info">
+                    <a href="/events/information-odb-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
+
+        <div class="tr_tools">
+            <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
+            <button class="btn btn-primary ttools" data-tool="sunbible"><?php echo __("go_sun_bible") ?></button>
+        </div>
     </div>
-
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
-
 
 <div class="tutorial_container">
     <div class="tutorial_popup">

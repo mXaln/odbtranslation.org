@@ -42,26 +42,26 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="main_content col-sm-9">
+    <div class="">
+        <div class="main_content">
             <div class="main_content_text">
                 <h4>Papuan Malay - <?php echo __("ulb") ?> - <?php echo __("new_test") ?> - <span class="book_name">2 Timothy 2:1-26</span></h4>
 
                 <div id="my_notes_content" class="my_content">
                     <div class="note_chunk l3 flex_container">
                         <div class="scripture_compare_alt flex_left" dir="ltr">
-                            <p class="verse_text" data-verse="1">	
+                            <p class="verse_text" data-verse="1">
                                 <strong class="ltr"><sup>1</sup></strong>
                                 <span>You therefore, my child, be strengthened in the grace that is in Christ Jesus.</span>
                             </p>
-                            <p class="verse_text" data-verse="2">	
+                            <p class="verse_text" data-verse="2">
                                 <strong class="ltr"><sup>2</sup></strong>
                                 <span>The things you heard from me among many witnesses, entrust them to faithful people
                                     who will be able to teach others also.</span>
                             </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="1">
+                            <div class="verse_block flex_chunk" data-verse="1">
                                 <span class="verse_number_l3">1</span>
                                 <textarea name="chunks[0][1]" class="peer_verse_ta textarea" data-orig-verse="1"
                                           style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Jadi begitu, anakku kuat sudah dengan anugerah di dalam Kristus Yesus.</textarea>
@@ -69,7 +69,7 @@
                                           style="margin-top: -5px"
                                           title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="2">
+                            <div class="verse_block flex_chunk" data-verse="2">
                                 <span class="verse_number_l3">2</span>
                                 <textarea name="chunks[0][2]" class="peer_verse_ta textarea" data-orig-verse="2"
                                           style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Dan banyak hal yang ko dengar dari sa deng saksi yang banyak itu, beri percaya itu sama orang-orang yang setia, supaya dong dapat mengajar dong yang lain juga.</textarea>
@@ -98,19 +98,19 @@
                             <p class="verse_text" data-verse="5">	 <strong class="ltr"><sup>5</sup></strong> <span>Also, if someone competes as an athlete, he is not crowned unless he competes by the rules.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="3"> <span class="verse_number_l3">3</span>
+                            <div class="verse_block flex_chunk" data-verse="3"> <span class="verse_number_l3">3</span>
                                 <textarea name="chunks[1][3]" class="peer_verse_ta textarea" data-orig-verse="3" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Mari, tong sama sa dalam penderitaan jadi prajurit Kristus Yesus yang baik.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                           style="margin-top: -5px"
                                           title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="4"> <span class="verse_number_l3">4</span>
+                            <div class="verse_block flex_chunk" data-verse="4"> <span class="verse_number_l3">4</span>
                                 <textarea name="chunks[1][4]" class="peer_verse_ta textarea" data-orig-verse="4" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Trada satu orang tentara yang kerja sambil sibuk dengan de pu urusan hidup supaya de bisa buat de pu komandan senang.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                           style="margin-top: -5px"
                                           title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="5"> <span class="verse_number_l3">5</span>
+                            <div class="verse_block flex_chunk" data-verse="5"> <span class="verse_number_l3">5</span>
                                 <textarea name="chunks[1][5]" class="peer_verse_ta textarea" data-orig-verse="5" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Begitu juga dengan atlit , tra akan terima mahkota kalo tra ikut aturan dalam lomba.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                           style="margin-top: -5px"
@@ -131,13 +131,13 @@
                             <p class="verse_text" data-verse="7">	 <strong class="ltr"><sup>7</sup></strong> <span>Think about what I am saying, for the Lord will give you understanding in everything.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="6"> <span class="verse_number_l3">6</span>
+                            <div class="verse_block flex_chunk" data-verse="6"> <span class="verse_number_l3">6</span>
                                 <textarea name="chunks[2][6]" class="peer_verse_ta textarea" data-orig-verse="6" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Petani dong yang kerja keras akan terima hasil yang pertama,</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="7"> <span class="verse_number_l3">7</span>
+                            <div class="verse_block flex_chunk" data-verse="7"> <span class="verse_number_l3">7</span>
                                 <textarea name="chunks[2][7]" class="peer_verse_ta textarea" data-orig-verse="7" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Ingat apa yang sa bilang, karena Tuhan akan kasi ko pengertian untuk mengerti semua ini,</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -159,19 +159,19 @@
                             <p class="verse_text" data-verse="10">	 <strong class="ltr"><sup>10</sup></strong> <span>Therefore I endure all things for those who are chosen, so that they also may obtain the salvation that is in Christ Jesus, with eternal glory.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="8"> <span class="verse_number_l3">8</span>
+                            <div class="verse_block flex_chunk" data-verse="8"> <span class="verse_number_l3">8</span>
                                 <textarea name="chunks[3][8]" class="peer_verse_ta textarea" data-orig-verse="8" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Ingat: Yesus Kristus, keturunan Daud, su bangkit dari kematian. ini su sesuai dengan pesan Injil yang sa percaya.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="9"> <span class="verse_number_l3">9</span>
+                            <div class="verse_block flex_chunk" data-verse="9"> <span class="verse_number_l3">9</span>
                                 <textarea name="chunks[3][9]" class="peer_verse_ta textarea" data-orig-verse="9" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Sampe pada titik penderitaan karna diikat rantai seperti kriminal. tapi firman Allah tra diikat deng rantai.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="10"> <span class="verse_number_l3">10</span>
+                            <div class="verse_block flex_chunk" data-verse="10"> <span class="verse_number_l3">10</span>
                                 <textarea name="chunks[3][10]" class="peer_verse_ta textarea" data-orig-verse="10" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Jadi sa bertahan untuk orang-orang yang Tuhan pilih, supaya dong dapat keselamatan yang kekal dalam Kristus Yesus, deng kemuliaan yang abadi..</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -193,19 +193,19 @@
                             <p class="verse_text" data-verse="13">	 <strong class="ltr"><sup>13</sup></strong> <span>if we are unfaithful, he remains faithful, for he cannot deny himself." </span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="11"> <span class="verse_number_l3">11</span>
+                            <div class="verse_block flex_chunk" data-verse="11"> <span class="verse_number_l3">11</span>
                                 <textarea name="chunks[4][11]" class="peer_verse_ta textarea" data-orig-verse="11" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Apa yang sa bilang ini, bisa dipercaya: kalo tong mau mati untuk Dia, torang juga akan hidup bersama deng Dia.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="12"> <span class="verse_number_l3">12</span>
+                            <div class="verse_block flex_chunk" data-verse="12"> <span class="verse_number_l3">12</span>
                                 <textarea name="chunks[4][12]" class="peer_verse_ta textarea" data-orig-verse="12" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Apalagi kalo tong bertahan , tong juga akan ditinggikan deng Dia. Klo tong menyangkal Dia, Dia juga akan menyangkal ketong,</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="13"> <span class="verse_number_l3">13</span>
+                            <div class="verse_block flex_chunk" data-verse="13"> <span class="verse_number_l3">13</span>
                                 <textarea name="chunks[4][13]" class="peer_verse_ta textarea" data-orig-verse="13" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Klo tong tra setia, De tetap setia karena De tra bisa menyangkal diri.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -226,13 +226,13 @@
                             <p class="verse_text" data-verse="15">	 <strong class="ltr"><sup>15</sup></strong> <span>Do your best to present yourself to God as one approved, a worker who has no reason to be ashamed, who accurately teaches the word of truth.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="14"> <span class="verse_number_l3">14</span>
+                            <div class="verse_block flex_chunk" data-verse="14"> <span class="verse_number_l3">14</span>
                                 <textarea name="chunks[5][14]" class="peer_verse_ta textarea" data-orig-verse="14" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 142px;">Selalu kasi ingat dong di hadapan Allah, supaya dong jangan berdebat tentang Firman karena itu akan bikin kacau orang yang dengar,</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="15"> <span class="verse_number_l3">15</span>
+                            <div class="verse_block flex_chunk" data-verse="15"> <span class="verse_number_l3">15</span>
                                 <textarea name="chunks[5][15]" class="peer_verse_ta textarea" data-orig-verse="15" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Lakukan yang paling baik itu adalah persembahan yang Tuhan terima, jadi pekerja trada alasan untuk dapat kasi malu, yang ajar kebeneran Firman dengan pas.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -254,19 +254,19 @@
                             <p class="verse_text" data-verse="18">	 <strong class="ltr"><sup>18</sup></strong> <span>who have gone astray from the truth. They say that the resurrection has already happened, and they destroy the faith of some.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="16"> <span class="verse_number_l3">16</span>
+                            <div class="verse_block flex_chunk" data-verse="16"> <span class="verse_number_l3">16</span>
                                 <textarea name="chunks[6][16]" class="peer_verse_ta textarea" data-orig-verse="16" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Hindari omong kosong dan tra bersih yang nanti jadi tra baik.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="17"> <span class="verse_number_l3">17</span>
+                            <div class="verse_block flex_chunk" data-verse="17"> <span class="verse_number_l3">17</span>
                                 <textarea name="chunks[6][17]" class="peer_verse_ta textarea" data-orig-verse="17" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Perkataan dong akan menyebar seperti kangker. Diantara dong itu ada Himeneus dan Filetus.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="18"> <span class="verse_number_l3">18</span>
+                            <div class="verse_block flex_chunk" data-verse="18"> <span class="verse_number_l3">18</span>
                                 <textarea name="chunks[6][18]" class="peer_verse_ta textarea" data-orig-verse="18" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Dong adalah orang-orang yang sudah tidak benar. dong katakan kebangkitan sudah terjadi, dong putar balik iman dari berapa orang tu.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -288,19 +288,19 @@
                             <p class="verse_text" data-verse="21">	 <strong class="ltr"><sup>21</sup></strong> <span>If someone cleans himself from dishonorable use, he is an honorable container. He is set apart, useful to the Master, and prepared for every good work.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="19"> <span class="verse_number_l3">19</span>
+                            <div class="verse_block flex_chunk" data-verse="19"> <span class="verse_number_l3">19</span>
                                 <textarea name="chunks[7][19]" class="peer_verse_ta textarea" data-orig-verse="19" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 173px;">Biar begitu, Allah pu fondasi kuat tetap berdiri. ada piagam dengan tulisan yang bilang" Tuhan kenal dong Dia pu milik." . dan orang yang percaya Tuhan harus kasi tinggal yang tra benar.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="20"> <span class="verse_number_l3">20</span>
+                            <div class="verse_block flex_chunk" data-verse="20"> <span class="verse_number_l3">20</span>
                                 <textarea name="chunks[7][20]" class="peer_verse_ta textarea" data-orig-verse="20" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Dalam rumah kaya bukan saja ada emas dan perak tapi juga ada kotak-kotak kayu sama tanah liat. barang itu di pake untuk hal-hal yang terhormat, dan ada juga untuk hal-hal tra terhormat.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="21"> <span class="verse_number_l3">21</span>
+                            <div class="verse_block flex_chunk" data-verse="21"> <span class="verse_number_l3">21</span>
                                 <textarea name="chunks[7][21]" class="peer_verse_ta textarea" data-orig-verse="21" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 142px;">Jika satu orang kasi bersih de pu diri dari yang tra terhormat, de itu bejana yang terhormat. de dipilih , dipake untuk tuannya, dan de disiapkan untuk semua perbuatan yang baik.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -321,13 +321,13 @@
                             <p class="verse_text" data-verse="23">	 <strong class="ltr"><sup>23</sup></strong> <span>But refuse foolish and ignorant questions. You know that they give birth to arguments.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="22"> <span class="verse_number_l3">22</span>
+                            <div class="verse_block flex_chunk" data-verse="22"> <span class="verse_number_l3">22</span>
                                 <textarea name="chunks[8][22]" class="peer_verse_ta textarea" data-orig-verse="22" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Jauhi sudah dari nafsu anak-anak muda, kejar itu kebenaran, iman, kasih, dan damai, sama-sama deng dong yang panggil Tuhan dengan hati yang bersih.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="23"> <span class="verse_number_l3">23</span>
+                            <div class="verse_block flex_chunk" data-verse="23"> <span class="verse_number_l3">23</span>
                                 <textarea name="chunks[8][23]" class="peer_verse_ta textarea" data-orig-verse="23" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 80px;">Tapi tolak sudah pertanyaan-pertanyaan bodok. Kam tahu itu semua nanti jadi sebab baku tengkar.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -349,19 +349,19 @@
                             <p class="verse_text" data-verse="26">	 <strong class="ltr"><sup>26</sup></strong> <span>They may become sober again and leave the devil's trap, after they have been captured by him for his will.</span> </p>
                         </div>
                         <div class="vnote l3 font_en flex_middle" dir="ltr">
-                            <div class="verse_block flex_container" data-verse="24"> <span class="verse_number_l3">24</span>
+                            <div class="verse_block flex_chunk" data-verse="24"> <span class="verse_number_l3">24</span>
                                 <textarea name="chunks[9][24]" class="peer_verse_ta textarea" data-orig-verse="24" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">Orang yang melayani Tuhan tra boleh bertengkar tapi harus lemah lembut pada semua dong, Dong harus pintar mengajar, sabar</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="25"> <span class="verse_number_l3">25</span>
+                            <div class="verse_block flex_chunk" data-verse="25"> <span class="verse_number_l3">25</span>
                                 <textarea name="chunks[9][25]" class="peer_verse_ta textarea" data-orig-verse="25" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">de kasi ajaran deng lemah lembut sama dong yang melawan dia. mungkin Allah kasi kesempatan untuk dong bertobat pada pengetahuan akan kebenaran.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
                                       title="<?php echo __("write_footnote_title") ?>"></span>
                             </div>
-                            <div class="verse_block flex_container" data-verse="26"> <span class="verse_number_l3">26</span>
+                            <div class="verse_block flex_chunk" data-verse="26"> <span class="verse_number_l3">26</span>
                                 <textarea name="chunks[9][26]" class="peer_verse_ta textarea" data-orig-verse="26" style="min-width: 400px; overflow: hidden; overflow-wrap: break-word; height: 111px;">mungkin dong sadar kembali dan kasi tinggal jerat iblis setelah selama ini dong ditawan untuk ikut perintahnya.</textarea>
 								<span class="editFootNote mdi mdi-bookmark"
                                       style="margin-top: -5px"
@@ -393,54 +393,49 @@
             </div>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
         </div>
+    </div>
+</div>
 
-        <div class="content_help col-sm-3">
-            <div class="help_float">
-                <div class="help_info_steps is_checker_page_help">
-                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                    <div class="help_title_steps"><?php echo __("help") ?></div>
+<div class="content_help closed">
+    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
 
-                    <div class="clear"></div>
+    <div class="help_float">
+        <div class="help_info_steps is_checker_page_help">
+            <div class="help_name_steps">
+                <span><?php echo __("step_num", ["step_number" => 2])?>: </span>
+                <?php echo __("peer-edit-l3")?>
+            </div>
+            <div class="help_descr_steps">
+                <ul><?php echo __("peer-edit-l3_desc")?></ul>
+                <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+            </div>
+        </div>
 
-                    <div class="help_name_steps">
-                        <span><?php echo __("step_num", ["step_number" => 2])?>: </span>
-                        <?php echo __("peer-edit-l3")?>
-                    </div>
-                    <div class="help_descr_steps">
-                        <ul><?php echo __("peer-edit-l3_desc")?></ul>
-                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                    </div>
-                </div>
-
-                <div class="event_info is_checker_page_help">
-                    <div class="participant_info">
-                        <div class="participant_name">
-                            <span><?php echo __("your_checker") ?>:</span>
-                            <span class="checker_name_span">
+        <div class="event_info is_checker_page_help">
+            <div class="participant_info">
+                <div class="participant_name">
+                    <span><?php echo __("your_checker") ?>:</span>
+                    <span class="checker_name_span">
                                 Marge S.
                             </span>
-                        </div>
-                        <div class="additional_info">
-                            <a href="/events/demo-l3/information"><?php echo __("event_info") ?></a>
-                        </div>
-                    </div>
                 </div>
-
-                <div class="tr_tools">
-                    <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
-                    <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
-                </div>
-
-                <div class="checker_view">
-                    <a href="/events/demo-l3/peer_edit_l3_checker"><?php echo __("checker_other_view", [2]) ?></a>
+                <div class="additional_info">
+                    <a href="/events/demo-l3/information"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
+        <div class="tr_tools">
+            <button class="btn btn-primary ttools" data-tool="tn"><?php echo __("show_notes") ?></button>
+            <button class="btn btn-primary ttools" data-tool="tq"><?php echo __("show_questions") ?></button>
+            <button class="btn btn-primary ttools" data-tool="tw"><?php echo __("show_keywords") ?></button>
+            <button class="btn btn-warning ttools" data-tool="rubric"><?php echo __("show_rubric") ?></button>
+        </div>
+
+        <div class="checker_view">
+            <a href="/events/demo-l3/peer_edit_l3_checker"><?php echo __("checker_other_view", [2]) ?></a>
+        </div>
+    </div>
 </div>
 
 <div class="tutorial_container">
@@ -449,7 +444,7 @@
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/peer-review.png") ?>" height="100px" width="100px">
             <img src="<?php echo template_url("img/steps/big/peer-review.png") ?>" height="280px" width="280px">
-            
+
         </div>
 
         <div class="tutorial_content">
@@ -4027,7 +4022,7 @@
         $("#next_step").click(function (e) {
             e.preventDefault();
 
-            
+
             if(!hasChangesOnPage) window.location.href = '/events/demo-l3/pray';
 
             return false;

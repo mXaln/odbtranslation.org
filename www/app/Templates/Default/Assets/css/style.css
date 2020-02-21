@@ -429,7 +429,7 @@ html, body, .container {
 
 #chat_hide {
     position: absolute;
-    top: calc(50% - 15px);
+    top: 400px; /*calc(50% + 100px);*/
     left: -52px;
     background-color: dodgerblue;
     padding: 15px;
@@ -443,6 +443,7 @@ html, body, .container {
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
+    user-select: none;
 }
 
 .chat_new_msgs {
@@ -1172,13 +1173,40 @@ div.ui-datepicker {
 }
 
 .content_help {
-    padding-right: 0px;
-    position: relative;
+    position: fixed;
+    right: -271px;
+    bottom: 0;
+    min-height: 400px;
+    padding: 0 5px 5px 5px;
+    border-radius: 5px 0 5px 5px;
+    border-bottom: 1px solid grey;
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+    background-color: #F2F4F7;
 }
 
 .help_float {
-    position: fixed;
+    /*position: fixed;*/
     width: 260px;
+}
+
+#help_hide {
+    position: absolute;
+    top: 50px; /*calc(50% - 100px);*/
+    left: -66px;
+    background-color: #ff5c1e;
+    padding: 11px 15px;
+    border-radius: 7px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    cursor: pointer;
+    color: #ffffff;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    user-select: none;
 }
 
 .help_info_steps {
@@ -5094,7 +5122,7 @@ button.startEvnt, button.editEvnt {
 
 .ttools_panel {
     width: 400px;
-    z-index: 102;
+    z-index: 104;
     position: absolute;
     left: calc(50% - 200px);
     top: 150px;
@@ -5278,6 +5306,14 @@ button.add_verse_ta {
     width: 16px;
     left: 50px;
     top: 1px;
+}
+
+.flex_chunk {
+    display: flex;
+}
+
+.flex_chunk .hwt-container {
+    flex-grow: 1;
 }
 
 .flex_container {

@@ -23,8 +23,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="main_content col-sm-9">
+    <div class="">
+        <div class="main_content">
             <div class="main_content_text">
                 <h4>Symbolic Universal Notation - <?php echo __("odb") ?> - <span class="book_name">A01 4</span></h4>
 
@@ -345,39 +345,34 @@
                 <div class="step_right" style="margin-top: 0px"><?php echo __("step_num", ["step_number" => 5])?></div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="content_help col-sm-3">
-            <div class="help_float">
-                <div class="help_info_steps is_checker_page_help">
-                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                    <div class="help_title_steps"><?php echo __("help") ?></div>
+<div class="content_help closed">
+    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
 
-                    <div class="clear"></div>
+    <div class="help_float">
+        <div class="help_info_steps is_checker_page_help">
+            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 5])?>:</span> <?php echo __("theo-check_odb")?></div>
+            <div class="help_descr_steps">
+                <ul><?php echo __("theo-check_desc")?></ul>
+                <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+            </div>
+        </div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 5])?>:</span> <?php echo __("theo-check_odb")?></div>
-                    <div class="help_descr_steps">
-                        <ul><?php echo __("theo-check_desc")?></ul>
-                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                    </div>
-                </div>
-
-                <div class="event_info is_checker_page_help">
-                    <div class="participant_info">
-                        <div class="additional_info">
-                            <a href="/events/demo-sun-odb/information"><?php echo __("event_info") ?></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tr_tools">
-                    <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
-                    <button class="btn btn-primary ttools" data-tool="sunbible"><?php echo __("go_sun_bible") ?></button>
+        <div class="event_info is_checker_page_help">
+            <div class="participant_info">
+                <div class="additional_info">
+                    <a href="/events/demo-sun-odb/information"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
+        <div class="tr_tools">
+            <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
+            <button class="btn btn-primary ttools" data-tool="sunbible"><?php echo __("go_sun_bible") ?></button>
+        </div>
+    </div>
 </div>
 
 <div class="tutorial_container">

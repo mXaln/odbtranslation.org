@@ -693,7 +693,7 @@ $(document).ready(function() {
                     {
                         if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
                         {
-                            window.location.reload(true);
+                            window.location.reload();
                         }
                         else
                         {
@@ -1098,7 +1098,7 @@ $(document).ready(function() {
         var textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta, .lang_input_ta");
 
         if(textarea.length == 0)
-            textarea = $(this).closest(".flex_container").find(".peer_verse_ta, .lang_input_ta");
+            textarea = $(this).closest(".flex_chunk, .flex_container").find(".peer_verse_ta, .lang_input_ta");
 
         if(textarea.length > 0) {
             var startPosition = textarea.prop("selectionStart");
@@ -1653,7 +1653,7 @@ $(document).ready(function() {
         });
     },2100);
 
-    $(".toggle-help").click(function() {
+    /*$(".toggle-help").click(function() {
         var mode = $(this).data("mode");
 
         if($(".main_content").hasClass("col-sm-9"))
@@ -1701,6 +1701,32 @@ $(document).ready(function() {
                 if(typeof autosize == "function")
                     autosize.update($('textarea'));
             }
+        }
+    });*/
+
+    // Show/Hide chat window
+    $("#help_hide").click(function() {
+        var $this = $(this).parents(".content_help");
+
+        if($this.hasClass("open"))
+        {
+            $this.css("z-index", 102);
+            $this.removeClass("open")
+                .addClass("closed");
+            $this.animate({right: -271}, 500, function() {
+                $("#help_hide").removeClass("glyphicon-chevron-up")
+                    .addClass("glyphicon-chevron-down");
+            });
+        }
+        else
+        {
+            $this.css("z-index", 103);
+            $this.removeClass("closed")
+                .addClass("open");
+            $this.animate({right: 0}, 500, function() {
+                $("#help_hide").removeClass("glyphicon-chevron-down")
+                    .addClass("glyphicon-chevron-up");
+            });
         }
     });
 

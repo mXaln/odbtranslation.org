@@ -25,8 +25,8 @@ if(isset($data["error"])) return;
         </div>
     </div>
 
-    <div class="row">
-        <div class="main_content col-sm-9">
+    <div class="">
+        <div class="main_content">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
                     <h4 dir="ltr">Русский - <?php echo __("tq") ?> - <?php echo __("new_test") ?> -
@@ -324,44 +324,38 @@ if(isset($data["error"])) return;
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 2])?></div>
         </div>
+    </div>
+</div>
 
-        <div class="content_help col-sm-3">
-            <div class="help_float">
-                <div class="help_info_steps is_checker_page_help">
-                    <div class="help_hide toggle-help glyphicon glyphicon-eye-close" title="<?php echo __("hide_help") ?>"></div>
-                    <div class="help_title_steps"><?php echo __("help") ?></div>
+<div class="content_help closed">
+    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
 
-                    <div class="clear"></div>
+    <div class="help_float">
+        <div class="help_info_steps is_checker_page_help">
+            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("peer-review_tq")?></div>
+            <div class="help_descr_steps">
+                <ul><?php echo __("peer-review_tq_desc")?></ul>
+                <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
+            </div>
+        </div>
 
-                    <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("peer-review_tq")?></div>
-                    <div class="help_descr_steps">
-                        <ul><?php echo __("peer-review_tq_desc")?></ul>
-                        <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
-                    </div>
+        <div class="event_info is_checker_page_help">
+            <div class="participant_info">
+                <div class="participant_name">
+                    <span><?php echo __("your_checker") ?>:</span>
+                    <span class="checker_name_span">Tanya E.</span>
                 </div>
-
-                <div class="event_info is_checker_page_help">
-                    <div class="participant_info">
-                        <div class="participant_name">
-                            <span><?php echo __("your_checker") ?>:</span>
-                            <span class="checker_name_span">Tanya E.</span>
-                        </div>
-                        <div class="additional_info">
-                            <a href="/events/demo-tq/information"><?php echo __("event_info") ?></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="checker_view">
-                    <a href="<?php echo SITEURL ?>events/demo-tq/peer_review_checker"><?php echo __("checker_other_view", [2]) ?></a>
+                <div class="additional_info">
+                    <a href="/events/demo-tq/information"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
+
+        <div class="checker_view">
+            <a href="<?php echo SITEURL ?>events/demo-tq/peer_review_checker"><?php echo __("checker_other_view", [2]) ?></a>
+        </div>
     </div>
-
-    <div class="help_show toggle-help glyphicon glyphicon-question-sign" title="<?php echo __("show_help") ?>"></div>
 </div>
-
 
 <div class="tutorial_container">
     <div class="tutorial_popup">
