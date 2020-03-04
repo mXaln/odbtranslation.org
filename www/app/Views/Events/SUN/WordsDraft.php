@@ -105,11 +105,12 @@ if(isset($data["error"])) return;
 <script>
     $(function() {
         /* Clean BFCache on page load */
-        $(window).bind("pageshow", function() {
-            $('form').each(function() {
-                this.reset();
-                debug(this);
+        if(localStorage.getItem("prev") == window.location.href) {
+            $(window).bind("pageshow", function() {
+                $('form').each(function() {
+                    this.reset();
+                });
             });
-        });
+        }
     });
 </script>

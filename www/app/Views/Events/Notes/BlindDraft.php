@@ -143,10 +143,12 @@ if(isset($data["error"])) return;
         });
 
         /* Clean BFCache on page load */
-        $(window).bind("pageshow", function() {
-            $('form').each(function() {
-                this.reset();
+        if(localStorage.getItem("prev") == window.location.href) {
+            $(window).bind("pageshow", function() {
+                $('form').each(function() {
+                    this.reset();
+                });
             });
-        });
+        }
     })
 </script>

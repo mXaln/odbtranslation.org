@@ -68,8 +68,8 @@ $(document).ready(function() {
         console.log("internet is down");
     });
 
-    $(window).bind('beforeunload', function(e){
-        //return 'Are you sure you want to leave?';
+    $(window).bind('beforeunload', function(){
+        localStorage.setItem("prev", window.location.href);
     });
 
     $("a, button").click(function (e) {
