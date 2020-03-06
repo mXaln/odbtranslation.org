@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <label for="sun_upload" class="sr-only">Upload</label>
-                    <input type="file" accept=".ttf" class="form-control" id="sun_upload" placeholder="<?php echo __("upload_sun_font") ?>" value="">
+                    <input type="file" accept=".woff" class="form-control" id="sun_upload" placeholder="<?php echo __("upload_sun_font") ?>" value="">
                 </div>
 
                 <button class="btn btn-warning"><?php echo __("upload"); ?></button>

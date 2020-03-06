@@ -10,12 +10,14 @@
 
 @font-face {
     font-family: "SUN";
-    src: url("../fonts/SUN.ttf") format("truetype")
+    /*src: url("../fonts/SUN.ttf") format("truetype");*/
+    src: url("../fonts/SUN.woff") format("woff");
 }
 
 @font-face {
     font-family: "BACKSUN";
-    src: url("../fonts/BackSUN.ttf") format('truetype')
+    /*src: url("../fonts/BackSUN.ttf") format('truetype');*/
+    src: url("../fonts/BackSUN.woff") format("woff");
 }
 
 .sun_content {

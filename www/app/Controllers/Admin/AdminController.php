@@ -3022,17 +3022,17 @@ class AdminController extends Controller {
 
         $font_file = Input::file("file");
 
-        if($font_file->isValid())
+        if($font_file != null && $font_file->isValid())
         {
-            $mime = $font_file->getMimeType();
-            if($mime == "application/x-font-ttf")
+            $ext = $font_file->getClientOriginalExtension();
+            if($ext == "woff")
             {
                 $name = $font_file->getClientOriginalName();
                 $destinationPath = "../app/Templates/Default/Assets/fonts/";
 
                 if(preg_match("/backsun/i", $name))
                 {
-                    $fileName = "BackSUN.ttf";
+                    $fileName = "BackSUN.woff";
                     $font_file->move($destinationPath, $fileName);
 
                     if(File::exists(join("/", [$destinationPath, $fileName])))
@@ -3045,7 +3045,7 @@ class AdminController extends Controller {
                 }
                 elseif(preg_match("/sun/i", $name))
                 {
-                    $fileName = "SUN.ttf";
+                    $fileName = "SUN.woff";
                     $font_file->move($destinationPath, $fileName);
 
                     if(File::exists(join("/", [$destinationPath, $fileName])))
@@ -3065,14 +3065,14 @@ class AdminController extends Controller {
             }
             else
             {
-                $result["error"] = __("font_should_be_ttf_format_error");
+                $result["error"] = __("font_format_error");
                 echo json_encode($result);
                 exit;
             }
         }
         else
         {
-            $result["error"] = __("error_ocured");
+            $result["error"] = __("error_ocured", "Empty input!");
             echo json_encode($result);
             exit;
         }
@@ -3097,50 +3097,60 @@ class AdminController extends Controller {
 
         $dict_file = Input::file("file");
 
-        if($dict_file->isValid())
+        if($dict_file != null && $dict_file->isValid())
         {
-            $new_dict = [];
-
-            $file = $dict_file->openFile();
-            while (!$file->eof()) {
-                $pair = $file->fgetcsv();
-                if(isset($pair[0]) && isset($pair[1])
-                    && !empty($pair[0]) && !empty($pair[1]))
-                {
-                    $wordObj = new stdClass();
-                    $wordObj->symbol = $pair[0];
-                    $wordObj->word = $pair[1];
-                    $new_dict[] = $wordObj;
-                }
-            }
-
-            if(sizeof($new_dict) > 0)
+            $ext = $dict_file->getClientOriginalExtension();
+            if($ext == "csv")
             {
-                $this->_saildictModel->deleteAllWords();
+                $new_dict = [];
 
-                foreach ($new_dict as $word)
-                {
-                    $this->_saildictModel->createSunWord([
-                        "symbol" => $word->symbol,
-                        "word" => $word->word
-                    ]);
+                $file = $dict_file->openFile();
+                while (!$file->eof()) {
+                    $pair = $file->fgetcsv();
+                    if(isset($pair[0]) && isset($pair[1])
+                        && !empty($pair[0]) && !empty($pair[1]))
+                    {
+                        $wordObj = new stdClass();
+                        $wordObj->symbol = $pair[0];
+                        $wordObj->word = $pair[1];
+                        $new_dict[] = $wordObj;
+                    }
                 }
 
-                $result["success"] = true;
-                $result["message"] = __("dictionary_updated");
-                echo json_encode($result);
-                exit;
+                if(sizeof($new_dict) > 0)
+                {
+                    $this->_saildictModel->deleteAllWords();
+
+                    foreach ($new_dict as $word)
+                    {
+                        $this->_saildictModel->createSunWord([
+                            "symbol" => $word->symbol,
+                            "word" => $word->word
+                        ]);
+                    }
+
+                    $result["success"] = true;
+                    $result["message"] = __("dictionary_updated");
+                    echo json_encode($result);
+                    exit;
+                }
+                else
+                {
+                    $result["error"] = __("empty_dictionary");
+                    echo json_encode($result);
+                    exit;
+                }
             }
             else
             {
-                $result["error"] = __("empty_dictionary");
+                $result["error"] = __("not_csv_format_error");
                 echo json_encode($result);
                 exit;
             }
         }
         else
         {
-            $result["error"] = __("error_ocured");
+            $result["error"] = __("error_ocured", "Empty input!");
             echo json_encode($result);
             exit;
         }
