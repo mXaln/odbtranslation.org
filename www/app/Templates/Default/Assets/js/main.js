@@ -1653,57 +1653,6 @@ $(document).ready(function() {
         });
     },2100);
 
-    /*$(".toggle-help").click(function() {
-        var mode = $(this).data("mode");
-
-        if($(".main_content").hasClass("col-sm-9"))
-        {
-            var hidePos = $(".help_hide").offset();
-            var showPos = $(".help_show").position();
-
-            $(".help_show").css("visibility", "visible");
-
-            $(".help_show").offset(hidePos);
-            $(".help_show").animate({
-                top: -5,
-                right: -5,
-                left: showPos.left
-            }, 500);
-
-            // Hide
-            $(".main_content").removeClass("col-sm-9")
-                .addClass("col-sm-12");
-            $(".content_help").hide();
-
-            if(mode == "l2")
-            {
-                $(".chunk_verses").hide();
-                $(".editor_area").removeClass("col-sm-6")
-                    .addClass("col-sm-12");
-                if(typeof autosize == "function")
-                    autosize.update($('textarea'));
-            }
-        }
-        else
-        {
-            // Show
-            $(".main_content").addClass("col-sm-9")
-                .removeClass("col-sm-12");
-            $(".content_help").show();
-            $(".help_hide").show();
-            $(".help_show").css("visibility", "hidden");
-
-            if(mode == "l2")
-            {
-                $(".chunk_verses").show();
-                $(".editor_area").addClass("col-sm-6")
-                    .removeClass("col-sm-12");
-                if(typeof autosize == "function")
-                    autosize.update($('textarea'));
-            }
-        }
-    });*/
-
     // Show/Hide chat window
     $("#help_hide").click(function() {
         var $this = $(this).parents(".content_help");
@@ -1713,7 +1662,7 @@ $(document).ready(function() {
             $this.css("z-index", 102);
             $this.removeClass("open")
                 .addClass("closed");
-            $this.animate({right: -271}, 500, function() {
+            $this.animate({right: -275}, 500, function() {
                 $("#help_hide").removeClass("glyphicon-chevron-up")
                     .addClass("glyphicon-chevron-down");
             });

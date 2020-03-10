@@ -431,8 +431,9 @@ html, body, .container {
 
 #chat_hide {
     position: absolute;
-    top: 400px; /*calc(50% + 100px);*/
-    left: -52px;
+    top: auto;
+    bottom: 60px;
+    left: -55px;
     background-color: dodgerblue;
     padding: 15px;
     border-radius: 7px;
@@ -456,13 +457,15 @@ html, body, .container {
     font-size: 18px;
     font-weight: bold;
     height: 32px;
-    left: -22px;
+    left: -26px;
     padding-top: 4px;
     position: absolute;
     text-align: center;
-    top: calc(50% - 80px);
+    top: auto;
+    bottom: 92px;
     width: 32px;
     display: none;
+    z-index: 103;
 }
 
 .chat_tabs {
@@ -1176,9 +1179,8 @@ div.ui-datepicker {
 
 .content_help {
     position: fixed;
-    right: -271px;
+    right: -275px;
     bottom: 0;
-    min-height: 400px;
     padding: 0 5px 5px 5px;
     border-radius: 5px 0 5px 5px;
     border-bottom: 1px solid grey;
@@ -1194,10 +1196,11 @@ div.ui-datepicker {
 
 #help_hide {
     position: absolute;
-    top: 50px; /*calc(50% - 100px);*/
-    left: -66px;
+    top: auto;
+    bottom: 160px;
+    left: -70px;
     background-color: #ff5c1e;
-    padding: 11px 15px;
+    padding: 15px;
     border-radius: 7px;
     border-top-right-radius: 0;
     border-top-left-radius: 0;
