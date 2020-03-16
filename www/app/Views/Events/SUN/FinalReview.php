@@ -61,10 +61,19 @@ if(isset($data["error"])) return;
                                             <?php
                                             foreach ($chunk as $verse)
                                             {
+                                                if(!empty($_POST) && isset($_POST["chunks"][$key]))
+                                                {
+                                                    if(preg_match("/\|".$verse."\|/", $_POST["chunks"][$key]))
+                                                        continue;
+                                                }
                                                 echo '<div class="bubble">'.$verse.'</div>';
                                             }
                                             ?>
                                         </div>
+                                        <?php
+                                        if(!empty($_POST) && isset($_POST["chunks"][$key]))
+                                            $text = $_POST["chunks"][$key];
+                                        ?>
                                         <div class="textWithBubbles noselect sun_content"
                                              contentEditable="true">
                                             <?php
