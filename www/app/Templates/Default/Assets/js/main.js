@@ -321,7 +321,7 @@ $(document).ready(function() {
         });
     }
 
-    $(".peer_verse_ta, .blind_ta, .verse_ta").keyup(function() {
+    $(".peer_verse_ta, .blind_ta, .verse_ta").on("keyup paste", function(e) {
         hasChangesOnPage = true;
         $(".unsaved_alert").show();
     });
@@ -2692,7 +2692,7 @@ $(document).ready(function() {
     });
 
     // Autosave verse in language input mode
-    $("body").on("keyup", ".lang_input_ta", function() {
+    $(".lang_input_ta").on("keyup paste", function() {
         hasLangInputChangesOnPage = true;
         $(".unsaved_alert").show();
     });
