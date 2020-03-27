@@ -329,7 +329,7 @@ use Helpers\Constants\EventMembers;
                 chkText = chkVersion.val();
             }
 
-            diff_plain($(this).text(), chkText, $(this));
+            diff_plain($(this).text(), unEscapeStr(chkText), $(this));
         });
     })();
 

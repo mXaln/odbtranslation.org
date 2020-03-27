@@ -57,7 +57,7 @@ $parsedown = new Parsedown();
                                     ?>
                                     <textarea
                                             name="chunks[<?php echo $chunkNo ?>]"
-                                            class="add_questions_editor blind_ta draft_question"><?php echo $text ?></textarea>
+                                            class="add_questions_editor blind_ta draft_question"><?php echo htmlentities($text) ?></textarea>
                                 </div>
                             </div>
                             <div class="chunk_divider" style="margin-top: 10px"></div>

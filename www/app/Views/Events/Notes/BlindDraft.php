@@ -70,7 +70,7 @@ if(isset($data["error"])) return;
                             ?>
                             <textarea
                                     name="draft"
-                                    class="add_notes_editor blind_ta" data-key="verse"><?php echo $text ?></textarea>
+                                    class="add_notes_editor blind_ta" data-key="verse"><?php echo htmlentities($text) ?></textarea>
                         </div>
                     </div>
                 </div>

@@ -254,7 +254,7 @@ use Helpers\Constants\EventMembers;
             var verse = $(this).data("orig-verse");
             var chkVersion = $("textarea[data-orig-verse='"+verse+"']");
 
-            diff_plain($(this).text(), chkVersion.val(), $(this));
+            diff_plain($(this).text(), unEscapeStr(chkVersion.val()), $(this));
         });
     })();
 </script>

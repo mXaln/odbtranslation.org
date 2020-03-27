@@ -97,7 +97,7 @@ $parsedown = new Parsedown();
 
                                         <textarea
                                                 name="chunks[<?php echo $chunkNo ?>]"
-                                                class="add_notes_editor"><?php echo $text ?></textarea>
+                                                class="add_notes_editor"><?php echo htmlentities($text) ?></textarea>
                                     </div>
                                     <div class="flex_right">
                                         <?php $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]); ?>
@@ -226,7 +226,7 @@ $parsedown = new Parsedown();
 
                 if(typeof elm1 == "undefined") return true;
 
-                diff_plain(elm1, elm2, out);
+                diff_plain(unEscapeStr(elm1), unEscapeStr(elm2), out);
             });
         });
 

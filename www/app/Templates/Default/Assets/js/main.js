@@ -321,7 +321,7 @@ $(document).ready(function() {
         });
     }
 
-    $(".peer_verse_ta, .blind_ta, .verse_ta").on("keyup paste", function(e) {
+    $(".peer_verse_ta, .blind_ta, .verse_ta").on("keyup paste", function() {
         hasChangesOnPage = true;
         $(".unsaved_alert").show();
     });
@@ -363,13 +363,13 @@ $(document).ready(function() {
 
                 if(hasChangesOnPage)
                 {
+                    let postData = $("#main_form").serializeArray();
+                    postData.push({"name":"eventID","value":eventID});
+
                     autosaveRequest = $.ajax({
                         url: "/events/rpc/autosave_chunk",
                         method: "post",
-                        data: {
-                            eventID: eventID,
-                            formData: $("#main_form").serialize()
-                        },
+                        data: postData,
                         dataType: "json",
                         beforeSend: function() {
 
@@ -1564,7 +1564,7 @@ $(document).ready(function() {
                     ['para', ['style', 'ul', 'ol']],
                     ['style', ['bold', 'italic', 'underline']],
                     ['link', ['linkDialogShow', 'unlink']],
-                    ['misc', ['undo', 'redo']]
+                    ['misc', ['undo', 'redo', 'codeview']]
                 ],
                 callbacks: {
                     onInit: function() {
@@ -1625,9 +1625,14 @@ $(document).ready(function() {
 
                         window.document.execCommand('insertHtml', false, container);
                     },
-                    onChange: function(contents, $editable) {
+                    onChange: function(contents, editable) {
                         hasChangesOnPage = true;
                         $(".unsaved_alert").show();
+                    },
+                    onKeydown: function(e) {
+                        if (e.key == "<" || e.key == ">") {
+                            e.preventDefault();
+                        }
                     }
                 }
             });
@@ -2706,13 +2711,13 @@ $(document).ready(function() {
 
         if(hasLangInputChangesOnPage)
         {
+            let postData = $("#main_form").serializeArray();
+            postData.push({"name":"eventID","value":eventID});
+
             $.ajax({
                 url: "/events/rpc/autosave_li_verse",
                 method: "post",
-                data: {
-                    eventID: eventID,
-                    formData: $("#main_form").serialize()
-                },
+                data: postData,
                 dataType: "json"
             })
                 .done(function(data) {

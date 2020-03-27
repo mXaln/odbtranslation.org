@@ -62,7 +62,7 @@ $parsedown = new Parsedown();
                                         ?>
                                         <textarea
                                                 name="chunks[<?php echo $chunkNo ?>]"
-                                                class="add_notes_editor"><?php echo $text ?></textarea>
+                                                class="add_notes_editor"><?php echo htmlentities($text) ?></textarea>
                                     </div>
                                     <div class="flex_right">
                                         <span class="editComment mdi mdi-lead-pencil"

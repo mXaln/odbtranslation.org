@@ -250,7 +250,7 @@ $parsedown = new Parsedown();
 
                 if(typeof elm1 == "undefined") return true;
 
-                diff_plain(elm1, elm2, out);
+                diff_plain(unEscapeStr(elm1), unEscapeStr(elm2), out);
             });
         });
 
