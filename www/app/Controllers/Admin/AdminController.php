@@ -97,17 +97,34 @@ class AdminController extends Controller {
         $data["events"] = [];
         if(!empty($data["project"]))
         {
-            $category = $data["project"][0]->bookProject == "tw" ? "tw" :
-                ($data["project"][0]->sourceBible == "odb" ? "odb" : "bible");
+            if($data["project"][0]->bookProject == "tw")
+            {
+                $category = "tw";
+                $twDone = 0;
+                $data["TWprogress"] = 0;
+            }
+            elseif($data["project"][0]->bookProject == "rad")
+            {
+                $category = "rad";
+                $radDone = 0;
+                $data["RADprogress"] = 0;
+            }
+            elseif ($data["project"][0]->sourceBible == "odb")
+            {
+                $category = "odb";
+                $odbDone = 0;
+                $data["ODBprogress"] = 0;
+            }
+            else
+            {
+                $category = "bible";
+                $otDone = 0;
+                $ntDone = 0;
+                $data["OTprogress"] = 0;
+                $data["NTprogress"] = 0;
+            }
+
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID, $category);
-            $otDone = 0;
-            $ntDone = 0;
-            $twDone = 0;
-            $odbDone = 0;
-            $data["OTprogress"] = 0;
-            $data["NTprogress"] = 0;
-            $data["TWprogress"] = 0;
-            $data["ODBprogress"] = 0;
 
             foreach ($data["events"] as $event)
             {
@@ -141,6 +158,14 @@ class AdminController extends Controller {
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
                     {
                         $odbDone++;
+                    }
+                }
+                else if($event->category == "rad") // RADIO books
+                {
+                    if(!empty($event->state) &&
+                        EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
+                    {
+                        $radDone++;
                     }
                 }
             }
@@ -991,7 +1016,7 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw|odb)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|tn|tq|tw|odb|rad)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
@@ -1017,14 +1042,19 @@ class AdminController extends Controller {
 
             if($sourceTranslation == null)
             {
-                if(!in_array($projectMode, ["tq","tw","odb"]))
+                if(!in_array($projectMode, ["tq","tw","odb","rad"]))
                     $error[] = __("choose_source_trans");
             }
 
             if($projectType == null)
             {
-                if(!in_array($projectMode, ["tn","tq","tw"]))
+                if(!in_array($projectMode, ["tn","tq","tw","rad"]))
                     $error[] = __("choose_project_type");
+
+                if($projectMode == "rad")
+                {
+                    $projectType = "rad";
+                }
             }
 
             if(in_array($projectMode, ["tn","tq","tw"]) && $sourceTools == null)
@@ -1035,11 +1065,14 @@ class AdminController extends Controller {
             if(in_array($projectMode, ["tq","tw"]))
             {
                 $sourceTranslation = "ulb|en";
-                //$projectType = "ulb";
             }
             elseif($projectMode == "odb")
             {
                 $sourceTranslation = "odb|en";
+            }
+            elseif($projectMode == "rad")
+            {
+                $sourceTranslation = "rad|en";
             }
 
             if(!isset($error))
@@ -1071,6 +1104,10 @@ class AdminController extends Controller {
                 if($projectMode == "odb")
                 {
                     $search[] = ["projects.sourceBible", "odb"];
+                }
+                elseif ($projectMode == "rad")
+                {
+                    $search[] = ["projects.sourceBible", "rad"];
                 }
 
                 $exist = $this->_eventsModel->getProject(["projects.projectID"], $search);
@@ -1116,14 +1153,22 @@ class AdminController extends Controller {
         }
         elseif($act == "edit")
         {
-            if($projectID == null)
+            $project = $this->_eventsModel->getProject(["*"], [
+                ["projectID", $projectID]
+            ]);
+
+            if(empty($project))
             {
                 $error[] = __("error_ocured");
+                echo json_encode(array("error" => Error::display($error)));
+                exit;
             }
+
+            $projectMode = $project[0]->bookProject;
 
             if($sourceTranslation == null)
             {
-                if(!in_array($projectMode, ["tq","tw","odb"]))
+                if(!in_array($projectMode, ["tq","tw","odb","rad"]))
                     $error[] = __("choose_source_trans");
             }
 
@@ -1135,26 +1180,18 @@ class AdminController extends Controller {
             if(in_array($projectMode, ["tq","tw"]))
             {
                 $sourceTranslation = "ulb|en";
-                //$projectType = "ulb";
             }
             elseif($projectMode == "odb")
             {
                 $sourceTranslation = "odb|en";
             }
+            elseif($projectMode == "rad")
+            {
+                $sourceTranslation = "rad|en";
+            }
 
             if(!isset($error))
             {
-                $project = $this->_eventsModel->getProject(["*"], [
-                    ["projectID", $projectID]
-                ]);
-
-                if(empty($project))
-                {
-                    $error[] = __("error_ocured");
-                    echo json_encode(array("error" => Error::display($error)));
-                    return;
-                }
-
                 $gwProject = $this->_eventsModel->getGatewayProject(["admins"], [
                     ["gwProjectID", $project[0]->gwProjectID]
                 ]);
@@ -1185,6 +1222,10 @@ class AdminController extends Controller {
                 $this->_eventsModel->updateProject($postdata, ["projectID" => $projectID]);
 
                 echo json_encode(array("success" => __("successfully_updated")));
+            }
+            else
+            {
+                echo json_encode(array("error" => Error::display($error)));
             }
         }
     }

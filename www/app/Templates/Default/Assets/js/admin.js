@@ -126,14 +126,26 @@ $(function () {
 
     $("select[name=projectMode]").change(function() {
         $("#projectType").val('').trigger("chosen:updated");
-        if($(this).val() == "bible" || $(this).val() == "odb")
+
+        $(".toolsTn").removeClass("hidden");
+        $(".toolsTq").removeClass("hidden");
+        $(".toolsTw").removeClass("hidden");
+
+        if(["bible","odb","rad"].indexOf($(this).val()) > -1)
         {
             $("#sourceTools").val('').trigger("chosen:updated");
             $(".sourceTools").addClass("hidden");
             $(".projectType").removeClass("hidden");
-            if($(this).val() == "odb")
+            if(["odb","rad"].indexOf($(this).val()) > -1)
             {
                 $(".sourceTranslation").addClass("hidden");
+                if($(this).val() == "rad")
+                {
+                    $(".projectType").addClass("hidden");
+                    $(".toolsTn").addClass("hidden");
+                    $(".toolsTq").addClass("hidden");
+                    $(".toolsTw").addClass("hidden");
+                }
             }
             else
             {
