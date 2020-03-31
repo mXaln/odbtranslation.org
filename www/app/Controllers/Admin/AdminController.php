@@ -100,29 +100,33 @@ class AdminController extends Controller {
             if($data["project"][0]->bookProject == "tw")
             {
                 $category = "tw";
-                $twDone = 0;
-                $data["TWprogress"] = 0;
             }
             elseif($data["project"][0]->bookProject == "rad")
             {
                 $category = "rad";
-                $radDone = 0;
-                $data["RADprogress"] = 0;
             }
             elseif ($data["project"][0]->sourceBible == "odb")
             {
                 $category = "odb";
-                $odbDone = 0;
-                $data["ODBprogress"] = 0;
             }
             else
             {
                 $category = "bible";
-                $otDone = 0;
-                $ntDone = 0;
-                $data["OTprogress"] = 0;
-                $data["NTprogress"] = 0;
             }
+
+            $otDone = 0;
+            $ntDone = 0;
+            $data["OTprogress"] = 0;
+            $data["NTprogress"] = 0;
+
+            $odbDone = 0;
+            $data["ODBprogress"] = 0;
+
+            $radDone = 0;
+            $data["RADprogress"] = 0;
+
+            $twDone = 0;
+            $data["TWprogress"] = 0;
 
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID, $category);
 
@@ -180,13 +184,30 @@ class AdminController extends Controller {
                 if($count > 0)
                     $data["ODBprogress"] = 100*$odbDone/$count;
             }
+            elseif ($data["project"][0]->bookProject == "rad")
+            {
+                $count = $this->_eventsModel->getAbbrByCategory("rad", true);
+                if($count > 0)
+                    $data["RADprogress"] = 100*$radDone/$count;
+            }
         }
 
         $page = 'Admin/Main/Project';
-        if(!empty($data["project"]) && $data["project"][0]->bookProject == "tw")
-            $page = 'Admin/Main/ProjectTW';
-        if(!empty($data["project"]) && $data["project"][0]->sourceBible == "odb")
-            $page = 'Admin/Main/ProjectODB';
+        if(!empty($data["project"]))
+        {
+            if($data["project"][0]->bookProject == "tw")
+            {
+                $page = 'Admin/Main/ProjectTW';
+            }
+            elseif ($data["project"][0]->sourceBible == "odb")
+            {
+                $page = 'Admin/Main/ProjectODB';
+            }
+            elseif ($data["project"][0]->bookProject == "rad")
+            {
+                $page = 'Admin/Main/ProjectRadio';
+            }
+        }
 
         return View::make($page)
             ->shares("title", __("admin_events_title"))
@@ -1672,8 +1693,18 @@ class AdminController extends Controller {
                     {
                         if($bookInfo[0]->category == "odb")
                         {
-                            $odb = $this->_apiModel->getODB($bookInfo[0]->code, $project[0]->sourceLangID);
+                            $odb = $this->_apiModel->getOtherSource("odb", $bookInfo[0]->code, $project[0]->sourceLangID);
                             if(empty($odb))
+                            {
+                                $error[] = __("no_source_error");
+                                echo json_encode(array("error" => Error::display($error)));
+                                return;
+                            }
+                        }
+                        elseif ($bookInfo[0]->category == "rad")
+                        {
+                            $radio = $this->_apiModel->getOtherSource("rad", $bookInfo[0]->code, $project[0]->sourceLangID);
+                            if(empty($radio))
                             {
                                 $error[] = __("no_source_error");
                                 echo json_encode(array("error" => Error::display($error)));

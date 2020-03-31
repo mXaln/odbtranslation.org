@@ -77,6 +77,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-odb-sun/{eventID}", "EventsController@translatorOdbSun")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-rad/{eventID}", "EventsController@translatorRadio")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l3/{eventID}", "EventsController@checkerL3")
@@ -112,6 +114,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information-sun/{eventID}", "EventsController@informationSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-odb-sun/{eventID}", "EventsController@informationOdbSun")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-rad/{eventID}", "EventsController@informationRadio")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
         ->where(["eventID" => "[0-9]+"]);
@@ -207,6 +211,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-tw/{page?}", "EventsController@demoTw");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("demo-sun-odb/{page?}", "EventsController@demoSunOdb");
+    Router::any("demo-radio/{page?}", "EventsController@demoRadio");
     Router::any("news", "EventsController@news");
     Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");

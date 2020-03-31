@@ -213,15 +213,65 @@ class ApiModel extends Model
 
 
     /**
-     * Get book source from unfolding word api
+     * Get odb book source from local file
+     * @param string $bookProject
      * @param string $bookCode
      * @param string $sourceLang
      * @return mixed
      */
-    public function getODB($bookCode, $sourceLang = "en")
+    public function getOtherSource($bookProject, $bookCode, $sourceLang = "en")
     {
         $source = [];
-        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_odb/".strtoupper($bookCode).".json";
+        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_".$bookProject."/".strtoupper($bookCode).".json";
+
+        if(File::exists($filepath))
+        {
+            $sourceData = File::get($filepath);
+            $source = (array)json_decode($sourceData, true);
+            $chapters = [];
+
+            if(!empty($source) && isset($source["root"]))
+            {
+                foreach ($source["root"] as $i => $chapter) {
+                    $chapters[$i+1] = [];
+                    $k = 1;
+                    foreach ($chapter as $section) {
+                        if(!is_array($section))
+                        {
+                            $chapters[$i+1][$k] = $section;
+                            $k++;
+                        }
+                        else
+                        {
+                            foreach ($section as $p) {
+                                $chapters[$i+1][$k] = $p;
+                                $k++;
+                            }
+                        }
+                    }
+                }
+                return ["chapters" => $chapters];
+            }
+            else
+            {
+                return [];
+            }
+        }
+
+        return $source;
+    }
+
+
+    /**
+     * Get radio book source from local file
+     * @param string $bookCode
+     * @param string $sourceLang
+     * @return mixed
+     */
+    public function getRadio($bookCode, $sourceLang = "en")
+    {
+        $source = [];
+        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_rad/".strtoupper($bookCode).".json";
 
         if(File::exists($filepath))
         {

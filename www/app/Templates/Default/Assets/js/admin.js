@@ -2196,6 +2196,16 @@ function setEventMenuLinks(event, level) {
             $(".event_links_l3 .event_manage a")
                 .attr("href", "/events/manage/"+event.eventID);
             break;
+        case "rad":
+            $(".event_links_l1").hide();
+            $(".event_links_l2").hide();
+            $(".event_links_l3").show();
+
+            $(".event_links_l3 .event_progress a")
+                .attr("href", "/events/information-radio/"+event.eventID);
+            $(".event_links_l3 .event_manage a")
+                .attr("href", "/events/manage/"+event.eventID);
+            break;
     }
 }
 

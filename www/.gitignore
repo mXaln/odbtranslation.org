@@ -1,6 +1,6 @@
 .idea
 # Framework specific
-#vendor/
+vendor/
 #composer.lock
 
 # The developers Playground
