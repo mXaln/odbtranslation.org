@@ -365,7 +365,7 @@ class EventsModel extends Model
                 .PREFIX."projects.tnLangID, ".PREFIX."projects.tqLangID, ".PREFIX."projects.twLangID, "
                 .PREFIX."projects.sourceBible, ".PREFIX."projects.gwLang, "
                 .PREFIX."projects.targetLang, ".PREFIX."projects.resLangID, "
-                ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, "
+                ."t_lang.direction as tLangDir, s_lang.direction as sLangDir, evnt.langInput, "
                 .PREFIX."chapters.chunks, ".PREFIX."projects.projectID ".
             "FROM ".PREFIX."translators AS trs ".
                 "LEFT JOIN ".PREFIX."chapters ON trs.eventID = ".PREFIX."chapters.eventID AND trs.currentChapter = ".PREFIX."chapters.chapter ".

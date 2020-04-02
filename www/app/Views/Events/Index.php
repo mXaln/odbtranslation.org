@@ -424,7 +424,7 @@ $profile = Session::get("profile");
 <div id="my_checks_content" class="my_content">
     <?php foreach($data["myCheckerL1Events"] as $key => $event): ?>
         <?php
-            $mode = $event->bookProject;
+        $mode = $event->bookProject;
 
         if(in_array($mode, ["ulb","udb"]))
         {

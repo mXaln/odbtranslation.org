@@ -11200,6 +11200,11 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
+    public function demoRadio($page = null)
+    {
+        echo "Not implemented";
+    }
+
     public function news()
     {
         if (Session::get('loggedin') !== true)
