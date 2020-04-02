@@ -12,16 +12,16 @@ namespace Helpers\Constants;
 class RadioSections
 {
     const TITLE             = 1;
-    const CONTENT           = 2;
+    const SPEAKERS          = 2;
 
     private static $enum = [
         self::TITLE => "title",
-        self::CONTENT => "content"
+        self::SPEAKERS => "speakers"
     ];
 
     public static function enum($section)
     {
-        if($section > 2) return self::$enum[self::CONTENT];
+        if($section > 2) return self::$enum[self::SPEAKERS];
 
         return self::$enum[$section];
     }

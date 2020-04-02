@@ -284,6 +284,7 @@ return array (
     "chapters" => "Chapitres",
     "chapter_number" => "Chapitre {chapter}",
     "devotion_number" => "Devotion {devotion}",
+    "broadcast_number" => "Broadcast {broadcast}",
     "intro" => "Introduction",
     "front" => "Introduction",
     "chapter_not_started" => "Pas encore commencé",

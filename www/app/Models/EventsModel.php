@@ -4682,4 +4682,210 @@ class EventsModel extends Model
         }
     }
 
+    public function calculateRadioEventProgress($event, $progressOnly = false) {
+        $data = [];
+        $data["overall_progress"] = 0;
+        $data["chapters"] = [];
+        for($i=1; $i <= $event[0]->chaptersNum; $i++)
+        {
+            $data["chapters"][$i] = [];
+        }
+
+        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
+
+        foreach ($chapters as $chapter) {
+            $tmp["trID"] = $chapter["trID"];
+            $tmp["memberID"] = $chapter["memberID"];
+            $tmp["chunks"] = json_decode($chapter["chunks"], true);
+            $tmp["done"] = $chapter["done"];
+
+            $data["chapters"][$chapter["chapter"]] = $tmp;
+        }
+
+        $overallProgress = 0;
+        $memberSteps = [];
+        $members = [];
+
+        $translationModel = new TranslationsModel();
+        $chunks = $translationModel->getTranslationByEventID($event[0]->eventID);
+
+        foreach ($chunks as $chunk) {
+            if(!array_key_exists($chunk->memberID, $memberSteps))
+            {
+                $memberSteps[$chunk->memberID]["step"] = $chunk->step;
+                $memberSteps[$chunk->memberID]["peerCheck"] = $chunk->peerCheck;
+                $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
+                $memberSteps[$chunk->memberID]["checkerID"] = $chunk->checkerID;
+                $members[$chunk->memberID] = "";
+            }
+
+            if($chunk->chapter == null)
+                continue;
+
+            $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
+
+            if(!isset($data["chapters"][$chunk->chapter]["lastEdit"]))
+            {
+                $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+            }
+            else
+            {
+                $prevDate = strtotime($data["chapters"][$chunk->chapter]["lastEdit"]);
+                if($prevDate < strtotime($chunk->dateUpdate))
+                    $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
+            }
+        }
+
+        foreach ($data["chapters"] as $key => $chapter) {
+            if(empty($chapter)) continue;
+
+            $currentStep = EventSteps::PRAY;
+            $consumeState = StepsStates::NOT_STARTED;
+            $multiDraftState = StepsStates::NOT_STARTED;
+
+            $members[$chapter["memberID"]] = "";
+            $data["chapters"][$key]["progress"] = 0;
+
+            $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
+            $peerCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["peerCheck"], true);
+            $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
+
+            // Set default values
+            $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["peer"]["state"] = StepsStates::NOT_STARTED;
+            $data["chapters"][$key]["peer"]["checkerID"] = "na";
+
+            // When no chunks created or translation not started
+            if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
+            {
+                if($currentChapter == $key)
+                {
+                    $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+                    if($currentStep == EventSteps::CONSUME)
+                    {
+                        $consumeState = StepsStates::IN_PROGRESS;
+                    }
+                    elseif($currentStep == EventSteps::MULTI_DRAFT)
+                    {
+                        $consumeState = StepsStates::FINISHED;
+                        $multiDraftState = StepsStates::IN_PROGRESS;
+                    }
+                }
+
+                $data["chapters"][$key]["step"] = $currentStep;
+                $data["chapters"][$key]["consume"]["state"] = $consumeState;
+                $data["chapters"][$key]["multiDraft"]["state"] = $multiDraftState;
+
+                // Progress checks
+                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                    $data["chapters"][$key]["progress"] += 25;
+
+                $overallProgress += $data["chapters"][$key]["progress"];
+
+                $data["chapters"][$key]["chunksData"] = [];
+                continue;
+            }
+
+            $currentStep = $memberSteps[$chapter["memberID"]]["step"];
+
+            $data["chapters"][$key]["step"] = $currentChapter == $key ? $currentStep : EventSteps::FINISHED;
+
+            // These steps are finished here by default
+            $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+
+            // Peer Check
+            if(array_key_exists($key, $peerCheck))
+            {
+                // These steps are finished here by default
+                $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::FINISHED;
+                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                if($key == $currentChapter && $currentStep == EventSteps::PEER_REVIEW)
+                    $data["chapters"][$key]["peer"]["state"] = StepsStates::CHECKED;
+                else
+                    $data["chapters"][$key]["peer"]["state"] = StepsStates::FINISHED;
+
+                $data["chapters"][$key]["peer"]["checkerID"] = $peerCheck[$key];
+                $data["chapters"][$key]["step"] = $key == $currentChapter
+                    ? $currentStep : EventSteps::FINISHED;
+                $members[$peerCheck[$key]] = "";
+            }
+            else
+            {
+                if($key == $currentChapter)
+                {
+                    if($currentStep == EventSteps::PEER_REVIEW)
+                    {
+                        // These steps are finished here by default
+                        $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::FINISHED;
+                        $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+
+                        if($currentChecker > 0)
+                        {
+                            $data["chapters"][$key]["peer"]["state"] = StepsStates::IN_PROGRESS;
+                            $data["chapters"][$key]["peer"]["checkerID"] = $currentChecker;
+                            $members[$currentChecker] = "";
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["peer"]["state"] = StepsStates::WAITING;
+                            $data["chapters"][$key]["peer"]["checkerID"] = "na";
+                        }
+                    }
+                    else
+                    {
+                        if($currentStep == EventSteps::SELF_CHECK)
+                        {
+                            $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
+                        }
+                        elseif ($currentStep == EventSteps::MULTI_DRAFT)
+                        {
+                            $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
+                            $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::IN_PROGRESS;
+                        }
+                        else
+                        {
+                            $data["chapters"][$key]["consume"]["state"] = StepsStates::IN_PROGRESS;
+                        }
+                    }
+                }
+                else
+                {
+                    if($event[0]->langInput)
+                    {
+                        $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
+                    }
+                }
+            }
+
+            // Progress checks
+            if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 25;
+            if($data["chapters"][$key]["multiDraft"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 25;
+            if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 25;
+            if($data["chapters"][$key]["peer"]["state"] == StepsStates::CHECKED)
+                $data["chapters"][$key]["progress"] += 12;
+            if($data["chapters"][$key]["peer"]["state"] == StepsStates::FINISHED)
+                $data["chapters"][$key]["progress"] += 25;
+
+            $overallProgress += $data["chapters"][$key]["progress"];
+        }
+
+        $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
+        $data["members"] = $members;
+
+        if($progressOnly)
+        {
+            return $data["overall_progress"];
+        }
+        else {
+            return $data;
+        }
+    }
+
 }

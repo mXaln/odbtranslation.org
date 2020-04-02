@@ -284,6 +284,7 @@ return array (
     "chapters" => "Главы",
     "chapter_number" => "Глава {chapter}",
     "devotion_number" => "Devotion {devotion}",
+    "broadcast_number" => "Передача {broadcast}",
     "intro" => "Введение",
     "front" => "Введение",
     "chapter_not_started" => "Не начато",

@@ -467,7 +467,7 @@ $(document).ready(function() {
     {
         var infoUpdateTimer = setInterval(function() {
             var tm = typeof tMode != "undefined"
-            && $.inArray(tMode, ["tn","tq","tw","sun"]) > -1 ? "-" + tMode
+            && $.inArray(tMode, ["tn","tq","tw","sun","rad"]) > -1 ? "-" + tMode
                 : "";
 
             if(typeof isOdb != "undefined") tm = "-odb" + tm;

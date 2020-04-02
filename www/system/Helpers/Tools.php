@@ -35,17 +35,7 @@ class Tools
             $versesArr[] = $i;
         }
 
-    return $versesArr;
-    }
-
-    /**
-     * Advanced trim the string
-     * @param $str
-     * @return string
-     */
-    public static function trim($str)
-    {
-        return trim(html_entity_decode($str), " \t\n\r\0\x0B\xC2\xA0");
+        return $versesArr;
     }
 
     /**
@@ -88,5 +78,108 @@ class Tools
         }
 
         return $files;
+    }
+
+    /**
+     * Advanced trim the string
+     * @param $mixed
+     * @return array|string
+     */
+    public static function trim($mixed)
+    {
+        if(is_array($mixed))
+        {
+            return array_map(function($elm) {
+                return Tools::trim($elm);
+            }, $mixed);
+        }
+        else
+        {
+            return trim(html_entity_decode($mixed), " \t\n\r\0\x0B\xC2\xA0");
+        }
+    }
+
+    /**
+     * Advanced strip_tags
+     * @param $mixed
+     * @return array|string
+     */
+    public static function strip_tags($mixed)
+    {
+        if(is_array($mixed))
+        {
+            return array_map(function($elm) {
+                return Tools::strip_tags($elm);
+            }, $mixed);
+        }
+        else
+        {
+            return strip_tags($mixed);
+        }
+    }
+
+    /**
+     * Advanced html_entity_decode
+     * @param $mixed
+     * @return array|string
+     */
+    public static function html_entity_decode($mixed)
+    {
+        if(is_array($mixed))
+        {
+            return array_map(function($elm) {
+                return Tools::html_entity_decode($elm);
+            }, $mixed);
+        }
+        else
+        {
+            return html_entity_decode($mixed);
+        }
+    }
+
+    /**
+     * Advanced htmlentities
+     * @param $mixed
+     * @return array|string
+     */
+    public static function htmlentities($mixed)
+    {
+        if(is_array($mixed))
+        {
+            return array_map(function($elm) {
+                return Tools::htmlentities($elm);
+            }, $mixed);
+        }
+        else
+        {
+            return htmlentities($mixed);
+        }
+    }
+
+    /**
+     * Advanced htmlentities
+     * @param $mixed
+     * @return array|string
+     */
+    public static function has_empty($mixed)
+    {
+        if(is_array($mixed))
+        {
+            foreach ($mixed as $elm)
+            {
+                if(is_array($elm))
+                {
+                    return Tools::empty(Tools::trim($elm));
+                }
+                else
+                {
+                    return empty(Tools::trim($elm));
+                }
+            }
+        }
+        else
+        {
+            return empty(Tools::trim($mixed));
+        }
     }
 }

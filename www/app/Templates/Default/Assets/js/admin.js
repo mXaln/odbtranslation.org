@@ -2202,7 +2202,7 @@ function setEventMenuLinks(event, level) {
             $(".event_links_l3").show();
 
             $(".event_links_l3 .event_progress a")
-                .attr("href", "/events/information-radio/"+event.eventID);
+                .attr("href", "/events/information-rad/"+event.eventID);
             $(".event_links_l3 .event_manage a")
                 .attr("href", "/events/manage/"+event.eventID);
             break;

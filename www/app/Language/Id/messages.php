@@ -287,6 +287,7 @@ return array (
     "chapters" => "Pasal-pasal",
     "chapter_number" => "Pasal {chapter}",
     "devotion_number" => "Devotion {devotion}",
+    "broadcast_number" => "Broadcast {broadcast}",
     "intro" => "Intro",
     "front" => "Intro",
     "chapter_not_started" => "Belum dimulai",

@@ -18,6 +18,7 @@ use Helpers\Arrays;
 use Helpers\Data;
 use Helpers\Parsedown;
 use Helpers\Spyc;
+use Helpers\Tools;
 use Helpers\UsfmParser;
 use Helpers\ZipStream\Exception;
 use ZipArchive;
@@ -1685,6 +1686,23 @@ class ApiModel extends Model
         return $chunks;
     }
 
+    public function testChunkRadio($postChunks, $radioChunks)
+    {
+        if(!is_array($postChunks))
+            return false;
+
+        if(sizeof($radioChunks) != sizeof($postChunks))
+            return false;
+
+        foreach ($postChunks as $key => $chunk) {
+            if(Tools::has_empty($chunk))
+                return false;
+
+            $postChunks[$key] = $chunk;
+        }
+
+        return $postChunks;
+    }
 
     public function getRanges($arr)
     {

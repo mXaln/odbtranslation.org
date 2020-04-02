@@ -14,11 +14,11 @@ if(isset($data["error"])) return;
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
                 <h4><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->sourceBible)." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]."</span>"?></h4>
+                    ."<span class='book_name'>".$data["event"][0]->name." - ".$data["text"][1]."</span>"?></h4>
 
                 <?php foreach($data["text"] as $verse => $text): ?>
                     <p>
-                        <?php if ($verse < RadioSections::CONTENT): ?>
+                        <?php if ($verse < RadioSections::SPEAKERS): ?>
                             <strong><?php echo __(RadioSections::enum($verse)) ?>:</strong> <?php echo $text ?>
                         <?php else: ?>
                             <?php if (is_array($text) && isset($text["name"]) && isset($text["text"])): ?>

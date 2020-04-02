@@ -49,7 +49,7 @@
     <br>
 
     <?php if(sizeof($data['books']) > 0 && $data['books'][0]->bookCode != ""): ?>
-        <?php if($data['books'][0]->sourceBible == "odb"): ?>
+        <?php if(in_array($data['books'][0]->sourceBible, ["odb","rad"])): ?>
             <h4 style="text-align: right">
                 <a href="<?php echo $data['books'][0]->sourceBible ?>/dl/json">
                     <?php echo __("download_json") ?>
@@ -102,7 +102,7 @@
         <div id="upload_menu">
             <span class="glyphicon glyphicon-export"></span>
             <ul>
-                <?php if($data["data"]->sourceBible == "odb"): ?>
+                <?php if(in_array($data["data"]->sourceBible, ["odb","rad"])): ?>
                 <li>
                     <a href="<?php echo $data['data']->bookCode ?>/json">
                         <?php echo __("download_json") ?>

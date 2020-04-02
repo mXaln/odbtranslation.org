@@ -292,6 +292,7 @@ return array (
     "chapters" => "Mga Kapitulo",
     "chapter_number" => "Kapitulo {chapter}",
     "devotion_number" => "Devotion {devotion}",
+    "broadcast_number" => "Broadcast {broadcast}",
     "intro" => "Intro",
     "front" => "Intro",
     "chapter_not_started" => "Wala pa nasugdan",
