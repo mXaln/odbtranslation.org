@@ -135,7 +135,9 @@
             </ul>
         </div>
 
-        <h1 style="text-align: center">—— <?php echo __($data['data']->bookCode) ?> ——</h1>
+        <h1 style="text-align: center">—— <?php echo !in_array($data["bookInfo"][0]->category, ["odb","rad"])
+            ? __($data['data']->bookCode)
+            : $data['data']->bookName?> ——</h1>
 
         <div class="bible_book
             <?php echo ($data["data"]->bookProject == "sun"

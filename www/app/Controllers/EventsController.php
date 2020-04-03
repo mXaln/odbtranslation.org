@@ -11202,7 +11202,75 @@ class EventsController extends Controller
 
     public function demoRadio($page = null)
     {
-        echo "Not implemented";
+        if(!isset($page))
+            Url::redirect("events/demo-radio/pray");
+
+        $notifObj = new stdClass();
+
+        $notifObj->step = EventSteps::PEER_REVIEW;
+
+        $notifObj->currentChapter = 2;
+        $notifObj->firstName = "Mark";
+        $notifObj->lastName = "Patton";
+        $notifObj->bookCode = "b01";
+        $notifObj->bookProject = "rad";
+        $notifObj->tLang = "English";
+        $notifObj->bookName = "B01";
+        $notifObj->manageMode = "rad";
+        $notifObj->sourceBible = "rad";
+
+        $notifications[] = $notifObj;
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["isCheckerPage"] = false;
+        $data["menu"] = 5;
+
+        $view = View::make("Events/Radio/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/Radio/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/Radio/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "multi-draft":
+                $view->nest("page", "Events/Radio/Demo/MultiDraft");
+                $data["step"] = EventSteps::MULTI_DRAFT;
+                break;
+
+            case "self-check":
+                $view->nest("page", "Events/Radio/Demo/SelfCheck");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "peer_review":
+                $view->nest("page", "Events/Radio/Demo/PeerReview");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                break;
+
+            case "peer_review_checker":
+                $view->nest("page", "Events/Radio/Demo/PeerReviewChecker");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/Radio/Demo/Information")
+                    ->shares("title", __("event_info"));
+                break;
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
     }
 
     public function news()
