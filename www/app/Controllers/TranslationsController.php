@@ -214,15 +214,20 @@ class TranslationsController extends Controller
                         {
                             if($chunk->bookProject == "rad")
                             {
-                                if(!is_object($verses->{EventMembers::TRANSLATOR}->verses))
+                                $translation = isset($verses->{EventMembers::CHECKER}->verses)
+                                && !empty($verses->{EventMembers::CHECKER}->verses)
+                                    ? $verses->{EventMembers::CHECKER}->verses
+                                    : $verses->{EventMembers::TRANSLATOR}->verses;
+
+                                if(!is_object($translation))
                                 {
-                                    $radioBook[$lastChapter][RadioSections::enum(RadioSections::TITLE)] = $verses->{EventMembers::TRANSLATOR}->verses;
+                                    $radioBook[$lastChapter][RadioSections::enum(RadioSections::TITLE)] = $translation;
                                 }
                                 else
                                 {
                                     $tmp = [];
-                                    $tmp["name"] = $verses->{EventMembers::TRANSLATOR}->verses->name;
-                                    $tmp["text"] = $verses->{EventMembers::TRANSLATOR}->verses->text;
+                                    $tmp["name"] = $translation->name;
+                                    $tmp["text"] = $translation->text;
                                     $radioBook[$lastChapter][RadioSections::enum(RadioSections::SPEAKERS)][] = $tmp;
                                 }
                             }
@@ -849,15 +854,20 @@ class TranslationsController extends Controller
             {
                 if($chunk->bookProject == "rad")
                 {
-                    if(!is_object($verses->{EventMembers::TRANSLATOR}->verses))
+                    $translation = isset($verses->{EventMembers::CHECKER}->verses)
+                        && !empty($verses->{EventMembers::CHECKER}->verses)
+                        ? $verses->{EventMembers::CHECKER}->verses
+                        : $verses->{EventMembers::TRANSLATOR}->verses;
+
+                    if(!is_object($translation))
                     {
-                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum(RadioSections::TITLE)] = html_entity_decode($verses->{EventMembers::TRANSLATOR}->verses, ENT_QUOTES);
+                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum(RadioSections::TITLE)] = html_entity_decode($translation, ENT_QUOTES);
                     }
                     else
                     {
                         $tmp = [];
-                        $tmp["name"] = $verses->{EventMembers::TRANSLATOR}->verses->name;
-                        $tmp["text"] = $verses->{EventMembers::TRANSLATOR}->verses->text;
+                        $tmp["name"] = $translation->name;
+                        $tmp["text"] = $translation->text;
                         $json_books[$code]["root"][$lastChapter-1][RadioSections::enum(RadioSections::SPEAKERS)][] = $tmp;
                     }
                 }

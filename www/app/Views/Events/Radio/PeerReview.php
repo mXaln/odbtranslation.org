@@ -67,17 +67,20 @@ if(isset($data["error"])) return;
                                         $text1 = "";
                                         $text2 = "";
                                         $isTitle = $key == 0;
-                                        if(isset($data["translation"][$key]))
+
+                                        $translation = isset($data["translation"][$key][EventMembers::CHECKER])
+                                        && !empty($data["translation"][$key][EventMembers::CHECKER]["verses"])
+                                            ? $data["translation"][$key][EventMembers::CHECKER]["verses"]
+                                            : $data["translation"][$key][EventMembers::TRANSLATOR]["verses"];
+
+                                        if(!is_array($translation))
                                         {
-                                            if(!is_array($data["translation"][$key][EventMembers::TRANSLATOR]["verses"]))
-                                            {
-                                                $text1 = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"];
-                                            }
-                                            else
-                                            {
-                                                $text1 = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]["name"];
-                                                $text2 = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]["text"];
-                                            }
+                                            $text1 = $translation;
+                                        }
+                                        else
+                                        {
+                                            $text1 = $translation["name"];
+                                            $text2 = $translation["text"];
                                         }
                                         ?>
                                         <?php if($isTitle): ?>

@@ -11882,7 +11882,7 @@ class EventsController extends Controller
                             $role = EventMembers::TRANSLATOR;
                             $trID = $event[0]->trID;
 
-                            if(in_array($mode, ["tn","tq","tw"]) && isset($event[0]->isCheckerPage) && $event[0]->isCheckerPage)
+                            if(in_array($mode, ["tn","tq","tw","rad"]) && isset($event[0]->isCheckerPage) && $event[0]->isCheckerPage)
                             {
                                 $role = EventMembers::CHECKER;
                             }
