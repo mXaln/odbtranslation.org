@@ -130,11 +130,6 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+"
             ]);
-    Router::any("checker-rad/{eventID}/{memberID}", "EventsController@checkerRadio")
-        ->where([
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+"
-        ]);
     Router::any("checker-tn/{eventID}/{memberID}/{chapter}", "EventsController@checkerNotes")
         ->where([
             "eventID" => "[0-9]+"
@@ -170,6 +165,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where([
             "eventID" => "[0-9]+"
         ]);
+    Router::any("checker-rad/{eventID}/{memberID}/{chapter}", "EventsController@checkerRadio")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
@@ -178,14 +179,14 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ]);
     Router::any("checker-{bookProject}/{eventID}/{memberID}/other/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
-            "bookProject" => "tn|tq|tw",
+            "bookProject" => "tn|tq|tw|rad",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
     Router::any("checker-{bookProject}/{eventID}/{memberID}/peer-review/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
-            "bookProject" => "tn|tq|tw",
+            "bookProject" => "tn|tq|tw|rad",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
@@ -216,7 +217,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-tw/{page?}", "EventsController@demoTw");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("demo-sun-odb/{page?}", "EventsController@demoSunOdb");
-    Router::any("demo-radio/{page?}", "EventsController@demoRadio");
+    Router::any("demo-rad/{page?}", "EventsController@demoRadio");
     Router::any("news", "EventsController@news");
     Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");

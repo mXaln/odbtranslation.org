@@ -17,7 +17,10 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 4]). ": " . __("peer-review")?></div>
+        <div class="main_content_title">
+            <div><?php echo __("step_num", ["step_number" => 4]). ": " . __("peer-review")?></div>
+            <div class="action_type type_checking"><?php echo __("type_checking1"); ?></div>
+        </div>
     </div>
 
     <div class="">
@@ -127,6 +130,11 @@ if(isset($data["error"])) return;
                         <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                     </div>
 
+                    <input type="hidden" name="chk" value="1">
+                    <input type="hidden" name="level" value="radContinue">
+                    <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
+                    <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+
                     <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
                     <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert">
                 </div>
@@ -140,7 +148,7 @@ if(isset($data["error"])) return;
     <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
 
     <div class="help_float">
-        <div class="help_info_steps">
+        <div class="help_info_steps is_checker_page_help">
             <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 4])?>:</span> <?php echo __("peer-review")?></div>
             <div class="help_descr_steps">
                 <ul><?php echo __("peer-review_rad_desc")?></ul>
@@ -148,7 +156,7 @@ if(isset($data["error"])) return;
             </div>
         </div>
 
-        <div class="event_info">
+        <div class="event_info is_checker_page_help">
             <div class="participant_info">
                 <div class="participant_name">
                     <span><?php echo __("your_checker") ?>:</span>

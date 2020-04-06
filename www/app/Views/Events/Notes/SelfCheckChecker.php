@@ -26,110 +26,110 @@ $parsedown = new Parsedown();
     <div class="" style="position: relative">
         <div class="main_content">
             <form action="" id="main_form" method="post">
-            <div class="main_content_text">
-            
-            <h4><?php echo $data["event"][0]->tLang." - "
-                        .__($data["event"][0]->bookProject)." - "
-                    .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".
-                    (!$data["nosource"] 
-                        ? $data["currentChapter"].":1-".$data["totalVerses"]
-                        : __("front"))."</span>"?></h4>
+                <div class="main_content_text">
 
-                <div id="my_notes_content" class="my_content">
-                    <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
-                    <div class="row note_chunk">
-                        <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                            <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
-                                <?php foreach(array_values($chunk) as $verse): ?>
-                                    <p>
-                                        <strong><sup><?php echo $verse ?></sup></strong>
-                                        <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
-                                    </p>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                        <div class="flex_container">
-                            <div class="flex_left" dir="<?php echo $data["event"][0]->resLangDir ?>">
-                                <?php foreach(array_values($chunk) as $verse): ?>
-                                    <div class="note_content">
-                                        <?php if (isset($data["notes"][$verse])): ?>
-                                            <?php foreach ($data["notes"][$verse] as $note): ?>
-                                                <?php echo preg_replace(
-                                                    "/(\[\[[a-z:\/\-]+\]\])/",
-                                                    "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
-                                                    $note) ?>
+                <h4><?php echo $data["event"][0]->tLang." - "
+                            .__($data["event"][0]->bookProject)." - "
+                        .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
+                        ."<span class='book_name'>".$data["event"][0]->name." ".
+                        (!$data["nosource"]
+                            ? $data["currentChapter"].":1-".$data["totalVerses"]
+                            : __("front"))."</span>"?></h4>
+
+                    <div id="my_notes_content" class="my_content">
+                        <?php foreach($data["chunks"] as $chunkNo => $chunk): $fv = $chunk[0]; ?>
+                        <div class="row note_chunk">
+                            <div class="row scripture_chunk" dir="<?php echo $data["event"][0]->sLangDir ?>">
+                                <?php if(!$data["nosource"] && isset($data["text"][$fv])): ?>
+                                    <?php foreach(array_values($chunk) as $verse): ?>
+                                        <p>
+                                            <strong><sup><?php echo $verse ?></sup></strong>
+                                            <?php echo isset($data["text"][$verse]) ? $data["text"][$verse] : ""; ?>
+                                        </p>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="flex_container">
+                                <div class="flex_left" dir="<?php echo $data["event"][0]->resLangDir ?>">
+                                    <?php foreach(array_values($chunk) as $verse): ?>
+                                        <div class="note_content">
+                                            <?php if (isset($data["notes"][$verse])): ?>
+                                                <?php foreach ($data["notes"][$verse] as $note): ?>
+                                                    <?php echo preg_replace(
+                                                        "/(\[\[[a-z:\/\-]+\]\])/",
+                                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                                        $note) ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="flex_middle notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
+                                     dir="<?php echo $data["event"][0]->tLangDir ?>"
+                                     data-chunkno="<?php echo $chunkNo ?>">
+                                    <?php
+                                    $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
+                                        && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                            ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
+                                            : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
+
+                                    $text = preg_replace(
+                                        "/(\[\[[a-z:\/\-]+\]\])/",
+                                        "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
+                                        $text);
+                                    ?>
+                                    <textarea
+                                            name="chunks[<?php echo $chunkNo ?>]"
+                                            class="add_notes_editor"><?php echo htmlentities($text) ?></textarea>
+                                </div>
+                                <div class="flex_right">
+                                    <?php
+                                    $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]);
+                                    ?>
+                                    <div class="comments_number flex_commn_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
+                                        <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
+                                    </div>
+                                    <span class="editComment mdi mdi-lead-pencil"
+                                          data="<?php echo $data["currentChapter"].":".$chunkNo ?>"
+                                          title="<?php echo __("write_note_title", [""])?>"></span>
+
+                                    <div class="comments">
+                                        <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
+                                            <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
+                                                <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
+                                                    <div class="my_comment"><?php echo $comment->text; ?></div>
+                                                <?php else: ?>
+                                                    <div class="other_comments">
+                                                        <?php echo
+                                                            "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
+                                                                        - L".$comment->level.":</span> 
+                                                                    ".$comment->text; ?>
+                                                    </div>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <div class="flex_middle notes_editor font_<?php echo $data["event"][0]->targetLang ?>"
-                                 dir="<?php echo $data["event"][0]->tLangDir ?>"
-                                 data-chunkno="<?php echo $chunkNo ?>">
-                                <?php
-                                $text = isset($data["translation"][$chunkNo]) && isset($data["translation"][$chunkNo][EventMembers::CHECKER])
-                                    && !empty($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                        ? $parsedown->text($data["translation"][$chunkNo][EventMembers::CHECKER]["verses"])
-                                        : $parsedown->text($data["translation"][$chunkNo][EventMembers::TRANSLATOR]["verses"]);
-
-                                $text = preg_replace(
-                                    "/(\[\[[a-z:\/\-]+\]\])/",
-                                    "<span class='uwlink' title='".__("leaveit")."'>$1</span>",
-                                    $text);
-                                ?>
-                                <textarea
-                                        name="chunks[<?php echo $chunkNo ?>]"
-                                        class="add_notes_editor"><?php echo htmlentities($text) ?></textarea>
-                            </div>
-                            <div class="flex_right">
-                                <?php
-                                $hasComments = array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]]);
-                                ?>
-                                <div class="comments_number flex_commn_number tncomm <?php echo $hasComments ? "hasComment" : "" ?>">
-                                    <?php echo $hasComments ? sizeof($data["comments"][$data["currentChapter"]][$chunkNo]) : ""?>
-                                </div>
-                                <span class="editComment mdi mdi-lead-pencil"
-                                      data="<?php echo $data["currentChapter"].":".$chunkNo ?>"
-                                      title="<?php echo __("write_note_title", [""])?>"></span>
-
-                                <div class="comments">
-                                    <?php if(array_key_exists($data["currentChapter"], $data["comments"]) && array_key_exists($chunkNo, $data["comments"][$data["currentChapter"]])): ?>
-                                        <?php foreach($data["comments"][$data["currentChapter"]][$chunkNo] as $comment): ?>
-                                            <?php if($comment->memberID == $data["event"][0]->myChkMemberID): ?>
-                                                <div class="my_comment"><?php echo $comment->text; ?></div>
-                                            <?php else: ?>
-                                                <div class="other_comments">
-                                                    <?php echo
-                                                        "<span>".$comment->firstName." ".mb_substr($comment->lastName, 0, 1).". 
-                                                                    - L".$comment->level.":</span> 
-                                                                ".$comment->text; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
+                        <?php endforeach; ?>
                     </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-            <div class="main_content_footer row">
-                <div class="form-group">
-                    <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
-                    <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
                 </div>
 
-                <input type="hidden" name="chk" value="1">
-                <input type="hidden" name="level" value="tnContinue">
-                <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
-                <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+                <div class="main_content_footer row">
+                    <div class="form-group">
+                        <div class="main_content_confirm_desc"><?php echo __("confirm_finished")?></div>
+                        <label><input name="confirm_step" id="confirm_step" type="checkbox" value="1" /> <?php echo __("confirm_yes")?></label>
+                    </div>
 
-                <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
-                <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
-            </div>
+                    <input type="hidden" name="chk" value="1">
+                    <input type="hidden" name="level" value="tnContinue">
+                    <input type="hidden" name="chapter" value="<?php echo $data["event"][0]->currentChapter ?>">
+                    <input type="hidden" name="memberID" value="<?php echo $data["event"][0]->memberID ?>">
+
+                    <button id="next_step" type="submit" name="submit" class="btn btn-primary" disabled><?php echo __("next_step")?></button>
+                    <img src="<?php echo template_url("img/saving.gif") ?>" class="unsaved_alert" style="float:none">
+                </div>
             </form>
             <div class="step_right alt"><?php echo __("step_num", ["step_number" => 3])?></div>
         </div>

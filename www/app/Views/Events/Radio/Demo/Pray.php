@@ -51,7 +51,7 @@
         <div class="event_info">
             <div class="participant_info">
                 <div class="additional_info">
-                    <a href="/events/demo-radio/information"><?php echo __("event_info") ?></a>
+                    <a href="/events/demo-rad/information"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
         
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-radio/consume'
+            window.location.href = '/events/demo-rad/consume'
             return false;
         });
     });

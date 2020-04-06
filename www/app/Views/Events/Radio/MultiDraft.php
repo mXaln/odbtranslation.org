@@ -65,7 +65,7 @@ if(isset($data["error"])) return;
                                         <?php if($isTitle): ?>
                                             <textarea name="chunks[<?php echo $key ?>]" class="peer_verse_ta textarea verse_text_1"><?php echo $text1 ?></textarea>
                                         <?php else: ?>
-                                            <textarea name="chunks[<?php echo $key ?>][name]" class="peer_verse_ta textarea verse_text_1"><?php echo $text1 ?></textarea>
+                                            <textarea name="chunks[<?php echo $key ?>][name]" class="peer_verse_ta textarea verse_text_1" rows="1"><?php echo $text1 ?></textarea>
                                             <textarea name="chunks[<?php echo $key ?>][text]" class="peer_verse_ta textarea verse_text_2"><?php echo $text2 ?></textarea>
                                         <?php endif; ?>
                                     </div>

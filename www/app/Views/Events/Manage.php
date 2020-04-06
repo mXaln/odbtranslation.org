@@ -60,6 +60,11 @@ if(!isset($error)):
                                   data-toggle='tooltip'
                                   title="<?php echo $data["odb"]["chapters"][$chapter][1] ?>"
                                   style="font-size: 16px;"></span>
+                            <?php elseif(isset($data["rad"]) && isset($data["rad"]["chapters"][$chapter])): ?>
+                            <span class='glyphicon glyphicon-info-sign'
+                                  data-toggle='tooltip'
+                                  title="<?php echo $data["rad"]["chapters"][$chapter][1] ?>"
+                                  style="font-size: 16px;"></span>
                             <?php endif; ?>
                         </div>
                         <div class="manage_chapters_user chapter_<?php echo $chapter ?>">
@@ -128,7 +133,7 @@ if(!isset($error)):
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
-                        <?php elseif (in_array($data["event"][0]->bookProject, ["tn", "tq"])): ?>
+                        <?php elseif (in_array($data["event"][0]->bookProject, ["tn", "tq", "rad"])): ?>
                         <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
                              data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
                             <?php
@@ -211,7 +216,7 @@ if(!isset($error)):
                             (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                             <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
 
-                            <?php if(in_array($data["event"][0]->bookProject, ["tn","tq"])): ?>
+                            <?php if(in_array($data["event"][0]->bookProject, ["tn","tq","rad"])): ?>
                             <label class="is_checker_label">
                                 <input
                                     class="is_checker_input"

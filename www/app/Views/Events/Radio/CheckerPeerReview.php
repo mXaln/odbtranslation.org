@@ -18,7 +18,12 @@ if(isset($error)) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 4]). ": " . __("peer-review")?></div>
+        <div class="main_content_title">
+            <div><?php echo __("step_num", ["step_number" => 4]). ": " . __("peer-review")?></div>
+            <div class="action_type type_checking <?php echo isset($data["isPeerPage"]) ? "isPeer" : "" ?>">
+                <?php echo __("type_checking2"); ?>
+            </div>
+        </div>
     </div>
 
     <div class="">
@@ -26,7 +31,7 @@ if(isset($error)) return;
             <div class="main_content_text row" style="padding-left: 15px">
                 <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                         .__($data["event"][0]->bookProject)." - "
-                        ."<span class='book_name'>".$data["event"][0]->bookName." - ".$data["text"][1]."</span>"?></h4>
+                        ."<span class='book_name'>".$data["event"][0]->name." - ".$data["text"][1]."</span>"?></h4>
 
                 <div class="col-sm-12 no_padding">
                     <?php foreach($data["chunks"] as $key => $chunk) : ?>
@@ -135,7 +140,7 @@ if(isset($error)) return;
     <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
 
     <div class="help_float">
-        <div class="help_info_steps">
+        <div class="help_info_steps is_checker_page_help isPeer">
             <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 4])?>:</span> <?php echo __("peer-review")?></div>
             <div class="help_descr_steps">
                 <ul><?php echo __("peer-review_rad_desc")?></ul>
@@ -143,7 +148,7 @@ if(isset($error)) return;
             </div>
         </div>
 
-        <div class="event_info">
+        <div class="event_info is_checker_page_help isPeer">
             <div class="participant_info">
                 <div class="participant_name">
                     <span><?php echo __("your_translator") ?>:</span>
