@@ -60,10 +60,9 @@
 
 <script>
     $(document).ready(function () {
-        
         $("#next_step").click(function (e) {
             e.preventDefault();
-            window.location.href = '/events/demo-rad/consume'
+            window.location.href = '/events/demo-rad/consume';
             return false;
         });
     });

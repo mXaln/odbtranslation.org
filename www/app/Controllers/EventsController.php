@@ -10534,7 +10534,7 @@ class EventsController extends Controller
             {
                 $notifObj->step = EventSteps::PEER_REVIEW;
                 $notifObj->currentChapter = 1;
-                $notifObj->firstName = "Genry";
+                $notifObj->firstName = "Henry";
                 $notifObj->lastName = "Miller";
                 $notifObj->bookCode = "act";
                 $notifObj->bookProject = "tn";
@@ -11255,25 +11255,46 @@ class EventsController extends Controller
         if(!isset($page))
             Url::redirect("events/demo-rad/pray");
 
-        $notifObj = new stdClass();
+        $notifications = [];
 
-        $notifObj->step = EventSteps::PEER_REVIEW;
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new stdClass();
 
-        $notifObj->currentChapter = 2;
-        $notifObj->firstName = "Mark";
-        $notifObj->lastName = "Patton";
-        $notifObj->bookCode = "b01";
-        $notifObj->bookProject = "rad";
-        $notifObj->tLang = "English";
-        $notifObj->bookName = "B01";
-        $notifObj->manageMode = "rad";
-        $notifObj->sourceBible = "rad";
+            if($i == 0)
+            {
+                $notifObj->currentChapter = 1;
+                $notifObj->firstName = "Mark";
+                $notifObj->lastName = "Patton";
+                $notifObj->bookCode = "b02";
+                $notifObj->bookProject = "rad";
+                $notifObj->tLang = "Español Latin America";
+                $notifObj->bookName = "Radio 2";
+                $notifObj->step = "other";
+                $notifObj->manageMode = "rad";
+                $notifObj->sourceBible = "rad";
+            }
+            else
+            {
+                $notifObj->step = EventSteps::PEER_REVIEW;
+                $notifObj->currentChapter = 1;
+                $notifObj->firstName = "Henry";
+                $notifObj->lastName = "Stanton";
+                $notifObj->bookCode = "b02";
+                $notifObj->bookProject = "rad";
+                $notifObj->tLang = "Español Latin America";
+                $notifObj->bookName = "Radio 2";
+                $notifObj->manageMode = "rad";
+                $notifObj->sourceBible = "rad";
+            }
 
-        $notifications[] = $notifObj;
+            $notifications[] = $notifObj;
+        }
 
         $data["notifications"] = $notifications;
         $data["isDemo"] = true;
         $data["isCheckerPage"] = false;
+        $data["isPeerPage"] = false;
         $data["menu"] = 5;
 
         $view = View::make("Events/Radio/Demo/DemoHeader");
@@ -11304,12 +11325,14 @@ class EventsController extends Controller
             case "peer_review":
                 $view->nest("page", "Events/Radio/Demo/PeerReview");
                 $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
                 break;
 
             case "peer_review_checker":
                 $view->nest("page", "Events/Radio/Demo/PeerReviewChecker");
                 $data["step"] = EventSteps::PEER_REVIEW;
                 $data["isCheckerPage"] = true;
+                $data["isPeerPage"] = true;
                 break;
 
             case "information":

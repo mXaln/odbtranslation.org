@@ -1023,67 +1023,71 @@ $(document).ready(function() {
 
         if(comment.text() != text)
         {
-            $.ajax({
-                url: "/events/rpc/save_comment",
-                method: "post",
-                data: {
-                    eventID: eventID,
-                    chapter: chapchunk[0],
-                    chunk: chapchunk[1],
-                    comment: text,
-                    level: level},
-                dataType: "json",
-                beforeSend: function() {
-                    $(".commentEditorLoader").show();
-                }
-            })
-                .done(function(data) {
-                    if(data.success)
-                    {
-                        $(".comment_div").hide();
-
-                        data.text = unEscapeStr(data.text);
-
-                        if(data.text.trim() == "")
+            if(typeof isDemo != "undefined" && isDemo) {
+                $(".comment_div").hide();
+            } else {
+                $.ajax({
+                    url: "/events/rpc/save_comment",
+                    method: "post",
+                    data: {
+                        eventID: eventID,
+                        chapter: chapchunk[0],
+                        chunk: chapchunk[1],
+                        comment: text,
+                        level: level},
+                    dataType: "json",
+                    beforeSend: function() {
+                        $(".commentEditorLoader").show();
+                    }
+                })
+                    .done(function(data) {
+                        if(data.success)
                         {
-                            lastCommentEditor.css("color", "black")
-                            comment.remove();
+                            $(".comment_div").hide();
+
+                            data.text = unEscapeStr(data.text);
+
+                            if(data.text.trim() == "")
+                            {
+                                lastCommentEditor.css("color", "black")
+                                comment.remove();
+                            }
+                            else
+                            {
+                                lastCommentEditor.css("color", "#a52f20");
+                                comment.text(data.text);
+                            }
+
+                            num = comments.children().length > 0 ? comments.children().length : "";
+                            lastCommentEditor.prev(".comments_number").addClass("hasComment").text(num);
+                            if(num <= 0) lastCommentEditor.prev(".comments_number").removeClass("hasComment");
+
+                            var data = {
+                                type: "comment",
+                                eventID: eventID,
+                                verse: lastCommentEditor.attr("data"),
+                                text: data.text,
+                                level: level
+                            };
+                            socket.emit("system message", data);
                         }
                         else
                         {
-                            lastCommentEditor.css("color", "#a52f20");
-                            comment.text(data.text);
+                            if(typeof data.error != "undefined")
+                            {
+                                renderPopup(data.error, function () {
+                                    window.location.reload(true);
+                                });
+                            }
                         }
-
-                        num = comments.children().length > 0 ? comments.children().length : "";
-                        lastCommentEditor.prev(".comments_number").addClass("hasComment").text(num);
-                        if(num <= 0) lastCommentEditor.prev(".comments_number").removeClass("hasComment");
-
-                        var data = {
-                            type: "comment",
-                            eventID: eventID,
-                            verse: lastCommentEditor.attr("data"),
-                            text: data.text,
-                            level: level
-                        };
-                        socket.emit("system message", data);
-                    }
-                    else
-                    {
-                        if(typeof data.error != "undefined")
-                        {
-                            renderPopup(data.error, function () {
-                                window.location.reload(true);
-                            });
-                        }
-                    }
-                })
-                .error(function (xhr, status, error) {
-                    renderPopup(Language.commonError);
-                })
-                .always(function() {
-                    $(".commentEditorLoader").hide();
-                });
+                    })
+                    .error(function (xhr, status, error) {
+                        renderPopup(Language.commonError);
+                    })
+                    .always(function() {
+                        $(".commentEditorLoader").hide();
+                    });
+            }
         }
         else
         {

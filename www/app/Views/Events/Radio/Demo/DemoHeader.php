@@ -2,28 +2,30 @@
 use Helpers\Constants\EventSteps;
 ?>
 
-<div id="translator_steps" class="open pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page" : "" ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo isset($data["isCheckerPage"]) ? " is_checker_page" : "" ?>"></div>
+<div id="translator_steps" class="open pray <?php echo ($data["isCheckerPage"] ? " is_checker_page".
+    ($data["isPeerPage"] ? " isPeer" : "") : "") ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left pray <?php echo ($data["isCheckerPage"] ? " is_checker_page".
+        ($data["isPeerPage"] ? " isPeer" : "") : "") ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["step"] == EventSteps::PRAY ? "active" : "" ?>">
-            <a href="/events/demo-radio/pray"><span><?php echo __(EventSteps::PRAY) ?></span></a>
+            <a href="/events/demo-rad/pray"><span><?php echo __(EventSteps::PRAY) ?></span></a>
         </li>
 
         <li class="consume-step <?php echo $data["step"] == EventSteps::CONSUME ? "active" : "" ?>">
-            <a href="/events/demo-radio/consume"><span><?php echo __(EventSteps::CONSUME."_odb") ?></span></a>
+            <a href="/events/demo-rad/consume"><span><?php echo __(EventSteps::CONSUME."_odb") ?></span></a>
         </li>
 
         <li class="multi-draft-step <?php echo $data["step"] == EventSteps::MULTI_DRAFT ? "active" : "" ?>">
-            <a href="/events/demo-radio/multi-draft"><span><?php echo __(EventSteps::MULTI_DRAFT) ?></span></a>
+            <a href="/events/demo-rad/multi-draft"><span><?php echo __(EventSteps::MULTI_DRAFT) ?></span></a>
         </li>
 
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-radio/self_check"><span><?php echo __(EventSteps::SELF_CHECK) ?></span></a>
+            <a href="/events/demo-rad/self-check"><span><?php echo __(EventSteps::SELF_CHECK) ?></span></a>
         </li>
 
         <li class="peer-review-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-radio/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW) ?></span></a>
+            <a href="/events/demo-rad/peer_review"><span><?php echo __(EventSteps::PEER_REVIEW) ?></span></a>
         </li>
     </ul>
 </div>
