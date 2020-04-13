@@ -58,7 +58,7 @@ if(isset($data["error"])) return;
                                         <?php
                                         $text1 = "";
                                         $text2 = "";
-                                        $isTitle = $key == 0;
+                                        $isTitle = $key <= 1;
                                         if(isset($data["translation"][$key]))
                                         {
                                             if(!is_array($data["translation"][$key][EventMembers::TRANSLATOR]["verses"]))

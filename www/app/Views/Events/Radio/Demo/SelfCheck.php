@@ -24,6 +24,24 @@
                         <div class="flex_container chunk_block no_autosize">
                             <div class="chunk_verses flex_left" dir="ltr">
                                 <div class="verse_text" data-verse="1">
+                                    <p class="verse_text_1" style="height: 80px;">Broadcast 1</p>
+                                </div>
+                            </div>
+                            <div class="flex_middle editor_area" dir="ltr">
+                                <div class="vnote verse_block" data-verse="1">
+                                    <textarea name="chunks[0]" class="peer_verse_ta textarea verse_text_1" style="overflow-x: hidden; overflow-wrap: break-word; height: 80px;">Transmisión 1</textarea>
+                                </div>
+                            </div>
+                            <div class="flex_right">
+                                <div class="notes_tools"> <span class="editComment mdi mdi-lead-pencil" data="1:0" title="Write a note to the chunk"></span>
+                                    <div class="comments"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chunk_divider"></div>
+                        <div class="flex_container chunk_block no_autosize">
+                            <div class="chunk_verses flex_left" dir="ltr">
+                                <div class="verse_text" data-verse="1">
                                     <p class="verse_text_1" style="height: 80px;">Broadcast Introduction</p>
                                 </div>
                             </div>

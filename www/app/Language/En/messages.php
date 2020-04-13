@@ -69,6 +69,7 @@ return array (
     "radio_mode" => "RADIO",
     "project_exists" => "Project exists",
     "personal" => "Personal",
+    "entry" => "Entry",
     "title" => "Title",
     "author" => "Author",
     "passage" => "Passage",

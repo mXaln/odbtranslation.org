@@ -10,7 +10,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                 <?php echo __("chapter_number", ["chapter" => $key]) ?>
                 <span class="glyphicon glyphicon-info-sign"
                       data-toggle="tooltip"
-                      title="<?php echo isset($data["rad"]["chapters"][$key]) ? $data["rad"]["chapters"][$key][1] : "" ?>"
+                      title="<?php echo isset($data["rad"]["chapters"][$key]) ? $data["rad"]["chapters"][$key][1] . ": " . $data["rad"]["chapters"][$key][2] : "" ?>"
                       style="font-size: 16px;"></span>
             </div>
         </div>
@@ -23,7 +23,7 @@ foreach ($data["chapters"] as $key => $chapter):?>
                     <?php echo __("chapter_number", ["chapter" => $key]) ?>
                     <span class="glyphicon glyphicon-info-sign"
                           data-toggle="tooltip"
-                          title="<?php echo isset($data["rad"]["chapters"][$key]) ? $data["rad"]["chapters"][$key][1] : "" ?>"
+                          title="<?php echo isset($data["rad"]["chapters"][$key]) ? $data["rad"]["chapters"][$key][1] . ": " . $data["rad"]["chapters"][$key][2] : "" ?>"
                           style="font-size: 16px;"></span>
                 </div>
                 <div class="section_translator_progress_bar">

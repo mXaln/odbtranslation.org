@@ -221,7 +221,8 @@ class TranslationsController extends Controller
 
                                 if(!is_object($translation))
                                 {
-                                    $radioBook[$lastChapter][RadioSections::enum(RadioSections::TITLE)] = $translation;
+                                    $ind = $chunk->chunk == 0 ? RadioSections::ENTRY : RadioSections::TITLE;
+                                    $radioBook[$lastChapter][RadioSections::enum($ind)] = $translation;
                                 }
                                 else
                                 {
@@ -295,10 +296,11 @@ class TranslationsController extends Controller
                 elseif (!empty($radioBook)) // Render Radio book
                 {
                     foreach ($radioBook as $chapter => $topic) {
-                        $data["book"] .= '<h2 class="chapter_title">'.__("broadcast_number", ["broadcast" => $chapter]).'</h2>';
+                        if(trim($topic[RadioSections::enum(RadioSections::ENTRY)]) != "")
+                            $data["book"] .= '<h2 class="chapter_title">'.$topic[RadioSections::enum(RadioSections::ENTRY)].'</h2>';
 
                         if(trim($topic[RadioSections::enum(RadioSections::TITLE)]) != "")
-                            $data["book"] .= '<p class="radio_section chapter_title">'.$topic[RadioSections::enum(RadioSections::TITLE)].'</p>';
+                            $data["book"] .= '<p class="radio_section">'.$topic[RadioSections::enum(RadioSections::TITLE)].'</p>';
 
                         foreach ($topic[RadioSections::enum(RadioSections::SPEAKERS)] as $p) {
                             $data["book"] .= '<div class="radio_section">';
@@ -861,7 +863,8 @@ class TranslationsController extends Controller
 
                     if(!is_object($translation))
                     {
-                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum(RadioSections::TITLE)] = html_entity_decode($translation, ENT_QUOTES);
+                        $ind = $chunk->chunk == 0 ? RadioSections::ENTRY : RadioSections::TITLE;
+                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum($ind)] = html_entity_decode($translation, ENT_QUOTES);
                     }
                     else
                     {

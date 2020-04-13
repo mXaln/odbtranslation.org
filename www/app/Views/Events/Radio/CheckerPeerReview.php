@@ -63,7 +63,7 @@ if(isset($error)) return;
                                     <?php
                                     $text1 = "";
                                     $text2 = "";
-                                    $isTitle = $key == 0;
+                                    $isTitle = $key <= 1;
 
                                     $translation = isset($data["translation"][$key][EventMembers::CHECKER])
                                     && !empty($data["translation"][$key][EventMembers::CHECKER]["verses"])

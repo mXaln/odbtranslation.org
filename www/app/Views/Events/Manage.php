@@ -63,7 +63,7 @@ if(!isset($error)):
                             <?php elseif(isset($data["rad"]) && isset($data["rad"]["chapters"][$chapter])): ?>
                             <span class='glyphicon glyphicon-info-sign'
                                   data-toggle='tooltip'
-                                  title="<?php echo $data["rad"]["chapters"][$chapter][1] ?>"
+                                  title="<?php echo $data["rad"]["chapters"][$chapter][1] . ": " . $data["rad"]["chapters"][$chapter][2] ?>"
                                   style="font-size: 16px;"></span>
                             <?php endif; ?>
                         </div>

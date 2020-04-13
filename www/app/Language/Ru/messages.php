@@ -67,6 +67,7 @@ return array (
     "radio_mode" => "RADIO",
     "project_exists" => "Проект существует",
     "personal" => "Личные",
+    "entry" => "Запись",
     "title" => "Название",
     "author" => "Автор",
     "passage" => "Послание",
