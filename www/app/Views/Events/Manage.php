@@ -60,6 +60,11 @@ if(!isset($error)):
                                   data-toggle='tooltip'
                                   title="<?php echo $data["odb"]["chapters"][$chapter][1] ?>"
                                   style="font-size: 16px;"></span>
+                            <?php elseif(isset($data["rad"]) && isset($data["rad"]["chapters"][$chapter])): ?>
+                            <span class='glyphicon glyphicon-info-sign'
+                                  data-toggle='tooltip'
+                                  title="<?php echo $data["rad"]["chapters"][$chapter][1] . ": " . $data["rad"]["chapters"][$chapter][2] ?>"
+                                  style="font-size: 16px;"></span>
                             <?php endif; ?>
                         </div>
                         <div class="manage_chapters_user chapter_<?php echo $chapter ?>">
@@ -181,6 +186,36 @@ if(!isset($error)):
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
+                        <?php elseif ($data["event"][0]->bookProject == "rad"): ?>
+                        <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
+                             data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
+                            <?php
+                            $peer = !empty($chapData["peerCheck"])
+                                && array_key_exists($chapter, $chapData["peerCheck"])
+                                && $chapData["peerCheck"][$chapter]["memberID"] > 0;
+
+                            $peerName = $peer ? "Unknown: " . $chapData["peerCheck"][$chapter]["memberID"] : "";
+                            if($peer)
+                            {
+                                $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                                if($peerKey !== false)
+                                    $peerName = $data["members"][$peerKey]["firstName"] . " " . mb_substr($data["members"][$peerKey]["lastName"], 0, 1).".";
+                                else
+                                {
+                                    $peerKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
+                                    if($peerKey !== false)
+                                        $peerName = $data["out_members"][$peerKey]["firstName"] . " " . mb_substr($data["out_members"][$peerKey]["lastName"], 0, 1).".";
+                                }
+
+                            }
+                            ?>
+                            <?php if($peer): ?>
+                                <button class="btn btn-danger remove_checker_alt" id="peer_checker"
+                                        data-level="<?php echo $chapData["peerCheck"][$chapter]["done"] ?>"
+                                        data-name="<?php echo $peerName ?>"
+                                        title="<?php echo __("other_peer_checker") ?>">Peer</button>
+                            <?php endif; ?>
+                        </div>
                         <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
@@ -211,7 +246,7 @@ if(!isset($error)):
                             (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                             <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
 
-                            <?php if(in_array($data["event"][0]->bookProject, ["tn","tq"])): ?>
+                            <?php if(in_array($data["event"][0]->bookProject, ["tn","tq","rad"])): ?>
                             <label class="is_checker_label">
                                 <input
                                     class="is_checker_input"
@@ -297,15 +332,18 @@ if(!isset($error)):
 
                                         <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
                                             <?php
-                                            $altStep = 5;
+                                            // Multistep is the step with sub steps
+                                            // read-chunk, rearrange, symbol-draft,  etc...
                                             if($mode == "tn")
-                                                $altStep = 3;
+                                                $multiStep = 3;
                                             elseif($mode == "sun")
-                                                $altStep = 4;
+                                                $multiStep = 4;
                                             elseif($mode == "odbsun")
-                                                $altStep = 3;
-                                            elseif($mode == "tq" || $mode == "tw")
-                                                $altStep = 0;
+                                                $multiStep = 3;
+                                            elseif(in_array($mode, ["tq","tw","rad"]))
+                                                $multiStep = 0;
+                                            else
+                                                $multiStep = 5;
 
                                             $add = "";
 
@@ -315,7 +353,7 @@ if(!isset($error)):
                                             }
                                             if($step == EventSteps::CHUNKING && $mode == "sun")
                                                 $add = "_sun";
-                                            echo EventSteps::enum($step, $mode) == $altStep ? __($step."-alt") : __($step.$add)
+                                            echo EventSteps::enum($step, $mode) == $multiStep ? __($step."-alt") : __($step.$add)
                                             ?>
                                         </option>
                                     <?php endforeach; ?>

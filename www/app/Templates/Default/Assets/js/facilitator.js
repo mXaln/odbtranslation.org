@@ -82,6 +82,8 @@ $(function () {
             'overflow': 'auto',
             'height': 'auto'
         });
+
+        window.location.reload();
     });
 
     var searchTimeout;

@@ -126,14 +126,26 @@ $(function () {
 
     $("select[name=projectMode]").change(function() {
         $("#projectType").val('').trigger("chosen:updated");
-        if($(this).val() == "bible" || $(this).val() == "odb")
+
+        $(".toolsTn").removeClass("hidden");
+        $(".toolsTq").removeClass("hidden");
+        $(".toolsTw").removeClass("hidden");
+
+        if(["bible","odb","rad"].indexOf($(this).val()) > -1)
         {
             $("#sourceTools").val('').trigger("chosen:updated");
             $(".sourceTools").addClass("hidden");
             $(".projectType").removeClass("hidden");
-            if($(this).val() == "odb")
+            if(["odb","rad"].indexOf($(this).val()) > -1)
             {
                 $(".sourceTranslation").addClass("hidden");
+                if($(this).val() == "rad")
+                {
+                    $(".projectType").addClass("hidden");
+                    $(".toolsTn").addClass("hidden");
+                    $(".toolsTq").addClass("hidden");
+                    $(".toolsTw").addClass("hidden");
+                }
             }
             else
             {
@@ -316,6 +328,8 @@ $(function () {
 
         if(["tn","tq","tw"].indexOf(bookProject) > -1) {
             $(".event_imports").show();
+        } else if(bookProject == "ulb") {
+            $(".language_input_checkbox").show();
         }
 
         $(".bookName").text(bookName);
@@ -2181,6 +2195,16 @@ function setEventMenuLinks(event, level) {
 
             $(".event_links_l3 .event_progress a")
                 .attr("href", "/events/information"+(event.category == "odb" ? "-odb" : "")+"-sun/"+event.eventID);
+            $(".event_links_l3 .event_manage a")
+                .attr("href", "/events/manage/"+event.eventID);
+            break;
+        case "rad":
+            $(".event_links_l1").hide();
+            $(".event_links_l2").hide();
+            $(".event_links_l3").show();
+
+            $(".event_links_l3 .event_progress a")
+                .attr("href", "/events/information-rad/"+event.eventID);
             $(".event_links_l3 .event_manage a")
                 .attr("href", "/events/manage/"+event.eventID);
             break;

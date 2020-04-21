@@ -77,6 +77,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-odb-sun/{eventID}", "EventsController@translatorOdbSun")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-rad/{eventID}", "EventsController@translatorRadio")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l3/{eventID}", "EventsController@checkerL3")
@@ -112,6 +114,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information-sun/{eventID}", "EventsController@informationSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-odb-sun/{eventID}", "EventsController@informationOdbSun")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-rad/{eventID}", "EventsController@informationRadio")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
         ->where(["eventID" => "[0-9]+"]);
@@ -161,6 +165,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where([
             "eventID" => "[0-9]+"
         ]);
+    Router::any("checker-rad/{eventID}/{memberID}/{chapter}", "EventsController@checkerRadio")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
@@ -195,6 +205,13 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "chapter" => "[0-9]+",
             "step" => "[2a-z\-]+"
         ]);
+    Router::any("checker-rad/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerRadio")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+",
+            "step" => "[2a-z\-]+"
+        ]);
 
     Router::any("notifications", "EventsController@allNotifications");
     Router::any("demo/{page?}", "EventsController@demo");
@@ -207,6 +224,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-tw/{page?}", "EventsController@demoTw");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("demo-sun-odb/{page?}", "EventsController@demoSunOdb");
+    Router::any("demo-rad/{page?}", "EventsController@demoRadio");
     Router::any("news", "EventsController@news");
     Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");

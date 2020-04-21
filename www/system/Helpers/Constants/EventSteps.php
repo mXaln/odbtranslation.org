@@ -132,6 +132,16 @@ class EventSteps
         "finished" => 4,
     ];
 
+    private static $enumRad = [
+        "none" => 0,
+        "pray" => 1,
+        "consume" => 2,
+        "multi-draft" => 3,
+        "self-check" => 4,
+        "peer-review" => 5,
+        "finished" => 6,
+    ];
+
     public static function enum($step, $mode = null, $chk = false)
     {
         switch($mode)
@@ -167,6 +177,10 @@ class EventSteps
 
             case "li":
                 return self::$enumLangInput[$step];
+                break;
+
+            case "rad":
+                return self::$enumRad[$step];
                 break;
 
             default:
@@ -210,6 +224,10 @@ class EventSteps
 
             case "li":
                 return self::$enumLangInput;
+                break;
+
+            case "rad":
+                return self::$enumRad;
                 break;
 
             default:

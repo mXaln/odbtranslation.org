@@ -8,3 +8,4 @@ www/errorlog.html
 /.project
 nbproject
 .vscode/launch.json
+node_modules/

@@ -9,7 +9,7 @@ use App\Models\EventsModel;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\OdbSections;
-use Helpers\GitRepo;
+use Helpers\Constants\RadioSections;
 use Helpers\Manifest\Normal\Project;
 use Helpers\ProjectFile;
 use Helpers\Spyc;
@@ -20,8 +20,6 @@ use Config\Config;
 use Helpers\Session;
 use Helpers\Url;
 use Helpers\Parsedown;
-use Helpers\ZipStream\ZipStream;
-use Helpers\ZipStream\Option\Archive as ZipOptions;
 use File;
 
 class TranslationsController extends Controller
@@ -67,8 +65,6 @@ class TranslationsController extends Controller
     {
         $data['menu'] = 3;
 
-
-
         if($lang == null)
         {
             $data['title'] = __('choose_language');
@@ -110,6 +106,7 @@ class TranslationsController extends Controller
                 $chapter = [];
 
                 $odbBook = [];
+                $radioBook = [];
 
                 foreach ($book as $chunk) {
                     $verses = json_decode($chunk->translatedVerses);
@@ -127,7 +124,15 @@ class TranslationsController extends Controller
                         );
                         $chapter = $chapters[0];
 
-                        if($chunk->sourceBible != "odb")
+                        if($chunk->sourceBible == "odb")
+                        {
+                            $odbBook[$lastChapter] = [];
+                        }
+                        elseif ($chunk->sourceBible == "rad")
+                        {
+                            $radioBook[$lastChapter] = [];
+                        }
+                        else
                         {
                             if(in_array($chunk->bookProject, ["tn","tq","tw"]))
                             {
@@ -141,10 +146,6 @@ class TranslationsController extends Controller
                             $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
                                 ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
                                 : '<h2 class="chapter_title">'.__("front").$level.'</h2>') : "";
-                        }
-                        else
-                        {
-                            $odbBook[$lastChapter] = [];
                         }
                     }
 
@@ -211,25 +212,48 @@ class TranslationsController extends Controller
                         }
                         else
                         {
-                            foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                                if($chunk->sourceBible == "odb")
+                            if($chunk->bookProject == "rad")
+                            {
+                                $translation = isset($verses->{EventMembers::CHECKER}->verses)
+                                && !empty($verses->{EventMembers::CHECKER}->verses)
+                                    ? $verses->{EventMembers::CHECKER}->verses
+                                    : $verses->{EventMembers::TRANSLATOR}->verses;
+
+                                if(!is_object($translation))
                                 {
-                                    if($verse >= OdbSections::CONTENT)
-                                    {
-                                        $odbBook[$lastChapter][OdbSections::enum($verse)][] = $text;
-                                    }
-                                    else
-                                    {
-                                        $odbBook[$lastChapter][OdbSections::enum($verse)] = $text;
-                                    }
+                                    $ind = $chunk->chunk == 0 ? RadioSections::ENTRY : RadioSections::TITLE;
+                                    $radioBook[$lastChapter][RadioSections::enum($ind)] = $translation;
                                 }
                                 else
                                 {
-                                    // Footnotes
-                                    $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
-                                    $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
-                                    $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
-                                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                                    $tmp = [];
+                                    $tmp["name"] = $translation->name;
+                                    $tmp["text"] = $translation->text;
+                                    $radioBook[$lastChapter][RadioSections::enum(RadioSections::SPEAKERS)][] = $tmp;
+                                }
+                            }
+                            else
+                            {
+                                foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                                    if($chunk->sourceBible == "odb")
+                                    {
+                                        if($verse >= OdbSections::CONTENT)
+                                        {
+                                            $odbBook[$lastChapter][OdbSections::enum($verse)][] = $text;
+                                        }
+                                        else
+                                        {
+                                            $odbBook[$lastChapter][OdbSections::enum($verse)] = $text;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // Footnotes
+                                        $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                                        $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                                        $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
+                                        $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+                                    }
                                 }
                             }
                         }
@@ -267,6 +291,28 @@ class TranslationsController extends Controller
 
                         if(trim($topic[OdbSections::enum(OdbSections::THOUGHT)]) != "")
                             $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::THOUGHT)].'</p>';
+                    }
+                }
+                elseif (!empty($radioBook)) // Render Radio book
+                {
+                    foreach ($radioBook as $chapter => $topic) {
+                        if(trim($topic[RadioSections::enum(RadioSections::ENTRY)]) != "")
+                            $data["book"] .= '<h2 class="chapter_title">'.$topic[RadioSections::enum(RadioSections::ENTRY)].'</h2>';
+
+                        if(trim($topic[RadioSections::enum(RadioSections::TITLE)]) != "")
+                            $data["book"] .= '<p class="radio_section">'.$topic[RadioSections::enum(RadioSections::TITLE)].'</p>';
+
+                        foreach ($topic[RadioSections::enum(RadioSections::SPEAKERS)] as $p) {
+                            $data["book"] .= '<div class="radio_section">';
+                            foreach ($p as $key => $item) {
+                                if(trim($item) != "")
+                                    if($key == "name")
+                                        $data["book"] .= '<p><strong>'.$item.'</strong></p>';
+                                    else
+                                        $data["book"] .= '<p>'.$item.'</p>';
+                            }
+                            $data["book"] .= "<div>";
+                        }
                     }
                 }
             }
@@ -808,14 +854,37 @@ class TranslationsController extends Controller
             }
             else
             {
-                foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                    if($verse >= OdbSections::CONTENT)
+                if($chunk->bookProject == "rad")
+                {
+                    $translation = isset($verses->{EventMembers::CHECKER}->verses)
+                        && !empty($verses->{EventMembers::CHECKER}->verses)
+                        ? $verses->{EventMembers::CHECKER}->verses
+                        : $verses->{EventMembers::TRANSLATOR}->verses;
+
+                    if(!is_object($translation))
                     {
-                        $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] = html_entity_decode($text, ENT_QUOTES);
+                        $ind = $chunk->chunk == 0 ? RadioSections::ENTRY : RadioSections::TITLE;
+                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum($ind)] = html_entity_decode($translation, ENT_QUOTES);
                     }
                     else
                     {
-                        $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                        $tmp = [];
+                        $tmp["name"] = $translation->name;
+                        $tmp["text"] = $translation->text;
+                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum(RadioSections::SPEAKERS)][] = $tmp;
+                    }
+                }
+                else
+                {
+                    foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                        if($verse >= OdbSections::CONTENT)
+                        {
+                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] = html_entity_decode($text, ENT_QUOTES);
+                        }
+                        else
+                        {
+                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                        }
                     }
                 }
             }
@@ -830,7 +899,7 @@ class TranslationsController extends Controller
                     $chunk->bookCode,
                     (int)$chunk->abbrID,
                     "./".(strtoupper($chunk->bookCode)).".json",
-                    ["odb"]
+                    ["rad"]
                 ));
             }
         }

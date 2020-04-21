@@ -370,7 +370,7 @@ class TranslationsModel extends Model
         {
             $format = "text/markdown";
         }
-        elseif ($data->sourceBible == "odb")
+        elseif (in_array($data->sourceBible, ["odb","rad"]))
         {
             $format = "text/json";
         }
@@ -396,6 +396,10 @@ class TranslationsModel extends Model
         {
             $subject = "Our Daily Bread";
         }
+        elseif ($data->bookProject == "rad")
+        {
+            $subject = "Radio";
+        }
         else
         {
             $subject = "Bible";
@@ -414,6 +418,10 @@ class TranslationsModel extends Model
                 $relation[] = $data->targetLang."/tn";
                 $relation[] = $data->targetLang."/tq";
             }
+        }
+        elseif ($data->bookProject == "rad" || $data->sourceBible == "odb")
+        {
+            $relation = [];
         }
         else
         {

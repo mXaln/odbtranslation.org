@@ -49,7 +49,7 @@
     <br>
 
     <?php if(sizeof($data['books']) > 0 && $data['books'][0]->bookCode != ""): ?>
-        <?php if($data['books'][0]->sourceBible == "odb"): ?>
+        <?php if(in_array($data['books'][0]->sourceBible, ["odb","rad"])): ?>
             <h4 style="text-align: right">
                 <a href="<?php echo $data['books'][0]->sourceBible ?>/dl/json">
                     <?php echo __("download_json") ?>
@@ -102,7 +102,7 @@
         <div id="upload_menu">
             <span class="glyphicon glyphicon-export"></span>
             <ul>
-                <?php if($data["data"]->sourceBible == "odb"): ?>
+                <?php if(in_array($data["data"]->sourceBible, ["odb","rad"])): ?>
                 <li>
                     <a href="<?php echo $data['data']->bookCode ?>/json">
                         <?php echo __("download_json") ?>
@@ -130,12 +130,14 @@
                     <a href="<?php echo $data['data']->bookCode ?>/wacs/export"><?php echo __("upload_wacs") ?></a>
                 </li>
                 <li class="export_cloud">
-                    <a href="<?php echo $data['data']->bookCode ?>/door43/export"><?php echo __("upload_door43") ?></a>
+                    <a href="<?php echo $data['data']->bookCode ?>/dcs/export"><?php echo __("upload_door43") ?></a>
                 </li>
             </ul>
         </div>
 
-        <h1 style="text-align: center">—— <?php echo __($data['data']->bookCode) ?> ——</h1>
+        <h1 style="text-align: center">—— <?php echo !in_array($data["bookInfo"][0]->category, ["odb","rad"])
+            ? __($data['data']->bookCode)
+            : $data['data']->bookName?> ——</h1>
 
         <div class="bible_book
             <?php echo ($data["data"]->bookProject == "sun"
