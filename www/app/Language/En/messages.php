@@ -670,7 +670,7 @@ return array (
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next chunk, until the chapter is completed.</li>",
 
     "multi-draft_rad_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
-                                <li>to translate the text as naturally as possible while keeping the meaning.
+                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness of the target language.
                                     <ol>
                                         <li>Translate the word \"Broadcast\" and the number.</li>
                                         <li>Translate the name of the broadcast.</li>
@@ -769,7 +769,7 @@ return array (
                                 <li>Check in detail the accuracy of your translation.</li>
                                 <li>If you have additional thoughts or questions about your translation, click the note 
                                     icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, 
-                                    and click Save. The peer-editors will see this note and will help to resolve the 
+                                    and click Save. The peer-editor will see this note and will help to resolve the 
                                     question or problem.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
