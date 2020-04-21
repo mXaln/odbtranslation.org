@@ -559,6 +559,11 @@ return array (
                                 it with your mouse. It is a translator’s note for that verse.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
+    "consume_rad_desc" => "<li><b>PURPOSE:</b> to read the text to prepare for translation.</li>
+                            <li>Read the assigned broadcast carefully.</li>
+                            <li>Try to understand the meaning and details of the text for a general overview.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+
     "verbalize" => "Verbalize",
     "verbalize_desc" => "<li><b>PURPOSE:</b> to express verbally what you have consumed to engage short-term memory.</li>
                             <li><b>LENGTH:</b> Take 2-3 minutes on this step (per person).</li>
@@ -664,6 +669,20 @@ return array (
                                 <li>No need to translate links.</li>
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next chunk, until the chapter is completed.</li>",
 
+    "multi-draft_rad_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
+                                <li>to translate the text as naturally as possible while keeping the meaning.
+                                    <ol>
+                                        <li>Translate the word \"Broadcast\" and the number.</li>
+                                        <li>Translate the name of the broadcast.</li>
+                                        <li>Translate each character name in ALL CAPS by turning on Caps Lock and typing 
+                                            the name. It will go fast if you copy and then paste the name into the proper 
+                                            blanks for each character.</li>
+                                        <li>Translate the text the speaker is saying as naturally as you can.</li>
+                                    </ol>
+                                </li>
+                                <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
+                                <li>Make sure the save icon is not flashing when you click \"Next step\".</li>",
+
     "self-check" => "Self-Edit",
     "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text's accuracy 
                                 while maintaining the blind draft's naturalness.</li>
@@ -742,6 +761,18 @@ return array (
                                         </ol>
                                     </li>
                                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
+
+    "self-check_rad_desc" => "<li><b>PURPOSE:</b> to edit your draft and check meaning and accuracy while maintaining 
+                                naturalness.</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>Look for any missing portions of text or missing/added facts.</li>
+                                <li>Check in detail the accuracy of your translation.</li>
+                                <li>If you have additional thoughts or questions about your translation, click the note 
+                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, 
+                                    and click Save. The peer-editors will see this note and will help to resolve the 
+                                    question or problem.</li>
+                                <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
+                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
 
     "highlight_tn" => "Highlight",
     "highlight_tn_full" => "Highlight Difficult Passages",
@@ -887,6 +918,14 @@ return array (
                                         DO NOT continue to the next step until disagreements are resolved.</li>
                                     <li>When all changes and notes have been made by the 1st checker, click \"Yes, I did\" and \"Next step\".</li>
                                     <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
+
+    "peer-review_rad_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
+                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>You will look for any missing portions of text or missing or added facts.</li>
+                                <li>You will check the accuracy of the translation in detail.</li>
+                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
 
     "keyword-check" => "Keyword Check",
     "keyword-check_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
@@ -1863,7 +1902,7 @@ return array (
     "download_ts" => "Download as tStudio",
     "login_cloud_server" => "Please use login and password of the specified server. If you don't have an account, click here to",
     "upload_wacs" => "Upload to WACS",
-    "upload_door43" => "Upload to Door43",
+    "upload_door43" => "Upload to DCS",
     "two_factor_auth" => "Two factor authentication",
     "cloud_otp_code" => "Code",
     "not_implemented" => "Not implemented!",

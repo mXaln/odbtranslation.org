@@ -13,7 +13,6 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div><?php echo __("step_num", ["step_number" => 4]) . ": " . __("peer-review")?></div>
-            <div class="action_type type_checking"><?php echo __("type_checking1"); ?></div>
         </div>
     </div>
 
@@ -460,18 +459,10 @@
 
         <div class="event_info is_checker_page_help">
             <div class="participant_info">
-                <div class="participant_name">
-                    <span><?php echo __("your_checker") ?>:</span>
-                    <span class="checker_name_span">Henry S.</span>
-                </div>
                 <div class="additional_info">
                     <a href="/events/demo-rad/information"><?php echo __("event_info") ?></a>
                 </div>
             </div>
-        </div>
-
-        <div class="checker_view">
-            <a href="/events/demo-rad/peer_review_checker"><?php echo __("checker_other_view", [2]) ?></a>
         </div>
     </div>
 </div>

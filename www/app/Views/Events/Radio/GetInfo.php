@@ -96,18 +96,6 @@ foreach ($data["chapters"] as $key => $chapter):?>
                         <div class="step_light"></div>
                         <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::PEER_REVIEW.".png") ?>"></div>
                         <div class="step_name">4. <?php echo __(EventSteps::PEER_REVIEW); ?></div>
-                        <?php if($chapter["peerChk"]["checkerID"] != "na"): ?>
-                            <div class="step_checker">
-                                <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["peerChk"]["checkerID"]]["avatar"].".png") ?>">
-                                <div><?php echo $data["members"][$chapter["peerChk"]["checkerID"]]["name"] ?></div>
-                                <?php if($chapter["peerChk"]["state"] == StepsStates::CHECKED || $chapter["peerChk"]["state"] == StepsStates::FINISHED): ?>
-                                    <span class="glyphicon glyphicon-ok checked"></span>
-                                <?php endif; ?>
-                            </div>
-                        <?php endif; ?>
-                        <?php if($chapter["peerChk"]["state"] == StepsStates::WAITING): ?>
-                            <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
-                        <?php endif; ?>
                     </div>
                     <div class="clear"></div>
                 </div>

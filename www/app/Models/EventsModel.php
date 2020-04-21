@@ -748,84 +748,19 @@ class EventsModel extends Model
         foreach($events as $event)
         {
             // Checker event
-            $otherCheck = (array)json_decode($event->otherCheck, true);
             $peerCheck = (array)json_decode($event->peerCheck, true);
-            foreach ($otherCheck as $chap => $data) {
+            foreach ($peerCheck as $chap => $data) {
                 if(!isset($chapter) || $chapter == $chap)
                 {
                     if($data["memberID"] == $memberID && $data["done"] != 1)
                     {
                         $ev = clone $event;
 
-                        $checkerFName = null;
-                        $checkerLName = null;
-                        $checkerID = 0;
                         $ev->step = EventSteps::PEER_REVIEW;
-                        $ev->checkDone = false;
-
-                        if(isset($peerCheck[$chap]) && $peerCheck[$chap]["memberID"] != 0)
-                        {
-                            $memberModel = new MembersModel();
-                            $member = $memberModel->getMember([
-                                "firstName",
-                                "lastName"
-                            ], ["memberID", $peerCheck[$chap]["memberID"]]);
-                            if(!empty($member))
-                            {
-                                $checkerFName = $member[0]->firstName;
-                                $checkerLName = $member[0]->lastName;
-                                $checkerID = $peerCheck[$chap]["memberID"];
-                            }
-
-                            $ev->checkDone = $peerCheck[$chap]["done"] > 0;
-                        }
-
                         $ev->currentChapter = $chap;
-                        $ev->peer = 1;
                         $ev->myMemberID = 0;
                         $ev->myChkMemberID = $memberID;
-                        $ev->checkerFName = $checkerFName;
-                        $ev->checkerLName = $checkerLName;
-                        $ev->checkerID = $checkerID;
                         $ev->isContinue = true; // Means not owner of chapter
-                        $ev->isCheckerPage = true;
-                        $filtered[] = $ev;
-                    }
-                }
-            }
-
-            // Peer check event
-            foreach ($peerCheck as $chap => $data) {
-                if(!isset($chapter) || $chapter == $chap)
-                {
-                    if($data["memberID"] == $memberID && $data["done"] == 0)
-                    {
-                        $ev = clone $event;
-                        $checkerFName = null;
-                        $checkerLName = null;
-                        $checkerID = 0;
-
-                        $memberModel = new MembersModel();
-                        $member = $memberModel->getMember([
-                            "firstName",
-                            "lastName"
-                        ], ["memberID", $otherCheck[$chap]["memberID"]]);
-                        if(!empty($member))
-                        {
-                            $checkerFName = $member[0]->firstName;
-                            $checkerLName = $member[0]->lastName;
-                            $checkerID = $otherCheck[$chap]["memberID"];
-                        }
-
-                        $ev->step = EventSteps::PEER_REVIEW;
-                        $ev->currentChapter = $chap;
-                        $ev->peer = 2;
-                        $ev->myMemberID = $memberID;
-                        $ev->myChkMemberID = $memberID;
-                        $ev->checkerFName = $checkerFName;
-                        $ev->checkerLName = $checkerLName;
-                        $ev->checkerID = $checkerID;
-                        $ev->isContinue = true;
                         $ev->isCheckerPage = true;
                         $filtered[] = $ev;
                     }
@@ -1142,7 +1077,6 @@ class EventsModel extends Model
 
                         $ev->step = EventSteps::THEO_CHECK;
                         $ev->currentChapter = $chap;
-                        $ev->memberID = $ev->memberID;
                         $ev->myMemberID = 0;
                         $ev->myChkMemberID = $checkerID;
                         $ev->isContinue = true; // Means not owner of chapter
@@ -1165,7 +1099,6 @@ class EventsModel extends Model
                             EventSteps::CONTENT_REVIEW :
                             EventSteps::FINAL_REVIEW;
                         $ev->currentChapter = $chap;
-                        $ev->memberID = $ev->memberID;
                         $ev->myMemberID = 0;
                         $ev->myChkMemberID = $checkerID;
                         $ev->isContinue = true; // Means not owner of chapter
@@ -1241,7 +1174,6 @@ class EventsModel extends Model
 
                         $ev->step = EventSteps::THEO_CHECK;
                         $ev->currentChapter = $chap;
-                        $ev->memberID = $ev->memberID;
                         $ev->myMemberID = 0;
                         $ev->myChkMemberID = $memberID;
                         $ev->isContinue = true; // Means not owner of chapter
@@ -1307,50 +1239,6 @@ class EventsModel extends Model
 
         return $this->db->select($sql, $prepare);
     }
-
-    public function getNewEvents($langs, $memberID = null)
-    {
-        $arr = array();
-
-        if(is_array($langs) && !empty($langs)) {
-            $in = $this->db->quoteArray($langs);
-
-            $sql = "SELECT evnt.*, proj.bookProject, proj.sourceLangID, tLang.langName AS tLang, sLang.langName AS sLang, abbr.abbrID, abbr.name, ".
-                "(SELECT COUNT(*) FROM ".PREFIX."translators AS all_trs WHERE all_trs.eventID = evnt.eventID) AS trsCnt, ".
-                "(SELECT COUNT(*) FROM ".PREFIX."checkers_l2 AS all_chl2 WHERE all_chl2.eventID = evnt.eventID) AS chl2Cnt, ".
-                "(SELECT COUNT(*) FROM ".PREFIX."checkers_l3 AS all_chl3 WHERE all_chl3.eventID = evnt.eventID) AS chl3Cnt ".
-                "FROM ".PREFIX."events AS evnt ".
-                "LEFT JOIN ".PREFIX."projects AS proj ON proj.projectID = evnt.projectID ".
-                "LEFT JOIN ".PREFIX."abbr AS abbr ON evnt.bookCode = abbr.code ".
-                "LEFT JOIN ".PREFIX."languages AS tLang ON proj.targetLang = tLang.langID ".
-                "LEFT JOIN ".PREFIX."languages AS sLang ON proj.sourceLangID = sLang.langID ".
-                ($memberID ?
-                    "LEFT JOIN ".PREFIX."translators AS trs ON (trs.eventID = evnt.eventID AND trs.memberID = :memberID) ".
-                    "LEFT JOIN ".PREFIX."checkers_l2 AS chl2 ON (chl2.eventID = evnt.eventID AND chl2.memberID = :memberID) ".
-                    "LEFT JOIN ".PREFIX."checkers_l3 AS chl3 ON (chl3.eventID = evnt.eventID AND chl3.memberID = :memberID) " : "").
-                "WHERE (evnt.state = :state OR evnt.state = :state1 OR evnt.state = :state2 OR evnt.state = :state3) ".
-                    "AND (proj.gwLang IN ($in) OR proj.targetLang IN ($in)) ".
-                    //"AND DATE(evnt.dateTo) > NOW() ".
-                ($memberID ?
-                    "AND (trs.memberID IS NULL AND chl2.memberID IS NULL AND chl3.memberID IS NULL) " : "").
-            "ORDER BY evnt.state, abbr.abbrID";
-
-            $prepare = array(
-                ":state" => EventStates::STARTED,
-                ":state1" => EventStates::TRANSLATING,
-                ":state2" => EventStates::L2_RECRUIT,
-                ":state3" => EventStates::L3_RECRUIT,
-            );
-
-            if($memberID)
-                $prepare[":memberID"] = $memberID;
-
-            $arr = $this->db->select($sql, $prepare);
-        }
-        
-        return $arr;
-    }
-
 
     public function getMembersForEvent($eventID)
     {       
@@ -2319,6 +2207,58 @@ class EventsModel extends Model
                     $notif->step = EventSteps::CONTENT_REVIEW;
                     $notif->currentChapter = $chapter;
                     $notif->manageMode = "sun";
+                    $notifs[] = $notif;
+                }
+            }
+        }
+
+        return $notifs;
+    }
+
+    /**
+     * Get notifications for Level 2 events
+     * @return array
+     */
+    public function getNotificationsRadio()
+    {
+        $sql = "SELECT trs.*, ".
+            PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
+            PREFIX."events.bookCode, ".PREFIX."projects.sourceBible, ".PREFIX."projects.bookProject, mytrs.step as myStep, ".
+            "t_lang.langName AS tLang, s_lang.langName AS sLang, ".PREFIX."abbr.name AS bookName ".
+            "FROM ".PREFIX."translators AS trs ".
+            "LEFT JOIN ".PREFIX."members ON trs.memberID = ".PREFIX."members.memberID ".
+            "LEFT JOIN ".PREFIX."events ON ".PREFIX."events.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."translators as mytrs ON mytrs.memberID = :memberID AND mytrs.eventID = trs.eventID ".
+            "LEFT JOIN ".PREFIX."projects ON ".PREFIX."projects.projectID = ".PREFIX."events.projectID ".
+            "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
+            "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
+            "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
+            "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
+            "OR ".PREFIX."events.admins LIKE :adminID) ".
+            "AND trs.peerCheck != '' AND trs.isChecker = 1 AND ".PREFIX."projects.bookProject = 'rad' ";
+
+        $prepare = [
+            ":memberID" => Session::get("memberID"),
+            ":adminID" => '%\"'.Session::get("memberID").'"%'
+        ];
+
+        $notifications = $this->db->select($sql, $prepare);
+        $notifs = [];
+
+        foreach ($notifications as $notification)
+        {
+            // Peer check notifications
+            if($notification->memberID != Session::get("memberID"))
+            {
+                $peerCheck = (array)json_decode($notification->peerCheck, true);
+                foreach ($peerCheck as $chapter => $data) {
+                    // Exclude taken chapters
+                    if($data["memberID"] > 0) continue;
+
+                    $notif = clone $notification;
+                    $notif->step = EventSteps::PEER_REVIEW;
+                    $notif->currentChapter = $chapter;
+                    $notif->manageMode = "rad";
                     $notifs[] = $notif;
                 }
             }
@@ -4831,7 +4771,6 @@ class EventsModel extends Model
             if(!array_key_exists($chunk->memberID, $memberSteps))
             {
                 $memberSteps[$chunk->memberID]["step"] = $chunk->step;
-                $memberSteps[$chunk->memberID]["otherCheck"] = $chunk->otherCheck;
                 $memberSteps[$chunk->memberID]["peerCheck"] = $chunk->peerCheck;
                 $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
                 $members[$chunk->memberID] = "";
@@ -4865,7 +4804,6 @@ class EventsModel extends Model
             $data["chapters"][$key]["progress"] = 0;
 
             $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
-            $otherCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["otherCheck"], true);
             $peerCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["peerCheck"], true);
 
             // Set default values
@@ -4874,7 +4812,6 @@ class EventsModel extends Model
             $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
 
             $data["chapters"][$key]["peerChk"]["state"] = StepsStates::NOT_STARTED;
-            $data["chapters"][$key]["peerChk"]["checkerID"] = 'na';
             $data["chapters"][$key]["stepChk"] = EventSteps::PRAY;
 
             // When no chunks created or translation not started
@@ -4927,41 +4864,25 @@ class EventsModel extends Model
             }
 
             // Radio Checking stage
-            if(array_key_exists($key, $otherCheck))
+            if(array_key_exists($key, $peerCheck))
             {
                 $data["chapters"][$key]["multiDraft"]["state"] = StepsStates::FINISHED;
                 $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
                 $data["chapters"][$key]["step"] = EventSteps::FINISHED;
 
-                if($otherCheck[$key]["memberID"] > 0)
+                if($peerCheck[$key]["memberID"] > 0)
                 {
-                    $data["chapters"][$key]["checkerID"] = $otherCheck[$key]["memberID"];
+                    $data["chapters"][$key]["checkerID"] = $peerCheck[$key]["memberID"];
 
-                    if($otherCheck[$key]["done"] == 0)
+                    if($peerCheck[$key]["done"] == 0)
                     {
-                        if(array_key_exists($key, $peerCheck) && $peerCheck[$key]["done"])
-                        {
-                            $data["chapters"][$key]["peerChk"]["state"] = StepsStates::CHECKED;
-                            $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
-                            $members[$peerCheck[$key]["memberID"]] = "";
-                        }
-                        else if(!array_key_exists($key, $peerCheck) || $peerCheck[$key]["memberID"] == 0)
-                        {
-                            $data["chapters"][$key]["peerChk"]["state"] = StepsStates::WAITING;
-                        }
-                        else
-                        {
-                            $data["chapters"][$key]["peerChk"]["state"] = StepsStates::IN_PROGRESS;
-                            $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
-                            $members[$peerCheck[$key]["memberID"]] = "";
-                        }
+                        $data["chapters"][$key]["peerChk"]["state"] = StepsStates::IN_PROGRESS;
+                        $members[$peerCheck[$key]["memberID"]] = "";
                     }
                     else
                     {
                         $data["chapters"][$key]["peerChk"]["state"] = StepsStates::FINISHED;
-                        $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
-                        $members[$otherCheck[$key]["memberID"]] = "";
-                        $data["chapters"][$key]["stepChk"] = EventSteps::FINISHED;
+                        $members[$peerCheck[$key]["memberID"]] = "";
                     }
                 }
             }
@@ -4973,8 +4894,6 @@ class EventsModel extends Model
                 $data["chapters"][$key]["progress"] += 25;
             if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
                 $data["chapters"][$key]["progress"] += 25;
-            if($data["chapters"][$key]["peerChk"]["state"] == StepsStates::CHECKED)
-                $data["chapters"][$key]["progress"] += 12;
             if($data["chapters"][$key]["peerChk"]["state"] == StepsStates::FINISHED)
                 $data["chapters"][$key]["progress"] += 25;
 

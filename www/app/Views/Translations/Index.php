@@ -130,7 +130,7 @@
                     <a href="<?php echo $data['data']->bookCode ?>/wacs/export"><?php echo __("upload_wacs") ?></a>
                 </li>
                 <li class="export_cloud">
-                    <a href="<?php echo $data['data']->bookCode ?>/door43/export"><?php echo __("upload_door43") ?></a>
+                    <a href="<?php echo $data['data']->bookCode ?>/dcs/export"><?php echo __("upload_door43") ?></a>
                 </li>
             </ul>
         </div>

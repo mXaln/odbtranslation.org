@@ -328,6 +328,8 @@ $(function () {
 
         if(["tn","tq","tw"].indexOf(bookProject) > -1) {
             $(".event_imports").show();
+        } else if(bookProject == "ulb") {
+            $(".language_input_checkbox").show();
         }
 
         $(".bookName").text(bookName);

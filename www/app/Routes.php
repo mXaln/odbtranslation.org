@@ -179,14 +179,14 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ]);
     Router::any("checker-{bookProject}/{eventID}/{memberID}/other/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
-            "bookProject" => "tn|tq|tw|rad",
+            "bookProject" => "tn|tq|tw",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
     Router::any("checker-{bookProject}/{eventID}/{memberID}/peer-review/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
-            "bookProject" => "tn|tq|tw|rad",
+            "bookProject" => "tn|tq|tw",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
@@ -199,6 +199,13 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "step" => "[23a-z\-]+"
         ]);
     Router::any("checker-sun/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerSun")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+",
+            "step" => "[2a-z\-]+"
+        ]);
+    Router::any("checker-rad/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerRadio")
         ->where([
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",

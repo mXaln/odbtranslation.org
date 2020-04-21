@@ -19,7 +19,6 @@ if(isset($data["error"])) return;
     <div class="row main_content_header">
         <div class="main_content_title">
             <div><?php echo __("step_num", ["step_number" => 4]). ": " . __("peer-review")?></div>
-            <div class="action_type type_checking"><?php echo __("type_checking1"); ?></div>
         </div>
     </div>
 
@@ -27,11 +26,6 @@ if(isset($data["error"])) return;
         <div class="main_content">
             <form action="" method="post" id="main_form">
                 <div class="main_content_text row" style="padding-left: 15px">
-
-                    <?php if($data["event"][0]->checkerID == 0): ?>
-                        <div class="alert alert-success check_request"><?php echo __("check_request_sent_success") ?></div>
-                    <?php endif; ?>
-
                     <h4 dir="<?php echo $data["event"][0]->sLangDir ?>"><?php echo $data["event"][0]->tLang." - "
                             .__($data["event"][0]->bookProject)." - "
                             ."<span class='book_name'>".$data["event"][0]->name." - ".$data["text"][1]."</span>"?></h4>
@@ -161,10 +155,6 @@ if(isset($data["error"])) return;
 
         <div class="event_info is_checker_page_help">
             <div class="participant_info">
-                <div class="participant_name">
-                    <span><?php echo __("your_checker") ?>:</span>
-                    <span class="checker_name_span"><?php echo $data["event"][0]->checkerFName !== null ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." : __("not_available") ?></span>
-                </div>
                 <div class="additional_info">
                     <a href="/events/information-rad/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                 </div>
