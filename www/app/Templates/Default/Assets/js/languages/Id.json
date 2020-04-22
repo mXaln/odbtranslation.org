@@ -1,8 +1,4 @@
-/**
- * Created by mXaln on 18.08.2016.
- */
-
-var Language = {
+{
     "yes"                       : "Ya",
     "no"                        : "Tidak",
     "noKeywords"                : "Tidak ada kata kunci untuk bahasa ini.",

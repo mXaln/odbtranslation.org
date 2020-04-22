@@ -1,14 +1,10 @@
-/**
- * Created by mXaln on 18.08.2016.
- */
-
-var Language = {
+{
     "yes"                       : "Yes",
     "no"                        : "No",
     "noKeywords"                : "There are no keywords for this language.",
     "checkBookConfirm"          : "Do you really want to check this chapter? The page will be opened in new tab/window.",
     "checkBookConfirmTitle"     : "Checking request",
-    "saveChangesConfirm"        : "There are changes made on this page. Please, wait until changes saved, then try again.",
+    "saveChangesConfirm"        : "There are some changes made on this page. Please, wait until changes saved, then try again.",
     "saveChangesConfirmTitle"   : "Changes made",
     "partnerJoinedVerbalize"    : "Your partner has joined 'Verbalize' step",
     "partnerJoinedPeerEdit"     : "Your partner has joined 'Peer-Edit' step",
@@ -98,7 +94,7 @@ var Language = {
     "other_self_check"          : "Edit Notes",
     "other_self_check_alt"      : "Self-Edit",
     "other_keyword_check"       : "Check Highlights",
-    "keyword_check"             : "Keyword Check",
+    "keyword_check"             : "Vérification des Mots Clés",
     "tq_drafts_not_checked"     : "You need to check all the draft checkboxes before proceeding to the next step.",
     "deleteGroupConfirmTitle"   : "Remove group",
     "deleteGroupConfirm"        : "Remove this group?",
@@ -113,11 +109,11 @@ var Language = {
     "tw"                        : "Translation Words",
     "odb"                       : "Our Daily Bread",
     "import_l2_warning"         : "First import Level 2 Scripture",
-    "book_tn"                   : "Source Notes",
-    "book_tq"                   : "Source Questions",
-    "book_tw"                   : "Source Words",
-    "chooseSource_tn"           : "Choose Source Notes",
-    "chooseSource_tq"           : "Choose Source Questions",
-    "chooseSource_tw"           : "Choose Source Words",
+    "book_tn"                   : "Notes Sources",
+    "book_tq"                   : "Questions Sources",
+    "book_tw"                   : "Mots Sources",
+    "chooseSource_tn"           : "Choisir Notes Sources",
+    "chooseSource_tq"           : "Choiser Questions Sources",
+    "chooseSource_tw"           : "Choisir Mots Sources",
     "pushSuccess"               : "Successfully pushed to the server!"
 };

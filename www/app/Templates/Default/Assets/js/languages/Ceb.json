@@ -1,8 +1,4 @@
-/**
- * Created by mXaln on 18.08.2016.
- */
-
-var Language = {
+{
     "yes"                       : "Oo",
     "no"                        : "Dili",
     "noKeywords"                : "walay makita nga mga pulong sa kini nga sinultihan.",
