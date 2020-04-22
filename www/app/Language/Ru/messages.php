@@ -199,7 +199,6 @@ return array (
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
-    "continue" => "Продолжить",
     "enter_email" => "Введите Email",
 
     // Success messages
@@ -1195,7 +1194,6 @@ return array (
     "error_member_in_event" => "Участник уже подал заявку на это событие. Возможно на предыдущих уровнях.",
     "no_l2_3_checkers_available_error" => "Регистрация проверяющих {0}-го уровня закрыта.",
     "no_translators_available_error" => "Регистрация переводчиков закрыта.",
-    "required_fields_empty_error" => "Вы не заполнили требуемые поля.",
     "not_loggedin_error" => "Вы не авторизованы.",
     "account_not_verirfied_error" => "Ваша учетная запись не подтверждена. Обратитесь к администрации сайта.",
     "event_notexist_error" => "Событие не существует.",
@@ -1216,7 +1214,6 @@ return array (
     "enter_admins" => "Назначьте хотя бы одного фасилитатора для этой книги",
     "empty_draft_verses_error" => "Вы перевели не все стихи",
     "empty_words_error" => "Ошибка: поле не заполнено",
-    "project_exists" => "Проект уже создан",
     "not_in_event_error" => "Вы не учавствуете в этом переводе.",
     "checker_event_error" => "Вы не являетесь проверяющим для этого переводчика",
     "not_equal_verse_markers" => "Вы не верно расставили маркеры стихов",
@@ -1264,7 +1261,6 @@ return array (
     "no_events_message" => "В этой категории нет событий",
     "create_event_tip" => "???",
     "goto_event_info" => "Перейти на информационную страницу данного события",
-    "event_info" => "Информация о событии",
     "manage_event" => "Управление событием",
     "chapter_has_translation" => "Внимание! В этой главе уже есть некоторый перевод. Если вы перейдете к \"Отрывкам\", текст будет потерян. Вы действительно хотите продолжить?",
 
