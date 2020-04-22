@@ -225,7 +225,6 @@ return array (
     "passwords_notmatch_error" => "Passwords do not match",
     "tou_accept_error" => "You must accept Terms of Use",
     "sof_accept_error" => "You must accept Statement of Faith",
-    "required_fields_empty_error" => "Please fill in all the required fields",
     "update_profile_error" => "Profile hasn't been updated",
     "token_expired_error" => "Reset token has expired",
     "update_table_error" => "Error while updating database. Please try again.",
