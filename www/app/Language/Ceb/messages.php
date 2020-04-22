@@ -1,7 +1,7 @@
 <?php
 
 return array (
-
+    
     // -------------- Main Controller ------------------ //
 
     // Index method
@@ -43,7 +43,7 @@ return array (
     "checker" => "L2/L3 nga Tigsusi",
     "facilitator" => "Tiggiya",
     "facilitators" => "Mga Tiggiya",
-    "l2_checker" =>  "Ikaduhang Ang-ang sa Pagsusi",
+    "l2_checker" => "Ikaduhang Ang-ang sa Pagsusi",
     "l3_checker" => "Ikatulong Ang-ang sa Pasusi",
     "captcha_wrong" => "Sayop ang Pagsulat sa Captcha",
     "success" => "Nagmalampuson ka",
@@ -109,9 +109,6 @@ return array (
     "avatar" => "Pagpili og Hulagway",
     "male" => "Lalaki",
     "female" => "Babaye",
-    "translator_rating" => "Grado",
-    "translator_rating_tip" => "Grado nga gihatag sa tighubad base sa impormasyon sa iyang pagkatawo",
-    "save" => "Isave",
     "delete" => "Walaon",
     "weak" => "luya",
     "moderate" => "tamatama",
@@ -168,11 +165,11 @@ return array (
     "ref_person" => "Ngalan sa Tawo nga pwede pangutan-on",
     "ref_email" => "Email sa Tawo nga pwede pangutan-on",
     "mast_facilitator" => "Natudloan na ba ka sa paggiya sa MAST",
-    "mast_facilitator_public" => "Has been trained in MAST facilitation","Natudloan na sa paggiya sa MAST",
-    "education" => "If you have formal theological education check all that apply","Kung aduna kay pormal nga pagtuon sa Bibliya i-tsek ang tanan nga pwede",
-    "education_public" => "Formal theological education","Pormal nga pagtuon sa Bibliya",
-    "ed_area" => "Check all areas that apply","I-tsek ang tanan nga pwede",
-    "ed_area_public" => "Areas","Mga Dapit",
+    "mast_facilitator_public" => "Has been trained in MAST facilitation",
+    "education" => "If you have formal theological education check all that apply",
+    "education_public" => "Formal theological education",
+    "ed_area" => "Check all areas that apply",
+    "ed_area_public" => "Areas",
     "ed_place" => "Institusyon sa Edukasyon",
     "orig_langs" => "Gradohi ang imong kaugalingon sa kakusog sa gigikanan nga pinulongan",
     "orig_langs_public" => "Kahanas sa orihinal nga pinulongan",
@@ -201,7 +198,7 @@ return array (
 
     // Passwordreset method
     "passwordreset_title" => "Iusab ang Password",
-    "continue" => "Padayon",
+    "continue" => "Ipadayon",
     "enter_email" => "isulat ang Email",
     "passwordreset_link_message" => "Aron mausab ang password, pindota kini nga link {link}",
     "url_use_problem_hint" => "Kung aduna kay problema, palihog ipilit ang ‘URL’ nga naa sa ibabaw sa imong ’web browser’",
@@ -215,7 +212,6 @@ return array (
     "activation_link_message" => "<h3>Salamat sa pagparehistro!</h3>\n Aron mapalihok ang imong account palihug i-klik ang link {link}",
     "registration_success_message" => "Malampuson ang pagpalista! Palihog tan-awa ang imong email aron makumpleto ang pagpalista. Kung dili nimo kini makit-an, i-tsek ang spam/junk nga folder",
     "registration_local_success_message" => "Malampuson ang pagpalista! Please log in.",
-    "font_uploaded" => "Font {0} has been successfully uploaded!",
 
     // Error messages
     "userName_characters_error" => "Latin lang nga mga letra ang gamiton sa alyas ug numero ug kinahanglan magsugod sa mga letra",
@@ -242,11 +238,7 @@ return array (
     "not_facilitator_error" => "Sa mga tiggiya lang ka pwede makapadala og mensahe",
     "facilitator_yourself_error" => "Dili ka makapadala og mensahe sa imong kaugalingon",
     "delete_warning" => "isulat ang ngalan sa libro ug pindota \"Papas\" button pag-usab aron mapapas ang nabuhat na",
-    "font_format_error" => "Only WOFF format is accepted",
-    "not_csv_format_error" => "Not a CSV file!",
-    "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
-    "local_use_restriction" => "This feature is not available on local server.",
-    "error_zip_file_required" => "The file should of ZIP format",
+    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
@@ -284,7 +276,6 @@ return array (
     "confirm_finished" => "Palihog uyon kung nahuman na nimo kini nga lakang",
     "confirm_yes" => "Oo, nabuhat na nako",
     "next_step" => "Sunod nga lakang",
-    "continue" => "Ipadayon",
     "continue_alt" => "Ipadayon",
     "side_by_side_toggle" => "Pagsusi sa isig ka kilid",
     "do_not_show_tutorial" => "Ayaw na ipakita pag-usab kini nga mensahe",
@@ -316,7 +307,7 @@ return array (
     "your_partner" => "imong kauban",
     "your_checker" => "Imong tigsusi",
     "your_translator" => "Imong tighubad",
-    "event_info" => "Pag-uswag sa trabaho",
+    "event_info" => "Impormasyon sa Trabaho",
     "progress" => "Pag-uswag",
     "manage" => "Pagdumala",
     "event_participants" => "Mga miapil sa trabaho",
@@ -337,7 +328,7 @@ return array (
     "demo" => "Ipakita",
     "see_demo" => "Tan-awa ang pagpakita",
     "demo_video" => "Tan-awa ang pagsugod",
-    "save" => "Save",
+    "save" => "Isave",
     "read_chunk" => "Read",
     "translate_chunk" => "Translate",
     "partner_translation" => "Hinubad sa imong kauban",
@@ -358,7 +349,6 @@ return array (
     "level2_3_check" => "Ang-ang{level} Pagsusi",
     "translators" => "Mga tighubad",
     "max_translators" => "Pinakadaghan nga mga tighubad",
-    "translator" => "Tighubad",
     "checkers" => "Tigsusi",
     "apply" => "Pagsalmot",
     "apply_now" => "Pagsalmot karon",
@@ -383,10 +373,7 @@ return array (
     "add_checker" => "Add checker",
     "assign_chapter_title" => "Ipabuhat nga Kapitulo",
     "assign_group_title" => "Assign group",
-    "assign_pair_title" => "Magbuhat og Pares",
-    "reset_pair_title" => "Pag-usab sa Pares",
     "assign" => "Ipabuhat",
-    "check_pair_members" => "I-tsek ang mga miyembro aron makabuhat og pares",
     "start_translation" => "Pagsugod sa Paghubad",
     "start_checking" => "Start Checking",
     "checkers_l2" => "Tigsusi sa ikaduhang ang-ang",
@@ -535,11 +522,14 @@ return array (
 
     "multi-draft_lang_input" => "Input",
 
-    "consume" => "Pagbasa",
     "consume" => "Basaha",
+    "consume_desc" => "<li><b>KATUYOUAN:</b> Aron maandam ang imong short-term nga hunahuna aron makatabang kanimo sa paghubad</li><li>Basaha ang tibuok kapitulo nga gihatag sa imo. Sa hinayhinay hunahunaa kung unsa ang gisulti aron masabtan ang kinatibuk-an nga unod sa kapitulo.</li><li>Hunong kadali, hunahunaa, ug basaha pag-usab kung kinahanglan.</li><li>Kinahanglan nga dili ka molapas og 12 ka minuto niini nga lakang.</li>",
+
+    "consume_odb" => "Read",
+    "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
+
     "consume_tn" => "Read Scripture",
     "consume_tn_full" => "Read Scripture in Target Language",
-    "consume_desc" => "<li><b>KATUYOUAN:</b> Aron maandam ang imong short-term nga hunahuna aron makatabang kanimo sa paghubad</li><li>Basaha ang tibuok kapitulo nga gihatag sa imo. Sa hinayhinay hunahunaa kung unsa ang gisulti aron masabtan ang kinatibuk-an nga unod sa kapitulo.</li><li>Hunong kadali, hunahunaa, ug basaha pag-usab kung kinahanglan.</li><li>Kinahanglan nga dili ka molapas og 12 ka minuto niini nga lakang.</li>",
     "consume_tn_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translating notes.</li>
                             <li>Read the assigned chapter carefully.</li>
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
@@ -547,15 +537,19 @@ return array (
                                 it with your mouse.  It is a footnote to help you translate the (verse or note).</li>
                             <li>Take no more than 7-10 minutes on this step.</li>
                             <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-    "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
+
+    "consume_rad_desc" => "<li><b>PURPOSE:</b> to read the text to prepare for translation.</li>
+                            <li>Read the assigned broadcast carefully.</li>
+                            <li>Try to understand the meaning and details of the text for a general overview.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "verbalize" => "Pag-istorya",
     "verbalize_desc" => "<li><b>KATUYOUAN:</b> Aron maistorya nimo ang imong gibasa aron mabutang sa short-term nga hunahuna.</li><li>Kontaka ang imong kapares sa plataporma nga istoryahanan: Skype, Hangout, V-MAST chat, telepono, ug uban pa...</li><li>Dili kini panaghisgot mahitungod sa bersikulo, apan aron lamang sa pag-istorya “mao kini ang akong nabasa”,“sunod”,“ang gihisgotan mao ang mga…”</li><li>Ma mayo kung ang pag-istorya buhaton sa inyong kaugalingon nga pinulongan.</li><li>Kinahanglan dili kamo molapas sa imong kapares og 7-10 ka minuto niini nga lakang.</li>",
-    "verbalize_checker_desc" => "<li><b>KATUYOUAN:</b> pagpaminaw samtang ang tighubad mag-istorya kung unsa ang iyang nabasa sa teksto.</li><li>Isip us aka tigsusi, ang imong mga giya anaa sa kolor nga orange ug dili nimo Makita ang gigikanan o ang hinubad nga teksto. </li><li>Dili kini panaghisgotay sa teksto, apan aron masulti sa tighubad ang iyang nabasa ug nasabtan sa teksto u gang mga mahinungdanong punto aron magamit ang iyang short-term nga hunahuna. </li><li>Mas mayo kung ang pag-istorya mabuhat sa inyong kaugalingong pinulongan. </li><li>Kinahanglan dili molapas sa 7-10 ka minute ang inyong pagbuhat niini nga lakang.</li>",
-    
+
     "chunking" => "Pagbahin",
     "chunking_sun" => "Thought Chunk",
     "chunking_desc" => "<li><b>KATUYOUAN:</b> Pagbahin sa teksto ngadto sa madumalaan lang nga mga bahin alang sa paghubad</li><li>Pindota ang 2-5 ka mga bersikulo ug dayon ‘bahina’ alang sa pagpundok sa mga bahin aron maandam sa pagsulat nga dili magtan-aw. </li><li>Bahina ang tibuok kapitulo, base sa managsamang mga gihisgotan ug sa pagkasunodsunod sa istorya. </li><li>Kinahanglan dili ka molapas og 5 ka minute niini nga lakang.</li>",
+
     "chunking_sun_desc" => "<li><b>PURPOSE:</b> to divide the text into manageable portions for translation</li><li>Click on 2-5 verses and then \"make chunk\" for grouping into chunks to prepare for the next step.</li><li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li><li>Spend no more than 5 minutes on this exercise</li>",
 
     "read-chunk" => "Pagsulat",
@@ -568,11 +562,11 @@ return array (
                                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                                 <li>Take about 5 minutes on this step.</li>
                                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-
+    
     "blind-draft" => "Pagsulat",
     "blind-draft_previous" => "Pagsulat - Previous chunk",
     "blind-draft_desc" => "<li><b>KATUYOUAN:</b> Aron mas natural ang paghubad ngadto sa kaugalingong pinulongan. </li><li>Kutob sa imong mahinumdoman, isulat ang imong hinubad niana nga bahin ug dili ka mahimong maglantaw sa gigikanan nga teksto, sa natural nga paagi ginamit ang mga pulong nga klaro ug masabtan. </li><li>Ayaw paglantaw sa gigikanan nga teksto. Isulat kung unsa lang ang imong nahinumdoman. </li><li>Ayaw hunahunaa ang pagbutang sa mga bersikulo. Buhaton kini sa kataposan na nga bahin sa lakang. </li><li>Ang usa sa pundasyon sa kinaiyahan sa maayo nga hinubad mao ang pagkanatural sa pinulongan. Ang pagsulat nga dili maglantaw sa gigikanan nga pinulongan ang makabuhat niini ug ang short-term nga hunahuna ang magpugos nga mogawas sa hunahuna ang pinakanatural nga paagi sa paghubad. Dili kini kinahanglan nga mahimong perpekto nga teksto (ang mosunod nga upat ka mga lakang ang magbuhat niini), gituyo kini aron mahimong mas natural kay kung dili natural ang hinubad, moabot kini sa mas daghan nga sayop ug taas nga trabahoon sa pagtul-id sa mga sayop. </li><li>Kinahanglan dili ka molapas sa 10-12 ka minute niini nga lakang.</li>",
-    
+
     "blind-draft_tn" => "Pagsulat",
     "blind-draft_tn_desc" => "<li><b>PURPOSE:</b> to review the chunk of scripture and Notes and then \"blind translate\" the Note in the target language.</li>
                                 <li>Read the scripture and Note, keeping the context of the whole chapter mind.</li>
@@ -591,9 +585,23 @@ return array (
                                 <li>No need to translate links.</li>
                                 <li>Click \"yes I did\" and \"next step\" to move to the next chunk to translate until the chapter is finished.</li>",
 
+    "multi-draft_rad_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
+                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness of the target language.
+                                    <ol>
+                                        <li>Translate the word \"Broadcast\" and the number.</li>
+                                        <li>Translate the name of the broadcast.</li>
+                                        <li>Translate each character name in ALL CAPS by turning on Caps Lock and typing 
+                                            the name. It will go fast if you copy and then paste the name into the proper 
+                                            blanks for each character.</li>
+                                        <li>Translate the text the speaker is saying as naturally as you can.</li>
+                                    </ol>
+                                </li>
+                                <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
+                                <li>Make sure the save icon is not flashing when you click \"Next step\".</li>",
+
     "self-check" => "Kaugalingong Pagsusi",
     "self-check_desc" => "<li><b>KATUYOUAN:</b> Aron masusi ang gisulat ug masusi ang haom nga mga kahulogan sa gigikanan nga teksto samatang dili kalimtan ang porma ug pagkahan-ay sa gigikanan nga teksto. </li><li>Tan-awa ang mga sayop nga spelling, panuldok ug dagan sa pagkanatural sa pinulongan. </li><li>Tan-awa kung nay nawala nga mga bahin sa teksto, mga nawala o nadugang nga kahulogan o panghitabo. </li><li>Ayaw palabii, ipasimple o dugangi ang teksto aron mas maklaro. Bisan unsa nga sa imong paminaw kinahanglan sa teksto kinahanglan nga isulat kasayoran sa sakto nga bersikulo ug padayon na. </li><li>Kinahanglan dili ka molapas sa 15-20 ka minute niini na lakang.</li>",
-    
+
     "self-check_tn" => "Kaugalingong Pagsusi",
     "self-check_tn_desc" => "<li><b>PURPOSE:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>Look for spelling, punctuation, flow/naturalness errors.</li>
@@ -622,6 +630,18 @@ return array (
                                     <li>This should take about 30 minutes.</li>
                                     <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
 
+    "self-check_rad_desc" => "<li><b>PURPOSE:</b> to edit your draft and check meaning and accuracy while maintaining 
+                                naturalness.</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>Look for any missing portions of text or missing/added facts.</li>
+                                <li>Check in detail the accuracy of your translation.</li>
+                                <li>If you have additional thoughts or questions about your translation, click the note 
+                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, 
+                                    and click Save. The peer-editor will see this note and will help to resolve the 
+                                    question or problem.</li>
+                                <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
+                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
+
     "highlight_tn" => "Highlight",
     "highlight_tn_full" => "Highlight Difficult Passages",
     "highlight_tn_desc" => "<li><b>PURPOSE:</b> to highlight passages that are considered theologically difficult.</li>
@@ -638,8 +658,9 @@ return array (
 
     "peer-review" => "Pagsusi sa Pares",
     "peer-review_desc" => "<li><b>KATUYOUAN:</b> Aron masusi sa pares nga nagasulti usab sa maong pinulongan ang hinubad, kung haom ba ug natural ang ekspresyon sa gigikanan nga teksto (sama lamang kini sa pagsusi sa kaugalingon) </li><li>Ang imong hinubad susihon sa tigsusi. </li><li>Ang tigsusi maglantaw sa imong hinubad kung aduna bay nawala, gidugang o lahi ra gikan sa gigikanan nga pinulongan. </li><li>Susihon usab kung ang imong hinubad aduna bay mga pulong nga daw dili natural, dili klaro o dili masabtan. </li><li>Ang tigsusi kinahanglan nga dili molapas sa 30-45 ka minute niini nga lakang. </li><li>Kung human na ang pagsusi sa imong pares, magsulat siya og mga komento ug obserbasyon ug kontakon nimo ang imong pares sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>Hisgoti ninyo ang mga obserbasyon. Samtang magkomento ang imong pares, usbon nimo ang imong hinubad. </li><li>Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 60 minuto o 1 ka oras niini nga lakang. Ayaw nap ag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+
     "peer-review_checker_desc" => "<li><b>KATUYOUAN:</b> aron masusi nga ang hinubad haom ba ug natural ang ekspresyon sa gigikanan nga teksto (sama lamang kini sa pagsusi sa kaugalingon) </li><li>Isip tigsusi, orange ang imong makita nga giya. </li><li>Imong susihon ang hinubad sa imong pares ug susihon niya ang imong hinubad kung aduna kay kapitulo nga gihubad </li><li>Ang tigsusi maglantaw sa imong hinubad kung aduna bay nawala, gidugang o lahi ra gikan sa gigikanan nga pinulongan. </li><li>Susihon usab kung ang imong hinubad aduna bay mga pulong nga daw dili natural, dili klaro o dili masabtan. </li><li>Kung human na ang imong pagsusi, magsulat ka og mga komento ug obserbasyon, kontaka ang tighubad sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>Hisgoti ninyo ang mga obserbasyon.</li><li>Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 60 minuto o 1 ka oras niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
-    
+
     "peer-review_tn" => "2<sup>nd</sup> Check",
     "peer-review_tn_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
@@ -686,8 +707,17 @@ return array (
                                     <li>WARNING: This is the last chance you will have to check the Notes. Do not 
                                         click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
 
+    "peer-review_rad_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
+                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>You will look for any missing portions of text or missing or added facts.</li>
+                                <li>You will check the accuracy of the translation in detail.</li>
+                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
+
     "keyword-check" => "Pagsusi sa mga Mahinungdanon nga Pulong",
     "keyword-check_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang importante nga mga pulong anaa gayod sa gihubad nga teksto ug sakto ang pagkagamit. </li><li>Ang gigikanan lang nga teksto ang makita sa tigsusi. </li><li>Ipaklaro sa tigsusi ang mga mahinungdanon nga mga pulong sa gigikanan nga teksto. Makita usab sa imong gigikanan nga teksto ang gipaklaro nga mahinungdanon nga mga pulong. </li><li>Ang mahinungdanon nga mga pulong mao ang mga: ngalan, puli sa ngalan(pronouns), numero, ug uban pa. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>ILantawon sa tigsusi ang matag bersikulo kung anaa ba ang tanan nga mahinungdanon nga mga pulong. Motubag r aka og \"Naa\" o \"Wala\". Pangutan-on usab ka sa tigsusi kung giunsa nimo paghubad ang matag pulong. </li><li>IUsaba ang kinahanglan nga usabon sa imong teksto. </li><li>I Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+
     "keyword-check_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang importante nga mga pulong anaa gayod sa gihubad nga teksto ug sakto ang pagkagamit. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li>Kung modawat ka sa bulohaton sa pagsusi sa gihubad sa uban, ang gigikanan lang nga teksto ang imong makita. </li><li>Imong ipaklaro ang mga mahinungdanon nga mga pulong sa gigikanan nga teksto pinaagi sa pagpindot niini kaduha o gamiton nimo ang imong ‘mouse’. Makita usab sa tighubad ang mga gipaklaro nga mga pulong sa gigikanan nga teksto.</li><li>Ang mahinungdanon nga mga pulong mao ang mga: ngalan, puli sa ngalan(pronouns), numero, ug uban pa. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>Lantawon nimo ang matag bersikulo uban sa tighubad ang tanan nga mahinungdanon nga mga pulong. Motubag ra ang tighubad og \"Naa\" o \"Wala.\" Pangutan-on usab nimo ang tighubad kung giunsa niya paghubad ang matag pulong. Tan-awa ang dagko nga mga sayop ug importanteng butang nga mahimong nawala.</li><li>IUsaba ang bisan unsa nga pahinumdom nga anaa sa matag bersikulo ug salayi ninyo pagsulbad ang ubang mahinungdanon nga mga pulong nga gikalibogan. Isip tigsusi, orange ang imong makita nga giya. </li><li>Ayaw palabii og komento ang matag tksto apan hatagi lang og pagtagad ang mga pulong nga adunay mahinungdanon nga mga kahulogan. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
     
     "keyword-check_tn" => "Check Highlights",
@@ -705,6 +735,7 @@ return array (
     "content-review" => "Verse-by-Verse Check",
     "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>KATUYOUAN:</b> aron masiguro nga ang matag bahin ug kapitulo haom ang mensahe ngadto sa hinubad nga teksto. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi: </li><li>Kung ang nahibaloan sa tigsusi mao lamang ang gigikanan nga teksto, kinahanglan nga buhaton kini pinaagi sa paghubad balik sa gigikanan nga teksto (back translation). Imong basahon ang nahubad na nga teksto, dayon ang lahi nga tawo hubaron kini sa gigikanan nga teksto, ikumpara sa tigsusi ang iyang nadungog ngadto sa iyang gibasa. Kung kahibalo ang tigsusi sa du ha ka pinulongan, mahimo silang mopili asa nga pamaagi ang ilang buhaton. Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+
     "content-review_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang matag bahin ug kapitulo haom nga nagpasabot sa mensahe ngadto sa hinubad nga pinulongan. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li> Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi. Ang makita nimo nga mogawas dayon mao ang una nga pamaagi. <ol><li>Kung ang nahibaloan nimo mao lamang ang gigikanan nga teksto, ang pagsusi kinahanglan buhaton sa ‘back translation’. Basahon sa tighubad ang matag bersikulo sa nahubad na nga teksto, unya ang lahi nga tawo mohubad niini sa gigikanan nga teksto. Imo dayong ikumpara ang imong nadungog sa imong gibasa nga teksto. </li><li> Kung kabalo ka sa duha ka pinulongan, mahimong gamiton ang una nga pamaagi o ang pagsusi uban ang tighubad sa imong kiliran. Niini nga pamaagi, pindota ang “Side by Side” nga toggle button aron malahi ang naa sa screen. Imo dayong ikumpara ang duha. </li></ol></li><li>Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon. </li>",
     
     "final-review" => "Kataposang Pagsusi",
@@ -855,6 +886,53 @@ return array (
                         <li>Any resources can be used for checking.</li>
                         <li>Spend about 30 minutes on this step.</li>
                         <li>When all changes and notes have been made click, \"yes I did\" and \"next step.\"</li>",
+
+    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with 
+                                a peer checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                                are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
+                            <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
+                            <li>After you have looked over the text, contact the peer-checker to discuss discrepancies 
+                                via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                            <li>Your peer-checker will make all edits to the target text.  You can see all edits 
+                                by clicking refresh on your browser as they make changes.</li>
+                            <li>The Source text tab has text with yellow highlighted words.
+                                <ol>
+                                    <li>Discuss with the peer-checker if the word in the target text is accurate.</li>
+                                    <li>If the keyword is represented correctly the peer-checker will click 'YES' 
+                                        on a pop-up message on their page, and the highlighting will disappear.</li>
+                                    <li>If the keyword is not represented correctly, the peer-checker will make 
+                                        appropriate changes to the target text. Do not forget to check the notes from 
+                                        previous translators and checkers for discussion on this chunk.</li>
+                                    <li><b>All highlights have to be resolved on this step. You cannot complete this step 
+                                        until all highlights are removed.</b></li>
+                                </ol>
+                            </li>
+                            <li>The Target text tab:
+                                <ol>
+                                    <li>The LEFT column is the source text. There will be green and red highlights in the text. 
+                                        Green is text added by the checkers. Red is text deleted by the checkers. 
+                                        If there are no green or red highlights the checkers did not make changes to the text.</li>
+                                    <li>The RIGHT column <b>can be edited by your peer-checker</b> (again, you can see all 
+                                        changes made as they are made by refreshing your screen).</li>
+                                </ol>
+                            </li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>You and the peer-checker should discuss any changes you think should be made. If you 
+                                agree to the changes, your peer-checker will make the changes right away. If you do 
+                                not agree, contact your facilitator to discuss the disagreement. DO NOT complete 
+                                this step until discrepancies are resolved and changed.</li>
+                            <li>Any resources can be used for checking.</li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
+                            <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "multi-draft" => "Draft",
     "multi-draft_full" => "Consume, Verbalize, and Draft",
@@ -1057,6 +1135,7 @@ return array (
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
+
     // ------- Level 3 Check --------- //
     "peer-review-l3" => "Peer Check",
     "peer-review-l3_full" => "Peer Check",
@@ -1185,7 +1264,7 @@ return array (
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
-    // Errors
+    // ------- Errors messages ------- //
     "checker_translator_not_ready_error" => "Dili pa andam ang tighubad niini nga lakang, palihog hulat. Mobalik ra ang teksto kung andam na ang tighubad.",
     "checker_not_ready_error" => "Kini nga lakang wala pa giaprobahan sa tigsusi. Palihog hulat",
     "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
@@ -1202,6 +1281,7 @@ return array (
     "error_member_in_event" => "Nakasalmot naka niini nga trabaho",
     "no_l2_3_checkers_available_error" => "Wala nay bakante niini nga ang-ang {0} alang sa tigsusi",
     "no_translators_available_error" => "Wala nay bakante alang sa tighubad",
+    "required_fields_empty_error" => "You haven't filled in required fields correctly.",
     "not_loggedin_error" => "Wala pa ka nakasulod (Log-in)",
     "account_not_verirfied_error" => "Wala na napamatud-an ang imong ‘account’. Konekta sa tigdumala sa dapit.",
     "event_notexist_error" => "Wala nahimo ang trabaho",
@@ -1214,11 +1294,6 @@ return array (
     "event_chapters_error" => "Kinahanglan nga ihatag nimo ang bisan us aka kapitulo aron masugdan ang paghubad",
     "peer_check_not_done_error" => "Wala nasusi sa imong pares ang niaging kapitulo.",
     "cannot_apply_checker" => "Adunay sayop nga nahitabo. Dili ka mahimong mosalmot sa pagsusi niini nga kapitulo",
-    "enter_translators" => "Isulat ang gidaghanon sa mga tighubad",
-    "enter_checkers_l2" => "Isulat gidaghanon sa tigsusi sa ikaduhang ang-ang",
-    "enter_checkers_l3" => "Isulat gidaghanon sa tigsusi sa ikatulong ang-ang",
-    "wrong_date_from" => "Sayop ang petsa sa pagsugod",
-    "wrong_date_to" => "Sayop ang petsa sa pagtapos",
     "enter_admins" => "Pagpili og bisan usa ka tiggiya niini nga libro",
     "empty_draft_verses_error" => "Wala nimo nahubad tanang bersikulo",
     "empty_words_error" => "An error occurred: empty input",
@@ -1239,7 +1314,11 @@ return array (
     "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
     "unknown_import_type_error" => "Unknown type of project",
     "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
-    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
+    "font_format_error" => "Only WOFF format is accepted",
+    "not_csv_format_error" => "Not a CSV file!",
+    "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
+    "local_use_restriction" => "This feature is not available on local server.",
+    "error_zip_file_required" => "The file should of ZIP format",
     "projects_empty_error" => "Select the project",
     "proj_lang_empty_error" => "Select the project language",
 
@@ -1264,7 +1343,6 @@ return array (
     "no_events_message" => "Walay trabaho niini nga kategorya",
     "create_event_tip" => "No instructions for a while.",
     "goto_event_info" => "Adto sa pahibalo sa mga trabaho",
-    "event_info" => "Impormasyon sa Trabaho",
     "manage_event" => "Pagdumala sa Trabaho",
     "chapter_has_translation" => "Pahibalo! Kini nga kapitulo adunay pagsulat nga isulat. Kung moadto ka sa mga \"Bahin\" mawala ang teksto. Gusto ba gayod ka mopadayon",
 
@@ -1305,6 +1383,7 @@ return array (
     "cancel_confirmation" => "Cancel approval",
     "comment" => "comment",
     "add" => "Add",
+
     // Errors
     "word_not_found_error" => "Error: word not found",
     "translation_approved_error" => "Error: translation is already approved.",
