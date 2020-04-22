@@ -238,7 +238,6 @@ return array (
     "not_facilitator_error" => "You can only send messages to facilitators",
     "facilitator_yourself_error" => "You cannot send messages to yourself",
     "delete_warning" => "Type the name of the book and click \"Delete\" button again to delete the event",
-    "local_use_restriction" => "This feature is not available on local server.",
     "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
@@ -277,7 +276,6 @@ return array (
     "confirm_finished" => "Please confirm that you finished this step",
     "confirm_yes" => "Yes, I did",
     "next_step" => "Next step",
-    "continue" => "Continue",
     "continue_alt" => "Continue",
     "side_by_side_toggle" => "Side by side review",
     "do_not_show_tutorial" => "Don't show this message again",
@@ -351,7 +349,6 @@ return array (
     "level2_3_check" => "Level {level} Check",
     "translators" => "Translators",
     "max_translators" => "Maximum number of translators",
-    "translator" => "Translator",
     "checkers" => "Checkers",
     "apply" => "Apply",
     "apply_now" => "Apply Now",
@@ -433,7 +430,6 @@ return array (
     "edit" => "Edit",
     "add_admins_by_username" => "Add facilitators by typing their user names",
     "admin_project_title" => "Project creation",
-    "admin_events_title" => "Event creation",
     "apply_checker_l1" => "Apply as checker",
     "not_available" => "Not available",
     "reset_markers" => "Reset markers",
@@ -1885,8 +1881,7 @@ return array (
     "alert_message" => "Message",
     "no_events_message" => "No events in this category",
     "create_event_tip" => "No instructions for a while.",
-    "goto_event_info" => "Go to event information page",
-    "event_info" => "Event Information",
+    "goto_event_info" => "Go to event progress page",
     "manage_event" => "Manage Event",
     "chapter_has_translation" => "Attention! This chapter has some draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
 
