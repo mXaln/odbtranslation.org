@@ -1202,7 +1202,6 @@ return array (
     "error_member_in_event" => "Nakasalmot naka niini nga trabaho",
     "no_l2_3_checkers_available_error" => "Wala nay bakante niini nga ang-ang {0} alang sa tigsusi",
     "no_translators_available_error" => "Wala nay bakante alang sa tighubad",
-    "required_fields_empty_error" => "Wala nimo nasulatan ang tanan nga gipangayo nga impormasyon",
     "not_loggedin_error" => "Wala pa ka nakasulod (Log-in)",
     "account_not_verirfied_error" => "Wala na napamatud-an ang imong ‘account’. Konekta sa tigdumala sa dapit.",
     "event_notexist_error" => "Wala nahimo ang trabaho",
