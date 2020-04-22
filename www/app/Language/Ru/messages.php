@@ -1,17 +1,20 @@
 <?php
 
 return array (
-	// ------------- Main Controller --------------- //
-	"home" => "Главная",
-	"welcome_text" => "Добро пожаловать на V-MAST!",
+    
+    // -------------- Main Controller ------------------ //
+
+    // Index method
+    "home" => "Главная",
+    "welcome_text" => "Добро пожаловать на V-MAST!",
     "welcome_hint" => "Вы можете учавствовать только по приглашению",
-	"welcome_message" => "",
+    "welcome_message" => "",
     "maintenance_work" => "Ведутся технические работы!",
 
-	"translations_title" => "Переводы",
-	"events_title" => "События",
-	"contact_us_title" => "Обратная связь",
-	"about_title" => "О нас",
+    "translations_title" => "Переводы",
+    "events_title" => "События",
+    "contact_us_title" => "Обратная связь",
+    "about_title" => "О нас",
     "bible" => "Библия",
     "members" => "Пользователи",
     "on" => "Вкл.",
@@ -43,7 +46,6 @@ return array (
     "l2_checker" => "Проверяющий 2-го уровня",
     "l3_checker" => "Проверяющий 3-го уровня",
     "captcha_wrong" => "Капча решена не верно",
-    "userType_wrong_error" => "Тип пользователя не верен",
     "success" => "Успешно",
     "admin" => "Админка",
     "contact" => "Контакт",
@@ -104,13 +106,10 @@ return array (
     "common_skills" => "Общие",
     "facilitator_skills" => "Фасилитатор",
     "checker_skills" => "Образование",
-    "save" => "Сохранить",
-    "delete" => "Удалить",
     "avatar" => "Выберите аватарку",
     "male" => "Мужская",
     "female" => "Женская",
-    "translator_rating" => "Оценка",
-    "translator_rating_tip" => "Оценка, данная переводчику, основанная на данных профиля (от 1 до 4)",
+    "delete" => "Удалить",
     "weak" => "слабый",
     "moderate" => "средний",
     "strong" => "хороший",
@@ -199,28 +198,22 @@ return array (
 
     // Passwordreset method
     "passwordreset_title" => "Сброс пароля",
+    "continue" => "Далее",
     "enter_email" => "Введите Email",
+    "passwordreset_link_message" => "Чтобы сбросить пароль, перейдите по ссылке {link}",
+    "url_use_problem_hint" => "Если у вас проблемы с переходом по этому адресу, просто вставьте его в адресную строку браузера.",
 
     // Success messages
     "update_profile_success" => "Профиль был успешно обновлён!",
-    "passwordreset_link_message" => "Чтобы сбросить пароль, перейдите по ссылке {link}",
-    "url_use_problem_hint" => "Если у вас проблемы с переходом по этому адресу, просто вставьте его в адресную строку браузера.",
     "pwresettoken_send_success" => "Вам было отправлено письмо с инструкциями по сбросу пароля. Если его нет, проверьте в папке спам.",
     "password_reset_success" => "Ваш пароль был успешно изменен. Теперь вы можете войти, используя новый пароль",
-    "activation_link_message" => "<h3>Спасибо за регистрацию!</h3>"."\n"." Чтобы активировать учетную запись перейдите по этой ссылке {link}",
     "account_activated_success" => "Учетная запись активирована. Теперь вы можете войти",
     "resend_activation_success_message" => "Сообщение с кодом активации отправлено на вашу электронную почту. Если письма нет во входящих, проверьте в папке спам.",
+    "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {link}",
     "registration_success_message" => "Регистрация прошла успешно! Проверьте почту для активации учетной записи. Если письма нет во входящих, проверьте в папке спам.",
     "registration_local_success_message" => "Регистрация прошла успешно!",
 
     // Error messages
-    "required_fields_empty_error" => "Пожалуйста, верно заполните все обязательные поля",
-    "update_profile_error" => "Профиль не может быть обновлен",
-    "token_expired_error" => "Код сброса пароля просрочен",
-    "update_table_error" => "Ошибка записи в базу данных. Пожалуйста, попробуйте снова.",
-    "no_account_error" => "Учетная запись не существует или код недействителен",
-    "account_activated_error" => "Аккаунт уже активирован",
-    "invalid_link_error" => "Неверная ссылка",
     "userName_characters_error" => "Имя пользователя должно содержать только маленькие буквы латиницы и числа, а также начинаться с букв",
     "userName_length_error" => "Имя пользователя должно быть длиной от 5 до 20 символов",
     "firstName_length_error" => "Имя должно быть длиной от 2 до 20 символов",
@@ -232,6 +225,14 @@ return array (
     "passwords_notmatch_error" => "Пароли не совпадают",
     "tou_accept_error" => "Вы должны принять Условия Использования",
     "sof_accept_error" => "Вы должны принять Утверждение Веры",
+    "required_fields_empty_error" => "Пожалуйста, верно заполните все обязательные поля",
+    "update_profile_error" => "Профиль не может быть обновлен",
+    "token_expired_error" => "Код сброса пароля просрочен",
+    "update_table_error" => "Ошибка записи в базу данных. Пожалуйста, попробуйте снова.",
+    "no_account_error" => "Учетная запись не существует или код недействителен",
+    "account_activated_error" => "Аккаунт уже активирован",
+    "invalid_link_error" => "Неверная ссылка",
+    "userType_wrong_error" => "Тип пользователя не верен",
     "choose_filter_option" => "Выберите хотя бы одну опцию фильтра для поиска пользователей",
     "empty_profile_error" => "Профиль не заполнен",
     "not_facilitator_error" => "Вы можете отправлять сообщения только фасилитаторам",
@@ -241,7 +242,7 @@ return array (
 
     // ------------ Events Controller ------------- //
 
-    "admin_events_title" => "Создание и редактирование событий",
+    "admin_events_title" => "Cоздание событий",
     "admin_members_title" => "Управление пользователями",
     "gw_language" => "Ключевой язык",
     "book_project" => "Исходное Писание",
@@ -275,7 +276,6 @@ return array (
     "confirm_finished" => "Пожалуйста, убедитесь в том, что вы закончили работу в этом шаге",
     "confirm_yes" => "Все сделано",
     "next_step" => "Следующий шаг",
-    "continue" => "Далее",
     "continue_alt" => "Продолжить",
     "side_by_side_toggle" => "Сравнительный обзор",
     "do_not_show_tutorial" => "Не показывать это окно в след. раз",
@@ -349,7 +349,6 @@ return array (
     "level2_3_check" => "Проверка {level}-го уровня",
     "translators" => "Переводчики",
     "max_translators" => "Максимальное количество переводчиков",
-    "translator" => "Переводчик",
     "checkers" => "Проверяющие",
     "apply" => "Участвовать",
     "apply_now" => "Подать заявку",
@@ -374,10 +373,7 @@ return array (
     "add_checker" => "Добавить проверяющего",
     "assign_chapter_title" => "Назначить главу",
     "assign_group_title" => "Назначить группу",
-    "assign_pair_title" => "Назначить пару",
-    "reset_pair_title" => "Удалить пару",
     "assign" => "Назначить",
-    "check_pair_members" => "Отметьте пользователей для создания пары",
     "start_translation" => "Начать перевод",
     "start_checking" => "Начать проверку",
     "checkers_l2" => "Проверяющие 2-го уровня",
@@ -420,7 +416,6 @@ return array (
     "new_events" => "Новые события",
     "choose_project" => "Выберите проект",
     "create_project" => "Создать проект",
-    "projects" => "Проекты",
     "project_type" => "Тип проекта",
     "choose_gw_lang" => "Выберите ключевой язык",
     "choose_target_lang" => "Выберите целевой язык",
@@ -435,7 +430,6 @@ return array (
     "edit" => "Изменить",
     "add_admins_by_username" => "Внесите фасилитаторов по их именам пользователей",
     "admin_project_title" => "Cоздание проектов",
-    "admin_events_title" => "Cоздание событий",
     "apply_checker_l1" => "Подписка на проверку",
     "not_available" => "Не доступно",
     "reset_markers" => "Сбросить маркеры",
@@ -529,10 +523,13 @@ return array (
     "multi-draft_lang_input" => "Ввод",
 
     "consume" => "Чтение",
+    "consume_desc" => "<li><b>ЦЕЛЬ:</b> подготовить свою кратковременную память к переводу текста</li><li>Прочитайте текст от начала до конца. Попытайтесь как можно более глубоко в него вникнуть; посмотрите, о чем идет речь; постарайтесь полностью понять содержание текста.</li><li>Останавливайтесь, размышляйте и перечитывайте текст по мере необходимости.</li><li>Уделите этому шагу не более 12 минут.</li>",
+
     "consume_odb" => "Чтение",
+    "consume_sun_desc" => "<li><b>ЦЕЛЬ:</b> получить общую картину главы</li><li>Прочитайте текст от начала до конца. Попытайтесь как можно более глубоко в него вникнуть; посмотрите, о чем идет речь; постарайтесь полностью понять содержание текста.</li><li>Останавливайтесь, размышляйте и перечитывайте текст по мере необходимости.</li><li>Уделите этому шагу не более 12 минут.</li>",
+
     "consume_tn" => "Чтение Писания",
     "consume_tn_full" => "Чтение Писания на целевом языке",
-    "consume_desc" => "<li><b>ЦЕЛЬ:</b> подготовить свою кратковременную память к переводу текста</li><li>Прочитайте текст от начала до конца. Попытайтесь как можно более глубоко в него вникнуть; посмотрите, о чем идет речь; постарайтесь полностью понять содержание текста.</li><li>Останавливайтесь, размышляйте и перечитывайте текст по мере необходимости.</li><li>Уделите этому шагу не более 12 минут.</li>",
     "consume_tn_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translating notes.</li>
                             <li>Read the assigned chapter carefully.</li>
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
@@ -540,32 +537,36 @@ return array (
                                 it with your mouse.  It is a footnote to help you translate the (verse or note).</li>
                             <li>Take no more than 7-10 minutes on this step.</li>
                             <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-    "consume_sun_desc" => "<li><b>ЦЕЛЬ:</b> получить общую картину главы</li><li>Прочитайте текст от начала до конца. Попытайтесь как можно более глубоко в него вникнуть; посмотрите, о чем идет речь; постарайтесь полностью понять содержание текста.</li><li>Останавливайтесь, размышляйте и перечитывайте текст по мере необходимости.</li><li>Уделите этому шагу не более 12 минут.</li>",
+
+    "consume_rad_desc" => "<li><b>PURPOSE:</b> to read the text to prepare for translation.</li>
+                            <li>Read the assigned broadcast carefully.</li>
+                            <li>Try to understand the meaning and details of the text for a general overview.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "verbalize" => "Пересказ",
     "verbalize_desc" => "<li><b>ЦЕЛЬ:</b> словесно выразить то, о чем вы размышляли, чтобы задействовать вашу кратковременную память.</li><li>Свяжитесь со своим напарником, используя наиболее удобные для вас средства связи: Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Не обсуждайте прочитанный текст, а перескажите его: «Я прочел о том, что ...», и затем «Основная мысль это ...».</li><li>Лучше всего пересказывать текст на родном языке.</li><li>Уделите этому шагу с напарником не более 7-10 минут.</li>",
-    "verbalize_checker_desc" => "<li><b>ЦЕЛЬ:</b> слушать, как переводчики выражают в устной форме то, что они узнали из прочитанного текста.</li><li>Так как вы проверяющий, инструкции для вас будут выделены оранжевым цветом.</li><li>Соединитесь с вашим напарником через одну из платформ: Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Не обсуждайте прочитанный текст, но пусть переводчик озвучить то, о чем он прочитал и основные идеи текста, чтобы задействовать краковременную память.</li><li>Лучше всего пересказывать на родном языке.</li><li>Уделите этому шагу с напарником не более 7-10 минут.</li>",
-    
+
     "chunking" => "Отрывок",
     "chunking_sun" => "Thought Chunk",
     "chunking_desc" => "<li><b>ЦЕЛЬ:</b> разбить текст на смысловые отрывки для перевода.</li><li>Выделите 2-5 стиха по порядку и нажмите «создать отрывок», чтобы разделить текст на отрывки, необходимые для следующего шага.</li><li>Разбейте, таким образом, весь текст, объединяя стихи по смыслу, принимая в расчет логические паузы, существующие между ними.</li><li>Уделите этому шагу не более 5 минут.</li>",
+
     "chunking_sun_desc" => "<li><b>ЦЕЛЬ:</b> разбить текст на смысловые отрывки для перевода.</li><li>Выделите 2-5 стиха по порядку и нажмите «создать отрывок», чтобы разделить текст на отрывки, необходимые для наброска вслепую.</li><li>Разбейте, таким образом, весь текст, объединяя стихи по смыслу, принимая в расчет логические паузы, существующие между ними.</li><li>Уделите этому шагу не более 5 минут.</li>",
 
     "read-chunk" => "Набросок вслепую",
     "read-chunk-alt" => "Чтение отрывка",
     "read-chunk_desc" => "<li><b>ЦЕЛЬ:</b> рассмотреть отрывок, чтобы подготовиться к наброску вслепую.</li><li>Прочтите и мысленно вникните в отрывок текста, попросив помощи у Святого Духа для понимания содержания.</li><li>Уделите каждому отрывку не более 5 минут.</li>",
-
+    
     "read-chunk_tn" => "Чтение отрывка",
     "read-chunk_tn_desc" => "<li><b>PURPOSE:</b> to read through the chunk of Notes you will translate.</li>
                                 <li>Read the assigned chunk of Notes carefully.</li>
                                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                                 <li>Take about 5 minutes on this step.</li>
                                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-
+    
     "blind-draft" => "Набросок вслепую",
     "blind-draft_previous" => "Набросок вслепую - предыдущий отрывок",
     "blind-draft_desc" => "<li><b>ЦЕЛЬ:</b> перевести исходный текст как можно более естественно на целевой язык.</li><li>Не смотря в исходный текст, запишите ваш перевод отрывка как можно точнее и естественее, используя понятные и ясные слова.</li><li>Не смотрите на исходный текст. Просто переводите то, что запомнили.</li><li>Не беспокойтесь о нумерации стихов. Вы сделаете это на последнем шаге.</li><li>Одна из основных характеристик хорошего перевода — это естественность языка. Слепой набросок  отражает эту характеристику и позволяет мозгу/кратковременной памяти быстро вспомнить текст простыми и благозвучными словами. Это не значит, что текст будет идеально точным (следующие четыре шага помогут нам в этом), но это значит — заложить основу естественности, которая, если отсутствует, приводит к распространненой ошибке и длительным периодам исправления основополагающей ошибки.</li><li>Уделите каждому отрывку не более 10-12 минут.</li>",
-    
+
     "blind-draft_tn" => "Набросок вслепую",
     "blind-draft_tn_desc" => "<li><b>PURPOSE:</b> to review the chunk of scripture and Notes and then \"blind translate\" the Note in the target language.</li>
                                 <li>Read the scripture and Note, keeping the context of the whole chapter mind.</li>
@@ -584,9 +585,23 @@ return array (
                                 <li>No need to translate links.</li>
                                 <li>Click \"yes I did\" and \"next step\" to move to the next chunk to translate until the chapter is finished.</li>",
 
+    "multi-draft_rad_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
+                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness of the target language.
+                                    <ol>
+                                        <li>Translate the word \"Broadcast\" and the number.</li>
+                                        <li>Translate the name of the broadcast.</li>
+                                        <li>Translate each character name in ALL CAPS by turning on Caps Lock and typing 
+                                            the name. It will go fast if you copy and then paste the name into the proper 
+                                            blanks for each character.</li>
+                                        <li>Translate the text the speaker is saying as naturally as you can.</li>
+                                    </ol>
+                                </li>
+                                <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
+                                <li>Make sure the save icon is not flashing when you click \"Next step\".</li>",
+
     "self-check" => "Самопроверка",
     "self-check_desc" => "<li><b>ЦЕЛЬ:</b> отредактировать свой набросок вслепую и внимательно сравнить значение исходного текста, при этом сохраняя форму и структуру источника.</li><li>Обратите внимание на грамматические ошибки, пунктуацию, благозвучность/естественность. </li><li>Обратите внимание на каждую пропущенную вами часть текста, а также на упущенные или добавленные вами факты.</li><li>Не преувеличивайте, не упрощайте и не добавляйте текст для лучшего пояснения. Если вы считаете, что дополнительное пояснение необходимо, тогда запишите ваше замечание к данному отрывку, используя редактор заметок, и продолжите перевод.</li><li>Уделите этому шагу не более 15-20 минут.</li>",
-    
+
     "self-check_tn" => "Самопроверка",
     "self-check_tn_desc" => "<li><b>PURPOSE:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>Look for spelling, punctuation, flow/naturalness errors.</li>
@@ -615,6 +630,18 @@ return array (
                                     <li>This should take about 30 minutes.</li>
                                     <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
 
+    "self-check_rad_desc" => "<li><b>PURPOSE:</b> to edit your draft and check meaning and accuracy while maintaining 
+                                naturalness.</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>Look for any missing portions of text or missing/added facts.</li>
+                                <li>Check in detail the accuracy of your translation.</li>
+                                <li>If you have additional thoughts or questions about your translation, click the note 
+                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, 
+                                    and click Save. The peer-editor will see this note and will help to resolve the 
+                                    question or problem.</li>
+                                <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
+                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
+
     "highlight_tn" => "Highlight",
     "highlight_tn_full" => "Highlight Difficult Passages",
     "highlight_tn_desc" => "<li><b>PURPOSE:</b> to highlight passages that are considered theologically difficult.</li>
@@ -631,8 +658,9 @@ return array (
 
     "peer-review" => "Взаимопроверка",
     "peer-review_desc" => "<li><b>ЦЕЛЬ:</b> утвердить с другим носителем целевого языка текст на верное и естественное  изложение исходного текста (таким же образом, как и в самопроверке).</li><li>Ваш перевод будет рассмотрен проверяющим.</li><li>Проверяющий рассмотрит ваш перевод, обратив внимание на все, что было пропущено или добавлено, а также на то, что сильно отличается от исходного текста.</li><li>Проверяющий также рассмотрит, являются ли подобранные слова благозвучными, правильными и понятными.</li><li>Проверяющий должен уделить этому шагу не более 30-45 минут.</li><li>Когда проверяющий  закончит отмечать свои примечания и наблюдения, свяжитесь с ним, используя Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Обсудите его/их замечания. В ходе обсуждения с вашим проверяющим внесите необходимые изменения в ваш перевод.</li><li>Убедитесь, что подобранные слова соответствуют выбранному литературному уровню/стилю.</li><li>Уделите этому упражнению с вашим напарником не более 60 минут. Не тратьте время на разногласия. В таких случаях, оставьте текст как таковой, запишите примечание к данному отрывку и продолжите перевод.</li>",
+
     "peer-review_checker_desc" => "<li><b>ЦЕЛЬ:</b> утвердить переведенный текст на верное и благозвучное изложение исходного текста (таким же образом, как и в самопроверке).</li><li>Так как вы проверяющий, инструкции для вас будут выделены оранжевым цветом.</li><li>Ваша задача проверить текст одного из ваших напарников, и один из них будет проверять ваш перевод, если вы также являетесь переводчиком.</li><li>Проверьте перевод вашего напарника, обратив внимание на все, что было пропущено или добавлено, а также на то, что сильно отличается от исходного текста.</li><li>Обратите внимание на выбранные слова в переводе, которые не являются благозвучными, ясными и понятными.</li><li>Когда вы закончите отмечать свои примечания и наблюдения, свяжитесь с переводчиком, используя Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Обсудите его/их замечания.</li><li>Убедитесь, что использованные слова соответствуют выбранному литературному уровню/стилю.</li><li>Уделите этому упражнению с вашим напарником не более 60 минут. Не тратьте время на разногласия. В таких случаях, оставьте текст как таковой, запишите примечание к данному отрывку и продолжайте.</li>",
-    
+
     "peer-review_tn" => "2<sup>ая</sup> проверка",
     "peer-review_tn_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
@@ -679,8 +707,17 @@ return array (
                                     <li>WARNING: This is the last chance you will have to check the Notes. Do not 
                                         click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
 
+    "peer-review_rad_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
+                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>You will look for any missing portions of text or missing or added facts.</li>
+                                <li>You will check the accuracy of the translation in detail.</li>
+                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
+
     "keyword-check" => "Проверка ключевых слов",
     "keyword-check_desc" => "<li><b>ЦЕЛЬ:</b> проверить, что все важные слова присутствуют в переводе и что все они переведены правильно.</li><li>Проверяющий будет видеть только исходный текст.</li><li>Проверяющий должен выделить ключевые слова в исходном тексте. Выделенные слова также будут видны у вас в исходном тексте.</li><li>Ключевыми словами являются: местоимения, имена, числа и все важные термины.</li><li>Свяжитесь с вашим проверяющим, используя Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Проверяющий должен просмотреть каждый стих и спросить, переведено ли вами выделенное слово. Вы можете просто отвечать: «Да» или «Нет». Проверяющий также может спросить у вас, как вы перевели определенные слова.</li><li>Внесите необходимые поправки в ваш текст.</li><li>Убедитесь, что использованные слова соответствуют выбранному литературному уровню/стилю.</li><li>Уделите этому шагу не более 30 минут. Не тратьте время на разногласия. В таких случаях, оставьте текст как таковой, запишите примечание к данному отрывку и продолжите перевод.</li>",
+
     "keyword-check_checker_desc" => "<li><b>ЦЕЛЬ:</b> убедиться, что значимые слова присутствуют в переведенном тексте и верно выражены.</li><li>Так как вы проверяющий, инструкции для вас будут выделены оранжевым цветом.</li><li>Когда вы начнете проверять работу другого переводчика, вы сможете видеть только исходный текст.</li><li>Вы можете выделить все ключевые слова в исходном тексте двойным нажатием на самом слове или выделением слова/фразы при помощи мыши. Переводчик также может видеть выделенные слова в исходном тексте.</li><li>Ключевыми словами являются: местоимения, имена, числа и все важные термины.</li><li>Свяжитесь с вашим напарником, используя Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Просмотрите каждый стих и проверьте каждое выделенное слово с переводчиком. Переводчик может отвечать либо «да», либо «нет». Вы также должны спросить у переводчика, как он перевел некоторые важные термины. Обращайте внимание на крупные ошибки и важные упущения.</li><li>Просмотрите все примечания, относящиеся к стиху, и попытаться решить сложности с ключевыми словами.</li><li>Не старайтесь анализировать или критиковать текст, сосредоточьте ваше внимание только на тех словах, которые несут более важное значение.</li><li>Уделите этому шагу не более 30 минут. Не тратьте время на разногласия. В таких случаях, оставьте текст как таковой, запишите примечание к данному отрывку и продолжайте.</li>",
     
     "keyword-check_tn" => "Check Highlights",
@@ -696,7 +733,9 @@ return array (
                                 <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
 
     "content-review" => "Проверка по стихам",
+    "content-review_odb" => "SUN Check",
     "content-review_desc" => "<li><b>ЦЕЛЬ:</b> убедиться, что каждый отрывок и глава точно передают то же содержание в целевом языке.</li><li>Свяжитесь с вашим проверяющим, используя Skype, Hangout, V-MAST чат, телефон и т.д.</li><li>Обзор можно провести двумя способами: <ol><li>Если проверяющий знает только язык исходного текста, то проверка должна быть осуществлена при помощи обратного перевода. В этом случае, вы будете читать переведенный текст, отрывок за отрывком, затем вы или другой человек должен перевести прочитанный отрывок на исходный язык, а проверяющий должен сравнивать то, что он слышит, с исходным текстом.</li><li>Если проверяющий свободно владеет обоими языками, то он может либо использовать первый способ проверки, либо сам сравнить ваш перевод с исходным текстом.</li></ol></li><li>В любом случае, проверяющий может задать вам вопросы относительно всех мест, которые, по его мнению, не переданы точно. В ходе обсуждения вносите все необходимые исправления.</li><li>Убедитесь, чтобы слова, использованные в переводе соответствовали выбранному литературному стилю (уровню языка).</li><li>Уделите данному шагу не более 30 минут. Не тратьте время на разногласия. В таких случаях, оставьте текст как таковой, запишите примечание к данному отрывку и продолжите работу.</li>",
+
     "content-review_checker_desc" => "<li><b>ЦЕЛЬ:</b> убедиться, что каждый отрывок и глава точно передают то же содержание в целевом языке.</li><li>Так как вы проверяющий, инструкции для вас будут выделены оранжевым цветом.</li><li>Свяжитесь с переводчиком, используя наиболее удобный для вас тип связи: Skype, Hangout, телефон и пр.</li><li>Обзор можно провести двумя способами (по умолчанию идет первый способ ее проведения): <ol><li>Если вы владеете только языком исходного текста, то проверка должна быть осуществлена при помощи обратного перевода. В этом случае, переводчик будет читать переведенный текст, отрывок за отрывком, затем переводчик или другой человек должен перевести прочитанный отрывок на исходный язык, и вы должны сравнивать то, что вы слышите с исходным текстом.</li><li>Если вы свободно владеете обоими языками, то вы можете либо использовать первый способ проверки, либо выбрать сравнительный обзор перевода с исходным текстом. В этом случае нажмите на кнопку «Сравнительный обзор», чтобы переключиться в режим показа обоих текстов. Затем сравните два текста самостоятельно.</li></ol></li><li>В любом случае, вы должны задать вопросы ко всему, что, по вашему мнению, не было переведено точно или полностью на целевой язык.</li><li>Уделите данному шагу не более 30 минут. Не тратьте время на разногласия. В таких случаях, оставьте текст как таковой, запишите примечание к данному отрывку и продолжите работу.</li>",
     
     "final-review" => "Нумерация стихов",
@@ -847,6 +886,53 @@ return array (
                         <li>Any resources can be used for checking.</li>
                         <li>Spend about 30 minutes on this step.</li>
                         <li>When all changes and notes have been made click, \"yes I did\" and \"next step.\"</li>",
+
+    "peer-review-l2_chk_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with 
+                                a peer checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
+                                are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
+                            <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
+                            <li>After you have looked over the text, contact the peer-checker to discuss discrepancies 
+                                via: Skype, Messenger, WhatsApp, phone, etc…</li>
+                            <li>Your peer-checker will make all edits to the target text.  You can see all edits 
+                                by clicking refresh on your browser as they make changes.</li>
+                            <li>The Source text tab has text with yellow highlighted words.
+                                <ol>
+                                    <li>Discuss with the peer-checker if the word in the target text is accurate.</li>
+                                    <li>If the keyword is represented correctly the peer-checker will click 'YES' 
+                                        on a pop-up message on their page, and the highlighting will disappear.</li>
+                                    <li>If the keyword is not represented correctly, the peer-checker will make 
+                                        appropriate changes to the target text. Do not forget to check the notes from 
+                                        previous translators and checkers for discussion on this chunk.</li>
+                                    <li><b>All highlights have to be resolved on this step. You cannot complete this step 
+                                        until all highlights are removed.</b></li>
+                                </ol>
+                            </li>
+                            <li>The Target text tab:
+                                <ol>
+                                    <li>The LEFT column is the source text. There will be green and red highlights in the text. 
+                                        Green is text added by the checkers. Red is text deleted by the checkers. 
+                                        If there are no green or red highlights the checkers did not make changes to the text.</li>
+                                    <li>The RIGHT column <b>can be edited by your peer-checker</b> (again, you can see all 
+                                        changes made as they are made by refreshing your screen).</li>
+                                </ol>
+                            </li>
+                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
+                            <li>You and the peer-checker should discuss any changes you think should be made. If you 
+                                agree to the changes, your peer-checker will make the changes right away. If you do 
+                                not agree, contact your facilitator to discuss the disagreement. DO NOT complete 
+                                this step until discrepancies are resolved and changed.</li>
+                            <li>Any resources can be used for checking.</li>
+                            <li>Footnotes added to the translation are inserted in blue highlighting.
+                                <ol>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>\"\\f\" tags the beginning and end of all footnotes.</li>
+                                    <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
+                                    <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
+                                    <li>Check to see if the footnote is relevant and correct.</li>
+                                </ol>
+                            </li>
+                            <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "multi-draft" => "Draft",
     "multi-draft_full" => "Consume, Verbalize, and Draft",
@@ -1049,6 +1135,7 @@ return array (
                             page by clicking the \"x\" or the translator will not be able to complete the step.</li>
                         <li><b>Make sure all changes are made as this is the last step.</b></li>",
 
+
     // ------- Level 3 Check --------- //
     "peer-review-l3" => "Peer Check",
     "peer-review-l3_full" => "Peer Check",
@@ -1177,7 +1264,7 @@ return array (
                             <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
                             <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
-    // Errors
+    // ------- Errors messages ------- //
     "checker_translator_not_ready_error" => "Переводчик не готов к этому шагу, пожалуйста ждите. Страница будет перезагружена, когда переводчик будет готов.<span class=\"checker_waits\"></span>",
     "checker_not_ready_error" => "Проверяющий ещё не утвердил этот шаг. Пожалуйста ждите.",
     "peer_checker_not_ready_error" => "Ваш напарник еще не перешел на этот шаг. Пожалуйста ждите.",
@@ -1194,6 +1281,7 @@ return array (
     "error_member_in_event" => "Участник уже подал заявку на это событие. Возможно на предыдущих уровнях.",
     "no_l2_3_checkers_available_error" => "Регистрация проверяющих {0}-го уровня закрыта.",
     "no_translators_available_error" => "Регистрация переводчиков закрыта.",
+    "required_fields_empty_error" => "You haven't filled in required fields correctly.",
     "not_loggedin_error" => "Вы не авторизованы.",
     "account_not_verirfied_error" => "Ваша учетная запись не подтверждена. Обратитесь к администрации сайта.",
     "event_notexist_error" => "Событие не существует.",
@@ -1206,11 +1294,6 @@ return array (
     "event_chapters_error" => "Необходимо назначить хотя бы одну главу, чтобы начать перевод.",
     "peer_check_not_done_error" => "Ваша предыдущая глава не была проверена вашим партнёром.",
     "cannot_apply_checker" => "Возникла ошибка. Вы не можете стать проверяющим этой главы.",
-    "enter_translators" => "Введите количество переводчиков.",
-    "enter_checkers_l2" => "Введите количество проверяющих 2-го уровня",
-    "enter_checkers_l3" => "Введите количество проверяющих 3-го уровня",
-    "wrong_date_from" => "Неверная дата начала",
-    "wrong_date_to" => "Неверная дата окончания",
     "enter_admins" => "Назначьте хотя бы одного фасилитатора для этой книги",
     "empty_draft_verses_error" => "Вы перевели не все стихи",
     "empty_words_error" => "Ошибка: поле не заполнено",
@@ -1244,7 +1327,6 @@ return array (
     "translator_event_finished_success" => "Переводчик закончил переводить все свои главы.",
     "check_request_sent_success" => "Запрос на проверку отправлен. Страница перезагрузится, когда проверяющий примет приглашение.",
     "cotr_not_ready_to_discuss_message" => "Пожалуйста подождите вашего партнера, пока он/она не присоединится к этому шагу",
-    "partner_not_ready_message" => "Ваш партнер еще не перешел к этому шагу. Когда он(а) будет готов(а) содержимое страницы обновится.",
     "partner_not_ready_message" => "Ваш партнер еще не перешел к этому шагу. Когда он(а) будет готов(а) содержимое страницы обновится.",
     "successfully_applied" => "Вы были подписаны на это событие!",
     "successfully_created" => "Успешно создано!",
@@ -1301,6 +1383,7 @@ return array (
     "cancel_confirmation" => "Отменить утверждение",
     "comment" => "коммент",
     "add" => "Добавить",
+
     // Errors
     "word_not_found_error" => "Ошибка: термин не найден.",
     "translation_approved_error" => "Ошибка: перевод уже утвержден.",
@@ -1310,7 +1393,6 @@ return array (
     "not_voted_error" => "Ошибка: вы еще не проголосовали.",
     "word_exist_error" => "Такой термин уже существует",
     "word_not_specified_error" => "Ошибка: не указано слово",
-
 
     // -------------- Bible books names ----------------- //
     "gen" => "Бытие",

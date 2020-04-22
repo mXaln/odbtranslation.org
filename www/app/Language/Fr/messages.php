@@ -39,6 +39,7 @@ return array (
     "tou" => "Conditions d’utilisation",
     "sof" => "Déclaration de foi",
     "welcome_title" => "Bienvenue",
+    "translator" => "Traducteur",
     "checker" => "Vérificateur N2/N3",
     "facilitator" => "Facilitateur",
     "facilitators" => "Facilitateurs",
@@ -275,7 +276,6 @@ return array (
     "confirm_finished" => "Confirmez d’abord que vous avez terminé cette étape",
     "confirm_yes" => "Oui, je l’ai faite",
     "next_step" => "Prochaine étape",
-    "continue" => "Continuer",
     "continue_alt" => "Continuer",
     "side_by_side_toggle" => "Examen côte à côte",
     "do_not_show_tutorial" => "Ne plus me montrer ce message",
@@ -349,7 +349,6 @@ return array (
     "level2_3_check" => "Niveau {level} Vérification",
     "translators" => "Traducteurs",
     "max_translators" => "Nombre maximal de traducteurs",
-    "translator" => "Traducteur",
     "checkers" => "Vérificateurs",
     "apply" => "Appliquer",
     "apply_now" => "Appliquer Maintenant",
@@ -530,7 +529,6 @@ return array (
     "multi-draft_lang_input" => "Input",
 
     "consume" => "Consumer (absorber)",
-    "consume_odb" => "Lis",
     "consume_desc" => "<li><b>BUT:</b> Saisir le texte d’origine pour se préparer à traduire.</li>
                         <li><b>DURÉE:</b> Ayez 7-8 minutes pour cette étape.</li>
                         <li>Lire attentivement le chapître en question.</li>
@@ -541,6 +539,7 @@ return array (
                             réfléchissez sur les passages et continuez de lire le passage suivant du chapître. </li>
                         <li>Cliquez “Oui” je l’ai fait” et “Prochaine étape” pour la prochaine étape.</li>",
 
+    "consume_odb" => "Lis",
     "consume_sun_desc" => "<li><b>BUT:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
@@ -554,6 +553,11 @@ return array (
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
                             <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), hover over 
                                 it with your mouse. It is a translator’s note for that verse.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+
+    "consume_rad_desc" => "<li><b>PURPOSE:</b> to read the text to prepare for translation.</li>
+                            <li>Read the assigned broadcast carefully.</li>
+                            <li>Try to understand the meaning and details of the text for a general overview.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "verbalize" => "Verbalizez",
@@ -664,6 +668,20 @@ return array (
                                 <li>No need to translate links.</li>
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next chunk, until the chapter is completed.</li>",
 
+    "multi-draft_rad_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
+                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness of the target language.
+                                    <ol>
+                                        <li>Translate the word \"Broadcast\" and the number.</li>
+                                        <li>Translate the name of the broadcast.</li>
+                                        <li>Translate each character name in ALL CAPS by turning on Caps Lock and typing 
+                                            the name. It will go fast if you copy and then paste the name into the proper 
+                                            blanks for each character.</li>
+                                        <li>Translate the text the speaker is saying as naturally as you can.</li>
+                                    </ol>
+                                </li>
+                                <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
+                                <li>Make sure the save icon is not flashing when you click \"Next step\".</li>",
+
     "self-check" => "Auto-Edition",
     "self-check_desc" => "<li><b>BUT:</b> Éditer votre draft aveugle et vérifier que le sens du texte d’origine est 
                             précis tout en maintenant le flot naturel du draft aveugle.</li>
@@ -743,6 +761,18 @@ return array (
                                         </ol>
                                     </li>
                                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
+
+    "self-check_rad_desc" => "<li><b>PURPOSE:</b> to edit your draft and check meaning and accuracy while maintaining 
+                                naturalness.</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>Look for any missing portions of text or missing/added facts.</li>
+                                <li>Check in detail the accuracy of your translation.</li>
+                                <li>If you have additional thoughts or questions about your translation, click the note 
+                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, 
+                                    and click Save. The peer-editor will see this note and will help to resolve the 
+                                    question or problem.</li>
+                                <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
+                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
 
     "highlight_tn" => "Highlight",
     "highlight_tn_full" => "Highlight Difficult Passages",
@@ -894,6 +924,14 @@ return array (
                                         DO NOT continue to the next step until disagreements are resolved.</li>
                                     <li>When all changes and notes have been made by the 1st checker, click \"Yes, I did\" and \"Next step\".</li>
                                     <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
+
+    "peer-review_rad_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
+                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>You will look for any missing portions of text or missing or added facts.</li>
+                                <li>You will check the accuracy of the translation in detail.</li>
+                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
 
     "keyword-check" => "Vérification des Mots Clés",
     "keyword-check_desc" => "<li><b>BUT:</b> S’assurer que les mots-clés sont présents dans le texte traduit et traduits avec précision.</li>
@@ -1820,6 +1858,7 @@ return array (
     "error_member_in_event" => "Ce membre a déjà postulé pour cette évènement, peut-être dans des niveaux antérieurs.",
     "no_l2_3_checkers_available_error" => "Pas de poste vacant pour les vérificateurs niveau {0}.",
     "no_translators_available_error" => "Pas de poste vacant pour les traducteurs.",
+    "required_fields_empty_error" => "You haven't filled in required fields correctly.",
     "not_loggedin_error" => "Vous n’êtes pas connecté.",
     "account_not_verirfied_error" => "Votre compte n’a pas été vérifié. Parlez à l’administrateur du site. ",
     "event_notexist_error" => "L’évènement n’existe pas.",
