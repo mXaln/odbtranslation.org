@@ -443,7 +443,6 @@ return array (
     "edit" => "Edit",
     "add_admins_by_username" => "Add facilitators by typing their user names",
     "admin_project_title" => "Creating of projects",
-    "admin_events_title" => "Creating of events",
     "apply_checker_l1" => "Apply as checker",
     "not_available" => "Not available",
     "reset_markers" => "Reset markers",
