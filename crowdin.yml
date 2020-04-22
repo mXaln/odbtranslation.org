@@ -1,5 +1,6 @@
 files:
   - source: app/Language/En/messages.php
     translation: /www/app/Language/%two_letters_code%/messages.php
-  - source: www/app/Templates/Default/Assets/js/languages/En.txt
-    translation: www/app/Templates/Default/Assets/js/languages/%two_letters_code%.txt
+  - source: www/app/Templates/Default/Assets/js/languages/En.lc
+    translation: www/app/Templates/Default/Assets/js/languages/%two_letters_code%.lc
+    type: json
