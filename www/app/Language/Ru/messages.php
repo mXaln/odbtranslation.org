@@ -225,7 +225,6 @@ return array (
     "passwords_notmatch_error" => "Пароли не совпадают",
     "tou_accept_error" => "Вы должны принять Условия Использования",
     "sof_accept_error" => "Вы должны принять Утверждение Веры",
-    "required_fields_empty_error" => "Пожалуйста, верно заполните все обязательные поля",
     "update_profile_error" => "Профиль не может быть обновлен",
     "token_expired_error" => "Код сброса пароля просрочен",
     "update_table_error" => "Ошибка записи в базу данных. Пожалуйста, попробуйте снова.",
