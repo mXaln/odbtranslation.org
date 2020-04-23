@@ -7,19 +7,20 @@ return array (
     // Index method
     "home" => "Page d’accueil",
     "welcome_text" => "Bienvenue à V-MAST",
-    "welcome_hint" => "Vous pouvez participer au projet sur invitation seulement",
-    "welcome_message" => "",
+    "welcome_hint" => "To start a translation {link}",
+    "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Nous sommes en train d’entretenir le site",
 
     "translations_title" => "Traductions",
     "events_title" => "Evènements",
     "contact_us_title" => "Nous contacter",
-    "about_title" => "A propos",
+    "about_title" => "About Us",
     "bible" => "La Bible",
     "members" => "Membres",
     "on" => "Activé",
     "off" => "Désactivé",
     "submit_crash_report" => "Soumettre un rapport de plantage",
+    "submit" => "Submit",
 
     // ------------ Members Controller ------------------ //
 
@@ -33,6 +34,7 @@ return array (
     "enter_new_password" => "Entrez un nouveau mot de passe",
     "userName" => "Nom d’utilisateur",
     "userNameOrEmail" => "Nom d’utilisateur ou addresse email",
+    "email" => "Email",
     "name" => "Nom",
     "accept_btn" => "Accepter",
     "deny_btn" => "Annuler",
@@ -189,8 +191,9 @@ return array (
     "all_members" => "Rechercher des membres",
     "all_mems" => "Tous",
     "search_more" => "Afficher plus...",
-    "proj_lang_select" => "Choisir la langue du projet",
-    "select_project" => "Choisir le projet",
+    "proj_lang_select" => "Select project language",
+    "select_project" => "Select project",
+    "lang_select" => "Select language",
     "proj_lang_public" => "La Langue du Projet",
     "projects_public" => "Projet",
     "show_rubric" => "Rubrique",
@@ -212,6 +215,7 @@ return array (
     "activation_link_message" => "<h3>Merci que vous vous êtes inscrit !</h3>\n Pour activer votre compte, cliquez sur ce lien {link}",
     "registration_success_message" => "L’inscription a été terminé avec succès ! Un message a été envoyé à votre adresse émail. Vérifiez aussi le dossier «spam» ou «pourriel»",
     "registration_local_success_message" => "Inscription réussi !",
+    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
 
     // Error messages
     "userName_characters_error" => "Votre nom d’utilisateur ne devrait contenir que des lettres miniscules latins et des chiffres, et il devrait commencer avec un lettre",
@@ -526,6 +530,36 @@ return array (
     "pray_tn" => "Preparation: Prayer",
 
     "multi-draft_lang_input" => "Input",
+    "multi-draft_lang_input_desc" => "<li><b>PURPOSE:</b> to enter text digitally that has already been translated using the MAST 8 steps.</li>
+                                        <li>Type or copy/paste translated text into the blanks verse by verse.</li>
+                                        <li>To add a verse, click the green \"+\" at the bottom of the page.</li>
+                                        <li>To delete a verse, click the red \"x\" at the bottom of the page.</li>
+                                        <li>When every verse in the chapter has been filled, click \"Yes, I did\" and \"Next step\" to move to the self-edit step.</li>",
+
+    "self-check_lang_input_desc" => "<li><b>PURPOSE:</b> to edit your draft and check the meaning of the source text's 
+                                        accuracy while maintaining the blind draft's naturalness.</li>
+                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                    <li>Look for any missing portions of text or missing/added facts.</li>
+                                    <li>Check in detail the accuracy of your translation.</li>
+                                    <li>To add or edit a footnote for this chapter:
+                                        <ol>
+                                            <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                            <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                            <li>Click on \"ft\" to add footnote text.</li>
+                                            <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                                then click \"fqa\" to add the alternate text.</li>
+                                            <li>Click \"Save\" when text is added.</li>
+                                            <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                            <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                                icon and it will pop up the window for you edit the footnote.</li>
+                                            <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
+                                    <li>If you have additional thoughts or questions about your translation, click the note 
+                                        icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save. 
+                                        The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
+                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "consume" => "Consumer (absorber)",
     "consume_desc" => "<li><b>BUT:</b> Saisir le texte d’origine pour se préparer à traduire.</li>
