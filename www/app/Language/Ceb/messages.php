@@ -215,7 +215,7 @@ return array (
     "activation_link_message" => "<h3>Salamat sa pagparehistro!</h3>\n Aron mapalihok ang imong account palihug i-klik ang link {link}",
     "registration_success_message" => "Malampuson ang pagpalista! Palihog tan-awa ang imong email aron makumpleto ang pagpalista. Kung dili nimo kini makit-an, i-tsek ang spam/junk nga folder",
     "registration_local_success_message" => "Malampuson ang pagpalista! Please log in.",
-    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "Latin lang nga mga letra ang gamiton sa alyas ug numero ug kinahanglan magsugod sa mga letra",
