@@ -215,7 +215,7 @@ return array (
     "activation_link_message" => "<h3>Merci que vous vous êtes inscrit !</h3>\n Pour activer votre compte, cliquez sur ce lien {link}",
     "registration_success_message" => "L’inscription a été terminé avec succès ! Un message a été envoyé à votre adresse émail. Vérifiez aussi le dossier «spam» ou «pourriel»",
     "registration_local_success_message" => "Inscription réussi !",
-    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "Votre nom d’utilisateur ne devrait contenir que des lettres miniscules latins et des chiffres, et il devrait commencer avec un lettre",
