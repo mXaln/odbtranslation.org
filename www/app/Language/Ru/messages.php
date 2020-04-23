@@ -215,7 +215,7 @@ return array (
     "activation_link_message" => "<h3>Спасибо за регистрацию!</h3>\n Для активации вашего аккаунта, пожалуйста, нажмите на ссылку {link}",
     "registration_success_message" => "Регистрация прошла успешно! Проверьте почту для активации учетной записи. Если письма нет во входящих, проверьте в папке спам.",
     "registration_local_success_message" => "Регистрация прошла успешно!",
-    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "Имя пользователя должно содержать только маленькие буквы латиницы и числа, а также начинаться с букв",
