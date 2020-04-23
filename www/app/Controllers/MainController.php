@@ -1,6 +1,9 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\EventsModel;
+use Helpers\Csrf;
+use Helpers\Gump;
 use View;
 use App\Core\Controller;
 use Helpers\Session;
@@ -12,12 +15,16 @@ use Config\Config;
  */
 class MainController extends Controller
 {
+    private $_eventModel;
+
     /**
      * Call the parent construct
      */
     public function __construct()
     {
         parent::__construct();
+
+        $this->_eventModel = new EventsModel();
     }
 
     public function before()
@@ -84,9 +91,65 @@ class MainController extends Controller
     public function contactUs()
     {
         $data['menu'] = 5;
+        $data['title'] = __('contact_us_title');
+        $data["languages"] = $this->_eventModel->getAllLanguages();
+        $data['csrfToken'] = Csrf::makeToken();
+
+        $error = [];
+
+        if (isset($_POST['submit']))
+        {
+            $gump = new Gump();
+            $gump->validation_rules([
+                'name' => 'required',
+                'email' => 'required|valid_email',
+                'message' => 'required|max_len,2000',
+                'lang' => 'required'
+            ]);
+
+            $gump->filter_rules([
+                'name' => 'trim|sanitize_string',
+                'email' => 'trim|sanitize_email',
+                'message' => 'trim|sanitize_string',
+                'lang' => 'trim|sanitize_string'
+            ]);
+
+            $valid_data = $gump->run($_POST);
+
+            $adminEmail = Config::get("app.email");
+
+            if($valid_data)
+            {
+                if(Config::get("app.type") == "remote")
+                {
+                    Mailer::send(
+                        'Emails/Common/NotifyContactUs',
+                        [
+                            "name" => $valid_data["name"],
+                            "email" => $valid_data["email"],
+                            "language" => $valid_data["lang"],
+                            "userMessage" => $valid_data["message"]
+                        ],
+                        function($message) use($adminEmail)
+                        {
+                            $message->to($adminEmail)
+                                ->subject("Contact Form Notification");
+                        }
+                    );
+                }
+
+                $_POST = [];
+                $data["success"] = __("contact_us_successful");
+            }
+            else
+            {
+                $error[] = __("required_fields_empty_error");
+            }
+        }
 
         return View::make('Main/ContactUs')
             ->shares("title", __("contact_us_title"))
+            ->shares("error", $error)
             ->shares("data", $data);
     }
 }

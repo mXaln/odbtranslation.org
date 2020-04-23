@@ -9,7 +9,7 @@
 // The default Routing
 Router::get("", "App\Controllers\MainController@index");
 Router::get("about", "App\Controllers\MainController@about");
-Router::get("contact", "App\Controllers\MainController@contactUs");
+Router::any("contact", "App\Controllers\MainController@contactUs");
 Router::get("maintenance", "App\Controllers\MainController@maintenance");
 
 

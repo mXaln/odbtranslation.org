@@ -131,7 +131,7 @@ if(isset($data["error"])) return;
         <div class="help_info_steps">
             <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 2])?>:</span> <?php echo __("self-check")?></div>
             <div class="help_descr_steps">
-                <ul><?php echo __("self-check_desc")?></ul>
+                <ul><?php echo __("self-check_lang_input_desc")?></ul>
                 <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
             </div>
         </div>
@@ -166,7 +166,7 @@ if(isset($data["error"])) return;
 
         <div class="tutorial_content">
             <h3><?php echo __("self-check")?></h3>
-            <ul><?php echo __("self-check_desc")?></ul>
+            <ul><?php echo __("self-check_lang_input_desc")?></ul>
         </div>
     </div>
 </div>
