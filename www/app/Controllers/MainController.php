@@ -9,6 +9,7 @@ use App\Core\Controller;
 use Helpers\Session;
 use Helpers\Url;
 use Config\Config;
+use Mailer;
 
 /**
  * Sample controller showing a construct and 2 methods and their typical usage.
