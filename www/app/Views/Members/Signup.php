@@ -288,7 +288,7 @@ use Shared\Legacy\Error;
         border-color: #a94442 !important;
     }
 </style>
-<?
+<?php
 Assets::js([
     template_url('js/formvalidation.js?2'),
     template_url('js/chosen.jquery.min.js'),

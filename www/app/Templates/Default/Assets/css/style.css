@@ -164,11 +164,26 @@ html, body, .container {
     font-size: 32px;
 }
 
+.welcome_content h3 a {
+    text-decoration: underline;
+    color: white;
+}
+
 .welcome_content .text {
     width: 600px;
-    margin: 20px auto;
-    font-size: 16px;
+    margin: 22px auto;
+    font-size: 26px;
     font-style: italic;
+}
+
+.welcome_content .text a {
+    text-decoration: underline;
+    color: white;
+}
+
+.contact_us {
+    margin: 0 auto;
+    width: 700px;
 }
 
 .btn_signup, .btn_signin {
