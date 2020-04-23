@@ -215,7 +215,7 @@ return array (
     "activation_link_message" => "<h3>Terima kasih karena telah mendaftar!</h3>\n Untuk mengaktifkan akun Anda silahkan klik tautan ini {link}",
     "registration_success_message" => "Pendaftaran Berhasil! Silahkan periksa email Anda untuk menyelesaikan pendaftaran. Jika tidak ada, periksa folder spam/junk",
     "registration_local_success_message" => "Pendaftaran berhasil!",
-    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "User name harus berisi hanya huruf dan angka latin dan dimulai dengan huruf",
