@@ -7,19 +7,20 @@ return array (
     // Index method
     "home" => "Dasbor",
     "welcome_text" => "Selamat datang di V-MAST",
-    "welcome_hint" => "Anda dapat berpartisipasi hanya melalui undangan",
-    "welcome_message" => "",
+    "welcome_hint" => "To start a translation {link}",
+    "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Maintenance work in progress!",
 
     "translations_title" => "Terjemahan",
     "events_title" => "Kegiatan",
     "contact_us_title" => "Hubungi Kami",
-    "about_title" => "Tentang",
+    "about_title" => "About Us",
     "bible" => "Alkitab",
     "members" => "Para Anggota",
     "on" => "On",
     "off" => "Off",
     "submit_crash_report" => "Kirim Laporan Kecelakaan",
+    "submit" => "Submit",
 
     // ------------ Members Controller ------------------ //
 
@@ -33,6 +34,7 @@ return array (
     "enter_new_password" => "Masukkan Password baru",
     "userName" => "User name",
     "userNameOrEmail" => "User Name atau Email",
+    "email" => "Email",
     "name" => "Nama",
     "accept_btn" => "Terima",
     "deny_btn" => "Batal",
@@ -189,8 +191,9 @@ return array (
     "all_members" => "Cari anggota",
     "all_mems" => "Semua",
     "search_more" => "Munculkan lagi...",
-    "proj_lang_select" => "Select the project language",
-    "select_project" => "Select the project",
+    "proj_lang_select" => "Select project language",
+    "select_project" => "Select project",
+    "lang_select" => "Select language",
     "proj_lang_public" => "Project Language",
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
@@ -212,6 +215,7 @@ return array (
     "activation_link_message" => "<h3>Terima kasih karena telah mendaftar!</h3>\n Untuk mengaktifkan akun Anda silahkan klik tautan ini {link}",
     "registration_success_message" => "Pendaftaran Berhasil! Silahkan periksa email Anda untuk menyelesaikan pendaftaran. Jika tidak ada, periksa folder spam/junk",
     "registration_local_success_message" => "Pendaftaran berhasil!",
+    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
 
     // Error messages
     "userName_characters_error" => "User name harus berisi hanya huruf dan angka latin dan dimulai dengan huruf",
@@ -520,6 +524,36 @@ return array (
     "pray_tn" => "Persiapan: Berdoa",
 
     "multi-draft_lang_input" => "Input",
+    "multi-draft_lang_input_desc" => "<li><b>PURPOSE:</b> to enter text digitally that has already been translated using the MAST 8 steps.</li>
+                                        <li>Type or copy/paste translated text into the blanks verse by verse.</li>
+                                        <li>To add a verse, click the green \"+\" at the bottom of the page.</li>
+                                        <li>To delete a verse, click the red \"x\" at the bottom of the page.</li>
+                                        <li>When every verse in the chapter has been filled, click \"Yes, I did\" and \"Next step\" to move to the self-edit step.</li>",
+
+    "self-check_lang_input_desc" => "<li><b>PURPOSE:</b> to edit your draft and check the meaning of the source text's 
+                                        accuracy while maintaining the blind draft's naturalness.</li>
+                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                    <li>Look for any missing portions of text or missing/added facts.</li>
+                                    <li>Check in detail the accuracy of your translation.</li>
+                                    <li>To add or edit a footnote for this chapter:
+                                        <ol>
+                                            <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                            <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                            <li>Click on \"ft\" to add footnote text.</li>
+                                            <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                                then click \"fqa\" to add the alternate text.</li>
+                                            <li>Click \"Save\" when text is added.</li>
+                                            <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                            <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                                icon and it will pop up the window for you edit the footnote.</li>
+                                            <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
+                                    <li>If you have additional thoughts or questions about your translation, click the note 
+                                        icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save. 
+                                        The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
+                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "consume" => "Baca Mendalam",
     "consume_desc" => "<li><b>KEGUNAAN:</b> untuk menyiapkan memori jangka pendek Anda untuk membantu Anda dalam penerjemahan</li><li>Baca teks yang ditugaskan secara keseluruhan. Serap secara cermat dan pertimbangkan apa yang dikatakan untuk memahami isi utuh dari nats ini.</li><li>Berhenti, renungkan, dan baca kembali jika perlu.</li><li>Ambil tidak lebih dari 12 menit pada kegiatan ini.</li>",
