@@ -215,7 +215,7 @@ return array (
     "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {link}",
     "registration_success_message" => "Registration successful! Please check your email to complete registration. If it's not there, check spam/junk folders",
     "registration_local_success_message" => "Registration successful!",
-    "contact_us_successful" => "Thank you! Your message has been sent ot our administrators.",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "User name should contain only lowercase Latin letters and numbers and start with letters",
