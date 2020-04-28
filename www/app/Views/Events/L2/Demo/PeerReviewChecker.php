@@ -13,7 +13,7 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", ["level" => 2]).")" ?></div>
-            <div><?php echo __("peer-review-l2_full")?></div>
+            <div><?php echo __("step_num", ["step_number" => 3]) . ": " . __("peer-review-l2_full")?></div>
         </div>
         <div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>

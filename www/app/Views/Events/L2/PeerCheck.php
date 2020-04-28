@@ -37,7 +37,7 @@ use Helpers\Constants\EventMembers;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("peer-review-l2_full")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 3]) . ": " . __("peer-review-l2_full")?></div>
     </div>
 
     <div class="" style="position: relative">
