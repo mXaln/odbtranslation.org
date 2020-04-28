@@ -70,7 +70,7 @@ return array(
     "block" => "Block",
     "unblock" => "Unblock",
     "checkerConfirmTitle" => "Confirm check",
-    "checkerConfirm" => "Make sure that you have finished checking and connected with your translator/checker. Translator/checker has to make changes to their text. After you confirm this chapter checked, translator/checker won't be able to edit their text on this step. Confirm Check?",
+    "checkerConfirm" => "Have you contacted your translator/checker? Make sure all edits to translation are completed before moving to the next step. Confirm Check?",
     "attention" => "Attention",
     "removeCheckerConfirm" => "Do you also want to remove the checker assigned to this chapter? If you click \"No\", translator will go to previous checking step and their checker will remain.",
     "connectionLostMessage" => "Internet connection lost. You can't leave this page until connection is up.",
