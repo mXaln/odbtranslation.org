@@ -1263,7 +1263,7 @@ return array (
                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "fst-check" => "Check Text",
-    "fst-check_full" => "1st Check: Check Target Text",
+    "fst-check_full" => "Check Target Text (Checker 1)",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
                             language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
                             used when referring to God the Father and Jesus Christ.</b></li>
@@ -1304,7 +1304,7 @@ return array (
                         <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "snd-check" => "Peer Check",
-    "snd-check_full" => "2nd Check: Peer-Check Target Text",
+    "snd-check_full" => "Peer-Check Target Text (Checker 2)",
     "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
                         language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
                         used when referring to God the Father and Jesus Christ.</b></li>
@@ -1351,7 +1351,7 @@ return array (
                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
-    "keyword-check-l2_full" => "2nd Check: Keyword Check",
+    "keyword-check-l2_full" => "Keyword Check (Checker 2)",
     "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately 
                                 expressed, as well as <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
                                 are used when referring to God the Father and Jesus Christ.</b></li>
@@ -1379,7 +1379,7 @@ return array (
                             <li>When all highlighted words have been checked, click \"Yes, I did\" and \"Next step\".</li>",
 
     "peer-review-l2" => "Discrepancies",
-    "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
+    "peer-review-l2_full" => "Discussion of Discrepancies",
     "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer 
                             checker while <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" 
                             are used when referring to God the Father and Jesus Christ.</b></li>
