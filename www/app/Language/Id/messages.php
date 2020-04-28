@@ -805,7 +805,7 @@ return array (
                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
     "fst-check" => "Check Text",
-    "fst-check_full" => "1st Check: Check Target Text",
+    "fst-check_full" => "Check Target Text (Checker 1)",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                         <li>The column on the left is the source text and the right is editable target text.</li>
                         <li>Any changes made on this step by the checker will be reflected in the next checking steps:
@@ -830,7 +830,7 @@ return array (
                         <li>When all changes and notes have been made click, \"yes I did\" and \"next step\". </li>",
 
     "snd-check" => "Peer Check",
-    "snd-check_full" => "2nd Check: Peer-Check Target Text",
+    "snd-check_full" => "Peer-Check Target Text (Checker 2)",
     "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                     <li>This is the second check on this chapter of target text.</li>
                     <li>There are two tabs: The Source text tab is the source text for checker to review before checking.
@@ -862,7 +862,7 @@ return array (
                     <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
-    "keyword-check-l2_full" => "2nd Check: Keyword Check",
+    "keyword-check-l2_full" => "Keyword Check (Checker 2)",
     "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
                             <li><b>This step will be faster if you use a mouse instead of touchpad.</b></li>
                             <li>The LEFT column is the source text with yellow highlighted words.
@@ -888,7 +888,7 @@ return array (
                             <li>When all highlighted words have been checked, click \"yes I did\" and \"next step\".</li>",
 
     "peer-review-l2" => "Discrepancies",
-    "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
+    "peer-review-l2_full" => "Discussion of Discrepancies",
     "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
                         <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
                         <li>After you have looked over the text, contact the peer-checker to discuss discrepancies via: 
