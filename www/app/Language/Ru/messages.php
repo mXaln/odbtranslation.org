@@ -34,7 +34,7 @@ return array (
     "enter_new_password" => "Введите новый пароль",
     "userName" => "Имя пользователя",
     "userNameOrEmail" => "Имя пользователя или Email",
-    "email" => "Email",
+    "email" => "Адрес электронной почты",
     "name" => "Имя",
     "accept_btn" => "Принять",
     "deny_btn" => "Отмена",
@@ -191,9 +191,9 @@ return array (
     "all_members" => "Поиск пользователей",
     "all_mems" => "Все",
     "search_more" => "Загрузить еще...",
-    "proj_lang_select" => "Select project language",
-    "select_project" => "Select project",
-    "lang_select" => "Select language",
+    "proj_lang_select" => "Выберите язык проекта",
+    "select_project" => "Введите проект",
+    "lang_select" => "Выберите язык",
     "proj_lang_public" => "Язык проекта",
     "projects_public" => "Проект",
     "show_rubric" => "Рубрика",
@@ -215,7 +215,7 @@ return array (
     "activation_link_message" => "<h3>Спасибо за регистрацию!</h3>\n Для активации вашего аккаунта, пожалуйста, нажмите на ссылку {link}",
     "registration_success_message" => "Регистрация прошла успешно! Проверьте почту для активации учетной записи. Если письма нет во входящих, проверьте в папке спам.",
     "registration_local_success_message" => "Регистрация прошла успешно!",
-    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
+    "contact_us_successful" => "Спасибо! Ваше сообщение было отправлено нашим администраторам.",
 
     // Error messages
     "userName_characters_error" => "Имя пользователя должно содержать только маленькие буквы латиницы и числа, а также начинаться с букв",
@@ -801,7 +801,7 @@ return array (
                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
     "fst-check" => "Проверка текста",
-    "fst-check_full" => "Check Target Text (Checker 1)",
+    "fst-check_full" => "Проверка целевого текста (Проверяющий 1)",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                         <li>The column on the left is the source text and the right is editable target text.</li>
                         <li>Any changes made on this step by the checker will be reflected in the next checking steps:
@@ -826,7 +826,7 @@ return array (
                         <li>When all changes and notes have been made click, \"yes I did\" and \"next step\". </li>",
 
     "snd-check" => "Парная проверка",
-    "snd-check_full" => "Peer-Check Target Text (Checker 2)",
+    "snd-check_full" => "Парная проверка целевого текста (Проверяющий 2)",
     "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                     <li>This is the second check on this chapter of target text.</li>
                     <li>There are two tabs: The Source text tab is the source text for checker to review before checking.
@@ -858,7 +858,7 @@ return array (
                     <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
 
     "keyword-check-l2" => "Проверка ключевых слов",
-    "keyword-check-l2_full" => "Keyword Check (Checker 2)",
+    "keyword-check-l2_full" => "Проверка ключевых слов (Проверяющий 2)",
     "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
                             <li><b>This step will be faster if you use a mouse instead of touchpad.</b></li>
                             <li>The LEFT column is the source text with yellow highlighted words.
@@ -884,7 +884,7 @@ return array (
                             <li>When all highlighted words have been checked, click \"yes I did\" and \"next step\".</li>",
 
     "peer-review-l2" => "Несоответствия",
-    "peer-review-l2_full" => "Discussion of Discrepancies",
+    "peer-review-l2_full" => "Обсуждение несоответствий",
     "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
                         <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
                         <li>After you have looked over the text, contact the peer-checker to discuss discrepancies via: 
