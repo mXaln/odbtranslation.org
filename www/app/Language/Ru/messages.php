@@ -8,19 +8,19 @@ return array (
     "home" => "Главная",
     "welcome_text" => "Добро пожаловать на V-MAST!",
     "welcome_hint" => "Чтобы начать перевод {link}",
-    "welcome_message" => "Если вы были приглашены присоединиться к событию перевода, нажмите {link}",
+    "welcome_message" => "Если вас пригласили присоединиться к событию перевода, нажмите {link}",
     "maintenance_work" => "Ведутся технические работы!",
 
     "translations_title" => "Переводы",
     "events_title" => "События",
     "contact_us_title" => "Обратная связь",
-    "about_title" => "About Us",
+    "about_title" => "О нас",
     "bible" => "Библия",
     "members" => "Пользователи",
     "on" => "Вкл.",
     "off" => "Выкл.",
     "submit_crash_report" => "Отправить отчет о сбое",
-    "submit" => "Submit",
+    "submit" => "Отправить",
 
     // ------------ Members Controller ------------------ //
 
