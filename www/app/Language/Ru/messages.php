@@ -7,7 +7,7 @@ return array (
     // Index method
     "home" => "Главная",
     "welcome_text" => "Добро пожаловать на V-MAST!",
-    "welcome_hint" => "Чтобы начать перевод {link}",
+    "welcome_hint" => "Чтобы начать перевод, нажмите {link}",
     "welcome_message" => "Если вас пригласили присоединиться к событию перевода, нажмите {link}",
     "maintenance_work" => "Ведутся технические работы!",
 
