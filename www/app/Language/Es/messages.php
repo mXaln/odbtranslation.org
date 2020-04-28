@@ -5,72 +5,72 @@ return array (
     // -------------- Main Controller ------------------ //
 
     // Index method
-    "home" => "Page d’accueil",
-    "welcome_text" => "Bienvenue à V-MAST",
+    "home" => "Dashboard",
+    "welcome_text" => "Welcome to V-MAST",
     "welcome_hint" => "To start a translation {link}",
     "welcome_message" => "If you have been invited to join a translation event click {link}",
-    "maintenance_work" => "Nous sommes en train d’entretenir le site",
+    "maintenance_work" => "Maintenance work in progress!",
 
-    "translations_title" => "Traductions",
-    "events_title" => "Evènements",
-    "contact_us_title" => "Nous contacter",
+    "translations_title" => "Translations",
+    "events_title" => "Events",
+    "contact_us_title" => "Contact Us",
     "about_title" => "About Us",
-    "bible" => "La Bible",
-    "members" => "Membres",
-    "on" => "Activé",
-    "off" => "Désactivé",
-    "submit_crash_report" => "Soumettre un rapport de plantage",
+    "bible" => "Bible",
+    "members" => "Members",
+    "on" => "On",
+    "off" => "Off",
+    "submit_crash_report" => "Submit Crash Report",
     "submit" => "Submit",
 
     // ------------ Members Controller ------------------ //
 
     // Index method
-    "members_title" => "Membres",
-    "new_members_title" => "Nouveaux membres",
-    "firstName" => "Prénom",
-    "lastName" => "Nom",
-    "password" => "Mot de passe",
-    "confirm_password" => "Mot de passe (répété)",
-    "enter_new_password" => "Entrez un nouveau mot de passe",
-    "userName" => "Nom d’utilisateur",
-    "userNameOrEmail" => "Nom d’utilisateur ou addresse email",
+    "members_title" => "Members",
+    "new_members_title" => "New members",
+    "firstName" => "First name",
+    "lastName" => "Last name",
+    "password" => "Password",
+    "confirm_password" => "Confirm Password",
+    "enter_new_password" => "Enter new password",
+    "userName" => "Username",
+    "userNameOrEmail" => "User Name or Email",
     "email" => "Email",
-    "name" => "Nom",
-    "accept_btn" => "Accepter",
-    "deny_btn" => "Annuler",
-    "tou" => "Conditions d’utilisation",
-    "sof" => "Déclaration de foi",
-    "welcome_title" => "Bienvenue",
-    "translator" => "Traducteur",
-    "checker" => "Vérificateur N2/N3",
-    "facilitator" => "Facilitateur",
-    "facilitators" => "Facilitateurs",
-    "l2_checker" => "Vérificateur niveau 2",
-    "l3_checker" => "Vérificateur niveau 3",
-    "captcha_wrong" => "Captcha n’a pas été résolu correctement",
-    "success" => "Succès",
+    "name" => "Name",
+    "accept_btn" => "Accept",
+    "deny_btn" => "Cancel",
+    "tou" => "Terms of use",
+    "sof" => "Statement of faith",
+    "welcome_title" => "Welcome",
+    "translator" => "Translator",
+    "checker" => "L2/L3 Checker",
+    "facilitator" => "Facilitator",
+    "facilitators" => "Facilitators",
+    "l2_checker" => "Level 2 Checking",
+    "l3_checker" => "Level 3 Checking",
+    "captcha_wrong" => "Captcha wasn't solved correctly",
+    "success" => "Success",
     "admin" => "Admin",
-    "contact" => "Contacter",
-    "add_lang" => "Ajouter une langue",
-    "activated" => "Activé",
-    "verify" => "Vérifier",
-    "send_message_to" => "Envoyer un message à",
-    "message_subject" => "Sujet",
+    "contact" => "Contact",
+    "add_lang" => "Add language",
+    "activated" => "Activated",
+    "verify" => "Verify",
+    "send_message_to" => "Send message to",
+    "message_subject" => "Subject",
     "message_content" => "Message",
-    "send" => "Envoyer",
-    "facilitator_message_tip" => "Ce message a été envoyé par un membre sur V-MAST.com.",
-    "member_wrote" => "a écrit",
-    "project_mode" => "Mode Projet",
-    "choose_project_mode" => "Choisir le Mode Projet",
-    "scripture" => "Les Ecritures",
-    "bible_mode" => "La Bible",
+    "send" => "Send",
+    "facilitator_message_tip" => "This message was sent by a member on V-MAST.com",
+    "member_wrote" => "wrote",
+    "project_mode" => "Project Mode",
+    "choose_project_mode" => "Choose Project Mode",
+    "scripture" => "Scripture",
+    "bible_mode" => "Bible",
     "notes_mode" => "Notes",
     "questions_mode" => "Questions",
-    "words_mode" => "Mots",
+    "words_mode" => "Words",
     "odb_mode" => "Our Daily Bread",
     "radio_mode" => "RADIO",
-    "project_exists" => "Le projet existe",
-    "personal" => "Personnel",
+    "project_exists" => "Project exists",
+    "personal" => "Personal",
     "entry" => "Entry",
     "title" => "Title",
     "author" => "Author",
@@ -82,178 +82,178 @@ return array (
     "go_sun_bible" => "SUN Bible",
 
     // Activate method
-    "activate_account_title" => "Activer le Compte",
-    "resend_activation_code" => "Vous n’avez pas reçu l’émail?",
-    "wrong_activation_email" => "L’adresse émail n’est pas le bon pour l’activation. Soit le compte associé avec cet addresse est déjà activé, soit il n’y a pas de compte associé à cet adresse.",
-    "new_account_title" => "Un nouveau membre a rejoint V-MAST",
-    "new_account_message" => "<strong>Nom:</strong> {name}, <strong>Nom d’utilisateur:</strong> {username}",
-    "members_area" => "Aller à le zone des membres",
+    "activate_account_title" => "Activate Account",
+    "resend_activation_code" => "Haven't got email? Send it again.",
+    "wrong_activation_email" => "Wrong email for activation. The account with this email doesn't exist or already is activated",
+    "new_account_title" => "New member joined V-Mast",
+    "new_account_message" => "<strong>Name:</strong> {name}, <strong>Username:</strong> {username}",
+    "members_area" => "Go to members area",
 
     // Login method
-    "wrong_credentials_error" => "Mauvais nom d’utilisateur ou mauvais addresse email",
-    "not_activated_email" => "Le compte n’a pas été activé encore. <a href='/members/activate/resend/{email}'>Envoyer encore les instructions pour l’activation.</a>",
-    "login" => "Se connecter",
-    "signup" => "S’inscrire",
-    "logout" => "Se déconnecter",
-    "login_message" => "S’inscrire",
-    "already_member" => "Vous êtes déjà un membre?",
-    "dont_have_account" => "Vous n’avez pas de compte ?",
-    "login_title" => "Se connecter",
-    "forgot_password" => "Mot de passe oublié?",
+    "wrong_credentials_error" => "Wrong email/user name or password",
+    "not_activated_email" => "Account has not been activated yet. <a href='/members/activate/resend/{email}'>Send activation instructions</a> again.",
+    "login" => "Log in",
+    "signup" => "Sign up",
+    "logout" => "Logout",
+    "login_message" => "Sign Up",
+    "already_member" => "Already a member?",
+    "dont_have_account" => "Don't have an account?",
+    "login_title" => "Log in",
+    "forgot_password" => "Forgot password?",
     "profile_message" => "Profile",
-    "member_profile_message" => "Profile du Membre",
-    "translator_activities" => "Activités du Traducteur",
-    "checking_activities" => "Activités de Vérification",
-    "facilitator_activities" => "Activités de Facilitateur",
-    "common_skills" => "En commun",
+    "member_profile_message" => "Member's Profile",
+    "translator_activities" => "Translation Activities",
+    "checking_activities" => "Checking Activities",
+    "facilitator_activities" => "Facilitation Activities",
+    "common_skills" => "Common",
     "facilitator_skills" => "Facilitation",
     "checker_skills" => "Education",
-    "avatar" => "Choisir un avatar",
-    "male" => "Hommes",
-    "female" => "Femmes",
-    "delete" => "Supprimer",
-    "weak" => "faible",
-    "moderate" => "moyen",
-    "strong" => "fort",
+    "avatar" => "Choose avatar",
+    "male" => "Men",
+    "female" => "Women",
+    "delete" => "Delete",
+    "weak" => "weak",
+    "moderate" => "moderate",
+    "strong" => "strong",
     "expert" => "expert",
-    "fluent" => "courant",
-    "native" => "locateur natif",
-    "limited" => "limité",
-    "none" => "pas du tout",
-    "less_than" => "moins que {years}",
-    "rarely" => "rarement",
-    "some" => "quelques uns",
-    "much" => "beaucoup",
-    "frequently" => "fréquemment",
-    "other" => "Autre",
-    "yes" => "Oui",
-    "no" => "Non",
+    "fluent" => "fluent",
+    "native" => "native",
+    "limited" => "limited",
+    "none" => "none",
+    "less_than" => "less than {years}",
+    "rarely" => "rarely",
+    "some" => "some",
+    "much" => "much",
+    "frequently" => "frequently",
+    "other" => "Other",
+    "yes" => "Yes",
+    "no" => "No",
     "ba_edu" => "BA",
     "ma_edu" => "MA",
     "phd_edu" => "PHD",
-    "theology" => "Théologie",
-    "pastoral_ministry" => "Ministère Pastoral",
-    "bible_translation" => "Traduction de la Bible",
-    "exegetics" => "Exégétiques",
-    "elder" => "Ancien",
-    "bishop" => "Évêque",
-    "pastor" => "Pasteur",
-    "teacher" => "Enseignant",
-    "denominational_leader" => "Leader d’une dénomination chrétienne",
-    "seminary_professor" => "Professeur de séminaire",
-    "known_languages" => "Ajoutez les langues que vous connaissez",
-    "known_languages_public" => "Langues",
-    "select_language" => "Choisir une langue",
-    "language_fluency" => "Choisir le niveau de connaissance dans cette langue",
-    "language_fluency_public" => "Niveau",
-    "lang_geographic_years" => "Dans les 10 dernières années, combien d’années avez-vous vécu dans cette région ?",
-    "lang_geographic_years_public" => "J’ai habité cette région",
-    "years" => "{years} années",
-    "prefered_roles" => "Rôles préférés",
-    "bbl_trans_yrs" => "Années de Traduction de la Bible",
-    "bbl_trans_yrs_public" => "Années de Traduction de la Bible",
-    "othr_trans_yrs" => "Années de traduction d’autres textes ou d’interprétation",
-    "othr_trans_yrs_public" => "Années de traduction d’autres textes ou d’interprétation",
-    "bbl_knwlg_degr" => "Niveau de Connaissance dans la Bible",
-    "bbl_knwlg_degr_public" => "Niveau de Connaissance dans la Bible",
-    "mast_evnts" => "Dans combien d’évènements MAST avez-vous participé ?",
-    "mast_evnts_public" => "Participé dans combien d’évènements MAST",
-    "mast_role" => "Quel rôles MAST avez-vous joué auparavant ? Choisir tous les rôles que vous avez joué",
-    "mast_role_public" => "A joué ces rôles MAST",
-    "teamwork" => "Combien de fois avez-vous travaillé en équipe",
-    "teamwork_public" => "Nombre de fois travaillé en équipe",
-    "org" => "Quelle organisation représentez vous ?",
-    "org_public" => "Représente une organisation",
-    "ref_person" => "Référence Nom de la Personne",
-    "ref_email" => "Référence Adresse Émail de la Personne",
-    "mast_facilitator" => "Avez-vous été entraîné à faciliter MAST ?",
-    "mast_facilitator_public" => "A été entrainé à faciliter MAST",
-    "education" => "Si vous avez une formation théologique formelle, cochez toutes les réponses qui s'appliquent",
-    "education_public" => "Education formelle en théologie",
-    "ed_area" => "Cochez toutes les réponses qui s’appliquent",
-    "ed_area_public" => "Sujets",
-    "ed_place" => "Institution éducationel",
-    "orig_langs" => "Évaluez-vous sur votre connaissance de la langue d'origine",
-    "orig_langs_public" => "Connaissance de la langue d’origine",
-    "hebrew_knwlg" => "Hébreux",
-    "greek_knwlg" => "Grecque",
-    "church_role" => "Quels rôles dans l’église avez-vous joués ? Cochez tous les réponses qui s’appliquent",
-    "church_role_public" => "Rôles dans l’église",
-    "show_langs_window" => "Cliquez sur le bouton plus pour ajouter des langues",
-    "select_search_lang_option" => "Choisissez une option ou bien faites une recherche",
-    "select_lang_option" => "Choisir une langue",
-    "resend_activation_title" => "Envoyer le code d’activation à nouveau",
-    "create" => "Créer",
-    "apply_filter" => "Rechercher",
-    "clear_filter" => "Annuler le filtrage",
-    "search_name_filter" => "Rechercher par le nom ou par le nom d’utilisateur",
-    "filter" => "Filtrage",
-    "all_members" => "Rechercher des membres",
-    "all_mems" => "Tous",
-    "search_more" => "Afficher plus...",
+    "theology" => "Theology",
+    "pastoral_ministry" => "Pastoral Ministry",
+    "bible_translation" => "Bible Translation",
+    "exegetics" => "Exegetics",
+    "elder" => "Elder",
+    "bishop" => "Bishop",
+    "pastor" => "Pastor",
+    "teacher" => "Teacher",
+    "denominational_leader" => "Denominational Leader",
+    "seminary_professor" => "Seminary Professor",
+    "known_languages" => "Add languages that you know",
+    "known_languages_public" => "Languages",
+    "select_language" => "Select language",
+    "language_fluency" => "Select fluency level of this language",
+    "language_fluency_public" => "Fluency level",
+    "lang_geographic_years" => "In the last 10 years how long have you lived in the geographic region of this language?",
+    "lang_geographic_years_public" => "Lived in the geographic region",
+    "years" => "{years} years",
+    "prefered_roles" => "Preferred roles",
+    "bbl_trans_yrs" => "Years of Bible Translation",
+    "bbl_trans_yrs_public" => "Years of Bible Translation",
+    "othr_trans_yrs" => "Years of Other  Translation or Interpretation",
+    "othr_trans_yrs_public" => "Years of Other  Translation or Interpretation",
+    "bbl_knwlg_degr" => "Degree of Bible Knowledge",
+    "bbl_knwlg_degr_public" => "Degree of Bible Knowledge",
+    "mast_evnts" => "In how many MAST events have you participated",
+    "mast_evnts_public" => "Participated in how many MAST events",
+    "mast_role" => "What MAST roles have you executed before: check all that apply",
+    "mast_role_public" => "Executed following MAST roles",
+    "teamwork" => "How often have you worked in teams to produce something",
+    "teamwork_public" => "How often worked in teams to produce something",
+    "org" => "Which organization do you represent",
+    "org_public" => "Represents organization",
+    "ref_person" => "Reference Person Name",
+    "ref_email" => "Reference Person Email",
+    "mast_facilitator" => "Have you been trained in MAST facilitation",
+    "mast_facilitator_public" => "Has been trained in MAST facilitation",
+    "education" => "If you have formal theological education check all that apply",
+    "education_public" => "Formal theological education",
+    "ed_area" => "Check all areas that apply",
+    "ed_area_public" => "Areas",
+    "ed_place" => "Institution of education",
+    "orig_langs" => "Rate yourself on strength of original language",
+    "orig_langs_public" => "Strength of original language",
+    "hebrew_knwlg" => "Hebrew",
+    "greek_knwlg" => "Greek",
+    "church_role" => "What Church-related roles have you held: check all that apply",
+    "church_role_public" => "Church-related roles held",
+    "show_langs_window" => "Click Plus Button to add languages",
+    "select_search_lang_option" => "Select an option or use search",
+    "select_lang_option" => "Select language",
+    "resend_activation_title" => "Send activation code again",
+    "create" => "Create",
+    "apply_filter" => "Search",
+    "clear_filter" => "Clear filter",
+    "search_name_filter" => "Search by name or username",
+    "filter" => "Filter",
+    "all_members" => "Search members",
+    "all_mems" => "All",
+    "search_more" => "Load more...",
     "proj_lang_select" => "Select project language",
     "select_project" => "Select project",
     "lang_select" => "Select language",
-    "proj_lang_public" => "La Langue du Projet",
-    "projects_public" => "Projet",
-    "show_rubric" => "Rubrique",
-    "choose_event_level" => "Niveau de vérification",
+    "proj_lang_public" => "Project Language",
+    "projects_public" => "Project",
+    "show_rubric" => "Rubric",
+    "choose_event_level" => "Checking level",
 
     // Passwordreset method
-    "passwordreset_title" => "Réinitialiser le mot de passe",
-    "continue" => "Continuer",
-    "enter_email" => "Rédigez l’émail",
-    "passwordreset_link_message" => "Pour réinitialiser votre mot de passe, cliquez sur ce lien {link}",
-    "url_use_problem_hint" => "Si vous expérimentez des problèmes, copiez et collez le lien dans votre navigateur web.",
+    "passwordreset_title" => "Password reset",
+    "continue" => "Continue",
+    "enter_email" => "Enter Email",
+    "passwordreset_link_message" => "To reset your password please click on this link {link}",
+    "url_use_problem_hint" => "If you have problems, please paste the above URL into your web browser.",
 
     // Success messages
-    "update_profile_success" => "Votre profil a été enregistré avec succès",
-    "pwresettoken_send_success" => "Nous vous avons envoyé un émail avec des instructions pour réinitialiser votre mot de passe. Si vous ne trouvez pas le message, vérifiez le dossier «spam» ou «pourriel».",
-    "password_reset_success" => "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passes.",
-    "account_activated_success" => "Votre compte est à présent actif. Vous pouvez maintenant vous connecter",
-    "resend_activation_success_message" => "Un message avec un code d’activation a été envoyé à votre adresse émail. Vérifiez aussi le dossier «spam» ou «pourriel»",
-    "activation_link_message" => "<h3>Merci que vous vous êtes inscrit !</h3>\n Pour activer votre compte, cliquez sur ce lien {link}",
-    "registration_success_message" => "L’inscription a été terminé avec succès ! Un message a été envoyé à votre adresse émail. Vérifiez aussi le dossier «spam» ou «pourriel»",
-    "registration_local_success_message" => "Inscription réussi !",
+    "update_profile_success" => "Profile has been updated successfully",
+    "pwresettoken_send_success" => "We've sent you an email with instructions how to reset your password. If it's not there, check spam/junk folders",
+    "password_reset_success" => "Your password has been changed successfully. You may now login using your new password",
+    "account_activated_success" => "Your account is active, you may now login",
+    "resend_activation_success_message" => "A message with activation code was sent to your email. If it's not there, check spam/junk folders",
+    "activation_link_message" => "<h3>Thank you for registering!</h3>\n To activate your account please click on this link {link}",
+    "registration_success_message" => "Registration successful! Please check your email to complete registration. If it's not there, check spam/junk folders",
+    "registration_local_success_message" => "Registration successful!",
     "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
-    "userName_characters_error" => "Votre nom d’utilisateur ne devrait contenir que des lettres miniscules latins et des chiffres, et il devrait commencer avec un lettre",
-    "userName_length_error" => "Le nom d’utilisateur devrait être entre 5 et 20 lettres en longueur",
-    "firstName_length_error" => "Le prénom devrait être entre 2 et 20 lettres en longueur",
-    "lastName_length_error" => "Le nom devrait être entre 2 et 20 lettres en longueur",
-    "enter_valid_email_error" => "Entrez une adresse émail correcte",
-    "email_taken_error" => "Cette adresse émail est déjà enregistré",
-    "username_taken_error" => "Ce nom d’utilisateur est déjà enregistré",
-    "password_short_error" => "Le mot de passe doit contenir au moins 6 lettres",
-    "passwords_notmatch_error" => "Les mots de passe ne sont pas identiques",
-    "tou_accept_error" => "Vous devez accepter les conditions d’utilisation",
-    "sof_accept_error" => "Vous devez accepter la déclaration de foi",
-    "update_profile_error" => "Votre profile n’a pas été modifié avec succès",
-    "token_expired_error" => "Le token «reset» n’est plus valide",
-    "update_table_error" => "Erreur en utilisant le base de données. Veuillez essayer à nouveau",
-    "no_account_error" => "Pas de compte or token invalide",
-    "account_activated_error" => "Ce compte est déjà activé",
-    "invalid_link_error" => "Lien incorrecte",
-    "userType_wrong_error" => "Type d’utilisateur incorrecte",
-    "choose_filter_option" => "Choisissez au moins une option de filtrage pour les membres",
-    "empty_profile_error" => "Le profile n’est pas complet",
-    "not_facilitator_error" => "Vous ne pouvez envoyer des messages qu’aux facilitateurs",
-    "facilitator_yourself_error" => "Vous ne pouver pas envoyer des messages à vous mêmes",
-    "delete_warning" => "Rédigez le nom du livre et cliquez sur «supprimer» pour supprimer l’évènement",
-    "lang_input_not_allowed" => "La mode de saisie des écritures n’est pas autorisé que dans les évènements ULB niveau 1",
+    "userName_characters_error" => "User name should contain only lowercase Latin letters and numbers and start with letters",
+    "userName_length_error" => "User name should be of length between 5 and 20",
+    "firstName_length_error" => "First name should be of length between 2 and 20",
+    "lastName_length_error" => "Last name should be of length between 2 and 20",
+    "enter_valid_email_error" => "Please enter a valid email address",
+    "email_taken_error" => "Email already taken",
+    "username_taken_error" => "Username already taken",
+    "password_short_error" => "Password must contain 6 or more characters",
+    "passwords_notmatch_error" => "Passwords do not match",
+    "tou_accept_error" => "You must accept Terms of Use",
+    "sof_accept_error" => "You must accept Statement of Faith",
+    "update_profile_error" => "Profile hasn't been updated",
+    "token_expired_error" => "Reset token has expired",
+    "update_table_error" => "Error while updating database. Please try again.",
+    "no_account_error" => "No such account or token is not valid",
+    "account_activated_error" => "Account has already been activated",
+    "invalid_link_error" => "Invalid link provided",
+    "userType_wrong_error" => "Type of user is invalid",
+    "choose_filter_option" => "Choose at least one filter option to search members",
+    "empty_profile_error" => "Profile is not completed",
+    "not_facilitator_error" => "You can only send messages to facilitators",
+    "facilitator_yourself_error" => "You cannot send messages to yourself",
+    "delete_warning" => "Type the name of the book and click \"Delete\" button again to delete the event",
+    "lang_input_not_allowed" => "Scripture Input mode is allowed only in ULB events of Level 1",
 
     // ------------ Events Controller ------------- //
 
-    "admin_events_title" => "Créer une évènement",
-    "admin_members_title" => "Gérer les membres",
-    "gw_language" => "Langue d’introduction",
-    "book_project" => "Traduction Source",
-    "book_tn" => "Notes Sources",
-    "book_tq" => "Questions Sources",
-    "book_tw" => "Mots Sources",
-    "udb" => "Bible Dynamique Débloquée",
-    "ulb" => "Bible Littérale Débloquée",
+    "admin_events_title" => "Create and Edit Events",
+    "admin_members_title" => "Members management",
+    "gw_language" => "Gateway Language",
+    "book_project" => "Source Scripture",
+    "book_tn" => "Source Notes",
+    "book_tq" => "Source Questions",
+    "book_tw" => "Source Words",
+    "udb" => "Unlocked Dynamic Bible",
+    "ulb" => "Unlocked Literal Bible",
     "sun" => "Symbolic Universal Notation",
     "odb" => "Our Daily Bread",
     "rsb" => "Russian Synodal Bible",
@@ -263,218 +263,218 @@ return array (
     "stf" => "Stefanović Novi Zavet",
     "src" => "Šarić Hrvatski",
     "ayt" => "SABDA’s Literal Bible",
-    "tn" => "Notes de Traduction",
-    "tq" => "Questions de Traduction",
-    "tw" => "Mots pour la Traduction",
+    "tn" => "Translation Notes",
+    "tq" => "Translation Questions",
+    "tw" => "Translation Words",
     "rad" => "RADIO",
     "vsail" => "vSUN",
-    "old_test" => "Ancien Testament",
-    "new_test" => "Nouveau Testament",
-    "checker_apply" => "<b>{name}</b> est prêt à vérifier <b>{step}</b> le livre de <b>{book}</b>, chapitre <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
-    "checker_apply_tw" => "<b>{name}</b> est prêt à vérifier <b>{step}</b> la catégorie des <b>{book}</b>, groupe <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
-    "apply_to_check" => "S’appliquer pour vérifier",
+    "old_test" => "Old Testament",
+    "new_test" => "New Testament",
+    "checker_apply" => "<b>{name}</b> is ready for checking <b>{step}</b> book of <b>{book}</b>, chapter <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
+    "checker_apply_tw" => "<b>{name}</b> is ready for checking <b>{step}</b> category <b>{book}</b>, group <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
+    "apply_to_check" => "Apply to check",
     "notifications" => "Notifications",
-    "see_all" => "Voit tout",
-    "no_notifs_msg" => "Pas de notifications",
-    "confirm_finished" => "Confirmez d’abord que vous avez terminé cette étape",
-    "confirm_yes" => "Oui, je l’ai faite",
-    "next_step" => "Prochaine étape",
-    "continue_alt" => "Continuer",
-    "side_by_side_toggle" => "Examen côte à côte",
-    "do_not_show_tutorial" => "Ne plus me montrer ce message",
-    "show_more" => "Afficher plus",
-    "step_num" => "Etape {step_number}",
-    "chapters" => "Chapitres",
-    "chapter_number" => "Chapitre {chapter}",
+    "see_all" => "See all",
+    "no_notifs_msg" => "No notifications",
+    "confirm_finished" => "Please confirm that you finished this step",
+    "confirm_yes" => "Yes, I did",
+    "next_step" => "Next step",
+    "continue_alt" => "Continue",
+    "side_by_side_toggle" => "Side by side review",
+    "do_not_show_tutorial" => "Don't show this message again",
+    "show_more" => "Show more",
+    "step_num" => "Step {step_number}",
+    "chapters" => "Chapters",
+    "chapter_number" => "Chapter {chapter}",
     "devotion_number" => "Devotion {devotion}",
     "broadcast_number" => "Broadcast {broadcast}",
-    "intro" => "Introduction",
-    "front" => "Introduction",
-    "chapter_not_started" => "Pas encore commencé",
-    "chapter_in_progress" => "{number}% en progrès",
-    "chapter_finished" => "100% terminé",
-    "chunks_number" => "{number} tronçons",
-    "no_chunks_number" => "pas encore de tronçons",
-    "chunk_number" => "tronçon {chunk_number}",
+    "intro" => "Intro",
+    "front" => "Intro",
+    "chapter_not_started" => "Not started",
+    "chapter_in_progress" => "{number}% in progress",
+    "chapter_finished" => "100% finished",
+    "chunks_number" => "{number} chunks",
+    "no_chunks_number" => "no chunks yet",
+    "chunk_number" => "chunk {chunk_number}",
     "chunk_finished" => "&nbsp;&nbsp;<span class=\"finished_msg glyphicon glyphicon-ok\"></span>",
-    "checker_verb" => "Vérifier (Verbalize)",
-    "checker_peer" => "Vérifier (Modifier avec un pair)",
-    "checker_kwc" => "Vérificateur (Vérification des Mots Clés)",
-    "checker_crc" => "Vérificateur (Vérification Verset par Verset)",
+    "checker_verb" => "Checker (Verbalize)",
+    "checker_peer" => "Checker (Peer-Edit)",
+    "checker_kwc" => "Checker (Keyword Check)",
+    "checker_crc" => "Checker (Verse-by-Verse Check)",
     "step_status" => "Status",
-    "step_status_not_started" => "Pas encore commencé",
-    "step_status_in_progress" => "En Progrès",
-    "step_status_waiting" => "En attente",
-    "step_status_checked" => "En Progrès",
-    "step_status_finished" => "Terminé",
-    "your_partner" => "Votre partneraire",
-    "your_checker" => "Votre vérificateur",
-    "your_translator" => "Votre traducteur",
-    "event_info" => "L’information de l’évènement",
-    "progress" => "En Progrès",
-    "manage" => "Gérer",
-    "event_participants" => "Participants dans l’évènement",
-    "status_online" => "sur-ligne",
-    "status_offline" => "hors-ligne",
-    "go_back" => "Retour",
-    "partner_tab_title" => "Partenaire",
-    "checking_tab_title" => "Vérificateur",
-    "event_tab_title" => "Événement",
-    "project_tab_title" => "Projet",
-    "verses" => "Versets",
+    "step_status_not_started" => "Not Started",
+    "step_status_in_progress" => "In Progress",
+    "step_status_waiting" => "Waiting",
+    "step_status_checked" => "In Progress",
+    "step_status_finished" => "Passed",
+    "your_partner" => "Your partner",
+    "your_checker" => "Your checker",
+    "your_translator" => "Your translator",
+    "event_info" => "Event Progress",
+    "progress" => "Progress",
+    "manage" => "Manage",
+    "event_participants" => "Event participants",
+    "status_online" => "online",
+    "status_offline" => "offline",
+    "go_back" => "Go Back",
+    "partner_tab_title" => "Partner",
+    "checking_tab_title" => "Checker",
+    "event_tab_title" => "Event",
+    "project_tab_title" => "Project",
+    "verses" => "Verses",
     "show_keywords" => "tW",
     "show_questions" => "tQ",
     "show_notes" => "tN",
-    "check" => "Vérification",
-    "members_online_title" => "Membres sur ligne",
-    "help" => "L’AIDE",
-    "demo" => "Démo",
-    "see_demo" => "Voir Démo",
-    "demo_video" => "Regarder l’introduction",
-    "save" => "Sauvegarder",
-    "read_chunk" => "Lire",
-    "translate_chunk" => "Traduire",
-    "partner_translation" => "La traduction du partenaire",
-    "your_translation" => "Votre traduction",
+    "check" => "Check",
+    "members_online_title" => "Members Online",
+    "help" => "HELP",
+    "demo" => "Demo",
+    "see_demo" => "See Demo",
+    "demo_video" => "Watch intro",
+    "save" => "Save",
+    "read_chunk" => "Read",
+    "translate_chunk" => "Translate",
+    "partner_translation" => "Partner's translation",
+    "your_translation" => "Your translation",
     "facilitator_events" => "Facilitation",
-    "translator_events" => "Traduction",
-    "l1_events" => "Vérification",
-    "l2_3_events" => "N{level} Vérification",
-    "book" => "Livre",
-    "target_lang" => "Langue visée",
-    "project" => "Projet",
+    "translator_events" => "Translation",
+    "l1_events" => "Checking",
+    "l2_3_events" => "L{level} Check",
+    "book" => "Book",
+    "target_lang" => "Target Language",
+    "project" => "Project",
     "source" => "Source",
-    "projects" => "Projets",
-    "current_step" => "L’étape courante",
-    "user" => "Utilisateur",
-    "draft1" => "Brouillon 1",
-    "state" => "Phase",
-    "level2_3_check" => "Niveau {level} Vérification",
-    "translators" => "Traducteurs",
-    "max_translators" => "Nombre maximal de traducteurs",
-    "checkers" => "Vérificateurs",
-    "apply" => "Appliquer",
-    "apply_now" => "Appliquer Maintenant",
-    "apply_as_translator" => "Postulation comme Traducteur",
-    "apply_as_checker" => "Postulation Comme Vérificateur Niveaau {level}",
-    "state_started" => "En attente pour les traducteurs",
-    "state_translating" => "Traduction",
-    "state_translated" => "Traduit",
+    "projects" => "Projects",
+    "current_step" => "Current step",
+    "user" => "User",
+    "draft1" => "Draft 1",
+    "state" => "Stage",
+    "level2_3_check" => "Level {level} Check",
+    "translators" => "Translators",
+    "max_translators" => "Maximum number of translators",
+    "checkers" => "Checkers",
+    "apply" => "Apply",
+    "apply_now" => "Apply Now",
+    "apply_as_translator" => "Apply as Translator",
+    "apply_as_checker" => "Apply as Level {level} Checker",
+    "state_started" => "Waiting for translators",
+    "state_translating" => "Translating",
+    "state_translated" => "Translated",
     "state_l2_recruit" => "Waiting for L2 checkers",
     "state_l2_check" => "Level 2 check",
     "state_l2_checked" => "Level 2 Complete",
     "state_l3_recruit" => "Waiting for L3 checkers",
     "state_l3_check" => "Level 3 check",
-    "state_complete" => "Terminé",
-    "checker_view" => "Vue de vérificateur",
-    "checker_other_view" => "Vue de vérificateur {0}",
-    "translator_view" => "Vue de traducteur",
-    "progress_all" => "Progrès d’Ensemble",
-    "people_number" => "Les personnes: <span>{people_number}</span>",
-    "add_person" => "Assigner le chapitre",
-    "add_translator" => "Ajouter des traducteurs ou des vérificateurs",
-    "add_checker" => "Ajouter un vérificateur",
-    "assign_chapter_title" => "Assigner le chapitre",
+    "state_complete" => "Complete",
+    "checker_view" => "Checker View",
+    "checker_other_view" => "Checker {0} View",
+    "translator_view" => "Translator View",
+    "progress_all" => "Overall Progress",
+    "people_number" => "People: <span>{people_number}</span>",
+    "add_person" => "Assign chapter",
+    "add_translator" => "Add translators/checkers",
+    "add_checker" => "Add checker",
+    "assign_chapter_title" => "Assign chapter",
     "assign_group_title" => "Assign group",
-    "assign" => "Assigner",
-    "start_translation" => "Commencer la traduction",
-    "start_checking" => "Commencer la vérification",
-    "checkers_l2" => "Vérificateurs niveau 2",
+    "assign" => "Assign",
+    "start_translation" => "Start translation",
+    "start_checking" => "Start Checking",
+    "checkers_l2" => "Level 2 checkers",
     "max_checkers_l2" => "The number of Level 2 checkers",
-    "checkers_l3" => "Vérificateurs niveau 3",
+    "checkers_l3" => "Level 3 checkers",
     "max_checkers_l3" => "The number of Level 3 checkers",
-    "level" => "Niveau {0}",
-    "cal_from" => "L’évènement commence à:",
-    "cal_to" => "L’évènement se termine à:",
-    "reset_chunks" => "Réinitialiser les tronçons",
-    "make_chunk" => "Créer un tronçon",
-    "write_note_title" => "Ecrirer une note au tronçon",
+    "level" => "Level {0}",
+    "cal_from" => "Event starts at:",
+    "cal_to" => "Event finishes at:",
+    "reset_chunks" => "Reset chunks",
+    "make_chunk" => "Make chunk",
+    "write_note_title" => "Write a note to the chunk",
     "write_footnote_title" => "Add a footnote",
-    "all_notifications_title" => "Toutes les notifications",
-    "video_call_title" => "Discuter avec vidéo/audio (en beta encore)",
-    "video_call" => "Appel par vidéo",
-    "audio_call" => "Apple audio",
-    "turn_off_camera" => "Fermer le caméra",
-    "mute_mic" => "Éteindre le microphone",
-    "answer_call" => "Répondre",
-    "hangup" => "Raccrocher",
-    "time_start" => "Commencer",
-    "time_end" => "Terminer",
+    "all_notifications_title" => "All notifications",
+    "video_call_title" => "Video/Audio Chat (beta)",
+    "video_call" => "Video call",
+    "audio_call" => "Voice call",
+    "turn_off_camera" => "Turn off camera",
+    "mute_mic" => "Mute microphone",
+    "answer_call" => "Answer",
+    "hangup" => "Hang up",
+    "time_start" => "Start",
+    "time_end" => "End",
     "chat" => "CHAT",
-    "you_are_at" => "Vous êtes à",
-    "8steps_vmast" => "8 Etapes MAST",
-    "vmast" => "8 Etapes MAST",
+    "you_are_at" => "You are at",
+    "8steps_vmast" => "8 Steps MAST",
+    "vmast" => "8 Steps MAST",
     "lang_input" => "Scripture Input",
-    "notes" => "Notes de Traduction",
-    "words" => "Mots de Traduction",
-    "questions" => "Questions de Traduction",
+    "notes" => "Translation Notes",
+    "words" => "Translation Words",
+    "questions" => "Translation Questions",
     "level2" => "Level 2",
     "level3" => "Level 3",
-    "l2_l3_vmast" => "MAST N{level} Vérification",
-    "common" => "En commun",
-    "vmast_events" => "V-MAST  Evènements",
-    "create_event" => "Créer une évènement",
-    "edit_event" => "Modifier l’évènement",
-    "create_info_tip" => "Cliquer ici pour créer des projets et des évènements",
-    "new_events" => "Nouvelles évènements",
-    "choose_project" => "Choiser un Projet",
-    "create_project" => "Créer un Projet",
-    "project_type" => "Type de projet",
-    "choose_gw_lang" => "Choisir la langue d’introduction",
-    "choose_target_lang" => "Choisir la langue de destination",
-    "choose_source_trans" => "Choisir la Traduction Source",
-    "choose_source_tn" => "Choisir Notes Sources",
-    "choose_source_tq" => "Choiser Questions Sources",
-    "choose_source_tw" => "Choisir Mots Sources",
-    "choose_project_type" => "Choisir Type de Projet",
-    "gw_projects" => "Projets d’Introduction",
-    "gw_project" => "Projet d’Introduction",
-    "create_gw_project" => "Créer un Projet d’Introduction",
-    "edit" => "Modifier",
-    "add_admins_by_username" => "Ajoutez des facilitateurs en rédigent leurs noms",
-    "admin_project_title" => "Création de projet",
-    "apply_checker_l1" => "Postuler comme vérificateur",
-    "not_available" => "N’est pas disponible",
-    "reset_markers" => "Réinitialiser les marqueurs",
-    "remove_from_event" => "Supprimer de l’évènement",
-    "event_status" => "Status de l’évènement",
-    "contributors" => "Contributeurs",
-    "event_contributors" => "Contributeurs à l’évènement",
-    "events_in_progress" => "Evènements en cours",
-    "events_finished" => "Évènements terminés",
-    "block" => "Bloquer",
-    "unblock" => "Débloquer",
-    "last_edit" => "Dernière modification",
-    "noscript_message" => "Javascript est désactivé. Javascript est requis pour le fonctionnement correcte de v-mast.",
-    "type_translation" => "Mode Traduction",
-    "type_checking" => "Mode Vérification",
+    "l2_l3_vmast" => "MAST L{level} Check",
+    "common" => "Common",
+    "vmast_events" => "V-MAST Events",
+    "create_event" => "Create event",
+    "edit_event" => "Edit event",
+    "create_info_tip" => "Click here to create projects and events",
+    "new_events" => "New Events",
+    "choose_project" => "Choose Project",
+    "create_project" => "Create Project",
+    "project_type" => "Type of project",
+    "choose_gw_lang" => "Choose Gateway Language",
+    "choose_target_lang" => "Choose Target Language",
+    "choose_source_trans" => "Choose Source Scripture",
+    "choose_source_tn" => "Choose Source Notes",
+    "choose_source_tq" => "Choose Source Questions",
+    "choose_source_tw" => "Choose Source Words",
+    "choose_project_type" => "Choose Project Type",
+    "gw_projects" => "Gateway Projects",
+    "gw_project" => "Gateway Project",
+    "create_gw_project" => "Create Gateway Project",
+    "edit" => "Edit",
+    "add_admins_by_username" => "Add facilitators by typing their user names",
+    "admin_project_title" => "Project creation",
+    "apply_checker_l1" => "Apply as checker",
+    "not_available" => "Not available",
+    "reset_markers" => "Reset markers",
+    "remove_from_event" => "Remove from event",
+    "event_status" => "Event status",
+    "contributors" => "Contributors",
+    "event_contributors" => "Event contributors",
+    "events_in_progress" => "Current Events",
+    "events_finished" => "Completed events",
+    "block" => "Block",
+    "unblock" => "Unblock",
+    "last_edit" => "Last edit",
+    "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
+    "type_translation" => "Translation Mode",
+    "type_checking" => "Checking Mode",
     "type_checking1" => "Checker 1 Mode",
     "type_checking2" => "Checker 2 Mode",
-    "clear_cache" => "Mettre à jour le cache",
-    "update_cache_all" => "Mettre à jour le cache (tous les livres)",
-    "clear_cache_info" => "Mettre à jour le texte source dans le cache",
-    "remove_checker" => "Supprimer vérificateur",
-    "chunk_verses" => "Verset(s): {0}",
-    "verse_number" => "Verset {0}",
-    "leaveit" => "Laisser comme tel",
-    "refresh" => "Rafraichir",
-    "hide_help" => "Cache l’aide",
-    "show_help" => "Afficher l’aide",
-    "copy" => "Copier",
-    "translation_event" => "Traduction:",
-    "l2_event" => "Vérification Niveau 2",
-    "source_text" => "Texte Source",
-    "target_text" => "Texte de destination",
-    "import_translation_tip" => "Importation de traduction",
-    "import_options" => "Importation des options",
-    "import_from_dcs" => "Importation à partir de DCS (Door43)",
-    "import_from_usfm" => "Importation à partir de USFM (.usfm)",
-    "import_from_ts" => "Importation à partir d’un projet translationStudio (.tstudio)",
-    "import_from_zip" => "Importation de zip archive tN, tQ or tW (.zip)",
-    "repository_name" => "Nom du dépôt",
-    "repository" => "Dépôt",
-    "updated_at" => "Modifié le",
-    "cancel" => "Annuler",
+    "clear_cache" => "Update Cache",
+    "update_cache_all" => "Update Cache (all books)",
+    "clear_cache_info" => "Update source text in cache.",
+    "remove_checker" => "Remove checker",
+    "chunk_verses" => "Verse(s): {0}",
+    "verse_number" => "Verse {0}",
+    "leaveit" => "Leave it as it is",
+    "refresh" => "Refresh",
+    "hide_help" => "Hide help",
+    "show_help" => "Show help",
+    "copy" => "Copy",
+    "translation_event" => "Translation:",
+    "l2_event" => "Level 2 check",
+    "source_text" => "Source text",
+    "target_text" => "Target text",
+    "import_translation_tip" => "Import translation",
+    "import_options" => "Import options",
+    "import_from_dcs" => "Import from DCS (Door43)",
+    "import_from_usfm" => "Import from USFM (.usfm)",
+    "import_from_ts" => "Import from translationStudio project (.tstudio)",
+    "import_from_zip" => "Import tN, tQ or tW zip archive (.zip)",
+    "repository_name" => "Repository name",
+    "repository" => "Repository",
+    "updated_at" => "Updated at",
+    "cancel" => "Cancel",
     "sail_dictionary" => "SUN Dictionary",
     "filter_by_word" => "Filter by word",
     "copy_symbol_tip" => "Click to copy symbol to clipboard",
@@ -493,39 +493,39 @@ return array (
     "sun_odb_vbv_checker" => "Remove SUN checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
-    "l2_snd_checker" => "Supprimer le 2eme vérificateur",
-    "l2_p1_checker" => "Supprimer le 1er vérificateur pair",
-    "l2_p2_checker" => "Supprimer le 2eme vérificateur pair",
-    "l3_p_checker" => "Supprimer le vérificateur",
-    "news" => "Nouvelles",
-    "draft" => "Brouillon",
-    "create_words_group" => "Créer un groupe de mots",
-    "create_group" => "Créer un groupe",
-    "word_group_hint" => "Selectionnez les mots pour créer un group en appuyant sur  CTRL + bouton du souris à gauche ou SHIFT + bouton du souris à gauche",
-    "group_id" => "Groupe {0}",
-    "user_has_group_error" => "Vous ne pouvez pas supprimer ce groupe parce qu’il est assigné à un traducteur",
-    "tw_translate_hint" => "NB : Traduisez seulement les mots clés, les définitions, les informations et les suggestions de traduction",
-    "compare" => "Mode comparaison",
-    "common_tools" => "En commun",
+    "l2_snd_checker" => "Remove 2nd checker",
+    "l2_p1_checker" => "Remove 1st peer checker",
+    "l2_p2_checker" => "Remove 2nd peer checker",
+    "l3_p_checker" => "Remove checker",
+    "news" => "News",
+    "draft" => "Draft",
+    "create_words_group" => "Create group of words",
+    "create_group" => "Create group",
+    "word_group_hint" => "Select the words to create a group by holding CTRL + left button click or SHIFT + left button click",
+    "group_id" => "Group {0}",
+    "user_has_group_error" => "You cannot delete this group because it is assigned to a translator.",
+    "tw_translate_hint" => "Notice: Translate only Keywords, Definitions/Facts and Translation Suggestions.",
+    "compare" => "Comparison mode",
+    "common_tools" => "Common",
     "sun_tools" => "vSUN",
     "faq_tools" => "FAQ",
-    "faq_enter_question" => "Rédiger une question",
-    "faq_enter_answer" => "Rédiger une réponse",
-    "filter_by_search" => "Rechercher une question",
-    "faq_title" => "Questions fréquemment posées",
+    "faq_enter_question" => "Enter question",
+    "faq_enter_answer" => "Enter answer",
+    "filter_by_search" => "Search for a question",
+    "faq_title" => "Frequently asked questions",
     "filter_by_category" => "Filter by category",
 
     // Steps
-    "pray" => "Préparation: Prière",
-    "pray_desc" => "<li><b>BUT:</b> Inviter le saint Esprit à participer dans la procédure de la traduction.</li>
-                    <li>Priez seul ou ensemble  en temps que groupe.</li>
-                    <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour aller à la prochaine étape.</li>",
-    "pray_text" => "Dieu  a créé tous les langages du monde et nous a donné la faculté de les apprendre et de les 
-                    utiliser. Il nous a aussi donné son Saint esprit pour nous aider en toutes choses. 
-                    Commençons à passer du temps dans la prière , à remercier Dieu et à lui demander de nous donner 
-                    la sagesse et la direction nécessaires pour traduire fidèlement et  correctement Sa Parole Sainte.",
-    "prep_pray_text" => "<strong>Félicitations!</strong> YVous avez complété votre chapître! Faites une pause, 
-                        reposez-vous, et buvez du café ou du thé et commencez un autre chapître!",
+    "pray" => "Preparation: Prayer",
+    "pray_desc" => "<li><b>PURPOSE:</b> to invite the Holy Spirit into the process as you translate.</li>
+                    <li>Pray by yourself or together as a group.</li>
+                    <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+    "pray_text" => "God created all the languages of the world and has given us the ability to learn and use them. 
+                    He has also given us His Spirit to help us in everything we do.  
+                    Therefore, let us begin by spending time in prayer, giving thanks to the Lord and asking that 
+                    He will give us the wisdom and guidance necessary to faithfully and accurately translate His Holy Word.",
+    "prep_pray_text" => "<strong>Congratulations!</strong> You have completed your chapter! 
+                        Take a break, take a nap, get some coffee or tea and let’s start another chapter!",
     
     "pray_tn" => "Preparation: Prayer",
 
@@ -561,19 +561,19 @@ return array (
                                         The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
                                     <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "consume" => "Consumer (absorber)",
-    "consume_desc" => "<li><b>BUT:</b> Saisir le texte d’origine pour se préparer à traduire.</li>
-                        <li><b>DURÉE:</b> Ayez 7-8 minutes pour cette étape.</li>
-                        <li>Lire attentivement le chapître en question.</li>
-                        <li>Essayez d’en comprendre le sens et les details du texte à première vue.</li>
-                        <li>Si vous voyez l’icône papier, (<span class='mdi mdi-bookmark'></span>), glissez la souris dessus. 
-                            C’est une note du traducteur pour ce verset.</li>
-                        <li>Si le texte est plus long, et demande plus de temps c’est okay, mais arrêtez-vous et 
-                            réfléchissez sur les passages et continuez de lire le passage suivant du chapître. </li>
-                        <li>Cliquez “Oui” je l’ai fait” et “Prochaine étape” pour la prochaine étape.</li>",
+    "consume" => "Consume",
+    "consume_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translation.</li>
+                        <li><b>LENGTH:</b> Take 7-8 minutes for this step.</li>
+                        <li>Read the assigned chapter carefully.</li>
+                        <li>Try to understand the meaning and details of the text for a general overview.</li>
+                        <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), hover over it with your mouse. 
+                            It is a translator’s note for that verse.</li>
+                        <li>If the text is longer and needs more time, that is okay, but do stop and 
+                            reflect on portions and then continue reading the next portion of the chapter.</li>
+                        <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "consume_odb" => "Lis",
-    "consume_sun_desc" => "<li><b>BUT:</b> to get the big picture of the chapter</li>
+    "consume_odb" => "Read",
+    "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
                             <li>Pause, reflect, and re-read as necessary.</li>
@@ -581,7 +581,7 @@ return array (
 
     "consume_tn" => "Read Scripture",
     "consume_tn_full" => "Read Scripture in Target Language",
-    "consume_tn_desc" => "<li><b>BUT:</b> to intake source text to prepare for translating notes.</li>
+    "consume_tn_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translating notes.</li>
                             <li>Read the assigned chapter carefully.</li>
                             <li>Try to understand the meaning and details of the text to get a general overview.</li>
                             <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), hover over 
@@ -593,96 +593,93 @@ return array (
                             <li>Try to understand the meaning and details of the text for a general overview.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "verbalize" => "Verbalizez",
-    "verbalize_desc" => "<li><b>BUT:</b> Exprimer verbalement ce que vous avez consommé pour engager la mémoire à court terme.</li>
-                            <li><b>DURÉE:</b> Prendre 2-3 minutes pour cette étape (par personne)</li>
-                            <li>Choisissez un partenaire pour le verbalizer. Ce n’est pas obligé que ce soit un autre traducteur du V-MAST. 
+    "verbalize" => "Verbalize",
+    "verbalize_desc" => "<li><b>PURPOSE:</b> to express verbally what you have consumed to engage short-term memory.</li>
+                            <li><b>LENGTH:</b> Take 2-3 minutes on this step (per person).</li>
+                            <li>Choose a partner to verbalize with.  It does not have to be another translator in V-MAST. 
                                 <ol>
-                                    <li>S’ils sont des traducteurs au V-MAST, commencez à taper leur nom dans la case 
-                                        blanche, et choisissez à partir des noms qui apparaissent. Puis cliquez “Add Checker”</li>
-                                    <li>Sils ne sont pas des traducteurs au V-MAST, tapez leur nom et cliquez “Add Checker”.</li>
-                                    <li>Leur nom apparaitra sur la marge en tant que “Votre vérificateur”.</li>
+                                    <li>If they are a translator in V-MAST, start typing their name in the blank field, and choose 
+                                        from the names that pop up.  Then click \"Add Checker.\"</li>
+                                    <li>If they are not a translator in V-MAST, type in their name and click \"Add Checker\".</li>
+                                    <li>You will see their name pop up in the side bar as \"Your checker\".</li>
                                 </ol>
                             </li>
-                            <li>Contactez votre partenaire sur une plateforme de conversation: Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>Verbalisez avec votre partenaire : “Voici ce que je lis”, suivi par “les points suivants sont:...” dans le langage target.</li>
-                            <li>Il ne s’agit pas de discuter le texte, mais de dire à haute voix ce que vous lisez.</li>
-                            <li>Faites-le sans regarder le texte, si c’est possible.</li>
-                            <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
+                            <li>Contact your partner on a conversation platform: Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>Verbalize to your partner: \"This is what I read\", followed by \"the main points are:…\" in the target language.</li>
+                            <li>This is not a discussion of the text, but to say aloud what you read.</li>
+                            <li>Do this without looking back at the text, if possible.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "chunking" => "Tronçon",
+    "chunking" => "Chunk",
     "chunking_sun" => "Thought Chunk",
-    "chunking_desc" => "<li><b>BUT:</b> Diviser le texte en petites sections, pour aider le cerveau à examiner au detail</li>
-                        <li><b>DURÉE:</b> Prendre 5 minutes, selon le nombre de versets dans le chapître.</li>
-                        <li>Cliquez sur 1-4 versets et puis sur l’icône orange (<span class='make_chunk_info'></span>) pour créer chaque section. 
+    "chunking_desc" => "<li><b>PURPOSE:</b> to divide the text into smaller pieces, to help the brain work with it in detail.</li>
+                        <li><b>LENGTH:</b> Take about 5 minutes, depending on the number of verses in the chapter.</li>
+                        <li>Click on 1-4 verses and then the orange icon (<span class='make_chunk_info'></span>) to create each chunk. 
                             <ol>
-                                <li>Pour changer la dernière section (ou plusieurs sections), cliquez sur la dernière</li>
-                                <li>Pour commencer à sectionner depuis le début, cliquez sur l’icône rouge (<span class='reset_info'></span>).</li>
+                                <li>To change the last chunk (or few chunks), click on the last checked box(es) to un-chunk.</li>
+                                <li>To start chunking over from the beginning, click on the red icon (<span class='reset_info'></span>).</li>
                             </ol>
                         </li>
-                        <li>Sectionner le chapître tout entier, en prêtant attention sur les sujets similaires et les coupures logiques dans la pensée.</li>
-                        <li>Esayez de vous souvenir au maximum du texte, Mais souvenez-vous qu’il faudra que vous reconstituiez le texte sans le regarder.</li>
-                        <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
+                        <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>
+                        <li>Push for the maximum amount of text that can be remembered, but keep in mind you will draft the text without looking at it.</li>
+                        <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "chunking_sun_desc" => "<li><b>BUT:</b> to divide the text into manageable portions for translation</li>
+    "chunking_sun_desc" => "<li><b>PURPOSE:</b> to divide the text into manageable portions for translation</li>
                             <li>Click on 2-5 verses and then \"make chunk\" for grouping into chunks to prepare for the next step.</li>
                             <li>Chunk the entire chapter, focusing on similar topics and logical breaks in thought.</li>",
 
-    "read-chunk" => "Brouillon aveugle",
-    "read-chunk-alt" => "Lire le tronçon",
-    "read-chunk_desc" => "<li><b>BUT:</b> Réviser la section pour préparer le draft aveugle.</li>
-                            <li><b>DURÉE:</b> passez 2-3 minutes sur chaque section.</li>
-                            <li>Lisez et absorbez cette section, en gardant en mémoire le context du chapître tout entier.</li>
-                            <li>Songez à ce passage dans le langage target.</li>
-                            <li>Ne prenez pas de notes ou n’ouvrez pas de sources supplémentaires durant cette étape.</li>
-                            <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
+    "read-chunk" => "Blind Draft",
+    "read-chunk-alt" => "Read Chunk",
+    "read-chunk_desc" => "<li><b>PURPOSE:</b> to review the chunk to prepare for the blind draft</li>
+                            <li><b>LENGTH:</b> Take 2-3 minutes on each chunk.</li>
+                            <li>Read and absorb this chunk, keeping the whole chapter's context in mind.</li>
+                            <li>Think through this chunk in the target language.</li>
+                            <li>Do not make notes or open additional source text on this step.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     
     "read-chunk_tn" => "Read Chunk",
-    "read-chunk_tn_desc" => "<li><b>BUT:</b> to read through the chunk of Notes you will translate.</li>
+    "read-chunk_tn_desc" => "<li><b>PURPOSE:</b> to read through the chunk of Notes you will translate.</li>
                                 <li>Read the assigned chunk of Notes carefully.</li>
                                 <li>Try to understand the meaning and details of the text to get a general overview.</li>
                                 <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), 
                                     hover over it with your mouse. It is a translator’s note for that verse.</li>
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     
-    "blind-draft" => "Brouillon Aveugle",
-    "blind-draft_previous" => "Brouillon Aveugle – Tronçon d’Avant",
-    "blind-draft_desc" => "<li><b>BUT:</b> Traduire le texte d’origine de la façon la plus naturelle dans le langage target.</li>
-                            <li><b>DURÉE:</b> ne prenez pas plus de 11 minutes pour chaque section.</li>
-                            <li>Une des caractéristiques fondamentales pour une bonne traduction est la clarité 
-                                naturelle du langage. Le draft aveugle le saisit et permet de transmettre rapidement au 
-                                cerveau le texte le plus naturel. Cela ne veut pas dire nécessairement que le texte 
-                                soit parfait et précis (les quatre prochaines étapes amélioreront le texte), c’est 
-                                dans l’intention d’être naturel à la base quant au texte, car sans ceci, cela produit 
-                                des erreurs et de longues périodes encourues pour les corriger.</li>
-                            <li>Sans regarder au texte d’origine, tapez votre traduction de la section comme vous vous 
-                                en rappelez au mieux, de façon naturelle, en utilisant des mots clairs et compréhensibles.</li>
-                            <li>Ne vous référez pas au texte d’origine. Traduisez seulement ce dont vous vous rappelez. </li>
-                            <li>Ne vous souciez pas de marquer les versets. On le fera à l’étape finale.</li>
-                            <li>Ne passez pas un temps prolongé à vous rappeler le texte d’origine. La Prochaine étape 
-                                sera de récupérer ce dont vous ne vous souvenez pas et de faire les corrections.</li>
-                            <li>Cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>
-                            <li>Continuez à écrire le draft aveugle jusqu’à la fin du chapître.</li>
-                            <li>Notes supplémentaires aux traducteurs: 
+    "blind-draft" => "Blind Draft",
+    "blind-draft_previous" => "Blind Draft - Previous chunk",
+    "blind-draft_desc" => "<li><b>PURPOSE:</b> to translate the source text as naturally as possible in the target language.</li>
+                            <li><b>LENGTH:</b> Take no more than 11 minutes for each chunk.</li>
+                            <li>One of the foundational characteristics of good translation is the naturalness of language. 
+                                The blind draft captures this and allows the brain/short term memory to quickly push out 
+                                the most natural text. This is not meant to be perfect and accurate text (the next four 
+                                steps will refine the text), this is meant to put the foundation of naturalness, which if 
+                                absent, leads to extended error and long periods of foundational error correction.</li>
+                            <li>Without looking at the source text, type your translation of the chunk as best you 
+                                can remember it, in a natural way, using words that are clear and understandable.</li>
+                            <li>Do not refer to the source text. Just translate what you remember.</li>
+                            <li>Do not be concerned about marking verses. This will be done in the final step.</li>
+                            <li>Do not spend an extended amount of time trying to remember the source text. The next 
+                                step will catch what you do not remember and allow corrections.</li>
+                            <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
+                            <li>Continue to blind draft each chunk until you finish the chapter.</li>
+                            <li>Additional Notes to Translator: 
                                 <ol>
-                                    <li><b>Bénéfice personel pour vous:</b> Ceux qui suivent le draft aveugle 
-                                        consciencieusement se rendront compte qu’ils retiennent en mémoire les Écritures. 
-                                        Vous avez ainsi le bénéfice de garder “ce texte caché dans votre coeur”, 
-                                        beaucoup plus que ceux qui ne le font pas.</li>
-                                    <li><b>Quant à ceux qui trichent:</b> C’est souvent l’étape où beaucoup aiment tricher, 
-                                        surtout les premiers jours. Nous savons que vous désirez être le plus précis 
-                                        quant à l’écriture et que la crainte du draft aveugle produira des erreurs. 
-                                        Vous vous promettons d’effacer ces craintes d’imprécisions  tout au cours de 
-                                        cette procédure et nous vous demandons d’effectuer cette procédure. Vous aurez 
-                                        du mal le premier jour et même le deuxième jour, mais alors que le temps passe 
-                                        votre capacité de vous souvenir augmentera et votre vitesse s’améliorera. 
-                                        Davantage, vous incorporerez une meilleure façon de songer au texte durant 
-                                        votre traduction.</li>
+                                    <li><b>Personal benefit to you:</b> Those who conscientiously follow the blind drafting, 
+                                        will find that they are planting Scripture in their long-term memory. As this 
+                                        happens, you have the benefit of keeping this text \"hidden away in your heart\" to a 
+                                        much higher degree than those who do not.</li>
+                                    <li><b>Those who cheat:</b> This is very often the step that many like to cheat on, 
+                                        especially in those first days. We know that you want to make scripture accurate, 
+                                        and your fears of blind drafting will produce error. We promise to 
+                                        relieve those fears of inaccuracy through the whole process and ask that you work 
+                                        through the process. You will struggle the first day and even the second day, but 
+                                        as the days go on, you will find yourself increasing your memory capacity and accelerating 
+                                        in speed. Further, you will insert ways to think through text better as you translate.</li>
                                 </ol>
                             </li>",
 
     "blind-draft_tn" => "Blind Draft",
-    "blind-draft_tn_desc" => "<li><b>BUT:</b> to review the chunk of scripture and Notes and then \"blind translate\" the Note in the target language.</li>
+    "blind-draft_tn_desc" => "<li><b>PURPOSE:</b> to review the chunk of scripture and Notes and then \"blind translate\" the Note in the target language.</li>
                                 <li>Read the scripture and Note, keeping the context of the whole chapter mind.</li>
                                 <li>Think through the scripture and Note in the target language.</li>
                                 <li>Switch to the \"Translate\" tab and blind draft as much of the Note in the target language as you can.</li>
@@ -715,20 +712,19 @@ return array (
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
                                 <li>Make sure the save icon is not flashing when you click \"Next step\".</li>",
 
-    "self-check" => "Auto-Edition",
-    "self-check_desc" => "<li><b>BUT:</b> Éditer votre draft aveugle et vérifier que le sens du texte d’origine est 
-                            précis tout en maintenant le flot naturel du draft aveugle.</li>
-                            <li><b>DURÉE:</b> Prenez 30 minutes pour éditer lVotre traduction.</li>
-                            <li><b>Vérifiez que le sens précis et littéral des termes communs pour “Père” et “Fils” sont 
-                                employés quand on se réfère à Dieu le Père et Jésus Christ.</b></li>
-                            <li>Regardez à l’épellation, la ponctuation, et les erreurs danl le flot naturel du texte.</li>
-                            <li>Vérifiez s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
-                            <li>Vérifiez en détail la précision de la traduction.</li>
-                            <li>On peut utiliser les ressources suivantes:
+    "self-check" => "Self-Edit",
+    "self-check_desc" => "<li><b>PURPOSE:</b> to edit your blind draft and check the meaning of the source text's accuracy 
+                                while maintaining the blind draft's naturalness.</li>
+                            <li><b>LENGTH:</b> Take about 30 minutes to edit your translation.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                            <li>Look for any missing portions of text or missing/added facts.</li>
+                            <li>Check in detail the accuracy of your translation.</li>
+                            <li>The following resources can be used:
                                 <ol>
-                                    <li>Notes de traduction dans la marge: Pour accéder aux notes, cliquez l’icône tN.</li>
-                                    <li>Questions de traduction dans la marge: Pour accéder aux questions, cliquez sur l’icône tQ.</li>
-                                    <li>Choisissez toutes autres ressources.</li>
+                                    <li>Translation Notes in sidebar: To access the notes, click the tN icon.</li>
+                                    <li>Translation Questions in sidebar: To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
                             <li>To add or edit a footnote for this chapter:
@@ -745,14 +741,14 @@ return array (
                                     <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
-                            <li>N’effacez pas ou n’écrivez pas de nouveau le texte traduit. Vous perdrez le flot naturel du texte.</li>
-                            <li>Si vous pensez à d’autres choses ou si vous avez des questions au sujet de la traduction, 
-                                cliquez sur l’icône <br>(<span class='mdi mdi-lead-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.
-                                Les vérificateurs, verset par verset du terme important verront  cette note et aidera à résoudre la question ou le problème.</li>
-                            <li>Quand on a fait tous les changements et les notes cliquez “Oui, je l’ai fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
+                            <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
+                            <li>If you have additional thoughts or questions about your translation, click the note 
+                                icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save. 
+                                The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
+                            <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "self-check_tn" => "Self-Edit",
-    "self-check_tn_desc" => "<li><b>BUT:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
+    "self-check_tn_desc" => "<li><b>PURPOSE:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>Look for spelling, punctuation, flow/naturalness errors.</li>
                                 <li>Look for any missing portions of text or missing or added facts.</li>
                                 <li>Check the accuracy of your translation in detail.</li>
@@ -773,7 +769,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
     "self-check_tn_chk" => "Edit Notes",
-    "self-check_tn_chk_desc" => "<li><b>BUT:</b> to edit the Notes translation and check accuracy while maintaining naturalness.</li>
+    "self-check_tn_chk_desc" => "<li><b>PURPOSE:</b> to edit the Notes translation and check accuracy while maintaining naturalness.</li>
                                     <li>Check scripture (the large print) to make sure it is the same as the target scripture given. 
                                         (This does not include the book or chapter \"Intro.\"</li>
                                     <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
@@ -809,7 +805,7 @@ return array (
 
     "highlight_tn" => "Highlight",
     "highlight_tn_full" => "Highlight Difficult Passages",
-    "highlight_tn_desc" => "<li><b>BUT:</b> to highlight passages that are considered theologically difficult.</li>
+    "highlight_tn_desc" => "<li><b>PURPOSE:</b> to highlight passages that are considered theologically difficult.</li>
                             <li>Read the assigned chapter carefully.</li>
                             <li>Double click to highlight words or to select a phrase left click and select the phrase. 
                                 <ol>
@@ -820,20 +816,19 @@ return array (
                             <li>Read through entire chapter and highlight as needed.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "peer-review" => "Edition par les Pairs",
-    "peer-review_desc" => "<li><b>BUT:</b> Parler avec une autre personne qui parle le langage cible pour vérifier que 
-                            le sens du texte est précis quant au texte d’origine tout en maintenant le flot naturel du draft aveugle.</li>
-                            <li><b>DURÉE:</b> Le vérificateur devrait prendre 30 minutes pour la vérification. Discuter 
-                                et corriger la section  devrait aussi durer 30 minutes.</li>
-                            <li><b>Vérifiez que le sens précis et littéral des termes communs pour “Père” et “Fils” sont employés quand on se réfère à Dieu le Père et Jésus Christ.</b></li>
-                            <li>Le vérificateur regardera l’épellation, la ponctuation, et les erreurs dans le flot naturel du texte.</li>
-                            <li>Le vérificateur regardera s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
-                            <li>Le vérificateurs vérifiera en détail que la traduction est précise.</li>
-                            <li>On peut utiliser les ressources suivantes:
+    "peer-review" => "Peer-Edit",
+    "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
+                                text accuracy while maintaining the naturalness created by the blind draft.</li>
+                            <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>The checker will look for spelling, punctuation, and flow/naturalness errors.</li>
+                            <li>The checker will look for any missing portions of text or missing or added facts.</li>
+                            <li>The checker will check the accuracy of your translation in detail.</li>
+                            <li>The following resources can be used.
                                 <ol>
-                                    <li>Notes de traduction dans la marge: Pour accéder aux notes, cliquez l’icône tN.</li>
-                                    <li>Questions de traduction dans la marge: Pour accéder aux questions, cliquez sur l’icône tQ.</li>
-                                    <li>Choisissez toutes autres ressources.</li>
+                                    <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                    <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                    <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
                             <li>To add or edit a footnote for this chapter:
@@ -850,37 +845,34 @@ return array (
                                     <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
-                            <li>Quand le vérificateur a fini il vous contactera pour discuter des changements qu’il 
-                                recommande par  Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>Vous et le vérificateur devriez discuter des changements  nécessaires. Si vous êtes 
-                                d’accord vous devriez faire aussitôt les changements. Si vous n’êtes pas d’accord ne 
-                                perdez pas de temps à en parler. Laissez le texte tel qu’il est et faites une note 
-                                stipulant le désagrément. Cela peut être discutés dans les prochaines étapes de vérification.</li>
-                            <li>S’il y a d’autres pensées ou questions au sujet de la traduction, cliquez l’icône 
-                                note (<span class='mdi mdi-lead-pencil'></span>) près de la section, ajoutez la note et cliquez Sauvegarder.</li>
-                            <li>Une fois que les changements et notes sont effectués le vérificateur devrait cliquer 
-                                “Oui, je l’ai fait” et “Continuer”. Puis vous devriez cliquer Cliquez “Oui, je l’ai 
-                                fait” et “Prochaine étape” pour arriver à la prochaine étape.</li>",
+                            <li>When the checker has completed the check, they will contact you to discuss recommended changes via: 
+                                Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>You and the checker should discuss any changes they think should be made. 
+                                If you agree to the changes, you should make the changes right away.
+                                If you disagree, do not waste a lot of time discussing. 
+                                Leave the text as it is and make a note on the chunk noting the disagreement. 
+                                It can be discussed in later checking steps.</li>
+                            <li>If there are additional thoughts or questions about the translation, click the note 
+                                icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save.</li>
+                            <li>When all changes and notes have been made, the checker should click \"Yes, I did\" and \"Continue\". Then you 
+                                should click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "peer-review_checker_desc" => "<li><b>BUT:</b> Vérifier le langage cible pour s’assurer que le sens du texte est 
-                                    précis quant au texte d’origine tout en maintenant le flot naturel du draft aveugle.</li>
-                                    <li><b>DURÉE:</b> Vous devriez prendre 30 minutes pour la vérification. 
-                                        Discuter et corriger la section  devrait aussi durer 30 minutes.</li>
-                                    <li><b>S’assurez que le sens précis et littéral des termes communs pour “Père” et 
-                                        “Fils” sont employés quand on se réfère à Dieu le Père et Jésus Christ. </b></li>
-                                    <li><b>Durant la vérification comprenez qu’il y a une différence entre être précis  et préférer.</b></li>
-                                    <li>En tant que vérificateur votre écran dira “Vérification” et les instructions seront orange.</li>
-                                    <li>Regardez à l’épellation, la ponctuation, et les erreurs dans  le flot naturel du texte.</li>
-                                    <li>Vérifiez s’il y a des portions manquantes ou des faits qui sont rajoutés.</li>
-                                    <li>Vérifiez en détail la précision de la traduction.</li>
-                                    <li>Si vous pensez que quelque chose devrait changer, écrivez une note sur le morceau 
-                                        en cliquant sur l'icône de note (<span class='mdi mdi-lead-pencil'></span>) 
-                                        près de la section, ajoutez la note et cliquez Sauvegarder.</li>
-                                    <li>On peut utiliser les ressources suivantes:
+    "peer-review_checker_desc" => "<li><b>PURPOSE:</b> to check the target language to ensure that the meaning of the source text accuracy while 
+                                        maintaining the naturalness created by the blind draft.</li>
+                                    <li><b>LENGTH:</b> You should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
+                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                                    <li><b>While checking, keep in mind the difference between accuracy and preference.</b></li>
+                                    <li>As the checker, your screen will say \"Checking Mode\" and instructions will be in orange.</li>
+                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                    <li>Look for any missing portions of text or missing or added facts.</li>
+                                    <li>Check the accuracy of the translation in detail.</li>
+                                    <li>If you find something you believe should be changed, write a note on the chunk by clicking the note 
+                                        icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk, adding the note, then clicking Save. </li>
+                                    <li>The following resources can be used:
                                         <ol>
-                                            <li>Notes de traduction dans la marge: Pour accéder aux notes, cliquez l’icône tN.</li>
-                                            <li>Questions de traduction dans la marge: Pour accéder aux questions, cliquez sur l’icône tQ.</li>
-                                            <li>Choisissez toutes autres ressources.</li>
+                                            <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                            <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                            <li>Any other resources you choose.</li>
                                         </ol>
                                     </li>
                                     <li>Footnotes added to the translation are inserted in blue highlighting.
@@ -892,19 +884,17 @@ return array (
                                             <li>Check to see if the footnote is relevant and correct.</li>
                                         </ol>
                                     </li>
-                                    <li>Quand vous avez complété la vérification, contactez le traducteur pour discuter 
-                                        des changements recommandés par: Skype, Messenger, WhatsApp, phone, etc.</li>
-                                    <li>Vous et le traducteur devraint discuter de tous changements que vous avez 
-                                        l’intention de faire. Si vous êtes d’accord pour les changements, le traducteurs 
-                                        devrait les effectuer aussitôt. Si vous n’êtes pas d’accord ne perdez pas de 
-                                        temps à en parler. Laissez le texte tel qu’il est et faites une note stipulant 
-                                        le désagrément. Cela peut être discuté dans les prochaines étapes de vérification. </li>
-                                    <li>Une fois que les changements et notes sont effectués, cliquez “Oui, je l’ai 
-                                        fait” et “Continuer”. Ne fermez pas simplement la page en cliquant le “x”, car 
-                                        le traducteur ne pourrait pas aller à la prochaine étape.</li>",
+                                    <li>When you have completed the check, contact the translator to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
+                                    <li>You and the translator should discuss any changes you think should be made. 
+                                        If you agree to the changes, the translator should make the changes right away. 
+                                        If you disagree, do not waste a lot of time discussing. 
+                                        Leave the text as it is and make a note on the chunk noting the disagreement. 
+                                        It can be discussed in later checking steps.</li>
+                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". 
+                                        Do not simply close the page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
 
     "peer-review_tn" => "2<sup>nd</sup> Check",
-    "peer-review_tn_desc" => "<li><b>BUT:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
+    "peer-review_tn_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                 <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
                                 <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                                 <li>Look for any missing portions of text, or missing or added facts.</li>
@@ -929,7 +919,7 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL ALL EDITS ARE COMPLETED!</li>",
 
-    "peer-review_tn_chk_desc" => "<li><b>BUT:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
+    "peer-review_tn_chk_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
                                     <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
                                     <li>You will see all changes the 1st checker made to the Notes in \"Comparison mode.\" 
                                         <ol>
@@ -966,20 +956,20 @@ return array (
                                     above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
                                 <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
 
-    "keyword-check" => "Vérification des Mots Clés",
-    "keyword-check_desc" => "<li><b>BUT:</b> S’assurer que les mots-clés sont présents dans le texte traduit et traduits avec précision.</li>
-                            <li><b>DURÉE:</b> Le vérificateur prendra 5-10 minutes pour souligner les mots-clés dans tout le chapître.</li>
-                            <li><b>Être sûr que des termes de langage commun précis et littéraux pour “Père” et “Fils” sont employés quand on se réfère à Dieu le Père et  Jésus Christ.</b></li>
-                            <li>Le vérificateur soulignera des mots-clés du texte d’origine. Des mots soulignés apparaitront aussi sur votre texte d’origine.</li>
-                            <li>Des mots-clés sont: noms propres (gens et villes), chiffres, pronoms, et  tous  autres 
-                                termes importants (si ces termes n’étaient pas présents ou imprécis, le sens de l’écriture changerait).</li>
-                            <li>On peut utiliser les ressources suivantes:
+    "keyword-check" => "Keyword Check",
+    "keyword-check_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
+                            <li><b>LENGTH:</b> The checker will take about 5-10 minutes to highlight keywords throughout the chapter.</li>
+                            <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                            <li>The checker will highlight keywords from the source text. Highlighted words will show on your source text, as well.</li>
+                            <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms (if these terms were not present or 
+                                inaccurate, the scripture's meaning would be changed).</li>
+                            <li>The following resources can be used.
                                 <ol>
-                                    <li>Mots de traduction (tW) dans la marge.</li>
-                                    <li>Toute autre ressource que vous choisissez.</li>
+                                    <li>Translation Words (tW) in sidebar.</li>
+                                    <li>Any other resources you choose.</li>
                                 </ol>
                             </li>
-                            <li>Les mots de traduction (tW) dans la marge peuvent aider à identifier et à définir les mots-clés, mais n’identifient pas TOUS les mots importants.</li>
+                            <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
                             <li>To add or edit a footnote for this chapter:
                                 <ol>
                                     <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
@@ -994,38 +984,33 @@ return array (
                                     <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                 </ol>
                             </li>
-                            <li><b>Le point n’est pas de faire une traduction mot par mot; plutôt, c’est pour voir si 
-                                le mot/signification se représentent dans le texte dans une manière appropriée 
-                                grammaticalement et culturellement dans le langage cible.</b></li>
-                            <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te contactera 
-                                pour parler sur les changements recommandés sur : Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>Le vérificateur te lira à haute voix chaque mot souligné. Tu dis simplement comment tu l’as traduit. La conversation doit être vite.</li>
-                            <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
-                                Si tu es d’accord avec les changements, tu devras les faire ensuite. Si tu n’est pas 
-                                d’accord, ne perd pas beaucoup de temps en discutant ces changements. Laisse le texte 
-                                comme il était déjà et note le désaccord sur la section. On doit le résoudre dans la Prochaine étape.</li>
-                            <li>S’il y a d’autres opinions ou d’autres questions concernant la traduction, clique le 
-                                symbole pour noter (<span class='mdi mdi-lead-pencil'></span>) à côté de la section, mets-y la note et clique Sauvegarder.</li>
-                            <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
-                                le vérificateur devrait cliquer “Oui, je l’ai faite” et \"Continuer\", et ensuite tu 
-                                devrais cliquer “Oui, je l’ai faite” et \"Prochaine étape\" pour continuer à la prochaine étape.</li>",
+                            <li><b>The point is not word for word translation; rather, it is to see if the word/meaning is represented in the text in a way 
+                                that is grammatically and culturally appropriate in the target language.</b></li>
+                            <li>When the checker has finished highlighting, they will contact you to discuss keyword and recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
+                            <li>The checker will say aloud each highlighted word. You simply say how you translated it. The conversation should go very quickly.</li>
+                            <li>You and the checker should discuss any changes they think should be made. If you agree to the changes, you should make the changes right away. 
+                                If you disagree, do not waste a lot of time discussing. 
+                                Leave the text as it is and make a note on the chunk noting the disagreement. 
+                                It should be resolved in the next step.</li>
+                            <li>If there are additional thoughts or questions about the translation, click the note 
+                                icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note and click Save.</li>
+                            <li>When all changes and notes have been made, the checker should click \"Yes, I did\" 
+                                and \"Continue\", then you should click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
-    "keyword-check_checker_desc" => "<li><b>BUT:</b> pour assurer que certains mots importants sont présents et précis dans le texte traduit.</li>
-                                    <li><b>DURÉE:</b> Prend autour de 5 à 10 minutes pour souligner des mot-clés dans le chapitre.</li>
-                                    <li>Comme vérificateur, son écran dira \"Mode vérification\", et les instructions seront de couleur orange.</li>
-                                    <li><b>Assure l’expression précise et littérale pour les expressions communes 
-                                        pour \"Père\" et \"Fils\" quand le texte fait référence à Dieu le Père et à Jésus Christ.</b></li>
-                                    <li>Tu ne verras que le texte de départ.</li>
-                                    <li>Souligne chaque mot-clé dans le texte de départ en cliquant deux fois le mot ou 
-                                        en sélectionnant un mot/phrase avec la souris. Le traducteur verra aussi le texte 
-                                        de départ souligné sur l’écran. (Les mots soulignés sont plus communs que les phrases soulignées.)</li>
-                                    <li>Les mots-clés seront: des noms propres (des personnes/des villes), des numéros, 
-                                        des pronoms et des expressions importantes (si ces expressions n’étaient pas 
-                                        présentes ou si elles n’étaient pas correctes, la signification de l’Écriture sera différente).</li>
-                                    <li>Tu peux utiliser les ressources suivantes:
+    "keyword-check_checker_desc" => "<li><b>PURPOSE:</b> to ensure certain significant words are present in the translated text and accurately expressed.</li>
+                                    <li><b>LENGTH:</b> Take about 5-10 minutes to highlight keywords throughout the chapter.</li>
+                                    <li>As the checker, your screen will say \"Checking Mode\", and instructions will be in orange.</li>
+                                    <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                                    <li>You will only see the source text.</li>
+                                    <li>Highlight all keywords in the source text by double-clicking the word or by selecting a word/phrase with your mouse. 
+                                        The translator will also see the highlighted source text on their screen. 
+                                        (Highlighting words is most common; highlighted phrases should be few.)</li>
+                                    <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms 
+                                        (if these terms were not present or inaccurate the scripture meaning would be changed).</li>
+                                    <li>The following resources can be used.
                                         <ol>
-                                            <li>Mots de traduction (tW) dans la barre latérale.</li>
-                                            <li>AN’importe quelle ressource que tu choisis.</li>
+                                            <li>Translation Words (tW) in sidebar.</li>
+                                            <li>Any other resources you choose.</li>
                                         </ol>
                                     </li>
                                     <li>Footnotes added to the translation are inserted in blue highlighting.
@@ -1037,31 +1022,25 @@ return array (
                                             <li>Check to see if the footnote is relevant and correct.</li>
                                         </ol>
                                     </li>
-                                    <li>Les mots de traduction (tW) dans la barre latérale peuvent t’aider à identifier 
-                                        et à définir les mots-clés, cependant ils n’identifient pas tous les mots-clés.</li>
-                                    <li><b>Le point n’est pas de faire une traduction mot par mot; sinon, c’est pour 
-                                        voir si le mot/signification se représentent dans le texte dans une manière 
-                                        appropriée grammaticalement et culturellement dans le langage cible.</b></li>
-                                    <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te 
-                                        contactera pour parler sur les changements recommandes sur: Skype, Messenger, WhatsApp, phone, etc.</li>
-                                    <li>Le vérificateur te lira à haute voix chaque mot souligné. Tu dis simplement 
-                                        comment tu l’as traduit. La conversation doit être vite.</li>
-                                    <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
-                                        Si tu es d’accord avec les changements, tu devras les faire ensuite. Si tu n’est 
-                                        pas d’accord, ne perd pas beaucoup de temps en discutant ces changements. Laisse 
-                                        le texte comme il était déjà et note le désaccord sur la section. On doit 
-                                        le résoudre dans la Prochaine étape.</li>
-                                    <li>S’il y a d’autres opinions ou d’autres questions concernant la traduction, 
-                                        clique le symbole pour noter (<span class='mdi mdi-lead-pencil'></span>) 
-                                        à côté de la section, mets-y la note et clique Sauvegarder.</li>
-                                    <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
-                                        le vérificateur devrait cliquer “Oui, je l’ai faite” et \"Continuer\". Ne 
-                                        fermez pas simplement la page en cliquant le “x”, car le traducteur ne pourrait 
-                                        pas aller à la prochaine étape.</li>",
+                                    <li>The Translation Words (tW) in the sidebar can help identify and define keywords, but does not identify ALL keywords.</li>
+                                    <li><b>The point is not word-for-word translation; rather, it is to see if the word/meaning is represented in the text 
+                                        in a way that is grammatically and culturally appropriate in the target language.</b></li>
+                                    <li>When you finish highlighting, contact the translator to discuss keyword and recommended changes via: 
+                                        Skype, Messenger, WhatsApp, phone, etc.</li>
+                                    <li>You will say aloud each highlighted word. The translator will simply say how they translated it. 
+                                        The conversation should go very quickly.</li>
+                                    <li>You and the translator should discuss any changes you think should be made. 
+                                        If you agree to the changes, the translator should make the changes right away. 
+                                        If you disagree, do not waste a lot of time discussing.  Leave the text as it is, and make a 
+                                        note on the chunk denoting the disagreement. It should be resolved in the next step.</li>
+                                    <li>If there are additional thoughts or questions about the translation, click the Note 
+                                        icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save.</li>
+                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". Do not simply close the 
+                                        page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
     
     "keyword-check_tn" => "Check Highlights",
     "keyword-check_tn_full" => "Check Highlighted Notes",
-    "keyword-check_tn_desc" => "<li><b>BUT:</b> to check the highlighted portions of scripture and compare it with the Note the highlight correlates to.</li>
+    "keyword-check_tn_desc" => "<li><b>PURPOSE:</b> to check the highlighted portions of scripture and compare it with the Note the highlight correlates to.</li>
                                 <li>Look for highlighting in the scripture and look to make sure there is an accurate Note that reflects the scripture accurately.</li>
                                 <li>Any resources can be used.</li>
                                 <li>If you have additional thoughts or questions about the translation, click the note 
@@ -1069,40 +1048,37 @@ return array (
                                     The 2nd checker will see this note and help to resolve the question or problem.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
-    "content-review" => "Vérification Verset par Verset",
+    "content-review" => "Verse-by-Verse Check",
     "content-review_odb" => "SUN Check",
-    "content-review_desc" => "<li><b>BUT:</b> assurer que la traduction donne correctement le même message que le texte de départ</li>
-                                <li><b>DURÉE:</b> Le vérificateur doit prendre autours de 30 minutes pour réviser le texte. 
-                                    La discussion et la correction doivent prendre autour de 30 à 45 minutes.</li>
-                                <li><b>Assure l’expression précise et littérale pour les expressions communes 
-                                    pour \"Père\" et \"Fils\" quand le texte fait référence à Dieu le Père et à Jésus Christ.</b></li>
-                                <li>Le vérificateur suivra les lignes directrices:
+    "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
+                                <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
+                                    Discussion and correction section should take about 30-45 minutes.</li>
+                                <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                                <li>The checker will look for the following:
                                     <ol>
-                                        <li>Est-ce qu’il y a quelque chose d’absent?</li>
-                                        <li>Est-ce que le texte est naturel?</li>
-                                        <li>Est-ce qu’il semble correct ou bon en sa langue?</li>
-                                        <li>Est-ce qu’il coule et est clair et facile à comprendre?</li>
-                                        <li>Est-ce que la signification destinée de l’auteur est là?</li>
-                                        <li>Est-ce que le texte est précis selon son évaluation ou sa rubrique?</li>
+                                        <li>Is anything missing?</li>
+                                        <li>Is it natural?</li>
+                                        <li>Does it sound good in your language?</li>
+                                        <li>Is it smooth, clear, and understandable?</li>
+                                        <li>Is the author’s intended meaning there?</li>
+                                        <li>Is it accurate according to your Authentic Assessment/Rubric?</li>
                                     </ol>
                                 </li>
-                                <li>Il y a deux manières de faire la révision:
+                                <li>The review can be done in two ways:
                                     <ol>
-                                        <li>Si le vérificateur ne sait que la langue de départ, on devra faire une 
-                                            «back translation» (traduction inversée) pour réviser le texte. Dans ce cas, 
-                                            tu liras le texte traduit section par section. Ensuite, une autre personne 
-                                            ou toi pourrez faire la traduction inversée dans le langage de départ. Le 
-                                            vérificateur comparera ce qu’il entend avec le texte de départ qu’il lit.</li>
-                                        <li>Si le vérificateur parle couramment les deux langues, il pourra choisir 
-                                            d’utiliser la première méthode ou de voir les deux traductions côte à côte du texte de départ.</li>
+                                        <li>If the checker knows only the source language, the check must be done by back translation. 
+                                            In this case, you will read the translated text chunk by chunk, then you or a second person 
+                                            will back translate into the source, and the checker will compare what they hear to the source text they are reading.</li>
+                                        <li>If the checker is fluent in both languages, they can elect to use method one, 
+                                            or review your translation side by side with the source text.</li>
                                     </ol>
                                 </li>
-                                <li>Tu peux utiliser les ressources suivantes:
+                                <li>The following resources can be used.
                                     <ol>
-                                        <li>Notes de traduction dans la barre latérale. Pour accéder les notes, clique le symbole tN.</li>
-                                        <li>Mots de traduction dans la barre latérale. Pour accéder les mots, clique le symbole tW.</li>
-                                        <li>Questions de traduction dans la barre latérale. Pour accéder les questions, clique le symbole tQ.</li>
-                                        <li>N’importe quelle ressource que tu choisis.</li>
+                                        <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                        <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                        <li>Translation Questions in the sidebar. To access the questions click the tQ icon.</li>
+                                        <li>Any other resources you choose.</li>
                                     </ol>
                                 </li>
                                 <li>To add or edit a footnote for this chapter:
@@ -1119,55 +1095,46 @@ return array (
                                         <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
                                     </ol>
                                 </li>
-                                <li>Quand le vérificateur finit de souligner les mots-clés dans le document, il te contactera 
-                                    pour parler sur les changements recommandés sur : Skype, Messenger, WhatsApp, phone, etc.</li>
-                                <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
-                                    Si tu es d’accord avec les changements, tu devras les faire ensuite. Assure-toi que 
-                                    tu as vu les notes sur les sections pour voir s’il y avait des désaccords des révisions 
-                                    précédentes qui n’étaient pas résolues. S’il y en a, parlez de ces désaccords. </li>
-                                <li>S’il y a des désaccords qui ne seront pas résolus facilement, discutez-en avec le 
-                                    facilitateur pour trouver une résolution. Le facilitateur pourrait impliquer d’autres 
-                                    personnes comme un leader d’équipe, un directeur, un pasteur ou un théologien.</li>
-                                <li>Chaque désaccord (de la huitième étape et les étapes précédentes) doivent être résolues 
-                                    avant que le traducteur et le vérificateur continuent à la Prochaine étape.</li>
-                                <li>Après avoir fait tous les changements et avoir mis les notes dans le document, le 
-                                    vérificateur devrait cliquer “Oui, je l’ai faite” et “Continuer”, et ensuite tu devrais 
-                                    cliquer “Oui, je l’ai faite” et \"Prochaine étape\" pour continuer à la prochaine étape.</li>",
+                                <li>When the checker has completed the check, they will contact you to discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc.</li>
+                                <li>You and the checker should discuss any changes they think should be made. 
+                                    If you agree to the changes, you should make the changes right away. Make sure to look at notes on 
+                                    chunks to see if there are disagreements unresolved from the previous checking steps, and discuss those disagreements.</li>
+                                <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
+                                    The facilitator may involve others, such as team lead, director, pastor or theologian.</li>
+                                <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
+                                <li>When all changes have been made, the checker should click \"Yes, I did\" and \"Continue\", then you should 
+                                    click \"Yes, I did\" and \"Next Step\" to move to the next step.</li>",
 
-    "content-review_checker_desc" => "<li><b>BUT:</b> assurer que chaque section et chapitre donnent correctement le même message en la langue cible</li>
-                                        <li><b>DURÉE:</b> Le vérificateur doit prendre autours de 30 minutes pour réviser 
-                                            le texte. La discussion et la correction doivent prendre autours de 30 à 45 minutes.</li>
-                                        <li><b>Assure l’expression précise et littérale pour les expressions communes 
-                                            pour \"Père\" et \"Fils\" quand le texte fait référence à Dieu le Père et à Jésus Christ.</b></li>
-                                        <li>En tant que vérificateur votre écran d’instructions sera orange.</li>
-                                        <li>Demande-toi ces questions suivantes quand tu révises le texte:
+    "content-review_checker_desc" => "<li><b>PURPOSE:</b> to ensure that each chunk and chapter accurately communicate the same message in the target language.</li>
+                                        <li><b>LENGTH:</b> Spend about 30 minutes checking text. Discussion and correction section should take about 30-45 minutes.</li>
+                                        <li><b>Ensure accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
+                                        <li>As the checker, your on-screen instructions will be in orange.</li>
+                                        <li>Questions to ask yourself as you are checking:
                                             <ol>
-                                                <li>Est-ce qu’il y a quelque chose d’absent?</li>
-                                                <li>Est-ce que le texte est naturel?</li>
-                                                <li>Est-ce qu’il semble correct ou bon en sa langue?</li>
-                                                <li>Est-ce qu’il coule et est clair et facile à comprendre?</li>
-                                                <li>Est-ce que la signification destinée de l’auteur est là?</li>
-                                                <li>Est-ce que le texte précis selon sa évaluation ou sa rubrique?</li>
+                                                <li>Is anything missing?</li>
+                                                <li>Is it natural?</li>
+                                                <li>Does it sound good in your language?</li>
+                                                <li>Is it smooth, clear, and understandable?</li>
+                                                <li>Is the author’s intended meaning there?</li>
+                                                <li>Is it accurate according to your Authentic Assessment/Rubric?</li>
                                             </ol>
                                         </li>
-                                        <li>Il y a deux manières de faire la révision:
+                                        <li>The review can be done in two ways:
                                             <ol>
-                                                <li>Si le vérificateur ne sait que la langue de départ, on devra faire 
-                                                    une «back translation» (traduction inversée) pour réviser le texte. 
-                                                    Dans ce cas, tu liras le texte traduit section par section. Ensuite, 
-                                                    une autre personne ou toi pourrez faire la traduction inversée au langue 
-                                                    de départ. Le vérificateur comparera ce qu’il entend avec le texte de départ qu’il lit.</li>
-                                                <li>Si le vérificateur parle couramment les deux langues, il pourra 
-                                                    choisir d’utiliser la première méthode ou de voir les deux traductions côte à côte du texte de départ.</li>
+                                                <li>If the checker knows only the source language, the check must be done by back translation. 
+                                                    In this case, the translator will read the translated text chunk by chunk, then you or a 
+                                                    second person will back translate into the source, and you will compare what you hear to the source text they are reading.</li>
+                                                <li>If the checker is fluent in both languages, they can elect to use method one, or review the 
+                                                    translation side by side with the source text. </li>
                                             </ol>
                                         </li>
-                                        <li>Vous devriez passer environ 30 minutes à vérifier le texte.</li>
-                                        <li>Tu peux utiliser les ressources suivantes:
+                                        <li>You should spend about 30 minutes checking text.</li>
+                                        <li>The following resources can be used:
                                             <ol>
-                                                <li>Notes de traduction dans la barre latérale. Pour accéder les notes, clique le symbole tN.</li>
-                                                <li>Mots de traduction dans la barre latérale. Pour accéder les mots, clique le symbole tW.</li>
-                                                <li>Questions de traduction dans la barre latérale. Pour accéder les questions, clique le symbole tQ.</li>
-                                                <li>N’importe quelle ressource que tu choisis.</li>
+                                                <li>Translation Notes in the sidebar. To access the notes, click the tN icon.</li>
+                                                <li>Translation Words in the sidebar. To access the words, click the tW icon.</li>
+                                                <li>Translation Questions in the sidebar. To access the questions, click the tQ icon.</li>
+                                                <li>Any other resources you choose.</li>
                                             </ol>
                                         </li>
                                         <li>Footnotes added to the translation are inserted in blue highlighting.
@@ -1179,33 +1146,28 @@ return array (
                                                 <li>Check to see if the footnote is relevant and correct.</li>
                                             </ol>
                                         </li>
-                                        <li>Quand le vérificateur finit de souligner les mots-clés dans le document, 
-                                            il te contactera pour parler sur les changements recommandés sur : Skype, Messenger, WhatsApp, phone, etc.</li>
-                                        <li>Le vérificateur et toi devez discuter les changements qu’il croit que tu dois faire. 
-                                            Si tu es d’accord avec les changements, tu devras les faire ensuite. 
-                                            Assure-toi que tu as vu les notes sur les sections pour voir s’il y avait 
-                                            des désaccords des révisions précédentes qui n’étaient pas résolues. S’il 
-                                            y en a, parlez de ces désaccords. </li>
-                                        <li>S’il y a des désaccords qui ne seront pas résolus facilement, discutez-en avec 
-                                            le facilitateur pour trouver une résolution. Le facilitateur pourrait impliquer 
-                                            d’autres personnes comme un leader d’équipe, un directeur, un pasteur ou un théologien.</li>
-                                        <li>Chaque désaccord (de la huitième étape et les étapes précédentes) doivent être 
-                                            résolues avant que le traducteur et le vérificateur continuent à la Prochaine étape.</li>
-                                        <li>Après avoir fait tous les changements et avoir mis les notes dans le document, 
-                                            le vérificateur devrait cliquer “Oui, je l’ai faite” et “Continuer”. Ne fermes pas 
-                                            la page en cliquant le \"x\". Si tu le fais, le traducteur ne pourra pas continuer à la prochaine étape.</li>",
+                                        <li>When you have completed the check, contact the translator to discuss recommended changes via: 
+                                            Skype, Messenger, WhatsApp, phone, etc.</li>
+                                        <li>You and the translator should discuss any changes you think should be made. 
+                                            If you agree to the changes, the translator should make the changes right away. 
+                                            Make sure to look at the notes on chunks to see if there are disagreements unresolved from the 
+                                            previous checking steps, and discuss those disagreements.</li>
+                                        <li>If there are disagreements that are not easily resolved, discuss with the facilitator to help with resolution. 
+                                            The facilitator may involve others, such as a team lead, director, pastor or theologian.</li>
+                                        <li>All disagreements (from step 8 and precious checking steps) should be resolved before the translator and checker move on to next step.</li>
+                                        <li>When all changes and notes have been made, click \"Yes, I did\" and \"Continue\". Do not simply close the page by 
+                                            clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
     
-    "final-review" => "Marqueurs des Versets",
-    "final-review_desc" => "<li><b>BUT:</b> C’est l’étape où tu mettras les indicateurs de versets dans le texte.</li>
-                            <li>Lire le texte traduit et le compare avec le texte d’origine, puis glissez et mettre les 
-                                indicateurs de versets au bon endroit dans le texte traduit.</li>
-                            <li>Quand tous les versets sont en place, cliquez “Oui, je l’ai faite” et “Prochaine étape”.</li>",
-    "finished" => "Fini",
+    "final-review" => "Verse Markers",
+    "final-review_desc" => "<li><b>PURPOSE:</b> this is where you will add verse markers to the translated text.</li>
+                            <li>Read through the translated text and compare with the source text, then drag and drop verse markers into the proper place in the translated text.</li>
+                            <li>When all verse markers are in place, click \"Yes, I did\" and \"Next step\".</li>",
+    "finished" => "Finished",
 
     "rearrange" => "Rearrange",
     "rearrange-alt" => "Rearrange",
     "rearrange_previous" => "Rearrange - Previous chunk",
-    "rearrange_desc" => "<li><b>BUT:</b> rearrange sentence structure to fit SUN rules.</li>
+    "rearrange_desc" => "<li><b>PURPOSE:</b> rearrange sentence structure to fit SUN rules.</li>
                             <li>Grammar Rules
                                 <ol>
                                     <li>To make a word plural, type it in twice with no space in between. Example (things = thingthing) 
@@ -1263,7 +1225,7 @@ return array (
 
     "symbol-draft" => "Symbol Draft",
     "symbol-draft_previous" => "Symbol Draft - Previous chunk",
-    "symbol-draft_desc" => "<li><b>BUT:</b> assign symbols for words.</li>
+    "symbol-draft_desc" => "<li><b>PURPOSE:</b> assign symbols for words.</li>
                             <li>Switch keyboard from English to SUN font by clicking the keyboard icon on the bottom right side 
                                 of your screen and selecting SUN font.</li>
                             <li>When a word does not have a symbol, ask the following questions: 
@@ -1277,18 +1239,18 @@ return array (
                                 </ol>
                             </li>",
 
-    "self-edit_sun_desc" => "<li><b>BUT:</b> do a literal backtranslation of your SUN Scripture.</li>
+    "self-edit_sun_desc" => "<li><b>PURPOSE:</b> do a literal backtranslation of your SUN Scripture.</li>
                                 <li>Edit text if any errors or inconsistencies are found.</li>",
 
     "theo-check" => "Theological Check",
     "theo-check_odb" => "ODB Check",
-    "theo-check_desc" => "<li><b>BUT:</b> check the backtranslation for theological accuracy.</li>
+    "theo-check_desc" => "<li><b>PURPOSE:</b> check the backtranslation for theological accuracy.</li>
                             <li>If you see an incorrect word, double-click the word to highlight it and put a comment 
                                 in the \"notes\" for the suggested change.</li>",
 
     "content-review_sun_desc" => "<li><b>PURPOSE:</b> check every verse and correct the text according to the theological check.</li>",
 
-    "consume_l2_desc" => "<li><b>BUT:</b> to intake source text to become familiar with the text you will check.</li>
+    "consume_l2_desc" => "<li><b>PURPOSE:</b> to intake source text to become familiar with the text you will check.</li>
                 <li><b>LENGTH</b>: Take about 10 minutes for this step.</li>
                 <li>Read the assigned chapter carefully in the source text AND in the target text.
                     <ol>
@@ -1302,7 +1264,7 @@ return array (
 
     "fst-check" => "Check Text",
     "fst-check_full" => "Check Target Text (Checker 1)",
-    "fst-check_desc" => "<li><b>BUT:</b> to check the target text for accuracy while maintaining the naturalness of the 
+    "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
                             language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
                             used when referring to God the Father and Jesus Christ.</b></li>
                         <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
@@ -1343,7 +1305,7 @@ return array (
 
     "snd-check" => "Peer Check",
     "snd-check_full" => "Peer-Check Target Text (Checker 2)",
-    "snd-check_desc" => "<li><b>BUT:</b> to check the target text for accuracy while maintaining the naturalness of the 
+    "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the 
                         language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are 
                         used when referring to God the Father and Jesus Christ.</b></li>
                     <li><b>LENGTH:</b> Spend about 30 minutes on this step.</li>
@@ -1864,7 +1826,7 @@ return array (
                             </li>
                             <li>Footnotes added to the translation are inserted in blue highlighting.
                                 <ol>
-                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa . \"</li>
+                                    <li>Footnotes are marked with the tags: \"\\f\", \"\\ft\" and \"\\fqa.\"</li>
                                     <li>\"\\f\" tags the beginning and end of all footnotes.</li>
                                     <li>\"\\f + \\ft\" tags the beginning of a standard footnote.</li>
                                     <li>\"\\fqa\" tags the start of a footnote indicating an alternate translation of scripture. </li>
@@ -1876,108 +1838,108 @@ return array (
 
     // ------- Errors messages ------- //
     "checker_translator_not_ready_error" => "Translator is not ready for this step, please wait. Page will be reloded when translator is ready.<span class=\"checker_waits\"></span>",
-    "checker_not_ready_error" => "Le vérificateur n’a pas encore apprové cette étape. Veuillez attendre.",
-    "peer_checker_not_ready_error" => "Le vérificateur de pair n’a pas encore commencé cette étape. Veuillez attendre.",
-    "verb_checker_not_ready_error" => "Ajouter un vérificateur pour passer à la prochaine étape",
-    "checker_translator_finished_error" => "La vérification est terminée pour ce chapitre.",
-    "empty_or_not_permitted_event_error" => "Vous n’avez pas la permission de voir les informations de cette évènement",
-    "not_started_event_error" => "La traduction n’est pas encore commencée. Vous pouves allez à <a href=\"/events/manage/{0}\">Gérér l’Evènement</a> pour assigner des traducteurs et des chapitres du livre.",
-    "partner_not_ready_error" => "Vous ne pouvez pas passer à l’étape prochaine tant que votre partenaire n’est pas prêt pour cette étape.",
-    "wrong_event_state_error" => "La traduction de ce livre n’a pas encore été commencée. Veuillez attendre jusqu’à ce que le facilitateur permet la participation.",
-    "not_possible_to_save_error" => "Vous ne pouvez pas modifier votre traduction après que le vérificateur l’a approuvée.",
-    "empty_verses_error" => "Vous n’avez pas traduit tous les tronçons.",
-    "wrong_chunks_error" => "Mauvaise configuration des tronçons",
-    "error_ocured" => "Whoops! Une erreur s’est produite. {0}",
-    "error_member_in_event" => "Ce membre a déjà postulé pour cette évènement, peut-être dans des niveaux antérieurs.",
-    "no_l2_3_checkers_available_error" => "Pas de poste vacant pour les vérificateurs niveau {0}.",
-    "no_translators_available_error" => "Pas de poste vacant pour les traducteurs.",
-    "required_fields_empty_error" => "Vous n’avez pas rempli les champs correctement.",
-    "not_loggedin_error" => "Vous n’êtes pas connecté.",
-    "account_not_verirfied_error" => "Votre compte n’a pas été vérifié. Parlez à l’administrateur du site. ",
-    "event_notexist_error" => "L’évènement n’existe pas.",
-    "no_source_error" => "Impossible de trouver le texte source.",
-    "not_enough_rights_error" => "Pas de permission pour faire cette action!",
+    "checker_not_ready_error" => "Checker has not yet approved this step. Please wait.",
+    "peer_checker_not_ready_error" => "Your peer checker has not moved to this step yet. Please wait.",
+    "verb_checker_not_ready_error" => "Add a checker to proceed to the next step",
+    "checker_translator_finished_error" => "Checking is finished for current chapter.",
+    "empty_or_not_permitted_event_error" => "You do not have permission to view information about this event.",
+    "not_started_event_error" => "Translation is not yet started. You can go to <a href=\"/events/manage/{0}\">Manage Event</a> page to assign translators and chapters of the book.",
+    "partner_not_ready_error" => "You cannot proceed to the next step while your partner is not ready for this step",
+    "wrong_event_state_error" => "The translation of the book has not started yet. Please wait until facilitator allows you to participate.",
+    "not_possible_to_save_error" => "You cannot edit your translation after checker has approved it.",
+    "empty_verses_error" => "You haven't translated all the chunks.",
+    "wrong_chunks_error" => "Wrong setting of chunks.",
+    "error_ocured" => "Whoops! An error has occurred. {0}",
+    "error_member_in_event" => "The member has already applied to this event. Perhaps on previous levels.",
+    "no_l2_3_checkers_available_error" => "No more vacancy available for level {0} checkers.",
+    "no_translators_available_error" => "No more vacancy available for translators.",
+    "required_fields_empty_error" => "You haven't filled in required fields correctly.",
+    "not_loggedin_error" => "You are not logged in.",
+    "account_not_verirfied_error" => "Your account is not verified. Connect with the site administrator.",
+    "event_notexist_error" => "Event does not exist.",
+    "no_source_error" => "Source translation text not found.",
+    "not_enough_rights_error" => "Not enough rights to do this action!",
     "not_enough_lang_rights_error" => "Not enough rights to create the source for this language.",
-    "event_translating_error" => "Vous ne pouvez pas enlever ce chapitre, parce qu’il contient des versets traduits.",
-    "chapter_aready_assigned_error" => "Le chapitre est assigné à un autre traducteur!",
-    "chapter_checker_used_error" => "Le chapitre a été vérifié par ce vérificateur!",
-    "event_chapters_error" => "Vous devez assigner au moins un chapitre pour commencer la traduction.",
-    "peer_check_not_done_error" => "Le dernier chapitre n’a pas encore été vérifié par votre partenaire.",
-    "cannot_apply_checker" => "Une erreur s’est reproduite. Vous ne pouvez pas postuler pour ce chapitre.",
-    "enter_admins" => "Assignez au moins un facilitateur pour ce livre.",
-    "empty_draft_verses_error" => "Vous n’avez pas traduit tous les versets",
-    "empty_words_error" => "Une erreur s’est reproduite: entrée vide",
-    "not_in_event_error" => "Vous ne participez pas dans cette évènement.",
-    "checker_event_error" => "Vous n’êtes pas un vérificateur pour ce traducteur",
-    "not_equal_verse_markers" => "Vous n’avez pas mis les marqueurs des versets correctement",
-    "translator_has_chapter" => "Traducteurs et vérificateurs avec des chapitres assignés ne peuvent pas être supprimés de l’évènement.",
-    "event_already_exists" => "L’évènement a déjà été créée",
-    "event_not_exists_error" => "L’évènement n’a pas encore été créée",
-    "gw_project_exists_error" => "Le projet d’introduction a été déjà créé",
-    "not_allowed_action" => "Une erreur s’est reproduite. Veuillez essayer à nouveau.",
-    "wrong_parameters" => "Mauvais paramètres. Recommencer à nouveau.",
-    "event_is_finished" => "L’évènement est terminé. Cette action n’est pas permise.",
-    "keywords_still_exist_error" => "Vous ne pouves pas approuver cette étape, alors qu’il existe encore des claviers dans ce chapitre.",
-    "keywords_empty_error" => "Souligner les mots problématiques.",
-    "usfm_not_valid_error" => "Le projet n’est pas valide. Vérifiez s’il a tous les chapitres, tronçons et versets.",
-    "event_has_translations_error" => "Vous ne pouvez pas importer en remplaçant une traduction qui existe déjà. Soit supprimez la, soit attendez pour que le projet se termine, s’il est encore en progrès.",
-    "event_does_not_exist_error" => "L’évènement n’existe pas. Vous devriez la créer avant d’importer une traduction.",
-    "unknown_import_type_error" => "Type de projet inconnu",
-    "translator_finished_chapter" => "Le traducteur a terminé de travailler sur ce chapitre, et ne peut pas être enlevé.",
+    "event_translating_error" => "You cannot remove this chapter, because it has translated verses.",
+    "chapter_aready_assigned_error" => "Chapter is assigned to other translator!",
+    "chapter_checker_used_error" => "Chapter was checked by this checker!",
+    "event_chapters_error" => "You have to assign at least one chapter to start translation.",
+    "peer_check_not_done_error" => "Your previous chapter hasn't been checked by your partner.",
+    "cannot_apply_checker" => "An error occured. You cannot apply to check this chapter.",
+    "enter_admins" => "Assign at least one facilitator for this book",
+    "empty_draft_verses_error" => "You haven't translated all the verses",
+    "empty_words_error" => "An error occurred: empty input",
+    "not_in_event_error" => "You aren't participating in this event.",
+    "checker_event_error" => "You aren't a checker for this translator",
+    "not_equal_verse_markers" => "You haven't properly set the verse markers",
+    "translator_has_chapter" => "Translators/checkers with assigned chapters cannot be deleted from event.",
+    "event_already_exists" => "Event has been already created",
+    "event_not_exists_error" => "Event has not been created yet",
+    "gw_project_exists_error" => "This gateway project has been already created",
+    "not_allowed_action" => "An error occurred. Please try again.",
+    "wrong_parameters" => "Wrong parameters. Please try again.",
+    "event_is_finished" => "Event is finished. Action is not allowed.",
+    "keywords_still_exist_error" => "You cannot approve this step, while keywords present in this chapter.",
+    "keywords_empty_error" => "You should highlight problematic words.",
+    "usfm_not_valid_error" => "The project is not valid. Check if it has all the chapters, chunks and verses.",
+    "event_has_translations_error" => "You can't import over existing translation. Either delete it or wait until it's finished, if it's in progress.",
+    "event_does_not_exist_error" => "The event doesn't exist. You should create it in order to import translation.",
+    "unknown_import_type_error" => "Unknown type of project",
+    "translator_finished_chapter" => "The translator finished working on this chapter and so checker cannot be removed.",
     "font_format_error" => "Only WOFF format is accepted",
     "not_csv_format_error" => "Not a CSV file!",
     "font_name_error" => "Font name should contain \"sun\" or \"backsun\" for appropriate fonts",
-    "local_use_restriction" => "Cette fonctionnalité n’est pas disponible sur le serveur local",
+    "local_use_restriction" => "This feature is not available on local server.",
     "error_zip_file_required" => "The file should of ZIP format",
-    "projects_empty_error" => "Sélectionnez le projet",
-    "proj_lang_empty_error" => "Sélectionnez la langue du projet",
+    "projects_empty_error" => "Select the project",
+    "proj_lang_empty_error" => "Select the project language",
 
     // Success messages
-    "you_event_finished_success" => "Vous avez terminé de traduire tous vos chapitres.",
-    "translator_event_finished_success" => "Le traducteur a terminé de traduire tous ses chapitres.",
-    "check_request_sent_success" => "Le demande de vérification a été envoyé. Le page va être rafraîchi quand le vérificateur accepte l’invitation.",
-    "cotr_not_ready_to_discuss_message" => "Veuillez attendre votre partenaire jusqu’à ce qu’il rejoint cette étape.",
-    "partner_not_ready_message" => "Votre partenaire n’est pas prêt pour cette étape. Le contenu de la page va être rafraîchie automatiquement dès qu’il soit prêt.",
-    "successfully_applied" => "Vous avez postulé pour ce rôle avec succès!",
-    "successfully_created" => "Créé avec succès!",
-    "successfully_updated" => "Modifié avec succès!",
-    "successfully_deleted" => "Supprimé avec succès!",
-    "moved_back_success" => "Le traducteur a fait un pas en arrière avec succès!",
-    "checker_removed_success" => "Le vérificateur a été enlevé avec succès!",
-    "import_successful_message" => "Le projet a été importé avec succès!",
+    "you_event_finished_success" => "You have finished translation of all your chapters.",
+    "translator_event_finished_success" => "Translator has finished translation of all his/her chapters.",
+    "check_request_sent_success" => "Checking request has been sent. Page will be reloaded when a checker accepts invitation.",
+    "cotr_not_ready_to_discuss_message" => "Please wait for your partner until he/she joins this step",
+    "partner_not_ready_message" => "Your partner is not ready for this step. Content will be reloaded automatically when your partner is ready.",
+    "successfully_applied" => "You have successfully applied to this event!",
+    "successfully_created" => "Successfully created!",
+    "successfully_updated" => "Successfully updated!",
+    "successfully_deleted" => "Successfully deleted!",
+    "moved_back_success" => "Translator has successfully moved one step back!",
+    "checker_removed_success" => "Checker has been successfully removed!",
+    "import_successful_message" => "The project has been imported successfully!",
     "font_uploaded" => "Font {0} has been successfully uploaded!",
     "dictionary_updated" => "Dictionary has been successfully updated!",
 
     // Other messages
     "alert_message" => "Message",
-    "no_events_message" => "Pas d’évènements dans cette catégorie",
-    "create_event_tip" => "Pas d’instructions pour un bout de temps",
-    "goto_event_info" => "Aller à la page d’informations de l’évènement",
-    "manage_event" => "Gérer l’Evènement",
-    "chapter_has_translation" => "Attention! Ce chapitre a du texte brouillon. Si vous voulez passer aux «tronçons», le texte va être perdu. Voulez-vous vraiment continuer?",
+    "no_events_message" => "No events in this category",
+    "create_event_tip" => "No instructions for a while.",
+    "goto_event_info" => "Go to event progress page",
+    "manage_event" => "Manage Event",
+    "chapter_has_translation" => "Attention! This chapter has some draft text. If you move to \"Chunks\" the text will be lost. Do you really want to continue?",
 
     // -------------- Translation Controller ----------------- //
 
     // Index method
-    "verification_error" => "Votre compte n’a pas encore été vérifié pour nos administrateurs. Veuillez attendre...",
-    "verification_error_title" => "Le compte n’est pas validé",
-    "chapter" => "Chapitre {0}",
-    "download_usfm" => "Télécharger comme USFM",
-    "download_markdown" => "DTélécharger comme Markdown",
-    "download_json" => "DTélécharger comme JSON",
-    "download_ts" => "DTélécharger comme tStudio",
+    "verification_error" => "Your account is not verified by our moderators. Please wait...",
+    "verification_error_title" => "Account is not verified",
+    "chapter" => "Chapter {0}",
+    "download_usfm" => "Download as USFM",
+    "download_markdown" => "Download as Markdown",
+    "download_json" => "Download as JSON",
+    "download_ts" => "Download as tStudio",
     "login_cloud_server" => "Please use login and password of the specified server. If you don't have an account, click here to",
     "upload_wacs" => "Upload to WACS",
-    "upload_door43" => "Upload to Door43",
+    "upload_door43" => "Upload to DCS",
     "two_factor_auth" => "Two factor authentication",
     "cloud_otp_code" => "Code",
     "not_implemented" => "Not implemented!",
 
     // Alma keyword plugin
-    "to_list" => "A l’énumération",
+    "to_list" => "To list",
     "word_translations" => "Word translations",
     "add_word" => "Add word",
-    "word" => "Mot",
+    "word" => "Word",
     "close_word" => "Close word",
     "delete_word" => "Delete word",
     "delete_translation" => "Delete translation",
@@ -1985,14 +1947,14 @@ return array (
     "choose_word" => "select a word",
     "variations" => "Variations",
     "variation" => "Variation",
-    "translation" => "Traduction",
+    "translation" => "Translation",
     "votes" => "Votes",
     "vote" => "Vote",
     "unvote" => "Unvote",
     "confirm_translation" => "Approve translation",
     "cancel_confirmation" => "Cancel approval",
-    "comment" => "commentaire",
-    "add" => "Ajouter",
+    "comment" => "comment",
+    "add" => "Add",
 
     // Errors
     "word_not_found_error" => "Error: word not found",
@@ -2005,94 +1967,94 @@ return array (
     "word_not_specified_error" => "Error: no word specified",
 
     // -------------- Bible books names ----------------- //
-    "gen" => "Genèse",
-    "exo" => "Exode",
-    "lev" => "Lévitique",
-    "num" => "Nombres",
-    "deu" => "Deutéronome",
-    "jos" => "Josue",
-    "jdg" => "Juges",
+    "gen" => "Genesis",
+    "exo" => "Exodus",
+    "lev" => "Leviticus",
+    "num" => "Numbers",
+    "deu" => "Deuteronomy",
+    "jos" => "Joshua",
+    "jdg" => "Judges",
     "rut" => "Ruth",
     "1sa" => "1 Samuel",
     "2sa" => "2 Samuel",
-    "1ki" => "1 Rois",
-    "2ki" => "2 Rois",
-    "1ch" => "1 Chroniques",
-    "2ch" => "2 Chroniques",
-    "ezr" => "Esdras",
-    "neh" => "Néhémie",
+    "1ki" => "1 Kings",
+    "2ki" => "2 Kings",
+    "1ch" => "1 Chronicles",
+    "2ch" => "2 Chronicles",
+    "ezr" => "Ezra",
+    "neh" => "Nehemiah",
     "est" => "Esther",
     "job" => "Job",
-    "psa" => "Psaumes",
-    "pro" => "Proverbes",
-    "ecc" => "Ecclésiaste",
-    "sng" => "Cantique des Cantiques",
-    "isa" => "Ésaïe",
-    "jer" => "Jérémie",
+    "psa" => "Psalms",
+    "pro" => "Proverbs",
+    "ecc" => "Ecclesiastes",
+    "sng" => "Song of Solomon",
+    "isa" => "Isaiah",
+    "jer" => "Jeremiah",
     "lam" => "Lamentations",
-    "ezk" => "Ézéchiel",
+    "ezk" => "Ezekiel",
     "dan" => "Daniel",
-    "hos" => "Osée",
-    "jol" => "Joël",
+    "hos" => "Hosea",
+    "jol" => "Joel",
     "amo" => "Amos",
-    "oba" => "Abdias",
-    "jon" => "Jonas",
-    "mic" => "Michée",
+    "oba" => "Obadiah",
+    "jon" => "Jonah",
+    "mic" => "Micah",
     "nam" => "Nahum",
-    "hab" => "Habacuc",
-    "zep" => "Sophonie",
-    "hag" => "Aggée",
-    "zec" => "Zacharie",
-    "mal" => "Malachie",
-    "mat" => "Matthieu",
-    "mrk" => "Marc",
-    "luk" => "Luc",
-    "jhn" => "Jean",
-    "act" => "Actes",
-    "rom" => "Romains",
-    "1co" => "1 Corinthiens",
-    "2co" => "2 Corinthiens",
-    "gal" => "Galates",
-    "eph" => "Éphésiens",
-    "php" => "Philippiens",
-    "col" => "Colossiens",
-    "1th" => "1 Thessaloniciens",
-    "2th" => "2 Thessaloniciens",
-    "1ti" => "1 Timothée",
-    "2ti" => "2 Timothée",
-    "tit" => "Tite",
-    "phm" => "Philémon",
-    "heb" => "Hébreux",
-    "jas" => "Jacques",
-    "1pe" => "1 Pierre",
-    "2pe" => "2 Pierre",
-    "1jn" => "1 Jean",
-    "2jn" => "2 Jean",
-    "3jn" => "3 Jean",
+    "hab" => "Habakkuk",
+    "zep" => "Zephaniah",
+    "hag" => "Haggai",
+    "zec" => "Zechariah",
+    "mal" => "Malachi",
+    "mat" => "Matthew",
+    "mrk" => "Mark",
+    "luk" => "Luke",
+    "jhn" => "John",
+    "act" => "Acts",
+    "rom" => "Romans",
+    "1co" => "1 Corinthians",
+    "2co" => "2 Corinthians",
+    "gal" => "Galatians",
+    "eph" => "Ephesians",
+    "php" => "Philippians",
+    "col" => "Colossians",
+    "1th" => "1 Thessalonians",
+    "2th" => "2 Thessalonians",
+    "1ti" => "1 Timothy",
+    "2ti" => "2 Timothy",
+    "tit" => "Titus",
+    "phm" => "Philemon",
+    "heb" => "Hebrews",
+    "jas" => "James",
+    "1pe" => "1 Peter",
+    "2pe" => "2 Peter",
+    "1jn" => "1 John",
+    "2jn" => "2 John",
+    "3jn" => "3 John",
     "jud" => "Jude",
-    "rev" => "Apocalypse",
+    "rev" => "Revelation",
     "wkt" => "kt",
-    "wns" => "noms",
-    "wot" => "autres",
+    "wns" => "names",
+    "wot" => "other",
 
     // Admin Controller
-    "admin_tools_title" => "Outils d’Aministration",
-    "update_lang_db" => "Mettre à jour le base de données des langues",
+    "admin_tools_title" => "Administrator Tools",
+    "update_lang_db" => "Update Languages Database",
     "update_src_catalog" => "Update Sources",
     "go" => "GO",
-    "create_multiple_users" => "Créer multiple utilisateurs",
-    "tools_quantity_members" => "Quantité (par défaut: 50)",
-    "enter_value" => "Rédigez une valeur",
-    "tools_member_language" => "Langues (séparées par des virgules, par défaut: en)",
-    "enter_lang_codes" => "Saississez les codes des langues",
+    "create_multiple_users" => "Create multiple users",
+    "tools_quantity_members" => "Quantity (default: 50)",
+    "enter_value" => "Enter a value",
+    "tools_member_language" => "Languages (comma separated, default: en)",
+    "enter_lang_codes" => "Enter language code(s)",
     "sail_dictionary_editor" => "SUN Dictionary Editor",
-    "create_news" => "Créer des informations",
-    "tools_news_title" => "Titre de l’information",
-    "enter_news_title" => "Rédiger le texte",
-    "tools_news_category" => "Catégorie",
-    "select_news_category" => "Choisir une catégorie",
-    "tools_news_text" => "Texte",
-    "enter_news_text" => "Saisir le texte",
+    "create_news" => "Create News",
+    "tools_news_title" => "News title",
+    "enter_news_title" => "Enter text",
+    "tools_news_category" => "Category",
+    "select_news_category" => "Select category",
+    "tools_news_text" => "Text",
+    "enter_news_text" => "Enter text",
     "create_source" => "Create Source Record",
     "tools_src_language" => "Source Language",
     "select_src_language" => "Select source language",

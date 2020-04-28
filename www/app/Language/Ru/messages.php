@@ -7,19 +7,20 @@ return array (
     // Index method
     "home" => "Главная",
     "welcome_text" => "Добро пожаловать на V-MAST!",
-    "welcome_hint" => "Вы можете учавствовать только по приглашению",
-    "welcome_message" => "",
+    "welcome_hint" => "To start a translation {link}",
+    "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Ведутся технические работы!",
 
     "translations_title" => "Переводы",
     "events_title" => "События",
     "contact_us_title" => "Обратная связь",
-    "about_title" => "О нас",
+    "about_title" => "About Us",
     "bible" => "Библия",
     "members" => "Пользователи",
     "on" => "Вкл.",
     "off" => "Выкл.",
     "submit_crash_report" => "Отправить отчет о сбое",
+    "submit" => "Submit",
 
     // ------------ Members Controller ------------------ //
 
@@ -33,6 +34,7 @@ return array (
     "enter_new_password" => "Введите новый пароль",
     "userName" => "Имя пользователя",
     "userNameOrEmail" => "Имя пользователя или Email",
+    "email" => "Email",
     "name" => "Имя",
     "accept_btn" => "Принять",
     "deny_btn" => "Отмена",
@@ -189,8 +191,9 @@ return array (
     "all_members" => "Поиск пользователей",
     "all_mems" => "Все",
     "search_more" => "Загрузить еще...",
-    "proj_lang_select" => "Выберите язык проекта",
-    "select_project" => "Выберите проект",
+    "proj_lang_select" => "Select project language",
+    "select_project" => "Select project",
+    "lang_select" => "Select language",
     "proj_lang_public" => "Язык проекта",
     "projects_public" => "Проект",
     "show_rubric" => "Рубрика",
@@ -212,6 +215,7 @@ return array (
     "activation_link_message" => "<h3>Спасибо за регистрацию!</h3>\n Для активации вашего аккаунта, пожалуйста, нажмите на ссылку {link}",
     "registration_success_message" => "Регистрация прошла успешно! Проверьте почту для активации учетной записи. Если письма нет во входящих, проверьте в папке спам.",
     "registration_local_success_message" => "Регистрация прошла успешно!",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "Имя пользователя должно содержать только маленькие буквы латиницы и числа, а также начинаться с букв",
@@ -520,6 +524,36 @@ return array (
     "pray_tn" => "Подготовка: Молитва",
 
     "multi-draft_lang_input" => "Ввод",
+    "multi-draft_lang_input_desc" => "<li><b>PURPOSE:</b> to enter text digitally that has already been translated using the MAST 8 steps.</li>
+                                        <li>Type or copy/paste translated text into the blanks verse by verse.</li>
+                                        <li>To add a verse, click the green \"+\" at the bottom of the page.</li>
+                                        <li>To delete a verse, click the red \"x\" at the bottom of the page.</li>
+                                        <li>When every verse in the chapter has been filled, click \"Yes, I did\" and \"Next step\" to move to the self-edit step.</li>",
+
+    "self-check_lang_input_desc" => "<li><b>PURPOSE:</b> to edit your draft and check the meaning of the source text's 
+                                        accuracy while maintaining the blind draft's naturalness.</li>
+                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                    <li>Look for any missing portions of text or missing/added facts.</li>
+                                    <li>Check in detail the accuracy of your translation.</li>
+                                    <li>To add or edit a footnote for this chapter:
+                                        <ol>
+                                            <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                            <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                            <li>Click on \"ft\" to add footnote text.</li>
+                                            <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                                then click \"fqa\" to add the alternate text.</li>
+                                            <li>Click \"Save\" when text is added.</li>
+                                            <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                            <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                                icon and it will pop up the window for you edit the footnote.</li>
+                                            <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
+                                    <li>If you have additional thoughts or questions about your translation, click the note 
+                                        icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save. 
+                                        The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
+                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "consume" => "Чтение",
     "consume_desc" => "<li><b>ЦЕЛЬ:</b> подготовить свою кратковременную память к переводу текста</li><li>Прочитайте текст от начала до конца. Попытайтесь как можно более глубоко в него вникнуть; посмотрите, о чем идет речь; постарайтесь полностью понять содержание текста.</li><li>Останавливайтесь, размышляйте и перечитывайте текст по мере необходимости.</li><li>Уделите этому шагу не более 12 минут.</li>",
@@ -767,7 +801,7 @@ return array (
                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
     "fst-check" => "Проверка текста",
-    "fst-check_full" => "1ая проверка: Целевой текст",
+    "fst-check_full" => "Check Target Text (Checker 1)",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                         <li>The column on the left is the source text and the right is editable target text.</li>
                         <li>Any changes made on this step by the checker will be reflected in the next checking steps:
@@ -792,7 +826,7 @@ return array (
                         <li>When all changes and notes have been made click, \"yes I did\" and \"next step\". </li>",
 
     "snd-check" => "Парная проверка",
-    "snd-check_full" => "2ая проверка: Парная проверка целевого текста",
+    "snd-check_full" => "Peer-Check Target Text (Checker 2)",
     "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                     <li>This is the second check on this chapter of target text.</li>
                     <li>There are two tabs: The Source text tab is the source text for checker to review before checking.
@@ -824,7 +858,7 @@ return array (
                     <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
 
     "keyword-check-l2" => "Проверка ключевых слов",
-    "keyword-check-l2_full" => "2ая проверка: Проверка ключевых слов",
+    "keyword-check-l2_full" => "Keyword Check (Checker 2)",
     "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
                             <li><b>This step will be faster if you use a mouse instead of touchpad.</b></li>
                             <li>The LEFT column is the source text with yellow highlighted words.
@@ -850,7 +884,7 @@ return array (
                             <li>When all highlighted words have been checked, click \"yes I did\" and \"next step\".</li>",
 
     "peer-review-l2" => "Несоответствия",
-    "peer-review-l2_full" => "3я проверка: Обсуждение несоответствий",
+    "peer-review-l2_full" => "Discussion of Discrepancies",
     "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
                         <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
                         <li>After you have looked over the text, contact the peer-checker to discuss discrepancies via: 

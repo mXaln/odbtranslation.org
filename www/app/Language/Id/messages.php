@@ -7,19 +7,20 @@ return array (
     // Index method
     "home" => "Dasbor",
     "welcome_text" => "Selamat datang di V-MAST",
-    "welcome_hint" => "Anda dapat berpartisipasi hanya melalui undangan",
-    "welcome_message" => "",
+    "welcome_hint" => "To start a translation {link}",
+    "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Maintenance work in progress!",
 
     "translations_title" => "Terjemahan",
     "events_title" => "Kegiatan",
     "contact_us_title" => "Hubungi Kami",
-    "about_title" => "Tentang",
+    "about_title" => "About Us",
     "bible" => "Alkitab",
     "members" => "Para Anggota",
     "on" => "On",
     "off" => "Off",
     "submit_crash_report" => "Kirim Laporan Kecelakaan",
+    "submit" => "Submit",
 
     // ------------ Members Controller ------------------ //
 
@@ -33,6 +34,7 @@ return array (
     "enter_new_password" => "Masukkan Password baru",
     "userName" => "User name",
     "userNameOrEmail" => "User Name atau Email",
+    "email" => "Email",
     "name" => "Nama",
     "accept_btn" => "Terima",
     "deny_btn" => "Batal",
@@ -189,8 +191,9 @@ return array (
     "all_members" => "Cari anggota",
     "all_mems" => "Semua",
     "search_more" => "Munculkan lagi...",
-    "proj_lang_select" => "Select the project language",
-    "select_project" => "Select the project",
+    "proj_lang_select" => "Select project language",
+    "select_project" => "Select project",
+    "lang_select" => "Select language",
     "proj_lang_public" => "Project Language",
     "projects_public" => "Project",
     "show_rubric" => "Rubric",
@@ -212,6 +215,7 @@ return array (
     "activation_link_message" => "<h3>Terima kasih karena telah mendaftar!</h3>\n Untuk mengaktifkan akun Anda silahkan klik tautan ini {link}",
     "registration_success_message" => "Pendaftaran Berhasil! Silahkan periksa email Anda untuk menyelesaikan pendaftaran. Jika tidak ada, periksa folder spam/junk",
     "registration_local_success_message" => "Pendaftaran berhasil!",
+    "contact_us_successful" => "Thank you! Your message has been sent to our administrators.",
 
     // Error messages
     "userName_characters_error" => "User name harus berisi hanya huruf dan angka latin dan dimulai dengan huruf",
@@ -520,6 +524,36 @@ return array (
     "pray_tn" => "Persiapan: Berdoa",
 
     "multi-draft_lang_input" => "Input",
+    "multi-draft_lang_input_desc" => "<li><b>PURPOSE:</b> to enter text digitally that has already been translated using the MAST 8 steps.</li>
+                                        <li>Type or copy/paste translated text into the blanks verse by verse.</li>
+                                        <li>To add a verse, click the green \"+\" at the bottom of the page.</li>
+                                        <li>To delete a verse, click the red \"x\" at the bottom of the page.</li>
+                                        <li>When every verse in the chapter has been filled, click \"Yes, I did\" and \"Next step\" to move to the self-edit step.</li>",
+
+    "self-check_lang_input_desc" => "<li><b>PURPOSE:</b> to edit your draft and check the meaning of the source text's 
+                                        accuracy while maintaining the blind draft's naturalness.</li>
+                                    <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                    <li>Look for any missing portions of text or missing/added facts.</li>
+                                    <li>Check in detail the accuracy of your translation.</li>
+                                    <li>To add or edit a footnote for this chapter:
+                                        <ol>
+                                            <li>To add a footnote, click in the translated text where you want to add the footnote.</li>
+                                            <li>Click the footnote icon ( <i class='mdi mdi-bookmark'></i> ) on the right side of the translated text.</li>
+                                            <li>Click on \"ft\" to add footnote text.</li>
+                                            <li>To add an alternate text, click \"ft\" to add the text that explains the footnote, 
+                                                then click \"fqa\" to add the alternate text.</li>
+                                            <li>Click \"Save\" when text is added.</li>
+                                            <li>You will see your added footnote in blue highlight inserted in the translated text.</li>
+                                            <li>To edit the footnote, click on the footnote you want to edit and click the footnote 
+                                                icon and it will pop up the window for you edit the footnote.</li>
+                                            <li>To delete a footnote, click the \"x\" next to it. Click \"Save\" to save your changes.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Do not delete or re-write the translated text. You will lose the naturalness of the language.</li>
+                                    <li>If you have additional thoughts or questions about your translation, click the note 
+                                        icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk, add the note, and click Save. 
+                                        The peer, keyword, verse-by-verse checkers will see this note and will help to resolve the question or problem.</li>
+                                    <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "consume" => "Baca Mendalam",
     "consume_desc" => "<li><b>KEGUNAAN:</b> untuk menyiapkan memori jangka pendek Anda untuk membantu Anda dalam penerjemahan</li><li>Baca teks yang ditugaskan secara keseluruhan. Serap secara cermat dan pertimbangkan apa yang dikatakan untuk memahami isi utuh dari nats ini.</li><li>Berhenti, renungkan, dan baca kembali jika perlu.</li><li>Ambil tidak lebih dari 12 menit pada kegiatan ini.</li>",
@@ -771,7 +805,7 @@ return array (
                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
     "fst-check" => "Check Text",
-    "fst-check_full" => "1st Check: Check Target Text",
+    "fst-check_full" => "Check Target Text (Checker 1)",
     "fst-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                         <li>The column on the left is the source text and the right is editable target text.</li>
                         <li>Any changes made on this step by the checker will be reflected in the next checking steps:
@@ -796,7 +830,7 @@ return array (
                         <li>When all changes and notes have been made click, \"yes I did\" and \"next step\". </li>",
 
     "snd-check" => "Peer Check",
-    "snd-check_full" => "2nd Check: Peer-Check Target Text",
+    "snd-check_full" => "Peer-Check Target Text (Checker 2)",
     "snd-check_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language.</li>
                     <li>This is the second check on this chapter of target text.</li>
                     <li>There are two tabs: The Source text tab is the source text for checker to review before checking.
@@ -828,7 +862,7 @@ return array (
                     <li>When all changes and notes have been made click, \"yes I did\" and \"next step\".</li>",
 
     "keyword-check-l2" => "Keyword Check",
-    "keyword-check-l2_full" => "2nd Check: Keyword Check",
+    "keyword-check-l2_full" => "Keyword Check (Checker 2)",
     "keyword-check-l2_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated text and accurately expressed.</li>
                             <li><b>This step will be faster if you use a mouse instead of touchpad.</b></li>
                             <li>The LEFT column is the source text with yellow highlighted words.
@@ -854,7 +888,7 @@ return array (
                             <li>When all highlighted words have been checked, click \"yes I did\" and \"next step\".</li>",
 
     "peer-review-l2" => "Discrepancies",
-    "peer-review-l2_full" => "3rd Check: Discussion of Discrepancies",
+    "peer-review-l2_full" => "Discussion of Discrepancies",
     "peer-review-l2_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy and discuss discrepancies with a peer checker.</li>
                         <li><b>This is the final check, so all changes should be made before you complete this step.</b></li>
                         <li>After you have looked over the text, contact the peer-checker to discuss discrepancies via: 
