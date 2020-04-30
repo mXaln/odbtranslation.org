@@ -1,5 +1,11 @@
 <?php
 use \Shared\Legacy\Error;
+use Helpers\Session;
+
+if (Session::get("profile") && isset(Session::get("profile")["languages"]) && sizeof(Session::get("profile")["languages"]) > 0)
+{
+    $prefLang = key(Session::get("profile")["languages"]);
+}
 ?>
 
 <div class="contact_us">
@@ -20,7 +26,11 @@ use \Shared\Legacy\Error;
                    id="name"
                    name="name"
                    placeholder="<?php echo __('name'); ?>"
-                   value="<?php echo isset($_POST["name"]) ? $_POST["name"] : ""?>">
+                   value="<?php echo isset($_POST["name"])
+                       ? $_POST["name"]
+                       : (Session::get("firstName")
+                           ? Session::get("firstName") . " " . Session::get("lastName") . " (".Session::get("userName").")"
+                           : "")?>">
         </div>
 
         <div class="form-group">
@@ -30,7 +40,11 @@ use \Shared\Legacy\Error;
                    id="email"
                    name="email"
                    placeholder="<?php echo __('email'); ?>"
-                   value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ""?>">
+                   value="<?php echo isset($_POST["email"])
+                       ? $_POST["email"]
+                       : (Session::get("email")
+                           ? Session::get("email")
+                           : "")?>">
         </div>
 
         <div class="form-group">
@@ -41,8 +55,7 @@ use \Shared\Legacy\Error;
                     data-placeholder="<?php echo __('lang_select'); ?>">
                 <option></option>
                 <?php foreach ($data["languages"] as $lang):?>
-                    <?php if($lang->langID == "en") continue; ?>
-                    <option <?php echo isset($_POST["lang"]) && $lang->langID == $_POST["lang"] ? "selected" : "" ?>>
+                    <option <?php echo (isset($_POST["lang"]) && $lang->langID == $_POST["lang"]) || (isset($prefLang) && $prefLang == $lang->langID) ? "selected" : "" ?>>
                         <?php echo "[".$lang->langID."] " . $lang->langName .
                             ($lang->angName != "" && $lang->langName != $lang->angName ? " ( ".$lang->angName." )" : ""); ?>
                     </option>

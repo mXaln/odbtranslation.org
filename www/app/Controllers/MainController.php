@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\EventsModel;
 use Helpers\Csrf;
 use Helpers\Gump;
+use Helpers\ReCaptcha;
 use View;
 use App\Core\Controller;
 use Helpers\Session;
@@ -123,24 +124,31 @@ class MainController extends Controller
             {
                 if(Config::get("app.type") == "remote")
                 {
-                    Mailer::send(
-                        'Emails/Common/NotifyContactUs',
-                        [
-                            "name" => $valid_data["name"],
-                            "email" => $valid_data["email"],
-                            "language" => $valid_data["lang"],
-                            "userMessage" => $valid_data["message"]
-                        ],
-                        function($message) use($adminEmail)
-                        {
-                            $message->to($adminEmail)
-                                ->subject("Contact Form Notification");
-                        }
-                    );
-                }
+                    if (ReCaptcha::check())
+                    {
+                        Mailer::send(
+                            'Emails/Common/NotifyContactUs',
+                            [
+                                "name" => $valid_data["name"],
+                                "email" => $valid_data["email"],
+                                "language" => $valid_data["lang"],
+                                "userMessage" => $valid_data["message"]
+                            ],
+                            function($message) use($adminEmail)
+                            {
+                                $message->to($adminEmail)
+                                    ->subject("Contact Form Notification");
+                            }
+                        );
 
-                $_POST = [];
-                $data["success"] = __("contact_us_successful");
+                        $_POST = [];
+                        $data["success"] = __("contact_us_successful");
+                    }
+                    else
+                    {
+                        $error[] = __('captcha_wrong');
+                    }
+                }
             }
             else
             {
