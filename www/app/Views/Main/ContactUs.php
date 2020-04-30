@@ -65,6 +65,7 @@ use \Shared\Legacy\Error;
             <div class="form-group">
                 <div class="g-recaptcha" data-sitekey="<?php echo ReCaptcha::getSiteKey() ?>"></div>
             </div>
+            <script src="https://www.google.com/recaptcha/api.js?hl=<?php echo Language::code()?>" async defer></script>
         <?php endif; ?>
 
         <button type="submit" name="submit" class="btn btn-primary btn-lg"><?php echo __('submit'); ?></button>
