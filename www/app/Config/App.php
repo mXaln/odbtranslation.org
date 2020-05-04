@@ -28,7 +28,7 @@ Config::set('app', array(
     /**
      * Debug Mode
      */
-    'debug' => (ENVIRONMENT == 'production'), // When enabled the actual PHP errors will be shown. development|production
+    'debug' => (ENVIRONMENT == 'development'), // When enabled the actual PHP errors will be shown. development|production
 
     /**
      * The Website URL.
