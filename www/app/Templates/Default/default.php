@@ -56,7 +56,7 @@ if(!isset($data)) $data = ["menu" => 1];
 
     <script>
         Sentry.init({
-            dsn: '<?php echo Config::get("sentry.dsn") ?>',
+            dsn: '<?php echo Config::get("sentry.dsn_js") ?>',
             release: '<?php echo Config::get("version.release") ?>',
             environment: '<?php echo ENVIRONMENT ?>'
         });
