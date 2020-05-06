@@ -7,17 +7,17 @@ $membersModel = new \App\Models\MembersModel();
         <meta charset="utf-8">
     </head>
     <body>
-        <h2><?php echo $membersModel->translate("new_account_title", "en"); ?></h2>
+        <h2><?php echo $membersModel->translate("new_account_title", "En"); ?></h2>
 
         <div style="font-size: 18px">
             <div style="margin-top: 20px">
-                <div><?php echo $membersModel->translate("new_account_message", "en", ["name" => $name, "username" => $userName]) ?></div>
+                <div><?php echo $membersModel->translate("new_account_message", "En", ["name" => $name, "username" => $userName]) ?></div>
                 <div>
-                    <strong><?php echo $membersModel->translate("proj_lang_public", "en") ?>: </strong>
+                    <strong><?php echo $membersModel->translate("proj_lang_public", "En") ?>: </strong>
                     <?php echo $projectLanguage ?>
                 </div>
                 <div>
-                    <strong><?php echo $membersModel->translate("Projects", "en")  ?>: </strong>
+                    <strong><?php echo $membersModel->translate("Projects", "En")  ?>: </strong>
                     <?php echo $projects ?>
                 </div>
             </div>
@@ -28,7 +28,7 @@ $membersModel = new \App\Models\MembersModel();
             </div>
 
             <div style="margin-top: 20px">
-                <div><a href="<?php echo SITEURL."admin/members" ?>"><?php echo $membersModel->translate("members_area", "en") ?></a></div>
+                <div><a href="<?php echo SITEURL."admin/members" ?>"><?php echo $membersModel->translate("members_area", "En") ?></a></div>
             </div>
         </div>
     </body>

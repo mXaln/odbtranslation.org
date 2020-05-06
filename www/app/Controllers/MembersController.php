@@ -1136,7 +1136,7 @@ class MembersController extends Controller
                         "projects" => $projects], function($message)
                     {
                         $message->to("vmastteam@gmail.com")
-                            ->subject($this->_model->translate("new_account_title", "en"));
+                            ->subject($this->_model->translate("new_account_title", "En"));
                     });
 
                     Session::set("success", __('registration_success_message'));
@@ -1452,7 +1452,7 @@ class MembersController extends Controller
                             $firstLang = $keys[0];
                         }
 
-                        $data["lang"] = $firstLang;
+                        $data["lang"] = ucfirst($firstLang);
 
                         Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
                         {
