@@ -2701,7 +2701,7 @@ $(document).ready(function() {
     });
 
     // Autosave verse in language input mode
-    $(".lang_input_ta").on("keyup paste", function() {
+    $("body").on("keyup paste", ".lang_input_ta", function() {
         hasLangInputChangesOnPage = true;
         $(".unsaved_alert").show();
     });
