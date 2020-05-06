@@ -105,7 +105,7 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js'),
     template_url('js/jquery.actual.min.js'),
-    template_url('js/main.js?104', 'Default'),
+    template_url('js/main.js?105', 'Default'),
     (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?32') : ''),
     (Session::get("isSuperAdmin") ? template_url('js/admin.js?50') : ''),
     template_url('js/bootstrap.min.js'),

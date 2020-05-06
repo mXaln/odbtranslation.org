@@ -101,7 +101,7 @@ Assets::js([
     template_url('js/jquery.js', 'Default'),
     template_url('js/jquery.actual.min.js', 'Default'),
     template_url('js/languages/'.$language.'.js?27', 'Default'),
-    template_url('js/main.js?104', 'Default'),
+    template_url('js/main.js?105', 'Default'),
     template_url('js/facilitator.js?32', 'Default'),
     template_url('js/autosize.min.js?2', 'Default'),
     template_url('js/admin.js?50', 'Default'),
