@@ -52,7 +52,7 @@ if(!isset($data)) $data = ["menu" => 1];
         var Language = <?php echo json_encode($jsonLocale) ?>;
     </script>
 
-    <script src="https://browser.sentry-cdn.com/5.10.2/bundle.min.js" integrity="<?php echo Config::get("sentry.integrity") ?>" crossorigin="anonymous"></script>
+    <script src="https://browser.sentry-cdn.com/5.15.5/bundle.min.js" integrity="<?php echo Config::get("sentry.integrity") ?>" crossorigin="anonymous"></script>
 
     <script>
         Sentry.init({
