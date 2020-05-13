@@ -152,6 +152,7 @@ class CloudModel extends Model
                 $gitRepo->remove_remote();
                 $gitRepo->add_remote("https://{$this->username}:{$this->token}@{$this->gitServer}/{$repo["full_name"]}.git");
                 $gitRepo->set_username($this->username);
+                $gitRepo->set_email($this->username); // Not mandatory
 
                 foreach ($projectFiles as $projectFile)
                 {
