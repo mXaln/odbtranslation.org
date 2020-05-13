@@ -721,6 +721,10 @@ class GitRepo {
     public function set_username($username) {
         return $this->run("config user.name $username");
     }
+	
+	public function set_email($email) {
+        return $this->run("config user.email $email");
+    }
 
     /**
      * List log entries.
