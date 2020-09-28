@@ -25,7 +25,7 @@ Config::set('database', array(
         'mysql' => array(
             'driver'    => 'mysql',
             'hostname'  => 'localhost',
-            'database'  => 'vmast',
+            'database'  => 'odbtranslation',
             'username'  => 'root',
             'password'  => 'P@ssw0rd-22',
             'prefix'    => PREFIX,

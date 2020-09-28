@@ -4,7 +4,7 @@ use Config\Config;
 
 Config::set('version', array(
     /**
-     * Vmast release version
+     * Odb Translation release version
      */
-    'release' => 'v.6.6.2'
+    'release' => 'v.1.0.0'
 ));
