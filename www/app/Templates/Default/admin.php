@@ -5,6 +5,7 @@
 
 use Helpers\Url;
 use Helpers\Session;
+use Config\Config;
 
 $language = ucfirst(Language::code());
 $languages = Config::get('languages');
@@ -100,7 +101,6 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js', 'Default'),
     template_url('js/jquery.actual.min.js', 'Default'),
-    template_url('js/languages/'.$language.'.js?27', 'Default'),
     template_url('js/main.js?105', 'Default'),
     template_url('js/facilitator.js?32', 'Default'),
     template_url('js/autosize.min.js?2', 'Default'),
