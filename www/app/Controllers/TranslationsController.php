@@ -527,7 +527,7 @@ class TranslationsController extends Controller
         }
 
         $manifest = $this->_model->generateManifest($books[0]);
-        $manifest->setCheckingLevel($chk_lvl);
+        $manifest->setCheckingLevel((string)$chk_lvl);
 
         // Set contributor list from entire project contributors
         if($all)
@@ -623,7 +623,7 @@ class TranslationsController extends Controller
             {
                 $manifest->addProject(new Project(
                     $chunk->bookName,
-                    $chunk->sourceBible,
+                    'other',
                     $chunk->bookCode,
                     (int)$chunk->abbrID,
                     "./".(sprintf("%02d", $chunk->abbrID))."-".(strtoupper($chunk->bookCode)).".usfm",
@@ -895,7 +895,7 @@ class TranslationsController extends Controller
             {
                 $manifest->addProject(new Project(
                     $chunk->bookName,
-                    $chunk->sourceBible,
+                    'other',
                     $chunk->bookCode,
                     (int)$chunk->abbrID,
                     "./".(strtoupper($chunk->bookCode)).".json",
@@ -944,7 +944,7 @@ class TranslationsController extends Controller
         }
 
         $manifest = $this->_model->generateManifest($books[0]);
-        $manifest->setCheckingLevel($chk_lvl);
+        $manifest->setCheckingLevel((string)$chk_lvl);
 
         // Set contributor list from entire project contributors
         if($all)
@@ -1053,7 +1053,7 @@ class TranslationsController extends Controller
         }
 
         $manifest = $this->_model->generateManifest($books[0]);
-        $manifest->setCheckingLevel($chk_lvl);
+        $manifest->setCheckingLevel((string)$chk_lvl);
 
         // Set contributor list from entire project contributors
         $manifest->setContributor(array_map(function($contributor) {

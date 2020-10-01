@@ -47,9 +47,9 @@ class Manifest
         $this->subject = "";
         $this->title = "";
         $this->type = "";
-        $this->version = 1;
+        $this->version = "1";
         $this->checkingEntity = [];
-        $this->checkingLevel = 1;
+        $this->checkingLevel = "1";
         $this->projects = [];
     }
 

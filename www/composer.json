@@ -47,5 +47,8 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "require-dev": {
+    },
+    "conflict": {
+        "symfony/polyfill-php80": "*"
     }
 }
