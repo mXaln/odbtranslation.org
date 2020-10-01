@@ -33,12 +33,12 @@ Config::set('app', array(
     /**
      * The Website URL.
      */
-    'url' => 'https://v-mast.mvc/',
+    'url' => 'https://odbtranslation.srv/',
 
     /**
     * The Administrator's E-mail Address.
     */
-    'email' => 'admin@v-mast.com',
+    'email' => 'admin@odbtranslation.srv',
 
     /**
      * The Website Path.
@@ -48,7 +48,7 @@ Config::set('app', array(
     /**
      * Website Name.
      */
-    'name' => 'V-Mast',
+    'name' => 'ODB Translation',
 
     /**
      * The default Template.
