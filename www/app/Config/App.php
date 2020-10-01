@@ -33,12 +33,12 @@ Config::set('app', array(
     /**
      * The Website URL.
      */
-    'url' => 'https://odbtranslation.dev/',
+    'url' => 'https://odbtranslation.srv/',
 
     /**
     * The Administrator's E-mail Address.
     */
-    'email' => 'admin@odbtranslation.dev',
+    'email' => 'admin@odbtranslation.srv',
 
     /**
      * The Website Path.

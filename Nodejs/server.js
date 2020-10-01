@@ -2,9 +2,9 @@ var app = require('express')(),
     fs = require('fs'),
     https = require('https'),
     server = https.createServer({
-        key:    fs.readFileSync('/var/www/html/odbtranslation.dev/Nodejs/ssl/server.key'),
-        cert:   fs.readFileSync('/var/www/html/odbtranslation.dev/Nodejs/ssl/server.crt'),
-        ca:     fs.readFileSync('/var/www/html/odbtranslation.dev/Nodejs/ssl/rootCA.pem')
+        key:    fs.readFileSync('/var/www/html/odbtranslation.srv/Nodejs/ssl/server.key'),
+        cert:   fs.readFileSync('/var/www/html/odbtranslation.srv/Nodejs/ssl/server.crt'),
+        ca:     fs.readFileSync('/var/www/html/odbtranslation.srv/Nodejs/ssl/rootCA.pem')
     }, app).listen(8001),
     io = require('socket.io')(server),
     redis = require("redis"),
@@ -510,7 +510,7 @@ function registerNewMemberEvent(data, sct, member)
         }
     };
 
-    xhr.open("GET", "https://odbtranslation.dev/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
+    xhr.open("GET", "https://odbtranslation.srv/members/rpc/auth/" + data.memberID + "/" + data.eventID + "/" + data.aT);
     xhr.send();
 }
 

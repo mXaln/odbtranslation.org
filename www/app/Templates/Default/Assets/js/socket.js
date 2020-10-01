@@ -1,4 +1,4 @@
-var socket, sctUrl = 'https://odbtranslation.dev:8001';
+var socket, sctUrl = 'https://odbtranslation.srv:8001';
 
 $(document).ready(function () {
     socket = io.connect(sctUrl);
