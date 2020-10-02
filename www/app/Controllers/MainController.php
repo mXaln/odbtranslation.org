@@ -136,7 +136,7 @@ class MainController extends Controller
                             ],
                             function($message) use($adminEmail)
                             {
-                                $message->to($adminEmail)
+                                $message->from($adminEmail, "Contact Form")->to($adminEmail)
                                     ->subject("Contact Form Notification");
                             }
                         );
