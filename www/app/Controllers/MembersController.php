@@ -1459,7 +1459,7 @@ class MembersController extends Controller
                         {
                             $message->setReplyTo([$data["tEmail"] => $data["tName"]])
                                 ->setTo($data["fEmail"], $data["fName"])
-                                ->setSubject("[vMast ".$this->_model->translate("message_content", $data["lang"])."]: " . $data["subject"]);
+                                ->setSubject($data["subject"]);
                         });
 
                         $response["success"] = true;
