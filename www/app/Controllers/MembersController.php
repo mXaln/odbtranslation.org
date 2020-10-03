@@ -756,7 +756,7 @@ class MembersController extends Controller
      */
     public function resendActivation($email)
     {
-        $data = $this->_model->getMember(array("memberID", "email", "activationToken", "userName"),
+        $data = $this->_model->getMember(array("memberID", "email", "userName"),
             array(
                 array("email", $email),
                 array("active", "!=", true)
@@ -764,14 +764,14 @@ class MembersController extends Controller
 
         if(!empty($data))
         {
-            Mailer::send('Emails/Auth/Activate', ["memberID" => $data[0]->memberID, "token" => $data[0]->activationToken], function($message) use($data)
+            $activationToken = md5(uniqid(rand(), true));
+            $this->_model->updateMember(["activationToken" => $activationToken], ["email" => $email]);
+
+            Mailer::send('Emails/Auth/Activate', ["memberID" => $data[0]->memberID, "token" => $activationToken], function($message) use($data)
             {
                 $message->to($data[0]->email, $data[0]->userName)
                     ->subject(__('activate_account_title'));
             });
-
-            $activationToken = md5(uniqid(rand(), true));
-            $this->_model->updateMember(["activationToken" => $activationToken], ["email" => $email]);
 
             $msg = __('resend_activation_success_message');
             Session::set('success', $msg);
