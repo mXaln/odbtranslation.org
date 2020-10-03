@@ -1742,8 +1742,8 @@ class AdminController extends Controller {
                             if(empty($exist))
                             {
                                 $postdata["admins"] = json_encode($admins);
-                                $postdata["dateFrom"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
-                                $postdata["dateTo"] = date("Y-m-d H:i:s", strtotime("0000-00-00"));
+                                $postdata["dateFrom"] = date("Y-m-d H:i:s", time());
+                                $postdata["dateTo"] = date("Y-m-d H:i:s", time());
                                 $postdata["langInput"] = $langInput;
                                 $eventID = $this->_eventsModel->createEvent($postdata);
                             }
