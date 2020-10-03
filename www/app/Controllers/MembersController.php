@@ -1128,14 +1128,15 @@ class MembersController extends Controller
                             $projects = __($projects);
                     }
 
+                    $adminEmail = Config::get("app.email");
                     Mailer::send('Emails/Common/NotifyRegistration', [
                         "userName" => $userName,
                         "name" => $firstName." ".$lastName,
                         "id" => $id,
                         "projectLanguage" => $proj_lang,
-                        "projects" => $projects], function($message)
+                        "projects" => $projects], function($message) use($adminEmail)
                     {
-                        $message->to("vmastteam@gmail.com")
+                        $message->to($adminEmail)
                             ->subject($this->_model->translate("new_account_title", "En"));
                     });
 
