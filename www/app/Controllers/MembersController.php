@@ -327,7 +327,6 @@ class MembersController extends Controller
                 $postdata["church_role"] = $church_role;
 
                 $profile = $postdata;
-                //$profile["rating"] = $this->calculateMemberRating($profile);
 
                 Session::set("profile", $profile);
                 Session::set("success", __("update_profile_success"));
@@ -408,7 +407,6 @@ class MembersController extends Controller
             $languages[$i]["geo_lang_yrs"] = $item[1];
         }
         $profile["languages"] = $languages;
-        $profile["rating"] = $this->calculateMemberRating($profile);
 
         $proj_lang = $this->_eventModel->getAllLanguages(null, [$memberProfile[0]->proj_lang]);
         if (!empty($proj_lang))
@@ -450,8 +448,8 @@ class MembersController extends Controller
             $chaps = [];
 
             foreach ($checking as $check) {
-                if (in_array($check->bookProject, ["ulb", "udb"])) {
-                    // Level 1 (ulb, udb) checking
+                if (in_array($check->bookProject, ["ulb"])) {
+                    // Level 1 ulb checking
                     $verbCheck = (array)json_decode($check->verbCheck, true);
                     $peerCheck = (array)json_decode($check->peerCheck, true);
                     $kwCheck = (array)json_decode($check->kwCheck, true);
@@ -476,7 +474,6 @@ class MembersController extends Controller
                     $peerCheck = (array)json_decode($check->peerCheck, true);
                     $kwCheck = (array)json_decode($check->kwCheck, true);
                     $crCheck = (array)json_decode($check->crCheck, true);
-                    $otherCheck = (array)json_decode($check->otherCheck, true);
 
                     foreach ($peerCheck as $chapter => $member_data)
                         if ($memberID == $member_data["memberID"])
@@ -487,10 +484,6 @@ class MembersController extends Controller
                             $chaps[] = $chapter;
 
                     foreach ($crCheck as $chapter => $member_data)
-                        if ($memberID == $member_data["memberID"])
-                            $chaps[] = $chapter;
-
-                    foreach ($otherCheck as $chapter => $member_data)
                         if ($memberID == $member_data["memberID"])
                             $chaps[] = $chapter;
                 }
@@ -575,8 +568,6 @@ class MembersController extends Controller
             $data["checking_activities"][] = $checking_activity;
         }
 
-        //pr($data["translation_activities"],1);
-
         $data["notifications"] = $this->_notifications;
         $data["newNewsCount"] = $this->_newNewsCount;
 
@@ -648,15 +639,45 @@ class MembersController extends Controller
                 {
                     if(in_array($language, $admLangs))
                     {
-                        $count = $this->_model->searchMembers($name, $role, [$language], true, false, $verified);
-                        $members = $this->_model->searchMembers($name, $role, [$language], false, true, $verified, $page);
+                        $count = $this->_model->searchMembers(
+                            $name,
+                            $role,
+                            [$language],
+                            true,
+                            false,
+                            $verified
+                        );
+                        $members = $this->_model->searchMembers(
+                            $name,
+                            $role,
+                            [$language],
+                            false,
+                            true,
+                            $verified,
+                            $page
+                        );
                     }
                 }
                 else
                 {
                     if($searchExt) $admLangs = [];
-                    $count = $this->_model->searchMembers($name, $role, $admLangs, true, false, $verified);
-                    $members = $this->_model->searchMembers($name, $role, $admLangs, false, true, $verified, $page);
+                    $count = $this->_model->searchMembers(
+                        $name,
+                        $role,
+                        $admLangs,
+                        true,
+                        false,
+                        $verified
+                    );
+                    $members = $this->_model->searchMembers(
+                        $name,
+                        $role,
+                        $admLangs,
+                        false,
+                        true,
+                        $verified,
+                        $page
+                    );
                 }
 
                 $response["success"] = true;
@@ -767,11 +788,15 @@ class MembersController extends Controller
             $activationToken = md5(uniqid(rand(), true));
             $this->_model->updateMember(["activationToken" => $activationToken], ["email" => $email]);
 
-            Mailer::send('Emails/Auth/Activate', ["memberID" => $data[0]->memberID, "token" => $activationToken], function($message) use($data)
-            {
-                $message->to($data[0]->email, $data[0]->userName)
-                    ->subject(__('activate_account_title'));
-            });
+            Mailer::send(
+                'Emails/Auth/Activate',
+                ["memberID" => $data[0]->memberID, "token" => $activationToken],
+                function($message) use($data)
+                {
+                    $message->to($data[0]->email, $data[0]->userName)
+                        ->subject(__('activate_account_title'));
+                }
+            );
 
             $msg = __('resend_activation_success_message');
             Session::set('success', $msg);
@@ -880,7 +905,6 @@ class MembersController extends Controller
                                     $languages[$i]["geo_lang_yrs"] = $item[1];
                                 }
                                 $profile["languages"] = $languages;
-                                $profile["rating"] = $this->calculateMemberRating($profile);
 
                                 Session::set('memberID', $data[0]->memberID);
                                 Session::set('userName', $data[0]->userName);
@@ -1097,11 +1121,15 @@ class MembersController extends Controller
 
                 if(Config::get("app.type") == "remote")
                 {
-                    Mailer::send('Emails/Auth/Activate', ["memberID" => $id, "token" => $activationToken], function($message) use($data)
-                    {
-                        $message->to($data["email"], $data["userName"])
-                            ->subject(__('activate_account_title'));
-                    });
+                    Mailer::send(
+                        'Emails/Auth/Activate',
+                        ["memberID" => $id, "token" => $activationToken],
+                        function($message) use($data)
+                        {
+                            $message->to($data["email"], $data["userName"])
+                                ->subject(__('activate_account_title'));
+                        }
+                    );
 
                     // Project language for email message
                     $proj_languages = $this->_eventModel->getAllLanguages(null, [$projLang]);
@@ -1129,16 +1157,21 @@ class MembersController extends Controller
                     }
 
                     $adminEmail = Config::get("app.email");
-                    Mailer::send('Emails/Common/NotifyRegistration', [
-                        "userName" => $userName,
-                        "name" => $firstName." ".$lastName,
-                        "id" => $id,
-                        "projectLanguage" => $proj_lang,
-                        "projects" => $projects], function($message) use($adminEmail)
-                    {
-                        $message->to($adminEmail)
-                            ->subject($this->_model->translate("new_account_title", "En"));
-                    });
+                    Mailer::send(
+                        'Emails/Common/NotifyRegistration',
+                        [
+                            "userName" => $userName,
+                            "name" => $firstName." ".$lastName,
+                            "id" => $id,
+                            "projectLanguage" => $proj_lang,
+                            "projects" => $projects
+                        ],
+                        function($message) use($adminEmail)
+                        {
+                            $message->to($adminEmail)
+                                ->subject($this->_model->translate("new_account_title", "En"));
+                        }
+                    );
 
                     Session::set("success", __('registration_success_message'));
                     Session::set("activation_email", $email);
@@ -1206,16 +1239,28 @@ class MembersController extends Controller
 
                     if(Config::get("app.type") == "remote")
                     {
-                        Mailer::send('Emails/Auth/PasswordReset', ["memberID" => $data[0]->memberID, "token" => $resetToken], function($message) use($data)
-                        {
-                            $message->to($data[0]->email, $data[0]->userName)
-                                ->subject(__('passwordreset_title'));
-                        });
+                        Mailer::send(
+                            'Emails/Auth/PasswordReset',
+                            ["memberID" => $data[0]->memberID, "token" => $resetToken],
+                            function($message) use($data)
+                            {
+                                $message->to($data[0]->email, $data[0]->userName)
+                                    ->subject(__('passwordreset_title'));
+                            }
+                        );
                         $msg = __('pwresettoken_send_success');
                     }
                     else
                     {
-                        $msg = __("passwordreset_link_message", ["link" => '<a href="'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'">'.site_url('members/resetpassword/' .$data[0]->memberID."/".$resetToken).'</a>']);
+                        $msg = __(
+                            "passwordreset_link_message",
+                            [
+                                "link" => '<a href="'.site_url('members/resetpassword/'
+                                        .$data[0]->memberID."/".$resetToken).'">'
+                                        .site_url('members/resetpassword/'
+                                        .$data[0]->memberID."/".$resetToken).'</a>'
+                            ]
+                        );
                     }
 
                     Session::set('success', $msg);
@@ -1455,12 +1500,16 @@ class MembersController extends Controller
 
                         $data["lang"] = ucfirst($firstLang);
 
-                        Mailer::send('Emails/Common/Message', ["data" => $data], function($message) use($data)
-                        {
-                            $message->setReplyTo([$data["tEmail"] => $data["tName"]])
-                                ->setTo($data["fEmail"], $data["fName"])
-                                ->setSubject($data["subject"]);
-                        });
+                        Mailer::send(
+                            'Emails/Common/Message',
+                            ["data" => $data],
+                            function($message) use($data)
+                            {
+                                $message->setReplyTo([$data["tEmail"] => $data["tName"]])
+                                    ->setTo($data["fEmail"], $data["fName"])
+                                    ->setSubject($data["subject"]);
+                            }
+                        );
 
                         $response["success"] = true;
                     }
@@ -1503,12 +1552,12 @@ class MembersController extends Controller
             {
                 $cloudModel = new CloudModel($server, $username, $password, $otp);
                 $data = $cloudModel->getAccessTokens();
-                $token = $cloudModel->getVmastAccessToken($data);
+                $token = $cloudModel->getOdbAccessToken($data);
 
                 if(empty($token) || $token["sha1"] == "")
                 {
                     $data = $cloudModel->createAccessToken();
-                    $token = $cloudModel->getVmastAccessToken($data);
+                    $token = $cloudModel->getOdbAccessToken($data);
                 }
 
                 if(!empty($token))
@@ -1558,41 +1607,5 @@ class MembersController extends Controller
     {
         Session::destroy();
         Url::redirect('/', true);
-    }
-
-    /**
-     * Calculates average member rating based on one's profile
-     * @param $profile
-     * @return array
-     */
-    private function calculateMemberRating($profile)
-    {
-        $rating = 0;
-        if($profile != null && !empty($profile))
-        {
-            $rating += $profile["bbl_trans_yrs"];
-            $rating += $profile["othr_trans_yrs"];
-            $rating += $profile["bbl_knwlg_degr"];
-            $rating += $profile["mast_evnts"];
-            $rating += $profile["teamwork"];
-            $rating += in_array("translator", $profile["mast_role"]) ? 4 : 1;
-
-            $langRate = 0;
-            foreach ($profile["languages"] as $language => $data) {
-                $lang = $data["lang_fluency"];
-                $lang += $data["geo_lang_yrs"];
-                $langRate += $lang/2;
-            }
-
-            if(sizeof($profile["languages"]) > 0)
-                $rating += $langRate / sizeof($profile["languages"]);
-
-            $rating = min($rating / 7, 4);
-
-            // Average value
-            $rating = sprintf("%1.2f", $rating);
-        }
-
-        return $rating;
     }
 }

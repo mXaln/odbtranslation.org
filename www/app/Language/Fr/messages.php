@@ -467,7 +467,7 @@ return array (
     "target_text" => "Texte de destination",
     "import_translation_tip" => "Importation de traduction",
     "import_options" => "Importation des options",
-    "import_from_dcs" => "Importation à partir de DCS (Door43)",
+    "import_from_wacs" => "Importation à partir de WACS",
     "import_from_usfm" => "Importation à partir de USFM (.usfm)",
     "import_from_ts" => "Importation à partir d’un projet translationStudio (.tstudio)",
     "import_from_zip" => "Importation de zip archive tN, tQ or tW (.zip)",

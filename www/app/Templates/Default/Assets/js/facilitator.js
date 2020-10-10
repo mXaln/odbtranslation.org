@@ -183,109 +183,6 @@ $(function () {
     });
 
 
-    // Show "Create words group" dialog
-    $("#word_group_create").click(function() {
-        $("#word_group").val("");
-
-        $(".words_group_dialog").show();
-
-        $('html, body').css({
-            'overflow': 'hidden',
-            'height': '100%'
-        });
-    });
-
-    // Close "Create words group" dialog
-    $(".words-group-dialog-close").click(function() {
-        $(".words_group_dialog").hide();
-
-        $('html, body').css({
-            'overflow': 'auto',
-            'height': 'auto'
-        });
-    });
-
-    // Create a group of translation words
-    $(document).on("click", "#create_group", function () {
-
-        var group = $("#word_group").val();
-        var eventID = $("#eventID").val();
-
-        $.ajax({
-            url: "/events/rpc/create_words_group",
-            method: "post",
-            data: {
-                group: group,
-                eventID: eventID
-            },
-            dataType: "json",
-            beforeSend: function() {
-                $(".openWordsGroup.dialog_f").show();
-            }
-        })
-            .done(function(data) {
-                if(data.success)
-                {
-                    $(".words_group_dialog").hide();
-                    window.location.reload();
-                }
-                else
-                {
-                    if(typeof data.error != "undefined")
-                    {
-                        renderPopup(data.error);
-                    }
-                }
-            })
-            .always(function() {
-                $(".openWordsGroup.dialog_f").hide();
-            });
-    });
-
-    // Delete a group of translation words
-    $(document).on("click", ".group_delete", function () {
-        var groupID = $(this).data("groupid");
-        var eventID = $("#eventID").val();
-        var $this = $(this);
-
-        renderConfirmPopup(Language.deleteGroupConfirmTitle, Language.deleteGroupConfirm, function () {
-            $( this ).dialog( "close" );
-
-            $.ajax({
-                url: "/events/rpc/delete_words_group",
-                method: "post",
-                data: {
-                    groupID: groupID,
-                    eventID: eventID
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    $this.css("background-color", "#f00");
-                }
-            })
-                .done(function(data) {
-                    if(data.success)
-                    {
-                        $(".words_group_dialog").hide();
-                        window.location.reload();
-                    }
-                    else
-                    {
-                        if(typeof data.error != "undefined")
-                        {
-                            renderPopup(data.error);
-                        }
-                    }
-                })
-                .always(function() {
-                    $this.css("background-color", "#666666");
-                });
-        }, function () {
-            $( this ).dialog( "close" );
-        });
-    });
-
-
     // Remove chapter from translator's chapter list
     $(document).on("click", ".uname_delete", function() {
         var parent = $(this).parents(".manage_chapters_user");
@@ -413,20 +310,6 @@ $(function () {
                 }
             });
     }
-
-    /*$("#startTranslation").click(function (e) {
-        var $this = $(this);
-
-        renderConfirmPopup(Language.startTranslation, Language.startTranslationConfirm, function () {
-            $(this).dialog( "close" );
-            $this.data("yes", true).click();
-        }, function () {
-            $(this).dialog("close");
-        });
-
-        if(typeof $this.data("yes") == "undefined")
-            e.preventDefault();
-    });*/
 
     // Show info tip
     $(".create_info_tip a").click(function () {
@@ -658,62 +541,6 @@ $(function () {
         var message = Language.remove_l2_checker + name;
         var mode = $("#mode").val();
 
-        if(id == "other_checker")
-        {
-            var level = $(this).data("level");
-            var prev_level = level - 1;
-            var disabled = prev_level < 0 || (mode == "tn" ? prev_level > 4 : prev_level > 1) ? "disabled" : "";
-            var prev_step = "n/a";
-
-            switch (prev_level) {
-                case 0:
-                    prev_step = Language.other_pray;
-                    break;
-                case 1:
-                    if(mode == "tn")
-                    {
-                        prev_step = Language.other_consume;
-                    }
-                    if(["tq","tw"].indexOf(mode) > -1)
-                    {
-                        prev_step = Language.keyword_check;
-                    }
-                    else
-                    {
-                        prev_step = Language.other_draft;
-                    }
-                    break;
-                case 2:
-                    if(mode == "tn")
-                    {
-                        prev_step = Language.other_highlight;
-                    }
-                    else
-                    {
-                        prev_step = Language.other_self_check_alt;
-                    }
-                    break;
-                case 3:
-                    prev_step = Language.other_self_check;
-                    break;
-                case 4:
-                    prev_step = Language.other_keyword_check;
-                    break;
-            }
-
-            var html = "" +
-                "<div class='other_check_remove'>" +
-                    "<h5>" + Language.remove_other_checker_opt + name + "</h5>" +
-                    "<label>" +
-                        "<input type='radio' name='other_option' value='remove' checked /> " +
-                            Language.remove_checker + "</label>" +
-                    "<label class='" + disabled + "'>" +
-                        "<input type='radio' name='other_option' value='move_back' " + disabled + " /> " +
-                            Language.move_to_step + prev_step + "</label>" +
-                "</div>";
-            message = html;
-        }
-
         renderConfirmPopup(Language.attention, message, function() {
             var other_check = $(".other_check_remove input:checked").val();
 
@@ -826,51 +653,6 @@ $(function () {
                 //$(".filter_loader").hide();
             });
     }
-
-    // Set checker role for tN project
-    $(".is_checker_input").click(function(e) {
-        e.preventDefault();
-
-        var $this = $(this);
-        var parent = $(this).parents(".member_usname");
-        var memberID = parent.attr("data");
-        var eventID = $("#eventID").val();
-
-        $.ajax({
-            url: "/events/rpc/set_tn_checker",
-            method: "post",
-            data: {
-                eventID : eventID,
-                memberID : memberID,
-            },
-            dataType: "json",
-            beforeSend: function() {
-                $this.prop("disabled", true);
-            }
-        })
-            .done(function(data) {
-                if(data.success)
-                {
-                    $this.prop("checked", !$this.prop("checked"));
-                }
-                else
-                {
-                    if(typeof data.error != "undefined")
-                    {
-                        renderPopup(data.error,
-                            function () {
-                                $( this ).dialog( "close" );
-                            },
-                            function () {
-                                window.location.reload();
-                            });
-                    }
-                }
-            })
-            .always(function() {
-                $this.prop("disabled", false);
-            });
-    });
 });
 
 

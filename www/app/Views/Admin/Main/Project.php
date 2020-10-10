@@ -78,12 +78,10 @@ if(!empty($data["project"])):
                 <?php endif; ?>
                         <tr>
                             <td><?php echo $event->name ?></td>
-                            <td class="datetime" data="<?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ?
-                                date(DATE_RFC2822, strtotime($event->dateFrom)) : "" ?>">
-                                <?php echo $event->dateFrom != "" && $event->dateFrom != "0000-00-00 00:00:00" ? $event->dateFrom . " UTC" : "" ?></td>
-                            <td class="datetime" data="<?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ?
-                                date(DATE_RFC2822, strtotime($event->dateTo)) : "" ?>">
-                                <?php echo $event->dateTo != "" && $event->dateTo != "0000-00-00 00:00:00" ? $event->dateTo . " UTC" : "" ?></td>
+                            <td class="datetime" data="<?php echo date(DATE_RFC2822, strtotime($event->dateFrom)) ?>">
+                                <?php echo $event->dateFrom . " UTC" ?></td>
+                            <td class="datetime" data="<?php echo date(DATE_RFC2822, strtotime($event->dateTo)) ?>">
+                                <?php echo $event->dateTo . " UTC" ?></td>
                             <td><?php echo $event->state ? __("state_".$event->state) : "" ?></td>
                             <td style="position:relative;">
                                 <div class="event_column progress zero" data-eventid="<?php echo $event->eventID?>">
@@ -98,15 +96,13 @@ if(!empty($data["project"])):
                             <td style="white-space: nowrap">
                                 <?php if($event->state != ""
                                     && EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)
-                                    && in_array($data["project"][0]->bookProject, ["ulb","udb"])): ?>
+                                    && in_array($data["project"][0]->bookProject, ["ulb"])): ?>
                                     <button class="btn btn-warning showContributors" data-eventid="<?php echo $event->eventID?>" data-level="1">
                                         <?php echo __("L1") ?>
                                     </button>
                                 <?php endif; ?>
                                 <?php if($event->state != ""
-                                    && (EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED)
-                                        || (EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED)
-                                        && in_array($data["project"][0]->bookProject, ["tn","tq","tw"])))
+                                    && (EventStates::enum($event->state) >= EventStates::enum(EventStates::L2_CHECKED))
                                     && $data["project"][0]->bookProject != "sun"): ?>
                                     <button class="btn btn-warning showContributors"
                                             data-eventid="<?php echo $event->eventID?>"
@@ -183,7 +179,7 @@ if(!empty($data["project"])):
                     </li>
                     <li class="deleteEvent"><?php echo __("delete"); ?></li>
 
-                    <?php if(in_array($data["project"][0]->bookProject, ["ulb","udb"])):?>
+                    <?php if(in_array($data["project"][0]->bookProject, ["ulb"])):?>
                     <hr>
                     <div class="event_links_l1">
                         <li class="option_group"><?php echo __("translation_event") ?></li>
@@ -233,7 +229,7 @@ if(!empty($data["project"])):
                         <?php if($data["project"][0]->bookProject != "sun"): ?>
                         <div class="event_level_radio">
                             <label style="width: 100%; display: block"><?php echo __('choose_event_level'); ?></label>
-                            <?php if(in_array($data["project"][0]->bookProject, ["ulb","udb"])):?>
+                            <?php if(in_array($data["project"][0]->bookProject, ["ulb"])):?>
                             <label>
                                 <input type="radio" name="eventLevel" value="1" class="event_l_1" checked>
                                 <?php echo __("level2_3_check", ["level" => 1]) ?>
@@ -241,7 +237,7 @@ if(!empty($data["project"])):
                             <?php endif; ?>
                             <label>
                                 <input type="radio" name="eventLevel" value="2" class="event_l_2"
-                                    <?php echo !in_array($data["project"][0]->bookProject, ["ulb","udb"]) ? "checked" : "" ?>>
+                                    <?php echo !in_array($data["project"][0]->bookProject, ["ulb"]) ? "checked" : "" ?>>
                                 <?php echo __("level2_3_check", ["level" => 2]) ?>
                             </label>&nbsp;&nbsp;
                             <label>
@@ -251,45 +247,6 @@ if(!empty($data["project"])):
                         </div>
 
                         <div class="event_imports">
-                            <?php if($data["project"][0]->bookProject == "tn"): ?>
-                            <div class="import tn_l1_import">
-                                <div class="import_title"><?php echo __("tn") ?> L1</div>
-                                <div class="import_link" data-source="tn_l1" title="<?php echo __("import_translation_tip") ?>">
-                                    Import
-                                </div>
-                                <div class="import_done glyphicon glyphicon-ok"></div>
-                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
-                            </div>
-                            <div class="import tn_l2_import">
-                                <div class="import_title"><?php echo __("tn") ?> L2</div>
-                                <div class="import_link" data-source="tn_l2" title="<?php echo __("import_translation_tip") ?>">
-                                    Import
-                                </div>
-                                <div class="import_done glyphicon glyphicon-ok"></div>
-                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if($data["project"][0]->bookProject == "tq"): ?>
-                            <div class="import tq_l1_import">
-                                <div class="import_title"><?php echo __("tq") ?> L1</div>
-                                <div class="import_link" data-source="tq_l1" title="<?php echo __("import_translation_tip") ?>">
-                                    Import
-                                </div>
-                                <div class="import_done glyphicon glyphicon-ok"></div>
-                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
-                            </div>
-                            <div class="import tq_l2_import">
-                                <div class="import_title"><?php echo __("tq") ?> L2</div>
-                                <div class="import_link" data-source="tq_l2" title="<?php echo __("import_translation_tip") ?>">
-                                    Import
-                                </div>
-                                <div class="import_done glyphicon glyphicon-ok"></div>
-                                <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if(!in_array($data["project"][0]->bookProject, ["tn","tq"])): ?>
                             <div class="import l1_import">
                                 <div class="import_title"><?php echo __("book") ?> L1</div>
                                 <div class="import_link" data-source="l1" title="<?php echo __("import_translation_tip") ?>">
@@ -298,7 +255,6 @@ if(!empty($data["project"])):
                                 <div class="import_done glyphicon glyphicon-ok"></div>
                                 <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
                             </div>
-                            <?php endif; ?>
 
                             <div class="import l2_import">
                                 <div class="import_title"><?php echo __("book") ?> L2</div>
@@ -309,7 +265,7 @@ if(!empty($data["project"])):
                                 <div class="import_progress glyphicon glyphicon-info-sign" title="<?php echo __("step_status_in_progress"); ?>"></div>
                             </div>
 
-                            <?php if(!in_array($data["project"][0]->bookProject, ["ulb","udb"])): ?>
+                            <?php if(!in_array($data["project"][0]->bookProject, ["ulb"])): ?>
                             <div class="import l3_import">
                                 <div class="import_title"><?php echo __("book") ?> L3</div>
                                 <div class="import_link" data-source="l3" title="<?php echo __("import_translation_tip") ?>">
@@ -361,7 +317,7 @@ if(!empty($data["project"])):
             <ul>
                 <li><?php echo __("import_options") ?></li>
                 <li data-type="dcs">
-                    <label role="button"><?php echo __("import_from_dcs") ?></label>
+                    <label role="button"><?php echo __("import_from_wacs") ?></label>
                 </li>
                 <li data-type="usfm">
                     <form id="usfm_form">
@@ -401,7 +357,7 @@ if(!empty($data["project"])):
     <div class="dcs_import_menu_content_body panel panel-default">
         <div class="dcs_import_menu">
             <ul>
-                <li><?php echo __("import_from_dcs") ?></li>
+                <li><?php echo __("import_from_wacs") ?></li>
                 <li data-type="dcs">
                     <form id="dcs_form">
                         <input class="form-control" type="text" name="dcs_repo_name" placeholder="<?php echo __("repository_name") ?>" />

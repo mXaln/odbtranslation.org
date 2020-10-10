@@ -467,7 +467,7 @@ return array (
     "target_text" => "Целевой текст",
     "import_translation_tip" => "Импортировать перевод",
     "import_options" => "Опции импортирования",
-    "import_from_dcs" => "Импортировать из DCS (Door43)",
+    "import_from_wacs" => "Импортировать из WACS",
     "import_from_usfm" => "Импортировать из USFM (.usfm)",
     "import_from_ts" => "Импортировать из проекта translationStudio (.tstudio)",
     "import_from_zip" => "Импортировать tN, tQ или tW zip архив (.zip)",

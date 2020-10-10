@@ -106,7 +106,7 @@ Assets::js([
     template_url('js/jquery.js'),
     template_url('js/jquery.actual.min.js'),
     template_url('js/main.js?105', 'Default'),
-    (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?32') : ''),
+    (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?33') : ''),
     (Session::get("isSuperAdmin") ? template_url('js/admin.js?50') : ''),
     template_url('js/bootstrap.min.js'),
     template_url('js/autosize.min.js?2'),
@@ -196,36 +196,24 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                 $text_data = array(
                                     "name" => $notification->firstName . " " . mb_substr($notification->lastName, 0, 1).".",
                                     "step" => ($notification->step != "other" ? "(".__($notification->step .
-                                            (in_array($notification->bookProject, ["tq","tw"])
-                                            && $notification->step == EventSteps::PEER_REVIEW
-                                                ? "_".$notification->bookProject : ($notification->sourceBible == "odb"
-                                                    ? "_odb" : ""))).")" : ""),
+                                            ($notification->sourceBible == "odb"
+                                                ? "_odb" : "")).")" : ""),
                                     "book" => $notification->bookName,
-                                    "chapter" => ($notification->bookProject == "tw"
-                                        ? $notification->group : ($notification->currentChapter == 0
-                                            ? __("intro")
-                                            : $notification->currentChapter)),
+                                    "chapter" => ($notification->currentChapter == 0
+                                        ? __("intro")
+                                        : $notification->currentChapter),
                                     "language" => $notification->tLang,
                                     "project" => ($notification->sourceBible == "odb"
                                         ?__($notification->sourceBible)
                                         : __($notification->bookProject))
                                 );
 
-                                if($notification->bookProject == "tw")
-                                    $text = __('checker_apply_tw', $text_data).(
-                                        $notification->manageMode != "l3"
-                                            ? " (".($notification->step == "other" ? "#1" : "#2").")" : ""
-                                        );
-                                else
-                                    $text = __('checker_apply', $text_data).(
-                                        in_array($notification->bookProject, ["tn", "tq"]) && $notification->manageMode != "l3"
-                                            ? " (".($notification->step == "other" ? "#1" : "#2").")" : ""
-                                        );
+                                $text = __('checker_apply', $text_data);
 
                                 if(!isset($data["isDemo"]))
                                 {
                                     $link = "/events/checker".(isset($notification->manageMode)
-                                        && in_array($notification->manageMode, ["sun","tn","tq","tw","rad"]) ? "-".$notification->manageMode : "")
+                                        && in_array($notification->manageMode, ["sun"]) ? "-".$notification->manageMode : "")
                                         ."/".$notification->eventID."/"
                                         .$notification->memberID."/"
                                         .$notification->step."/"
@@ -240,15 +228,10 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                         $demoType = "demo-l2";
                                         $ltype = preg_replace("/_checker/", "", $type);
                                     }
-                                    elseif (isset($notification->manageMode) && in_array($notification->manageMode, ["tn","tq","tw","sun","sun-odb"]))
+                                    elseif (isset($notification->manageMode) && in_array($notification->manageMode, ["sun","sun-odb"]))
                                     {
                                         $demoType = "demo-" . $notification->manageMode;
                                         $ltype = preg_replace("/other_checker/", "pray_chk", $type);
-                                    }
-                                    elseif(isset($notification->manageMode) && $notification->manageMode == "rad")
-                                    {
-                                        $demoType = "demo-" . $notification->manageMode;
-                                        $ltype = "peer_review";
                                     }
                                 }
 
