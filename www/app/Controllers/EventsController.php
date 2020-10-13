@@ -680,15 +680,6 @@ class EventsController extends Controller
                                     $translation[] = $arr;
                                 }
                                 $data["translation"] = $translation;
-
-                                if($data["event"][0]->sourceBible == "rsb")
-                                {
-                                    $words = Word::with('translations')
-                                        ->orderBy('title')
-                                        ->get();
-
-                                    $data["words"] = json_encode($words->toArray());
-                                }
                             }
                             else
                             {

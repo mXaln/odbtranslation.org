@@ -191,7 +191,7 @@ class AdminController extends Controller {
 
         $import = isset($_FILES['import']) && $_FILES['import'] != "" ? $_FILES['import']
             : (isset($_POST['import']) && $_POST['import'] != "" ? $_POST['import'] : null);
-        $type = isset($_POST['type']) && $_POST['type'] != "" ? $_POST['type'] : "dcs";
+        $type = isset($_POST['type']) && $_POST['type'] != "" ? $_POST['type'] : "wacs";
         $projectID = isset($_POST['projectID']) && $_POST['projectID'] != "" ? (integer)$_POST['projectID'] : 0;
         $eventID = isset($_POST['eventID']) && $_POST['eventID'] != "" ? (integer)$_POST['eventID'] : 0;
         $bookCode = isset($_POST['bookCode']) && $_POST['bookCode'] != "" ? $_POST['bookCode'] : null;
@@ -203,7 +203,7 @@ class AdminController extends Controller {
         {
             switch ($type)
             {
-                case "dcs":
+                case "wacs":
                     $path = $this->_apiModel->processRemoteUrl($import);
 
                     switch ($importProject)
@@ -2527,7 +2527,7 @@ class AdminController extends Controller {
         $answer = Input::get("answer", "");
 
         if(trim($question) != "" && trim($answer) != ""
-            && preg_match("/^common|vmast|vsail|level2|level3|notes|questions|words|lang_input$/", $category))
+            && preg_match("/^common|mast|vsail|level2|level3|notes|questions|words|lang_input$/", $category))
         {
             $data = [
                 "title" => $question,
@@ -2614,7 +2614,7 @@ class AdminController extends Controller {
         $text = Input::get("text", "");
 
         if(trim($title) != "" && trim($text) != ""
-            && preg_match("/^common|vmast|vsail|level2|level3|notes|questions|words|lang_input$/", $category))
+            && preg_match("/^common|mast|vsail|level2|level3|notes|questions|words|lang_input$/", $category))
         {
             $data = [
                 "title" => $title,

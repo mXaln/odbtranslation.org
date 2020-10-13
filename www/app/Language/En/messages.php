@@ -6,7 +6,7 @@ return array (
 
     // Index method
     "home" => "Dashboard",
-    "welcome_text" => "Welcome to V-MAST",
+    "welcome_text" => "Welcome to ODB Translation",
     "welcome_hint" => "To start a translation {link}",
     "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Maintenance work in progress!",
@@ -58,7 +58,7 @@ return array (
     "message_subject" => "Subject",
     "message_content" => "Message",
     "send" => "Send",
-    "facilitator_message_tip" => "This message was sent by a member on V-MAST.com",
+    "facilitator_message_tip" => "This message was sent by a member on odbtranslation.org",
     "member_wrote" => "wrote",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
@@ -85,7 +85,7 @@ return array (
     "activate_account_title" => "Activate Account",
     "resend_activation_code" => "Haven't got email? Send it again.",
     "wrong_activation_email" => "Wrong email for activation. The account with this email doesn't exist or already is activated",
-    "new_account_title" => "New member joined V-Mast",
+    "new_account_title" => "New member joined ODB Translation",
     "new_account_message" => "<strong>Name:</strong> {name}, <strong>Username:</strong> {username}",
     "members_area" => "Go to members area",
 
@@ -266,8 +266,7 @@ return array (
     "tn" => "Translation Notes",
     "tq" => "Translation Questions",
     "tw" => "Translation Words",
-    "rad" => "RADIO",
-    "vsail" => "vSUN",
+    "vsail" => "SUN",
     "old_test" => "Old Testament",
     "new_test" => "New Testament",
     "checker_apply" => "<b>{name}</b> is ready for checking <b>{step}</b> book of <b>{book}</b>, chapter <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
@@ -402,17 +401,17 @@ return array (
     "time_end" => "End",
     "chat" => "CHAT",
     "you_are_at" => "You are at",
-    "8steps_vmast" => "8 Steps MAST",
-    "vmast" => "8 Steps MAST",
+    "8steps_mast" => "8 Steps MAST",
+    "mast" => "8 Steps MAST",
     "lang_input" => "Scripture Input",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",
     "level2" => "Level 2",
     "level3" => "Level 3",
-    "l2_l3_vmast" => "MAST L{level} Check",
+    "l2_l3_mast" => "MAST L{level} Check",
     "common" => "Common",
-    "vmast_events" => "V-MAST Events",
+    "mast_events" => "Events",
     "create_event" => "Create event",
     "edit_event" => "Edit event",
     "create_info_tip" => "Click here to create projects and events",
@@ -445,7 +444,7 @@ return array (
     "block" => "Block",
     "unblock" => "Unblock",
     "last_edit" => "Last edit",
-    "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
+    "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of ODB Translation.",
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
     "type_checking1" => "Checker 1 Mode",
@@ -596,11 +595,11 @@ return array (
     "verbalize" => "Verbalize",
     "verbalize_desc" => "<li><b>PURPOSE:</b> to express verbally what you have consumed to engage short-term memory.</li>
                             <li><b>LENGTH:</b> Take 2-3 minutes on this step (per person).</li>
-                            <li>Choose a partner to verbalize with.  It does not have to be another translator in V-MAST. 
+                            <li>Choose a partner to verbalize with. It does not have to be another translator in ODB Translation. 
                                 <ol>
-                                    <li>If they are a translator in V-MAST, start typing their name in the blank field, and choose 
+                                    <li>If they are a translator in ODB Translation, start typing their name in the blank field, and choose 
                                         from the names that pop up.  Then click \"Add Checker.\"</li>
-                                    <li>If they are not a translator in V-MAST, type in their name and click \"Add Checker\".</li>
+                                    <li>If they are not a translator in ODB Translation, type in their name and click \"Add Checker\".</li>
                                     <li>You will see their name pop up in the side bar as \"Your checker\".</li>
                                 </ol>
                             </li>

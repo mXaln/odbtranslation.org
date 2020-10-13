@@ -6,7 +6,7 @@ return array (
 
     // Index method
     "home" => "Main Menu",
-    "welcome_text" => "Maayong Pag-abot sa V-MAST",
+    "welcome_text" => "Maayong Pag-abot sa ODB Translation",
     "welcome_hint" => "To start a translation {link}",
     "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Maintenance work in progress!",
@@ -58,7 +58,7 @@ return array (
     "message_subject" => "Gihisgotan",
     "message_content" => "Mensahe",
     "send" => "Ipadala",
-    "facilitator_message_tip" => "Kini nga mensahe gipadala sa miyembro sa V-MAST.com",
+    "facilitator_message_tip" => "Kini nga mensahe gipadala sa miyembro sa odbtranslation.org",
     "member_wrote" => "nagsulat",
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
@@ -85,7 +85,7 @@ return array (
     "activate_account_title" => "Activate Account",
     "resend_activation_code" => "Wala ba nimo nakuha ang mensahe? Ipadala ini pag-usab",
     "wrong_activation_email" => "Sayop nga mensahe alang sa pagpaaktibo. Ang naggamit niini nga account dili tinuod o aduna nay laing naggamit niini",
-    "new_account_title" => "Bag-ong miyembro ang niapil sa V-MAST",
+    "new_account_title" => "Bag-ong miyembro ang niapil sa odbtranslation.org",
     "new_account_message" => "<strong>Pangalan:</strong> {name}, <strong>Alyas:</strong> {name}",
     "members_area" => "Adto sa dapit sa mga miyembro",
 
@@ -266,8 +266,7 @@ return array (
     "tn" => "Translation Notes",
     "tq" => "Translation Questions",
     "tw" => "Translation Words",
-    "rad" => "RADIO",
-    "vsail" => "vSUN",
+    "vsail" => "SUN",
     "old_test" => "Daang Kasabotan",
     "new_test" => "Bag-ong Kasabotan",
     "checker_apply" => "<b>{name}</b> andam na para sa pagsusi <b>{step}</b> libro sa <b>{book}</b>, kapitulo <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
@@ -402,17 +401,17 @@ return array (
     "time_end" => "Tapos",
     "chat" => "Chat",
     "you_are_at" => "Naa ka sa",
-    "8steps_vmast" => "Walo(8) ka mga Lakang sa MAST",
-    "vmast" => "8 Steps MAST",
+    "8steps_mast" => "Walo(8) ka mga Lakang sa MAST",
+    "mast" => "8 Steps MAST",
     "lang_input" => "Scripture Input",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",
     "level2" => "Level 2",
     "level3" => "Level 3",
-    "l2_l3_vmast" => "MAST L{level} Pagsusi",
+    "l2_l3_mast" => "MAST L{level} Pagsusi",
     "common" => "Common",
-    "vmast_events" => "Mga Bulohaton sa V-MAST",
+    "mast_events" => "Mga Bulohaton",
     "create_event" => "Create event",
     "edit_event" => "Edit event",
     "create_info_tip" => "Click here to create projects and events",
@@ -445,7 +444,7 @@ return array (
     "block" => "Block",
     "unblock" => "Unblock",
     "last_edit" => "Last edit",
-    "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of v-mast.",
+    "noscript_message" => "Javascript is disabled! Please, turn it on to use all functions of ODB Translation.",
     "type_translation" => "Translation Mode",
     "type_checking" => "Checking Mode",
     "type_checking1" => "Checker 1 Mode",
@@ -577,7 +576,7 @@ return array (
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "verbalize" => "Pag-istorya",
-    "verbalize_desc" => "<li><b>KATUYOUAN:</b> Aron maistorya nimo ang imong gibasa aron mabutang sa short-term nga hunahuna.</li><li>Kontaka ang imong kapares sa plataporma nga istoryahanan: Skype, Hangout, V-MAST chat, telepono, ug uban pa...</li><li>Dili kini panaghisgot mahitungod sa bersikulo, apan aron lamang sa pag-istorya “mao kini ang akong nabasa”,“sunod”,“ang gihisgotan mao ang mga…”</li><li>Ma mayo kung ang pag-istorya buhaton sa inyong kaugalingon nga pinulongan.</li><li>Kinahanglan dili kamo molapas sa imong kapares og 7-10 ka minuto niini nga lakang.</li>",
+    "verbalize_desc" => "<li><b>KATUYOUAN:</b> Aron maistorya nimo ang imong gibasa aron mabutang sa short-term nga hunahuna.</li><li>Kontaka ang imong kapares sa plataporma nga istoryahanan: Skype, Hangout, MAST chat, telepono, ug uban pa...</li><li>Dili kini panaghisgot mahitungod sa bersikulo, apan aron lamang sa pag-istorya “mao kini ang akong nabasa”,“sunod”,“ang gihisgotan mao ang mga…”</li><li>Ma mayo kung ang pag-istorya buhaton sa inyong kaugalingon nga pinulongan.</li><li>Kinahanglan dili kamo molapas sa imong kapares og 7-10 ka minuto niini nga lakang.</li>",
 
     "chunking" => "Pagbahin",
     "chunking_sun" => "Thought Chunk",
@@ -690,9 +689,9 @@ return array (
                             <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
     "peer-review" => "Pagsusi sa Pares",
-    "peer-review_desc" => "<li><b>KATUYOUAN:</b> Aron masusi sa pares nga nagasulti usab sa maong pinulongan ang hinubad, kung haom ba ug natural ang ekspresyon sa gigikanan nga teksto (sama lamang kini sa pagsusi sa kaugalingon) </li><li>Ang imong hinubad susihon sa tigsusi. </li><li>Ang tigsusi maglantaw sa imong hinubad kung aduna bay nawala, gidugang o lahi ra gikan sa gigikanan nga pinulongan. </li><li>Susihon usab kung ang imong hinubad aduna bay mga pulong nga daw dili natural, dili klaro o dili masabtan. </li><li>Ang tigsusi kinahanglan nga dili molapas sa 30-45 ka minute niini nga lakang. </li><li>Kung human na ang pagsusi sa imong pares, magsulat siya og mga komento ug obserbasyon ug kontakon nimo ang imong pares sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>Hisgoti ninyo ang mga obserbasyon. Samtang magkomento ang imong pares, usbon nimo ang imong hinubad. </li><li>Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 60 minuto o 1 ka oras niini nga lakang. Ayaw nap ag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+    "peer-review_desc" => "<li><b>KATUYOUAN:</b> Aron masusi sa pares nga nagasulti usab sa maong pinulongan ang hinubad, kung haom ba ug natural ang ekspresyon sa gigikanan nga teksto (sama lamang kini sa pagsusi sa kaugalingon) </li><li>Ang imong hinubad susihon sa tigsusi. </li><li>Ang tigsusi maglantaw sa imong hinubad kung aduna bay nawala, gidugang o lahi ra gikan sa gigikanan nga pinulongan. </li><li>Susihon usab kung ang imong hinubad aduna bay mga pulong nga daw dili natural, dili klaro o dili masabtan. </li><li>Ang tigsusi kinahanglan nga dili molapas sa 30-45 ka minute niini nga lakang. </li><li>Kung human na ang pagsusi sa imong pares, magsulat siya og mga komento ug obserbasyon ug kontakon nimo ang imong pares sa Skype, Hangout, MAST chat, telepono ug uban pa. </li><li>Hisgoti ninyo ang mga obserbasyon. Samtang magkomento ang imong pares, usbon nimo ang imong hinubad. </li><li>Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 60 minuto o 1 ka oras niini nga lakang. Ayaw nap ag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
 
-    "peer-review_checker_desc" => "<li><b>KATUYOUAN:</b> aron masusi nga ang hinubad haom ba ug natural ang ekspresyon sa gigikanan nga teksto (sama lamang kini sa pagsusi sa kaugalingon) </li><li>Isip tigsusi, orange ang imong makita nga giya. </li><li>Imong susihon ang hinubad sa imong pares ug susihon niya ang imong hinubad kung aduna kay kapitulo nga gihubad </li><li>Ang tigsusi maglantaw sa imong hinubad kung aduna bay nawala, gidugang o lahi ra gikan sa gigikanan nga pinulongan. </li><li>Susihon usab kung ang imong hinubad aduna bay mga pulong nga daw dili natural, dili klaro o dili masabtan. </li><li>Kung human na ang imong pagsusi, magsulat ka og mga komento ug obserbasyon, kontaka ang tighubad sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>Hisgoti ninyo ang mga obserbasyon.</li><li>Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 60 minuto o 1 ka oras niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+    "peer-review_checker_desc" => "<li><b>KATUYOUAN:</b> aron masusi nga ang hinubad haom ba ug natural ang ekspresyon sa gigikanan nga teksto (sama lamang kini sa pagsusi sa kaugalingon) </li><li>Isip tigsusi, orange ang imong makita nga giya. </li><li>Imong susihon ang hinubad sa imong pares ug susihon niya ang imong hinubad kung aduna kay kapitulo nga gihubad </li><li>Ang tigsusi maglantaw sa imong hinubad kung aduna bay nawala, gidugang o lahi ra gikan sa gigikanan nga pinulongan. </li><li>Susihon usab kung ang imong hinubad aduna bay mga pulong nga daw dili natural, dili klaro o dili masabtan. </li><li>Kung human na ang imong pagsusi, magsulat ka og mga komento ug obserbasyon, kontaka ang tighubad sa Skype, Hangout, MAST chat, telepono ug uban pa. </li><li>Hisgoti ninyo ang mga obserbasyon.</li><li>Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 60 minuto o 1 ka oras niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
 
     "peer-review_tn" => "2<sup>nd</sup> Check",
     "peer-review_tn_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
@@ -749,9 +748,9 @@ return array (
                                 <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
 
     "keyword-check" => "Pagsusi sa mga Mahinungdanon nga Pulong",
-    "keyword-check_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang importante nga mga pulong anaa gayod sa gihubad nga teksto ug sakto ang pagkagamit. </li><li>Ang gigikanan lang nga teksto ang makita sa tigsusi. </li><li>Ipaklaro sa tigsusi ang mga mahinungdanon nga mga pulong sa gigikanan nga teksto. Makita usab sa imong gigikanan nga teksto ang gipaklaro nga mahinungdanon nga mga pulong. </li><li>Ang mahinungdanon nga mga pulong mao ang mga: ngalan, puli sa ngalan(pronouns), numero, ug uban pa. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>ILantawon sa tigsusi ang matag bersikulo kung anaa ba ang tanan nga mahinungdanon nga mga pulong. Motubag r aka og \"Naa\" o \"Wala\". Pangutan-on usab ka sa tigsusi kung giunsa nimo paghubad ang matag pulong. </li><li>IUsaba ang kinahanglan nga usabon sa imong teksto. </li><li>I Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+    "keyword-check_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang importante nga mga pulong anaa gayod sa gihubad nga teksto ug sakto ang pagkagamit. </li><li>Ang gigikanan lang nga teksto ang makita sa tigsusi. </li><li>Ipaklaro sa tigsusi ang mga mahinungdanon nga mga pulong sa gigikanan nga teksto. Makita usab sa imong gigikanan nga teksto ang gipaklaro nga mahinungdanon nga mga pulong. </li><li>Ang mahinungdanon nga mga pulong mao ang mga: ngalan, puli sa ngalan(pronouns), numero, ug uban pa. </li><li>Kontaka ang imong pares sa Skype, Hangout, MAST chat, telepono ug uban pa. </li><li>ILantawon sa tigsusi ang matag bersikulo kung anaa ba ang tanan nga mahinungdanon nga mga pulong. Motubag r aka og \"Naa\" o \"Wala\". Pangutan-on usab ka sa tigsusi kung giunsa nimo paghubad ang matag pulong. </li><li>IUsaba ang kinahanglan nga usabon sa imong teksto. </li><li>I Siguroha nga ang mga pulong magtugma sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
 
-    "keyword-check_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang importante nga mga pulong anaa gayod sa gihubad nga teksto ug sakto ang pagkagamit. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li>Kung modawat ka sa bulohaton sa pagsusi sa gihubad sa uban, ang gigikanan lang nga teksto ang imong makita. </li><li>Imong ipaklaro ang mga mahinungdanon nga mga pulong sa gigikanan nga teksto pinaagi sa pagpindot niini kaduha o gamiton nimo ang imong ‘mouse’. Makita usab sa tighubad ang mga gipaklaro nga mga pulong sa gigikanan nga teksto.</li><li>Ang mahinungdanon nga mga pulong mao ang mga: ngalan, puli sa ngalan(pronouns), numero, ug uban pa. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono ug uban pa. </li><li>Lantawon nimo ang matag bersikulo uban sa tighubad ang tanan nga mahinungdanon nga mga pulong. Motubag ra ang tighubad og \"Naa\" o \"Wala.\" Pangutan-on usab nimo ang tighubad kung giunsa niya paghubad ang matag pulong. Tan-awa ang dagko nga mga sayop ug importanteng butang nga mahimong nawala.</li><li>IUsaba ang bisan unsa nga pahinumdom nga anaa sa matag bersikulo ug salayi ninyo pagsulbad ang ubang mahinungdanon nga mga pulong nga gikalibogan. Isip tigsusi, orange ang imong makita nga giya. </li><li>Ayaw palabii og komento ang matag tksto apan hatagi lang og pagtagad ang mga pulong nga adunay mahinungdanon nga mga kahulogan. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+    "keyword-check_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang importante nga mga pulong anaa gayod sa gihubad nga teksto ug sakto ang pagkagamit. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li>Kung modawat ka sa bulohaton sa pagsusi sa gihubad sa uban, ang gigikanan lang nga teksto ang imong makita. </li><li>Imong ipaklaro ang mga mahinungdanon nga mga pulong sa gigikanan nga teksto pinaagi sa pagpindot niini kaduha o gamiton nimo ang imong ‘mouse’. Makita usab sa tighubad ang mga gipaklaro nga mga pulong sa gigikanan nga teksto.</li><li>Ang mahinungdanon nga mga pulong mao ang mga: ngalan, puli sa ngalan(pronouns), numero, ug uban pa. </li><li>Kontaka ang imong pares sa Skype, Hangout, MAST chat, telepono ug uban pa. </li><li>Lantawon nimo ang matag bersikulo uban sa tighubad ang tanan nga mahinungdanon nga mga pulong. Motubag ra ang tighubad og \"Naa\" o \"Wala.\" Pangutan-on usab nimo ang tighubad kung giunsa niya paghubad ang matag pulong. Tan-awa ang dagko nga mga sayop ug importanteng butang nga mahimong nawala.</li><li>IUsaba ang bisan unsa nga pahinumdom nga anaa sa matag bersikulo ug salayi ninyo pagsulbad ang ubang mahinungdanon nga mga pulong nga gikalibogan. Isip tigsusi, orange ang imong makita nga giya. </li><li>Ayaw palabii og komento ang matag tksto apan hatagi lang og pagtagad ang mga pulong nga adunay mahinungdanon nga mga kahulogan. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
     
     "keyword-check_tn" => "Check Highlights",
     "keyword-check_tn_full" => "Check Highlighted Notes",
@@ -767,9 +766,9 @@ return array (
 
     "content-review" => "Verse-by-Verse Check",
     "content-review_odb" => "SUN Check",
-    "content-review_desc" => "<li><b>KATUYOUAN:</b> aron masiguro nga ang matag bahin ug kapitulo haom ang mensahe ngadto sa hinubad nga teksto. </li><li>Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi: </li><li>Kung ang nahibaloan sa tigsusi mao lamang ang gigikanan nga teksto, kinahanglan nga buhaton kini pinaagi sa paghubad balik sa gigikanan nga teksto (back translation). Imong basahon ang nahubad na nga teksto, dayon ang lahi nga tawo hubaron kini sa gigikanan nga teksto, ikumpara sa tigsusi ang iyang nadungog ngadto sa iyang gibasa. Kung kahibalo ang tigsusi sa du ha ka pinulongan, mahimo silang mopili asa nga pamaagi ang ilang buhaton. Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
+    "content-review_desc" => "<li><b>KATUYOUAN:</b> aron masiguro nga ang matag bahin ug kapitulo haom ang mensahe ngadto sa hinubad nga teksto. </li><li>Kontaka ang imong pares sa Skype, Hangout, MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi: </li><li>Kung ang nahibaloan sa tigsusi mao lamang ang gigikanan nga teksto, kinahanglan nga buhaton kini pinaagi sa paghubad balik sa gigikanan nga teksto (back translation). Imong basahon ang nahubad na nga teksto, dayon ang lahi nga tawo hubaron kini sa gigikanan nga teksto, ikumpara sa tigsusi ang iyang nadungog ngadto sa iyang gibasa. Kung kahibalo ang tigsusi sa du ha ka pinulongan, mahimo silang mopili asa nga pamaagi ang ilang buhaton. Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon.</li>",
 
-    "content-review_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang matag bahin ug kapitulo haom nga nagpasabot sa mensahe ngadto sa hinubad nga pinulongan. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li> Kontaka ang imong pares sa Skype, Hangout, V-MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi. Ang makita nimo nga mogawas dayon mao ang una nga pamaagi. <ol><li>Kung ang nahibaloan nimo mao lamang ang gigikanan nga teksto, ang pagsusi kinahanglan buhaton sa ‘back translation’. Basahon sa tighubad ang matag bersikulo sa nahubad na nga teksto, unya ang lahi nga tawo mohubad niini sa gigikanan nga teksto. Imo dayong ikumpara ang imong nadungog sa imong gibasa nga teksto. </li><li> Kung kabalo ka sa duha ka pinulongan, mahimong gamiton ang una nga pamaagi o ang pagsusi uban ang tighubad sa imong kiliran. Niini nga pamaagi, pindota ang “Side by Side” nga toggle button aron malahi ang naa sa screen. Imo dayong ikumpara ang duha. </li></ol></li><li>Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon. </li>",
+    "content-review_checker_desc" => "<li><b>KATUYOUAN:</b> Aron masiguro nga ang matag bahin ug kapitulo haom nga nagpasabot sa mensahe ngadto sa hinubad nga pinulongan. </li><li> Isip tigsusi, orange ang imong makita nga giya. </li><li> Kontaka ang imong pares sa Skype, Hangout, MAST chat, telepono, ug uban pa. </li><li>Ang pagsusi mahimong buhaton sa duha ka pamaagi. Ang makita nimo nga mogawas dayon mao ang una nga pamaagi. <ol><li>Kung ang nahibaloan nimo mao lamang ang gigikanan nga teksto, ang pagsusi kinahanglan buhaton sa ‘back translation’. Basahon sa tighubad ang matag bersikulo sa nahubad na nga teksto, unya ang lahi nga tawo mohubad niini sa gigikanan nga teksto. Imo dayong ikumpara ang imong nadungog sa imong gibasa nga teksto. </li><li> Kung kabalo ka sa duha ka pinulongan, mahimong gamiton ang una nga pamaagi o ang pagsusi uban ang tighubad sa imong kiliran. Niini nga pamaagi, pindota ang “Side by Side” nga toggle button aron malahi ang naa sa screen. Imo dayong ikumpara ang duha. </li></ol></li><li>Sa bisan asa nga pamaagi, ang tigsusi mangutana sa tighubad sa mga butang nga wala niya nasabtan. Buhata ang kinahanglan nga mga kausaban. Kinahanglan nga ang mga pulong mohaom sa gipili nga ang-ang. </li><li>Kinahanglan dili kamo molapas sa 30 minuto niini nga lakang. Ayaw na pag-usik og oras sa mga dili panag-uyon sa ideya. Kung aduna may mahitabo nga sama niini, biyai ang teksto ug isulat ang pahinumdom sa bahin ug padayon. </li>",
     
     "final-review" => "Kataposang Pagsusi",
     "final-review_desc" => "<li><b>KATUYOUAN:</b> mao kini ang kataposan nga pagsusi ug diin ibutang na ang mga numero sa bersikulo ngadto sa hinubad nga teksto.</li> <li>Basaha ang gihubad nga teksto ug ikumpara kini sa gigikanan nga teksto, unya ibutang dayon ang numero sa matag bersikulo sa sakto nga posisyon sa hinubad nga teksto.</li> <li>Kinahanglan nga dili kini molapas sa 10 ka minute.</li>",

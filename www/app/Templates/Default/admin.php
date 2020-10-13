@@ -68,7 +68,7 @@ if(!isset($data)) $data = ["menu" => 1];
             window.LogRocket && window.LogRocket.init('<?php echo Config::get("logrocket.project") ?>', {
                 release: '<?php echo Config::get("version.release") ?>',
                 dom: {
-                    baseHref: 'https://v-mast.com/',
+                    baseHref: 'https://odbtranslation.org/',
                 },
             });
         </script>
@@ -89,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css', 'Default'),
-    template_url('css/style.css?110', 'Default'),
+    template_url('css/style.css?111', 'Default'),
     template_url('css/jquery-ui.min.css', 'Default'),
     template_url('css/jquery-ui.structure.min.css', 'Default'),
     template_url('css/jquery-ui.theme.min.css', 'Default'),
@@ -101,10 +101,10 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js', 'Default'),
     template_url('js/jquery.actual.min.js', 'Default'),
-    template_url('js/main.js?105', 'Default'),
-    template_url('js/facilitator.js?33', 'Default'),
+    template_url('js/main.js?106', 'Default'),
+    template_url('js/facilitator.js?34', 'Default'),
     template_url('js/autosize.min.js?2', 'Default'),
-    template_url('js/admin.js?50', 'Default'),
+    template_url('js/admin.js?51', 'Default'),
     template_url('js/bootstrap.min.js', 'Default'),
     template_url('js/jquery-ui.min.js', 'Default'),
     template_url('js/offline.min.js'),
@@ -183,7 +183,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
         <div class="container-fluid">
             <div style="margin: 15px 0 0; display: flex">
                 <div class="col-lg-3">
-                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Wycliffe Associates. <?php echo Config::get("version.release") ?></p>
+                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries. <?php echo Config::get("version.release") ?></p>
                 </div>
                 <div class="col-lg-7">
                     <p class="text-muted pull-right">

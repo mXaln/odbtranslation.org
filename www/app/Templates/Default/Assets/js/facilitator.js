@@ -6,21 +6,17 @@
 
 $(function () {
 
+    let searchTimeout;
+
     $(".panel-close").click(function() {
         $(this).parents(".form-panel").css("left", "-9999px");
     });
 
     // Show assign chapter dialog
     $(".add_person_chapter").click(function() {
-        var mode = $("#mode").val();
-        var chapter = $(this).attr("data");
-        if(mode == "tw") {
-            $(".chapter_members_div .panel-title span").data("groupid", chapter);
-            chapter = $(this).data("group");
-        }
+        const chapter = $(this).attr("data");
 
         $(".chapter_members_div .panel-title span").text(chapter);
-
         $(".chapter_members").show();
 
         $('html, body').css({
@@ -42,12 +38,9 @@ $(function () {
 
     // Assign chapter to translator/checker
     $(document).on("click", ".assign_chapter", function() {
-        var mode = $("#mode").val();
-        var chapter = mode == "tw"
-            ? $(".chapter_members_div .panel-title span").data("groupid")
-            : $(".chapter_members_div .panel-title span").text();
+        const chapter = $(".chapter_members_div .panel-title span").text();
 
-        var data = {};
+        const data = {};
         data.eventID = $("#eventID").val();
         data.chapter = chapter;
         data.memberID = $(this).attr("data");
@@ -86,13 +79,13 @@ $(function () {
         window.location.reload();
     });
 
-    var searchTimeout;
-    $("#user_translator").keyup(function (event) {
-        $this = $(this);
+    $("#user_translator").keyup(function () {
+        const $this = $(this);
         clearTimeout(searchTimeout);
+
         searchTimeout = setTimeout(function () {
-            var name = $this.val();
-            if(name.trim() == "")
+            const name = $this.val();
+            if(name.trim() === "")
             {
                 $(".user_translators").html("");
                 return;
@@ -116,11 +109,11 @@ $(function () {
                     if(data.success)
                     {
                         $.each(data.members, function () {
-                            var exist = $(".assign_chapter[data="+this.memberID+"]");
+                            const exist = $(".assign_chapter[data="+this.memberID+"]");
                             if(exist.length > 0) return true;
                             if(this.blocked == "1") return true;
 
-                            var li = '<li>' +
+                            const li = '<li>' +
                                         '<label>' +
                                             '<div class="tr_member">'+ this.firstName + ' ' + this.lastName +' ('+this.userName+')</div>' +
                                             '<div class="form-group tr_member_add">' +
@@ -144,9 +137,9 @@ $(function () {
     });
 
     $(document).on("click", ".add_translator", function () {
-        var $this = $(this);
-        var memberID = $(this).attr("data");
-        var eventID = $("#eventID").val();
+        const $this = $(this);
+        const memberID = $(this).attr("data");
+        const eventID = $("#eventID").val();
 
         $.ajax({
             url: "/events/rpc/apply_event",
@@ -169,7 +162,9 @@ $(function () {
                 }
                 else
                 {
-                    renderPopup(data.error + (data.errors != undefined ? " ("+Object.keys(data.errors).join(", ")+")" : ""));
+                    renderPopup(data.error + (typeof data.errors != "undefined"
+                        ? " ("+Object.keys(data.errors).join(", ")+")"
+                        : ""));
                 }
             })
             .always(function () {
@@ -178,20 +173,20 @@ $(function () {
     });
 
     $(document).on("click", ".member_chapters span b", function() {
-        var chapter = $(this).text();
+        const chapter = $(this).text();
         $(".chapter_"+chapter+" .uname_delete").trigger("click");
     });
 
 
     // Remove chapter from translator's chapter list
     $(document).on("click", ".uname_delete", function() {
-        var parent = $(this).parents(".manage_chapters_user");
-        var $this = $(this);
+        const parent = $(this).parents(".manage_chapters_user");
+        const $this = $(this);
 
         renderConfirmPopup(Language.deleteChapterConfirmTitle, Language.deleteChapterConfirm, function () {
             $( this ).dialog( "close" );
 
-            var data = {};
+            const data = {};
             data.eventID = $("#eventID").val();
             data.chapter = $(".add_person_chapter", parent).attr("data");
             data.memberID = $this.attr("data");
@@ -211,8 +206,8 @@ $(function () {
         renderConfirmPopup(Language.removeFromEvent, Language.deleteMemberConfirm, function () {
             $( this ).dialog( "close" );
 
-            var memberID = $this.parents(".member_usname").attr("data");
-            var eventID = $("#eventID").val();
+            const memberID = $this.parents(".member_usname").attr("data");
+            const eventID = $("#eventID").val();
 
             $.ajax({
                 url: "/events/rpc/delete_event_member",
@@ -226,7 +221,7 @@ $(function () {
                         $(".member_usname[data="+memberID+"]").parents("li").remove();
                         $(".assign_chapter[data="+memberID+"]").parents("li").remove();
 
-                        var mNum = parseInt($(".manage_members h3 span").text()); // number of current members
+                        let mNum = parseInt($(".manage_members h3 span").text()); // number of current members
                         mNum -= 1;
                         $(".manage_members h3 span").text(mNum);
                     }
@@ -245,13 +240,13 @@ $(function () {
     });
 
     // Start interval to check new applied translators
-    var getMembersInterval = setInterval(function() {
+    /*setInterval(function() {
         getNewMembersList();
-    }, 300000);
+    }, 300000);*/
 
     function getNewMembersList() {
-        var eventID = $("#eventID").val();
-        var ids = [];
+        const eventID = $("#eventID").val();
+        const ids = [];
 
         if(typeof isManagePage == "undefined") return false;
         if(typeof eventID == "undefined" || eventID == "") return false;
@@ -269,9 +264,9 @@ $(function () {
             .done(function(data) {
                 if(data.success)
                 {
-                    var newUsers = [];
+                    const newUsers = [];
                     $.each(data.members, function(index, value) {
-                        var hiddenListLi = '<li>'+
+                        const hiddenListLi = '<li>'+
                             '   <div class="member_usname userlist chapter_ver">'+
                             '       <div class="divname">'+value.name+'</div>'+
                             '       <div class="divvalue">(<span>0</span>)</div>'+
@@ -281,7 +276,7 @@ $(function () {
                             '</li>';
                         $(".chapter_members_div ul").append(hiddenListLi);
 
-                        var shownListLi = '<li>'+
+                        const shownListLi = '<li>'+
                             '   <div class="member_usname" data="'+value.memberID+'">'+
                             value.name+' (<span>0</span>)'+
                             '   <div class="glyphicon glyphicon-remove delete_user" title="'+Language.removeFromEvent+'"></div>'+
@@ -297,7 +292,7 @@ $(function () {
 
                     if(newUsers.length > 0)
                     {
-                        var mNum = parseInt($(".manage_members h3 span").text()); // number of current members
+                        let mNum = parseInt($(".manage_members h3 span").text()); // number of current members
                         mNum += newUsers.length;
                         $(".manage_members h3 span").text(mNum);
 
@@ -320,7 +315,7 @@ $(function () {
     // Members search
     // Submit Filter form
     $(".filter_apply button").click(function () {
-        var button = $(this);
+        const button = $(this);
         button.prop("disabled", true);
         $(".filter_page").val(1);
 
@@ -372,7 +367,7 @@ $(function () {
 
                     $("#all_members_table tbody").html("");
                     $.each(data.members, function (i, v) {
-                        var row = "<tr>" +
+                        const row = "<tr>" +
                             "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
                             "<td>"+v.firstName+" "+v.lastName+"</td>" +
                             "<td>"+v.email+"</td>" +
@@ -380,7 +375,7 @@ $(function () {
                                 return Language[proj];
                             }).join(", ") : "")+"</td>" +
                             "<td>"+(v.proj_lang ? "["+v.langID+"] "+v.langName +
-                                (v.angName != "" && v.angName != v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
+                                (v.angName !== "" && v.angName !== v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
                             "<td><input type='checkbox' "+(parseInt(v.complete) ? "checked" : "")+" disabled></td>" +
                             "</tr>";
                         $("#all_members_table tbody").append(row);
@@ -405,12 +400,12 @@ $(function () {
     // Show more search members results
     $(document).on("click", "#search_more", function () {
         if(typeof isSuperAdmin != "undefined") return false;
-        var button = $(this);
+        const button = $(this);
 
         if(button.hasClass("disabled")) return false;
 
         button.addClass("disabled");
-        var page = parseInt($(".filter_page").val());
+        const page = parseInt($(".filter_page").val());
 
         $.ajax({
             url: "/members/search",
@@ -428,7 +423,7 @@ $(function () {
                     {
                         $(".filter_page").val(page+1);
                         $.each(data.members, function (i, v) {
-                            var row = "<tr>" +
+                            const row = "<tr>" +
                                 "<td><a href='/members/profile/"+v.memberID+"'>"+v.userName+"</a></td>" +
                                 "<td>"+v.firstName+" "+v.lastName+"</td>" +
                                 "<td>"+v.email+"</td>" +
@@ -436,13 +431,13 @@ $(function () {
                                     return Language[proj];
                                 }).join(", ") : "")+"</td>" +
                                 "<td>"+(v.proj_lang ? "["+v.langID+"] "+v.langName +
-                                    (v.angName != "" && v.angName != v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
+                                    (v.angName !== "" && v.angName !== v.langName ? " ("+v.angName+")" : "") : "")+"</td>" +
                                 "<td><input type='checkbox' "+(parseInt(v.complete) ? "checked" : "")+" disabled></td>" +
                                 "</tr>";
                             $("#all_members_table tbody").append(row);
                         });
 
-                        var results = parseInt($("#all_members_table tbody tr").length);
+                        const results = parseInt($("#all_members_table tbody tr").length);
                         if(results >= parseInt(data.count))
                             $('#search_more').remove();
                     }
@@ -474,19 +469,20 @@ $(function () {
 
     // Moving transators step back
     $(".step_selector").change(function () {
-        var eventID = $(this).data("event");
-        var memberID = $(this).data("member");
-        var mode = $(this).data("mode");
-        var chk = $(this).data("chk");
-        var to_step = $(this).val();
+        const eventID = $(this).data("event");
+        const memberID = $(this).data("member");
+        const mode = $(this).data("mode");
+        const chk = $(this).data("chk");
+        let to_step = $(this).val();
 
-        var prev_chunk = /_prev$/.test(to_step);
+        const prev_chunk = /_prev$/.test(to_step);
         to_step = to_step.replace(/_prev$/, "");
 
-        var $this = $(this);
+        const $this = $(this);
 
-        if(to_step == EventSteps.PEER_REVIEW
-            || to_step == EventSteps.KEYWORD_CHECK || to_step == EventSteps.CONTENT_REVIEW)
+        if(to_step === EventSteps.PEER_REVIEW
+            || to_step === EventSteps.KEYWORD_CHECK
+            || to_step === EventSteps.CONTENT_REVIEW)
         {
             renderConfirmPopup(Language.attention, Language.removeCheckerConfirm,
                 function () {
@@ -509,40 +505,31 @@ $(function () {
         }
         else
         {
-            var confirm = true;
-            if($.inArray(mode, ["tn"]) > -1)
-            {
-                confirm = to_step != EventSteps.CONSUME;
-            }
-            else
-            {
-                confirm = to_step != EventSteps.CHUNKING;
-            }
+            const confirm = to_step !== EventSteps.CHUNKING;
             moveStepBack($this, eventID, memberID, to_step, confirm, prev_chunk, chk);
         }
     });
 
     $(".remove_checker").click(function() {
-        var event_member = $(this).attr("data").split(":");
-        var eventID = event_member[0];
-        var memberID = event_member[1];
-        var to_step = $(this).attr("data2");
-        var chk = $(this).attr("data3");
+        const event_member = $(this).attr("data").split(":");
+        const eventID = event_member[0];
+        const memberID = event_member[1];
+        const to_step = $(this).attr("data2");
+        const chk = $(this).attr("data3");
         
         moveStepBack(null, eventID, memberID, to_step, true, false, chk);
     });
 
     $(".remove_checker_alt").click(function() {
-        var id = $(this).attr("id");
-        var eventID = $("#eventID").val();
-        var memberID = $(this).parent().data("member");
-        var chapter = $(this).parent().data("chapter");
-        var name = "<span class='l2_checker_name'>"+$(this).data("name")+"</span>";
-        var message = Language.remove_l2_checker + name;
-        var mode = $("#mode").val();
+        const id = $(this).attr("id");
+        const eventID = $("#eventID").val();
+        const memberID = $(this).parent().data("member");
+        const chapter = $(this).parent().data("chapter");
+        const name = "<span class='l2_checker_name'>"+$(this).data("name")+"</span>";
+        const message = Language.remove_l2_checker + name;
 
         renderConfirmPopup(Language.attention, message, function() {
-            var other_check = $(".other_check_remove input:checked").val();
+            const other_check = $(".other_check_remove input:checked").val();
 
             $.ajax({
                 url: "/events/rpc/move_step_back_alt",
@@ -591,7 +578,7 @@ $(function () {
     function moveStepBack(selector, eventID, memberID, to_step, confirm, prev_chunk, chk) {
         confirm = confirm || false;
         prev_chunk = prev_chunk || false;
-        var mMode = typeof manageMode != "undefined" ? manageMode : "l1";
+        const mMode = typeof manageMode != "undefined" ? manageMode : "l1";
 
         $.ajax({
             url: "/events/rpc/move_step_back",
@@ -692,8 +679,8 @@ function assignChapter(data, action)
                 });
 
                 // Update chapters block
-                var chapterBlock = $(".chapter_"+data.chapter);
-                if(action == "add")
+                const chapterBlock = $(".chapter_"+data.chapter);
+                if(action === "add")
                 {
                     $("button", chapterBlock).hide();
                     $(".manage_username", chapterBlock).show();
@@ -710,13 +697,13 @@ function assignChapter(data, action)
 
 
                 // Update members block
-                var memberBlock = $(".manage_members .member_usname[data="+data.memberID+"]").parent("li");
-                var arr = $(".member_chapters span", memberBlock).text().split(", ");
-                var currentChapNum = parseInt($(".member_usname span", memberBlock).text());
+                const memberBlock = $(".manage_members .member_usname[data="+data.memberID+"]").parent("li");
+                let arr = $(".member_chapters span", memberBlock).text().split(", ");
+                let currentChapNum = parseInt($(".member_usname span", memberBlock).text());
 
-                if(action == "add")
+                if(action === "add")
                 {
-                    if(arr[0] == "")
+                    if(arr[0] === "")
                         arr[0] = data.chapter;
                     else
                         arr.push(data.chapter);
@@ -728,7 +715,7 @@ function assignChapter(data, action)
                 else
                 {
                     arr = $.grep(arr, function( a ) {
-                        return a !== data.chapter;
+                        return a != data.chapter;
                     });
                     currentChapNum--;
                 }

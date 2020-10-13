@@ -32,7 +32,7 @@
                     <select class="form-control" id="faq_category" name="category">
                         <option value="" hidden><?php echo __('select_news_category'); ?></option>
                         <option value="common"><?php echo __("common") ?></option>
-                        <option value="vmast"><?php echo __("8steps_vmast") ?></option>
+                        <option value="mast"><?php echo __("8steps_mast") ?></option>
                         <option value="vsail"><?php echo __("vsail") ?></option>
                         <option value="level2"><?php echo __("l2_3_events", ["level" => 2]) ?></option>
                         <option value="level3"><?php echo __("l2_3_events", ["level" => 3]) ?></option>

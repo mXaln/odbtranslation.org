@@ -316,7 +316,7 @@ if(!empty($data["project"])):
         <div class="import_menu">
             <ul>
                 <li><?php echo __("import_options") ?></li>
-                <li data-type="dcs">
+                <li data-type="wacs">
                     <label role="button"><?php echo __("import_from_wacs") ?></label>
                 </li>
                 <li data-type="usfm">
@@ -353,15 +353,15 @@ if(!empty($data["project"])):
 </div>
 
 
-<div class="dcs_import_menu_content form-panel">
-    <div class="dcs_import_menu_content_body panel panel-default">
-        <div class="dcs_import_menu">
+<div class="wacs_import_menu_content form-panel">
+    <div class="wacs_import_menu_content_body panel panel-default">
+        <div class="wacs_import_menu">
             <ul>
                 <li><?php echo __("import_from_wacs") ?></li>
-                <li data-type="dcs">
-                    <form id="dcs_form">
-                        <input class="form-control" type="text" name="dcs_repo_name" placeholder="<?php echo __("repository_name") ?>" />
-                        <div class="dcs_list">
+                <li data-type="wacs">
+                    <form id="wacs_form">
+                        <input class="form-control" type="text" name="wacs_repo_name" placeholder="<?php echo __("repository_name") ?>" />
+                        <div class="wacs_list">
                             <table class="table table-hover" role="grid">
                                 <thead>
                                 <tr>

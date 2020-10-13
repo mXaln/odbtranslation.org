@@ -4694,7 +4694,7 @@ button.startEvnt, button.editEvnt {
     display: none;
 }
 
-.import_menu ul li:first-child, .dcs_import_menu ul li:first-child {
+.import_menu ul li:first-child, .wacs_import_menu ul li:first-child {
     background-color: #337ab7 !important;
     color: #fff !important;
     text-align: center;
@@ -4706,7 +4706,7 @@ button.startEvnt, button.editEvnt {
     border-top-right-radius: 5px;
 }
 
-.import_menu ul li:last-child, .dcs_import_menu ul li:last-child {
+.import_menu ul li:last-child, .wacs_import_menu ul li:last-child {
     background-color: #fff !important;
     color: #222 !important;
     text-align: right;
@@ -4720,7 +4720,7 @@ button.startEvnt, button.editEvnt {
     background-color: #eee;
 }
 
-.dcs_import_menu_content {
+.wacs_import_menu_content {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -4732,7 +4732,7 @@ button.startEvnt, button.editEvnt {
     overflow-x: hidden;
 }
 
-.dcs_import_menu_content > .dcs_import_menu_content_body {
+.wacs_import_menu_content > .wacs_import_menu_content_body {
     display: block;
     position: relative;
     background-color: white;
@@ -4742,35 +4742,35 @@ button.startEvnt, button.editEvnt {
     top: calc(50% - 280px);
 }
 
-.dcs_import_menu {
+.wacs_import_menu {
     background-color: #fff;
     font-size: 18px;
     border-radius: 5px;
 }
 
-.dcs_import_menu ul {
+.wacs_import_menu ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.dcs_import_menu ul li {
+.wacs_import_menu ul li {
     padding: 10px;
     cursor: pointer;
 }
 
-.dcs_list {
+.wacs_list {
     height: 370px;
     padding: 10px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.dcs_list table {
+.wacs_list table {
     width: 100%;
 }
 
-.dcs_list th {
+.wacs_list th {
     width: 200px;
 }
 

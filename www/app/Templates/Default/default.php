@@ -5,7 +5,6 @@
 
 use Helpers\Session;
 use Helpers\Url;
-use Helpers\Constants\EventSteps;
 use Config\Config;
 
 $language = ucfirst(Language::code());
@@ -90,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css'),
-    template_url('css/style.css?110'),
+    template_url('css/style.css?111'),
     template_url('css/jquery-ui.min.css'),
     template_url('css/jquery-ui.structure.min.css'),
     template_url('css/jquery-ui.theme.min.css'),
@@ -105,9 +104,9 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js'),
     template_url('js/jquery.actual.min.js'),
-    template_url('js/main.js?105', 'Default'),
-    (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?33') : ''),
-    (Session::get("isSuperAdmin") ? template_url('js/admin.js?50') : ''),
+    template_url('js/main.js?106', 'Default'),
+    (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?34') : ''),
+    (Session::get("isSuperAdmin") ? template_url('js/admin.js?51') : ''),
     template_url('js/bootstrap.min.js'),
     template_url('js/autosize.min.js?2'),
     template_url('js/jquery-ui.min.js'),
@@ -164,10 +163,10 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                         <a href="#"><?php echo __('demo')?></a>
                         <div class="demo_options menu_link">
                             <ul>
-                                <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
+                                <a href="/events/demo"><li><?php echo __("8steps_mast") ?></li></a>
                                 <a href="/events/demo-scripture-input"><li><?php echo __("lang_input") ?></li></a>
-                                <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", ["level" => 2]); ?></li></a>
-                                <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", ["level" => 3]); ?></li></a>
+                                <a href="/events/demo-l2"><li><?php echo __("l2_l3_mast", ["level" => 2]); ?></li></a>
+                                <a href="/events/demo-l3"><li><?php echo __("l2_l3_mast", ["level" => 3]); ?></li></a>
                                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
                                 <a href="/events/demo-sun-odb"><li><?php echo __("odb") . " (".__("vsail").")" ?></li></a>
                             </ul>
@@ -322,7 +321,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
         <div class="container-fluid">
             <div class="footer_container">
                 <div>
-                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Wycliffe Associates. <?php echo Config::get("version.release") ?></p>
+                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries. <?php echo Config::get("version.release") ?></p>
                 </div>
                 <div>
                     <p class="text-muted pull-right">

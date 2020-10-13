@@ -1069,7 +1069,7 @@ class MembersController extends Controller
                 $error['sof'] = __('sof_accept_error');
             }
 
-            if(!in_array($projects, ["vmast","vsail","odb","l2","l3","tn","tq","tw"])) {
+            if(!in_array($projects, ["mast","vsail","odb","l2","l3","tn","tq","tw"])) {
                 $error["projects"] = __("projects_empty_error");
             }
 
@@ -1143,8 +1143,8 @@ class MembersController extends Controller
 
                     // Projects list for email message
                     switch ($projects) {
-                        case "vmast":
-                            $projects = __("8steps_vmast");
+                        case "mast":
+                            $projects = __("8steps_mast");
                             break;
                         case "l2":
                             $projects = __("l2_3_events", ["level" => 2]);
