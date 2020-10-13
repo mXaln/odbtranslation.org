@@ -66,10 +66,10 @@ class TranslationsModel extends Model
 
     /**
      * Get translation work
-     * @param $lang Language ID
-     * @param $bookProject book project type (ulb, udb, tn, sun, l2)
-     * @param $sourceBible source bible (ulb, ayt, odb)
-     * @param $bookCode Book slug
+     * @param string $lang Language ID
+     * @param string $bookProject Book project type (ulb, udb, tn, sun, l2)
+     * @param string $sourceBible Source bible (ulb, ayt, odb)
+     * @param string|null $bookCode Book slug
      * @return array
      */
     public function getTranslation($lang, $bookProject, $sourceBible, $bookCode = null)
@@ -95,19 +95,13 @@ class TranslationsModel extends Model
         if($bookCode)
             $builder->where("translations.bookCode", $bookCode);
 
-        if($bookProject == "tw")
-        {
-            $builder->addSelect("tw_groups.words")
-                ->leftJoin("tw_groups", "translations.chapter", "=", "tw_groups.groupID");
-        }
-
         return $builder->get();
     }
 
     /**
      * Get translation work information
-     * @param $eventID
-     * @param null $chapter
+     * @param int $eventID
+     * @param int|null $chapter
      * @return array|static[]
      */
     public function getTranslationByEventID($eventID, $chapter = null)
@@ -118,10 +112,9 @@ class TranslationsModel extends Model
                 "translations.translatedVerses",
                 "translations.firstvs", "translations.dateUpdate", "translators.memberID", "translators.step",
                 "translators.verbCheck", "translators.peerCheck", "translators.kwCheck", "translators.crCheck",
-                "translators.otherCheck", "translators.currentChapter", "translators.checkerID")
+                "translators.currentChapter", "translators.checkerID")
             ->leftJoin("translations", "translators.trID", "=", "translations.trID")
             ->where("translators.eventID", $eventID)
-            //->where("translators.step", "!=", EventSteps::NONE)
             ->orderBy("translations.chapter")
             ->orderBy("translations.chunk");
 
@@ -134,8 +127,8 @@ class TranslationsModel extends Model
     /** Get translation work of translator in event
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
      * @param int $trID
-     * @param int $chapter
-     * @param int $chunk
+     * @param int|null $chapter
+     * @param int|null $chunk
      * @return array
      */
     public function getEventTranslation($trID, $chapter = null, $chunk = null)
@@ -158,10 +151,10 @@ class TranslationsModel extends Model
     /**
      * Get translation work of translator/checker in event by eventID
      * (all - if chapter null, chunk - if chunk not null, chapter - if chapter not null)
-     * @param $eventID
-     * @param null $chapter
-     * @param null $chunk
-     * @return array|\Database\Query\Builder[]
+     * @param int $eventID
+     * @param int|null $chapter
+     * @param int|null $chunk
+     * @return array|static[]
      */
     public function getEventTranslationByEventID($eventID, $chapter = null, $chunk = null)
     {
@@ -269,7 +262,7 @@ class TranslationsModel extends Model
 
     /**
      * Delete translation/s
-     * @param $where
+     * @param array $where
      * @return int
      */
     public function deleteTranslation($where)
@@ -366,11 +359,7 @@ class TranslationsModel extends Model
     }
 
     public function generateManifest($data) {
-        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
-        {
-            $format = "text/markdown";
-        }
-        elseif (in_array($data->sourceBible, ["odb","rad"]))
+        if (in_array($data->sourceBible, ["odb"]))
         {
             $format = "text/json";
         }
@@ -379,47 +368,18 @@ class TranslationsModel extends Model
             $format = "text/usfm";
         }
 
-        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
-        {
-            $type = $data->bookProject == "tw" ? "dict" : "help";
-        }
-        else
-        {
-            $type = "bundle";
-        }
+        $type = "bundle";
 
-        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
-        {
-            $subject = __($data->bookProject);
-        }
-        elseif ($data->sourceBible == "odb")
+        if ($data->sourceBible == "odb")
         {
             $subject = "Our Daily Bread";
-        }
-        elseif ($data->bookProject == "rad")
-        {
-            $subject = "Radio";
         }
         else
         {
             $subject = "Bible";
         }
 
-        if(in_array($data->bookProject, ["tn", "tq", "tw"]))
-        {
-            $relation = [
-                $data->targetLang."/ulb",
-                $data->targetLang."/udb"
-            ];
-
-            if($data->bookProject == "tw")
-            {
-                $relation[] = $data->targetLang."/obs";
-                $relation[] = $data->targetLang."/tn";
-                $relation[] = $data->targetLang."/tq";
-            }
-        }
-        elseif ($data->bookProject == "rad" || $data->sourceBible == "odb")
+        if ($data->sourceBible == "odb")
         {
             $relation = [];
         }
@@ -432,13 +392,7 @@ class TranslationsModel extends Model
             ];
         }
 
-        $source = in_array($data->bookProject, ["tn", "tq", "tw"]) ? [
-            new Source(
-                $data->bookProject,
-                $data->resLangID,
-                "1"
-            )
-        ] : [
+        $source = [
             new Source(
                 $data->sourceBible,
                 $data->sourceLangID,

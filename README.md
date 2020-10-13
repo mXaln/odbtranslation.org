@@ -4,7 +4,7 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* V-Mast is a web site for running translation process through 8 steps (MAST)
+* odbtranslation.org is a website for running translation process through 8 steps (MAST)
 * It is based on [Novaframework 3.73](http://novaframework.com)
 
 ### How do I get set up? ###
@@ -12,7 +12,7 @@ This README would normally document whatever steps are necessary to get your app
 * Fork the project to a local server folder
 * You should install and activate INTL extension on your server
 * PHP 5.6 is a minimal requirement
-* Nodejs and redis are required for running chat on v-mast
+* Nodejs and redis are required for running chat on odbtranslation.org
 * Use mysql database. You can find mysql dump in the root directory of repository
 * You need to make some changes in files to configure project according to your server:
 ```

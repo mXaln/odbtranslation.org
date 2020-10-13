@@ -1,4 +1,4 @@
-var app = require('express')(),
+const app = require('express')(),
     fs = require('fs'),
     https = require('https'),
     server = https.createServer({
@@ -15,9 +15,9 @@ var app = require('express')(),
     Event = require("./Event").Event,
     EventSteps = require("./EventSteps").EventSteps;
 
-var members = [];
+const members = [];
 
-var clientRedis = redis.createClient();
+const clientRedis = redis.createClient();
 
 clientRedis.on("connect", function() {
     this.auth("P@ssw0rd-22", function(err, val) {
@@ -33,56 +33,56 @@ io.on('connection', function(socket)
     {
         console.log('user disconnected: %s', this.id);
 
-        var member = getMemberBySocketId(this.id);
+        const member = getMemberBySocketId(this.id);
 
         if(member)
         {
-            var sktNum = 0;
+            let sktNum = 0;
 
-            for(var evnt in member.events)
+            for(const e in member.events)
             {
-                var index = member.events[evnt].sockets.indexOf(this.id);
+                const index = member.events[e].sockets.indexOf(this.id);
 
-                if(index == -1) {
-                    sktNum += member.events[evnt].sockets.length;
+                if(index === -1) {
+                    sktNum += member.events[e].sockets.length;
                     continue;
                 }
 
-                member.events[evnt].sockets.splice(index, 1);
-                sktNum += member.events[evnt].sockets.length;
+                member.events[e].sockets.splice(index, 1);
+                sktNum += member.events[e].sockets.length;
 
-                this.leave("eventroom" + member.events[evnt].eventID);
-                this.leave("projectroom" + member.events[evnt].projectID);
+                this.leave("eventroom" + member.events[e].eventID);
+                this.leave("projectroom" + member.events[e].projectID);
 
                 // Delete event and project record if it is connected to no socket
-                if(member.events[evnt].sockets.length == 0)
+                if(member.events[e].sockets.length === 0)
                 {
-                    var eventID = member.events[evnt].eventID;
-                    var projectID = member.events[evnt].projectID;
-                    delete member.events[evnt];
+                    const eventID = member.events[e].eventID;
+                    const projectID = member.events[e].projectID;
+                    delete member.events[e];
 
-                    var eventRoomMates = getMembersByRoomID(eventID, "event");
+                    const eventRoomMates = getMembersByRoomID(eventID, "event");
                     io.to("eventroom" + eventID).emit('event room update', eventRoomMates);
 
-                    var projectRoomMates = getMembersByRoomID(projectID, "project");
+                    const projectRoomMates = getMembersByRoomID(projectID, "project");
                     io.to("projectroom" + projectID).emit('project room update', projectRoomMates);
                 }
             }
 
             // Delete member if he is connected to no socket
-            if(sktNum == 0)
+            if(sktNum === 0)
                 delete members["user" + member.memberID];
         }
     });
 
     socket.on('new member', function(data)
     {
-        var sct = this;
-        var member = getMemberByUserId("user" + data.memberID);
+        const sct = this;
+        const member = getMemberByUserId("user" + data.memberID);
 
-        if(member && member.authToken == data.aT)
+        if(member && member.authToken === data.aT)
         {
-            var event = getMemberEvent(member, data.eventID);
+            const event = getMemberEvent(member, data.eventID);
 
             if(!_.isEmpty(event))
             {
@@ -90,15 +90,14 @@ io.on('connection', function(socket)
                 sct.join("eventroom" + event.eventID);
                 sct.join("projectroom" + event.projectID);
 
-                var eventRoomMates = getMembersByRoomID(event.eventID, "event");
+                const eventRoomMates = getMembersByRoomID(event.eventID, "event");
                 io.to("eventroom" + event.eventID).emit('event room update', eventRoomMates);
 
-                var projectRoomMates = getMembersByRoomID(event.projectID, "project");
+                const projectRoomMates = getMembersByRoomID(event.projectID, "project");
                 io.to("projectroom" + event.projectID).emit('project room update', projectRoomMates);
 
                 // Add pair to checkers chat
-                var eSteps = new EventSteps();
-                var checkPair = "";
+                let checkPair;
 
                 if(data.chkMemberID > 0)
                 {
@@ -132,22 +131,22 @@ io.on('connection', function(socket)
 
     socket.on('chat message', function(chatData)
     {
-        if(chatData.msg.trim() == "")
+        if(chatData.msg.trim() === "")
             return false;
 
-        var member = getMemberBySocketId(this.id);
+        const member = getMemberBySocketId(this.id);
 
         if(member)
         {
-            var msgObj, date;
-            var client = {
+            let msgObj, date;
+            const client = {
                 memberID: member.memberID,
                 userName: member.userName,
                 fullName: member.firstName + " " + member.lastName.charAt(0) + ".",
                 //firstName: member.firstName,
                 //lastName: member.lastName
             };
-            var event = getMemberEvent(member, chatData.eventID);
+            const event = getMemberEvent(member, chatData.eventID);
 
             if(!_.isEmpty(event))
             {
@@ -159,10 +158,8 @@ io.on('connection', function(socket)
                     chatType: "chk"
                 };
 
-                if(chatData.chatType == "chk")
+                if(chatData.chatType === "chk")
                 {
-                    var eSteps = new EventSteps();
-
                     id = chatData.chkMemberID;
 
                     if(id <= 0) return false;
@@ -177,16 +174,16 @@ io.on('connection', function(socket)
                     if(event.checkPairs.indexOf(pairID) < 0)
                         return false;
 
-                    var translator = getMemberByUserId("user" + id);
+                    const translator = getMemberByUserId("user" + id);
 
-                    if(typeof translator !== 'undefined')
+                    if(typeof translator != 'undefined')
                     {
-                        var trEvent = getMemberEvent(translator, event.eventID);
+                        const trEvent = getMemberEvent(translator, event.eventID);
 
                         if(!_.isEmpty(trEvent))
                         {
                             // Send message to co-translator/checker
-                            for(var skt in trEvent.sockets)
+                            for(const skt in trEvent.sockets)
                             {
                                 io.to(trEvent.sockets[skt]).emit('chat message', msgObj);
                             }
@@ -194,21 +191,21 @@ io.on('connection', function(socket)
                     }
 
                     // Send message to sender himself
-                    for(var skt in event.sockets)
+                    for(const skt in event.sockets)
                     {
                         io.to(event.sockets[skt]).emit('chat message', msgObj);
                     }
 
                     clientRedis.ZADD("rooms:" + pairID, date, JSON.stringify(msgObj));
                 }
-                else if(chatData.chatType == "evnt")
+                else if(chatData.chatType === "evnt")
                 {
                     msgObj.chatType = "evnt";
                     io.to("eventroom" + event.eventID).emit('chat message', msgObj);
 
                     clientRedis.ZADD("rooms:event-" + event.eventID, date, JSON.stringify(msgObj));
                 }
-                else if(chatData.chatType == "proj")
+                else if(chatData.chatType === "proj")
                 {
                     msgObj.chatType = "proj";
                     io.to("projectroom" + event.projectID).emit('chat message', msgObj);
@@ -221,27 +218,30 @@ io.on('connection', function(socket)
 
     socket.on('system message', function(data)
     {
-        var member = getMemberBySocketId(this.id);
+        const member = getMemberBySocketId(this.id);
 
         if(member)
         {
-            var event = getMemberEvent(member, data.eventID);
+            const event = getMemberEvent(member, data.eventID);
 
             if(!_.isEmpty(event))
             {
+                let checkMember;
+                let checkEvent;
+
                 switch (data.type)
                 {
                     case "checkDone":
-                        var checkMember = getMemberByUserId("user" + data.chkMemberID);
+                        checkMember = getMemberByUserId("user" + data.chkMemberID);
 
-                        if(typeof checkMember !== 'undefined')
+                        if(typeof checkMember != 'undefined')
                         {
-                            var checkEvent = getMemberEvent(checkMember, event.eventID);
+                            checkEvent = getMemberEvent(checkMember, event.eventID);
 
                             if(!_.isEmpty(checkEvent))
                             {
                                 // Send message to check member
-                                for(var skt in checkEvent.sockets)
+                                for(const skt in checkEvent.sockets)
                                 {
                                     io.to(checkEvent.sockets[skt]).emit('system message', {type: "checkDone"});
                                 }
@@ -250,7 +250,7 @@ io.on('connection', function(socket)
                         break;
 
                     case "comment":
-                        var commentData = {
+                        const commentData = {
                             type: "comment",
                             memberID: member.memberID,
                             name: member.firstName + " " + member.lastName,
@@ -263,15 +263,15 @@ io.on('connection', function(socket)
                         break;
 
                     case "keyword":
-                        var checkMember = getMemberByUserId("user" + data.chkMemberID);
+                        checkMember = getMemberByUserId("user" + data.chkMemberID);
 
-                        if(typeof checkMember !== 'undefined')
+                        if(typeof checkMember != 'undefined')
                         {
-                            var checkEvent = getMemberEvent(checkMember, event.eventID);
+                            checkEvent = getMemberEvent(checkMember, event.eventID);
 
                             if(!_.isEmpty(checkEvent))
                             {
-                                var keywordData = {
+                                const keywordData = {
                                     type: "keyword",
                                     remove: _.escape(data.remove),
                                     verseID: _.escape(data.verseID),
@@ -280,7 +280,7 @@ io.on('connection', function(socket)
                                 };
 
                                 // Send message to check member
-                                for(var skt in checkEvent.sockets)
+                                for(const skt in checkEvent.sockets)
                                 {
                                     io.to(checkEvent.sockets[skt]).emit('system message', keywordData);
                                 }
@@ -294,16 +294,16 @@ io.on('connection', function(socket)
 
     socket.on('step enter', function(data)
     {
-        var member = getMemberBySocketId(this.id);
-        var eSteps = new EventSteps();
+        const member = getMemberBySocketId(this.id);
+        const eSteps = new EventSteps();
 
         if(member)
         {
-            var event = getMemberEvent(member, data.eventID);
+            const event = getMemberEvent(member, data.eventID);
 
             if(!_.isEmpty(event))
             {
-                var messageType = "";
+                let messageType = "";
                 switch (data.step)
                 {
                     case eSteps.PEER_REVIEW:
@@ -311,14 +311,14 @@ io.on('connection', function(socket)
                     case eSteps.CONTENT_REVIEW:
                     case eSteps.PEER_REVIEW_L2:
                     case eSteps.PEER_REVIEW_L3:
-                        if((data.step == eSteps.KEYWORD_CHECK || data.step == eSteps.CONTENT_REVIEW)
-                            && data.tMode != "undefined"
-                            && ["tn","tq","tw","sun"].indexOf(data.tMode) > -1) break;
+                        if((data.step === eSteps.KEYWORD_CHECK || data.step === eSteps.CONTENT_REVIEW)
+                            && data.tMode !== "undefined"
+                            && ["sun"].indexOf(data.tMode) > -1) break;
 
                         messageType = "checkEnter";
                         if(!data.isChecker)
                         {
-                            var msgObj = {
+                            const msgObj = {
                                 excludes: [member.memberID],
                                 anchor: "check:"+event.eventID+":"+member.memberID
                             };
@@ -328,11 +328,11 @@ io.on('connection', function(socket)
                         {
                             if(data.chkMemberID > 0)
                             {
-                                var checkMember = getMemberByUserId("user" + data.chkMemberID);
+                                const checkMember = getMemberByUserId("user" + data.chkMemberID);
 
-                                if(typeof checkMember !== 'undefined')
+                                if(typeof checkMember != 'undefined')
                                 {
-                                    var checkEvent = getMemberEvent(checkMember, event.eventID);
+                                    const checkEvent = getMemberEvent(checkMember, event.eventID);
 
                                     if(!_.isEmpty(checkEvent))
                                     {
@@ -347,9 +347,9 @@ io.on('connection', function(socket)
                                             checkEvent.checkPairs.push(checkPair);
 
                                         // Send message to check member
-                                        for(var skt in checkEvent.sockets)
+                                        for(const skt in checkEvent.sockets)
                                         {
-                                            var name = member.firstName + " " + member.lastName.charAt(0) + ".";
+                                            const name = member.firstName + " " + member.lastName.charAt(0) + ".";
                                             io.to(checkEvent.sockets[skt]).emit('system message', {type: messageType, memberID: member.memberID, userName: name});
                                         }
 
@@ -366,11 +366,11 @@ io.on('connection', function(socket)
     });
 
     socket.on('videoCallMessage', function (data) {
-        var member = getMemberBySocketId(this.id);
+        const member = getMemberBySocketId(this.id);
 
         if(member)
         {
-            var event = getMemberEvent(member, data.eventID);
+            const event = getMemberEvent(member, data.eventID);
 
             if(!_.isEmpty(event))
             {
@@ -388,22 +388,22 @@ io.on('connection', function(socket)
                 if(event.checkPairs.indexOf(pairID) < 0)
                     return false;
 
-                var translator = getMemberByUserId("user" + id);
+                const translator = getMemberByUserId("user" + id);
 
-                if(typeof translator !== 'undefined')
+                if(typeof translator != 'undefined')
                 {
-                    var trEvent = getMemberEvent(translator, event.eventID);
+                    const trEvent = getMemberEvent(translator, event.eventID);
 
                     if(!_.isEmpty(trEvent))
                     {
-                        if(data.type == "gotUserMedia")
+                        if(data.type === "gotUserMedia")
                         {
                             data.userName = member.userName;
                             data.memberID = member.memberID;
                         }
 
                         // Send message to co-translator/checker
-                        for(var skt in trEvent.sockets)
+                        for(const skt in trEvent.sockets)
                         {
                             io.to(trEvent.sockets[skt]).emit('videoCallMessage', data);
                         }
@@ -411,9 +411,9 @@ io.on('connection', function(socket)
                 }
 
                 // Send message back to member sockets
-                if(data.type == "gotUserMedia")
+                if(data.type === "gotUserMedia")
                 {
-                    for(var skt in event.sockets)
+                    for(const skt in event.sockets)
                     {
                         io.to(event.sockets[skt]).emit('callAnswered', {});
                     }
@@ -428,7 +428,7 @@ io.on('connection', function(socket)
  **************************************************/
 function registerNewMemberEvent(data, sct, member)
 {
-    var xhr = new XMLHttpRequest({
+    const xhr = new XMLHttpRequest({
         pfx: null,
     });
 
@@ -438,17 +438,17 @@ function registerNewMemberEvent(data, sct, member)
         {
             try
             {
-                var response = JSON.parse(this.responseText);
+                const response = JSON.parse(this.responseText);
 
                 if(!_.isEmpty(response))
                 {
-                    var newEvent = new Event();
+                    const newEvent = new Event();
                     newEvent.eventID = data.eventID;
                     newEvent.projectID = data.projectID;
                     newEvent.sockets.push(sct.id);
 
                     // Add pair to checkers chat
-                    var checkPair = "";
+                    let checkPair;
 
                     if(data.chkMemberID > 0)
                     {
@@ -468,7 +468,7 @@ function registerNewMemberEvent(data, sct, member)
 
                     if(_.isEmpty(member))
                     {
-                        var newMember = new Member();
+                        const newMember = new Member();
                         newMember.memberID = response.memberID;
                         newMember.userName = response.userName;
                         newMember.firstName = response.firstName;
@@ -490,10 +490,10 @@ function registerNewMemberEvent(data, sct, member)
                     sct.join("eventroom" + data.eventID);
                     sct.join("projectroom" + data.projectID);
 
-                    var eventRoomMates = getMembersByRoomID(data.eventID, "event");
+                    const eventRoomMates = getMembersByRoomID(data.eventID, "event");
                     io.to("eventroom" + data.eventID).emit('event room update', eventRoomMates);
 
-                    var projectRoomMates = getMembersByRoomID(data.projectID, "project");
+                    const projectRoomMates = getMembersByRoomID(data.projectID, "project");
                     io.to("projectroom" + data.projectID).emit('project room update', projectRoomMates);
 
                     sendSavedMessages(sct, newEvent, checkPair);
@@ -537,9 +537,9 @@ function getMemberBySocketId(socketID)
     if(_.keys(members).length <= 0)
         return null;
 
-    for (var m in members)
+    for (const m in members)
     {
-        for (var e in members[m].events)
+        for (const e in members[m].events)
         {
             if(members[m].events[e].sockets.indexOf(socketID) > -1)
             {
@@ -553,17 +553,17 @@ function getMemberBySocketId(socketID)
 
 function getMembersByRoomID(roomID, room)
 {
-    var roomMates = [];
+    const roomMates = [];
 
     if(_.keys(members).length <= 0)
         return roomMates;
 
-    for (var m in members)
+    for (const m in members)
     {
         if(_.keys(members[m].events).length <= 0)
             continue;
 
-        for(var e in members[m].events)
+        for(const e in members[m].events)
         {
             mRoomID = 0;
             switch (room)
@@ -580,7 +580,7 @@ function getMembersByRoomID(roomID, room)
 
             if(mRoomID == roomID)
             {
-                var tmpm = {};
+                const tmpm = {};
                 tmpm.memberID = members[m].memberID;
                 tmpm.userName = members[m].userName;
                 tmpm.isAdmin = members[m].isAdmin;
@@ -600,14 +600,14 @@ function getMembersByRoomID(roomID, room)
 
 function getMemberEvent(member, eventID)
 {
-    var event = {};
+    const event = {};
 
     if(!_.isEmpty(member))
     {
-        for (var evnt in member.events)
+        for (const e in member.events)
         {
-            if(member.events[evnt].eventID == eventID)
-                return member.events[evnt];
+            if(member.events[e].eventID == eventID)
+                return member.events[e];
         }
     }
 
@@ -616,12 +616,12 @@ function getMemberEvent(member, eventID)
 
 function sendSavedMessages(socket, event, checkPair)
 {
-    var since = Date.now() - 60 * 24 * 60 * 60 * 1000; // get messages within 60 days period
+    const since = Date.now() - 60 * 24 * 60 * 60 * 1000; // get messages within 60 days period
 
-    if(checkPair != "zero")
+    if(checkPair !== "zero")
     {
         clientRedis.ZREMRANGEBYSCORE("rooms:" + checkPair, "-inf", since);
-        clientRedis.ZRANGEBYSCORE("rooms:" + checkPair, since, "+inf", "WITHSCORES", function(err, value) {
+        clientRedis.ZRANGEBYSCORE("rooms:" + checkPair, since, "+inf", function(err, value) {
             try
             {
                 if(!_.isEmpty(value))
@@ -637,7 +637,7 @@ function sendSavedMessages(socket, event, checkPair)
     }
 
     clientRedis.ZREMRANGEBYSCORE("rooms:event-" + event.eventID, "-inf", since);
-    clientRedis.ZRANGEBYSCORE("rooms:event-" + event.eventID, since, "+inf", "WITHSCORES", function(err, value) {
+    clientRedis.ZRANGEBYSCORE("rooms:event-" + event.eventID, since, "+inf", function(err, value) {
         try
         {
             if(!_.isEmpty(value))
@@ -652,7 +652,7 @@ function sendSavedMessages(socket, event, checkPair)
     });
 
     clientRedis.ZREMRANGEBYSCORE("rooms:project-" + event.projectID, "-inf", since);
-    clientRedis.ZRANGEBYSCORE("rooms:project-" + event.projectID, since, "+inf", "WITHSCORES", function(err, value) {
+    clientRedis.ZRANGEBYSCORE("rooms:project-" + event.projectID, since, "+inf", function(err, value) {
         try
         {
             if(!_.isEmpty(value))

@@ -32,7 +32,11 @@
         "php-http/guzzle6-adapter": "~2.0",
         "sentry/sdk": "~2.0.3",
         "filp/whoops": "~2.5",
-        "myclabs/php-enum": "~1.7.4"
+        "myclabs/php-enum": "~1.7.4",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-zip": "*"
     },
     "autoload": {
         "psr-4": {

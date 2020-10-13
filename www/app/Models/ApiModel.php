@@ -70,7 +70,6 @@ class ApiModel extends Model
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         $zip = curl_exec($ch);
 
@@ -263,55 +262,6 @@ class ApiModel extends Model
     }
 
 
-    /**
-     * Get radio book source from local file
-     * @param string $bookCode
-     * @param string $sourceLang
-     * @return mixed
-     */
-    public function getRadio($bookCode, $sourceLang = "en")
-    {
-        $source = [];
-        $filepath = "../app/Templates/Default/Assets/source/".$sourceLang."_rad/".strtoupper($bookCode).".json";
-
-        if(File::exists($filepath))
-        {
-            $sourceData = File::get($filepath);
-            $source = (array)json_decode($sourceData, true);
-            $chapters = [];
-
-            if(!empty($source) && isset($source["root"]))
-            {
-                foreach ($source["root"] as $i => $chapter) {
-                    $chapters[$i+1] = [];
-                    $k = 1;
-                    foreach ($chapter as $key => $section) {
-                        if(!is_array($section))
-                        {
-                            $chapters[$i+1][$k] = $section;
-                            $k++;
-                        }
-                        else
-                        {
-                            foreach ($section as $p) {
-                                $chapters[$i+1][$k] = $p;
-                                $k++;
-                            }
-                        }
-                    }
-                }
-                return ["chapters" => $chapters];
-            }
-            else
-            {
-                return [];
-            }
-        }
-
-        return $source;
-    }
-
-
     public function downloadRubricFromApi($lang = "en") {
         $folderPath = "../app/Templates/Default/Assets/source/".$lang."_rubric/";
         $filepath = $folderPath . "rubric.json";
@@ -323,7 +273,6 @@ class ApiModel extends Model
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 
         $rubric = curl_exec($ch);
@@ -526,7 +475,7 @@ class ApiModel extends Model
     public function getFullCatalog()
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.door43.org/v3/catalog.json");
+        curl_setopt($ch, CURLOPT_URL, "https://api.bibletranslationtools.org/v3/catalog.json");
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -617,40 +566,31 @@ class ApiModel extends Model
 
         if(!File::exists($folderpath) || $update)
         {
-            if($lang == "en")
-            {
-                // Do not get notes from catalog, instead get it from git.door43.org
-                // Should be temporarily
-                $url = "https://git.door43.org/WycliffeAssociates/en_tn/archive/master.zip";
-            }
-            else
-            {
-                // Get catalog
-                $catalog = $this->getCachedFullCatalog();
-                if(empty($catalog)) return false;
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if(empty($catalog)) return false;
 
-                $url = "";
+            $url = "";
 
-                foreach($catalog->languages as $language)
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
                 {
-                    if($language->identifier == $lang)
+                    foreach($language->resources as $resource)
                     {
-                        foreach($language->resources as $resource)
+                        if($resource->identifier == "tn")
                         {
-                            if($resource->identifier == "tn")
+                            foreach($resource->formats as $format)
                             {
-                                foreach($resource->formats as $format)
-                                {
-                                    $url = $format->url;
-                                    break;
-                                }
+                                $url = $format->url;
+                                break;
                             }
                         }
                     }
                 }
-
-                if($url == "") return false;
             }
+
+            if($url == "") return false;
 
             $ch = curl_init();
 
@@ -658,7 +598,6 @@ class ApiModel extends Model
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
             $zip = curl_exec($ch);
 
@@ -674,7 +613,7 @@ class ApiModel extends Model
             if(File::exists($filepath))
             {
                 $zip = new ZipArchive();
-                $res = $zip->open($filepath);
+                $zip->open($filepath);
                 $zip->extractTo("../app/Templates/Default/Assets/source/");
                 $zip->close();
 
@@ -780,7 +719,7 @@ class ApiModel extends Model
 
 
     /**
-     * Download tWords from DCS and extract them
+     * Download tWords and extract them
      * @param string $lang
      * @param bool $update
      * @return bool|string
@@ -792,36 +731,27 @@ class ApiModel extends Model
 
         if(!File::exists($folderpath) || $update)
         {
-            if($lang == "en")
-            {
-                // Do not get notes from catalog, instead get it from git.door43.org
-                // Should be temporarily
-                $url = "https://git.door43.org/WycliffeAssociates/en_tw/archive/master.zip";
-            }
-            else
-            {
-                // Get catalog
-                $catalog = $this->getCachedFullCatalog();
-                if(empty($catalog)) return false;
+            // Get catalog
+            $catalog = $this->getCachedFullCatalog();
+            if(empty($catalog)) return false;
 
-                $url = "";
+            $url = "";
 
-                foreach($catalog->languages as $language)
+            foreach($catalog->languages as $language)
+            {
+                if($language->identifier == $lang)
                 {
-                    if($language->identifier == $lang)
+                    foreach($language->resources as $resource)
                     {
-                        foreach($language->resources as $resource)
+                        if($resource->identifier == "tw")
                         {
-                            if($resource->identifier == "tw")
+                            foreach ($resource->projects as $project)
                             {
-                                foreach ($resource->projects as $project)
+                                foreach($project->formats as $format)
                                 {
-                                    foreach($project->formats as $format)
-                                    {
-                                        $url = $format->url;
-                                        if(!preg_match("/\.zip$/", $url)) continue;
-                                        break;
-                                    }
+                                    $url = $format->url;
+                                    if(!preg_match("/\.zip$/", $url)) continue;
+                                    break;
                                 }
                             }
                         }
@@ -837,7 +767,6 @@ class ApiModel extends Model
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
             $zip = curl_exec($ch);
 
@@ -1101,7 +1030,6 @@ class ApiModel extends Model
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
             $zip = curl_exec($ch);
 
@@ -1215,7 +1143,6 @@ class ApiModel extends Model
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         $response = curl_exec($ch);
 
@@ -1340,7 +1267,7 @@ class ApiModel extends Model
      * @param $url
      * @return string Path to directory
      */
-    public function processDCSUrl($url)
+    public function processRemoteUrl($url)
     {
         $folderpath = "/tmp/".uniqid();
 

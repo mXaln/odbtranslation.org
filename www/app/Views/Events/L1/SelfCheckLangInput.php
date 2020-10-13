@@ -173,10 +173,6 @@ if(isset($data["error"])) return;
 
 
 <script>
-    <?php if(isset($data["words"])): ?>
-        var almaWords = <?php echo $data["words"] ?>;
-    <?php endif; ?>
-
     $(document).ready(function() {
         setTimeout(function() {
             equal_verses_height();

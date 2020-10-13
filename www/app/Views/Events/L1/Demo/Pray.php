@@ -2,13 +2,13 @@
     <div class="row main_content_header">
         <div class="main_content_title">
             <div class="demo_title"><?php echo __("demo")
-                    . " (".($data["isLangInput"] ? __("lang_input") : __("8steps_vmast")).")" ?></div>
+                    . " (".($data["isLangInput"] ? __("lang_input") : __("8steps_mast")).")" ?></div>
             <div><?php echo __("pray")?></div>
         </div>
-        <div class="demo_video">
+        <!--<div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
-            <a href="#"><?php echo __("demo_video"); ?></a>
-        </div>
+            <a href="#"><?php /*echo __("demo_video"); */?></a>
+        </div>-->
     </div>
 
     <div class="main_content">

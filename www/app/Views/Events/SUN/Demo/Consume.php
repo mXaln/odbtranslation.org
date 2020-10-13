@@ -4,10 +4,10 @@
             <div class="demo_title"><?php echo __("demo") . " (".__("vsail").")" ?></div>
             <div><?php echo __("step_num", ["step_number" => 1]) . ": " . __("consume")?></div>
         </div>
-        <div class="demo_video">
+        <!--<div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
-            <a href="#"><?php echo __("demo_video"); ?></a>
-        </div>
+            <a href="#"><?php /*echo __("demo_video"); */?></a>
+        </div>-->
     </div>
 
     <div class="">

@@ -21,7 +21,7 @@ class CloudModel extends Model
     private $wacsGitServer = "content.bibletranslationtools.org";
     private $door43Server = "https://git.door43.org/api/v1";
     private $door43GitServer = "git.door43.org";
-    private $vmastToken = "vmast";
+    private $localToken = "odbtranslation";
     private $serverUrl = "";
     private $gitServer = "";
     private $username = "";
@@ -56,7 +56,7 @@ class CloudModel extends Model
     }
 
     public function createAccessToken() {
-        $ch = $this->initCurl("/users/$this->username/tokens", ["name" => $this->vmastToken]);
+        $ch = $this->initCurl("/users/$this->username/tokens", ["name" => $this->localToken]);
         $data = curl_exec($ch);
 
         if(curl_errno($ch))
@@ -69,7 +69,7 @@ class CloudModel extends Model
         return $data;
     }
 
-    public function getVmastAccessToken($data)
+    public function getOdbAccessToken($data)
     {
         if(!is_array($data))
         {
@@ -82,14 +82,14 @@ class CloudModel extends Model
             {
                 if(is_array($token))
                 {
-                    if($token["name"] == $this->vmastToken)
+                    if($token["name"] == $this->localToken)
                     {
                         return $token;
                     }
                 }
                 else
                 {
-                    if($key == "name" && $token == $this->vmastToken)
+                    if($key == "name" && $token == $this->localToken)
                     {
                         return $data;
                     }

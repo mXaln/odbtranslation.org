@@ -103,10 +103,8 @@ class TranslationsController extends Controller
                 $data['title'] = $data['data']->bookName;
                 $data["mode"] = "bible";
                 $lastChapter = -1;
-                $chapter = [];
 
                 $odbBook = [];
-                $radioBook = [];
 
                 foreach ($book as $chunk) {
                     $verses = json_decode($chunk->translatedVerses);
@@ -128,20 +126,9 @@ class TranslationsController extends Controller
                         {
                             $odbBook[$lastChapter] = [];
                         }
-                        elseif ($chunk->sourceBible == "rad")
-                        {
-                            $radioBook[$lastChapter] = [];
-                        }
                         else
                         {
-                            if(in_array($chunk->bookProject, ["tn","tq","tw"]))
-                            {
-                                $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["checked"] ? "L2" : "L1"));
-                            }
-                            else
-                            {
-                                $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"));
-                            }
+                            $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"));
 
                             $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
                                 ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
@@ -152,109 +139,47 @@ class TranslationsController extends Controller
                     // Start of chunk
                     $data['book'] .= '<p>';
 
-                    if(in_array($chunk->bookProject, ["tn","tq","tw"]))
+                    if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
                     {
-                        $chunks = (array)json_decode($chapter["chunks"], true);
-                        $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : [$chunk->chunk];
-
-                        $versesLabel = "";
-                        if($chunk->bookProject != "tw")
-                        {
-                            if($currChunk[0] != $currChunk[sizeof($currChunk)-1])
-                                $versesLabel = __("chunk_verses", $currChunk[0] . "-" . $currChunk[sizeof($currChunk)-1]);
-                            else
-                                if($currChunk[0] == 0)
-                                    $versesLabel = __("intro");
-                                else
-                                    $versesLabel = __("chunk_verses", $currChunk[0]);
+                        foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
+                            // Footnotes
+                            $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                            $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                            $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
+                            $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                         }
-
-                        $data["mode"] = $chunk->bookProject;
-
-                        $parsedown = new Parsedown();
-
-                        if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                        {
-                            $text = $parsedown->text($verses->{EventMembers::L3_CHECKER}->verses);
+                    }
+                    elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
+                    {
+                        foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
+                            // Footnotes
+                            $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                            $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                            $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
+                            $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                         }
-                        elseif (!empty($verses->{EventMembers::CHECKER}->verses))
-                        {
-                            $text = $parsedown->text($verses->{EventMembers::CHECKER}->verses);
-                        }
-                        else
-                        {
-                            $text = $parsedown->text($verses->{EventMembers::TRANSLATOR}->verses);
-                        }
-
-                        $data['book'] .= '<br><strong class="note_chunk_verses">'.$versesLabel.'</strong> '.$text." ";
                     }
                     else
                     {
-                        if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-                        {
-                            foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
-                                // Footnotes
-                                $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
-                                $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
-                                $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
-                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                            }
-                        }
-                        elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
-                        {
-                            foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
-                                // Footnotes
-                                $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
-                                $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
-                                $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
-                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                            }
-                        }
-                        else
-                        {
-                            if($chunk->bookProject == "rad")
+                        foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                            if($chunk->sourceBible == "odb")
                             {
-                                $translation = isset($verses->{EventMembers::CHECKER}->verses)
-                                && !empty($verses->{EventMembers::CHECKER}->verses)
-                                    ? $verses->{EventMembers::CHECKER}->verses
-                                    : $verses->{EventMembers::TRANSLATOR}->verses;
-
-                                if(!is_object($translation))
+                                if($verse >= OdbSections::CONTENT)
                                 {
-                                    $ind = $chunk->chunk == 0 ? RadioSections::ENTRY : RadioSections::TITLE;
-                                    $radioBook[$lastChapter][RadioSections::enum($ind)] = $translation;
+                                    $odbBook[$lastChapter][OdbSections::enum($verse)][] = $text;
                                 }
                                 else
                                 {
-                                    $tmp = [];
-                                    $tmp["name"] = $translation->name;
-                                    $tmp["text"] = $translation->text;
-                                    $radioBook[$lastChapter][RadioSections::enum(RadioSections::SPEAKERS)][] = $tmp;
+                                    $odbBook[$lastChapter][OdbSections::enum($verse)] = $text;
                                 }
                             }
                             else
                             {
-                                foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                                    if($chunk->sourceBible == "odb")
-                                    {
-                                        if($verse >= OdbSections::CONTENT)
-                                        {
-                                            $odbBook[$lastChapter][OdbSections::enum($verse)][] = $text;
-                                        }
-                                        else
-                                        {
-                                            $odbBook[$lastChapter][OdbSections::enum($verse)] = $text;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // Footnotes
-                                        $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
-                                        $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
-                                        $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
-                                        $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
-                                    }
-                                }
+                                // Footnotes
+                                $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
+                                $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
+                                $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
+                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
                             }
                         }
                     }
@@ -291,28 +216,6 @@ class TranslationsController extends Controller
 
                         if(trim($topic[OdbSections::enum(OdbSections::THOUGHT)]) != "")
                             $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::THOUGHT)].'</p>';
-                    }
-                }
-                elseif (!empty($radioBook)) // Render Radio book
-                {
-                    foreach ($radioBook as $chapter => $topic) {
-                        if(trim($topic[RadioSections::enum(RadioSections::ENTRY)]) != "")
-                            $data["book"] .= '<h2 class="chapter_title">'.$topic[RadioSections::enum(RadioSections::ENTRY)].'</h2>';
-
-                        if(trim($topic[RadioSections::enum(RadioSections::TITLE)]) != "")
-                            $data["book"] .= '<p class="radio_section">'.$topic[RadioSections::enum(RadioSections::TITLE)].'</p>';
-
-                        foreach ($topic[RadioSections::enum(RadioSections::SPEAKERS)] as $p) {
-                            $data["book"] .= '<div class="radio_section">';
-                            foreach ($p as $key => $item) {
-                                if(trim($item) != "")
-                                    if($key == "name")
-                                        $data["book"] .= '<p><strong>'.$item.'</strong></p>';
-                                    else
-                                        $data["book"] .= '<p>'.$item.'</p>';
-                            }
-                            $data["book"] .= "<div>";
-                        }
                     }
                 }
             }
@@ -392,47 +295,6 @@ class TranslationsController extends Controller
         }
     }
 
-    public function downloadMd($lang, $bookProject, $sourceBible, $bookCode)
-    {
-        if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
-        {
-            // If bookcode is "dl" then include all the books in archive
-            $bookCode = $bookCode != "dl" ? $bookCode : null;
-
-            $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
-
-            if(!empty($books) && isset($books[0]))
-            {
-                $projectFiles = $this->getMdProjectFiles($books, $bookCode == null);
-                $filename = $books[0]->targetLang."_" . $bookProject . ($bookCode != null ? "_".$books[0]->bookCode : "") . ".zip";
-                $this->_model->generateZip($filename, $projectFiles, true);
-            }
-        }
-
-        echo "An error occurred! Contact administrator.";
-    }
-
-    public function downloadMdTw($lang, $sourceBible, $bookCode)
-    {
-        if($lang != null && $sourceBible != null && $bookCode != null)
-        {
-            // If bookcode is "dl" then include all the books in archive
-            $bookCode = $bookCode != "dl" ? $bookCode : null;
-
-            $books = $this->_model->getTranslation($lang, "tw", $sourceBible, $bookCode);
-
-            if(!empty($books) && isset($books[0]))
-            {
-                $projectFiles = $this->getMdTwProjectFiles($books);
-                $filename = $lang . "_tw" .($bookCode != null ? "_".$books[0]->bookName : ""). ".zip";
-                $this->_model->generateZip($filename, $projectFiles, true);
-            }
-        }
-
-        echo "An error occurred! Contact administrator.";
-    }
-
-
     public function export($lang, $bookProject, $sourceBible, $bookCode, $server)
     {
         $response = ["success" => false];
@@ -443,40 +305,23 @@ class TranslationsController extends Controller
             $repoName = null;
             $projectFiles = [];
 
-            if(in_array($bookProject, ["tn", "tq", "tw"]))
+            if($sourceBible != "odb")
             {
-                $repoName = "{$lang}_{$bookCode}_{$bookProject}";
-                if($bookProject == "tw")
+                $repoName = "{$lang}_{$bookCode}_text_{$bookProject}";
+                $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
+                if(!empty($books) && isset($books[0]))
                 {
-                    $books = $this->_model->getTranslation($lang, "tw", $sourceBible, $bookCode);
-                    if(!empty($books) && isset($books[0]))
-                    {
-                        $projectFiles = $this->getMdTwProjectFiles($books, true);
-                    }
-                }
-                else
-                {
-                    $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
-                    if(!empty($books) && isset($books[0]))
-                    {
-                        $projectFiles = $this->getMdProjectFiles($books, false, true);
-                    }
-                }
-            }
-            elseif (in_array($bookProject, ["ulb", "udb", "sun"]))
-            {
-                if($sourceBible != "odb")
-                {
-                    $repoName = "{$lang}_{$bookCode}_text_{$bookProject}";
-                    $books = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
-                    if(!empty($books) && isset($books[0]))
-                    {
-                        $projectFiles = $this->getUsfmProjectFiles($books);
-                    }
+                    $projectFiles = $this->getUsfmProjectFiles($books);
                 }
             }
 
-            $cloudModel = new CloudModel($server, Session::get($server)["username"], null, "", Session::get($server)["token"]);
+            $cloudModel = new CloudModel(
+                $server,
+                Session::get($server)["username"],
+                null,
+                "",
+                Session::get($server)["token"]
+            );
             $result = $cloudModel->uploadRepo($repoName, $projectFiles);
 
             if($result["success"])
@@ -820,7 +665,12 @@ class TranslationsController extends Controller
                 // Set contributor list from book contributors
                 if(!$all)
                 {
-                    $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $chk_lvl, $chunk->bookProject, false);
+                    $contributors = $this->_eventModel->getEventContributors(
+                        $chunk->eventID,
+                        $chk_lvl,
+                        $chunk->bookProject,
+                        false
+                    );
                     foreach ($contributors as $cat => $list)
                     {
                         if($cat == "admins") continue;
@@ -843,48 +693,29 @@ class TranslationsController extends Controller
             if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
             {
                 foreach ($verses->{EventMembers::L3_CHECKER}->verses as $verse => $text) {
-                    $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                    $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] =
+                        html_entity_decode($text, ENT_QUOTES);
                 }
             }
             elseif (!empty($verses->{EventMembers::L2_CHECKER}->verses))
             {
                 foreach ($verses->{EventMembers::L2_CHECKER}->verses as $verse => $text) {
-                    $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
+                    $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] =
+                        html_entity_decode($text, ENT_QUOTES);
                 }
             }
             else
             {
-                if($chunk->bookProject == "rad")
-                {
-                    $translation = isset($verses->{EventMembers::CHECKER}->verses)
-                        && !empty($verses->{EventMembers::CHECKER}->verses)
-                        ? $verses->{EventMembers::CHECKER}->verses
-                        : $verses->{EventMembers::TRANSLATOR}->verses;
-
-                    if(!is_object($translation))
+                foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
+                    if($verse >= OdbSections::CONTENT)
                     {
-                        $ind = $chunk->chunk == 0 ? RadioSections::ENTRY : RadioSections::TITLE;
-                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum($ind)] = html_entity_decode($translation, ENT_QUOTES);
+                        $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] =
+                            html_entity_decode($text, ENT_QUOTES);
                     }
                     else
                     {
-                        $tmp = [];
-                        $tmp["name"] = $translation->name;
-                        $tmp["text"] = $translation->text;
-                        $json_books[$code]["root"][$lastChapter-1][RadioSections::enum(RadioSections::SPEAKERS)][] = $tmp;
-                    }
-                }
-                else
-                {
-                    foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
-                        if($verse >= OdbSections::CONTENT)
-                        {
-                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)][] = html_entity_decode($text, ENT_QUOTES);
-                        }
-                        else
-                        {
-                            $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] = html_entity_decode($text, ENT_QUOTES);
-                        }
+                        $json_books[$code]["root"][$lastChapter-1][OdbSections::enum($verse)] =
+                            html_entity_decode($text, ENT_QUOTES);
                     }
                 }
             }
@@ -913,190 +744,6 @@ class TranslationsController extends Controller
 
         $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
         $projectFiles[] = ProjectFile::withContent("manifest.yaml", $yaml);
-
-        return $projectFiles;
-    }
-
-
-    private function getMdProjectFiles($books, $all = false, $upload = false)
-    {
-        $projectFiles = [];
-        $lastChapter = -1;
-        $chapter = [];
-
-        switch ($books[0]->state)
-        {
-            case EventStates::STARTED:
-                $chk_lvl = 0;
-                break;
-            case EventStates::TRANSLATING:
-                $chk_lvl = 1;
-                break;
-            case EventStates::TRANSLATED:
-            case EventStates::L3_CHECK:
-                $chk_lvl = 2;
-                break;
-            case EventStates::COMPLETE:
-                $chk_lvl = 3;
-                break;
-            default:
-                $chk_lvl = 0;
-        }
-
-        $manifest = $this->_model->generateManifest($books[0]);
-        $manifest->setCheckingLevel((string)$chk_lvl);
-
-        // Set contributor list from entire project contributors
-        if($all)
-        {
-            $manifest->setContributor(array_map(function($contributor) {
-                return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
-            }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
-        }
-
-        $root = !$upload ? $books[0]->targetLang."_".$books[0]->bookProject . "/" : "";
-
-        foreach ($books as $chunk) {
-            $verses = json_decode($chunk->translatedVerses);
-
-            if($chunk->chapter != $lastChapter)
-            {
-                $lastChapter = $chunk->chapter;
-
-                $chapters = $this->_eventModel->getChapters(
-                    $chunk->eventID,
-                    null,
-                    $chunk->chapter
-                );
-                $chapter = $chapters[0];
-            }
-
-            $chunks = (array)json_decode($chapter["chunks"], true);
-            $currChunk = isset($chunks[$chunk->chunk]) ? $chunks[$chunk->chunk] : 1;
-
-            $bookPath = $chunk->bookCode;
-            $format = $chunk->bookCode == "psa" ? "%03d" : "%02d";
-            $chapPath = $chunk->chapter > 0 ? sprintf($format, $chunk->chapter) : "front";
-            $chunkPath = $currChunk[0] > 0 ? sprintf($format, $currChunk[0]) : "intro";
-            $filePath = $root . $bookPath . "/" . $chapPath . "/" . $chunkPath . ".md";
-
-            if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-            {
-                $text = $verses->{EventMembers::L3_CHECKER}->verses;
-            }
-            elseif (!empty($verses->{EventMembers::CHECKER}->verses))
-            {
-                $text = $verses->{EventMembers::CHECKER}->verses;
-            }
-            else
-            {
-                $text = $verses->{EventMembers::TRANSLATOR}->verses;
-            }
-
-            $projectFiles[] = ProjectFile::withContent($filePath, $text);
-
-            if(!$manifest->getProject($chunk->bookCode))
-            {
-                // Set contributor list from book contributors
-                if(!$all)
-                {
-                    $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $manifest->getCheckingLevel(), $chunk->bookProject, false);
-                    foreach ($contributors as $cat => $list)
-                    {
-                        if($cat == "admins") continue;
-                        foreach ($list as $contributor)
-                        {
-                            $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
-                        }
-                    }
-                }
-
-                $manifest->addProject(new Project(
-                    $chunk->bookName . " " . __($books[0]->bookProject),
-                    "",
-                    $chunk->bookCode,
-                    (int)$chunk->abbrID,
-                    "./".$chunk->bookCode,
-                    []
-                ));
-            }
-        }
-
-        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
-        $projectFiles[] = ProjectFile::withContent($root . "manifest.yaml", $yaml);
-
-        return $projectFiles;
-    }
-
-
-    private function getMdTwProjectFiles($books, $upload = false)
-    {
-        $projectFiles = [];
-
-        switch ($books[0]->state)
-        {
-            case EventStates::STARTED:
-                $chk_lvl = 0;
-                break;
-            case EventStates::TRANSLATING:
-                $chk_lvl = 1;
-                break;
-            case EventStates::TRANSLATED:
-            case EventStates::L3_CHECK:
-                $chk_lvl = 2;
-                break;
-            case EventStates::COMPLETE:
-                $chk_lvl = 3;
-                break;
-            default:
-                $chk_lvl = 0;
-        }
-
-        $manifest = $this->_model->generateManifest($books[0]);
-        $manifest->setCheckingLevel((string)$chk_lvl);
-
-        // Set contributor list from entire project contributors
-        $manifest->setContributor(array_map(function($contributor) {
-            return $contributor["fname"] . (!empty($contributor["lname"]) ? " ".$contributor["lname"] : "");
-        }, $this->_eventModel->getProjectContributors($books[0]->projectID, false, false)));
-
-        $manifest->addProject(new Project(
-            __($books[0]->bookProject),
-            "",
-            "bible",
-            0,
-            "./bible",
-            []
-        ));
-
-        $root = !$upload ? $books[0]->targetLang."_tw/" : "";
-
-        foreach ($books as $chunk) {
-            $verses = json_decode($chunk->translatedVerses);
-            $words = (array) json_decode($chunk->words, true);
-
-            $currWord = isset($words[$chunk->chunk]) ? $words[$chunk->chunk] : null;
-
-            if(!$currWord) continue;
-
-            $bookPath = $chunk->bookName;
-            $chunkPath = $currWord;
-            $filePath = $root. "bible/" . $bookPath ."/". $chunkPath.".md";
-
-            if(!empty($verses->{EventMembers::L3_CHECKER}->verses))
-            {
-                $text = $verses->{EventMembers::L3_CHECKER}->verses;
-            }
-            else
-            {
-                $text = $verses->{EventMembers::TRANSLATOR}->verses;
-            }
-
-            $projectFiles[] = ProjectFile::withContent($filePath, $text);
-        }
-
-        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
-        $projectFiles[] = ProjectFile::withContent($root."manifest.yaml", $yaml);
 
         return $projectFiles;
     }

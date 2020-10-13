@@ -11,7 +11,7 @@ use Config\Config;
 /**
  * PREFER to be used in Database calls or storing Session data, default is 'nova_'
  */
-define('PREFIX', 'vm_');
+define('PREFIX', 'ot_');
 
 /**
  * Setup the Config API Mode.

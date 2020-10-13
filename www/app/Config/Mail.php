@@ -13,8 +13,8 @@ Config::set('mail', array(
     'host'   => 'smtp.gmail.com',
     'port'   => 587,
     'from'   => array(
-        'address' => 'noreply@v-mast.com',
-        'name'    => 'V-Mast Team',
+        'address' => 'noreply@odbtranslation.org',
+        'name'    => 'ODB Translation Team',
     ),
     'encryption' => 'tls',
     'username'   => '',

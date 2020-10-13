@@ -77,15 +77,12 @@ $numValues = [
         <label><?php echo __('projects_public'); ?>:</label>
         <?php $projects = array_map(function ($elm) {
             switch ($elm) {
-                case "vmast":
-                    return __("8steps_vmast");
-                    break;
+                case "mast":
+                    return __("8steps_mast");
                 case "l2":
                     return __("l2_3_events", ["level" => 2]);
-                    break;
                 case "l3":
                     return __("l2_3_events", ["level" => 3]);
-                    break;
                 default:
                     return __($elm);
             }

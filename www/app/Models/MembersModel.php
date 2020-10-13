@@ -279,11 +279,11 @@ class MembersModel extends Model {
     {
         $this->db->setTablePrefix("");
         $builder = $this->db->table("turn_secret")
-            ->where("realm", "v-mast.com");
+            ->where("realm", "odbtranslation.org");
 
         $res = $builder->get();
 
-        $this->db->setTablePrefix("vm_");
+        $this->db->setTablePrefix(PREFIX);
 
         return $res;
     }
@@ -292,10 +292,10 @@ class MembersModel extends Model {
     {
         $this->db->setTablePrefix("");
         $upd = $this->db->table("turn_secret")
-            ->where("realm", "v-mast.com")
+            ->where("realm", "odbtranslation.org")
             ->update($data);
 
-        $this->db->setTablePrefix("vm_");
+        $this->db->setTablePrefix(PREFIX);
 
         return $upd;
     }
@@ -332,7 +332,7 @@ class MembersModel extends Model {
                 "firstName" => "User".$i,
                 "lastName" => "N",
                 "password" => $password,
-                "email" => "user".$i."@v-mast.com",
+                "email" => "user".$i."@odbtranslation.org",
                 "active" => true,
                 "verified" => true
             ];

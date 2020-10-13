@@ -8,7 +8,7 @@ use Helpers\Constants\StepsStates;
         <a href="<?php echo $_SERVER["HTTP_REFERER"] ?>"><?php echo __("go_back") ?></a>
     <?php endif; ?>
     <div class="demo_title"><?php echo __("demo")
-        . " (".($data["isLangInput"] ? __("lang_input") : __("8steps_vmast")).")" ?></div>
+        . " (".($data["isLangInput"] ? __("lang_input") : __("8steps_mast")).")" ?></div>
 </div>
 
 <div>

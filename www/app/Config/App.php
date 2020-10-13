@@ -15,7 +15,7 @@ use Config\Config;
  */
 Config::set('app', array(
     /**
-     * Vmast server type
+     * Server type
      * Local one will not use features that require internet connection
      */
     'type' => 'local', // Possible values: local, remote.
