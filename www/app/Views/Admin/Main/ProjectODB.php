@@ -199,7 +199,7 @@ if(!empty($data["project"])):
             <ul>
                 <li><?php echo __("import_options") ?></li>
                 <li data-type="dcs">
-                    <label role="button"><?php echo __("import_from_dcs") ?></label>
+                    <label role="button"><?php echo __("import_from_wacs") ?></label>
                 </li>
                 <li data-type="usfm">
                     <form id="usfm_form">
@@ -239,7 +239,7 @@ if(!empty($data["project"])):
     <div class="dcs_import_menu_content_body panel panel-default">
         <div class="dcs_import_menu">
             <ul>
-                <li><?php echo __("import_from_dcs") ?></li>
+                <li><?php echo __("import_from_wacs") ?></li>
                 <li data-type="dcs">
                     <form id="dcs_form">
                         <input class="form-control" type="text" name="dcs_repo_name" placeholder="<?php echo __("repository_name") ?>" />

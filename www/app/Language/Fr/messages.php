@@ -6,7 +6,7 @@ return array (
 
     // Index method
     "home" => "Page d’accueil",
-    "welcome_text" => "Bienvenue à V-MAST",
+    "welcome_text" => "Bienvenue à ODB Translation",
     "welcome_hint" => "To start a translation {link}",
     "welcome_message" => "If you have been invited to join a translation event click {link}",
     "maintenance_work" => "Nous sommes en train d’entretenir le site",
@@ -58,7 +58,7 @@ return array (
     "message_subject" => "Sujet",
     "message_content" => "Message",
     "send" => "Envoyer",
-    "facilitator_message_tip" => "Ce message a été envoyé par un membre sur V-MAST.com.",
+    "facilitator_message_tip" => "Ce message a été envoyé par un membre sur odbtranslation.org.",
     "member_wrote" => "a écrit",
     "project_mode" => "Mode Projet",
     "choose_project_mode" => "Choisir le Mode Projet",
@@ -85,7 +85,7 @@ return array (
     "activate_account_title" => "Activer le Compte",
     "resend_activation_code" => "Vous n’avez pas reçu l’émail?",
     "wrong_activation_email" => "L’adresse émail n’est pas le bon pour l’activation. Soit le compte associé avec cet addresse est déjà activé, soit il n’y a pas de compte associé à cet adresse.",
-    "new_account_title" => "Un nouveau membre a rejoint V-MAST",
+    "new_account_title" => "Un nouveau membre a rejoint ODB Translation",
     "new_account_message" => "<strong>Nom:</strong> {name}, <strong>Nom d’utilisateur:</strong> {username}",
     "members_area" => "Aller à le zone des membres",
 
@@ -266,8 +266,7 @@ return array (
     "tn" => "Notes de Traduction",
     "tq" => "Questions de Traduction",
     "tw" => "Mots pour la Traduction",
-    "rad" => "RADIO",
-    "vsail" => "vSUN",
+    "vsail" => "SUN",
     "old_test" => "Ancien Testament",
     "new_test" => "Nouveau Testament",
     "checker_apply" => "<b>{name}</b> est prêt à vérifier <b>{step}</b> le livre de <b>{book}</b>, chapitre <b>{chapter}</b> - <b>{language}</b> - <b>{project}</b>",
@@ -402,17 +401,17 @@ return array (
     "time_end" => "Terminer",
     "chat" => "CHAT",
     "you_are_at" => "Vous êtes à",
-    "8steps_vmast" => "8 Etapes MAST",
-    "vmast" => "8 Etapes MAST",
+    "8steps_mast" => "8 Etapes MAST",
+    "mast" => "8 Etapes MAST",
     "lang_input" => "Scripture Input",
     "notes" => "Notes de Traduction",
     "words" => "Mots de Traduction",
     "questions" => "Questions de Traduction",
     "level2" => "Level 2",
     "level3" => "Level 3",
-    "l2_l3_vmast" => "MAST N{level} Vérification",
+    "l2_l3_mast" => "MAST N{level} Vérification",
     "common" => "En commun",
-    "vmast_events" => "V-MAST  Evènements",
+    "mast_events" => "Evènements",
     "create_event" => "Créer une évènement",
     "edit_event" => "Modifier l’évènement",
     "create_info_tip" => "Cliquer ici pour créer des projets et des évènements",
@@ -445,7 +444,7 @@ return array (
     "block" => "Bloquer",
     "unblock" => "Débloquer",
     "last_edit" => "Dernière modification",
-    "noscript_message" => "Javascript est désactivé. Javascript est requis pour le fonctionnement correcte de v-mast.",
+    "noscript_message" => "Javascript est désactivé. Javascript est requis pour le fonctionnement correcte de odbtranslation.",
     "type_translation" => "Mode Traduction",
     "type_checking" => "Mode Vérification",
     "type_checking1" => "Checker 1 Mode",
@@ -467,7 +466,7 @@ return array (
     "target_text" => "Texte de destination",
     "import_translation_tip" => "Importation de traduction",
     "import_options" => "Importation des options",
-    "import_from_dcs" => "Importation à partir de DCS (Door43)",
+    "import_from_wacs" => "Importation à partir de WACS",
     "import_from_usfm" => "Importation à partir de USFM (.usfm)",
     "import_from_ts" => "Importation à partir d’un projet translationStudio (.tstudio)",
     "import_from_zip" => "Importation de zip archive tN, tQ or tW (.zip)",
@@ -596,11 +595,11 @@ return array (
     "verbalize" => "Verbalizez",
     "verbalize_desc" => "<li><b>BUT:</b> Exprimer verbalement ce que vous avez consommé pour engager la mémoire à court terme.</li>
                             <li><b>DURÉE:</b> Prendre 2-3 minutes pour cette étape (par personne)</li>
-                            <li>Choisissez un partenaire pour le verbalizer. Ce n’est pas obligé que ce soit un autre traducteur du V-MAST. 
+                            <li>Choisissez un partenaire pour le verbalizer. Ce n’est pas obligé que ce soit un autre traducteur du odbtranslation.org. 
                                 <ol>
-                                    <li>S’ils sont des traducteurs au V-MAST, commencez à taper leur nom dans la case 
+                                    <li>S’ils sont des traducteurs au ODB Translation, commencez à taper leur nom dans la case 
                                         blanche, et choisissez à partir des noms qui apparaissent. Puis cliquez “Add Checker”</li>
-                                    <li>Sils ne sont pas des traducteurs au V-MAST, tapez leur nom et cliquez “Add Checker”.</li>
+                                    <li>Sils ne sont pas des traducteurs au ODB Translation, tapez leur nom et cliquez “Add Checker”.</li>
                                     <li>Leur nom apparaitra sur la marge en tant que “Votre vérificateur”.</li>
                                 </ol>
                             </li>

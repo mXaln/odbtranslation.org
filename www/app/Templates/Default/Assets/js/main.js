@@ -1,15 +1,19 @@
-var currentChunk = -1;
-var firstVerse = 0;
-var lastVerse = 0;
-var chunks = [];
-var lastCommentEditor;
-var lastCommentAltEditor;
-var hasChangesOnPage = false;
-var hasLangInputChangesOnPage = false;
-var autosaveTimer;
-var autosaveRequest;
+let currentChunk = -1;
+let firstVerse = 0;
+let lastVerse = 0;
+let chunks = [];
+let lastCommentEditor;
+let lastCommentAltEditor;
+let hasChangesOnPage = false;
+let hasLangInputChangesOnPage = false;
+let autosaveTimer;
+let autosaveRequest;
+let mouseTimeout;
+let footnoteCallback;
+let isHighlighting = false; // Fix for mobile devices
+let searchTimeout;
 
-var EventSteps = {
+const EventSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
@@ -31,7 +35,7 @@ var EventSteps = {
     FINISHED: "finished",
 };
 
-var EventCheckSteps = {
+const EventCheckSteps = {
     NONE: "none",
     PRAY: "pray",
     CONSUME: "consume",
@@ -44,13 +48,15 @@ var EventCheckSteps = {
     FINISHED: "finished",
 };
 
-var EventMembers = {
+const EventMembers = {
     TRANSLATOR: "translator",
     L2_CHECKER: "checker_l2",
     L3_CHECKER: "checker_l3",
 };
 
 $(document).ready(function() {
+
+    const body = $("body");
 
     Offline.options = {
         checks: {
@@ -73,7 +79,7 @@ $(document).ready(function() {
     });
 
     $("a, button").click(function (e) {
-        if(Offline.state == "up")
+        if(Offline.state === "up")
             return true;
 
         renderPopup(Language.connectionLostMessage);
@@ -94,7 +100,7 @@ $(document).ready(function() {
 
     $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
         _renderItem: function( ul, item ) {
-            var li = $( "<li>" ),
+            const li = $( "<li>" ),
                 wrapper = $( "<div>", { text: item.label } );
 
             if ( item.disabled ) {
@@ -115,8 +121,7 @@ $(document).ready(function() {
         .iconselectmenu({
             width: 60,
             create: function( event, ui ) {
-                var lang = getCookie("lang");
-                lang = typeof lang != "undefined" ? lang : "en";
+                const lang = getCookie("lang") || "en";
                 $("#lang-select-button .ui-selectmenu-text").html(
                     "<img src='/app/templates/default/img/" + lang + ".png' width='16' height='12'>"
                 );
@@ -186,7 +191,7 @@ $(document).ready(function() {
         return false;
     });
 
-    var testTab = getCookie("testTab");
+    const testTab = getCookie("testTab");
     if(typeof testTab != "undefined")
     {
         $("a[href=#"+testTab+"]").click();
@@ -201,9 +206,9 @@ $(document).ready(function() {
             return false;
         }
 
-        var eventID = $(this).attr("data");
-        var bookName = $(this).attr("data2");
-        var stage = $(this).attr("data3");
+        const eventID = $(this).attr("data");
+        const bookName = $(this).attr("data2");
+        const stage = $(this).attr("data3");
 
         $("#applyEvent").trigger("reset");
         $(".errors").html("");
@@ -211,7 +216,7 @@ $(document).ready(function() {
         $(".bookName").text(bookName);
         $("#eventID").val(eventID);
 
-        if(stage == "d1")
+        if(stage === "d1")
         {
             $(".checker_info").hide();
             $(".ftr").show();
@@ -228,7 +233,7 @@ $(document).ready(function() {
         else
         {
             $(".panel-title.applyForm").text(bookName);
-            if(stage == "l2")
+            if(stage === "l2")
             {
                 $(".ftr, .fl3").hide();
                 $(".fl2").show();
@@ -297,19 +302,15 @@ $(document).ready(function() {
     // ------------------- Translation Flow ---------------------- //
 
     // Hide steps panel on small screens or if it was closed manually
-    var panelClosed = getCookie("close_left_panel");
-
-    if(typeof panelClosed != "undefined")
+    const panelClosed = getCookie("close_left_panel");
+    if(typeof panelClosed != "undefined" && panelClosed === "true")
     {
-        if(panelClosed == "true")
-        {
-            $("#translator_steps").removeClass("open")
-                .addClass("closed");
-            $("#translator_steps").animate({left: "-300px"}, 50, function() {
-                $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
-                    .addClass("glyphicon-chevron-right");
-            });
-        }
+        $("#translator_steps").removeClass("open")
+            .addClass("closed");
+        $("#translator_steps").animate({left: "-300px"}, 50, function() {
+            $("#tr_steps_hide").removeClass("glyphicon-chevron-left")
+                .addClass("glyphicon-chevron-right");
+        });
     }
     else if($(window).width() < 1800)
     {
@@ -329,11 +330,11 @@ $(document).ready(function() {
     $(".verse_ta:first").focus();
 
     $(".my_comment").each(function() {
-        var pencil = $(this).parent(".comments").prev(".editComment");
+        const pencil = $(this).parent(".comments").prev(".editComment");
 
         if(pencil.length > 0)
         {
-            if($(this).text() == "")
+            if($(this).text() === "")
             {
                 pencil.css("color", "black");
             }
@@ -346,13 +347,13 @@ $(document).ready(function() {
 
     if(typeof step != "undefined")
     {
-        if(step == EventSteps.BLIND_DRAFT || step == EventSteps.SELF_CHECK ||
-            step == EventSteps.PEER_REVIEW || step == EventSteps.KEYWORD_CHECK ||
-            step == EventSteps.CONTENT_REVIEW || step == EventSteps.MULTI_DRAFT ||
-            step == EventSteps.SYMBOL_DRAFT || step == EventSteps.REARRANGE || step == EventSteps.THEO_CHECK || // For SUN
-            step == EventCheckSteps.FST_CHECK || step == EventCheckSteps.SND_CHECK || // For Level 2 Check
-            step == EventCheckSteps.PEER_REVIEW_L2 ||
-            step == EventCheckSteps.PEER_EDIT_L3)
+        if(step === EventSteps.BLIND_DRAFT || step === EventSteps.SELF_CHECK ||
+            step === EventSteps.PEER_REVIEW || step === EventSteps.KEYWORD_CHECK ||
+            step === EventSteps.CONTENT_REVIEW || step === EventSteps.MULTI_DRAFT ||
+            step === EventSteps.SYMBOL_DRAFT || step === EventSteps.REARRANGE || step === EventSteps.THEO_CHECK || // For SUN
+            step === EventCheckSteps.FST_CHECK || step === EventCheckSteps.SND_CHECK || // For Level 2 Check
+            step === EventCheckSteps.PEER_REVIEW_L2 ||
+            step === EventCheckSteps.PEER_EDIT_L3)
         {
             autosaveTimer = setInterval(function() {
                 if(typeof isDemo != "undefined" && isDemo)
@@ -427,52 +428,17 @@ $(document).ready(function() {
                 }
             }, 3000);
         }
-
-        if(step == EventSteps.SELF_CHECK)
-        {
-            if(typeof almaWords != "undefined" && almaWords != '')
-            {
-                var almaTranslations = [];
-                $.each(almaWords, function (i, word) {
-                    var id = word.parent_id == null ? word.id : word.parent_id;
-                    var translation = "";
-                    $.each(word.translations, function (j, trans) {
-                        if(trans.is_approved == 1)
-                        {
-                            translation = trans.title;
-                            almaTranslations[id] = translation;
-                        }
-                    });
-
-                    $.each($(".chunk_verses"), function (k, chunk) {
-                        var re = new RegExp("([\\s,.:;!?'\"])("+word.title+")([\\s,.:;!?'\"])", "gi");
-                        var text = $(chunk).html().replace(re, '$1<span class="btn-warning almaWord" data-toggle="tooltip" data-placement="auto" title="" data="'+id+'">$2</span>$3');
-                        $(chunk).html(text);
-                    });
-                });
-
-                $.each($(".almaWord"), function () {
-                    var id = $(this).attr("data");
-                    if(typeof almaTranslations != "undefined" && typeof almaTranslations[id] != "undefined")
-                    {
-                        $(this).attr("title", almaTranslations[id]);
-                    }
-                });
-            }
-        }
     }
 
     // Update information page periodically
     if(typeof isInfoPage != "undefined")
     {
-        var infoUpdateTimer = setInterval(function() {
-            var tm = typeof tMode != "undefined"
-            && $.inArray(tMode, ["tn","tq","tw","sun","rad"]) > -1 ? "-" + tMode
-                : "";
+        setInterval(function() {
+            let tm = typeof tMode != "undefined" && $.inArray(tMode, ["sun"]) > -1 ? "-" + tMode : "";
 
             if(typeof isOdb != "undefined") tm = "-odb" + tm;
 
-            var mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
+            const mm = typeof manageMode != "undefined" ? "-"+manageMode : "";
 
             $.ajax({
                 url: "/events/information" + tm + mm + "/" + eventID,
@@ -498,7 +464,7 @@ $(document).ready(function() {
 
                             if($(".members_list .member_item[data="+memberID+"]").length <= 0)
                             {
-                                var memberItem = $("<div></div>").appendTo(".members_list")
+                                const memberItem = $("<div></div>").appendTo(".members_list")
                                     .addClass("member_item")
                                     .attr("data", memberID);
 
@@ -511,9 +477,9 @@ $(document).ready(function() {
                         });
 
                         // Update chapters list
-                        var openedItems = [];
+                        let openedItems = [];
                         $.each($(".section_header"), function () {
-                            var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+                            const isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
                             if(!isCollapsed)
                                 openedItems.push($(this).attr("data"));
                         });
@@ -521,8 +487,8 @@ $(document).ready(function() {
                         $(".chapter_list").html(data.html);
 
                         $.each(openedItems, function (i,v) {
-                            var section = $(".section_header[data="+v+"]");
-                            var content = section.next(".section_content");
+                            const section = $(".section_header[data="+v+"]");
+                            const content = section.next(".section_content");
                             content.show(0);
                             $(".section_arrow", section)
                                 .removeClass("glyphicon-triangle-right")
@@ -554,17 +520,16 @@ $(document).ready(function() {
         }, 60000);
     }
 
-    var mouseTimeout;
-    $("body").on("mouseover", ".more_chunks", function (e) {
+    body.on("mouseover", ".more_chunks", function (e) {
         e.stopPropagation();
 
-        var blind = $(this).find(".chunks_blind");
-        var parent = $(this);
+        const blind = $(this).find(".chunks_blind");
+        const parent = $(this);
 
         if(blind.length <= 0) return false;
 
         if(typeof $(this).data("e") != "undefined"
-            && $(this).data("e").currentTarget == e.currentTarget)
+            && $(this).data("e").currentTarget === e.currentTarget)
             clearTimeout(mouseTimeout);
         parent.css("height", 140).css("overflow-y", "auto");
         blind.css("background-image", "none")
@@ -573,11 +538,11 @@ $(document).ready(function() {
         $(this).removeData("e");
     });
 
-    $("body").on("mouseout", ".more_chunks", function (e) {
+    body.on("mouseout", ".more_chunks", function (e) {
         e.stopPropagation();
 
-        var blind = $(this).find(".chunks_blind");
-        var parent = $(this);
+        const blind = $(this).find(".chunks_blind");
+        const parent = $(this);
 
         if(blind.length <= 0) return false;
         $(this).data("e", e);
@@ -609,7 +574,6 @@ $(document).ready(function() {
             $("#translator_steps").animate({left: 0}, 500, function() {
                 $("#tr_steps_hide").removeClass("glyphicon-chevron-right")
                     .addClass("glyphicon-chevron-left");
-                //deleteCookie("close_left_panel");
                 setCookie("close_left_panel", false, {expires: 365*24*60*60, path: "/"});
             });
         }
@@ -641,7 +605,7 @@ $(document).ready(function() {
             return false;
         }
 
-        var sending = $this.data("sending");
+        const sending = $this.data("sending");
         if(sending)
         {
             setTimeout(function() {$this.data("sending", false);}, 5000)
@@ -658,7 +622,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         // Used for Level 3 check
-        var checkerStep = $("input[name=step]");
+        const checkerStep = $("input[name=step]");
 
         if(window.opener != null)
         {
@@ -682,16 +646,16 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data.success)
                 {
-                    var data = {
+                    const msg = {
                         type: "checkDone",
                         eventID: eventID,
                         chkMemberID: chkMemberID,
                     };
-                    socket.emit("system message", data);
+                    socket.emit("system message", msg);
 
                     if(window.opener != null)
                     {
-                        if(checkerStep.length > 0 && checkerStep.val() == EventCheckSteps.PEER_REVIEW_L3)
+                        if(checkerStep.length > 0 && checkerStep.val() === EventCheckSteps.PEER_REVIEW_L3)
                         {
                             window.location.reload();
                         }
@@ -708,7 +672,7 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    var message = "";
+                    let message = "";
                     $.each(data.errors, function(i, v) {
                         message += v + "<br>";
                     });
@@ -747,28 +711,29 @@ $(document).ready(function() {
 
     setTimeout(function () {
         $(".verse").each(function() {
-            var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
-            var height = $(this).height()/verseTa.length;
+            const verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
+            const height = $(this).height()/verseTa.length;
             verseTa.css("min-height", height);
         });
     }, 300);
 
     // Add verse to chunk
     $(document).on("click", ".verse_number", function(e) {
-        var p = $(this).parent().parent();
-        var createChunkBtn = $(".clone.create_chunk").clone();
-        var resetBtn = $(".clone.chunks_reset").clone();
+        const p = $(this).parent().parent();
+        const createChunkBtn = $(".clone.create_chunk").clone();
+        const resetBtn = $(".clone.chunks_reset").clone();
 
         createChunkBtn.removeClass("clone");
         resetBtn.removeClass("clone");
 
-        var verses = parseCombinedVerses($(this).val());
+        const verses = parseCombinedVerses($(this).val());
+        let verse;
 
         if($(this).is(":checked")) // Select verse
         {
-            for(var i=0; i<verses.length; i++)
+            for(let i=0; i<verses.length; i++)
             {
-                var verse = verses[i];
+                verse = verses[i];
 
                 // Do not check if there is no checked verses and one checks any verse after first
                 // Do not check if one skips verse(s)
@@ -809,11 +774,11 @@ $(document).ready(function() {
         }
         else                     // Deselect verse from the end
         {
-            var prep_p = p.prev(".verse_p");
+            const prep_p = p.prev(".verse_p");
 
-            for(var i=verses.length - 1; i>=0; i--)
+            for(let i=verses.length - 1; i>=0; i--)
             {
-                var verse = verses[i];
+                verse = verses[i];
 
                 if(verse != lastVerse)
                 {
@@ -830,8 +795,8 @@ $(document).ready(function() {
                     currentChunk--;
                 }
 
-                var chunk = typeof chunks[currentChunk] != "undefined" ? currentChunk : currentChunk-1;
-                var vIndex = chunks[chunk].indexOf(verse);
+                const chunk = typeof chunks[currentChunk] != "undefined" ? currentChunk : currentChunk-1;
+                const vIndex = chunks[chunk].indexOf(verse);
                 chunks[chunk].splice(vIndex, 1);
 
                 lastVerse = verse-1;
@@ -906,8 +871,8 @@ $(document).ready(function() {
         $(".cotr_main_content").hide();
 
         $(".verse").each(function() {
-            var verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
-            var height = $(this).height()/verseTa.length;
+            const verseTa = $(".verse_ta, .peer_verse_ta", $(this).parent());
+            const height = $(this).height()/verseTa.length;
             verseTa.css("min-height", height);
         });
         autosize.update($('textarea'));
@@ -949,16 +914,16 @@ $(document).ready(function() {
     $(document).on("click", ".notifa", function(e) {
         e.preventDefault();
 
-        var $this = $(this);
+        const $this = $(this);
 
         renderConfirmPopup(Language.checkBookConfirmTitle, Language.checkBookConfirm, function () {
             $this.remove();
-            var notifs = parseInt($(".notif_count").text());
+            let notifs = parseInt($(".notif_count").text());
             notifs--;
             if(notifs <= 0)
             {
                 $(".notif_count").remove();
-                var notifBlock = '' +
+                const notifBlock = '' +
                     '<div class="no_notif">'+Language.noNotifsMsg+'</div>' +
                     '<div class="all_notifs">' +
                     '<a href="/events/notifications">'+Language.seeAll+'</a>' +
@@ -987,9 +952,9 @@ $(document).ready(function() {
         $(".comment_div").hide();
 
         comments = $(this).next(".comments");
-        var comment = $(".my_comment", comments).text();
+        const comment = $(".my_comment", comments).text();
 
-        var top = $(this).offset().top - 80;
+        const top = $(this).offset().top - 80;
         $(".comment_div").css("top", top).show();
 
         $("textarea", $(".comment_div")).val(comment).focus();
@@ -1012,16 +977,16 @@ $(document).ready(function() {
     $(".editor-close").click(function() {
         comments = lastCommentEditor.next(".comments");
 
-        var comment = $(".my_comment", comments);
-        var text = $("textarea", $(".comment_div")).val().trim();
-        var level = $(this).data("level") || 1;
+        let comment = $(".my_comment", comments);
+        const text = $("textarea", $(".comment_div")).val().trim();
+        const level = $(this).data("level") || 1;
 
         chapchunk = lastCommentEditor.attr("data").split(":");
 
         if(comment.length <= 0)
             comment = $("<div />").addClass("my_comment").appendTo(comments);
 
-        if(comment.text() != text)
+        if(comment.text() !== text)
         {
             if(typeof isDemo != "undefined" && isDemo) {
                 $(".comment_div").hide();
@@ -1047,7 +1012,7 @@ $(document).ready(function() {
 
                             data.text = unEscapeStr(data.text);
 
-                            if(data.text.trim() == "")
+                            if(data.text.trim() === "")
                             {
                                 lastCommentEditor.css("color", "black")
                                 comment.remove();
@@ -1062,14 +1027,14 @@ $(document).ready(function() {
                             lastCommentEditor.prev(".comments_number").addClass("hasComment").text(num);
                             if(num <= 0) lastCommentEditor.prev(".comments_number").removeClass("hasComment");
 
-                            var data = {
+                            const msg = {
                                 type: "comment",
                                 eventID: eventID,
                                 verse: lastCommentEditor.attr("data"),
                                 text: data.text,
                                 level: level
                             };
-                            socket.emit("system message", data);
+                            socket.emit("system message", msg);
                         }
                         else
                         {
@@ -1097,23 +1062,22 @@ $(document).ready(function() {
 
     $(".comment_div, .footnote_editor").draggable({snap: 'inner', handle: '.panel-heading'});
 
-    var footnoteCallback;
     $(document).on("click", ".editFootNote", function() {
-        var textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta, .lang_input_ta");
+        let textarea = $(this).closest(".lang_input_verse").find(".peer_verse_ta, .lang_input_ta");
 
-        if(textarea.length == 0)
+        if(textarea.length === 0)
             textarea = $(this).closest(".flex_chunk, .flex_container").find(".peer_verse_ta, .lang_input_ta");
 
         if(textarea.length > 0) {
-            var startPosition = textarea.prop("selectionStart");
-            var endPosition = textarea.prop("selectionEnd");
-            var text = textarea.val();
-            var matchedNote = "";
-            var matches = text.match(/\\f\s[+-]\s(.*?)\\f\*/gi);
-            var ranges = [];
+            let startPosition = textarea.prop("selectionStart");
+            let endPosition = textarea.prop("selectionEnd");
+            let text = textarea.val();
+            let matchedNote = "";
+            const matches = text.match(/\\f\s[+-]\s(.*?)\\f\*/gi);
+            const ranges = [];
 
             if(matches != null && matches.length > 0) {
-                for(var i=0; i<matches.length; i++) {
+                for(let i=0; i<matches.length; i++) {
                     ranges.push([
                         text.indexOf(matches[i]),
                         text.indexOf(matches[i]) + matches[i].length
@@ -1122,7 +1086,7 @@ $(document).ready(function() {
             }
 
             // define if cursor is in the range of an existent footnote
-            for (var i=0; i<ranges.length; i++) {
+            for (let i=0; i<ranges.length; i++) {
                 if(startPosition >= ranges[i][0] && startPosition <= ranges[i][1]) {
                     startPosition = ranges[i][0];
                     endPosition = ranges[i][1];
@@ -1133,7 +1097,7 @@ $(document).ready(function() {
             openFootnoteEditor(startPosition, endPosition, matchedNote, $(this).offset().top - 80);
 
             footnoteCallback = function(footnote) {
-                if(footnote.trim() == "\\f + \\f*")
+                if(footnote.trim() === "\\f + \\f*")
                     footnote = "";
 
                 text = text.substring(0, startPosition)
@@ -1158,7 +1122,7 @@ $(document).ready(function() {
         $(".footnote_editor .fn_builder").html("");
         $(".footnote_editor .fn_preview").text("");
 
-        var footnoteHtml = parseFootnote(footnote);
+        const footnoteHtml = parseFootnote(footnote);
         $(".footnote_editor .fn_builder").html(footnoteHtml);
         renderFootnotesPreview();
 
@@ -1174,7 +1138,7 @@ $(document).ready(function() {
     });
 
     $(".footnote-editor-close").click(function () {
-        var footnote = $(".footnote_editor .fn_preview").text();
+        const footnote = $(".footnote_editor .fn_preview").text();
         if(footnoteCallback) {
             footnoteCallback(footnote);
             footnoteCallback = null;
@@ -1182,10 +1146,10 @@ $(document).ready(function() {
     });
 
     function renderFootnotesPreview() {
-        var footnote = "\\f + ";
+        let footnote = "\\f + ";
 
         $(".footnote_editor .fn_builder input").each(function() {
-            if($(this).val().trim() != "")
+            if($(this).val().trim() !== "")
                 footnote += "\\" + $(this).data("fn") + " " + $(this).val() + " ";
         });
 
@@ -1195,27 +1159,27 @@ $(document).ready(function() {
     }
 
     function parseFootnote(footnote) {
-        if(footnote == "") {
+        if(footnote === "") {
             return "";
         }
 
-        var tags = ["fr","ft","fq","fqa","fk","fl"];
-        var html = "";
+        const tags = ["fr","ft","fq","fqa","fk","fl"];
+        let html = "";
 
         footnote = footnote
             .replace(/\\f\s[+-]\s/gi, "")
             .replace(/\\f\*/gi, "")
             .replace(/\\fqa\*/gi, "");
 
-        var parts = footnote.split(/\\(f(?:r|t|qa|q|k|l))/gi);
-        var map = [];
-        var prevTag = "";
+        const parts = footnote.split(/\\(f(?:r|t|qa|q|k|l))/gi);
+        const map = [];
+        let prevTag = "";
         if(parts.length > 1) {
-            for(var i=0; i<parts.length; i++) {
-                if(i == 0) continue;
+            for(let i=0; i<parts.length; i++) {
+                if(i === 0) continue;
 
                 if(tags.includes(parts[i])) { // tag
-                    if(prevTag != parts[i]) {
+                    if(prevTag !== parts[i]) {
                         prevTag = parts[i];
                     }
                 } else {
@@ -1224,7 +1188,7 @@ $(document).ready(function() {
             }
         }
 
-        for(var i=0; i<map.length; i++) {
+        for(let i=0; i<map.length; i++) {
             html += "<label class='fn_lm'>"
                 + map[i][0]
                 + ": <input data-fn='" + map[i][0] + "' class='form-control' value='" + escapeQuotes(map[i][1].trim()) + "' />"
@@ -1236,9 +1200,9 @@ $(document).ready(function() {
     }
 
     $(document).on("click", ".fn_buttons button", function () {
-        var tag = $(this).data("fn");
+        const tag = $(this).data("fn");
 
-        if(tag == "link") {
+        if(tag === "link") {
             window.open("https://ubsicap.github.io/usfm/notes_basic/fnotes.html");
             return;
         }
@@ -1256,17 +1220,17 @@ $(document).ready(function() {
     // Show/Hide Tutorial popup
     $(".tutorial-close").click(function() {
         $(".tutorial_container").hide();
-        $("body").css("overflow", "auto");
+        body.css("overflow", "auto");
     });
 
     $(".show_tutorial_popup").click(function() {
         $(".tutorial_container").show();
-        $("body").css("overflow", "hidden");
+        body.css("overflow", "hidden");
 
-        var step = ""; //step;
-        var role = $("#hide_tutorial").attr("data2");
+        const step = ""; //step;
+        const role = $("#hide_tutorial").attr("data2");
 
-        var cookie = typeof role != "undefined" && role == "checker" ?
+        const cookie = typeof role != "undefined" && role === "checker" ?
             getCookie(step + "_checker_tutorial") : getCookie(step + "_tutorial");
 
         if(typeof cookie != "undefined")
@@ -1276,7 +1240,7 @@ $(document).ready(function() {
     });
 
     $("#hide_tutorial").change(function() {
-        var step = ""; //$(this).attr("data");
+        const step = ""; //$(this).attr("data");
         if($(this).is(":checked"))
         {
             setCookie(step + "_tutorial", true, {expires: 365*24*60*60, path: "/"});
@@ -1290,7 +1254,7 @@ $(document).ready(function() {
 
     // Show/Hide Video popup
     $(".video-close").click(function() {
-        $("body").css("overflow", "auto");
+        body.css("overflow", "auto");
         $(".video_container").hide();
         if(typeof player != "undefined")
         {
@@ -1305,16 +1269,15 @@ $(document).ready(function() {
     });
 
     $("#finalReview").submit(function () {
-
         $(".vnote").each(function () {
-            var content = $(".textWithBubbles", $(this));
+            const content = $(".textWithBubbles", $(this));
 
             $(".bubble", content).each(function () {
-                var newText = "|"+$(this).text()+"|";
+                const newText = "|"+$(this).text()+"|";
                 $(this).text(newText);
             });
 
-            var textarea = $(".peer_verse_ta", $(this));
+            const textarea = $(".peer_verse_ta", $(this));
 
             textarea.val(content.text());
         });
@@ -1323,42 +1286,40 @@ $(document).ready(function() {
     });
 
     // Save keywords
-    var isHighlighting = false; // Fix for mobile devices
-    $("body").on("mouseup touchend", "div[class^=kwverse]", function (e) {
-        if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
+    body.on("mouseup touchend", "div[class^=kwverse]", function (e) {
+        if(!isChecker) return;
         if(typeof disableHighlight != "undefined") return;
         if(typeof isInfoPage != "undefined") return;
         if(typeof step == "undefined"
-            || (step != EventSteps.KEYWORD_CHECK
-                && step != EventSteps.THEO_CHECK
-                && step != EventSteps.HIGHLIGHT)) return;
+            || (step !== EventSteps.KEYWORD_CHECK
+                && step !== EventSteps.THEO_CHECK
+                && step !== EventSteps.HIGHLIGHT)) return;
 
-        var verseID = $(this).attr("class");
-        var text;
-
-        var sel;
         if (window.getSelection) {
-            sel = window.getSelection();
+            const verseID = $(this).attr("class");
+            const sel = window.getSelection();
+            let text;
+
             if(typeof sel != "undefined")
             {
                 if(!sel.isCollapsed)    // Skip caret insert (zero characters select)
                 {
                     //sel.modify("extend", "forward", "word");
                     //sel.modify("extend", "backward", "word");
-                    var range = sel.getRangeAt(0);
+                    const range = sel.getRangeAt(0);
 
                     // Exclude previous tags from select
-                    if(sel.anchorNode.parentNode.nodeName == "SUP" || sel.anchorNode.parentNode.className == "chunk_verses")
+                    if(sel.anchorNode.parentNode.nodeName === "SUP" || sel.anchorNode.parentNode.className === "chunk_verses")
                         range.setStart(sel.focusNode, 0);
-                    else if(sel.focusNode.parentNode.nodeName == "B") // Exclude highlighted words from select
+                    else if(sel.focusNode.parentNode.nodeName === "B") // Exclude highlighted words from select
                         range.setEnd(sel.anchorNode, sel.anchorNode.data.length);
 
                     text = range.toString();
 
                     // Remove left and right space from select
-                    if(text[text.length-1] == " ")
+                    if(text[text.length-1] === " ")
                         range.setEnd(range.endContainer, range.endOffset-1);
-                    if(text[0] == " ")
+                    if(text[0] === " ")
                         range.setStart(range.startContainer, range.startOffset+1);
 
                     sel.removeAllRanges();
@@ -1372,19 +1333,19 @@ $(document).ready(function() {
                         // Allow non-empty text and text that doesn't contain reserved words
                         if(text.length > 0 && !/^(?:b|d|a|t|data|dat|at|ata|ta)$/.test(text))
                         {
-                            var wText = sel.anchorNode.textContent;
-                            var sibling = sel.anchorNode.previousSibling;
+                            let wText = sel.anchorNode.textContent;
+                            let sibling = sel.anchorNode.previousSibling;
                             while(sibling != null)
                             {
                                 wText = sibling.textContent + wText;
                                 sibling = sibling.previousSibling;
                             }
 
-                            var diff = wText.length - sel.anchorNode.textContent.length;
+                            const diff = wText.length - sel.anchorNode.textContent.length;
 
                             // Find all occurenses of text in the verse
-                            var regex = new RegExp("("+text+")", "gmi");
-                            var search = [];
+                            const regex = new RegExp("("+text+")", "gmi");
+                            const search = [];
                             while (regex.exec(wText) !== null) {
                                 search.push(regex.lastIndex);
                             }
@@ -1392,18 +1353,16 @@ $(document).ready(function() {
                             if(search.length > 0)
                             {
                                 // Find index of that text in the verse
-                                var offset = Math.max(sel.focusOffset, sel.anchorOffset);
-                                var index = search.indexOf(offset + diff);
+                                const offset = Math.max(sel.focusOffset, sel.anchorOffset);
+                                const index = search.indexOf(offset + diff);
 
                                 sel.removeAllRanges();
                                 isHighlighting = true;
                                 setTimeout(function () {
                                     isHighlighting = false;
                                 }, 500);
-                                //renderConfirmPopup(Language.saveKeywordTitle, Language.saveKeyword + ' <strong>"'+text.trim()+'"</strong>?', function () {
-                                //    $(this).dialog("close");
+
                                 saveOrRemoveKeyword(verseID, text, index, false);
-                                //});
                             }
                             else
                             {
@@ -1427,62 +1386,67 @@ $(document).ready(function() {
     });
 
 
-    $("body").on("mouseover", ".chunk_verses b", function (e) {
+    body.on("mouseover", ".chunk_verses b", function (e) {
         if(!isChecker && ["tn"].indexOf(tMode) === -1) return;
         if(typeof disableHighlight != "undefined") return;
         if(typeof step == "undefined"
-            || (step != EventSteps.KEYWORD_CHECK
-                && step != EventSteps.THEO_CHECK
-                && step != EventSteps.HIGHLIGHT)) return;
+            || (step !== EventSteps.KEYWORD_CHECK
+                && step !== EventSteps.THEO_CHECK
+                && step !== EventSteps.HIGHLIGHT)) return;
 
         if($(".remove_kw_tip").length <= 0)
         {
-            $("body").append("<div class='remove_kw_tip'>"+Language.delKeywordTip+"</div>");
+            body.append("<div class='remove_kw_tip'>"+Language.delKeywordTip+"</div>");
             $(".remove_kw_tip").css("left", $(this).offset().left + 20)
                 .css("top", $(this).offset().top - 30);
         }
     });
 
-    $("body").on("mouseout", ".chunk_verses b", function (e) {
+    body.on("mouseout", ".chunk_verses b", function (e) {
         if(isChecker || ["tn"].indexOf(tMode) > -1)
             $(".remove_kw_tip").remove();
     });
 
     // Delete keyword
-    $("body").on("click", ".chunk_verses b", function () {
+    body.on("click", ".chunk_verses b", function () {
         if(typeof isInfoPage != "undefined") return;
         if(typeof disableHighlight != "undefined") return;
         if(isHighlighting) return;
 
         if(!window.getSelection().isCollapsed) return;
 
-        var isL2Checker = typeof isLevel2 != "undefined"
-        && !isChecker ? true : false;
+        const isL2Checker = typeof isLevel2 != "undefined" && !isChecker;
 
-        if((isChecker || ["tn"].indexOf(tMode) > -1 || isL2Checker)
-            && (step == EventSteps.KEYWORD_CHECK
-                || step == EventSteps.HIGHLIGHT
-                || step == EventSteps.THEO_CHECK
-                || step == EventCheckSteps.KEYWORD_CHECK_L2
-                || step == EventCheckSteps.PEER_REVIEW_L2))
+        if((isChecker || isL2Checker)
+            && (step === EventSteps.KEYWORD_CHECK
+                || step === EventSteps.HIGHLIGHT
+                || step === EventSteps.THEO_CHECK
+                || step === EventCheckSteps.KEYWORD_CHECK_L2
+                || step === EventCheckSteps.PEER_REVIEW_L2))
         {
-            var $this = $(this);
-            var text = $(this).text();
+            const $this = $(this);
+            const text = $(this).text();
 
-            var titleTxt = Language.delKeywordTitle;
-            var confirmTxt = Language.delKeyword;
+            let titleTxt;
+            let confirmTxt;
+
             if(typeof isLevel2 != "undefined")
             {
-                var titleTxt = Language.delKeywordL2Title;
-                var confirmTxt = Language.delKeywordL2;
+                titleTxt = Language.delKeywordL2Title;
+                confirmTxt = Language.delKeywordL2;
+            }
+            else
+            {
+                titleTxt = Language.delKeywordTitle;
+                confirmTxt = Language.delKeyword;
             }
 
             renderConfirmPopup(titleTxt, confirmTxt + ' <strong>"'+text.trim()+'"</strong>', function () {
                 $(this).dialog("close");
 
-                var parent = $this.closest("div[class^=kwverse]");
-                var verseID = parent.attr("class");
-                var index = $this.attr("data");
+                const parent = $this.closest("div[class^=kwverse]");
+                const verseID = parent.attr("class");
+                const index = $this.attr("data");
 
                 saveOrRemoveKeyword(verseID, text, index, true);
             });
@@ -1495,16 +1459,16 @@ $(document).ready(function() {
     function loadKeywordsIntoSourse() {
         if(typeof eventID == "undefined") return;
         if(typeof step == "undefined"
-            || (step != EventSteps.KEYWORD_CHECK
-                && step != EventSteps.CONTENT_REVIEW
-                && step != EventSteps.FINAL_REVIEW
-                && step != EventSteps.HIGHLIGHT
-                && step != EventSteps.PEER_REVIEW
-                && step != EventCheckSteps.KEYWORD_CHECK_L2
-                && step != EventSteps.THEO_CHECK
-                && step != EventCheckSteps.PEER_REVIEW_L2)) return;
+            || (step !== EventSteps.KEYWORD_CHECK
+                && step !== EventSteps.CONTENT_REVIEW
+                && step !== EventSteps.FINAL_REVIEW
+                && step !== EventSteps.HIGHLIGHT
+                && step !== EventSteps.PEER_REVIEW
+                && step !== EventCheckSteps.KEYWORD_CHECK_L2
+                && step !== EventSteps.THEO_CHECK
+                && step !== EventCheckSteps.PEER_REVIEW_L2)) return;
 
-        if(step == EventSteps.PEER_REVIEW &&
+        if(step === EventSteps.PEER_REVIEW &&
             typeof disableHighlight == "undefined") return;
 
         /*$("div[class^=kwverse]").html(function() {
@@ -1527,7 +1491,7 @@ $(document).ready(function() {
                 if(data.success)
                 {
                     $.each(data.text, function (i,v) {
-                        var verseID = "kwverse_"+v.chapter+"_"+v.chunk+"_"+v.verse;
+                        const verseID = "kwverse_"+v.chapter+"_"+v.chunk+"_"+v.verse;
                         highlightKeyword(verseID, unEscapeStr(v.text), v.indexOrder);
                     });
                 }
@@ -1546,116 +1510,12 @@ $(document).ready(function() {
             });
     }
 
-    // Summernote text editor for notes
-    $(document).ready(function() {
-        $(".add_notes_editor, .add_questions_editor").each(function() {
-            $(this).summernote({
-                lang: siteLang,
-                airMode: false,
-                placeholder: Language.notesPlaceholder,
-                popover: {
-                    link: [
-                        ['link', ['linkDialogShow', 'unlink']]
-                    ],
-                    air: [
-                        ['para', ['style', 'ul', 'ol']],
-                        ['style', ['bold', 'italic', 'underline']],
-                        ['link', ['linkDialogShow', 'unlink']],
-                        ['misc', ['undo', 'redo']]
-                    ]
-                },
-                toolbar: [
-                    ['para', ['style', 'ul', 'ol']],
-                    ['style', ['bold', 'italic', 'underline']],
-                    ['link', ['linkDialogShow', 'unlink']],
-                    ['misc', ['undo', 'redo', 'codeview']]
-                ],
-                callbacks: {
-                    onInit: function() {
-                        var parent = $(this).closest(".note_chunk, .questions_chunk");
-                        var noteContent = $(".note_content, .question_content", parent);
-                        var height = noteContent.actual("height");
-                        $(".notes_editor, .questions_editor", parent).css("min-height", height);
-
-                        if($(this).hasClass("draft_question"))
-                        {
-                            $(this).summernote("disable");
-                            $(".questions_editor", parent).addClass("locked");
-                        }
-                    },
-                    onPaste: function(e) {
-                        e.preventDefault();
-
-                        hasChangesOnPage = true;
-                        $(".unsaved_alert").show();
-
-                        var html = (e.originalEvent || e).clipboardData.getData('text/html') || (e.originalEvent || e).clipboardData.getData('text/plain');
-                        var dom = $("<div>" + html + "</div>");
-
-                        $("*", dom).each(function() {
-                            // Remove colgroup tag
-                            if($(this).is("colgroup"))
-                                $(this).remove();
-
-                            // Remove style tag
-                            if($(this).is("style"))
-                                $(this).remove();
-
-                            // Unwrap font tag if any
-                            if($(this).is("font"))
-                                $(this).contents().unwrap();
-
-                            // Unwrap pre tag if any
-                            if($(this).parent().is("pre"))
-                                $(this).unwrap();
-
-                            // Replace absolute urls by relative ones when using keyboard to paste
-                            if($(this).is("a"))
-                                $(this).attr("href", $(this).attr("title"));
-
-                            // Fix when bold links come without spaces
-                            if($(this).is("strong"))
-                                $("<span> </span>").insertAfter($(this));
-
-                            $(this).removeAttr("style")
-                                .removeAttr("class")
-                                .removeAttr("id")
-                                .removeAttr("rel")
-                                .removeAttr("title")
-                                .removeAttr("bgcolor");
-                        });
-
-                        var container = $("<div>").append(dom.clone()).html();
-
-                        window.document.execCommand('insertHtml', false, container);
-                    },
-                    onChange: function(contents, editable) {
-                        hasChangesOnPage = true;
-                        $(".unsaved_alert").show();
-                    },
-                    onKeydown: function(e) {
-                        if (e.key == "<" || e.key == ">") {
-                            e.preventDefault();
-                        }
-                    }
-                }
-            });
-            $(".note_content a").each(function() {
-                $(this).attr("title", $(this).attr("href"));
-            });
-        });
-    });
-
-    $(".notes_editor").click(function() {
-        //$('.add_notes_editor', this).summernote('focus');
-    });
-
     setTimeout(function () {
         $(".words_block, .chunk_block").each(function() {
             if($(this).hasClass("no_autosize")) return;
 
-            var h1 = $(".chunk_verses", this).height();
-            var h2 = $(".editor_area", this).height();
+            const h1 = $(".chunk_verses", this).height();
+            const h2 = $(".editor_area", this).height();
 
             $(".chunk_verses textarea", this).css("min-height", Math.max(h1, h2));
             $(".editor_area textarea", this).css("min-height", Math.max(h1, h2));
@@ -1664,7 +1524,7 @@ $(document).ready(function() {
 
     // Show/Hide chat window
     $("#help_hide").click(function() {
-        var $this = $(this).parents(".content_help");
+        const $this = $(this).parents(".content_help");
 
         if($this.hasClass("open"))
         {
@@ -1688,28 +1548,18 @@ $(document).ready(function() {
         }
     });
 
-    $(".button_copy_notes button").click(function(e) {
-        e.preventDefault();
-
-        $(this).data("pasted", true);
-
-        $(".note-editable").html("");
-        var content = $(".note_content").clone();
-        $(".add_notes_editor").summernote("insertNode", content[0]);
-    });
-
-
     // ---------------------  Verse markers setting start -------------------- //
-    var bindDraggables = function() {
-        $('.bubble').attr("contenteditable", false).attr("draggable", true);
-        $('.bubble').off('dragstart').on('dragstart', function(e) {
+    const bindDraggables = function() {
+        const bubble = $('.bubble');
+        bubble.attr("contenteditable", false).attr("draggable", true);
+        bubble.off('dragstart').on('dragstart', function(e) {
             if (!e.target.id)
                 e.target.id = (new Date()).getTime();
 
             e.originalEvent.dataTransfer.setData('text', e.target.outerHTML);
-            var parent = $(e.target).closest(".vnote");
-            $("body").data("bubble", $(e.target));
-            $("body").data("focused", $(".textWithBubbles", parent));
+            const parent = $(e.target).closest(".vnote");
+            body.data("bubble", $(e.target));
+            body.data("focused", $(".textWithBubbles", parent));
         });
     };
 
@@ -1731,17 +1581,17 @@ $(document).ready(function() {
     $('.textWithBubbles').on('drop', function(e) {
         e.preventDefault();
 
-        var e = e.originalEvent;
-        var bubble = $("body").data("bubble");
-        var focused = $("body").data("focused");
-        var txt = $(e.target).text();
+        const event = e.originalEvent;
+        const bubble = body.data("bubble");
+        const focused = body.data("focused");
+        const txt = $(event.target).text();
         // Check if text has Chinese/Japanese/Myanmar/Lao characters and SUN
-        var hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f\ue000-\uf8ff]/.test(txt);
-        $("body").data("hasCJLM", hasCJLM);
+        const hasCJLM = /[\u0e80-\u0eff\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u1000-\u109f\ue000-\uf8ff]/.test(txt);
+        body.data("hasCJLM", hasCJLM);
 
-        if(!e.target || e.target.className != "splword" // drop only before words
-            || !$(e.target.parentElement).is(focused) // don't drop into other chunk
-            || (!hasCJLM && $(e.target).prev().is(".bubble")) // don't drop when there is verse marker before word
+        if(!event.target || event.target.className !== "splword" // drop only before words
+            || !$(event.target.parentElement).is(focused) // don't drop into other chunk
+            || (!hasCJLM && $(event.target).prev().is(".bubble")) // don't drop when there is verse marker before word
         )
         {
             bindDraggables();
@@ -1750,11 +1600,11 @@ $(document).ready(function() {
 
         bubble.addClass('dragged');
 
-        var content = e.dataTransfer.getData('text');
+        const content = event.dataTransfer.getData('text');
 
         $(this).get(0).focus();
 
-        pasteHtmlAtCaret(e, content);
+        pasteHtmlAtCaret(event, content);
         bindDraggables();
         $('.dragged').remove();
 
@@ -1764,12 +1614,13 @@ $(document).ready(function() {
     bindDraggables();
 
     function pasteHtmlAtCaret(e, html) {
-        var sel, range;
+
         if (window.getSelection) {
-            // IE9 and non-IE
-            sel = window.getSelection();
+            const sel = window.getSelection();
+            let range;
+
             if (sel.getRangeAt) {
-                hasCJLM = $("body").data("hasCJLM");
+                hasCJLM = body.data("hasCJLM");
 
                 if(!hasCJLM)
                 {
@@ -1778,20 +1629,17 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    if(document.caretRangeFromPoint)                                    // Chrome
-                        range = document.caretRangeFromPoint(e.clientX, e.clientY);
-                    else if (e.rangeParent) {                                           // Firefox
+                    if (e.rangeParent) {
                         range = document.createRange();
                         range.setStart(e.rangeParent, e.rangeOffset);
                     }
-                    else                                                                // Opera
-                        range = sel.getRangeAt(0);
                 }
 
-                var el = document.createElement("div");
+                const el = document.createElement("div");
                 el.innerHTML = html;
 
-                var frag = document.createDocumentFragment(), node, lastNode;
+                const frag = document.createDocumentFragment();
+                let node, lastNode;
                 while ( (node = el.firstChild) ) {
                     lastNode = frag.appendChild(node);
                 }
@@ -1806,10 +1654,10 @@ $(document).ready(function() {
     // Profile form
 
     $(".avatar_btn").click(function () {
-        var gender = $(this).attr("id");
-        var current = $("input[name=avatar]").val();
+        const gender = $(this).attr("id");
+        const current = $("input[name=avatar]").val();
 
-        if(gender == "avatarMales")
+        if(gender === "avatarMales")
         {
             $(".genderMale").show();
             $(".genderFemale").hide();
@@ -1828,8 +1676,8 @@ $(document).ready(function() {
     });
 
     $(".genderMale img, .genderFemale img").click(function () {
-        var id = $(this).attr("id");
-        var src = $(this).attr("src");
+        const id = $(this).attr("id");
+        const src = $(this).attr("src");
 
         $("input[name=avatar]").val(id);
         $(".avatar_control img").attr("src", src);
@@ -1843,15 +1691,15 @@ $(document).ready(function() {
 
 
     $("input[name^=prefered_roles]").change(function () {
-        var role = $(this).val();
-        var thisChecked = $(this).is(":checked");
-        var trChecked = $(".tr_role").is(":checked");
-        var fcChecked = $(".fc_role").is(":checked");
-        var chChecked = $(".ch_role").is(":checked");
+        const role = $(this).val();
+        const thisChecked = $(this).is(":checked");
+        const trChecked = $(".tr_role").is(":checked");
+        const fcChecked = $(".fc_role").is(":checked");
+        const chChecked = $(".ch_role").is(":checked");
 
         if(thisChecked)
         {
-            if(role == "facilitator")
+            if(role === "facilitator")
             {
                 $(".facilitator_section").show();
                 $(".checker_section").show();
@@ -1863,7 +1711,7 @@ $(document).ready(function() {
         }
         else
         {
-            if(role == "facilitator")
+            if(role === "facilitator")
             {
                 $(".facilitator_section").hide();
                 if(!trChecked && !fcChecked)
@@ -1877,13 +1725,13 @@ $(document).ready(function() {
         }
     });
 
-    var langs = $(".langs option:selected");
+    const langs = $(".langs option:selected");
     if(langs.length > 0)
         $(".langs").prop("disabled", false);
 
     $(".language").change(function() {
-        var parent = $(this).closest(".language_block");
-        if($(this).val() != "")
+        const parent = $(this).closest(".language_block");
+        if($(this).val() !== "")
         {
             $(".fluency", parent).prop("name", "lang["+$(this).val()+"][fluency]").prop("disabled", false);
             //$(".geo_years", parent).prop("name", "lang["+$(this).val()+"][geo_years]").prop("disabled", false);
@@ -1911,11 +1759,11 @@ $(document).ready(function() {
 
 
     $(".add_lang").click(function() {
-        var lang = $(".language").val();
-        var langName = $(".language option:selected").text();
-        var fluency = $(".fluency:checked").val();
-        //var geo_years = $(".geo_years:checked").val();
-        var option = $(".langs option[value^='"+lang+":']");
+        const lang = $(".language").val();
+        const langName = $(".language option:selected").text();
+        const fluency = $(".fluency:checked").val();
+        //const geo_years = $(".geo_years:checked").val();
+        let option = $(".langs option[value^='"+lang+":']");
 
         if(option.length <= 0) {
             $(".langs").append("<option value='"+lang+":"+fluency+/*":"+geo_years+*/"'>" + langName + "</option>");
@@ -1934,8 +1782,8 @@ $(document).ready(function() {
     });
 
     $(".fluency/*, .geo_years*/").change(function() {
-        var fluency = $(".fluency:checked").val();
-        //var geo_years = $(".geo_years:checked").val();
+        const fluency = $(".fluency:checked").val();
+        //const geo_years = $(".geo_years:checked").val();
 
         if(typeof fluency != "undefined"/* && typeof geo_years != "undefined"*/)
         {
@@ -1948,10 +1796,10 @@ $(document).ready(function() {
     });
 
     $(".langs option").each(function() {
-        var val = $(this).val();
-        var langs = val.split(":");
+        const val = $(this).val();
+        const langs = val.split(":");
 
-        if(langs.length != 3) {
+        if(langs.length !== 3) {
             $(this).remove();
             return true
         }
@@ -2012,9 +1860,9 @@ $(document).ready(function() {
 
     // Event information accordion
     $(document).on("click", ".section_header", function() {
-        var content = $(this).next(".section_content");
-        var isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
-        var opened = $(".chapter_list").data("opened") || 0;
+        const content = $(this).next(".section_content");
+        const isCollapsed = $(".section_arrow", $(this)).hasClass("glyphicon-triangle-right");
+        const opened = $(".chapter_list").data("opened") || 0;
 
         if(!isCollapsed)
         {
@@ -2042,14 +1890,13 @@ $(document).ready(function() {
         }
     });
 
-    var searchTimeout;
     $("#add_checker").keyup(function (event) {
-        $this = $(this);
+        const $this = $(this);
         $("#checker_value").val("");
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(function () {
-            var name = $this.val();
-            if(name.trim() == "")
+            const name = $this.val();
+            if(name.trim() === "")
             {
                 $(".user_checkers").html("");
                 return;
@@ -2079,7 +1926,7 @@ $(document).ready(function() {
                         $.each(data.members, function () {
                             if(this.blocked == "1") return true;
 
-                            var li = '<li>' +
+                            const li = '<li>' +
                                 '<label>' +
                                 '<div class="chk_member" data="'+this.memberID+'">'+ this.firstName + ' ' + this.lastName +' ('+this.userName+')</div>' +
                                 '</label>' +
@@ -2100,17 +1947,17 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".chk_member", function () {
-        var memberID = $(this).attr("data");
+        const memberID = $(this).attr("data");
         $("#checker_value").val(memberID);
         $("#add_checker").val($(this).text());
         $(".user_checkers").hide();
     });
 
     $(".add_checker_btn").click(function () {
-        var memberID = $("#checker_value").val();
-        var chkName = $("#add_checker").val();
+        const memberID = $("#checker_value").val();
+        const chkName = $("#add_checker").val();
 
-        if(chkName.trim() == "") return false;
+        if(chkName.trim() === "") return false;
 
         $.ajax({
             url: "/events/rpc/apply_verb_checker",
@@ -2152,7 +1999,7 @@ $(document).ready(function() {
     });
 
     // Check if event has been started
-    if($("#evnt_state_checker").val() == "error")
+    if($("#evnt_state_checker").val() === "error")
     {
         setInterval(function () {
             $.ajax({
@@ -2181,10 +2028,10 @@ $(document).ready(function() {
 
     function localizeDate() {
         $.each($(".datetime"), function () {
-            var dateStr = $(this).attr("data");
-            if(dateStr == "" || dateStr == "----/--/--" || dateStr == "--:--") return true;
+            const dateStr = $(this).attr("data");
+            if(dateStr === "" || dateStr === "----/--/--" || dateStr === "--:--") return true;
 
-            var date_options = {
+            const date_options = {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -2192,7 +2039,7 @@ $(document).ready(function() {
                 timezone: 'UTC',
             };
 
-            var time_options = {
+            const time_options = {
                 hour: 'numeric',
                 minute: 'numeric',
                 timezone: 'UTC',
@@ -2204,9 +2051,9 @@ $(document).ready(function() {
                 date_options.minute = 'numeric';
             }
 
-            var lang = typeof getCookie("lang") != "undefined" ? getCookie("lang") : "en";
+            const lang = typeof getCookie("lang") != "undefined" ? getCookie("lang") : "en";
 
-            var date = new Date(dateStr + " UTC");
+            const date = new Date(dateStr + " UTC");
             $(this).text(date.toLocaleString(lang, date_options));
             $(this).next(".event_time_time").text(date.toLocaleString(lang, time_options));
         });
@@ -2216,7 +2063,7 @@ $(document).ready(function() {
 
     // Dashboard tabs switch
     $(".my_tab").click(function () {
-        var id = $(this).attr("id");
+        const id = $(this).attr("id");
 
         $(".my_content").removeClass("shown");
         $(".my_tab").removeClass("active");
@@ -2236,8 +2083,8 @@ $(document).ready(function() {
 
     // Show contact facilitator form
     $(".facil_names a").click(function() {
-        var adminID = $(this).attr("data");
-        var adminName = $(this).text();
+        const adminID = $(this).attr("data");
+        const adminName = $(this).text();
 
         $(".mailer_name span").text(adminName);
         $(".adm_id").val(adminID);
@@ -2252,7 +2099,7 @@ $(document).ready(function() {
     });
 
     $(".mailer_form").submit(function () {
-        var form = $(this);
+        const form = $(this);
 
         $.ajax({
             url: "/members/rpc/send_message",
@@ -2307,7 +2154,7 @@ $(document).ready(function() {
 
     $(window).scroll(function () {
 
-        $this = $(this);
+        let $this = $(this);
 
         if($(".save_profile_container").length > 0)
         {
@@ -2319,10 +2166,10 @@ $(document).ready(function() {
 
         if($('.saildict_panel').length > 0)
         {
-            var elementTop = $('.saildict_panel').offset().top;
-            var elementBottom = elementTop + $('.saildict_panel').outerHeight();
-            var viewportTop = $(window).scrollTop();
-            var viewportBottom = viewportTop + $(window).height();
+            const elementTop = $('.saildict_panel').offset().top;
+            const elementBottom = elementTop + $('.saildict_panel').outerHeight();
+            const viewportTop = $(window).scrollTop();
+            const viewportBottom = viewportTop + $(window).height();
 
             if(viewportTop > elementTop)
                 $(".saildict_panel").css("top", $this.scrollTop());
@@ -2335,10 +2182,10 @@ $(document).ready(function() {
             $('.ttools_panel').each(function () {
                 if($(this).is(":visible"))
                 {
-                    var elementTop = $(this).offset().top;
-                    var elementBottom = elementTop + $(this).outerHeight();
-                    var viewportTop = $(window).scrollTop();
-                    var viewportBottom = viewportTop + $(window).height();
+                    const elementTop = $(this).offset().top;
+                    const elementBottom = elementTop + $(this).outerHeight();
+                    const viewportTop = $(window).scrollTop();
+                    const viewportBottom = viewportTop + $(window).height();
 
                     if(viewportTop > elementTop)
                         $(this).css("top", $this.scrollTop());
@@ -2380,11 +2227,11 @@ $(document).ready(function() {
     });
 
     // Sail dictionary
-    $("body").on("keyup", "#sailfilter", function () {
-        var w = escape($(this).val());
-        var isGlobal = $("#sailfilter_global").is(":checked");
-        var pattern = (!isGlobal ? "^" : "") + w;
-        var re = new RegExp(pattern, "ig");
+    body.on("keyup", "#sailfilter", function () {
+        const w = escape($(this).val());
+        const isGlobal = $("#sailfilter_global").is(":checked");
+        const pattern = (!isGlobal ? "^" : "") + w;
+        const re = new RegExp(pattern, "ig");
 
         $(".sail_list li").hide();
         $(".sail_list li").filter(function () {
@@ -2392,8 +2239,8 @@ $(document).ready(function() {
         }).show();
     });
 
-    $("body").on("click", ".sail_list li", function () {
-        var symbol = $("input", this);
+    body.on("click", ".sail_list li", function () {
+        const symbol = $("input", this);
         symbol.select();
 
         try
@@ -2408,9 +2255,9 @@ $(document).ready(function() {
     });
 
     // Faq filter
-    $("body").on("keyup", "#faqfilter", function () {
-        var w = $(this).val();
-        var re = new RegExp(w, "ig");
+    body.on("keyup", "#faqfilter", function () {
+        const w = $(this).val();
+        const re = new RegExp(w, "ig");
 
         $(".faq_list li").hide();
         $(".faq_list li").filter(function () {
@@ -2421,28 +2268,28 @@ $(document).ready(function() {
     // Translation tools
     $(".ttools").click(function (e) {
         $this = $(this);
-        var tool = $(this).data("tool");
+        const tool = $(this).data("tool");
 
-        if(tool == "sunbible")
+        if(tool === "sunbible")
         {
-            var win = window.open("/translations/en/sun/ulb/", "_blank");
+            const win = window.open("/translations/en/sun/ulb/", "_blank");
             win.focus();
             return;
         }
 
-        var container = $(".ttools_panel."+tool+"_tool");
+        let container = $(".ttools_panel."+tool+"_tool");
 
-        var bookCode = $("input#bookCode").val();
-        var chapter = $("input#chapter").val();
-        var lang = $("input#"+tool+"_lang").val();
-        var targetLang = $("input#targetLang").val();
-        var totalVerses = $("input#totalVerses").val();
+        const bookCode = $("input#bookCode").val();
+        const chapter = $("input#chapter").val();
+        const lang = $("input#"+tool+"_lang").val();
+        const targetLang = $("input#targetLang").val();
+        const totalVerses = $("input#totalVerses").val();
 
         if (container.length <= 0) {
-            var query_params = (["tq","tn","tw"].indexOf(tool) > -1
+            const query_params = (["tq","tn","tw"].indexOf(tool) > -1
                 ? bookCode + "/" + chapter + "/" + lang
-                : (tool == "rubric" ? targetLang : ""))
-                + (tool == "tn" ? "/" + totalVerses : "");
+                : (tool === "rubric" ? targetLang : ""))
+                + (tool === "tn" ? "/" + totalVerses : "");
 
             $.ajax({
                 url: "/events/rpc/get_" + tool + "/" + query_params,
@@ -2480,10 +2327,10 @@ $(document).ready(function() {
     });
 
     // Show/Hide Keyword Definition
-    $("body").on("click", ".word_term", function () {
-        var word = $("span", this).text();
-        var def = $(this).next(".word_def").html();
-        var parent = $(this).closest(".ttools_content");
+    body.on("click", ".word_term", function () {
+        const word = $("span", this).text();
+        const def = $(this).next(".word_def").html();
+        const parent = $(this).closest(".ttools_content");
 
         $(".word_def_title", parent).text(word);
         $(".word_def_content", parent).html(def);
@@ -2492,21 +2339,21 @@ $(document).ready(function() {
         $(".word_def_popup", parent).show("slide", {direction: "left"}, 300);
     });
 
-    $("body").on("click", ".word_def-close", function() {
+    body.on("click", ".word_def-close", function() {
         $(".labels_list").children().show();
-        var parent = $(this).closest(".ttools_content");
+        const parent = $(this).closest(".ttools_content");
 
         $(".word_def_content", parent)[0].scrollTop = 0;
         $(".word_def_popup", parent).hide("slide", {direction: "left"}, 300);
     });
 
     // Show/hide original/english content of a rubric
-    $("body").on("click", ".read_rubric_tabs li", function(e) {
+    body.on("click", ".read_rubric_tabs li", function(e) {
         e.preventDefault();
-        var id = $(this).attr("id");
+        const id = $(this).attr("id");
         $(this).addClass("active");
 
-        if(id == "tab_orig")
+        if(id === "tab_orig")
         {
             $("#tab_eng").removeClass("active");
             $(".read_rubric_qualities .orig").show();
@@ -2520,8 +2367,8 @@ $(document).ready(function() {
         }
     });
 
-    $("body").on("click", ".ttools_panel .panel-close", function () {
-        var tool = $(this).data("tool");
+    body.on("click", ".ttools_panel .panel-close", function () {
+        const tool = $(this).data("tool");
 
         switch (tool) {
             case "tn":
@@ -2538,87 +2385,6 @@ $(document).ready(function() {
                 break;
             case "saildict":
                 $(".ttools_panel.saildict_tool").hide();
-                break;
-        }
-    });
-
-    // ################ Question Editor ############### //
-
-    $(".consume_q, .verbalize_q, .draft_q").click(function () {
-        var parent = $(this).closest(".parent_q");
-        var verse = parent.data("verse");
-        var chapter = parent.data("chapter");
-        var event = parent.data("event");
-        var checked = $(this).is(":checked");
-        var type = $(this).attr("class");
-        var text = $(".add_questions_editor", parent).val();
-
-        if(checked)
-        {
-            switch (type) {
-                case "consume_q":
-                    if(event > 0)
-                        window.localStorage.setItem("consume_" + event + "_" + chapter + "_" + verse, "done");
-                    $(".verbalize_q", parent).prop("disabled", false);
-                    return true;
-                case "verbalize_q":
-                    if(event > 0)
-                        window.localStorage.setItem("verbalize_" + event + "_" + chapter + "_" + verse, "done");
-                    $(".draft_q", parent).prop("disabled", false);
-                    $(".add_questions_editor", parent).summernote("enable");
-                    $(".questions_editor", parent).removeClass("locked");
-                    return true;
-                case "draft_q":
-                    if(text != "")
-                    {
-                        if(event > 0)
-                            window.localStorage.setItem("draft_" + event + "_" + chapter + "_" + verse, "done");
-                        return true;
-                    }
-                    break;
-            }
-        }
-
-        return false;
-    });
-
-    $(".consume_q, .verbalize_q, .draft_q").each(function () {
-        var parent = $(this).closest(".parent_q");
-        var verse = parent.data("verse");
-        var chapter = parent.data("chapter");
-        var event = parent.data("event");
-        var type = $(this).attr("class");
-        var text = $(".add_questions_editor", parent).val();
-
-        if(event == 0) return true;
-
-        switch (type) {
-            case "consume_q":
-                var consume = localStorage.getItem("consume_" + event + "_" + chapter + "_" + verse);
-                if(consume == "done")
-                {
-                    $(".consume_q", parent).prop("checked", true);
-                    $(".verbalize_q", parent).prop("disabled", false);
-                }
-                break;
-            case "verbalize_q":
-                var verbalize = localStorage.getItem("verbalize_" + event + "_" + chapter + "_" + verse);
-                if(verbalize == "done")
-                {
-                    $(".verbalize_q", parent).prop("checked", true);
-                    $(".draft_q", parent).prop("disabled", false);
-
-                    // Wait until summernote plugin loads completely
-                    setTimeout(function () {
-                        $(".add_questions_editor", parent).summernote("enable");
-                        $(".questions_editor", parent).removeClass("locked");
-                    }, 1000);
-                }
-                break;
-            case "draft_q":
-                var draft = localStorage.getItem("draft_" + event + "_" + chapter + "_" + verse);
-                if(draft == "done")
-                    $(".draft_q", parent).prop("checked", true);
                 break;
         }
     });
@@ -2640,10 +2406,10 @@ $(document).ready(function() {
     // ------------- Language Input ------------- //
 
     // Delete verse block and verse from database if it exists
-    $("body").on("click", "button.delete_verse_ta", function (e) {
-        var $this = $(this);
-        var parent = $this.closest(".lang_input_verse");
-        var id = parent.data("id"); // id of the verse from database
+    body.on("click", "button.delete_verse_ta", function (e) {
+        const $this = $(this);
+        const parent = $this.closest(".lang_input_verse");
+        const id = parent.data("id"); // id of the verse from database
 
         if(id)
         {
@@ -2679,15 +2445,13 @@ $(document).ready(function() {
 
     // Add empty verse block
     $(".add_verse_ta").click(function (e) {
-        var lastVerseBlock = $(".lang_input_verse:last-of-type");
-        var newVerse;
+        const lastVerseBlock = $(".lang_input_verse:last-of-type");
+        let newVerse = 1;
 
         if(lastVerseBlock.length > 0)
             newVerse = parseInt(lastVerseBlock.data("verse"))+1;
-        else
-            newVerse = 1;
 
-        var newVerseHtml = "" +
+        const newVerseHtml = "" +
             "<div class=\"lang_input_verse\" data-verse=\""+newVerse+"\">" +
             "<textarea name=\"verses["+newVerse+"]\" class=\"textarea lang_input_ta\"></textarea>" +
             "<span class=\"vn\">"+newVerse+"</span>" +
@@ -2701,12 +2465,12 @@ $(document).ready(function() {
     });
 
     // Autosave verse in language input mode
-    $("body").on("keyup paste", ".lang_input_ta", function() {
+    body.on("keyup paste", ".lang_input_ta", function() {
         hasLangInputChangesOnPage = true;
         $(".unsaved_alert").show();
     });
 
-    var langInputAutosaver = setInterval(function() {
+    setInterval(function() {
         if(typeof isDemo != "undefined" && isDemo)
         {
             hasLangInputChangesOnPage = false;
@@ -2778,14 +2542,14 @@ $(document).ready(function() {
         }
     });
 
-    $("body").click(function() {
+    body.click(function() {
         if($("#upload_menu ul").is(":visible")) {
             $("#upload_menu ul").slideUp(200);
         }
     });
 
     $(".export_cloud a").click(function(e) {
-        var url = $(this).prop("href");
+        const url = $(this).prop("href");
 
         exportToCloud(url);
 
@@ -2793,16 +2557,16 @@ $(document).ready(function() {
     });
 
     $(".login_cloud_server button[name=cloudLogin]").on("click", function(e) {
-        var username = $("#cloud_username").val();
-        var password = $("#cloud_password").val();
-        var otp = $("#cloud_otp_code").val();
-        var server = $("#cloudServer").val();
-        var cloudUrl = $("#cloudUrl").val();
+        const username = $("#cloud_username").val();
+        const password = $("#cloud_password").val();
+        const otp = $("#cloud_otp_code").val();
+        const server = $("#cloudServer").val();
+        const cloudUrl = $("#cloudUrl").val();
 
         $(".login_cloud_server .cloudError").text("");
         $(".cloudLoginLoader").show();
 
-        if(username != "" && password != "") {
+        if(username !== "" && password !== "") {
             $.ajax({
                 url: "/members/rpc/cloud_login",
                 method: "post",
@@ -2847,7 +2611,7 @@ $(document).ready(function() {
 });
 
 function exportToCloud(url) {
-    var dialog = renderPopup(Language.sending, null, null, false);
+    const dialog = renderPopup(Language.sending, null, null, false);
 
     $.ajax({
         url: url,
@@ -2860,8 +2624,8 @@ function exportToCloud(url) {
                 renderPopup(Language.pushSuccess + " <a href='"+data.url+"' target='_blank'>"+data.url+"</a>");
             } else {
                 dialog.dialog("destroy");
-                if(data.authenticated != undefined && !data.authenticated) {
-                    var createLink = data.server === "wacs" ?
+                if(typeof data.authenticated != "undefined" && !data.authenticated) {
+                    const createLink = data.server === "wacs" ?
                         "https://wacs.bibletranslationtools.org/user/sign_up" :
                         "https://git.door43.org/user/sign_up";
 
@@ -2876,7 +2640,7 @@ function exportToCloud(url) {
                     $(".cloud_otp_code_group").hide();
 
                     $(".login_cloud_server").css("left", 0);
-                } else if(data.error != undefined) {
+                } else if(typeof data.error != "undefined") {
                     renderPopup(data.error);
                 }
             }
@@ -2891,11 +2655,13 @@ function exportToCloud(url) {
 }
 
 function animateIntro() {
-    var  grl=$( "#ground-left" );
-    var  grr=$( "#ground-right" );
-    var  grc=$( "#ground-center" );
-    var  cll=$( "#cloud-left" );
-    var  clr=$( "#cloud-right" );
+    if (location.pathname !== "/") return;
+
+    const grl=$( "#ground-left" );
+    const grr=$( "#ground-right" );
+    const grc=$( "#ground-center" );
+    const cll=$( "#cloud-left" );
+    const clr=$( "#cloud-right" );
 
     grc.delay(0).animate(
         {bottom: 0},1300, "linear");
@@ -2935,29 +2701,29 @@ function animateIntro() {
 // Cookie Helpers
 /**
  * Get cookie by name
- * @param string name
+ * @param name
  * @returns {*}
  */
 function getCookie(name) {
-    var matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    const matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([.$?*|{}()\[\]\\\/+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
 /**
  * Set cookie value by name
- * @param string name
- * @param string value
- * @param object options
+ * @param name
+ * @param value
+ * @param options
  */
 function setCookie(name, value, options) {
     options = options || {};
 
-    var expires = options.expires;
+    let expires = options.expires;
 
     if (typeof expires == "number" && expires) {
-        var d = new Date();
+        const d = new Date();
         d.setTime(d.getTime() + expires * 1000);
         expires = options.expires = d;
     }
@@ -2967,12 +2733,12 @@ function setCookie(name, value, options) {
 
     value = encodeURIComponent(value);
 
-    var updatedCookie = name + "=" + value;
+    let updatedCookie = name + "=" + value;
 
-    for (var propName in options) {
+    for (const propName in options) {
         updatedCookie += "; " + propName;
-        var propValue = options[propName];
-        if (propValue !== true) {
+        const propValue = options[propName];
+        if (propValue != true) {
             updatedCookie += "=" + propValue;
         }
     }
@@ -2982,19 +2748,21 @@ function setCookie(name, value, options) {
 
 /**
  * Delete cookie by name (make it expired)
- * @param string name
+ * @param name
+ * @param options
  */
 function deleteCookie(name, options) {
-    setCookie(name, "", {
+    options = options || {
         expires: -1,
         path: "/"
-    })
+    };
+    setCookie(name, "", options)
 }
 
 function parseCombinedVerses(verse)
 {
-    var versesArr = [];
-    var verses = verse.split("-");
+    const versesArr = [];
+    const verses = verse.split("-");
 
     if(verses.length < 2)
     {
@@ -3002,10 +2770,10 @@ function parseCombinedVerses(verse)
         return versesArr;
     }
 
-    var fv = parseInt(verses[0]);
-    var lv = parseInt(verses[1]);
+    const fv = parseInt(verses[0]);
+    const lv = parseInt(verses[1]);
 
-    for(var i=fv; i <= lv; i++)
+    for(let i=fv; i <= lv; i++)
     {
         versesArr.push(i);
     }
@@ -3025,20 +2793,22 @@ function escapeQuotes(str) {
  * Renders and shows dialog window with OK button
  * @param message
  * @param onOK Ok button callback
+ * @param onClose Close button callback
+ * @param closable Is it closable
  * @returns {boolean}
  */
 function renderPopup(message, onOK, onClose, closable) {
-    var buttons = {};
-    var dialogClass = "no-close";
+    let buttons = {};
+    let dialogClass = "no-close";
 
-    closable = closable != undefined ? closable : true;
+    closable = closable || true;
 
     if(closable) {
-        onOK = onOK != undefined ? onOK : function(){
+        onOK = onOK || function(){
             $( this ).dialog( "close" );
         };
 
-        onClose = onClose != undefined ? onClose : function(){
+        onClose = onClose || function(){
             $( this ).dialog( "close" );
             return false;
         };
@@ -3075,23 +2845,23 @@ function renderPopup(message, onOK, onClose, closable) {
  * @param onClose close dialog callback
  */
 function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo, onClose) {
-    onAnswerYes = typeof onAnswerYes != "undefined" ? onAnswerYes : function(){
+    onAnswerYes = onAnswerYes || function(){
         $( this ).dialog( "close" );
         return true;
     };
-    onAnswerNo = typeof onAnswerNo != "undefined" ? onAnswerNo : function(){
+    onAnswerNo = onAnswerNo || function(){
         $( this ).dialog( "close" );
         return false;
     };
-    onClose = typeof onClose != "undefined" ? onClose : function(){
+    onClose = onClose || function(){
         $( this ).dialog( "close" );
         return false;
     };
 
-    var yes = Language.yes;
-    var no = Language.no;
+    const yes = Language.yes;
+    const no = Language.no;
 
-    var btns = {};
+    const btns = {};
     btns[yes] = onAnswerYes;
     btns[no] = onAnswerNo;
 
@@ -3111,11 +2881,11 @@ function renderConfirmPopup(title, message, onAnswerYes, onAnswerNo, onClose) {
 
 function saveOrRemoveKeyword(verseID, text, index, remove) {
     remove = remove || false;
-    var verseData = verseID.split("_");
+    const verseData = verseID.split("_");
 
-    var chapter = verseData[1];
-    var chunk = verseData[2];
-    var verse = verseData[3];
+    const chapter = verseData[1];
+    const chunk = verseData[2];
+    const verse = verseData[3];
 
     if(typeof isDemo != "undefined")
     {
@@ -3144,7 +2914,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
         .done(function(data) {
             if(data.success)
             {
-                var data = {
+                const msg = {
                     type: "keyword",
                     remove: remove,
                     eventID: eventID,
@@ -3155,7 +2925,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
                 };
 
                 highlightKeyword(verseID, text, index, remove);
-                socket.emit("system message", data);
+                socket.emit("system message", msg);
             }
             else
             {
@@ -3182,7 +2952,7 @@ function saveOrRemoveKeyword(verseID, text, index, remove) {
  */
 function highlightKeyword(verseID, text, index, remove) {
     remove = remove || false;
-    var verseEl = $("."+verseID);
+    const verseEl = $("."+verseID);
 
     if(verseEl.length <= 0) return;
 
@@ -3192,7 +2962,7 @@ function highlightKeyword(verseID, text, index, remove) {
     {
         $("b[data="+index+"]", verseEl)
             .filter(function() {
-                return $(this).text() == text;
+                return $(this).text() === text;
             })
             .contents()
             .unwrap();
@@ -3203,13 +2973,13 @@ function highlightKeyword(verseID, text, index, remove) {
     }
     else
     {
-        var verseText = verseEl.html().trim();
-        var regex = new RegExp("("+text+")", "gmi");
+        const verseText = verseEl.html().trim();
+        const regex = new RegExp("("+text+")", "gmi");
 
-        var nth = -1;
-        var html = verseText.replace(regex, function(match, i, orig) {
+        let nth = -1;
+        const html = verseText.replace(regex, function(match, i, orig) {
             nth++;
-            return (nth == index)
+            return (nth === index)
                 ? "<b data='"+index+"'>"+match+"</b>"
                 : match;
         });
@@ -3218,14 +2988,11 @@ function highlightKeyword(verseID, text, index, remove) {
 }
 
 function downloadCSV(csv, filename) {
-    var csvFile;
-    var downloadLink;
-
     // CSV file
-    csvFile = new Blob([csv], {type: "application/csv"});
+    const csvFile = new Blob([csv], {type: "application/csv"});
 
     // Download link
-    downloadLink = document.createElement("a");
+    const downloadLink = document.createElement("a");
 
     // File name
     downloadLink.download = filename;
@@ -3244,13 +3011,13 @@ function downloadCSV(csv, filename) {
 }
 
 function exportTableToCSV(parent, separator) {
-    var csv = [];
-    var rows = parent.querySelectorAll("table tr");
+    const csv = [];
+    const rows = parent.querySelectorAll("table tr");
 
-    for (var i = 0; i < rows.length; i++) {
-        var row = [], cols = rows[i].querySelectorAll("td, th");
+    for (let i = 0; i < rows.length; i++) {
+        const row = [], cols = rows[i].querySelectorAll("td, th");
 
-        for (var j = 0; j < cols.length; j++)
+        for (let j = 0; j < cols.length; j++)
             row.push(cols[j].innerText);
 
         csv.push(row.join(separator));
@@ -3275,7 +3042,7 @@ function isIE() {
         return true;
     }
 
-    if (/Edge\/12./i.test(navigator.userAgent)){
+    if(/Edge\/12./i.test(navigator.userAgent)){
         // this is Microsoft Edge
         return true;
     }
@@ -3291,12 +3058,12 @@ function debug(obj, stop) {
 }
 
 jQuery.fn.deserialize = function (data) {
-    var f = this,
+    const f = this,
         map = {},
         find = function (selector) { return f.is("form") ? f.find(selector) : f.filter(selector); };
     //Get map of values
     jQuery.each(data.split("&"), function () {
-        var nv = this.split("="),
+        const nv = this.split("="),
             n = decodeURIComponent(nv[0]),
             v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
         if (!(n in map)) {

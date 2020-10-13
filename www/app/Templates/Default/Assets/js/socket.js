@@ -1,4 +1,5 @@
-var socket, sctUrl = 'https://odbtranslation.srv:8001';
+let socket;
+const sctUrl = 'https://odbtranslation.srv:8001';
 
 $(document).ready(function () {
     socket = io.connect(sctUrl);
@@ -29,7 +30,7 @@ function OnConnected()
 {
     $("#chat_container").chat("clearMessages");
 
-    var data = {
+    const data = {
         memberID: memberID,
         eventID: eventID,
         projectID: projectID,
@@ -47,7 +48,7 @@ function OnChatMessage(data)
 
 function OnEventRoomUpdate(roomMates)
 {
-    var membersObj = $(".member_item");
+    const membersObj = $(".member_item");
     if(membersObj.length > 0)
     {
         $(".online_indicator", membersObj).removeClass("online");
@@ -55,9 +56,9 @@ function OnEventRoomUpdate(roomMates)
         $(".offline_status", membersObj).show();
     }
 
-    for(var rm in roomMates)
+    for(const rm in roomMates)
     {
-        var memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
+        const memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
         if(memberObj.length > 0)
         {
             $(".online_indicator", memberObj).addClass("online");
@@ -71,7 +72,7 @@ function OnEventRoomUpdate(roomMates)
 
 function OnProjectRoomUpdate(roomMates)
 {
-    var membersObj = $(".member_item");
+    const membersObj = $(".member_item");
     if(membersObj.length > 0)
     {
         // $(".online_indicator", membersObj).removeClass("online");
@@ -79,9 +80,9 @@ function OnProjectRoomUpdate(roomMates)
         // $(".offline_status", membersObj).show();
     }
 
-    for(var rm in roomMates)
+    for(const rm in roomMates)
     {
-        var memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
+        const memberObj = $(".member_item[data="+roomMates[rm].memberID+"]");
         if(memberObj.length > 0)
         {
             // $(".online_indicator", memberObj).addClass("online");
@@ -95,7 +96,7 @@ function OnProjectRoomUpdate(roomMates)
 
 function OnSystemMessage(data)
 {
-    var msg = "";
+    let msg = "";
     switch (data.type)
     {
         case "logout":
@@ -103,14 +104,14 @@ function OnSystemMessage(data)
             break;
 
         case "memberConnected":
-            var t_mode = typeof tMode != "undefined" ? tMode : "";
-            var data = {
+            const t_mode = typeof tMode != "undefined" ? tMode : "";
+            const dataMsg = {
                 eventID: eventID,
                 step: step,
                 chkMemberID: chkMemberID,
                 isChecker: isChecker,
                 tMode: t_mode};
-            this.emit('step enter', data);
+            this.emit('step enter', dataMsg);
             break;
 
         case "peerEnter":
@@ -125,7 +126,7 @@ function OnSystemMessage(data)
 
                 socket.io.reconnect();
                 
-				if(step != "")
+				if(step !== "")
                 {
                     msg = Language.checkerJoined;
                     $(".alert.alert-danger, .alert.alert-success").remove();
@@ -158,20 +159,20 @@ function OnSystemMessage(data)
             break;
 
         case "comment":
-            var editors = $(".editComment[data='"+data.verse+"']");
+            const editors = $(".editComment[data='"+data.verse+"']");
             data.text = unEscapeStr(data.text);
 
             if(editors.length > 0)
             {
                 $.each(editors, function () {
-                    var editor = $(this);
-                    var numText = editor.prev(".comments_number").text();
-                    var num = numText.trim() != "" ? parseInt(numText) : 0;
-                    var wasDeleted = data.text.trim() == "";
+                    const editor = $(this);
+                    const numText = editor.prev(".comments_number").text();
+                    let num = numText.trim() !== "" ? parseInt(numText) : 0;
+                    const wasDeleted = data.text.trim() === "";
 
                     if(data.memberID == memberID)
                     {
-                        var myComment = $(".my_comment", editor.next(".comments"));
+                        const myComment = $(".my_comment", editor.next(".comments"));
                         if(myComment.length > 0)
                         { // Remove or update comment
                             if(wasDeleted)
@@ -198,14 +199,14 @@ function OnSystemMessage(data)
                             );
                             num++;
                             editor.prev(".comments_number").text(num);
-                            if(num == 1) editor.prev(".comments_number").addClass("hasComment");
+                            if(num === 1) editor.prev(".comments_number").addClass("hasComment");
 
                             editor.css("color", "#a52f20");
                         }
                     }
                     else
                     {
-                        var commentor = $(".other_comments span:contains('"+data.name+" - L"+data.level+"')", editor.next(".comments"));
+                        const commentor = $(".other_comments span:contains('"+data.name+" - L"+data.level+"')", editor.next(".comments"));
                         if(commentor.length > 0)
                         { // Remove or update comment
                             if(wasDeleted)
@@ -228,7 +229,7 @@ function OnSystemMessage(data)
                             );
                             num++;
                             editor.prev(".comments_number").text(num);
-                            if(num == 1) editor.prev(".comments_number").addClass("hasComment");
+                            if(num === 1) editor.prev(".comments_number").addClass("hasComment");
                         }
                     }
                 });
@@ -238,16 +239,16 @@ function OnSystemMessage(data)
         case "keyword":
             if(typeof isInfoPage == "undefined" &&
                 (typeof step != "undefined"
-                    && (step == EventSteps.KEYWORD_CHECK || EventCheckSteps.PEER_REVIEW_L2)))
-                highlightKeyword(data.verseID, data.text, data.index, data.remove == "true");
+                    && (step === EventSteps.KEYWORD_CHECK || EventCheckSteps.PEER_REVIEW_L2)))
+                highlightKeyword(data.verseID, data.text, data.index, data.remove === "true");
             break;
 
         case "chkStarted":
-            var notif = $("a.notifa[data='"+data.id+"']");
+            const notif = $("a.notifa[data='"+data.id+"']");
             if(notif.length > 0)
             {
                 notif.remove();
-                var count = parseInt($(".notif_count").text());
+                let count = parseInt($(".notif_count").text());
                 count--;
                 $(".notif_count").text(Math.max(count, 0));
 
@@ -280,7 +281,7 @@ function OnCheckingRequest(data)
                 $(".notif_block .no_notif").remove();
                 $(".notif_count").remove();
                 $("#notifications").append('<span class="notif_count">'+data.notifs.length+'</span>');
-                var notifs = "";
+                let notifs = "";
                 $.each(data.notifs, function(i, note) {
                     if($("a[href='"+note.link+"']").length <= 0)
                         notifs += '<a href="'+note.link+'" class="notifa" data="'+note.anchor+'">'+
@@ -288,7 +289,7 @@ function OnCheckingRequest(data)
                             '</a>';
                 });
                 $(".notif_block").prepend(notifs);
-                var notifSound = document.getElementById('notif');
+                const notifSound = document.getElementById('notif');
                 notifSound.play();
             }
             else

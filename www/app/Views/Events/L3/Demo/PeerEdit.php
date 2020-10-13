@@ -36,10 +36,10 @@
             <div class="demo_title"><?php echo __("demo") . " (".__("l2_3_events", ["level" => 3]).")" ?></div>
             <div><?php echo __("step_num", ["step_number" => 2]) . ": " . __("peer-edit-l3_full")?></div>
         </div>
-        <div class="demo_video">
+        <!--<div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
-            <a href="#"><?php echo __("demo_video"); ?></a>
-        </div>
+            <a href="#"><?php /*echo __("demo_video"); */?></a>
+        </div>-->
     </div>
 
     <div class="">

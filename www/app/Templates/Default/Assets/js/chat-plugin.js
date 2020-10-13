@@ -1,23 +1,23 @@
 (function($) {
-    var isActive;
-    var hasP2pNewmsgs = {val: false};
-    var hasEvntNewMsgs = {val: false};
-    var hasProjNewMsgs = {val: false};
-    var newEvntMsgsShown = false;
-    var newProjMsgsShown = false;
-    var newp2pMsgsShown = false;
-    var currentP2Ptab, currentP2Pmsgs, currentChatType;
-    var titleChanger, initTitle = document.title, isNewTitle = false;
-    var missedMsgsNumEvent = 0;
-    var missedMsgsNumProject = 0;
-    var missedMsgsNumCurrent = 0;
-    var isInfoPage = false;
-    var chatRightPos = 0;
+    let isActive;
+    const hasP2pNewmsgs = {val: false};
+    const hasEvntNewMsgs = {val: false};
+    const hasProjNewMsgs = {val: false};
+    let newEvntMsgsShown = false;
+    let newProjMsgsShown = false;
+    let newp2pMsgsShown = false;
+    let currentP2Ptab, currentP2Pmsgs, currentChatType;
+    let titleChanger, initTitle = document.title, isNewTitle = false;
+    let missedMsgsNumEvent = 0;
+    let missedMsgsNumProject = 0;
+    let missedMsgsNumCurrent = 0;
+    let isInfoPage = false;
+    let chatRightPos = 0;
 
-    var settings;
-    var methods = {
+    let settings;
+    const methods = {
         init : function( options ) {
-            var $this = this;
+            let $this = this;
 
             settings = $.extend({}, {
                 step: "",
@@ -78,7 +78,7 @@
 
                         currentP2Pmsgs.show();
 
-                        var newmsgs = $(".newmsgs", currentP2Pmsgs);
+                        let newmsgs = $(".newmsgs", currentP2Pmsgs);
                         if(!newp2pMsgsShown && newmsgs.length > 0) {
                             currentP2Pmsgs.animate({scrollTop: newmsgs.offset().top - currentP2Pmsgs.offset().top + currentP2Pmsgs.scrollTop()}, 200);
                             newp2pMsgsShown = true;
@@ -95,7 +95,8 @@
 
             // Switch chat room tabs
             $(".chat_tab").click(function() {
-                var id = $(this).prop("id");
+                let id = $(this).prop("id");
+                let newmsgs;
 
                 switch (id)
                 {
@@ -109,7 +110,7 @@
                         missedMsgsNumCurrent = 0;
                         $(".missed", currentP2Ptab).text("").hide();
 
-                        if(id == "evnt") missedMsgsNumEvent = 0;
+                        if(id === "evnt") missedMsgsNumEvent = 0;
 
                         if((missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject) > 0)
                         {
@@ -128,7 +129,7 @@
                         $("#evnt_messages").show();
                         $("#chat_type").val("evnt");
 
-                        var newmsgs = $(".newmsgs", $("#evnt_messages"));
+                        newmsgs = $(".newmsgs", $("#evnt_messages"));
 
                         if(!newEvntMsgsShown && newmsgs.length > 0) {
                             $("#evnt_messages").animate({scrollTop: newmsgs.offset().top - $("#evnt_messages").offset().top + $("#evnt_messages").scrollTop()}, 200);
@@ -160,7 +161,7 @@
                         $("#proj_messages").show();
                         $("#chat_type").val("proj");
 
-                        var newmsgs = $(".newmsgs", $("#proj_messages"));
+                        newmsgs = $(".newmsgs", $("#proj_messages"));
 
                         if(!newProjMsgsShown && newmsgs.length > 0) {
                             $("#proj_messages").animate({scrollTop: newmsgs.offset().top - $("#proj_messages").offset().top + $("#proj_messages").scrollTop()}, 200);
@@ -175,7 +176,7 @@
                         missedMsgsNumProject = 0;
                         $(".missed", "#proj").text("").hide();
 
-                        if(currentP2Ptab.prop("id") == "evnt") missedMsgsNumEvent = 0;
+                        if(currentP2Ptab.prop("id") === "evnt") missedMsgsNumEvent = 0;
 
                         if((missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject) > 0)
                         {
@@ -194,18 +195,18 @@
             });
 
             $('#m').keydown(function (e) {
-                if (e.ctrlKey && e.keyCode == 13) {
+                if (e.ctrlKey && e.keyCode === 13) {
                     // Ctrl-Enter pressed
                     $(this).val(function(i,val) {
                         return val + "\r\n";
                     });
                     $(this).animate({ scrollTop: $(this)[0].scrollHeight}, 200);
                 }
-                else if(e.keyCode == 13) {
-                    if ($(this).val().trim() == "")
+                else if(e.keyCode === 13) {
+                    if ($(this).val().trim() === "")
                         return false;
 
-                    var chatData = {
+                    const chatData = {
                         eventID: settings.eventID,
                         chatType: $("#chat_type").val(),
                         step: settings.step,
@@ -253,7 +254,7 @@
 
                     currentP2Pmsgs.show();
 
-                    var newmsgs = $(".newmsgs", currentP2Pmsgs);
+                    const newmsgs = $(".newmsgs", currentP2Pmsgs);
                     if(!newp2pMsgsShown && newmsgs.length > 0) {
                         currentP2Pmsgs.animate({scrollTop: newmsgs.offset().top - currentP2Pmsgs.offset().top + currentP2Pmsgs.scrollTop()}, 200);
                         newp2pMsgsShown = true;
@@ -295,7 +296,7 @@
                 }
                 else
                 {
-                    if(data.chatType == "p2p" || data.chatType == "chk")
+                    if(data.chatType === "p2p" || data.chatType === "chk")
                         return;
                 }
             }
@@ -305,11 +306,12 @@
 
             data.msg = data.msg.replace(/\n/g,'<br/>');
 
-            var messagesObj;
-            var lastMsg;
-            var msgName, msgClass, playMissed = false;
-            var newBlock = "";
-            var hasNewMsgs = false;
+            let messagesObj;
+            let lastMsg;
+            let msgName, msgClass, playMissed = false;
+            let newBlock = "";
+            let hasNewMsgs;
+            let newmsgs = "";
 
             switch (data.chatType)
             {
@@ -365,8 +367,6 @@
 
             if(lastMsg.attr("data") == data.member.memberID)
             {
-                var newmsgs = "";
-
                 if(!isActive && !hasNewMsgs.val && data.member.memberID != settings.memberID)
                 {
                     $(".newmsgs", messagesObj).remove();
@@ -386,7 +386,6 @@
             }
             else
             {
-                var newmsgs = "";
                 if(!isActive && !hasNewMsgs.val && data.member.memberID != settings.memberID)
                 {
                     $(".newmsgs", messagesObj).remove();
@@ -406,7 +405,7 @@
 
             if(playMissed && !isActive)
             {
-                var missedMsg = document.getElementById('missedMsg');
+                const missedMsg = document.getElementById('missedMsg');
                 missedMsg.play();
 
                 if(newp2pMsgsShown)
@@ -451,7 +450,7 @@
                         break;
                 }
 
-                if(currentChatType == "evnt") missedMsgsNumEvent = 0;
+                if(currentChatType === "evnt") missedMsgsNumEvent = 0;
 
                 $(".chat_new_msgs").text(missedMsgsNumCurrent + missedMsgsNumEvent + missedMsgsNumProject).show();
             }
@@ -467,9 +466,9 @@
         {
             $("#online").html("");
 
-            for(var rm in roomMates)
+            for(const rm in roomMates)
             {
-                var memberLi = $('<li>'+ roomMates[rm].name + (roomMates[rm].isAdmin ? " ("+Language.facilitator+")" : (roomMates[rm].isSuperAdmin ? " (admin)" : ""))+'</li>').appendTo("#online");
+                const memberLi = $('<li>'+ roomMates[rm].name + (roomMates[rm].isAdmin ? " ("+Language.facilitator+")" : (roomMates[rm].isSuperAdmin ? " (admin)" : ""))+'</li>').appendTo("#online");
 
                 if(roomMates[rm].memberID == settings.memberID)
                     memberLi.addClass("mine");
@@ -478,40 +477,22 @@
         },
         updatePrivateMessages: function(data)
         {
-            if(currentP2Pmsgs.prop("id") == "evnt_messages")
+            if(currentP2Pmsgs.prop("id") === "evnt_messages")
                 return true;
 
-            var messages = [];
-            var date, msgObj, skip = false;
-            var cookieLastMsg = getCookie(currentChatType + "_"+settings.eventID+"_last_msg");
+            const messages = [];
+            const cookieLastMsg = getCookie(currentChatType + "_"+settings.eventID+"_last_msg");
 
-            for(var i in data.msgs)
+            for(const i in data.msgs)
             {
-                if(isNaN(data.msgs[i]))
+                const msgObj = JSON.parse(data.msgs[i]);
+                if(msgObj.chatType === currentChatType)
                 {
-                    msgObj = JSON.parse(data.msgs[i]);
-                    if(msgObj.chatType != currentChatType) // Skip not relevant to this page messages
-                    {
-                        skip = true;
-                        msgObj = {};
-                    }
-                }
-                else
-                {
-                    if(skip)
-                    {
-                        skip = false;
-                        continue;
-                    }
-
-                    date = data.msgs[i];
-                    msgObj.date = parseInt(date);
-
                     messages.push(msgObj);
                 }
             }
 
-            var lastDate = renderMessages(messages, currentP2Pmsgs, cookieLastMsg);
+            const lastDate = renderMessages(messages, currentP2Pmsgs, cookieLastMsg);
 
             setCookie(currentChatType + "_"+settings.eventID+"_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
@@ -519,26 +500,15 @@
         },
         updateEventMessages: function(data)
         {
-            var messages = [];
-            var date, msgObj;
-            var cookieLastMsg = getCookie("evnt_"+settings.eventID+"_last_msg");
+            const messages = [];
+            const cookieLastMsg = getCookie("evnt_"+settings.eventID+"_last_msg");
 
-            for(var i in data.msgs)
-            {
-                if(isNaN(data.msgs[i]))
-                {
-                    msgObj = JSON.parse(data.msgs[i]);
-                }
-                else
-                {
-                    date = data.msgs[i];
-                    msgObj.date = parseInt(date);
-
-                    messages.push(msgObj);
-                }
+            for(const i in data.msgs) {
+                const msgObj = JSON.parse(data.msgs[i]);
+                messages.push(msgObj);
             }
 
-            var lastDate = renderMessages(messages, $("#evnt_messages"), cookieLastMsg);
+            const lastDate = renderMessages(messages, $("#evnt_messages"), cookieLastMsg);
 
             setCookie("evnt_"+settings.eventID+"_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
@@ -546,26 +516,15 @@
         },
         updateProjectMessages: function(data)
         {
-            var messages = [];
-            var date, msgObj;
-            var cookieLastMsg = getCookie("proj_"+settings.projectID+"_last_msg");
+            const messages = [];
+            const cookieLastMsg = getCookie("proj_"+settings.projectID+"_last_msg");
 
-            for(var i in data.msgs)
-            {
-                if(isNaN(data.msgs[i]))
-                {
-                    msgObj = JSON.parse(data.msgs[i]);
-                }
-                else
-                {
-                    date = data.msgs[i];
-                    msgObj.date = parseInt(date);
-
-                    messages.push(msgObj);
-                }
+            for(const i in data.msgs) {
+                const msgObj = JSON.parse(data.msgs[i]);
+                messages.push(msgObj);
             }
 
-            var lastDate = renderMessages(messages, $("#proj_messages"), cookieLastMsg);
+            const lastDate = renderMessages(messages, $("#proj_messages"), cookieLastMsg);
 
             setCookie("proj_"+settings.projectID+"_last_msg", lastDate, {expires: 7*24*60*60, path: "/"});
 
@@ -580,14 +539,14 @@
     };
 
     /**
-     * V-Mast Chat
+     * MAST Chat
      * @param method
      * @returns {*}
      */
     $.fn.chat = function(method) {
         if ( methods[method] ) {
             return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-        } else if ( typeof method === 'object' || ! method ) {
+        } else if ( typeof method == 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
             $.error( 'Method ' +  method + ' is not defined' );
@@ -606,18 +565,18 @@
             }
             else
             {
-                if(messages[0].chatType == "p2p" || messages[0].chatType == "chk")
+                if(messages[0].chatType === "p2p" || messages[0].chatType === "chk")
                     return;
             }
         }
 
-        var lastDate = "";
-        var hasNewmsgs = false;
+        let lastDate = "";
+        let hasNewmsgs = false;
 
         cookieLastMsg = typeof cookieLastMsg == "undefined" ? Date.now() : cookieLastMsg;
 
         $.each(messages, function(i, msgObj) {
-            var msgName, msgClass, lastMsg, newBlock = "";
+            let msgName, msgClass, lastMsg, newBlock = "";
 
             lastMsg = $(".message:last", messagesType);
 
@@ -662,7 +621,7 @@
                 }
                 else
                 {
-                    var newmsgs = "";
+                    let newmsgs = "";
                     if(!hasNewmsgs && msgObj.member.memberID != settings.memberID)
                     {
                         newmsgs = '<li class="newmsgs">new messages</li>';
@@ -697,7 +656,7 @@
                     }
                 }
 
-                var newmsgs = "";
+                let newmsgs = "";
                 if(!hasNewmsgs && cookieLastMsg < msgObj.date && msgObj.member.memberID != settings.memberID)
                 {
                     newmsgs = '<li class="newmsgs">new messages</li>';
@@ -722,7 +681,7 @@
     }
 
     function ParseDate(timestamp) {
-        var date = new Date();
+        const date = new Date();
         date.setTime(timestamp);
 
         return date.toLocaleString();

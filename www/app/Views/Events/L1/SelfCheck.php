@@ -188,9 +188,3 @@ if(isset($data["error"])) return;
         });
     });
 </script>
-
-<?php if(isset($data["words"])): ?>
-<script>
-var almaWords = <?php echo $data["words"] ?>;
-</script>
-<?php endif; ?>

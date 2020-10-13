@@ -7,16 +7,16 @@ $profile = Session::get("profile");
 ?>
 
 <div style="margin-bottom: 20px">
-    <h1 class="demo_h"><?php echo __("vmast_events") ?></h1>
+    <h1 class="demo_h"><?php echo __("mast_events") ?></h1>
     <div class="demo_title events_index">
         <a href="#" class="demo_link"><?php echo __("demo")?></a>
         <span class="glyphicon glyphicon-chevron-right"></span>
         <div class="demo_options">
             <ul>
-                <a href="/events/demo"><li><?php echo __("8steps_vmast") ?></li></a>
+                <a href="/events/demo"><li><?php echo __("8steps_mast") ?></li></a>
                 <a href="/events/demo-scripture-input"><li><?php echo __("lang_input") ?></li></a>
-                <a href="/events/demo-l2"><li><?php echo __("l2_l3_vmast", ["level" => 2]); ?></li></a>
-                <a href="/events/demo-l3"><li><?php echo __("l2_l3_vmast", ["level" => 3]); ?></li></a>
+                <a href="/events/demo-l2"><li><?php echo __("l2_l3_mast", ["level" => 2]); ?></li></a>
+                <a href="/events/demo-l3"><li><?php echo __("l2_l3_mast", ["level" => 3]); ?></li></a>
                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
                 <a href="/events/demo-sun-odb"><li><?php echo __("odb") . " (".__("vsail").")" ?></li></a>
             </ul>
@@ -101,7 +101,7 @@ $profile = Session::get("profile");
                     $mode = $event->bookProject;
                     if(in_array($mode, ["ulb","udb"]))
                     {
-                        $eventType = $event->langInput ? __("lang_input") : __("8steps_vmast");
+                        $eventType = $event->langInput ? __("lang_input") : __("8steps_mast");
                     }
                     elseif ($mode == "sun")
                     {
@@ -221,7 +221,7 @@ $profile = Session::get("profile");
 
                     if(in_array($mode, ["ulb","udb"]))
                     {
-                        $eventType = $event->langInput ? __("lang_input") : __("8steps_vmast");
+                        $eventType = $event->langInput ? __("lang_input") : __("8steps_mast");
                     }
                     elseif ($mode == "sun")
                     {
@@ -312,7 +312,7 @@ $profile = Session::get("profile");
 
         if(in_array($mode, ["ulb","udb"]))
         {
-            $eventType = $event->langInput ? __("lang_input") : __("8steps_vmast");
+            $eventType = $event->langInput ? __("lang_input") : __("8steps_mast");
         }
         elseif ($mode == "sun")
         {
@@ -423,7 +423,7 @@ $profile = Session::get("profile");
 
         if(in_array($mode, ["ulb","udb"]))
         {
-            $eventType = $event->langInput ? __("lang_input") : __("8steps_vmast");
+            $eventType = $event->langInput ? __("lang_input") : __("8steps_mast");
         }
         elseif ($mode == "sun")
         {

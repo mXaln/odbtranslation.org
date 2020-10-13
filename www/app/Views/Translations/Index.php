@@ -49,22 +49,16 @@
     <br>
 
     <?php if(sizeof($data['books']) > 0 && $data['books'][0]->bookCode != ""): ?>
-        <?php if(in_array($data['books'][0]->sourceBible, ["odb","rad"])): ?>
+        <?php if(in_array($data['books'][0]->sourceBible, ["odb"])): ?>
             <h4 style="text-align: right">
                 <a href="<?php echo $data['books'][0]->sourceBible ?>/dl/json">
                     <?php echo __("download_json") ?>
                 </a>
             </h4>
-        <?php elseif(!in_array($data["mode"], ["tn","tq","tw"])): ?>
+        <?php else: ?>
             <h4 style="text-align: right">
                 <a href="<?php echo $data['books'][0]->sourceBible ?>/dl/usfm">
                     <?php echo __("download_usfm") ?>
-                </a>
-            </h4>
-        <?php else: ?>
-            <h4 style="text-align: right">
-                <a href="<?php echo $data['books'][0]->sourceBible ?>/dl/md">
-                    <?php echo __("download_markdown") ?>
                 </a>
             </h4>
         <?php endif; ?>
@@ -102,7 +96,7 @@
         <div id="upload_menu">
             <span class="glyphicon glyphicon-export"></span>
             <ul>
-                <?php if(in_array($data["data"]->sourceBible, ["odb","rad"])): ?>
+                <?php if(in_array($data["data"]->sourceBible, ["odb"])): ?>
                 <li>
                     <a href="<?php echo $data['data']->bookCode ?>/json">
                         <?php echo __("download_json") ?>
@@ -119,12 +113,6 @@
                         <?php echo __("download_ts") ?>
                     </a>
                 </li>
-                <?php else: ?>
-                <li>
-                    <a href="<?php echo $data['data']->bookCode ?>/md">
-                        <?php echo __("download_markdown") ?>
-                    </a>
-                </li>
                 <?php endif; ?>
                 <li class="export_cloud">
                     <a href="<?php echo $data['data']->bookCode ?>/wacs/export"><?php echo __("upload_wacs") ?></a>
@@ -135,7 +123,7 @@
             </ul>
         </div>
 
-        <h1 style="text-align: center">—— <?php echo !in_array($data["bookInfo"][0]->category, ["odb","rad"])
+        <h1 style="text-align: center">—— <?php echo !in_array($data["bookInfo"][0]->category, ["odb"])
             ? __($data['data']->bookCode)
             : $data['data']->bookName?> ——</h1>
 

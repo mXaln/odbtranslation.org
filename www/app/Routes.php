@@ -28,18 +28,6 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
-    Router::any("{lang}/tw/{sourceBible?}/{bookCode}/md", "TranslationsController@downloadMdTw")
-        ->where([
-            "lang" => "[a-zA-Z0-9-]+",
-            "bookProject" => "[a-z0-9]+",
-            "bookCode" => "[a-z0-9]+"
-        ]);
-    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/md", "TranslationsController@downloadMd")
-        ->where([
-            "lang" => "[a-zA-Z0-9-]+",
-            "bookProject" => "[a-z0-9]+",
-            "bookCode" => "[a-z0-9]+"
-        ]);
     Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/ts", "TranslationsController@downloadTs")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
@@ -67,17 +55,9 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("", "EventsController@index");
     Router::any("translator/{eventID}", "EventsController@translator")
         ->where(["eventID" => "[0-9]+"]);
-    Router::any("translator-tn/{eventID}", "EventsController@translatorNotes")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("translator-tq/{eventID}", "EventsController@translatorQuestions")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("translator-tw/{eventID}", "EventsController@translatorWords")
-        ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-sun/{eventID}", "EventsController@translatorSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-odb-sun/{eventID}", "EventsController@translatorOdbSun")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("translator-rad/{eventID}", "EventsController@translatorRadio")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
@@ -89,25 +69,9 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
-    Router::any("checker-tn-l3/{eventID}", "EventsController@checkerNotesL3")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("checker-tn-l3/{eventID}/{memberID}/{chapter}", "EventsController@checkerNotesL3Peer")
-        ->where([
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+",
-            "chapter" => "[0-9]+"
-        ]);
     Router::any("information/{eventID}", "EventsController@information")
         ->where(["eventID" => "[0-9]+"]);
-    Router::any("information-tn/{eventID}", "EventsController@informationNotes")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("information-tq/{eventID}", "EventsController@informationQuestions")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("information-tw/{eventID}", "EventsController@informationWords")
-        ->where(["eventID" => "[0-9]+"]);
     Router::any("information-l2/{eventID}", "EventsController@informationL2")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("information-tn-l3/{eventID}", "EventsController@informationL3")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-l3/{eventID}", "EventsController@informationL3")
         ->where(["eventID" => "[0-9]+"]);
@@ -115,26 +79,13 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-odb-sun/{eventID}", "EventsController@informationOdbSun")
         ->where(["eventID" => "[0-9]+"]);
-    Router::any("information-rad/{eventID}", "EventsController@informationRadio")
-        ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
-        ->where(["eventID" => "[0-9]+"]);
-    Router::any("manage-tw/{eventID}", "EventsController@manageTw")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage-l2/{eventID}", "EventsController@manageL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage-l3/{eventID}", "EventsController@manageL3")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker/{eventID}/{memberID}", "EventsController@checker")
-        ->where([
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+"
-            ]);
-    Router::any("checker-tn/{eventID}/{memberID}/{chapter}", "EventsController@checkerNotes")
-        ->where([
-            "eventID" => "[0-9]+"
-            ]);
-    Router::any("checker-tn/{eventID}/{memberID}", "EventsController@checkerNotesPeer")
         ->where([
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+"
@@ -157,39 +108,11 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
-    Router::any("checker-tq/{eventID}/{memberID}/{chapter}", "EventsController@checkerQuestions")
-        ->where([
-            "eventID" => "[0-9]+"
-        ]);
-    Router::any("checker-tw/{eventID}/{memberID}/{chapter}", "EventsController@checkerWords")
-        ->where([
-            "eventID" => "[0-9]+"
-        ]);
-    Router::any("checker-rad/{eventID}/{memberID}/{chapter}", "EventsController@checkerRadio")
-        ->where([
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+",
-            "chapter" => "[0-9]+"
-        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "step" => "[a-z\-]+"
-        ]);
-    Router::any("checker-{bookProject}/{eventID}/{memberID}/other/{chapter}/apply", "EventsController@applyCheckerOther")
-        ->where([
-            "bookProject" => "tn|tq|tw",
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+",
-            "chapter" => "[0-9]+"
-        ]);
-    Router::any("checker-{bookProject}/{eventID}/{memberID}/peer-review/{chapter}/apply", "EventsController@applyCheckerOther")
-        ->where([
-            "bookProject" => "tn|tq|tw",
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+",
-            "chapter" => "[0-9]+"
         ]);
     Router::any("checker/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerL2L3")
         ->where([
@@ -205,26 +128,14 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "chapter" => "[0-9]+",
             "step" => "[2a-z\-]+"
         ]);
-    Router::any("checker-rad/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerRadio")
-        ->where([
-            "eventID" => "[0-9]+",
-            "memberID" => "[0-9]+",
-            "chapter" => "[0-9]+",
-            "step" => "[2a-z\-]+"
-        ]);
 
     Router::any("notifications", "EventsController@allNotifications");
     Router::any("demo/{page?}", "EventsController@demo");
     Router::any("demo-scripture-input/{page?}", "EventsController@demoLangInput");
     Router::any("demo-l2/{page?}", "EventsController@demoL2");
     Router::any("demo-l3/{page?}", "EventsController@demoL3");
-    Router::any("demo-tn-l3/{page?}", "EventsController@demoL3Notes");
-    Router::any("demo-tn/{page?}", "EventsController@demoTn");
-    Router::any("demo-tq/{page?}", "EventsController@demoTq");
-    Router::any("demo-tw/{page?}", "EventsController@demoTw");
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("demo-sun-odb/{page?}", "EventsController@demoSunOdb");
-    Router::any("demo-rad/{page?}", "EventsController@demoRadio");
     Router::any("news", "EventsController@news");
     Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");
@@ -244,11 +155,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("rpc/move_step_back", "EventsController@moveStepBack");
     Router::any("rpc/move_step_back_alt", "EventsController@moveStepBackAlt");
-    Router::any("rpc/set_tn_checker", "EventsController@setOtherChecker");
     Router::any("rpc/check_internet", "EventsController@checkInternet");
     Router::any("rpc/apply_verb_checker", "EventsController@applyVerbChecker");
-    Router::any("rpc/create_words_group", "EventsController@createWordsGroup");
-    Router::any("rpc/delete_words_group", "EventsController@deleteWordsGroup");
     Router::any("rpc/get_tq/{bookCode}/{chapter}/{lang}", "EventsController@getTq");
     Router::any("rpc/get_tw/{bookCode}/{chapter}/{lang}", "EventsController@getTw");
     Router::any("rpc/get_tn/{bookCode}/{chapter}/{lang}/{totalVerses}", "EventsController@getTn");
@@ -308,8 +216,6 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("tools/faq", "AdminController@toolsFaq");
     Router::any("tools/news", "AdminController@toolsNews");
     Router::any("tools/source", "AdminController@toolsSource");
-    Router::any("migrate/chapters", "AdminController@migrateChapters");
-    Router::any("migrate/questions_words", "AdminController@migrateQuestionsWords");
     Router::any("rpc/create_gw_project", "AdminController@createGwProject");
     Router::any("rpc/get_super_admins", "AdminController@getSuperAdmins");
     Router::any("rpc/edit_super_admins", "AdminController@editSuperAdmins");
@@ -324,7 +230,6 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/search_members", "AdminController@searchMembers");
     Router::any("rpc/get_target_languages", "AdminController@getTargetLanguagesByGwLanguage");
     Router::any("rpc/create_event", "AdminController@createEvent");
-    Router::any("rpc/create_tw_event", "AdminController@createEventTw");
     Router::any("rpc/get_source", "AdminController@getSource");
     Router::any("rpc/verify_member", "AdminController@verifyMember");
     Router::any("rpc/block_member", "AdminController@blockMember");

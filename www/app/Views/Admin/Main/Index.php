@@ -181,11 +181,7 @@
                             data-placeholder="<?php echo __('choose_project_mode'); ?>">
                         <option value=""></option>
                         <option value="bible"><?php echo __("bible_mode") ?></option>
-                        <option value="tn"><?php echo __("notes_mode") ?></option>
-                        <option value="tq"><?php echo __("questions_mode") ?></option>
-                        <option value="tw"><?php echo __("words_mode") ?></option>
                         <option value="odb"><?php echo __("odb_mode") ?></option>
-                        <option value="rad"><?php echo __("radio_mode") ?></option>
                     </select>
                 </div>
             
@@ -237,8 +233,8 @@
                     <select name="projectType" id="projectType" class="form-control"
                             data-placeholder="<?php echo __('choose_project_type'); ?>">
                         <option value=""></option>
-                        <option value="udb"><?php echo __("udb") ?></option>
                         <option value="ulb"><?php echo __("ulb") ?></option>
+                        <option value="odb"><?php echo __("odb") ?></option>
                         <option value="sun"><?php echo __("sun") ?></option>
                     </select>
                 </div>

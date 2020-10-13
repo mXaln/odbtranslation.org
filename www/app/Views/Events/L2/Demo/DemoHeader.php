@@ -55,7 +55,7 @@ $isCheckPage = $data["step"] == EventCheckSteps::PEER_REVIEW_L2;
         <div class="video-close glyphicon glyphicon-remove"></div>
 
         <iframe id="demo-player" width="900" height="450"
-                src="https://www.youtube.com/embed/t9cKHe5li_E?rel=0&enablejsapi=1&origin=https://v-mast.mvc" frameborder="0" allowfullscreen></iframe>
+                src="" frameborder="0" allowfullscreen></iframe>
 
         <script>
             var tag = document.createElement('script');

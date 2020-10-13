@@ -17,10 +17,10 @@
             </div>
             <div><?php echo __("step_num", ["step_number" => 4]) . ": " . __("self-check")?></div>
         </div>
-        <div class="demo_video">
+        <!--<div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
-            <a href="#"><?php echo __("demo_video"); ?></a>
-        </div>
+            <a href="#"><?php /*echo __("demo_video"); */?></a>
+        </div>-->
     </div>
 
     <div class="">

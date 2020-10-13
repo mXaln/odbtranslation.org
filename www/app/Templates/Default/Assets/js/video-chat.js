@@ -3,20 +3,20 @@
  */
 'use strict';
 
-var isInitiator = false;
-var isStarted = false;
-var localStream;
-var remoteStream;
-var pc;
-var time;
-var timeoutInterval,
+let isInitiator = false;
+let isStarted = false;
+let localStream;
+let remoteStream;
+let pc;
+let time;
+let timeoutInterval,
     timeoutDelay = 30000, // Call busy timeout
     timeoutClose,
     timeoutCloseDelay = 2000; // timeout of closing video window with error
-var constraints = {audio: true, video: false};
-var calleeID = 0;
-var calleeName = "";
-var callAnswered = false;
+const constraints = {audio: true, video: false};
+let calleeID = 0;
+let calleeName = "";
+let callAnswered = false;
 
 $(".videoCallOpen").click(openVideoDialog);
 $(".video-chat-close").click(closeVideoDialog);
@@ -25,20 +25,20 @@ $("#answerButton").click(onAnswerClick);
 $("#cameraButton").click(manageCamera);
 $("#micButton").click(manageMic);
 
-var iceConfig = {
+const iceConfig = {
     'iceServers': [
-        { "url": "stun:v-mast.com" },
-        { "url": ["turn:v-mast.com"], "username": turnUsername, "credential": turnPassword}
+        { "url": "stun:odbtranslation.org" },
+        { "url": ["turn:odbtranslation.org"], "username": turnUsername, "credential": turnPassword}
     ]
 };
 
-var localVideo = $("#localVideo")[0];
-var remoteVideo = $('#remoteVideo')[0];
-var callLog = $('#callLog');
+const localVideo = $("#localVideo")[0];
+const remoteVideo = $('#remoteVideo')[0];
+const callLog = $('#callLog');
 
-var callin = document.getElementById('callin');
+const callin = document.getElementById('callin');
 callin.loop = true;
-var callout = document.getElementById('callout');
+const callout = document.getElementById('callout');
 callout.loop = true;
 
 $(document).ready(function () {
@@ -93,7 +93,7 @@ function sendMessage(message)
 
 function maybeStart() {
     console.log('>>>>>>> maybeStart() ', isStarted, localStream);
-    if (!isStarted && typeof localStream !== 'undefined') {
+    if (!isStarted && typeof localStream != 'undefined') {
         console.log('>>>>>> creating peer connection');
         createPeerConnection();
         pc.addStream(localStream);
@@ -141,7 +141,7 @@ function doAnswer() {
 }
 
 function setLocalAndSendMessage(sessionDescription) {
-    var msg = {
+    const msg = {
         type: "offer",
         callType: $("#chat_type").val(),
         eventID: eventID,
@@ -161,7 +161,7 @@ function openVideoDialog() {
     constraints.video = $(this).hasClass("videocall");
 
     timeoutInterval = setInterval(function () {
-        var now = new Date().getTime();
+        const now = new Date().getTime();
         if((now - time) > timeoutDelay)
         {
             callLog.html(Language.callTimeout);
@@ -278,7 +278,7 @@ function manageCamera() {
     {
         if(localStream.getVideoTracks().length > 0)
         {
-            var enabled = !localStream.getVideoTracks()[0].enabled;
+            const enabled = !localStream.getVideoTracks()[0].enabled;
             localStream.getVideoTracks()[0].enabled = enabled;
             if(enabled)
                 $("#cameraButton").addClass("btn-success").removeClass("btn-danger");
@@ -293,7 +293,7 @@ function manageMic() {
     {
         if(localStream.getAudioTracks().length > 0)
         {
-            var enabled = !localStream.getAudioTracks()[0].enabled;
+            const enabled = !localStream.getAudioTracks()[0].enabled;
             localStream.getAudioTracks()[0].enabled = enabled;
             if(enabled)
                 $("#micButton").addClass("btn-success glyphicon-volume-up").removeClass("btn-danger glyphicon-volume-off");
@@ -365,7 +365,7 @@ function onVideoCallMessage(message)
 
                 time = new Date().getTime();
                 timeoutInterval = setInterval(function () {
-                    var now = new Date().getTime();
+                    const now = new Date().getTime();
                     if((now - time) > timeoutDelay)
                     {
                         callLog.html(Language.callTimeout);
@@ -405,7 +405,7 @@ function onVideoCallMessage(message)
 
             if(isStarted)
             {
-                var candidate = new RTCIceCandidate({
+                const candidate = new RTCIceCandidate({
                     sdpMLineIndex: message.label,
                     candidate: message.candidate
                 });

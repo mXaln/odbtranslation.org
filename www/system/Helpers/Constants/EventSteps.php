@@ -53,27 +53,6 @@ class EventSteps
         "finished" => 4,
     ];
 
-    private static $enumNotes = [
-            "none" => 0,
-            "pray" => 1,
-            "consume" => 2,
-            "read-chunk" => 3,
-            "blind-draft" => 4,
-            "self-check" => 5,
-            "finished" => 6,
-            ];
-
-    private static $enumNotesChk = [
-        "none" => 0,
-        "pray" => 1,
-        "consume" => 2,
-        "highlight" => 3,
-        "self-check" => 4,
-        "keyword-check" => 5,
-        "peer-review" => 6,
-        "finished" => 7,
-        ];
-
     private static $enumSun = [
         "none" => 0,
         "pray" => 1,
@@ -100,92 +79,21 @@ class EventSteps
         "finished" => 8,
     ];
 
-    private static $enumQuestions = [
-        "none" => 0,
-        "pray" => 1,
-        "multi-draft" => 2,
-        "self-check" => 3,
-        "finished" => 4,
-    ];
-
-    private static $enumQuestionsChk = [
-        "none" => 0,
-        "pray" => 1,
-        "keyword-check" => 2,
-        "peer-review" => 3,
-        "finished" => 4,
-    ];
-
-    private static $enumWords = [
-        "none" => 0,
-        "pray" => 1,
-        "multi-draft" => 2,
-        "self-check" => 3,
-        "finished" => 4,
-    ];
-
-    private static $enumWordsChk = [
-        "none" => 0,
-        "pray" => 1,
-        "keyword-check" => 2,
-        "peer-review" => 3,
-        "finished" => 4,
-    ];
-
-    private static $enumRad = [
-        "none" => 0,
-        "pray" => 1,
-        "consume" => 2,
-        "multi-draft" => 3,
-        "self-check" => 4,
-        "peer-review" => 5,
-        "finished" => 6,
-    ];
-
     public static function enum($step, $mode = null, $chk = false)
     {
         switch($mode)
         {
-            case "tn":
-                if($chk)
-                    return self::$enumNotesChk[$step];
-                else
-                    return self::$enumNotes[$step];
-                break;
-
             case "sun":
                 return self::$enumSun[$step];
-                break;
 
             case "odbsun":
                 return self::$enumOdbSun[$step];
-                break;
-
-            case "tq":
-                if($chk)
-                    return self::$enumQuestionsChk[$step];
-                else
-                    return self::$enumQuestions[$step];
-                break;
-
-            case "tw":
-                if($chk)
-                    return self::$enumWordsChk[$step];
-                else
-                    return self::$enumWords[$step];
-                break;
 
             case "li":
                 return self::$enumLangInput[$step];
-                break;
-
-            case "rad":
-                return self::$enumRad[$step];
-                break;
 
             default:
                 return self::$enum[$step];
-                break;
         }
     }
 
@@ -193,46 +101,17 @@ class EventSteps
     {
         switch($mode)
         {
-            case "tn":
-                if($chk)
-                    return self::$enumNotesChk;
-                else
-                    return self::$enumNotes;
-                break;
-
             case "sun":
                 return self::$enumSun;
-                break;
 
             case "odbsun":
                 return self::$enumOdbSun;
-                break;
-
-            case "tq":
-                if($chk)
-                    return self::$enumQuestionsChk;
-                else
-                    return self::$enumQuestions;
-                break;
-
-            case "tw":
-                if($chk)
-                    return self::$enumWordsChk;
-                else
-                    return self::$enumWords;
-                break;
 
             case "li":
                 return self::$enumLangInput;
-                break;
-
-            case "rad":
-                return self::$enumRad;
-                break;
 
             default:
                 return self::$enum;
-                break;
         }
     }
 }

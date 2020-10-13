@@ -33,14 +33,14 @@
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
         <div class="main_content_title">
-            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_vmast").")" ?></div>
+            <div class="demo_title"><?php echo __("demo") . " (".__("8steps_mast").")" ?></div>
             <div><?php echo __("step_num", ["step_number" => 7]) . ": " . __("keyword-check")?></div>
             <div class="action_type type_translation"><?php echo __("type_translation"); ?></div>
         </div>
-        <div class="demo_video">
+        <!--<div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
-            <a href="#"><?php echo __("demo_video"); ?></a>
-        </div>
+            <a href="#"><?php /*echo __("demo_video"); */?></a>
+        </div>-->
     </div>
 
     <div class="main_content">
