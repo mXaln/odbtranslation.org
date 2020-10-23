@@ -490,6 +490,7 @@ return array (
     "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "sun_odb_vbv_checker" => "Remove SUN checker",
+    "odb_vbv_checker" => "Remove Comparative checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Supprimer le 2eme vérificateur",
@@ -572,7 +573,7 @@ return array (
                         <li>Cliquez “Oui” je l’ai fait” et “Prochaine étape” pour la prochaine étape.</li>",
 
     "consume_odb" => "Lis",
-    "consume_sun_desc" => "<li><b>BUT:</b> to get the big picture of the chapter</li>
+    "consume_odb_desc" => "<li><b>BUT:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
                             <li>Pause, reflect, and re-read as necessary.</li>
@@ -645,6 +646,9 @@ return array (
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     
     "blind-draft" => "Brouillon Aveugle",
+    "blind-draft_odb" => "Brouillon",
+    "blind-draft-alt" => "Brouillon",
+    "blind-draft_odb_previous" => "Brouillon – Tronçon d’Avant",
     "blind-draft_previous" => "Brouillon Aveugle – Tronçon d’Avant",
     "blind-draft_desc" => "<li><b>BUT:</b> Traduire le texte d’origine de la façon la plus naturelle dans le langage target.</li>
                             <li><b>DURÉE:</b> ne prenez pas plus de 11 minutes pour chaque section.</li>
@@ -820,6 +824,7 @@ return array (
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "peer-review" => "Edition par les Pairs",
+    "peer-review_odb" => "Edition par les Pairs",
     "peer-review_desc" => "<li><b>BUT:</b> Parler avec une autre personne qui parle le langage cible pour vérifier que 
                             le sens du texte est précis quant au texte d’origine tout en maintenant le flot naturel du draft aveugle.</li>
                             <li><b>DURÉE:</b> Le vérificateur devrait prendre 30 minutes pour la vérification. Discuter 
@@ -1069,7 +1074,8 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Vérification Verset par Verset",
-    "content-review_odb" => "SUN Check",
+    "content-review_odb" => "Comparative Check",
+    "content-review_sun_odb" => "SUN Check",
     "content-review_desc" => "<li><b>BUT:</b> assurer que la traduction donne correctement le même message que le texte de départ</li>
                                 <li><b>DURÉE:</b> Le vérificateur doit prendre autours de 30 minutes pour réviser le texte. 
                                     La discussion et la correction doivent prendre autour de 30 à 45 minutes.</li>

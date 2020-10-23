@@ -1,4 +1,7 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
+
 if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
@@ -24,7 +27,7 @@ if(isset($data["error"])) return;
                                 <?php endforeach; ?>
                             </div>
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                <?php $text = isset($data["words"]) ? $data["words"] : ""; ?>
+                                <?php $text = isset($data[ChunkSections::WORDS]) ? $data[ChunkSections::WORDS] : ""; ?>
                                 <textarea name="draft" class="col-sm-6 verse_ta textarea"><?php echo $text ?></textarea>
                             </div>
                         </div>

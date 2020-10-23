@@ -1,6 +1,7 @@
 <?php
 //if(isset($error)) return;
 
+use Helpers\Constants\ChunkSections;
 use \Helpers\Constants\EventMembers;
 use \Helpers\Constants\EventCheckSteps;
 use Helpers\Session;
@@ -67,10 +68,10 @@ use Helpers\Session;
                                 <div class="vnote l3 flex_middle font_<?php echo $data["event"][0]->targetLang ?>"
                                      dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php
-                                    if(!empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"]))
-                                        $verses = $data["translation"][$chunkNo][EventMembers::L3_CHECKER]["verses"];
+                                    if(!empty($data["translation"][$chunkNo][EventMembers::L3_CHECKER][ChunkSections::VERSES]))
+                                        $verses = $data["translation"][$chunkNo][EventMembers::L3_CHECKER][ChunkSections::VERSES];
                                     else
-                                        $verses = $data["translation"][$chunkNo][EventMembers::L2_CHECKER]["verses"];
+                                        $verses = $data["translation"][$chunkNo][EventMembers::L2_CHECKER][ChunkSections::VERSES];
                                     ?>
                                     <?php foreach($verses as $verse => $text): ?>
                                         <div class="verse_block">

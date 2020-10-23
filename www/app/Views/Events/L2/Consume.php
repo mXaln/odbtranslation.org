@@ -1,6 +1,7 @@
 <?php
 if(isset($data["error"])) return;
 
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 ?>
 <div id="translator_contents" class="row panel-body">
@@ -27,7 +28,7 @@ use Helpers\Constants\EventMembers;
 
                 <div id="target_scripture_content" class="my_content shown">
                     <?php foreach ($data["translation"] as $translation): ?>
-                        <?php foreach ($translation[EventMembers::TRANSLATOR]["verses"] as $verse => $text): ?>
+                        <?php foreach ($translation[EventMembers::TRANSLATOR][ChunkSections::VERSES] as $verse => $text): ?>
                             <p><?php echo "<strong><sup>".$verse."</sup></strong> ".preg_replace("/(\\\\f(?:.*?)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></p>
                         <?php endforeach; ?>
                     <?php endforeach; ?>

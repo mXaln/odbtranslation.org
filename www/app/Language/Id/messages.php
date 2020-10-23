@@ -490,6 +490,7 @@ return array (
     "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "sun_odb_vbv_checker" => "Remove SUN checker",
+    "odb_vbv_checker" => "Remove Comparative checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -558,7 +559,7 @@ return array (
     "consume_desc" => "<li><b>KEGUNAAN:</b> untuk menyiapkan memori jangka pendek Anda untuk membantu Anda dalam penerjemahan</li><li>Baca teks yang ditugaskan secara keseluruhan. Serap secara cermat dan pertimbangkan apa yang dikatakan untuk memahami isi utuh dari nats ini.</li><li>Berhenti, renungkan, dan baca kembali jika perlu.</li><li>Ambil tidak lebih dari 12 menit pada kegiatan ini.</li>",
 
     "consume_odb" => "Pembacaan",
-    "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
+    "consume_odb_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
 
     "consume_tn" => "Read Scripture",
     "consume_tn_full" => "Read Scripture in Target Language",
@@ -596,6 +597,9 @@ return array (
                                 <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
     
     "blind-draft" => "Draft Kosong",
+    "blind-draft_odb" => "Draft",
+    "blind-draft-alt" => "Draft",
+    "blind-draft_odb_previous" => "Draft – Penggalan Sebelumnya",
     "blind-draft_previous" => "Draft Kosong – Penggalan Sebelumnya",
     "blind-draft_desc" => "<li><b>KEGUNAAN:</b> untuk menerjemahkan teks sumber sealami mungkin dalam bahasa tujuan.</li> <li>Tanpa melihat teks sumber, ketik terjemahan Anda dari penggalan itu sebaik yang dapat Anda ingat, secara alami, menggunakan kata-kata yang jelas dan dapat dimengerti</li><li>Jangan melihat pada teks sumber. Terjemahkan hanya apa yang Anda ingat.</li><li>Jangan khawatir tentang penandaan ayat-ayat. Akan dilakukan pada langkah terakhir</li><li>Salah satu sifat dasar dari terjemahan yang baik adalah kealamian bahasa. Draft kosong mengambil ini dan memungkinkan otak/memori jangka pendek untuk mengeluarkan teks yang paling alami dengan cepat. Tidak dimaksudkan untuk menjadi teks akurat yang sempurna (empat langkah selanjutnya akan mengerjakan itu), dimaksudkan untuk memberikan dasar kealamian, yang jika tidak ada, menyebabkan kesalahan lain dan perbaikan kesalahan mendasar yang lama.</li><li>Ambil waktu tidak lebih dari 10-12 menit pada kegiatan ini per penggalan</li>",
 
@@ -693,6 +697,7 @@ return array (
                             <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
 
     "peer-review" => "Edit dengan Rekan",
+    "peer-review_odb" => "Edit dengan Rekan",
     "peer-review_desc" => "<li><b>KEGUNAAN:</b>untuk mengonfirmasi dengan penutur lain dari bahasa target bahwa teks yang diterjemahkan adalah setia dan merupakan ungkapan yang alami dari teks sumber (mirip dengan self-edit)</li><li>Terjemahan Anda akan dikaji oleh pemeriksa</li><li>Pemeriksa akan mengkaji terjemahan Anda mencari sesuatu yang terlewatkan, ditambahkan, atau sangat berbeda dari sumber.</li><li>Pemeriksa juga akan memeriksa kata-kata yang digunakan dalam terjemahan yang tidak tampak alami, jelas, dan dapat dimengerti.</li><li>Pemeriksa harus mengambil waktu tidak lebih dari 30-45 menit pada kegiatan ini</li><li>Ketika pemeriksa selesai membuat catatan dan pengamatan Anda, hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ... </li><li>Diskusikan pengamatan Anda. Sementara rekan Anda membuat komentar mereka, sesuaikan terjemahan Anda.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 60 menit dengan rekan Anda pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
 
     "peer-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk mengonfirmasi bahwa bahasa target yang diterjemahkan adalah setia dan merupakan ungkapan yang alami dari teks sumber (mirip dengan self-edit)</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga</li><li>Anda akan mengkaji terjemahan rekan Anda, dan mereka akan mengkaji terjemahan Anda jika Anda memiliki pasal untuk diterjemahkan.</li><li>Periksa terjemahan rekan Anda mencari sesuatu yang terlewatkan, ditambahkan, atau sangat berbeda dari sumber.</li><li>Periksa kata-kata yang digunakan dalam terjemahan yang tidak tampak alami, jelas, dan dapat dimengerti.</li><li>Ketika Anda selesai membuat catatan dan pengamatan, hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ... </li><li>Diskusikan pengamatan mereka.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 60 menit dengan rekan Anda pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
@@ -769,7 +774,8 @@ return array (
                                 <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
 
     "content-review" => "Pengecekan Ayat-per-Ayat",
-    "content-review_odb" => "SUN Check",
+    "content-review_odb" => "Comparative Check",
+    "content-review_sun_odb" => "SUN Check",
     "content-review_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan setiap penggalan dan pasal mengomunikasikan secara akurat pesan yang sama dalam bahasa tujuan</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara: <ol><li>Jika pemeriksa hanya mengenal sumbernya, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, anda akan membaca teks yang diterjemahkan penggalan demi penggalan, kemudian Anda atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan pemeriksa akan membandingkan apa yang mereka dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika pemeriksa lancar dalam kedua bahasa, mereka dapat memilih untuk menggunakan metode satu, atau mengkaji terjemahan Anda berdampingan dengan teks sumber.</li></ol></li><li>Kedua-duanya, pemeriksa Anda akan bertanya tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Pastikan kata-kata yang digunakan cocok dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
 
     "content-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk memastikan setiap penggalan dan pasal mengkomunikasikan secara akurat pesan yang sama dalam bahasa tujuan .</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga.</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telpon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara. Tampilan standar mengasumsikan metode pertama.<ol><li>Jika Anda hanya mengenal bahasa sumber, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, penerjemah akan membaca teks yang diterjemahkan ayat demi ayat, kemudian mereka atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan Anda akan membandingkan apa yang Anda dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika Anda lancar dalam kedua bahasa, anda dapat menggunakan metode satu, atau memilih untuk mengkaji terjemahan berdampingan dengan sumber. Dalam kasus ini, tekan tombol “Side by Side” untuk mengubah tampilan. Anda kemudian membandingkan sendiri keduanya.</li></ol></li><li>Kedua-duanya, Anda harus menanyakan tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap ke dalam bahasa tujuan. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",

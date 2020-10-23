@@ -5,6 +5,8 @@
  * Date: 12 Apr 2016
  * Time: 17:30
  */
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 use Helpers\Session;
 
@@ -66,7 +68,7 @@ if(empty($error) && empty($data["success"])):
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BLIND_DRAFT]; ?>
                                     <div class="vnote">
                                         <div><?php echo preg_replace("/(\\\\f(?:.*?)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></div>
                                     </div>

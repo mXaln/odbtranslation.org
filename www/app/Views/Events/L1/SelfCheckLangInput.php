@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 
 if(isset($data["error"])) return;
@@ -67,7 +69,7 @@ if(isset($data["error"])) return;
                                 {
                                     if($verses["firstvs"] == $verse)
                                     {
-                                        $text = $verses["translator"]["verses"][$verse];
+                                        $text = $verses[EventMembers::TRANSLATOR][ChunkSections::VERSES][$verse];
                                         $id = $verses["tID"];
                                         break;
                                     }

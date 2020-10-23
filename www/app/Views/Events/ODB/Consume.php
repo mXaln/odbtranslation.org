@@ -1,4 +1,7 @@
 <?php
+
+use \Helpers\Constants\OdbSections;
+
 if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
@@ -10,16 +13,17 @@ if(isset($data["error"])) return;
         <div class="main_content">
             <div class="main_content_text" dir="<?php echo $data["event"][0]->sLangDir ?>">
                 <h4><?php echo $data["event"][0]->tLang." - "
-                        .__($data["event"][0]->bookProject)." - "
-                    .($data["event"][0]->abbrID <= 39 ? __("old_test") : __("new_test"))." - "
-                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"].":1-".$data["totalVerses"]."</span>"?></h4>
+                        .__($data["event"][0]->sourceBible)." - "
+                    ."<span class='book_name'>".$data["event"][0]->name." ".$data["currentChapter"]."</span>"?></h4>
 
                 <?php foreach($data["text"] as $verse => $text): ?>
-                    <p><?php echo "<strong><sup>".$verse."</sup></strong> ".$text; ?></p>
+                <?php if($verse == OdbSections::DATE) continue; ?>
+                    <p><?php echo "<strong>".($verse >= OdbSections::CONTENT
+                                ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
+                                : __(OdbSections::enum($verse))).":</strong> ".$text; ?></p>
                 <?php endforeach; ?>
             </div>
 
-            <?php //if(empty($error)):?>
             <div class="main_content_footer row">
                 <form action="" method="post">
                     <div class="form-group">
@@ -31,7 +35,6 @@ if(isset($data["error"])) return;
                 </form>
                 <div class="step_right"><?php echo __("step_num", ["step_number" => 1])?></div>
             </div>
-            <?php //endif; ?>
         </div>
     </div>
 </div>
@@ -51,7 +54,7 @@ if(isset($data["error"])) return;
         <div class="event_info">
             <div class="participant_info">
                 <div class="additional_info">
-                    <a href="/events/information-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                    <a href="/events/information-odb/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                 </div>
             </div>
         </div>
@@ -64,7 +67,7 @@ if(isset($data["error"])) return;
         <div class="tutorial_pic">
             <img src="<?php echo template_url("img/steps/icons/consume.png") ?>" width="100px" height="100px">
             <img src="<?php echo template_url("img/steps/big/consume.png") ?>" width="280px" height="280px">
-
+            
         </div>
 
         <div class="tutorial_content">

@@ -89,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css'),
-    template_url('css/style.css?111'),
+    template_url('css/style.css?112'),
     template_url('css/jquery-ui.min.css'),
     template_url('css/jquery-ui.structure.min.css'),
     template_url('css/jquery-ui.theme.min.css'),
@@ -106,7 +106,7 @@ Assets::js([
     template_url('js/jquery.actual.min.js'),
     template_url('js/main.js?106', 'Default'),
     (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?34') : ''),
-    (Session::get("isSuperAdmin") ? template_url('js/admin.js?51') : ''),
+    (Session::get("isSuperAdmin") ? template_url('js/admin.js?52') : ''),
     template_url('js/bootstrap.min.js'),
     template_url('js/autosize.min.js?2'),
     template_url('js/jquery-ui.min.js'),
@@ -212,7 +212,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                 if(!isset($data["isDemo"]))
                                 {
                                     $link = "/events/checker".(isset($notification->manageMode)
-                                        && in_array($notification->manageMode, ["sun"]) ? "-".$notification->manageMode : "")
+                                        && in_array($notification->manageMode, ["sun","odb"]) ? "-".$notification->manageMode : "")
                                         ."/".$notification->eventID."/"
                                         .$notification->memberID."/"
                                         .$notification->step."/"

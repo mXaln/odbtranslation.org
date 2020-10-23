@@ -19,9 +19,7 @@ if(!isset($error)):
     <div>
         <div class="book_title"><?php echo $data["event"][0]->name ?></div>
         <div class="project_title">
-            <?php echo ($data["event"][0]->sourceBible == "odb"
-                    ? __($data["event"][0]->sourceBible)
-                    : __($data["event"][0]->bookProject))." - ".$data["event"][0]->tLang ?>
+            <?php echo __($data["event"][0]->sourceBible)." - ".$data["event"][0]->tLang ?>
         </div>
         <div class="overall_progress_bar">
             <h3><?php echo __("progress_all") ?></h3>
@@ -84,18 +82,18 @@ if(!isset($error)):
                         </div>
                         <div class="section_content">
                             <div class="section_translator">
-                                <div class="section_translator_name tnleft sun">
+                                <div class="section_translator_name tnleft odb">
                                     <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["memberID"]]["avatar"].".png") ?>">
                                     <span><b><?php echo $data["members"][$chapter["memberID"]]["name"] ?></b></span>
                                 </div>
-                                <?php if(isset($chapter["theoChk"]["checkerID"]) && $chapter["theoChk"]["checkerID"] != "na"): ?>
-                                <div class="section_translator_name tnleft sun" style="margin-left: 400px">
-                                    <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["theoChk"]["checkerID"]]["avatar"].".png") ?>">
-                                    <span><b><?php echo $data["members"][$chapter["theoChk"]["checkerID"]]["name"] ?></b></span>
+                                <?php if(isset($chapter["peerChk"]["checkerID"]) && $chapter["peerChk"]["checkerID"] != "na"): ?>
+                                <div class="section_translator_name tnleft odb" style="margin-left: 450px">
+                                    <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["peerChk"]["checkerID"]]["avatar"].".png") ?>">
+                                    <span><b><?php echo $data["members"][$chapter["peerChk"]["checkerID"]]["name"] ?></b></span>
                                 </div>
                                 <?php endif; ?>
                                 <?php if(isset($chapter["crc"]["checkerID"]) && $chapter["crc"]["checkerID"] != "na"): ?>
-                                <div class="section_translator_name tnleft sun" style="margin-left: 30px">
+                                <div class="section_translator_name tnleft odb" style="margin-left: 30px">
                                     <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["crc"]["checkerID"]]["avatar"].".png") ?>">
                                     <span><b><?php echo $data["members"][$chapter["crc"]["checkerID"]]["name"] ?></b></span>
                                 </div>
@@ -108,14 +106,33 @@ if(!isset($error)):
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["consume"]["state"]) ?></div>
                                     <div class="step_light"></div>
                                     <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::CONSUME.".png") ?>"></div>
-                                    <div class="step_name">1. <?php echo __(EventSteps::CONSUME."_odb"); ?></div>
+                                    <div class="step_name">1. <?php echo __(EventSteps::CONSUME); ?></div>
                                 </div>
-                                <!-- Rearrange Step -->
-                                <div class="section_step <?php echo $chapter["rearrange"]["state"] ?>" style="width: 180px">
-                                    <div class="step_status"><?php echo __("step_status_" . $chapter["rearrange"]["state"]) ?></div>
+                                <!-- Verbalize Step -->
+                                <div class="section_step <?php echo $chapter["verb"]["state"] ?>">
+                                    <div class="step_status"><?php echo __("step_status_" . $chapter["verb"]["state"]) ?></div>
                                     <div class="step_light"></div>
-                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::REARRANGE.".png") ?>"></div>
-                                    <div class="step_name">2. <?php echo __(EventSteps::REARRANGE); ?></div>
+                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::VERBALIZE.".png") ?>"></div>
+                                    <div class="step_name">2. <?php echo __(EventSteps::VERBALIZE); ?></div>
+                                    <?php if($chapter["verb"]["checkerID"] != "na"): ?>
+                                        <div class="step_checker">
+                                            <img width="50" src="<?php echo template_url("img/avatars/".$data["members"][$chapter["verb"]["checkerID"]]["avatar"].".png") ?>">
+                                            <div><?php echo $data["members"][$chapter["verb"]["checkerID"]]["name"] ?></div>
+                                            <?php if($chapter["verb"]["state"] == StepsStates::CHECKED || $chapter["verb"]["state"] == StepsStates::FINISHED): ?>
+                                                <span class="glyphicon glyphicon-ok checked"></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if($chapter["verb"]["state"] == StepsStates::WAITING): ?>
+                                        <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
+                                    <?php endif; ?>
+                                </div>
+                                <!-- Draft Step -->
+                                <div class="section_step <?php echo $chapter["draft"]["state"] ?>" style="width: 180px">
+                                    <div class="step_status"><?php echo __("step_status_" . $chapter["draft"]["state"]) ?></div>
+                                    <div class="step_light"></div>
+                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::BLIND_DRAFT.".png") ?>"></div>
+                                    <div class="step_name">3. <?php echo __(EventSteps::BLIND_DRAFT."_odb"); ?></div>
                                     <div class="step_chunks <?php echo sizeof($chapter["chunks"]) > 4 ? "more_chunks" : "" ?>">
                                         <?php if(isset($chapter["chunks"])): ?>
                                             <?php foreach ($chapter["chunks"] as $index => $chunk):?>
@@ -134,13 +151,6 @@ if(!isset($error)):
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                                <!-- Symbol Draft Step -->
-                                <div class="section_step <?php echo $chapter["symbolDraft"]["state"] ?>">
-                                    <div class="step_status"><?php echo __("step_status_" . $chapter["symbolDraft"]["state"]) ?></div>
-                                    <div class="step_light"></div>
-                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::SYMBOL_DRAFT.".png") ?>"></div>
-                                    <div class="step_name">3. <?php echo __(EventSteps::SYMBOL_DRAFT); ?></div>
-                                </div>
                                 <!-- Self Check Step -->
                                 <div class="section_step <?php echo $chapter["selfEdit"]["state"] ?>">
                                     <div class="step_status"><?php echo __("step_status_" . $chapter["selfEdit"]["state"]) ?></div>
@@ -153,13 +163,13 @@ if(!isset($error)):
                                 <div class="section_step chk" style="width: 50px">
                                 </div>
 
-                                <!-- Theo Check Step -->
-                                <div class="section_step chk <?php echo $chapter["theoChk"]["state"] ?>">
-                                    <div class="step_status"><?php echo __("step_status_" . $chapter["theoChk"]["state"]) ?></div>
+                                <!-- Peer Check Step -->
+                                <div class="section_step chk <?php echo $chapter["peerChk"]["state"] ?>">
+                                    <div class="step_status"><?php echo __("step_status_" . $chapter["peerChk"]["state"]) ?></div>
                                     <div class="step_light"></div>
-                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::KEYWORD_CHECK.".png") ?>"></div>
-                                    <div class="step_name">5. <?php echo __(EventSteps::THEO_CHECK."_odb"); ?></div>
-                                    <?php if($chapter["theoChk"]["state"] == StepsStates::WAITING): ?>
+                                    <div class="step_icon"><img width="40" src="<?php echo template_url("img/steps/icons/".EventSteps::PEER_REVIEW.".png") ?>"></div>
+                                    <div class="step_name">5. <?php echo __(EventSteps::PEER_REVIEW); ?></div>
+                                    <?php if($chapter["peerChk"]["state"] == StepsStates::WAITING): ?>
                                         <img class="img_waiting" src="<?php echo template_url("img/waiting.png") ?>">
                                     <?php endif; ?>
                                 </div>

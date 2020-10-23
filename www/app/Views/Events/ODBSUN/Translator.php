@@ -46,7 +46,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
         </li>
 
         <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <span><?php echo __(EventSteps::CONTENT_REVIEW."_odb")?></span>
+            <span><?php echo __(EventSteps::CONTENT_REVIEW."_sun_odb")?></span>
         </li>
     </ul>
 </div>
@@ -165,7 +165,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 </audio>
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
-<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?6")?>"></script>
 <script src="<?php echo template_url("js/socket.js?12")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js?2")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>

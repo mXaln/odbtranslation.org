@@ -72,10 +72,13 @@ if(!isset($error)):
                                 <div class="clear"></div>
                             </div>
                         </div>
-                        <?php if($data["event"][0]->bookProject == "sun"): ?>
+                        <?php if(in_array($data["event"][0]->bookProject, ["sun","odb"])): ?>
                         <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
                              data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
                             <?php
+                            $pr = !empty($chapData["peerCheck"])
+                                && array_key_exists($chapter, $chapData["peerCheck"])
+                                && $chapData["peerCheck"][$chapter]["memberID"] > 0;
                             $kw = !empty($chapData["kwCheck"])
                                 && array_key_exists($chapter, $chapData["kwCheck"])
                                 && $chapData["kwCheck"][$chapter]["memberID"] > 0;
@@ -83,8 +86,21 @@ if(!isset($error)):
                                 && array_key_exists($chapter, $chapData["crCheck"])
                                 && $chapData["crCheck"][$chapter]["memberID"] > 0;
 
+                            $prName = $kw ? "Unknown: " . $chapData["prCheck"][$chapter]["memberID"] : "";
                             $kwName = $kw ? "Unknown: " . $chapData["kwCheck"][$chapter]["memberID"] : "";
                             $crName = $cr ? "Unknown: " . $chapData["crCheck"][$chapter]["memberID"] : "";
+                            if($pr)
+                            {
+                                $prKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
+                                if($prKey !== false)
+                                    $prName = $data["members"][$prKey]["firstName"] . " " . mb_substr($data["members"][$prKey]["lastName"], 0, 1).".";
+                                else
+                                {
+                                    $prKey = array_search($chapData["peerCheck"][$chapter]["memberID"], array_column($data["out_members"], 'memberID'));
+                                    if($prKey !== false)
+                                        $prName = $data["out_members"][$prKey]["firstName"] . " " . mb_substr($data["out_members"][$prKey]["lastName"], 0, 1).".";
+                                }
+                            }
                             if($kw)
                             {
                                 $kwKey = array_search($chapData["kwCheck"][$chapter]["memberID"], array_column($data["members"], 'memberID'));
@@ -111,19 +127,37 @@ if(!isset($error)):
 
                             }
                             ?>
-                            <?php if($kw): ?>
-                                <button class="btn btn-danger remove_checker_alt" id="kw_checker"
-                                        data-name="<?php echo $kwName ?>"
-                                    <?php echo $cr ? "disabled" : "" ?>
-                                        title="<?php echo __("sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")."_theo_checker") ?>">
-                                    <?php echo $data["event"][0]->sourceBible == "odb" ? "ODB" : "THEO" ?>
-                                </button>
+                            <?php if($pr || $kw): ?>
+                                <?php if ($pr): ?>
+                                    <button class="btn btn-danger remove_checker_alt" id="peer_checker"
+                                            data-name="<?php echo $prName ?>"
+                                        <?php echo $cr ? "disabled" : "" ?>
+                                            title="<?php echo __("other_peer_checker") ?>">
+                                        <?php echo "PEER" ?>
+                                    </button>
+                                <?php endif; ?>
+                                <?php if ($kw): ?>
+                                    <button class="btn btn-danger remove_checker_alt" id="kw_checker"
+                                            data-name="<?php echo $kwName ?>"
+                                        <?php echo $cr ? "disabled" : "" ?>
+                                            title="<?php echo __("sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")."_theo_checker") ?>">
+                                        <?php echo $data["event"][0]->sourceBible == "odb" ? "ODB" : "THEO" ?>
+                                    </button>
+                                <?php endif; ?>
                                 <?php if($cr): ?>
+                                    <?php
+                                    $vbvTextKey = ($data["event"][0]->bookProject == "sun"
+                                        ? "sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")
+                                        : "odb")
+                                        ."_vbv_checker";
+                                    ?>
                                     <button class="btn btn-danger remove_checker_alt" id="cr_checker"
                                             data-level="<?php echo $chapData["crCheck"][$chapter]["done"] ?>"
                                             data-name="<?php echo $crName ?>"
-                                            title="<?php echo __("sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")."_vbv_checker") ?>">
-                                        <?php echo $data["event"][0]->sourceBible == "odb" ? "SUN" : "V-B-V" ?>
+                                            title="<?php echo __($vbvTextKey) ?>">
+                                        <?php echo $data["event"][0]->sourceBible == "odb"
+                                            ? ($data["event"][0]->bookProject == "sun" ? "SUN" : "CMP")
+                                            : "V-B-V" ?>
                                     </button>
                                 <?php endif; ?>
                             <?php endif; ?>
@@ -187,7 +221,7 @@ if(!isset($error)):
                                         // Skip None step
                                         if($step == EventSteps::NONE) continue;
 
-                                        if($mode == "sun" || $mode == "odbsun") {
+                                        if(in_array($mode, ["sun","odbsun","odbodb"])) {
                                             if (EventSteps::enum($step, $mode) > EventSteps::enum(EventSteps::SELF_CHECK, $mode))
                                                 continue;
                                         }
@@ -242,11 +276,28 @@ if(!isset($error)):
                                             </option>
                                         <?php endif; ?>
 
+                                        <?php if($mode == "odbodb" && $step == EventSteps::BLIND_DRAFT):
+                                            $ch_disabled = $member["currentChunk"] <= 0 ||
+                                                EventSteps::enum($member["step"], $mode) < EventSteps::enum($step, $mode) ||
+                                                (EventSteps::enum($member["step"], $mode) - EventSteps::enum($step, $mode)) > 1;
+
+                                            $chunks = (array)json_decode($member["chunks"], true);
+                                            $currentChunk = $member["step"] != EventSteps::SELF_CHECK
+                                                ? $member["currentChunk"]
+                                                : sizeof($chunks);
+                                            ?>
+                                            <option <?php echo ($ch_disabled ? "disabled" : "") ?>
+                                                    value="<?php echo EventSteps::BLIND_DRAFT."_prev" ?>">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <?php echo __(EventSteps::BLIND_DRAFT."_odb_previous").($member["currentChunk"] > 0 ? " ".$currentChunk : "") ?>
+                                            </option>
+                                        <?php endif; ?>
+
                                         <option <?php echo ($selected ? " selected" : "").($o_disabled ? " disabled" : "") ?> value="<?php echo $step ?>">
                                             <?php
                                             // Multistep is the step with sub steps
                                             // read-chunk, rearrange, symbol-draft,  etc...
-                                            if($mode == "sun")
+                                            if(in_array($mode, ["sun","odbodb"]))
                                                 $multiStep = 4;
                                             elseif($mode == "odbsun")
                                                 $multiStep = 3;

@@ -1309,7 +1309,7 @@ class ApiModel extends Model
      * @param $file
      * @return string Path to directory
      */
-    public function processSourceZipFile($file, $format)
+    public function processSourceZipFile($file)
     {
         $folderpath = "/tmp/".uniqid();
 
@@ -1428,6 +1428,37 @@ class ApiModel extends Model
                         }
                     }
                     File::copyDirectory($dir, $target . "/" . $dir->getBasename());
+                }
+            }
+            File::deleteDirectory($path);
+            return true;
+        } catch (Exception $e) {
+
+        }
+
+        File::deleteDirectory($path);
+        return false;
+    }
+
+
+    public function processJsonSource($path, $lang, $slug)
+    {
+        try {
+            $target = "../app/Templates/Default/Assets/source/" . $lang . "_" . $slug;
+
+            if(!File::isDirectory($target)) {
+                File::makeDirectory($target, 0755, true);
+            }
+
+            $allDirs = File::directories($path, "<0");
+            foreach ($allDirs as $dirPath) {
+                $files = File::allFiles($dirPath);
+                foreach ($files as $file)
+                {
+                    if($file->getExtension() == "json")
+                    {
+                        File::move($file, $target . "/" . $file->getFilename());
+                    }
                 }
             }
             File::deleteDirectory($path);
