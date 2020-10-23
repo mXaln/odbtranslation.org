@@ -1,5 +1,5 @@
 <?php
-use Helpers\Constants\EventCheckSteps;
+use Helpers\Constants\EventSteps;
 use Helpers\Session;
 use Shared\Legacy\Error;
 
@@ -17,34 +17,37 @@ if(!empty($data["event"]) && !isset($data["error"])):
     </div>
 </noscript>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : " is_checker_page isPeer") ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : " is_checker_page isPeer") ?>"></div>
+<div id="translator_steps" class="open <?php echo $data["event"][0]->step . " is_checker_page" ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . " is_checker_page" ?>"></div>
 
     <ul class="steps_list">
-        <li class="pray-step <?php echo $data["event"][0]->step == EventCheckSteps::PRAY ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::PRAY)?></span>
+        <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::PRAY)?></span>
         </li>
 
-        <li class="consume-step <?php echo $data["event"][0]->step == EventCheckSteps::CONSUME ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::CONSUME)?></span>
+        <li class="consume-step <?php echo $data["event"][0]->step == EventSteps::CONSUME ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::CONSUME)?></span>
         </li>
 
-        <li class="fst-check-step <?php echo $data["event"][0]->step == EventCheckSteps::FST_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::FST_CHECK)?></span>
+        <li class="rearrange-step <?php echo $data["event"][0]->step == EventSteps::VERBALIZE ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::VERBALIZE)?></span>
         </li>
 
-        <li class="snd-check-step <?php echo $data["event"][0]->step == EventCheckSteps::SND_CHECK ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::SND_CHECK)?></span>
+        <li class="symbol-draft-step <?php echo $data["event"][0]->step == EventSteps::BLIND_DRAFT ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::BLIND_DRAFT."_odb")?></span>
         </li>
 
-        <li class="keyword-check-l2-step <?php echo $data["event"][0]->step == EventCheckSteps::KEYWORD_CHECK_L2 ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::KEYWORD_CHECK_L2)?></span>
+        <li class="self-check-step <?php echo $data["event"][0]->step == EventSteps::SELF_CHECK ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::SELF_CHECK)?></span>
         </li>
 
-        <li class="peer-review-l2-step <?php echo $data["event"][0]->step == EventCheckSteps::PEER_REVIEW_L2 ? "active" : "" ?>">
-            <span><?php echo __(EventCheckSteps::PEER_REVIEW_L2)?></span>
+        <li class="theo-check-step <?php echo $data["event"][0]->step == EventSteps::PEER_REVIEW ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::PEER_REVIEW)?></span>
         </li>
 
+        <li class="content-review-step <?php echo $data["event"][0]->step == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
+            <span><?php echo __(EventSteps::CONTENT_REVIEW."_odb")?></span>
+        </li>
     </ul>
 </div>
 

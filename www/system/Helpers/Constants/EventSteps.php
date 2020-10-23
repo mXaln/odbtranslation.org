@@ -79,6 +79,17 @@ class EventSteps
         "finished" => 8,
     ];
 
+    private static $enumOdb = [
+        "none" => 0,
+        "pray" => 1,
+        "consume" => 2,
+        "verbalize" => 3,
+        "blind-draft" => 4,
+        "self-check" => 5,
+        "peer-review" => 6,
+        "content-review" => 7
+    ];
+
     public static function enum($step, $mode = null, $chk = false)
     {
         switch($mode)
@@ -88,6 +99,9 @@ class EventSteps
 
             case "odbsun":
                 return self::$enumOdbSun[$step];
+
+            case "odbodb":
+                return self::$enumOdb[$step];
 
             case "li":
                 return self::$enumLangInput[$step];
@@ -106,6 +120,9 @@ class EventSteps
 
             case "odbsun":
                 return self::$enumOdbSun;
+
+            case "odbodb":
+                return self::$enumOdb;
 
             case "li":
                 return self::$enumLangInput;

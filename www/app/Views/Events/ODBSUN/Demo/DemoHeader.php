@@ -31,7 +31,7 @@ use Helpers\Constants\EventSteps;
         </li>
 
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-sun-odb/content_review_checker"><span><?php echo __(EventSteps::CONTENT_REVIEW."_odb")?></span></a>
+            <a href="/events/demo-sun-odb/content_review_checker"><span><?php echo __(EventSteps::CONTENT_REVIEW."_sun_odb")?></span></a>
         </li>
     </ul>
 </div>
@@ -154,7 +154,7 @@ $isCheckPage = $data["step"] == EventSteps::THEO_CHECK || $data["step"] == Event
     <source src="<?php echo template_url("sounds/missed.ogg")?>" type="audio/ogg">
 </audio>
 
-<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?6")?>"></script>
 
 <script>
     (function($) {

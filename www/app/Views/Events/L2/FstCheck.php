@@ -1,6 +1,7 @@
 <?php
 if(isset($data["error"])) return;
 
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 ?>
 <div class="comment_div panel panel-default">
@@ -82,10 +83,10 @@ use Helpers\Constants\EventMembers;
                                     </div>
                                     <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                         <?php
-                                        if(!empty($data["translation"][$key][EventMembers::L2_CHECKER]["verses"]))
-                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
+                                        if(!empty($data["translation"][$key][EventMembers::L2_CHECKER][ChunkSections::VERSES]))
+                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER][ChunkSections::VERSES];
                                         else
-                                            $verses = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"];
+                                            $verses = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::VERSES];
                                         ?>
                                         <div class="vnote">
                                             <?php foreach($verses as $verse => $text): ?>

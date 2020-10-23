@@ -15,7 +15,7 @@
             <div class="demo_title">
                 <?php echo __("demo") . " (".__("odb")." - ".__("vsail").")" ?>
             </div>
-            <div><?php echo __("step_num", ["step_number" => 6]) . ": " . __("content-review_odb")?></div>
+            <div><?php echo __("step_num", ["step_number" => 6]) . ": " . __("content-review_sun_odb")?></div>
         </div>
         <!--<div class="demo_video">
             <span class="glyphicon glyphicon-play"></span>
@@ -353,7 +353,7 @@
 
     <div class="help_float">
         <div class="help_info_steps is_checker_page_help">
-            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("content-review_odb")?></div>
+            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("content-review_sun_odb")?></div>
             <div class="help_descr_steps">
                 <ul><?php echo __("content-review_sun_desc")?></ul>
                 <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -385,7 +385,7 @@
         </div>
 
         <div class="tutorial_content is_checker_page_help">
-            <h3><?php echo __("content-review_odb")?></h3>
+            <h3><?php echo __("content-review_sun_odb")?></h3>
             <ul><?php echo __("content-review_sun_desc")?></ul>
         </div>
     </div>

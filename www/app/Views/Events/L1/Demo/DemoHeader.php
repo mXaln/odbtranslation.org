@@ -178,7 +178,7 @@ $isCheckPage = $data["step"] == EventSteps::PEER_REVIEW ||
     <source src="<?php echo template_url("sounds/missed.ogg")?>" type="audio/ogg">
 </audio>
 
-<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?6")?>"></script>
 
 <script>
     (function($) {

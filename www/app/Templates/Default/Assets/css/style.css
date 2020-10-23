@@ -4596,6 +4596,11 @@ button.startEvnt, button.editEvnt {
     width: 150px;
 }
 
+.section_translator_name.tnleft.odb {
+    float: left;
+    width: 150px;
+}
+
 .cacheLoader, .contibLoader {
     margin: 12px 10px 0 0;
     display: none;

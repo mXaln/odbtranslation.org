@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 
 if(isset($data["error"])) return;
@@ -56,7 +58,7 @@ if(isset($data["error"])) return;
                                         <?php endforeach; ?>
                                     </div>
                                     <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                        <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"];?>
+                                        <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BLIND_DRAFT];?>
                                         <div class="vnote">
                                             <div class="markerBubbles noselect">
                                                 <?php

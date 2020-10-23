@@ -179,8 +179,6 @@ if(!empty($data["project"])):
                         <input type="hidden" name="sourceLangID" id="sourceLangID" value="<?php echo $data["project"][0]->sourceLangID?>" />
                         <input type="hidden" name="targetLangID" id="targetLangID" value="<?php echo $data["project"][0]->targetLang?>" />
                         <input type="hidden" name="initialLevel" id="initialLevel" value="1" />
-                        <input type="hidden" name="importLevel" id="importLevel" value="1" />
-                        <input type="hidden" name="importProject" id="importProject" value="<?php echo $data["project"][0]->bookProject?>" />
 
                         <br>
                         <button type="submit" name="startEvent" class="btn btn-primary"><?php echo __("create"); ?></button>
@@ -189,82 +187,6 @@ if(!empty($data["project"])):
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="import_menu_content form-panel">
-    <div class="import_menu_content_body panel panel-default">
-        <div class="import_menu">
-            <ul>
-                <li><?php echo __("import_options") ?></li>
-                <li data-type="dcs">
-                    <label role="button"><?php echo __("import_from_wacs") ?></label>
-                </li>
-                <li data-type="usfm">
-                    <form id="usfm_form">
-                        <label for="usfm_import" role="button"><?php echo __("import_from_usfm") ?>
-                            <input type="file" name="import" id="usfm_import" accept=".usfm" />
-                            <input type="hidden" name="type" value="usfm" />
-                        </label>
-                    </form>
-                </li>
-                <li data-type="ts">
-                    <form id="ts_form">
-                        <label for="ts_import" role="button"><?php echo __("import_from_ts") ?>
-                            <input type="file" name="import" id="ts_import" accept=".tstudio" />
-                            <input type="hidden" name="type" value="ts" />
-                        </label>
-                    </form>
-                </li>
-                <li data-type="zip">
-                    <form id="zip_form">
-                        <label for="zip_import" role="button"><?php echo __("import_from_zip") ?>
-                            <input type="file" name="import" id="zip_import" accept=".zip" />
-                            <input type="hidden" name="type" value="zip" />
-                        </label>
-                    </form>
-                </li>
-                <li>
-                    <img class="importLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
-                    <?php echo __("cancel") ?>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-<div class="dcs_import_menu_content form-panel">
-    <div class="dcs_import_menu_content_body panel panel-default">
-        <div class="dcs_import_menu">
-            <ul>
-                <li><?php echo __("import_from_wacs") ?></li>
-                <li data-type="dcs">
-                    <form id="dcs_form">
-                        <input class="form-control" type="text" name="dcs_repo_name" placeholder="<?php echo __("repository_name") ?>" />
-                        <div class="dcs_list">
-                            <table class="table table-hover" role="grid">
-                                <thead>
-                                <tr>
-                                    <th><?php echo __("userName") ?></th>
-                                    <th><?php echo __("repository") ?></th>
-                                    <th><?php echo __("updated_at") ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <input type="hidden" name="import" value="" />
-                    </form>
-                </li>
-                <li>
-                    <img class="importLoader" width="24px" src="<?php echo template_url("img/loader.gif") ?>">
-                    <?php echo __("cancel") ?>
-                </li>
-            </ul>
         </div>
     </div>
 </div>

@@ -11,6 +11,7 @@ use App\Models\TranslationsModel;
 use Config\Config;
 use Database\QueryException;
 use File;
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\EventSteps;
@@ -1796,14 +1797,14 @@ class AdminController extends Controller {
 
                             $translationVerses = [
                                 EventMembers::TRANSLATOR => [
-                                    "blind" => "",
-                                    "verses" => $chunk
+                                    ChunkSections::BLIND_DRAFT => "",
+                                    ChunkSections::VERSES => $chunk
                                 ],
                                 EventMembers::L2_CHECKER => [
-                                    "verses" => $level == 2 ? $chunk : array()
+                                    ChunkSections::VERSES => $level == 2 ? $chunk : array()
                                 ],
                                 EventMembers::L3_CHECKER => [
-                                    "verses" => array()
+                                    ChunkSections::VERSES => array()
                                 ],
                             ];
 
@@ -1873,7 +1874,7 @@ class AdminController extends Controller {
                         foreach ($trans as $tran) {
                             $verses = (array)json_decode($tran->translatedVerses, true);
 
-                            foreach ($verses[EventMembers::TRANSLATOR]["verses"] as $verse => $text) {
+                            foreach ($verses[EventMembers::TRANSLATOR][ChunkSections::VERSES] as $verse => $text) {
                                 if(isset($usfmData["chapters"][$tran->chapter]) &&
                                     isset($usfmData["chapters"][$tran->chapter][$verse]) &&
                                     trim($usfmData["chapters"][$tran->chapter][$verse]) != "")
@@ -1881,13 +1882,13 @@ class AdminController extends Controller {
                                     switch ($level)
                                     {
                                         case 1:
-                                            $verses[EventMembers::TRANSLATOR]["verses"][$verse] = $usfmData["chapters"][$tran->chapter][$verse];
+                                            $verses[EventMembers::TRANSLATOR][ChunkSections::VERSES][$verse] = $usfmData["chapters"][$tran->chapter][$verse];
                                             break;
                                         case 2:
-                                            $verses[EventMembers::L2_CHECKER]["verses"][$verse] = $usfmData["chapters"][$tran->chapter][$verse];
+                                            $verses[EventMembers::L2_CHECKER][ChunkSections::VERSES][$verse] = $usfmData["chapters"][$tran->chapter][$verse];
                                             break;
                                         case 3:
-                                            $verses[EventMembers::L3_CHECKER]["verses"][$verse] = $usfmData["chapters"][$tran->chapter][$verse];
+                                            $verses[EventMembers::L3_CHECKER][ChunkSections::VERSES][$verse] = $usfmData["chapters"][$tran->chapter][$verse];
                                             break;
                                     }
                                 }
@@ -2465,17 +2466,19 @@ class AdminController extends Controller {
                     $mime = $sourceZip->getMimeType();
                     if($mime == "application/zip")
                     {
-                        $format = in_array($slug, ["tn","tq","tw"]) ? "md" : "usfm";
+                        $path = $this->_apiModel->processSourceZipFile($sourceZip);
 
-                        $path = $this->_apiModel->processSourceZipFile($sourceZip, $format);
-
-                        if($format == "usfm")
+                        if(in_array($slug, ["tn","tq","tw"]))
                         {
-                            $result["success"] = $this->_apiModel->processUsfmSource($path, $lang, $slug);
+                            $result["success"] = $this->_apiModel->processMdSource($path, $lang, $slug);
+                        }
+                        elseif (in_array($slug, ["odb"]))
+                        {
+                            $result["success"] = $this->_apiModel->processJsonSource($path, $lang, $slug);
                         }
                         else
                         {
-                            $result["success"] = $this->_apiModel->processMdSource($path, $lang, $slug);
+                            $result["success"] = $this->_apiModel->processUsfmSource($path, $lang, $slug);
                         }
 
                         $result["message"] = "Uploaded!";

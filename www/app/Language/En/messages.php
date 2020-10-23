@@ -490,6 +490,7 @@ return array (
     "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "sun_odb_vbv_checker" => "Remove SUN checker",
+    "odb_vbv_checker" => "Remove Comparative checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -572,7 +573,7 @@ return array (
                         <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "consume_odb" => "Read",
-    "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
+    "consume_odb_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
                                 said to understand the full content of the passage.</li>
                             <li>Pause, reflect, and re-read as necessary.</li>
@@ -645,6 +646,9 @@ return array (
                                 <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
     
     "blind-draft" => "Blind Draft",
+    "blind-draft_odb" => "Draft",
+    "blind-draft-alt" => "Draft",
+    "blind-draft_odb_previous" => "Draft - Previous chunk",
     "blind-draft_previous" => "Blind Draft - Previous chunk",
     "blind-draft_desc" => "<li><b>PURPOSE:</b> to translate the source text as naturally as possible in the target language.</li>
                             <li><b>LENGTH:</b> Take no more than 11 minutes for each chunk.</li>
@@ -816,6 +820,7 @@ return array (
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "peer-review" => "Peer-Edit",
+    "peer-review_odb" => "Peer-Edit",
     "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
                                 text accuracy while maintaining the naturalness created by the blind draft.</li>
                             <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
@@ -1048,7 +1053,8 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "content-review" => "Verse-by-Verse Check",
-    "content-review_odb" => "SUN Check",
+    "content-review_odb" => "Comparative Check",
+    "content-review_sun_odb" => "SUN Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
                                     Discussion and correction section should take about 30-45 minutes.</li>

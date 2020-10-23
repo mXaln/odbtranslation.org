@@ -65,7 +65,7 @@
                 <?php echo __("consume_odb")?>
             </div>
             <div class="help_descr_steps">
-                <ul><?php echo __("consume_sun_desc")?></ul>
+                <ul><?php echo __("consume_odb_desc")?></ul>
                 <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
             </div>
         </div>
@@ -91,7 +91,7 @@
 
         <div class="tutorial_content">
             <h3><?php echo __("consume_odb")?></h3>
-            <ul><?php echo __("consume_sun_desc")?></ul>
+            <ul><?php echo __("consume_odb_desc")?></ul>
         </div>
     </div>
 </div>

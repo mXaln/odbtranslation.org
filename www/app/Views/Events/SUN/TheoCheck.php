@@ -2,6 +2,7 @@
 if(isset($data["error"])) return;
 
 use Helpers\Constants\EventMembers;
+use Helpers\Constants\ChunkSections;
 ?>
 <div class="comment_div panel panel-default font_sun">
     <div class="panel-heading">
@@ -64,9 +65,9 @@ use Helpers\Constants\EventMembers;
                                 </div>
                                 <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <?php
-                                    $bt = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] != "" ?
-                                        $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] :
-                                        $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"];
+                                    $bt = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BACK_TRANSLATION] != "" ?
+                                        $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BACK_TRANSLATION] :
+                                        $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::SYMBOLS];
                                     ?>
                                     <div class="vnote">
                                         <div class="verse_block font_backsun">

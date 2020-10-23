@@ -32,7 +32,7 @@
 
             isInfoPage = $this.hasClass("info");
 
-            if(settings.chkMemberID > 0)
+            if(settings.chkMemberID > 0 && step !== EventSteps.VERBALIZE)
             {
                 currentP2Ptab = $("#chk");
                 currentP2Pmsgs = $("#chk_messages");

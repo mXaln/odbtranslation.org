@@ -59,6 +59,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-odb-sun/{eventID}", "EventsController@translatorOdbSun")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-odb/{eventID}", "EventsController@translatorOdb")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l3/{eventID}", "EventsController@checkerL3")
@@ -78,6 +80,8 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information-sun/{eventID}", "EventsController@informationSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-odb-sun/{eventID}", "EventsController@informationOdbSun")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-odb/{eventID}", "EventsController@informationOdb")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
         ->where(["eventID" => "[0-9]+"]);
@@ -108,6 +112,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
+    Router::any("checker-odb/{eventID}/{memberID}/{chapter}", "EventsController@checkerOdb")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
@@ -121,8 +131,9 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "chapter" => "[0-9]+",
             "step" => "[23a-z\-]+"
         ]);
-    Router::any("checker-sun/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerSun")
+    Router::any("checker-{mode}/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
+            "mode" => "sun|odb",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+",
