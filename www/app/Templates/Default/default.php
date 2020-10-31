@@ -324,8 +324,8 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                     <div class="text-muted">
                         Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries.
                         <?php echo Config::get("version.release") ?> |
-                        <a href="contact"><?php echo __("contact_us_title") ?></a> |
-                        <a href="about"><?php echo __("about_title") ?></a>
+                        <a href="/contact"><?php echo __("contact_us_title") ?></a> |
+                        <a href="/about"><?php echo __("about_title") ?></a>
                     </div>
                 </div>
                 <div>
