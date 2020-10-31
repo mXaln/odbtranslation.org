@@ -103,7 +103,7 @@ return array(
     "skip_keywords" => "Skip keywords",
     "skip_keywords_message" => "It seems like there some keywords left in this chapter. Make sure that the chapter is clear. When you are ready to approve this step, click \"Yes\"",
     "resource_not_found" => "The resource is not found.",
-    "mast" => "8 Steps MAST",
+    "mast" => "8 Steps",
     "l2" => "Level 2 Check",
     "l3" => "Level 3 Check",
     "tn" => "Translation Notes",

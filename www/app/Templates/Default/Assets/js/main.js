@@ -1807,7 +1807,7 @@ $(document).ready(function() {
         $(this).text($(".language option[value="+langs[0]+"]").text());
     });
 
-    // Mast events number test
+    // Translation events number test
     $("input[name=mast_evnts]").change(function() {
         if($(this).val() > 1)
         {

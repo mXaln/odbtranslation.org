@@ -539,7 +539,7 @@
     };
 
     /**
-     * MAST Chat
+     * Translation Chat
      * @param method
      * @returns {*}
      */

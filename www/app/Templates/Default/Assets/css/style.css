@@ -5493,3 +5493,17 @@ button.add_verse_ta {
     display: none;
 }
 
+.modal-signup {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.center {
+    text-align: center;
+}
+
+.about-content {
+    width: 900px;
+    margin: 0 auto;
+}
+

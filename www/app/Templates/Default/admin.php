@@ -89,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css', 'Default'),
-    template_url('css/style.css?112', 'Default'),
+    template_url('css/style.css?113', 'Default'),
     template_url('css/jquery-ui.min.css', 'Default'),
     template_url('css/jquery-ui.structure.min.css', 'Default'),
     template_url('css/jquery-ui.theme.min.css', 'Default'),
@@ -181,18 +181,23 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
 
     <footer class="footer">
         <div class="container-fluid">
-            <div style="margin: 15px 0 0; display: flex">
-                <div class="col-lg-3">
-                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries. <?php echo Config::get("version.release") ?></p>
+            <div class="footer_container">
+                <div>
+                    <div class="text-muted">
+                        Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries.
+                        <?php echo Config::get("version.release") ?> |
+                        <a href="contact"><?php echo __("contact_us_title") ?></a> |
+                        <a href="about"><?php echo __("about_title") ?></a>
+                    </div>
                 </div>
-                <div class="col-lg-7">
+                <div>
                     <p class="text-muted pull-right">
                         <?php if(Config::get('app.debug')) { ?>
                         <small><!-- DO NOT DELETE! - Profiler --></small>
                         <?php } ?>
                     </p>
                 </div>
-                <div class="col-sm-2 footer_langs">
+                <div class="footer_langs">
                     <?php if(Session::get("loggedin")): ?>
                         <div class="dropup flangs">
                             <div class="dropdown-toggle" id="footer_langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

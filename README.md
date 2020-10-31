@@ -4,7 +4,7 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* odbtranslation.org is a website for running translation process through 8 steps (MAST)
+* odbtranslation.org is a website for running translation process through 8 steps
 * It is based on [Novaframework 3.73](http://novaframework.com)
 
 ### How do I get set up? ###

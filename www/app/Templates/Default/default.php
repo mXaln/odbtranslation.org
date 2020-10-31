@@ -89,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css'),
-    template_url('css/style.css?112'),
+    template_url('css/style.css?113'),
     template_url('css/jquery-ui.min.css'),
     template_url('css/jquery-ui.structure.min.css'),
     template_url('css/jquery-ui.theme.min.css'),
@@ -321,7 +321,12 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
         <div class="container-fluid">
             <div class="footer_container">
                 <div>
-                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries. <?php echo Config::get("version.release") ?></p>
+                    <div class="text-muted">
+                        Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries.
+                        <?php echo Config::get("version.release") ?> |
+                        <a href="contact"><?php echo __("contact_us_title") ?></a> |
+                        <a href="about"><?php echo __("about_title") ?></a>
+                    </div>
                 </div>
                 <div>
                     <p class="text-muted pull-right">
