@@ -163,7 +163,7 @@
                 </div>
                 <div class="form-group cloud_otp_code_group" style="width: 250px;">
                     <label for="cloud_otp_code" style="width: 100%; display: block"><?php echo __('cloud_otp_code'); ?></label>
-                    <input class="form-control" name="cloud_otp_code" id="cloud_otp_code">
+                    <input class="form-control" name="cloud_otp_code" id="cloud_otp_code" autocomplete="off">
                 </div>
                 <div class="cloudError"></div>
                 <br>
