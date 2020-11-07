@@ -19,6 +19,7 @@ $profile = Session::get("profile");
                 <a href="/events/demo-l3"><li><?php echo __("l2_l3_mast", ["level" => 3]); ?></li></a>
                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
                 <a href="/events/demo-sun-odb"><li><?php echo __("odb") . " (".__("vsail").")" ?></li></a>
+                <a href="/events/demo-odb"><li><?php echo __("odb") ?></li></a>
             </ul>
         </div>
     </div>

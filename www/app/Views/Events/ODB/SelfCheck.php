@@ -101,7 +101,7 @@ if(isset($data["error"])) return;
         <div class="help_info_steps">
             <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 4])?>:</span> <?php echo __("self-check")?></div>
             <div class="help_descr_steps">
-                <ul><?php echo __("self-edit_sun_desc")?></ul>
+                <ul><?php echo __("self-edit_odb_desc")?></ul>
                 <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
             </div>
         </div>
@@ -109,14 +109,9 @@ if(isset($data["error"])) return;
         <div class="event_info">
             <div class="participant_info">
                 <div class="additional_info">
-                    <a href="/events/information-odb-sun/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
+                    <a href="/events/information-odb/<?php echo $data["event"][0]->eventID ?>"><?php echo __("event_info") ?></a>
                 </div>
             </div>
-        </div>
-
-        <div class="tr_tools">
-            <button class="btn btn-warning ttools" data-tool="saildict"><?php echo __("show_dictionary") ?></button>
-            <button class="btn btn-primary ttools" data-tool="sunbible"><?php echo __("go_sun_bible") ?></button>
         </div>
     </div>
 </div>
@@ -132,7 +127,7 @@ if(isset($data["error"])) return;
 
         <div class="tutorial_content">
             <h3><?php echo __("self-check")?></h3>
-            <ul><?php echo __("self-edit_sun_desc")?></ul>
+            <ul><?php echo __("self-edit_odb_desc")?></ul>
         </div>
     </div>
 </div>

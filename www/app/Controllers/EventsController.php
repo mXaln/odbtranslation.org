@@ -6928,6 +6928,90 @@ class EventsController extends Controller
             ->shares("data", $data);
     }
 
+    public function demoOdb($page = null)
+    {
+        if(!isset($page))
+            Url::redirect("events/demo-odb/pray");
+
+        for($i=0; $i<2; $i++)
+        {
+            $notifObj = new stdClass();
+
+            if($i==0)
+                $notifObj->step = EventSteps::PEER_REVIEW;
+            else
+                $notifObj->step = EventSteps::CONTENT_REVIEW;
+
+            $notifObj->currentChapter = 2;
+            $notifObj->firstName = "Mark";
+            $notifObj->lastName = "Patton";
+            $notifObj->bookCode = "a01";
+            $notifObj->bookProject = "odb";
+            $notifObj->tLang = "Español";
+            $notifObj->bookName = "A01";
+            $notifObj->manageMode = "odb";
+            $notifObj->sourceBible = "odb";
+
+            $notifications[] = $notifObj;
+        }
+
+        $data["notifications"] = $notifications;
+        $data["isDemo"] = true;
+        $data["isCheckerPage"] = false;
+        $data["menu"] = 5;
+
+        $view = View::make("Events/ODB/Demo/DemoHeader");
+        $data["step"] = "";
+
+        switch ($page)
+        {
+            case "pray":
+                $view->nest("page", "Events/ODB/Demo/Pray");
+                $data["step"] = EventSteps::PRAY;
+                break;
+
+            case "consume":
+                $view->nest("page", "Events/ODB/Demo/Consume");
+                $data["step"] = EventSteps::CONSUME;
+                break;
+
+            case "verbalize":
+                $view->nest("page", "Events/ODB/Demo/Verbalize");
+                $data["step"] = EventSteps::VERBALIZE;
+                break;
+
+            case "draft":
+                $view->nest("page", "Events/ODB/Demo/Draft");
+                $data["step"] = EventSteps::BLIND_DRAFT;
+                break;
+
+            case "self-check":
+                $view->nest("page", "Events/ODB/Demo/SelfCheck");
+                $data["step"] = EventSteps::SELF_CHECK;
+                break;
+
+            case "peer_review_checker":
+                $view->nest("page", "Events/ODB/Demo/PeerReview");
+                $data["step"] = EventSteps::PEER_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "content_review_checker":
+                $view->nest("page", "Events/ODB/Demo/ContentReview");
+                $data["step"] = EventSteps::CONTENT_REVIEW;
+                $data["isCheckerPage"] = true;
+                break;
+
+            case "information":
+                return View::make("Events/ODB/Demo/Information")
+                    ->shares("title", __("event_info"));
+        }
+
+        return $view
+            ->shares("title", __("demo"))
+            ->shares("data", $data);
+    }
+
     public function news()
     {
         if (Session::get('loggedin') !== true)
