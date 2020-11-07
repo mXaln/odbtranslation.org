@@ -362,35 +362,21 @@ class TranslationsModel extends Model
         if (in_array($data->sourceBible, ["odb"]))
         {
             $format = "text/json";
-        }
-        else
-        {
-            $format = "text/usfm";
-        }
-
-        $type = "bundle";
-
-        if ($data->sourceBible == "odb")
-        {
             $subject = "Our Daily Bread";
-        }
-        else
-        {
-            $subject = "Bible";
-        }
-
-        if ($data->sourceBible == "odb")
-        {
             $relation = [];
         }
         else
         {
+            $format = "text/usfm";
+            $subject = "Bible";
             $relation = [
                 $data->targetLang."/tw",
                 $data->targetLang."/tq",
                 $data->targetLang."/tn"
             ];
         }
+
+        $type = "bundle";
 
         $source = [
             new Source(
@@ -402,8 +388,8 @@ class TranslationsModel extends Model
 
         $manifest = new Manifest();
 
-        $manifest->setCreator("Wycliffe Associates");
-        $manifest->setPublisher("unfoldingWord");
+        $manifest->setCreator("ODB Translation");
+        $manifest->setPublisher("UnfoldingWord");
         $manifest->setFormat($format);
         $manifest->setIdentifier($data->bookProject);
         $manifest->setIssued(date("Y-m-d", time()));
@@ -417,7 +403,7 @@ class TranslationsModel extends Model
         $manifest->setSubject($subject);
         $manifest->setTitle(__($data->bookProject));
         $manifest->setType($type);
-        $manifest->setCheckingEntity(["Wycliffe Associates"]);
+        $manifest->setCheckingEntity(["ODB Translation"]);
 
         return $manifest;
     }

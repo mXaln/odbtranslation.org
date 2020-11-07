@@ -744,7 +744,7 @@ class TranslationsController extends Controller
                     $chunk->bookCode,
                     (int)$chunk->abbrID,
                     "./".(strtoupper($chunk->bookCode)).".json",
-                    ["rad"]
+                    ["odb"]
                 ));
             }
         }

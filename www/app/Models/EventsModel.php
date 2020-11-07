@@ -1393,7 +1393,7 @@ class EventsModel extends Model
                 $peer3Check = (array)json_decode($participant->peer3Check);
 
                 // Resource Checkers
-                if (in_array($mode, ["sun"])) {
+                if (in_array($mode, ["sun","odb"])) {
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peerCheck)));
