@@ -23,7 +23,7 @@ use Helpers\Constants\EventSteps;
         </li>
 
         <li class="self-check-step <?php echo $data["step"] == EventSteps::SELF_CHECK ? "active" : "" ?>">
-            <a href="/events/demo-sun-odb/self-check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
+            <a href="/events/demo-odb/self-check"><span><?php echo __(EventSteps::SELF_CHECK)?></span></a>
         </li>
 
         <li class="theo-check-step <?php echo $data["step"] == EventSteps::PEER_REVIEW ? "active" : "" ?>">
