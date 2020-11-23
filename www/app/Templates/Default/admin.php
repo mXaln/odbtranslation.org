@@ -101,7 +101,7 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js', 'Default'),
     template_url('js/jquery.actual.min.js', 'Default'),
-    template_url('js/main.js?106', 'Default'),
+    template_url('js/main.js?107', 'Default'),
     template_url('js/facilitator.js?34', 'Default'),
     template_url('js/autosize.min.js?2', 'Default'),
     template_url('js/admin.js?52', 'Default'),
