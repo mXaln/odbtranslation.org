@@ -1286,7 +1286,7 @@ $(document).ready(function() {
     });
 
     // Save keywords
-    body.on("mouseup touchend", "div[class^=kwverse]", function (e) {
+    body.on("mouseup touchend", "div[class^=kwverse]", function () {
         if(!isChecker) return;
         if(typeof disableHighlight != "undefined") return;
         if(typeof isInfoPage != "undefined") return;
@@ -1446,7 +1446,7 @@ $(document).ready(function() {
 
                 const parent = $this.closest("div[class^=kwverse]");
                 const verseID = parent.attr("class");
-                const index = $this.attr("data");
+                const index = $this.data("index");
 
                 saveOrRemoveKeyword(verseID, text, index, true);
             });
@@ -1522,7 +1522,7 @@ $(document).ready(function() {
         });
     },2100);
 
-    // Show/Hide chat window
+    // Show/Hide help window
     $("#help_hide").click(function() {
         const $this = $(this).parents(".content_help");
 
@@ -1532,8 +1532,8 @@ $(document).ready(function() {
             $this.removeClass("open")
                 .addClass("closed");
             $this.animate({right: -275}, 500, function() {
-                $("#help_hide").removeClass("glyphicon-chevron-up")
-                    .addClass("glyphicon-chevron-down");
+                $("#help_hide").removeClass("glyphicon-chevron-right")
+                    .addClass("glyphicon-chevron-left");
             });
         }
         else
@@ -1542,8 +1542,8 @@ $(document).ready(function() {
             $this.removeClass("closed")
                 .addClass("open");
             $this.animate({right: 0}, 500, function() {
-                $("#help_hide").removeClass("glyphicon-chevron-down")
-                    .addClass("glyphicon-chevron-up");
+                $("#help_hide").removeClass("glyphicon-chevron-left")
+                    .addClass("glyphicon-chevron-right");
             });
         }
     });
@@ -1807,7 +1807,7 @@ $(document).ready(function() {
         $(this).text($(".language option[value="+langs[0]+"]").text());
     });
 
-    // Mast events number test
+    // Translation events number test
     $("input[name=mast_evnts]").change(function() {
         if($(this).val() > 1)
         {
@@ -2960,7 +2960,7 @@ function highlightKeyword(verseID, text, index, remove) {
 
     if(remove)
     {
-        $("b[data="+index+"]", verseEl)
+        $("b[data-index="+index+"]", verseEl)
             .filter(function() {
                 return $(this).text() === text;
             })
@@ -2977,10 +2977,11 @@ function highlightKeyword(verseID, text, index, remove) {
         const regex = new RegExp("("+text+")", "gmi");
 
         let nth = -1;
+        index = parseInt(index) || 0;
         const html = verseText.replace(regex, function(match, i, orig) {
             nth++;
             return (nth === index)
-                ? "<b data='"+index+"'>"+match+"</b>"
+                ? "<b data-index='"+index+"'>"+match+"</b>"
                 : match;
         });
         verseEl.html(html);

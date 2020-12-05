@@ -1,6 +1,7 @@
 <?php
 if(isset($data["error"])) return;
 
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 ?>
 <div class="comment_div panel panel-default">
@@ -67,7 +68,7 @@ use Helpers\Constants\EventMembers;
                                 <div class="row chunk_block no_autosize">
                                     <div class="flex_container">
                                         <div class="chunk_verses flex_left" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                            <?php $verses = $data["translation"][$key][EventMembers::TRANSLATOR]["verses"]; ?>
+                                            <?php $verses = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::VERSES]; ?>
                                             <?php foreach ($verses as $verse => $text): ?>
                                                 <p class="verse_text" data-verse="<?php echo $verse; ?>">
                                                     <strong class="<?php echo $data["event"][0]->sLangDir ?>">
@@ -79,7 +80,7 @@ use Helpers\Constants\EventMembers;
                                         </div>
                                         <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                             <?php
-                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER]["verses"];
+                                            $verses = $data["translation"][$key][EventMembers::L2_CHECKER][ChunkSections::VERSES];
                                             ?>
                                             <div class="vnote">
                                                 <?php foreach($verses as $verse => $text): ?>
@@ -199,7 +200,7 @@ use Helpers\Constants\EventMembers;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps is_checker_page_help <?php echo $data["event"][0]->peer == 2 ? "isPeer" : "" ?>">

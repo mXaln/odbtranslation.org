@@ -31,7 +31,7 @@ use Helpers\Constants\EventSteps;
         </li>
 
         <li class="content-review-step <?php echo $data["step"] == EventSteps::CONTENT_REVIEW ? "active" : "" ?>">
-            <a href="/events/demo-sun-odb/content_review_checker"><span><?php echo __(EventSteps::CONTENT_REVIEW."_odb")?></span></a>
+            <a href="/events/demo-sun-odb/content_review_checker"><span><?php echo __(EventSteps::CONTENT_REVIEW."_sun_odb")?></span></a>
         </li>
     </ul>
 </div>
@@ -78,7 +78,7 @@ $isCheckPage = $data["step"] == EventSteps::THEO_CHECK || $data["step"] == Event
 
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
-    <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("chat") ?></div>
+    <div id="chat_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("chat") ?></div>
 
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
@@ -154,7 +154,7 @@ $isCheckPage = $data["step"] == EventSteps::THEO_CHECK || $data["step"] == Event
     <source src="<?php echo template_url("sounds/missed.ogg")?>" type="audio/ogg">
 </audio>
 
-<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?7")?>"></script>
 
 <script>
     (function($) {

@@ -74,7 +74,7 @@ $isCheckPage = $data["step"] == EventCheckSteps::PEER_REVIEW_L2;
 
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
-    <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("chat") ?></div>
+    <div id="chat_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("chat") ?></div>
 
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
@@ -150,7 +150,7 @@ $isCheckPage = $data["step"] == EventCheckSteps::PEER_REVIEW_L2;
     <source src="<?php echo template_url("sounds/missed.ogg")?>" type="audio/ogg">
 </audio>
 
-<script src="<?php echo template_url("js/chat-plugin.js?5")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?7")?>"></script>
 
 <script>
     (function($) {

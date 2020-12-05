@@ -5,6 +5,9 @@
  * Date: 12 Apr 2016
  * Time: 17:30
  */
+
+use Helpers\Constants\ChunkSections;
+use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventSteps;
 use Helpers\Tools;
 
@@ -51,7 +54,7 @@ if(empty($error) && empty($data["success"])):
                     <?php $i=0; foreach($data["translation"] as $key => $chunk): ?>
                         <?php
                         $count = 0;
-                        foreach($chunk["translator"]["verses"] as $verse => $text):
+                        foreach($chunk[EventMembers::TRANSLATOR][ChunkSections::VERSES] as $verse => $text):
                             $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                             ?>
                             <?php if($count == 0): ?>
@@ -112,7 +115,7 @@ if(empty($error) && empty($data["success"])):
                     <?php $i=0; foreach($data["translation"] as $key => $chunk): ?>
                         <?php
                         $count = 0;
-                        foreach($chunk["translator"]["verses"] as $verse => $text):
+                        foreach($chunk[EventMembers::TRANSLATOR][ChunkSections::VERSES] as $verse => $text):
                             $verses = Tools::parseCombinedVerses($sourceVerses[$i]);
                             ?>
                             <?php if($count == 0): ?>

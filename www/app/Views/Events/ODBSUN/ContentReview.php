@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\OdbSections;
 
@@ -18,7 +20,7 @@ if(isset($data["error"])) return;
 
 <div id="translator_contents" class="row panel-body">
     <div class="row main_content_header">
-        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 6]). ": " . __("content-review_odb")?></div>
+        <div class="main_content_title"><?php echo __("step_num", ["step_number" => 6]). ": " . __("content-review_sun_odb")?></div>
     </div>
 
     <div class="">
@@ -59,7 +61,7 @@ if(isset($data["error"])) return;
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::SYMBOLS]; ?>
                                     <div class="vnote">
                                         <textarea name="chunks[]" class="col-sm-6 verse_ta textarea sun_content"><?php echo $text ?></textarea>
                                     </div>
@@ -105,7 +107,7 @@ if(isset($data["error"])) return;
                                             ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
                                             : __(OdbSections::enum($verse))); ?>:
                                     </strong>
-                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR]["words"]; ?>
+                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::WORDS]; ?>
                                 </div>
                             </div>
                             <div class="chunk_divider col-sm-12" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
@@ -133,11 +135,11 @@ if(isset($data["error"])) return;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps is_checker_page_help">
-            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("content-review_odb")?></div>
+            <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("content-review_sun_odb")?></div>
             <div class="help_descr_steps">
                 <ul><?php echo __("content-review_sun_desc")?></ul>
                 <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
@@ -169,7 +171,7 @@ if(isset($data["error"])) return;
         </div>
 
         <div class="tutorial_content is_checker_page_help">
-            <h3><?php echo __("content-review_odb")?></h3>
+            <h3><?php echo __("content-review_sun_odb")?></h3>
             <ul><?php echo __("content-review_sun_desc")?></ul>
         </div>
     </div>

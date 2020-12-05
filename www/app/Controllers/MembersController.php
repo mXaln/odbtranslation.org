@@ -1556,6 +1556,8 @@ class MembersController extends Controller
 
                 if(empty($token) || $token["sha1"] == "")
                 {
+                    if (isset($token["id"]))
+                        $cloudModel->deleteAccessToken($token["id"]);
                     $data = $cloudModel->createAccessToken();
                     $token = $cloudModel->getOdbAccessToken($data);
                 }

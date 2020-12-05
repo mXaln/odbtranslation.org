@@ -32,7 +32,7 @@
 
             isInfoPage = $this.hasClass("info");
 
-            if(settings.chkMemberID > 0)
+            if(settings.chkMemberID > 0 && step !== EventSteps.VERBALIZE)
             {
                 currentP2Ptab = $("#chk");
                 currentP2Pmsgs = $("#chk_messages");
@@ -58,8 +58,8 @@
                     $this.removeClass("open")
                         .addClass("closed");
                     $this.animate({right: -610}, 500, function() {
-                        $("#chat_hide").removeClass("glyphicon-chevron-up")
-                            .addClass("glyphicon-chevron-down");
+                        $("#chat_hide").removeClass("glyphicon-chevron-right")
+                            .addClass("glyphicon-chevron-left");
 
                         $(".chat_tab").removeClass("active");
                         currentP2Ptab.addClass("active");
@@ -73,8 +73,8 @@
                     $this.removeClass("closed")
                         .addClass("open");
                     $this.animate({right: chatRightPos}, 500, function() {
-                        $("#chat_hide").removeClass("glyphicon-chevron-down")
-                            .addClass("glyphicon-chevron-up");
+                        $("#chat_hide").removeClass("glyphicon-chevron-left")
+                            .addClass("glyphicon-chevron-right");
 
                         currentP2Pmsgs.show();
 
@@ -539,7 +539,7 @@
     };
 
     /**
-     * MAST Chat
+     * Translation Chat
      * @param method
      * @returns {*}
      */

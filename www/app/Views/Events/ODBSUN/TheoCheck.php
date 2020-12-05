@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\OdbSections;
 
@@ -59,7 +61,7 @@ if(isset($data["error"])) return;
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::SYMBOLS]; ?>
                                     <div class="vnote">
                                         <textarea name="chunks[]" class="col-sm-6 verse_ta textarea sun_content"><?php echo $text ?></textarea>
                                     </div>
@@ -105,7 +107,7 @@ if(isset($data["error"])) return;
                                             ? __(OdbSections::enum($verse), ["number" => $verse - OdbSections::DATE])
                                             : __(OdbSections::enum($verse))); ?>:
                                     </strong>
-                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR]["words"]; ?>
+                                    <?php echo $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::WORDS]; ?>
                                 </div>
                             </div>
                             <div class="chunk_divider col-sm-12" style="<?php echo $hidden ? "display: none;" : "" ?>"></div>
@@ -133,7 +135,7 @@ if(isset($data["error"])) return;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps is_checker_page_help">

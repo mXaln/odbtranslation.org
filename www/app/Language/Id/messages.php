@@ -156,18 +156,18 @@ return array (
     "othr_trans_yrs_public" => "Lama Terlibat Penerjemahan atau Interpretasi Lainnya",
     "bbl_knwlg_degr" => "Tingkat Pemahaman Alkitab",
     "bbl_knwlg_degr_public" => "Tingkat Pemahaman Alkitab",
-    "mast_evnts" => "Anda sudah pernah berpartisipasi dalam berapa kegiatan MAST",
-    "mast_evnts_public" => "Berpartisipasi dalam berapa kegiatan MAST",
-    "mast_role" => "Peran MAST apa saja yang sudah pernah Anda lakukan: centang semua yang berlaku",
-    "mast_role_public" => "Telah melakukan peran MAST sebagai berikut",
+    "mast_evnts" => "Anda sudah pernah berpartisipasi dalam berapa kegiatan translation",
+    "mast_evnts_public" => "Berpartisipasi dalam berapa kegiatan translation",
+    "mast_role" => "Peran translation apa saja yang sudah pernah Anda lakukan: centang semua yang berlaku",
+    "mast_role_public" => "Telah melakukan peran translation sebagai berikut",
     "teamwork" => "Sesering apa Anda bekerja dalam tim untuk menghasilkan sesuatu",
     "teamwork_public" => "Sesering apa bekerja dalam tim untuk menghasilkan sesuatu",
     "org" => "Anda mewakili organisasi mana",
     "org_public" => "Mewakili organisasi",
     "ref_person" => "Nama Yang Mereferensi",
     "ref_email" => "Email  Yang Mereferensi",
-    "mast_facilitator" => "Apakah Anda pernah dilatih dalam fasilitasi MAST",
-    "mast_facilitator_public" => "Pernah dilatih dalam fasilitasi MAST",
+    "mast_facilitator" => "Apakah Anda pernah dilatih dalam fasilitasi translation",
+    "mast_facilitator_public" => "Pernah dilatih dalam fasilitasi translation",
     "education" => "Jika Anda memiliki pendidikan teologis formal centang semua yang berlaku",
     "education_public" => "Pendidikan teologis formal",
     "ed_area" => "Centang semua bidang yang berlaku",
@@ -401,15 +401,15 @@ return array (
     "time_end" => "Selesai",
     "chat" => "OBROL",
     "you_are_at" => "Anda berada di",
-    "8steps_mast" => "MAST 8 Langkah",
-    "mast" => "MAST 8 Langkah",
+    "8steps_mast" => "8 Langkah",
+    "mast" => "8 Langkah",
     "lang_input" => "Scripture Input",
     "notes" => "Translation Notes",
     "words" => "Translation Words",
     "questions" => "Translation Questions",
     "level2" => "Level 2",
     "level3" => "Level 3",
-    "l2_l3_mast" => "MAST L{level} Pemeriksaan",
+    "l2_l3_mast" => "L{level} Pemeriksaan",
     "common" => "Common",
     "mast_events" => "Kegiatan",
     "create_event" => "Buat kegiatan",
@@ -444,7 +444,7 @@ return array (
     "block" => "Blokir",
     "unblock" => "Tidak diblokir",
     "last_edit" => "Ubahan terakhir",
-    "noscript_message" => "Javascript tidak hidup! Mohon, hidupkan untuk menggunakan semua fungsi dari v-mast.",
+    "noscript_message" => "Javascript tidak hidup! Mohon, hidupkan untuk menggunakan semua fungsi dari odbtranslation.org.",
     "type_translation" => "Modus Penerjemahan",
     "type_checking" => "Mode Pengecekan",
     "type_checking1" => "Checker 1 Mode",
@@ -490,6 +490,7 @@ return array (
     "sun_odb_theo_checker" => "Remove ODB checker",
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "sun_odb_vbv_checker" => "Remove SUN checker",
+    "odb_vbv_checker" => "Remove Comparative checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -520,10 +521,8 @@ return array (
     "pray_text" => "Allah menciptakan semua bahasa-bahasa di dunia dan telah memberi kita kemampuan untuk mempelajari dan menggunakannya. Ia juga telah memberi kita Roh Kudus-Nya untuk membantu kita dalam segala sesuatu yang kita lakukan. Oleh karena itu, mari kita mulai dengan mengambil waktu dalam doa, bersyukur kepada Tuhan dan meminta agar Dia akan memberikan kita hikmat dan bimbingan yang diperlukan untuk secara setia dan akurat menerjemahkan Firman Kudus-Nya.",
     "prep_pray_text" => "<strong>Congratulations!</strong> Anda telah menyelesaikan pasal Anda! Istirahatlah, tidur siang, minum kopi atau teh dan mari kita mulai pasal lain!",
     
-    "pray_tn" => "Persiapan: Berdoa",
-
     "multi-draft_lang_input" => "Input",
-    "multi-draft_lang_input_desc" => "<li><b>PURPOSE:</b> to enter text digitally that has already been translated using the MAST 8 steps.</li>
+    "multi-draft_lang_input_desc" => "<li><b>PURPOSE:</b> to enter text digitally that has already been translated using the Translation 8 steps.</li>
                                         <li>Type or copy/paste translated text into the blanks verse by verse.</li>
                                         <li>To add a verse, click the green \"+\" at the bottom of the page.</li>
                                         <li>To delete a verse, click the red \"x\" at the bottom of the page.</li>
@@ -558,25 +557,19 @@ return array (
     "consume_desc" => "<li><b>KEGUNAAN:</b> untuk menyiapkan memori jangka pendek Anda untuk membantu Anda dalam penerjemahan</li><li>Baca teks yang ditugaskan secara keseluruhan. Serap secara cermat dan pertimbangkan apa yang dikatakan untuk memahami isi utuh dari nats ini.</li><li>Berhenti, renungkan, dan baca kembali jika perlu.</li><li>Ambil tidak lebih dari 12 menit pada kegiatan ini.</li>",
 
     "consume_odb" => "Pembacaan",
-    "consume_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li><li>Read the assigned text in its entirety. Carefully absorb and consider what is being said to understand the full content of the passage.</li><li>Pause, reflect, and re-read as necessary.</li><li>Spend no more than 12 minutes on this activity.</li>",
-
-    "consume_tn" => "Read Scripture",
-    "consume_tn_full" => "Read Scripture in Target Language",
-    "consume_tn_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translating notes.</li>
-                            <li>Read the assigned chapter carefully.</li>
-                            <li>Try to understand the meaning and details of the text to get a general overview.</li>
-                            <li>If you see the paper icon (<span class='mdi mdi-bookmark'></span>), hover over 
-                                it with your mouse.  It is a footnote to help you translate the (verse or note).</li>
-                            <li>Take no more than 7-10 minutes on this step.</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-
-    "consume_rad_desc" => "<li><b>PURPOSE:</b> to read the text to prepare for translation.</li>
-                            <li>Read the assigned broadcast carefully.</li>
-                            <li>Try to understand the meaning and details of the text for a general overview.</li>
+    "consume_odb_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
+                            <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
+                                said to understand the full content of the passage.</li>
+                            <li>Pause, reflect, and re-read as necessary.</li>
+                            <li>Take 7-8 minutes for this step.</li>",
+    "consume_odb_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translation</li>
+                            <li>Take 7-8 minutes for this step.</li>
+                            <li>Read the assigned devotional carefully.</li>
+                            <li>Try to understand the meaning and details for a general overview.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
     "verbalize" => "Verbalisasi",
-    "verbalize_desc" => "<li><b>KEGUNAAN:</b> untuk mengungkapkan dengan kata-kata sendiri apa yang telah Anda baca untuk menggunakan memori jangka pendek.</li><li>Hubungi rekan Anda dalam platform obrolan: Skype, Hangout, V-MAST chat, telepon, dll…</li><li>Ini bukan diskusi mengenai teksnya, tapi untuk menceritakan kembali “inilah yang saya baca,” diikuti dengan, “intinya adalah...”</li><li>Paling baik jika menceritakan kembali dalam bahasa tujuan.</li><li>Ambil waktu tidak lebih dari 7-10 menit bersama rekan anda pada langkah ini.</li>",
+    "verbalize_desc" => "<li><b>KEGUNAAN:</b> untuk mengungkapkan dengan kata-kata sendiri apa yang telah Anda baca untuk menggunakan memori jangka pendek.</li><li>Hubungi rekan Anda dalam platform obrolan: Skype, Hangout, Translation chat, telepon, dll…</li><li>Ini bukan diskusi mengenai teksnya, tapi untuk menceritakan kembali “inilah yang saya baca,” diikuti dengan, “intinya adalah...”</li><li>Paling baik jika menceritakan kembali dalam bahasa tujuan.</li><li>Ambil waktu tidak lebih dari 7-10 menit bersama rekan anda pada langkah ini.</li>",
 
     "chunking" => "Penggalan",
     "chunking_sun" => "Thought Chunk",
@@ -588,48 +581,36 @@ return array (
     "read-chunk-alt" => "Baca Penggalan",
     "read-chunk_desc" => "<li><b>KEGUNAAN:</b> untuk meninjau kembali penggalan yang ada untuk tahap draft kosong</li><li>Baca dan serap potongan teks ini, dengan konteks dari pasal yang lebih besar, meminta pertolongan Roh Kudus untuk memahami teksnya. </li><li>Ambil waktu tidak lebih dari 5 menit per penggalan</li>",
     
-    "read-chunk_tn" => "Read Chunk",
-    "read-chunk_tn_desc" => "<li><b>PURPOSE:</b> to read through the chunk of Notes you will translate.</li>
-                                <li>Read the assigned chunk of Notes carefully.</li>
-                                <li>Try to understand the meaning and details of the text to get a general overview.</li>
-                                <li>Take about 5 minutes on this step.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-    
     "blind-draft" => "Draft Kosong",
+    "blind-draft_odb" => "Draft",
+    "blind-draft-alt" => "Draft",
+    "blind-draft_odb_previous" => "Draft – Penggalan Sebelumnya",
     "blind-draft_previous" => "Draft Kosong – Penggalan Sebelumnya",
-    "blind-draft_desc" => "<li><b>KEGUNAAN:</b> untuk menerjemahkan teks sumber sealami mungkin dalam bahasa tujuan.</li> <li>Tanpa melihat teks sumber, ketik terjemahan Anda dari penggalan itu sebaik yang dapat Anda ingat, secara alami, menggunakan kata-kata yang jelas dan dapat dimengerti</li><li>Jangan melihat pada teks sumber. Terjemahkan hanya apa yang Anda ingat.</li><li>Jangan khawatir tentang penandaan ayat-ayat. Akan dilakukan pada langkah terakhir</li><li>Salah satu sifat dasar dari terjemahan yang baik adalah kealamian bahasa. Draft kosong mengambil ini dan memungkinkan otak/memori jangka pendek untuk mengeluarkan teks yang paling alami dengan cepat. Tidak dimaksudkan untuk menjadi teks akurat yang sempurna (empat langkah selanjutnya akan mengerjakan itu), dimaksudkan untuk memberikan dasar kealamian, yang jika tidak ada, menyebabkan kesalahan lain dan perbaikan kesalahan mendasar yang lama.</li><li>Ambil waktu tidak lebih dari 10-12 menit pada kegiatan ini per penggalan</li>",
+    "blind-draft_desc" => "<li><b>KEGUNAAN:</b> untuk menerjemahkan teks sumber sealami mungkin dalam bahasa tujuan.</li> 
+                            <li>Tanpa melihat teks sumber, ketik terjemahan Anda dari penggalan itu sebaik yang dapat 
+                                Anda ingat, secara alami, menggunakan kata-kata yang jelas dan dapat dimengerti</li>
+                            <li>Jangan melihat pada teks sumber. Terjemahkan hanya apa yang Anda ingat.</li>
+                            <li>Jangan khawatir tentang penandaan ayat-ayat. Akan dilakukan pada langkah terakhir</li>
+                            <li>Salah satu sifat dasar dari terjemahan yang baik adalah kealamian bahasa. 
+                                Draft kosong mengambil ini dan memungkinkan otak/memori jangka pendek untuk mengeluarkan 
+                                teks yang paling alami dengan cepat. Tidak dimaksudkan untuk menjadi teks akurat yang 
+                                sempurna (empat langkah selanjutnya akan mengerjakan itu), dimaksudkan untuk memberikan 
+                                dasar kealamian, yang jika tidak ada, menyebabkan kesalahan lain dan perbaikan kesalahan 
+                                mendasar yang lama.</li><li>Ambil waktu tidak lebih dari 10-12 menit pada kegiatan ini 
+                                per penggalan</li>",
 
-    "blind-draft_tn" => "Draft Kosong",
-    "blind-draft_tn_desc" => "<li><b>PURPOSE:</b> to review the chunk of scripture and Notes and then \"blind translate\" the Note in the target language.</li>
-                                <li>Read the scripture and Note, keeping the context of the whole chapter mind.</li>
-                                <li>Think through the scripture and Note in the target language.</li>
-                                <li>Switch to the \"Translate\" tab and blind draft as much of the Note in the target language as you can.</li>
-                                <li>Switch back and forth between the \"Read\" and \"Translate\" tab as much as needed.</li>
-                                <li>As much as possible, translate phrase by phrase and not word for word, to preserve naturalness of the target language.</li>
-                                <li>Type or copy and paste the scripture, and then translate the Note that goes with the scripture on the next line.</li>
-                                <li>Format the text by double clicking the line to format and selecting the format. 
+    "blind-draft_odb_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
+                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness in the target language.</li>
+                                <li>You will translate each section individually. Follow formatting for capitalization and punctuation for titles, names, and Scripture references.</li>
                                     <ol>
-                                        <li>Scripture is the larger text. To format double click and select \"Header 1.\"</li>
-                                        <li>The translated Note is the smaller text. To format double click and select \"Normal.\"</li>
-                                        <li>To format subtitles in  “Intro” sections, double click and select \"Header 4.\"</li>
+                                        <li>Translate the “Title” in the blank, then click \"Yes, I did\" and \"Next step\".</li>
+                                        <li>Type the author’s name or copy and paste, then click \"Yes, I did\" and \"Next step\".</li>
+                                        <li>Translate the Passage, and other sections one page at a time until the devotional is completed, 
+                                            clicking \"Yes, I did\" and \"Next step\" between each section.</li>
                                     </ol>
                                 </li>
-                                <li>No need to translate links.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next chunk to translate until the chapter is finished.</li>",
-
-    "multi-draft_rad_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
-                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness of the target language.
-                                    <ol>
-                                        <li>Translate the word \"Broadcast\" and the number.</li>
-                                        <li>Translate the name of the broadcast.</li>
-                                        <li>Translate each character name in ALL CAPS by turning on Caps Lock and typing 
-                                            the name. It will go fast if you copy and then paste the name into the proper 
-                                            blanks for each character.</li>
-                                        <li>Translate the text the speaker is saying as naturally as you can.</li>
-                                    </ol>
-                                </li>
-                                <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>
-                                <li>Make sure the save icon is not flashing when you click \"Next step\".</li>",
+                                <li>Make sure the save icon is not flashing when you click \"Next step\". If it is, 
+                                    pause until it stops, then click \"Next step\" again to move on.</li>",
 
     "self-check" => "Edit Sendiri",
     "self-check_desc" => "<li><b>KEGUNAAN:</b> untuk mengubah draft kosong dan memeriksa makna teks sumber secara akurat sambil mempertahankan bentuk dan struktur dari sumber.</li>
@@ -638,36 +619,7 @@ return array (
                 <li>Jangan membesar-besarkan, menyederhanakan, atau menambahkan teks untuk memperjelas. Apa pun yang Anda pikir membutuhkan hal tersebut harus dicatat dalam catatan pada ayat tersebut, dan melanjutkan.</li>
                 <li>Ambil waktu tidak lebih dari 15-20 menit pada kegiatan ini.</li>",
 
-    "self-check_tn" => "Edit Sendiri",
-    "self-check_tn_desc" => "<li><b>PURPOSE:</b> to edit your Notes translation and check accuracy while maintaining naturalness.</li>
-                                <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                                <li>Look for any missing portions of text or missing or added facts.</li>
-                                <li>Check the accuracy of your translation in detail.</li>
-                                <li>Any resources can be used.</li>
-                                <li>Do not delete or re-write the translated text.  You will lose the naturalness of language.</li>
-                                <li>If you have additional thoughts or questions about your translation, click the note 
-                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the 
-                                    note and click save. The checkers will see this note and help to resolve the question or problem.</li>
-                                <li>This should take about 30 minutes.</li>
-                                <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>
-                                <li>WARNING: This is the last chance you will have to change your translation.  
-                                    Do not click \"yes, I did\" and \"next step\" until you have made all changes.</li>",
-    "self-check_tn_chk" => "Edit Notes",
-    "self-check_tn_chk_desc" => "<li><b>PURPOSE:</b> to edit the Notes translation and check accuracy while maintaining naturalness.</li>
-                                    <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                                    <li>Look for any missing portions of text or missing or added facts.</li>
-                                    <li>Check the accuracy of translation in detail.</li>
-                                    <li>Make sure to look at notes on the chunk of the translation Note.</li>
-                                    <li>Any resources can be used.</li>
-                                    <li>Do not delete or re-write the translated text.  You will lose the naturalness of language.</li>
-                                    <li>If you have additional thoughts or questions about the translation, click the note 
-                                        icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add 
-                                        the note and click save. The 2nd checker will see this note and help to resolve the question or problem.</li>
-                                    <li>This should take about 30 minutes.</li>
-                                    <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
-
-    "self-check_rad_desc" => "<li><b>PURPOSE:</b> to edit your draft and check meaning and accuracy while maintaining 
-                                naturalness.</li>
+    "self-edit_odb_desc" => "<li><b>PURPOSE:</b> to edit your draft and check meaning and accuracy while maintaining naturalness.</li>
                                 <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
                                 <li>Look for any missing portions of text or missing/added facts.</li>
                                 <li>Check in detail the accuracy of your translation.</li>
@@ -678,72 +630,13 @@ return array (
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
                                 <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
 
-    "highlight_tn" => "Highlight",
-    "highlight_tn_full" => "Highlight Difficult Passages",
-    "highlight_tn_desc" => "<li><b>PURPOSE:</b> to highlight passages that are considered theologically difficult.</li>
-                            <li>Read the assigned chapter carefully.</li>
-                            <li>Double click to highlight words or select a phrase by left clicking and selecting the phrase. 
-                                <ol>
-                                    <li>This is not a word or phrase that you think needs a Translation Note.</li>
-                                    <li>It is to denote a particularly difficult passage you want to make sure has a Note.</li>
-                                </ol>
-                            </li>
-                            <li>Read through entire chapter and highlight as needed.</li>
-                            <li>Take no more than 7-10 minutes on this step.</li>
-                            <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-
     "peer-review" => "Edit dengan Rekan",
-    "peer-review_desc" => "<li><b>KEGUNAAN:</b>untuk mengonfirmasi dengan penutur lain dari bahasa target bahwa teks yang diterjemahkan adalah setia dan merupakan ungkapan yang alami dari teks sumber (mirip dengan self-edit)</li><li>Terjemahan Anda akan dikaji oleh pemeriksa</li><li>Pemeriksa akan mengkaji terjemahan Anda mencari sesuatu yang terlewatkan, ditambahkan, atau sangat berbeda dari sumber.</li><li>Pemeriksa juga akan memeriksa kata-kata yang digunakan dalam terjemahan yang tidak tampak alami, jelas, dan dapat dimengerti.</li><li>Pemeriksa harus mengambil waktu tidak lebih dari 30-45 menit pada kegiatan ini</li><li>Ketika pemeriksa selesai membuat catatan dan pengamatan Anda, hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ... </li><li>Diskusikan pengamatan Anda. Sementara rekan Anda membuat komentar mereka, sesuaikan terjemahan Anda.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 60 menit dengan rekan Anda pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
+    "peer-review_odb" => "Edit dengan Rekan",
+    "peer-review_desc" => "<li><b>KEGUNAAN:</b>untuk mengonfirmasi dengan penutur lain dari bahasa target bahwa teks yang diterjemahkan adalah setia dan merupakan ungkapan yang alami dari teks sumber (mirip dengan self-edit)</li><li>Terjemahan Anda akan dikaji oleh pemeriksa</li><li>Pemeriksa akan mengkaji terjemahan Anda mencari sesuatu yang terlewatkan, ditambahkan, atau sangat berbeda dari sumber.</li><li>Pemeriksa juga akan memeriksa kata-kata yang digunakan dalam terjemahan yang tidak tampak alami, jelas, dan dapat dimengerti.</li><li>Pemeriksa harus mengambil waktu tidak lebih dari 30-45 menit pada kegiatan ini</li><li>Ketika pemeriksa selesai membuat catatan dan pengamatan Anda, hubungi rekan Anda di Skype, Hangout, Translation chat, telepon, dll ... </li><li>Diskusikan pengamatan Anda. Sementara rekan Anda membuat komentar mereka, sesuaikan terjemahan Anda.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 60 menit dengan rekan Anda pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
 
-    "peer-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk mengonfirmasi bahwa bahasa target yang diterjemahkan adalah setia dan merupakan ungkapan yang alami dari teks sumber (mirip dengan self-edit)</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga</li><li>Anda akan mengkaji terjemahan rekan Anda, dan mereka akan mengkaji terjemahan Anda jika Anda memiliki pasal untuk diterjemahkan.</li><li>Periksa terjemahan rekan Anda mencari sesuatu yang terlewatkan, ditambahkan, atau sangat berbeda dari sumber.</li><li>Periksa kata-kata yang digunakan dalam terjemahan yang tidak tampak alami, jelas, dan dapat dimengerti.</li><li>Ketika Anda selesai membuat catatan dan pengamatan, hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ... </li><li>Diskusikan pengamatan mereka.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 60 menit dengan rekan Anda pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
+    "peer-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk mengonfirmasi bahwa bahasa target yang diterjemahkan adalah setia dan merupakan ungkapan yang alami dari teks sumber (mirip dengan self-edit)</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga</li><li>Anda akan mengkaji terjemahan rekan Anda, dan mereka akan mengkaji terjemahan Anda jika Anda memiliki pasal untuk diterjemahkan.</li><li>Periksa terjemahan rekan Anda mencari sesuatu yang terlewatkan, ditambahkan, atau sangat berbeda dari sumber.</li><li>Periksa kata-kata yang digunakan dalam terjemahan yang tidak tampak alami, jelas, dan dapat dimengerti.</li><li>Ketika Anda selesai membuat catatan dan pengamatan, hubungi rekan Anda di Skype, Hangout, Translation chat, telepon, dll ... </li><li>Diskusikan pengamatan mereka.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 60 menit dengan rekan Anda pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
 
-    "peer-review_tn" => "2<sup>nd</sup> Check",
-    "peer-review_tn_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
-                                <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
-                                <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                                <li>Look for any missing portions of text or missing or added facts.</li>
-                                <li>Check the accuracy of translation in detail.</li>
-                                <li>Make sure to look at notes on the chunk of the translation Note.</li>
-                                <li>Any resources can be used.</li>
-                                <li>Do not delete or re-write the translated text. You will lose the naturalness of language.</li>
-                                <li>When you and the 2nd checker have completed the check, the checker will contact you to discuss 
-                                    recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                                <li>You and the 2nd checker should discuss any changes they think should be made. 
-                                    If you agree to the changes, you should make the changes right away. If you do not agree, 
-                                    contact your facilitator to discuss the disagreement. 
-                                    DO NOT continue to the next step until disagreements are resolved.</li>
-                                <li>This should take about 30 minutes.</li>
-                                <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>
-                                <li>WARNING: This is the last chance you will have to check the Notes.  
-                                    Do not click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
-
-    "peer-review_tn_chk_desc" => "<li><b>PURPOSE:</b> to check the Notes translation and check accuracy while maintaining naturalness.</li>
-                                    <li>You will work together with another checker to complete this step. This will be the last chance to make changes to the Notes.</li>
-                                    <li>You will see all changes the 1st checker made to the Notes. 
-                                        <ol>
-                                            <li>Text added to the Notes will be highlighted in green.</li>
-                                            <li>Text deleted from the Notes will be highlighted in red/pink.</li>
-                                        </ol>
-                                    </li>
-                                    <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                                    <li>Look for any missing portions of text or missing or added facts.</li>
-                                    <li>Check the accuracy of translation in detail.</li>
-                                    <li>Make sure to look at notes on the chunk of the translation Note.</li>
-                                    <li>Any resources can be used.</li>
-                                    <li>If you have recommended changes, click the note icon (<span class='mdi mdi-lead-pencil'></span>) next 
-                                        to the chunk and add the note and click save.</li>
-                                    <li>When you have completed the check, contact the 1st checker to discuss recommended 
-                                        changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                                    <li>You and the 1st checker should discuss any changes you think should be made. 
-                                        If you agree to the changes, the 1st checker should make the changes right away. 
-                                        If you do not agree, contact your facilitator to discuss the disagreement. 
-                                        DO NOT continue to the next step until disagreements are resolved.</li>
-                                    <li>This should take about 30 minutes.</li>
-                                    <li>When all changes and notes have been made by the 1st checker, click \"yes I did\" and \"next step.\"</li>
-                                    <li>WARNING: This is the last chance you will have to check the Notes. Do not 
-                                        click \"yes, I did\" and \"next step\" until you have made all changes you feel are necessary.</li>",
-
-    "peer-review_rad_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
+    "peer-review_odb_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
                                 <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
                                 <li>You will look for any missing portions of text or missing or added facts.</li>
                                 <li>You will check the accuracy of the translation in detail.</li>
@@ -752,28 +645,26 @@ return array (
                                 <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
 
     "keyword-check" => "Pengecekan Kata Kunci",
-    "keyword-check_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan kata-kata kunci tertentu ada dalam teks terjemahan dan diungkapkan secara akurat</li><li>Pemeriksa hanya akan melihat teks sumber</li><li>Pemeriksa akan menandai kata-kata kunci dari teks sumber. Kata-kata yang ditandai juga akan muncul dalam teks sumber Anda.</li><li>Kata-kata kunci adalah: kata ganti, nama-nama, angka-angka, dan istilah-istilah penting.</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telpon, dll ... </li><li>Pemeriksa akan melanjutkan pada setiap ayat dan bertanya apakah setiap kata yang ditandai ada.  Anda hanya menjawab \"ya\" atau \"tidak.\" Pemeriksa juga akan bertanya kepada Anda bagaimana Anda menerjemahkan kata-kata tertentu.</li><li>Buat perubahan yang perlu pada teks Anda.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
+    "keyword-check_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan kata-kata kunci tertentu ada dalam teks terjemahan dan diungkapkan secara akurat</li><li>Pemeriksa hanya akan melihat teks sumber</li><li>Pemeriksa akan menandai kata-kata kunci dari teks sumber. Kata-kata yang ditandai juga akan muncul dalam teks sumber Anda.</li><li>Kata-kata kunci adalah: kata ganti, nama-nama, angka-angka, dan istilah-istilah penting.</li><li>Hubungi rekan Anda di Skype, Hangout, Translation chat, telpon, dll ... </li><li>Pemeriksa akan melanjutkan pada setiap ayat dan bertanya apakah setiap kata yang ditandai ada.  Anda hanya menjawab \"ya\" atau \"tidak.\" Pemeriksa juga akan bertanya kepada Anda bagaimana Anda menerjemahkan kata-kata tertentu.</li><li>Buat perubahan yang perlu pada teks Anda.</li><li>Pastikan bahwa kata yang digunakan sesuai dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
 
-    "keyword-check_checker_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan kata-kata kunci tertentu ada dalam teks terjemahan dan diungkapkan secara akurat.</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga .</li><li>Ketika Anda menerima tugas untuk memeriksa pekerjaan seseorang, Anda hanya akan melihat teks sumber.</li><li>Anda akan menandai semua kata-kata kunci dari teks sumber dengan klik dobel kata tersebut atau memilih sebuah kata/frase dengan menggunakan mouse. Penerjemah juga akan melihat teks sumber yang diberi tanda.</li><li>Kata-kata kunci adalah: kata ganti, nama-nama, angka-angka, dan istilah-istilah penting..</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telpon, dll ... </li><li>Lanjutkan pada setiap ayat dan kaji setiap kata yang ditandai. Penerjemah hanya menjawab \"ya\" atau \"tidak\". Anda juga harus bertanya bagaimana penerjemah mengungkapkan kata-kata penting. Cari kesalahan-kesalahan besar dan kekurangan-kekurangan yang berarti.</li><li>Kaji catatan yang berkaitan dengan ayat itu dan coba selesaikan masalah kata kunci tersebut.</li><li>Jangan menganalisa berlebihan atau mengkritik teks, dan fokus hanya pada kata-kata yang mengandung arti yang lebih penting.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
+    "keyword-check_checker_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan kata-kata kunci tertentu ada dalam teks terjemahan dan diungkapkan secara akurat.</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga .</li><li>Ketika Anda menerima tugas untuk memeriksa pekerjaan seseorang, Anda hanya akan melihat teks sumber.</li><li>Anda akan menandai semua kata-kata kunci dari teks sumber dengan klik dobel kata tersebut atau memilih sebuah kata/frase dengan menggunakan mouse. Penerjemah juga akan melihat teks sumber yang diberi tanda.</li><li>Kata-kata kunci adalah: kata ganti, nama-nama, angka-angka, dan istilah-istilah penting..</li><li>Hubungi rekan Anda di Skype, Hangout, Translation chat, telpon, dll ... </li><li>Lanjutkan pada setiap ayat dan kaji setiap kata yang ditandai. Penerjemah hanya menjawab \"ya\" atau \"tidak\". Anda juga harus bertanya bagaimana penerjemah mengungkapkan kata-kata penting. Cari kesalahan-kesalahan besar dan kekurangan-kekurangan yang berarti.</li><li>Kaji catatan yang berkaitan dengan ayat itu dan coba selesaikan masalah kata kunci tersebut.</li><li>Jangan menganalisa berlebihan atau mengkritik teks, dan fokus hanya pada kata-kata yang mengandung arti yang lebih penting.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan.</li>",
     
-    "keyword-check_tn" => "Check Highlights",
-    "keyword-check_tn_full" => "Check Highlighted Notes",
-    "keyword-check_tn_desc" => "<li><b>PURPOSE:</b> to check the highlighted portions of scripture and compare it with the Note the highlight correlates to.</li>
-                                <li>Look for highlighting in the scripture and look to make sure there is an accurate Note that reflects the scripture accurately.</li>
-                                <li>Any resources can be used.</li>
-                                <li>Do not delete or re-write the translated text.</li>
-                                <li>If you have additional thoughts or questions about the translation, click the note 
-                                    icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save. 
-                                    The 2nd checker will see this note and help to resolve the question or problem.</li>
-                                <li>This should take about 15-20 minutes.</li>
-                                <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\"</li>",
-
     "content-review" => "Pengecekan Ayat-per-Ayat",
-    "content-review_odb" => "SUN Check",
-    "content-review_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan setiap penggalan dan pasal mengomunikasikan secara akurat pesan yang sama dalam bahasa tujuan</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telepon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara: <ol><li>Jika pemeriksa hanya mengenal sumbernya, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, anda akan membaca teks yang diterjemahkan penggalan demi penggalan, kemudian Anda atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan pemeriksa akan membandingkan apa yang mereka dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika pemeriksa lancar dalam kedua bahasa, mereka dapat memilih untuk menggunakan metode satu, atau mengkaji terjemahan Anda berdampingan dengan teks sumber.</li></ol></li><li>Kedua-duanya, pemeriksa Anda akan bertanya tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Pastikan kata-kata yang digunakan cocok dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
+    "content-review_odb" => "Comparative Check",
+    "content-review_sun_odb" => "SUN Check",
+    "content-review_desc" => "<li><b>KEGUNAAN:</b> untuk memastikan setiap penggalan dan pasal mengomunikasikan secara akurat pesan yang sama dalam bahasa tujuan</li><li>Hubungi rekan Anda di Skype, Hangout, Translation chat, telepon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara: <ol><li>Jika pemeriksa hanya mengenal sumbernya, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, anda akan membaca teks yang diterjemahkan penggalan demi penggalan, kemudian Anda atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan pemeriksa akan membandingkan apa yang mereka dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika pemeriksa lancar dalam kedua bahasa, mereka dapat memilih untuk menggunakan metode satu, atau mengkaji terjemahan Anda berdampingan dengan teks sumber.</li></ol></li><li>Kedua-duanya, pemeriksa Anda akan bertanya tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Pastikan kata-kata yang digunakan cocok dengan tingkat kesusastraan yang dipilih.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
 
-    "content-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk memastikan setiap penggalan dan pasal mengkomunikasikan secara akurat pesan yang sama dalam bahasa tujuan .</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga.</li><li>Hubungi rekan Anda di Skype, Hangout, V-MAST chat, telpon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara. Tampilan standar mengasumsikan metode pertama.<ol><li>Jika Anda hanya mengenal bahasa sumber, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, penerjemah akan membaca teks yang diterjemahkan ayat demi ayat, kemudian mereka atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan Anda akan membandingkan apa yang Anda dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika Anda lancar dalam kedua bahasa, anda dapat menggunakan metode satu, atau memilih untuk mengkaji terjemahan berdampingan dengan sumber. Dalam kasus ini, tekan tombol “Side by Side” untuk mengubah tampilan. Anda kemudian membandingkan sendiri keduanya.</li></ol></li><li>Kedua-duanya, Anda harus menanyakan tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap ke dalam bahasa tujuan. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
-    
+    "content-review_checker_desc" => "<li><b>KEGUNAAN:</b>untuk memastikan setiap penggalan dan pasal mengkomunikasikan secara akurat pesan yang sama dalam bahasa tujuan .</li><li>Sebagai pemeriksa instruksi di layar Anda berwarna jingga.</li><li>Hubungi rekan Anda di Skype, Hangout, Translation chat, telpon, dll ...</li><li>Pengkajian bisa dilakukan dengan dua cara. Tampilan standar mengasumsikan metode pertama.<ol><li>Jika Anda hanya mengenal bahasa sumber, pemeriksaan harus dilakukan dengan penerjemahan balik. Dalam kasus ini, penerjemah akan membaca teks yang diterjemahkan ayat demi ayat, kemudian mereka atau orang kedua akan menerjemahkan kembali ke bahasa sumber, dan Anda akan membandingkan apa yang Anda dengar dengan teks sumber yang sedang mereka baca.</li><li>Jika Anda lancar dalam kedua bahasa, anda dapat menggunakan metode satu, atau memilih untuk mengkaji terjemahan berdampingan dengan sumber. Dalam kasus ini, tekan tombol “Side by Side” untuk mengubah tampilan. Anda kemudian membandingkan sendiri keduanya.</li></ol></li><li>Kedua-duanya, Anda harus menanyakan tentang apa pun yang kelihatannya tidak terbawa secara akurat dan lengkap ke dalam bahasa tujuan. Buat perubahan yang perlu pada terjemahan Anda.</li><li>Ambil waktu tidak lebih dari 30 menit pada kegiatan ini. Jangan buang waktu pada perbedaan pendapat. Dalam kasus seperti ini, biarkan teks yang diterjemahkan seperti apa adanya, beri catatan pada penggalan tersebut, dan lanjutkan .</li>",
+
+    "content-review_odb_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
+                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>You will look for any missing portions of text or missing or added facts.</li>
+                                <li>You will check the accuracy of the translation in detail.</li>
+                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li><b>This is the last checking step, so make sure all edits have been made before 
+                                    clicking \"Yes, I did\" and \"Next step\" to complete the check.</b></li>",
+
     "final-review" => "Review Akhir",
     "final-review_desc" => "<li><b>KEGUNAAN:</b> ini adalah kajian terakhir di mana Anda akan menambahkan penanda ayat pada teks yang diterjemahkan.</li><li>Baca teks yang diterjemahkan dan bandingkan dengan teks sumber, kemudian drag and drop penanda ayat ke tempat yang seharusnya dalam teks terjemahan.</li><li>Ambil waktu tidak lebih dari 10 menit untuk kegiatan ini.</li>",
     "finished" => "Selesai",
@@ -971,236 +862,10 @@ return array (
                             <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step\".</li>",
 
     "multi-draft" => "Draft",
-    "multi-draft_full" => "Consume, Verbalize, and Draft",
-
-    "multi-draft_tq_desc" => "<li><b>PURPOSE:</b> to read the source text, to say it aloud to engage your memory, and 
-                                    to draft the text in the target language.</li>
-                                <li>Read the assigned question and answer carefully in the source text.</li>
-                                <li>Click on the “Consume” box to indicate this step is completed.</li>
-                                <li>Say the question and answer aloud to engage your memory in the process.</li>
-                                <li>Click on the \"Verbalize”\" box to indicate this step is completed. This will \"unlock\" the text box.</li>
-                                <li>Translate the question and answer in the text box.
-                                    <ol>
-                                        <li>As much as possible, translate phrase by phrase and not word for word, to preserve naturalness of the target language.</li>
-                                        <li>Some verses have more than one question</li>
-                                        <li>The question is the larger text. To format double click and select \"Header 1.\"</li>
-                                        <li>The answer is the smaller text. The format for the answer should not need to be changed. It is the \"normal\" font.</li>
-                                    </ol>
-                                </li>
-                                <li>When you finish translating that verse’s question(s) and answer(s), click on 
-                                    the \"Draft\" box to indicate this step is completed. You can go back and edit at any time, if needed.</li>
-                                <li>Go to the next verse and start the process again with \"Consume,\" then \"Verbalize,\" 
-                                    and \"Draft\" until all questions are translated for the chapter.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-
-    "self-check_tq_desc" => "<li><b>PURPOSE:</b> to edit your translated Questions/Answers and check accuracy while maintaining naturalness.</li>
-                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                        <li>Look for any missing portions of text or missing or added facts.</li>
-                        <li>Check the accuracy of your translation in detail.</li>
-                        <li>If you have additional thoughts or questions about your translation, click the note 
-                            icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and 
-                            click save. The checkers will see this note and help resolve the question or problem.</li>
-                        <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>",
-
-    "keyword-check_tq_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Questions/Answers and accurately expressed.</li>
-                        <li>The checker will look for Keywords in the Questions and Answers and compare them to the 
-                            translated Questions and Answers to ensure the meaning is represented properly.</li>
-                        <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
-                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When the checker has finished checking the text, they will contact you to discuss keyword 
-                            and recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>The checker’s comments on corrections will be in the notes which you can see by clicking the 
-                            note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
-                        <li>You and the checker should discuss any changes they think should be made. 
-                            If you agree to the changes, the translator should make the changes right away. 
-                            If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
-                            make a note on the chunk. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made, the checker will click, \"yes I did\" and \"continue,\" 
-                            then you should click \"yes I did\" and \"next step,\" to move to the next step.</li>",
-
-    "keyword-check_tq_chk_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Questions/Answers and accurately expressed.</li>
-                        <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
-                        <li>You will look for Keywords in the Questions and Answers and compare them to the 
-                            translated Questions and Answers to ensure the meaning is represented properly.</li>
-                        <li>If you think changes should be made, click the note 
-                            icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save.</li>
-                        <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is 
-                            represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When you finish checking the text, contact the translator to discuss keyword and 
-                            recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>You and the translator should discuss any changes you think should be made. 
-                            If you agree to the changes, the translator should make the changes right away. 
-                            If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make 
-                            a note on the chunk noting the disagreement. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" 
-                            Do not simply close the page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
-
-    "peer-review_tq" => "Pastor Review",
-    "peer-review_tw" => "Pastor Review",
-
-    "peer-review_tq_desc" => "<li><b>PURPOSE:</b> to review the Questions/Answers and check accuracy while maintaining naturalness.</li>
-                        <li>The reviewer will look for spelling, punctuation, flow/naturalness errors, as well as, 
-                            missing portions of text or missing or added facts.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
-                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When the reviewer has finished checking the text, they will contact you to 
-                            discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>The reviewer’s comments on corrections will be in the notes which you can see by 
-                            clicking the note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
-                        <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
-                            make the changes right away.  If you disagree, discuss the issue with your facilitator 
-                            and resolve before you complete this step.</li>
-                        <li>When all changes have been made, the checker will click, \"yes I did\" and \"continue,\" 
-                            then you should click \"yes I did\" and \"next step,\" to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
-
-    "peer-review_tq_chk_desc" => "<li><b>PURPOSE:</b> to review the Questions/Answers and check accuracy while maintaining naturalness.</li>
-                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                        <li>Look for any missing portions of text or missing or added facts.</li>
-                        <li>Check the accuracy of translation in detail.</li>
-                        <li>Make sure to look at previous translator and checker’s notes on the chunk for any questions or unresolved problems.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
-                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When you have finished checking the text, contact the translator to discuss recommended 
-                            changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>You should discuss any changes you think should be made.  If you agree to the changes, the 
-                            translator should make the changes right away.  If you disagree, discuss the issue with your 
-                            facilitator and resolve before you complete this step.</li>
-                        <li>When all changes have been made click, \"yes I did\" and \"continue.\" Do not simply close the 
-                            page by clicking the \"x\" or the translator will not be able to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
-
-    "multi-draft_tw_desc" => "<li><b>PURPOSE:</b> o read the source text, to say it aloud to engage your memory, and 
-                                    draft the text in the target language.</li>
-                                <li>Read the assigned Words, Definitions/Facts & Translation Suggestions carefully in the source text.</li>
-                                <li>Click on the \"Consume\" box to indicate this step is completed.</li>
-                                <li>Say the Words, Definitions/Facts & Translation Suggestions aloud to engage your memory in the process.</li>
-                                <li>Click on the \"Verbalize\" box to indicate this step is completed. This will \"unlock\" the text box.</li>
-                                <li>Translate the Words, Definitions/Facts & Translation Suggestions in the text box.
-                                    <ol>
-                                        <li>As much as possible, translate phrase by phrase and not word for word, to preserve 
-                                            naturalness of the target language when translating the Definitions/Facts & Translation Suggestions.</li>
-                                        <li>All formatting is done by double clicking the word or any word in the line. 
-                                            The formatting box will pop up for you to choose font size or bullet points.</li>
-                                        <li>To format Translation Word, double click the word and select \"Header 1\".</li>
-                                        <li>To format subtitles, such as \"Facts\", \"Definitions\", \"Translation Suggestions\"; double click and select \"Header 2\".</li>
-                                        <li>You should not need to change the format of the content. It is the \"normal\" font.</li>
-                                    </ol>
-                                </li>
-                                <li>You do not need to translate the following sections: Bible References, Examples from the Bible Stories, or Word Data.</li>
-                                <li>When you finish translating, click on the \"Draft\" box to indicate this step is completed. 
-                                    You can go back and edit at any time, if needed.</li>
-                                <li>Go to the next Word and start the process again with \"Consume\", then \"Verbalize\", and \"Draft\" until all Words are translated for the chapter.</li>
-                                <li>Click \"yes I did\" and \"next step\" to move to the next step.</li>",
-
-    "self-check_tw_desc" => "<li><b>PURPOSE:</b> to edit your translated Words and check accuracy while maintaining naturalness.</li>
-                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                        <li>Look for any missing portions of text or missing or added facts.</li>
-                        <li>Check the accuracy of your translation in detail.</li>
-                        <li>If you have additional thoughts or questions about your translation, click the note 
-                            icon <br>(<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and 
-                            click save. The checkers will see this note and help resolve the question or problem.</li>
-                        <li>When all changes and notes have been made, click \"yes I did\" and \"next step.\" </li>",
-
-    "keyword-check_tw_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Words and accurately expressed.</li>
-                        <li>The checker will look for Keywords and compare them to the 
-                            translated Words to ensure the meaning is represented properly.</li>
-                        <li>Keywords are: proper names (people/cities), numbers, pronouns, and any important terms.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
-                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When the checker has finished checking the text, they will contact you to discuss keyword 
-                            and recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>The checker’s comments on corrections will be in the notes which you can see by clicking the 
-                            note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
-                        <li>You and the checker should discuss any changes they think should be made. 
-                            If you agree to the changes, the translator should make the changes right away. 
-                            If you disagree, do not waste a lot of time discussing.  Leave the text as it is and 
-                            make a note on the chunk. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made, the checker will click, \"yes I did\" and \"continue\", 
-                            then you should click \"yes I did\" and \"next step\", to move to the next step.</li>",
-
-    "keyword-check_tw_chk_desc" => "<li><b>PURPOSE:</b> to ensure significant words are present in the translated Words and accurately expressed.</li>
-                        <li>As the checker your screen will say \"checking mode\" and instructions will be in orange.</li>
-                        <li>You will look for keywords and compare them to the 
-                            translated Words to ensure the meaning is represented properly.</li>
-                        <li>If you think changes should be made, click the note 
-                            icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk and add the note and click save.</li>
-                        <li>The keywords are: proper names (people/cities), numbers, pronouns, and any important.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is 
-                            represented in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When you finish checking the text, contact the translator to discuss keyword and 
-                            recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>You and the translator should discuss any changes you think should be made. 
-                            If you agree to the changes, the translator should make the changes right away. 
-                            If you disagree, do not waste a lot of time discussing.  Leave the text as it is and make 
-                            a note on the chunk noting the disagreement. It will be resolved in the next step.</li>
-                        <li>When all changes and notes have been made click, \"yes I did\" and \"continue.\" 
-                            Do not simply close the page by clicking the \"x\" or the translator will not be able to continue to the next step.</li>",
-
-    "peer-review_tw_desc" => "<li><b>PURPOSE:</b> to review the Words and check accuracy while maintaining naturalness.</li>
-                        <li>The reviewer will look for spelling, punctuation, flow/naturalness errors, as well as, 
-                            missing portions of text or missing or added facts.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
-                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When the reviewer has finished checking the text, they will contact you to 
-                            discuss recommended changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>The reviewer’s comments on corrections will be in the notes which you can see by 
-                            clicking the note icon (<span class='mdi mdi-lead-pencil'></span>) next to the chunk.</li>
-                        <li>You should discuss any changes they think should be made.  If you agree to the changes, you should 
-                            make the changes right away.  If you disagree, discuss the issue with your facilitator 
-                            and resolve before you complete this step.</li>
-                        <li>When all changes have been made, the checker will click, \"yes I did\" and \"continue,\" 
-                            then you should click \"yes I did\" and \"next step,\" to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
-
-    "peer-review_tw_chk_desc" => "<li><b>PURPOSE:</b> to review the Words and check accuracy while maintaining naturalness.</li>
-                        <li>Look for spelling, punctuation, flow/naturalness errors.</li>
-                        <li>Look for any missing portions of text or missing or added facts.</li>
-                        <li>Check the accuracy of translation in detail.</li>
-                        <li>Make sure to look at previous translator and checker’s notes on the chunk for any questions or unresolved problems.</li>
-                        <li><b>The point is not word for word translation, it is to see if the word/meaning is represented 
-                            in the text in a way that is grammatically and culturally appropriate in the target language.</b></li>
-                        <li>When you have finished checking the text, contact the translator to discuss recommended 
-                            changes via: Skype, Messenger, WhatsApp, phone, etc…</li>
-                        <li>You should discuss any changes you think should be made.  If you agree to the changes, the 
-                            translator should make the changes right away.  If you disagree, discuss the issue with your 
-                            facilitator and resolve before you complete this step.</li>
-                        <li>When all changes have been made click, \"yes I did\" and \"continue.\" Do not simply close the 
-                            page by clicking the \"x\" or the translator will not be able to complete the step.</li>
-                        <li><b>Make sure all changes are made as this is the last step.</b></li>",
-
 
     // ------- Level 3 Check --------- //
     "peer-review-l3" => "Peer Check",
     "peer-review-l3_full" => "Peer Check",
-
-    "peer-review-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
-                            <li>This step is done with a peer-checker.</li>
-                            <li>While checking, keep in mind the difference between accuracy and preference.</li>
-                            <li>The column on the left is the scripture source text showing changes between Level 2 and Level 3 checking.
-                                <ol>
-                                    <li>Text added in Level 3 check will be highlighted in green.</li>
-                                    <li>Text deleted in Level 3 check will be highlighted in red/pink.</li>
-                                    <li>To turn off \"Comparison mode\" and see translated text formatted and without green/red highlights switch \"Comparison mode\" to \"Off.\"</li>
-                                    <li>It can be switched on or off as needed while checking.</li>
-                                    <li>Introductions (Intro) will not have scripture to compare in the left column.</li>
-                                </ol>
-                            </li>
-                            <li>The column on the right is the translated Notes.</li>
-                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
-                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
-                            <li>Check to ensure the note for that scripture is accurate.</li>
-                            <li>Check errors in spelling, punctuation, and flow/naturalness.</li>
-                            <li>Check the notes for each chunk to see what questions or corrections were made in previous steps.
-                                <ol>
-                                    <li>Notes are found in the top right of the chunk marked by the (<span class='mdi mdi-lead-pencil'></span>) icon and a number indicating how many notes were added for that chunk by previous translators/checkers.</li>
-                                    <li>If there are changes to be made to the translated Notes, click on the (<span class='mdi mdi-lead-pencil'></span>) icon and leave a note.</li>
-                                    <li>Your peer-checker will also be able to see your notes by clicking \"refresh.\"</li>
-                                </ol>
-                            </li>
-                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
     "peer-review-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>This step is done with a peer-checker.</li>
@@ -1229,40 +894,6 @@ return array (
 
     "peer-edit-l3" => "Peer Review",
     "peer-edit-l3_full" => "Peer Review",
-
-    "peer-edit-l3_tn_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
-                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
-                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='mdi mdi-lead-pencil'></span>).</li>
-                            <li>Discuss the accuracy of the translation Notes.</li>
-                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
-                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
-                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
-                            <li>Make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
-                            <li>Make changes to the formatting, as needed.
-                                <ol>
-                                    <li>Click the format icon (<i class='note-icon-magic'></i>) and select the size text for that line.</li>
-                                    <li>Scripture select:  Header 1.</li>
-                                    <li>Translated Note select: Normal.</li>
-                                    <li>For Book and Chapter Intro use the following format: Introduction – Header 1, Part – Header 2, Titles - Header 4, Notes – Normal.</li>
-                                    <li>No need to translate links.</li>
-                                </ol>
-                            </li>
-                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
-                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
-
-    "peer-edit-l3_tn_chk_desc" => "<li><b>PURPOSE:</b> to update the scripture (to match Level 3) in the translated Notes and check for accuracy in the Notes while maintaining naturalness. </li>
-                            <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>Together you will discuss changes you noted in step 1 you thought should be made to target text.</li>
-                            <li>You can review your peer’s notes and all other notes from previous translators/checkers by clicking the notes icon (<span class='mdi mdi-lead-pencil'></span>).</li>
-                            <li>Discuss the accuracy of the translation Notes.</li>
-                            <li>Discuss any errors in spelling, punctuation, and flow/naturalness.</li>
-                            <li>The source Notes in English are in the sidebar. Click the tN icon to view them.</li>
-                            <li>Check the accuracy of the scripture in the Note in detail (the largest text)! <b>It should be exactly the same as the scripture source text in the left column.</b></li>
-                            <li>Your peer will make changes to the Notes as you discuss the changes that should be made.  If you disagree on a change consult your facilitator or language leader. </li>
-                            <li>Your peer will make changes to the formatting, as needed.</li>
-                            <li><b>Do not complete this step until all changes are made and disagreements are resolved!</b></li>
-                            <li>When all changes have been noted, click \"Yes, I did\" and \"Next Step\" and contact your peer-checker to start the 2nd step.</li>",
 
     "peer-edit-l3_desc" => "<li><b>PURPOSE:</b> to check the target text for accuracy while maintaining the naturalness of the language and <b>ensuring accurate and literal common language terms for \"Father\" and \"Son\" are used when referring to God the Father and Jesus Christ.</b></li>
                             <li>To begin this step, contact your peer-checker from step 1 via Skype, Messenger, WhatsApp, phone, etc.</li>

@@ -89,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css', 'Default'),
-    template_url('css/style.css?111', 'Default'),
+    template_url('css/style.css?114', 'Default'),
     template_url('css/jquery-ui.min.css', 'Default'),
     template_url('css/jquery-ui.structure.min.css', 'Default'),
     template_url('css/jquery-ui.theme.min.css', 'Default'),
@@ -101,10 +101,10 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js', 'Default'),
     template_url('js/jquery.actual.min.js', 'Default'),
-    template_url('js/main.js?106', 'Default'),
+    template_url('js/main.js?108', 'Default'),
     template_url('js/facilitator.js?34', 'Default'),
     template_url('js/autosize.min.js?2', 'Default'),
-    template_url('js/admin.js?51', 'Default'),
+    template_url('js/admin.js?52', 'Default'),
     template_url('js/bootstrap.min.js', 'Default'),
     template_url('js/jquery-ui.min.js', 'Default'),
     template_url('js/offline.min.js'),
@@ -181,18 +181,23 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
 
     <footer class="footer">
         <div class="container-fluid">
-            <div style="margin: 15px 0 0; display: flex">
-                <div class="col-lg-3">
-                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries. <?php echo Config::get("version.release") ?></p>
+            <div class="footer_container">
+                <div>
+                    <div class="text-muted">
+                        Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries.
+                        <?php echo Config::get("version.release") ?> |
+                        <a href="/contact"><?php echo __("contact_us_title") ?></a> |
+                        <a href="/about"><?php echo __("about_title") ?></a>
+                    </div>
                 </div>
-                <div class="col-lg-7">
+                <div>
                     <p class="text-muted pull-right">
                         <?php if(Config::get('app.debug')) { ?>
                         <small><!-- DO NOT DELETE! - Profiler --></small>
                         <?php } ?>
                     </p>
                 </div>
-                <div class="col-sm-2 footer_langs">
+                <div class="footer_langs">
                     <?php if(Session::get("loggedin")): ?>
                         <div class="dropup flangs">
                             <div class="dropdown-toggle" id="footer_langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

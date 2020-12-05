@@ -1,6 +1,8 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
-use \Helpers\Constants\OdbSections;
+use Helpers\Constants\OdbSections;
 
 if(isset($data["error"])) return;
 ?>
@@ -40,13 +42,13 @@ if(isset($data["error"])) return;
                             <div class="flex_container chunk_block words_block verse"
                                  style="width: 100%; <?php echo $hidden ? "display: none;" : "" ?>">
                                 <div class="chunk_verses flex_left sun_content sun_ta" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::SYMBOLS]; ?>
                                     <textarea name="symbols[]" class="col-sm-6 verse_ta textarea"><?php echo $text ?></textarea>
                                 </div>
                                 <div class="flex_middle editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] != "" ?
-                                        $data["translation"][$key][EventMembers::TRANSLATOR]["bt"] :
-                                        $data["translation"][$key][EventMembers::TRANSLATOR]["symbols"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BACK_TRANSLATION] != "" ?
+                                        $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BACK_TRANSLATION] :
+                                        $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::SYMBOLS]; ?>
                                     <div class="vnote">
                                         <textarea name="chunks[]" class="col-sm-6 peer_verse_ta textarea font_backsun"><?php echo $text ?></textarea>
                                     </div>
@@ -95,7 +97,7 @@ if(isset($data["error"])) return;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps">

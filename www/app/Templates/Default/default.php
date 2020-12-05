@@ -89,7 +89,7 @@ echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css'),
-    template_url('css/style.css?111'),
+    template_url('css/style.css?114'),
     template_url('css/jquery-ui.min.css'),
     template_url('css/jquery-ui.structure.min.css'),
     template_url('css/jquery-ui.theme.min.css'),
@@ -104,9 +104,9 @@ echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
 Assets::js([
     template_url('js/jquery.js'),
     template_url('js/jquery.actual.min.js'),
-    template_url('js/main.js?106', 'Default'),
+    template_url('js/main.js?108', 'Default'),
     (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?34') : ''),
-    (Session::get("isSuperAdmin") ? template_url('js/admin.js?51') : ''),
+    (Session::get("isSuperAdmin") ? template_url('js/admin.js?52') : ''),
     template_url('js/bootstrap.min.js'),
     template_url('js/autosize.min.js?2'),
     template_url('js/jquery-ui.min.js'),
@@ -169,6 +169,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                 <a href="/events/demo-l3"><li><?php echo __("l2_l3_mast", ["level" => 3]); ?></li></a>
                                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
                                 <a href="/events/demo-sun-odb"><li><?php echo __("odb") . " (".__("vsail").")" ?></li></a>
+                                <a href="/events/demo-odb"><li><?php echo __("odb") ?></li></a>
                             </ul>
                         </div>
                     </li>
@@ -212,7 +213,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                 if(!isset($data["isDemo"]))
                                 {
                                     $link = "/events/checker".(isset($notification->manageMode)
-                                        && in_array($notification->manageMode, ["sun"]) ? "-".$notification->manageMode : "")
+                                        && in_array($notification->manageMode, ["sun","odb"]) ? "-".$notification->manageMode : "")
                                         ."/".$notification->eventID."/"
                                         .$notification->memberID."/"
                                         .$notification->step."/"
@@ -227,13 +228,12 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                         $demoType = "demo-l2";
                                         $ltype = preg_replace("/_checker/", "", $type);
                                     }
-                                    elseif (isset($notification->manageMode) && in_array($notification->manageMode, ["sun","sun-odb"]))
+                                    elseif (isset($notification->manageMode) && in_array($notification->manageMode, ["sun","sun-odb","odb"]))
                                     {
                                         $demoType = "demo-" . $notification->manageMode;
                                         $ltype = preg_replace("/other_checker/", "pray_chk", $type);
                                     }
                                 }
-
                                 ?>
                                 <?php if(!isset($data["isDemo"])): ?>
                                     <a class="notifa" href="<?php echo $link ?>"
@@ -321,7 +321,12 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
         <div class="container-fluid">
             <div class="footer_container">
                 <div>
-                    <p class="text-muted">Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries. <?php echo Config::get("version.release") ?></p>
+                    <div class="text-muted">
+                        Copyright &copy; <?php echo date('Y'); ?> Our Daily Bread Ministries.
+                        <?php echo Config::get("version.release") ?> |
+                        <a href="/contact"><?php echo __("contact_us_title") ?></a> |
+                        <a href="/about"><?php echo __("about_title") ?></a>
+                    </div>
                 </div>
                 <div>
                     <p class="text-muted pull-right">

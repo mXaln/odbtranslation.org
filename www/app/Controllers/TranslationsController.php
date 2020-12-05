@@ -6,10 +6,10 @@ use App\Models\ApiModel;
 use App\Models\CloudModel;
 use App\Models\TranslationsModel;
 use App\Models\EventsModel;
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
 use Helpers\Constants\OdbSections;
-use Helpers\Constants\RadioSections;
 use Helpers\Manifest\Normal\Project;
 use Helpers\ProjectFile;
 use Helpers\Spyc;
@@ -130,9 +130,9 @@ class TranslationsController extends Controller
                         {
                             $level = " - ".($chapter["l3checked"] ? "L3" : ($chapter["l2checked"] ? "L2" : "L1"));
 
-                            $data['book'] .= $chunk->bookProject != "tw" ? ($chunk->chapter > 0
+                            $data['book'] .= $chunk->chapter > 0
                                 ? '<h2 class="chapter_title">'.__("chapter", [$chunk->chapter]).$level.'</h2>'
-                                : '<h2 class="chapter_title">'.__("front").$level.'</h2>') : "";
+                                : '<h2 class="chapter_title">'.__("front").$level.'</h2>';
                         }
                     }
 
@@ -195,27 +195,41 @@ class TranslationsController extends Controller
                         $data["book"] .= '<h2 class="chapter_title">'.__("devotion_number", ["devotion" => $chapter]).'</h2>';
 
                         if(trim($topic[OdbSections::enum(OdbSections::TITLE)]) != "")
-                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::TITLE)].'</p>';
+                            $data["book"] .= '<p class="odb_section">'
+                                .'<strong>'.__(OdbSections::enum(OdbSections::TITLE)).':</strong> '
+                                .$topic[OdbSections::enum(OdbSections::TITLE)].'</p>';
 
                         if(trim($topic[OdbSections::enum(OdbSections::PASSAGE)]) != "")
-                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::PASSAGE)].'</p>';
+                            $data["book"] .= '<p class="odb_section">'
+                                .'<strong>'.__(OdbSections::enum(OdbSections::PASSAGE)).':</strong> '
+                                .$topic[OdbSections::enum(OdbSections::PASSAGE)].'</p>';
 
                         if(trim($topic[OdbSections::enum(OdbSections::PASSAGE)]) != "")
-                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::VERSE)].'</p>';
+                            $data["book"] .= '<p class="odb_section">'
+                                .'<strong>'.__(OdbSections::enum(OdbSections::VERSE)).':</strong> '
+                                .$topic[OdbSections::enum(OdbSections::VERSE)].'</p>';
 
                         foreach ($topic[OdbSections::enum(OdbSections::CONTENT)] as $key => $p) {
                             if(trim($p) != "")
-                                $data["book"] .= '<p '.($key == 0 ? 'class="odb_section"' : '').'>'.$p.'</p>';
+                                $data["book"] .= '<p '.($key == 0 ? 'class="odb_section"' : '').'>'
+                                    .'<strong>'.__(OdbSections::enum(OdbSections::CONTENT), ["number" => $key+1]).':</strong> '
+                                    .$p.'</p>';
                         }
 
                         if(trim($topic[OdbSections::enum(OdbSections::AUTHOR)]) != "")
-                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::AUTHOR)].'</p>';
+                            $data["book"] .= '<p class="odb_section">'
+                                .'<strong>'.__(OdbSections::enum(OdbSections::AUTHOR)).':</strong> '
+                                .$topic[OdbSections::enum(OdbSections::AUTHOR)].'</p>';
 
                         if(trim($topic[OdbSections::enum(OdbSections::BIBLE_IN_A_YEAR)]) != "")
-                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::BIBLE_IN_A_YEAR)].'</p>';
+                            $data["book"] .= '<p class="odb_section">'
+                                .'<strong>'.__(OdbSections::enum(OdbSections::BIBLE_IN_A_YEAR)).':</strong> '
+                                .$topic[OdbSections::enum(OdbSections::BIBLE_IN_A_YEAR)].'</p>';
 
                         if(trim($topic[OdbSections::enum(OdbSections::THOUGHT)]) != "")
-                            $data["book"] .= '<p class="odb_section">'.$topic[OdbSections::enum(OdbSections::THOUGHT)].'</p>';
+                            $data["book"] .= '<p class="odb_section">'
+                                .'<strong>'.__(OdbSections::enum(OdbSections::THOUGHT)).':</strong> '
+                                .$topic[OdbSections::enum(OdbSections::THOUGHT)].'</p>';
                     }
                 }
             }
@@ -540,17 +554,17 @@ class TranslationsController extends Controller
         foreach ($book as $chunk) {
             $verses = json_decode($chunk->translatedVerses, true);
 
-            if(!empty($verses[EventMembers::L3_CHECKER]["verses"]))
+            if(!empty($verses[EventMembers::L3_CHECKER][ChunkSections::VERSES]))
             {
-                $chunkVerses = $verses[EventMembers::L3_CHECKER]["verses"];
+                $chunkVerses = $verses[EventMembers::L3_CHECKER][ChunkSections::VERSES];
             }
-            elseif (!empty($verses[EventMembers::L2_CHECKER]["verses"]))
+            elseif (!empty($verses[EventMembers::L2_CHECKER][ChunkSections::VERSES]))
             {
-                $chunkVerses = $verses[EventMembers::L2_CHECKER]["verses"];
+                $chunkVerses = $verses[EventMembers::L2_CHECKER][ChunkSections::VERSES];
             }
             else
             {
-                $chunkVerses = $verses[EventMembers::TRANSLATOR]["verses"];
+                $chunkVerses = $verses[EventMembers::TRANSLATOR][ChunkSections::VERSES];
             }
 
             foreach ($chunkVerses as $vNum => $vText)
@@ -730,7 +744,7 @@ class TranslationsController extends Controller
                     $chunk->bookCode,
                     (int)$chunk->abbrID,
                     "./".(strtoupper($chunk->bookCode)).".json",
-                    ["rad"]
+                    ["odb"]
                 ));
             }
         }

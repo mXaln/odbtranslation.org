@@ -1,4 +1,7 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
+
 if(isset($data["error"])) return;
 ?>
 <div id="translator_contents" class="row panel-body">
@@ -19,7 +22,7 @@ if(isset($data["error"])) return;
                 <div class="row">
                     <div class="col-sm-12" dir="<?php echo $data["event"][0]->tLangDir ?>">
                             <textarea name="draft" rows="10" class="col-sm-6 blind_ta textarea"><?php
-                                echo isset($data["blind"]) ? $data["blind"] : ""
+                                echo isset($data[ChunkSections::BLIND_DRAFT]) ? $data[ChunkSections::BLIND_DRAFT] : ""
                                 ?></textarea>
                     </div>
                 </div>
@@ -40,7 +43,7 @@ if(isset($data["error"])) return;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps">

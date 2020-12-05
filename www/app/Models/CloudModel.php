@@ -55,6 +55,22 @@ class CloudModel extends Model
         return $data;
     }
 
+    public function deleteAccessToken($id) {
+        $ch = $this->initCurl("/users/$this->username/tokens/$id");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+        $data = curl_exec($ch);
+
+        if(curl_errno($ch))
+        {
+            return "error: " . curl_error($ch);
+        }
+
+        curl_close($ch);
+
+        return $data;
+    }
+
     public function createAccessToken() {
         $ch = $this->initCurl("/users/$this->username/tokens", ["name" => $this->localToken]);
         $data = curl_exec($ch);

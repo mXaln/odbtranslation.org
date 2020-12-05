@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use \Helpers\Constants\OdbSections;
 
 if(isset($data["error"])) return;
@@ -30,10 +32,10 @@ if(isset($data["error"])) return;
                     <div class="col-sm-12 no_padding">
                         <div class="row chunk_block words_block">
                             <div class="chunk_verses col-sm-6" dir="<?php echo $data["event"][0]->sLangDir ?>">
-                                <?php echo $data["words"] ?>
+                                <?php echo $data[ChunkSections::WORDS] ?>
                             </div>
                             <div class="col-sm-6 editor_area" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                <?php $text = isset($data["symbols"]) ? $data["symbols"] : ""; ?>
+                                <?php $text = isset($data[ChunkSections::SYMBOLS]) ? $data[ChunkSections::SYMBOLS] : ""; ?>
                                 <textarea name="symbols" class="col-sm-6 verse_ta textarea sun_content"><?php echo $text ?></textarea>
                             </div>
                         </div>
@@ -56,7 +58,7 @@ if(isset($data["error"])) return;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps">

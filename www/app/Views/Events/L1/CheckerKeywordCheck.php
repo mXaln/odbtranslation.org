@@ -5,6 +5,8 @@
  * Date: 12 Apr 2016
  * Time: 17:30
  */
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventSteps;
 use Helpers\Tools;
 use Helpers\Constants\EventMembers;
@@ -67,7 +69,7 @@ if(empty($error) && empty($data["success"])):
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="flex_middle editor_area" style="padding: 0;" dir="<?php echo $data["event"][0]->tLangDir ?>">
-                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR]["blind"]; ?>
+                                    <?php $text = $data["translation"][$key][EventMembers::TRANSLATOR][ChunkSections::BLIND_DRAFT]; ?>
                                     <div class="vnote">
                                         <div><?php echo preg_replace("/(\\\\f(?:.*?)\\\\f\\*)/", "<span class='footnote'>$1</span>", $text); ?></div>
                                     </div>
@@ -122,7 +124,7 @@ if(empty($error) && empty($data["success"])):
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps <?php echo $data["isCheckerPage"] ? " is_checker_page_help" : "" ?>">

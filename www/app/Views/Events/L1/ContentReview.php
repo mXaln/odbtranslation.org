@@ -1,4 +1,6 @@
 <?php
+
+use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 
 if(isset($data["error"])) return;
@@ -68,7 +70,7 @@ if(isset($data["error"])) return;
                             <div class="flex_container">
                                 <div class="chunk_verse editor_area flex_middle" dir="<?php echo $data["event"][0]->tLangDir ?>">
                                     <div class="vnote">
-                                        <?php $text = $chunk[EventMembers::TRANSLATOR]["blind"]; ?>
+                                        <?php $text = $chunk[EventMembers::TRANSLATOR][ChunkSections::BLIND_DRAFT]; ?>
                                         <textarea name="chunks[]" class="peer_verse_ta textarea"><?php echo $text ?></textarea>
                                     </div>
                                 </div>
@@ -125,7 +127,7 @@ if(isset($data["error"])) return;
 </div>
 
 <div class="content_help closed">
-    <div id="help_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("help") ?></div>
+    <div id="help_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("help") ?></div>
 
     <div class="help_float">
         <div class="help_info_steps">
