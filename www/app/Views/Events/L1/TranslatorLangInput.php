@@ -55,7 +55,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 
 <div id="chat_container" class="closed">
     <div id="chat_new_msgs" class="chat_new_msgs"></div>
-    <div id="chat_hide" class="glyphicon glyphicon-chevron-down"> <?php echo __("chat") ?></div>
+    <div id="chat_hide" class="glyphicon glyphicon-chevron-left"> <?php echo __("chat") ?></div>
 
     <div class="chat panel panel-info">
         <div class="chat_tabs panel-heading">
@@ -149,7 +149,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
 </audio>
 
 <script src="<?php echo template_url("js/socket.io-1.4.5.js")?>"></script>
-<script src="<?php echo template_url("js/chat-plugin.js?6")?>"></script>
+<script src="<?php echo template_url("js/chat-plugin.js?7")?>"></script>
 <script src="<?php echo template_url("js/socket.js?12")?>"></script>
 <script src="<?php echo template_url("js/adapter-latest.js")?>"></script>
 <script src="<?php echo template_url("js/video-chat.js?1")?>"></script>
