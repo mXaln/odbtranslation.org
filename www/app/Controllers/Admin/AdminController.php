@@ -379,7 +379,6 @@ class AdminController extends Controller {
                 $data["all_members"][$item->userName]["books"][$item->code]["chapters"] = [];
 
             $data["all_members"][$item->userName]["books"][$item->code]["chapters"][$item->chapter]["done"] = $item->done;
-            $data["all_members"][$item->userName]["books"][$item->code]["chapters"][$item->chapter]["words"] = $item->words;
         }
 
         return View::make('Admin/Members/Index')
