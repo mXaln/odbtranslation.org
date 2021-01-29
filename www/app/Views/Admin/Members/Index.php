@@ -207,7 +207,7 @@
                     foreach($book["chapters"] as $chapter => $chapData)
                     {
                         $chapters .= "<span style=\"font-weight:bold; color:".($chapData["done"] ? "green" : "red")."\">";
-                        $chapters .= !$chapData["words"] ? $chapter : join(", ", json_decode($chapData["words"], true));
+                        $chapters .= $chapter;
                         $chapters .= "</span>, ";
                     }
                     $chapters = preg_replace("/, $/", "", $chapters);
