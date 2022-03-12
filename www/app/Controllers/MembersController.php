@@ -993,8 +993,8 @@ class MembersController extends Controller
             $email = $_POST['email'];
             $password = $_POST['password'];
             $passwordConfirm = $_POST['passwordConfirm'];
-            $tou = isset($_POST['tou']) ? (int)$_POST['tou'] == 1 : false;
-            $sof = isset($_POST['sof']) ? (int)$_POST['sof'] == 1 : false;
+            $tou = isset($_POST['tou']) && (int)$_POST['tou'] == 1;
+            $sof = isset($_POST['sof']) && (int)$_POST['sof'] == 1;
             $projects = $_POST['projects'];
             $projLang = $_POST['proj_lang'];
 
@@ -1069,7 +1069,7 @@ class MembersController extends Controller
                 $error['sof'] = __('sof_accept_error');
             }
 
-            if(!in_array($projects, ["mast","vsail","odb","l2","l3","tn","tq","tw"])) {
+            if(!in_array($projects, ["mast","vsail","odb","l2","l3","mill"])) {
                 $error["projects"] = __("projects_empty_error");
             }
 

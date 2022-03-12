@@ -102,6 +102,8 @@ use Shared\Legacy\Error;
                         value="odb"><?php echo __("odb") ?></option>
                 <option <?php echo isset($_POST["projects"]) && "vsail" == $_POST["projects"] ? "selected" : "" ?>
                         value="vsail"><?php echo __("vsail") ?></option>
+                <option <?php echo isset($_POST["projects"]) && "mill" == $_POST["projects"] ? "selected" : "" ?>
+                        value="mill"><?php echo __("mill") ?></option>
             </select>
         </div>
 

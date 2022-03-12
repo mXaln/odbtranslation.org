@@ -5497,3 +5497,16 @@ button.add_verse_ta {
     margin: 0 auto;
 }
 
+.mill-heading {
+    display: flex;
+    margin: 10px 0;
+}
+
+.mill-heading h1, .mill-heading h2, .mill-heading h3,
+.mill-heading h4, .mill-heading h5, .mill-heading h6,
+.mill-heading p {
+    margin: 0;
+}
+
+
+

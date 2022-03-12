@@ -61,6 +61,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-odb/{eventID}", "EventsController@translatorOdb")
         ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-fnd/{eventID}", "EventsController@translatorMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-bib/{eventID}", "EventsController@translatorMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-theo/{eventID}", "EventsController@translatorMill")
+        ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l3/{eventID}", "EventsController@checkerL3")
@@ -82,6 +88,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information-odb-sun/{eventID}", "EventsController@informationOdbSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-odb/{eventID}", "EventsController@informationOdb")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-fnd/{eventID}", "EventsController@informationMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-bib/{eventID}", "EventsController@informationMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-theo/{eventID}", "EventsController@informationMill")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
         ->where(["eventID" => "[0-9]+"]);

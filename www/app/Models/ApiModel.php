@@ -262,6 +262,52 @@ class ApiModel extends Model
     }
 
 
+    /**
+     * Get ThirdMill book source from local files
+     * @param string $bookProject
+     * @param string $bookCode
+     * @param string $sourceLang
+     * @return mixed
+     */
+    public function getMillSource($bookProject, $bookCode, $sourceLang = "en")
+    {
+        $source = [];
+        $folderpath = "../app/Templates/Default/Assets/source/".$sourceLang."_".$bookProject;
+
+        if(File::exists($folderpath))
+        {
+            $files = File::allFiles($folderpath);
+
+            foreach($files as $file)
+            {
+                preg_match("/(\d+.\d+.\d+.[a-z]+)\/(\d+).md$/", $file, $matches);
+
+                if(!isset($matches[1]) || !isset($matches[2])) continue;
+
+                if($matches[1] == $bookCode)
+                {
+                    $chapter = (integer)$matches[2];
+                    $content = File::get($file);
+
+                    $source[$chapter] = $this->parseMillMd($content);
+                }
+            }
+        }
+        ksort($source);
+
+        return $source;
+    }
+
+    private function parseMillMd($content) {
+        $lines = preg_split("/\n/", $content);
+        $lines = array_filter($lines, function($line) {
+            return !empty(trim($line));
+        });
+        $lines = array_values($lines);
+        return array_combine(range(1, count($lines)), $lines);
+    }
+
+
     public function downloadRubricFromApi($lang = "en") {
         $folderPath = "../app/Templates/Default/Assets/source/".$lang."_rubric/";
         $filepath = $folderPath . "rubric.json";

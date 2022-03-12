@@ -98,9 +98,9 @@ class AdminController extends Controller {
         $data["events"] = [];
         if(!empty($data["project"]))
         {
-            if ($data["project"][0]->sourceBible == "odb")
+            if (in_array($data["project"][0]->sourceBible, ["odb","fnd","bib","theo"]))
             {
-                $category = "odb";
+                $category = $data["project"][0]->sourceBible;
             }
             else
             {
@@ -114,6 +114,9 @@ class AdminController extends Controller {
 
             $odbDone = 0;
             $data["ODBprogress"] = 0;
+
+            $millDone = 0;
+            $data["MILLprogress"] = 0;
 
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID, $category);
 
@@ -135,12 +138,13 @@ class AdminController extends Controller {
                         $ntDone++;
                     }
                 }
-                else if($event->category == "odb") // ODB books
+                else if(in_array($event->category, ["odb","fnd","bib","theo"])) // Non-scripture books
                 {
                     if(!empty($event->state) &&
                         EventStates::enum($event->state) >= EventStates::enum(EventStates::TRANSLATED))
                     {
                         $odbDone++;
+                        $millDone++;
                     }
                 }
             }
@@ -153,6 +157,10 @@ class AdminController extends Controller {
                 $count = $this->_eventsModel->getAbbrByCategory("odb", true);
                 if($count > 0)
                     $data["ODBprogress"] = 100*$odbDone/$count;
+            } elseif (in_array($data["project"][0]->sourceBible, ["fnd","bib","theo"])) {
+                $count = $this->_eventsModel->getAbbrByCategory($data["project"][0]->sourceBible, true);
+                if($count > 0)
+                    $data["MILLprogress"] = 100*$millDone/$count;
             }
         }
 
@@ -162,6 +170,8 @@ class AdminController extends Controller {
             if ($data["project"][0]->sourceBible == "odb")
             {
                 $page = 'Admin/Main/ProjectODB';
+            } elseif (in_array($data["project"][0]->sourceBible, ["fnd","bib","theo"])) {
+                $page = 'Admin/Main/ProjectMill';
             }
         }
 
@@ -874,7 +884,7 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|odb)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
+        $projectMode = isset($_POST['projectMode']) && preg_match("/(bible|odb|fnd|bib|theo)/", $_POST['projectMode']) ? $_POST['projectMode'] : "bible";
         $subGwLangs = isset($_POST['subGwLangs']) && $_POST['subGwLangs'] != "" ? $_POST['subGwLangs'] : null;
         $targetLang = isset($_POST['targetLangs']) && $_POST['targetLangs'] != "" ? $_POST['targetLangs'] : null;
         $sourceTranslation = isset($_POST['sourceTranslation']) && $_POST['sourceTranslation'] != "" ? $_POST['sourceTranslation'] : null;
@@ -900,7 +910,7 @@ class AdminController extends Controller {
 
             if($sourceTranslation == null)
             {
-                if(!in_array($projectMode, ["odb"]))
+                if(!in_array($projectMode, ["odb","fnd","bib","theo"]))
                     $error[] = __("choose_source_trans");
             }
 
@@ -909,9 +919,9 @@ class AdminController extends Controller {
                 $error[] = __("choose_project_type");
             }
 
-            if($projectMode == "odb")
+            if(in_array($projectMode, ["odb","fnd","bib","theo"]))
             {
-                $sourceTranslation = "odb|en";
+                $sourceTranslation = $projectMode . "|en";
             }
 
             if(!isset($error))
@@ -931,7 +941,7 @@ class AdminController extends Controller {
                     return;
                 }
 
-                $projType = $projectType;
+                $projType = $projectType == "mill" ? $projectMode : $projectType;
 
                 $search = [
                     ["projects.gwLang", $gwLangsPair[0]],
@@ -939,9 +949,9 @@ class AdminController extends Controller {
                     ["projects.bookProject", $projType]
                 ];
 
-                if($projectMode == "odb")
+                if(in_array($projectMode, ["odb","fnd","bib","theo"]))
                 {
-                    $search[] = ["projects.sourceBible", "odb"];
+                    $search[] = ["projects.sourceBible", $projectMode];
                 }
 
                 $exist = $this->_eventsModel->getProject(["projects.projectID"], $search);
@@ -1002,13 +1012,13 @@ class AdminController extends Controller {
 
             if($sourceTranslation == null)
             {
-                if(!in_array($projectMode, ["odb"]))
+                if(!in_array($projectMode, ["odb","fnd","bib","theo"]))
                     $error[] = __("choose_source_trans");
             }
 
-            if($projectMode == "odb")
+            if(in_array($projectMode, ["odb","fnd","bib","theo"]))
             {
-                $sourceTranslation = "odb|en";
+                $sourceTranslation = $projectMode. "|en";
             }
 
             if(!isset($error))
@@ -1465,6 +1475,17 @@ class AdminController extends Controller {
                         {
                             $odb = $this->_apiModel->getOtherSource("odb", $bookInfo[0]->code, $project[0]->sourceLangID);
                             if(empty($odb))
+                            {
+                                $error[] = __("no_source_error");
+                                echo json_encode(array("error" => Error::display($error)));
+                                return;
+                            }
+                        }
+                        elseif(in_array($bookInfo[0]->category, ["fnd","bib","theo"]))
+                        {
+                            $mill = $this->_apiModel->getMillSource($bookInfo[0]->category, $bookInfo[0]->code, $project[0]->sourceLangID);
+
+                            if(empty($mill))
                             {
                                 $error[] = __("no_source_error");
                                 echo json_encode(array("error" => Error::display($error)));
