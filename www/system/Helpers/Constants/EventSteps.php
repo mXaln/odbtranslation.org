@@ -90,7 +90,7 @@ class EventSteps
         "content-review" => 7
     ];
 
-    public static function enum($step, $mode = null, $chk = false)
+    public static function enum($step, $mode = null)
     {
         switch($mode)
         {
@@ -101,6 +101,9 @@ class EventSteps
                 return self::$enumOdbSun[$step];
 
             case "odbodb":
+            case "fnd":
+            case "bib":
+            case "theo":
                 return self::$enumOdb[$step];
 
             case "li":
@@ -111,7 +114,7 @@ class EventSteps
         }
     }
 
-    public static function enumArray($mode = null, $chk = false)
+    public static function enumArray($mode = null)
     {
         switch($mode)
         {
@@ -122,6 +125,9 @@ class EventSteps
                 return self::$enumOdbSun;
 
             case "odbodb":
+            case "fnd":
+            case "bib":
+            case "theo":
                 return self::$enumOdb;
 
             case "li":

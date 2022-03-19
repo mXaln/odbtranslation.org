@@ -102,7 +102,13 @@
                         <?php echo __("download_json") ?>
                     </a>
                 </li>
-                <?php elseif(!in_array($data["mode"], ["tn","tq","tw"])): ?>
+                <?php elseif(in_array($data["data"]->sourceBible, ["fnd","bib","theo"])): ?>
+                <li>
+                    <a href="<?php echo $data['data']->bookCode ?>/md">
+                        <?php echo __("download_markdown") ?>
+                    </a>
+                </li>
+                <?php else: ?>
                 <li>
                     <a href="<?php echo $data['data']->bookCode ?>/usfm">
                         <?php echo __("download_usfm") ?>

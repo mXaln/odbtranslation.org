@@ -494,6 +494,7 @@ return array (
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "sun_odb_vbv_checker" => "Remove SUN checker",
     "odb_vbv_checker" => "Remove Comparative checker",
+    "mill_vbv_checker" => "Remove Comparative checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -631,6 +632,7 @@ return array (
     
     "blind-draft" => "Blind Draft",
     "blind-draft_odb" => "Draft",
+    "blind-draft_mill" => "Draft",
     "blind-draft-alt" => "Draft",
     "blind-draft_odb_previous" => "Draft - Previous chunk",
     "blind-draft_previous" => "Blind Draft - Previous chunk",
@@ -726,6 +728,7 @@ return array (
 
     "peer-review" => "Peer-Edit",
     "peer-review_odb" => "Peer-Edit",
+    "peer-review_mill" => "Peer-Edit",
     "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
                                 text accuracy while maintaining the naturalness created by the blind draft.</li>
                             <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
@@ -894,6 +897,7 @@ return array (
     
     "content-review" => "Verse-by-Verse Check",
     "content-review_odb" => "Comparative Check",
+    "content-review_mill" => "Comparative Check",
     "content-review_sun_odb" => "SUN Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 

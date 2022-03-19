@@ -8,7 +8,7 @@ echo Error::display($error);
 if(isset($data["success"]))
     echo Error::display($data["success"], "alert alert-success");
 
-if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step != EventSteps::FINISHED):
+if(!empty($data["event"]) && !isset($data["error"])):
 ?>
 
 <noscript>
@@ -17,8 +17,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     </div>
 </noscript>
 
-<div id="translator_steps" class="open <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>">
-    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . (isset($data["isCheckerPage"]) ? " is_checker_page" : "") ?>"></div>
+<div id="translator_steps" class="open <?php echo $data["event"][0]->step . " is_checker_page" ?>">
+    <div id="tr_steps_hide" class="glyphicon glyphicon-chevron-left <?php echo $data["event"][0]->step . " is_checker_page" ?>"></div>
 
     <ul class="steps_list">
         <li class="pray-step <?php echo $data["event"][0]->step == EventSteps::PRAY ? "active" : "" ?>">
@@ -56,8 +56,7 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
     var eventID = <?php echo $data["event"][0]->eventID; ?>;
     var projectID = <?php echo $data["event"][0]->projectID; ?>;
     var myChapter = <?php echo $data["event"][0]->currentChapter; ?>;
-    var myChunk = <?php echo $data["event"][0]->currentChunk; ?>;
-    var chkMemberID = <?php echo isset($data["event"][0]->myMemberID) ? $data["event"][0]->checkerID : $data["event"][0]->memberID; ?>;
+    var chkMemberID = <?php echo isset($data["event"][0]->checkerID) ? $data["event"][0]->checkerID : 0; ?>;
     var isChecker = false;
     var aT = '<?php echo Session::get('authToken'); ?>';
     var step = '<?php echo $data["event"][0]->step; ?>';
@@ -79,10 +78,9 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                 <div id="chk" class="col-sm-4 chat_tab">
                     <div class="chk_title">
                         <?php
-                        echo isset($data["event"][0]->checkerFName) && $data["event"][0]->checkerFName !== null ?
-                            $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."." :
-                                (isset($data["event"][0]->firstName) && $data["event"][0]->firstName !== null ?
-                                    $data["event"][0]->firstName . " " . mb_substr($data["event"][0]->lastName, 0, 1)."." : __("not_available"))
+                        echo isset($data["event"][0]->checkerFName) && $data["event"][0]->checkerFName !== null
+                            ? $data["event"][0]->checkerFName . " " . mb_substr($data["event"][0]->checkerLName, 0, 1)."."
+                            : __("not_available")
                         ?>
                     </div>
                     <div class="missed"></div>
@@ -96,7 +94,8 @@ if(!empty($data["event"]) && !isset($data["error"]) && $data["event"][0]->step !
                     <div class="missed"></div>
                 </div>
                 <div class="col-sm-4" style="text-align: right; float: right; padding: 2px 20px 0 0">
-                    <div class="<?php echo $data["event"][0]->checkerID <= 0 ? "videoBtnHide" : "" ?>">
+                    <div class="<?php echo isset($data["event"][0]->checkerID)
+                        && $data["event"][0]->checkerID > 0 ? "" : "videoBtnHide" ?>">
                         <button class="btn btn-success videoCallOpen videocall glyphicon glyphicon-facetime-video" title="<?php echo __("video_call") ?>"></button>
                         <button class="btn btn-success videoCallOpen audiocall glyphicon glyphicon-earphone" title="<?php echo __("audio_call") ?>"></button>
                     </div>

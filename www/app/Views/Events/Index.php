@@ -146,32 +146,32 @@ $profile = Session::get("profile");
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
                 </div>
-                <div class="event_project">
-                    <div class="event_book"><?php echo $event->name ?></div>
-                    <div class="event_proj">
-                        <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
-                        <div><?php echo $event->langName . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
-                    </div>
-                    <div class="event_facilitator">
+                <div class="event_details">
+                    <div class="event_project">
+                        <div class="event_book"><?php echo $event->name ?></div>
+                        <div class="event_proj">
+                            <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
+                            <div><?php echo $event->langName . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
+                        </div>
+                        <div class="event_facilitator">
 
+                        </div>
+                    </div>
+                    <div class="event_current_pos">
+                        <div class="event_current_title"><?php echo __("state") ?></div>
+                        <div class="event_curr_step">
+                            <?php echo __("state_".$event->state) ?>
+                        </div>
+                    </div>
+                    <div class="event_action">
+                        <div class="event_manage_link"><a href="<?php echo $manageLink ?>"><?php echo __("manage") ?></a></div>
+                        <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
+                        <div class="event_members">
+                            <div><?php echo $members ?></div>
+                            <div class="trs_num"><?php echo $currentMembers ?></div>
+                        </div>
                     </div>
                 </div>
-                <div class="event_current_pos">
-                    <div class="event_current_title"><?php echo __("state") ?></div>
-                    <div class="event_curr_step">
-                        <?php echo __("state_".$event->state) ?>
-                    </div>
-                </div>
-                <div class="event_action">
-                    <div class="event_manage_link"><a href="<?php echo $manageLink ?>"><?php echo __("manage") ?></a></div>
-                    <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
-                    <div class="event_members">
-                        <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers ?></div>
-                    </div>
-                </div>
-
-                <div class="clear"></div>
             </div>
         <?php endforeach; ?>
 
@@ -259,32 +259,32 @@ $profile = Session::get("profile");
                         <img width="146" src="<?php echo $eventImg ?>">
                     </div>
                 </div>
-                <div class="event_project">
-                    <div class="event_book"><?php echo $event->name ?></div>
-                    <div class="event_proj">
-                        <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
-                        <div><?php echo $event->langName . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
-                    </div>
-                    <div class="event_facilitator">
+                <div class="event_details">
+                    <div class="event_project">
+                        <div class="event_book"><?php echo $event->name ?></div>
+                        <div class="event_proj">
+                            <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
+                            <div><?php echo $event->langName . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
+                        </div>
+                        <div class="event_facilitator">
 
+                        </div>
+                    </div>
+                    <div class="event_current_pos">
+                        <div class="event_current_title"><?php echo __("state") ?></div>
+                        <div class="event_curr_step">
+                            <?php echo __("state_".$event->state) ?>
+                        </div>
+                    </div>
+                    <div class="event_action">
+                        <div class="event_manage_link"><a href="<?php echo $manageLink ?>"><?php echo __("manage") ?></a></div>
+                        <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
+                        <div class="event_members">
+                            <div><?php echo $members ?></div>
+                            <div class="trs_num"><?php echo $currentMembers ?></div>
+                        </div>
                     </div>
                 </div>
-                <div class="event_current_pos">
-                    <div class="event_current_title"><?php echo __("state") ?></div>
-                    <div class="event_curr_step">
-                        <?php echo __("state_".$event->state) ?>
-                    </div>
-                </div>
-                <div class="event_action">
-                    <div class="event_manage_link"><a href="<?php echo $manageLink ?>"><?php echo __("manage") ?></a></div>
-                    <div class="event_progress_link"><a href="<?php echo $progressLink ?>"><?php echo __("progress") ?></a></div>
-                    <div class="event_members">
-                        <div><?php echo $members ?></div>
-                        <div class="trs_num"><?php echo $currentMembers ?></div>
-                    </div>
-                </div>
-
-                <div class="clear"></div>
             </div>
         <?php endforeach; ?>
 
@@ -332,64 +332,64 @@ $profile = Session::get("profile");
                     <img width="146" src="<?php echo $eventImg?>">
                 </div>
             </div>
-            <div class="event_project">
-                <div class="event_book"><?php echo $event->name ?></div>
-                <div class="event_proj">
-                    <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
-                    <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
-                </div>
-                <div class="event_facilitator">
-                    <div><?php echo __("facilitators") ?>:</div>
-                    <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
-                            <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
-                        <?php endforeach; ?>
+            <div class="event_details">
+                <div class="event_project">
+                    <div class="event_book"><?php echo $event->name ?></div>
+                    <div class="event_proj">
+                        <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
+                        <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
                     </div>
-                </div>
-            </div>
-            <div class="event_current_pos">
-                <?php if($event->step != EventSteps::NONE): ?>
-                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
-                    <div class="event_curr_step">
-                        <?php
-                        $step = $event->step;
-                        if($step == EventSteps::READ_CHUNK)
-                            $step = EventSteps::BLIND_DRAFT;
-                        ?>
-                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                        <div class="step_current">
-                            <div>
-                                <?php echo ($event->currentChapter > 0
-                                ? ($event->bookProject == "tw"
-                                    ? "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
-                                    : __("chapter_number", ["chapter" => $event->currentChapter]))
-                                : ($event->currentChapter == 0 && in_array($event->bookProject, ["tn"])
-                                    ? __("front")
-                                    : "")) ?>
-                            </div>
-                            <div>
-                                <?php echo __($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" :
-                                        ($event->bookProject == "sun" && $event->step == EventSteps::CHUNKING ? "_sun" : ""))) ?>
-                            </div>
+                    <div class="event_facilitator">
+                        <div><?php echo __("facilitators") ?>:</div>
+                        <div class="facil_names">
+                            <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
+                                <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endif; ?>
-            </div>
-            <div class="event_action">
-                <div class="event_link">
-                    <a href="/events/translator<?php echo ($event->sourceBible == "odb" ? "-odb" : "")
+                </div>
+                <div class="event_current_pos">
+                    <?php if($event->step != EventSteps::NONE): ?>
+                        <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                        <div class="event_curr_step">
+                            <?php
+                            $step = $event->step;
+                            if($step == EventSteps::READ_CHUNK)
+                                $step = EventSteps::BLIND_DRAFT;
+                            ?>
+                            <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
+                            <div class="step_current">
+                                <div>
+                                    <?php echo ($event->currentChapter > 0
+                                        ? ($event->bookProject == "tw"
+                                            ? "[".$tw_group[0]."...".$tw_group[sizeof($tw_group)-1]."]"
+                                            : __("chapter_number", ["chapter" => $event->currentChapter]))
+                                        : ($event->currentChapter == 0 && in_array($event->bookProject, ["tn"])
+                                            ? __("front")
+                                            : "")) ?>
+                                </div>
+                                <div>
+                                    <?php echo __($event->step . (in_array($event->bookProject, ["tn"]) ? "_tn" :
+                                            ($event->bookProject == "sun" && $event->step == EventSteps::CHUNKING ? "_sun" : ""))) ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="event_action">
+                    <div class="event_link">
+                        <a href="/events/translator<?php echo ($event->sourceBible == "odb" ? "-odb" : "")
                             .(in_array($event->bookProject, ["tn","sun","tq","tw","rad"]) ? "-".
-                            $event->bookProject : "") ?>/<?php echo $event->eventID ?>">
-                        <?php echo __("continue_alt") ?>
-                    </a>
-                </div>
-                <div class="event_members">
-                    <div><?php echo __("translators") ?></div>
-                    <div class="trs_num"><?php echo $event->currTrs ?></div>
+                                $event->bookProject : "") ?>/<?php echo $event->eventID ?>">
+                            <?php echo __("continue_alt") ?>
+                        </a>
+                    </div>
+                    <div class="event_members">
+                        <div><?php echo __("translators") ?></div>
+                        <div class="trs_num"><?php echo $event->currTrs ?></div>
+                    </div>
                 </div>
             </div>
-
-            <div class="clear"></div>
         </div>
     <?php endforeach ?>
 
@@ -433,61 +433,61 @@ $profile = Session::get("profile");
                     <img width="85" src="<?php echo $eventImg ?>">
                 </div>
             </div>
-            <div class="event_project">
-                <div class="event_book"><?php echo $event->bookName ?? $event->name ?></div>
-                <div class="event_proj">
-                    <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
-                    <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
-                </div>
-                <div class="event_facilitator">
-                    <div><?php echo __("facilitators") ?>:</div>
-                    <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
-                            <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
-                        <?php endforeach; ?>
+            <div class="event_details">
+                <div class="event_project">
+                    <div class="event_book"><?php echo $event->bookName ?? $event->name ?></div>
+                    <div class="event_proj">
+                        <div><?php echo $event->sourceBible == "odb" ? __($event->sourceBible) : __($event->bookProject) ?></div>
+                        <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
+                    </div>
+                    <div class="event_facilitator">
+                        <div><?php echo __("facilitators") ?>:</div>
+                        <div class="facil_names">
+                            <?php foreach ((array)json_decode($event->admins, true) as $admin): ?>
+                                <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="event_translator">
-                <div class="event_translator_data">
-                    <div class="event_translator_title"><?php echo __("translator") ?></div>
-                    <div class="event_translator_name"><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></div>
+                <div class="event_translator">
+                    <div class="event_translator_data">
+                        <div class="event_translator_title"><?php echo __("translator") ?></div>
+                        <div class="event_translator_name"><?php echo $event->firstName . " " . mb_substr($event->lastName, 0, 1)."." ?></div>
+                    </div>
                 </div>
-            </div>
-            <div class="event_current_pos">
-                <div class="event_current_title"><?php echo __("you_are_at") ?></div>
-                <div class="event_curr_step">
-                    <?php
-                    $step = $event->step;
-                    if($step == EventSteps::READ_CHUNK)
-                        $step = EventSteps::BLIND_DRAFT;
-                    ?>
-                    <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
-                    <div class="step_current">
-                        <div>
-                            <?php echo ($event->currentChapter > 0
+                <div class="event_current_pos">
+                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                    <div class="event_curr_step">
+                        <?php
+                        $step = $event->step;
+                        if($step == EventSteps::READ_CHUNK)
+                            $step = EventSteps::BLIND_DRAFT;
+                        ?>
+                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $step. ".png") ?>">
+                        <div class="step_current">
+                            <div>
+                                <?php echo ($event->currentChapter > 0
                                     ? __("chapter_number", ["chapter" => $event->currentChapter])
                                     : __("front")) ?>
-                        </div>
-                        <div>
-                            <?php echo __($event->step.($event->sourceBible == "odb" ? "_odb" : "")) ?>
+                            </div>
+                            <div>
+                                <?php echo __($event->step.($event->sourceBible == "odb" ? "_odb" : "")) ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="event_action check1">
-                <div class="event_link">
-                    <a href="/events/checker<?php echo ($event->sourceBible == "odb" ? "-odb" : "")
-                        .(in_array($event->bookProject, ["sun"]) ? "-".$event->bookProject : "")
+                <div class="event_action check1">
+                    <div class="event_link">
+                        <a href="/events/checker<?php echo (in_array($event->sourceBible, ["odb","fnd","bib","theo"]) ? "-".$event->sourceBible : "")
+                            .(in_array($event->bookProject, ["sun"]) ? "-".$event->bookProject : "")
                             ."/".$event->eventID."/".$event->memberID
                             .(isset($event->isContinue) ? "/".$event->currentChapter : "")?>"
-                       data="<?php echo $event->eventID."_".$event->memberID?>">
-                        <?php echo __("continue_alt") ?>
-                    </a>
+                           data="<?php echo $event->eventID."_".$event->memberID?>">
+                            <?php echo __("continue_alt") ?>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <div class="clear"></div>
         </div>
     <?php endforeach ?>
 
@@ -500,48 +500,48 @@ $profile = Session::get("profile");
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
             </div>
-            <div class="event_project">
-                <div class="event_book"><?php echo $event->name ?></div>
-                <div class="event_proj">
-                    <div><?php echo __($event->bookProject) ?></div>
-                    <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
-                </div>
-                <div class="event_facilitator">
-                    <div><?php echo __("facilitators") ?>:</div>
-                    <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins_l2, true) as $admin): ?>
-                            <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
-                        <?php endforeach; ?>
+            <div class="event_details">
+                <div class="event_project">
+                    <div class="event_book"><?php echo $event->name ?></div>
+                    <div class="event_proj">
+                        <div><?php echo __($event->bookProject) ?></div>
+                        <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
                     </div>
-                </div>
-            </div>
-            <div class="event_current_pos">
-                <?php if($event->step != EventSteps::NONE): ?>
-                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
-                    <div class="event_curr_step">
-                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
-                        <div class="step_current">
-                            <div>
-                                <?php echo ($event->currentChapter > 0 ? __("chapter_number",
-                                        ["chapter" => $event->currentChapter]) : "") ?>
-                            </div>
-                            <div>
-                                <?php echo __($event->step) ?>
-                            </div>
+                    <div class="event_facilitator">
+                        <div><?php echo __("facilitators") ?>:</div>
+                        <div class="facil_names">
+                            <?php foreach ((array)json_decode($event->admins_l2, true) as $admin): ?>
+                                <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endif; ?>
-            </div>
-            <div class="event_action check2">
-                <div class="event_link">
-                    <a href="/events/checker-l2/<?php echo $event->eventID
-                        .(isset($event->isContinue) ? "/".$event->l2memberID."/".$event->currentChapter : "") ?>">
-                        <?php echo __("continue_alt") ?>
-                    </a>
+                </div>
+                <div class="event_current_pos">
+                    <?php if($event->step != EventSteps::NONE): ?>
+                        <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                        <div class="event_curr_step">
+                            <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                            <div class="step_current">
+                                <div>
+                                    <?php echo ($event->currentChapter > 0 ? __("chapter_number",
+                                        ["chapter" => $event->currentChapter]) : "") ?>
+                                </div>
+                                <div>
+                                    <?php echo __($event->step) ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="event_action check2">
+                    <div class="event_link">
+                        <a href="/events/checker-l2/<?php echo $event->eventID
+                            .(isset($event->isContinue) ? "/".$event->l2memberID."/".$event->currentChapter : "") ?>">
+                            <?php echo __("continue_alt") ?>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <div class="clear"></div>
         </div>
     <?php endforeach ?>
 
@@ -554,50 +554,50 @@ $profile = Session::get("profile");
                     <img width="146" src="<?php echo template_url("img/steps/big/l2_check.png") ?>">
                 </div>
             </div>
-            <div class="event_project">
-                <div class="event_book"><?php echo $event->name ?></div>
-                <div class="event_proj">
-                    <div><?php echo __($event->bookProject) ?></div>
-                    <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
-                </div>
-                <div class="event_facilitator">
-                    <div><?php echo __("facilitators") ?>:</div>
-                    <div class="facil_names">
-                        <?php foreach ((array)json_decode($event->admins_l3, true) as $admin): ?>
-                            <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
-                        <?php endforeach; ?>
+            <div class="event_details">
+                <div class="event_project">
+                    <div class="event_book"><?php echo $event->name ?></div>
+                    <div class="event_proj">
+                        <div><?php echo __($event->bookProject) ?></div>
+                        <div><?php echo $event->tLang . ($event->bookProject == "ulb" ? ", " . ($event->abbrID < 41 ? __("old_test") : __("new_test")) : "")?></div>
                     </div>
-                </div>
-            </div>
-            <div class="event_current_pos">
-                <?php if($event->step != EventSteps::NONE): ?>
-                    <div class="event_current_title"><?php echo __("you_are_at") ?></div>
-                    <div class="event_curr_step">
-                        <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
-                        <div class="step_current">
-                            <div>
-                                <?php echo ($event->currentChapter > 0
-                                        ? __("chapter_number", ["chapter" => $event->currentChapter])
-                                        : __("front")) ?>
-                            </div>
-                            <div>
-                                <?php echo __($event->step) ?>
-                            </div>
+                    <div class="event_facilitator">
+                        <div><?php echo __("facilitators") ?>:</div>
+                        <div class="facil_names">
+                            <?php foreach ((array)json_decode($event->admins_l3, true) as $admin): ?>
+                                <a href="#" data="<?php echo $admin ?>"><?php echo $data["admins"][$admin]["name"] ?></a>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endif; ?>
-            </div>
-            <div class="event_action <?php echo !empty($event->isContinue) ? "check3" : "" ?>">
-                <div class="event_link">
-                    <a href="/events/checker<?php echo "-l3/".$event->eventID
-                        .(isset($event->isContinue) ? "/".$event->memberID."/".$event->currentChapter : "")?>"
-                        data="<?php echo $event->eventID."_".$event->memberID?>">
-                        <?php echo __("continue_alt") ?>
-                    </a>
+                </div>
+                <div class="event_current_pos">
+                    <?php if($event->step != EventSteps::NONE): ?>
+                        <div class="event_current_title"><?php echo __("you_are_at") ?></div>
+                        <div class="event_curr_step">
+                            <img class='img_current' src="<?php echo template_url("img/steps/green_icons/". $event->step. ".png") ?>">
+                            <div class="step_current">
+                                <div>
+                                    <?php echo ($event->currentChapter > 0
+                                        ? __("chapter_number", ["chapter" => $event->currentChapter])
+                                        : __("front")) ?>
+                                </div>
+                                <div>
+                                    <?php echo __($event->step) ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="event_action <?php echo !empty($event->isContinue) ? "check3" : "" ?>">
+                    <div class="event_link">
+                        <a href="/events/checker<?php echo "-l3/".$event->eventID
+                            .(isset($event->isContinue) ? "/".$event->memberID."/".$event->currentChapter : "")?>"
+                           data="<?php echo $event->eventID."_".$event->memberID?>">
+                            <?php echo __("continue_alt") ?>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <div class="clear"></div>
         </div>
     <?php endforeach ?>
 

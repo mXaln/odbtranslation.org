@@ -634,7 +634,7 @@ class EventsModel extends Model
 
 
     /**
-     * Get SUN checker event/s
+     * Get SUN/ODB/MILL checker event/s
      * @param int $checkerID Checker member ID
      * @param null $eventID event ID
      * @param null $memberID Translator member ID
@@ -667,7 +667,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE ".PREFIX."projects.bookProject IN ('sun','odb') ".
+            "WHERE ".PREFIX."projects.bookProject IN ('sun','odb','fnd','bib','theo') ".
             "AND (trs.kwCheck != '' OR trs.peerCheck != '') ".
             ($eventID ? "AND trs.eventID = :eventID " : " ").
             ($memberID ? "AND trs.memberID = :memberID " : " ").
@@ -678,7 +678,7 @@ class EventsModel extends Model
 
         foreach($events as $event)
         {
-            if ($event->bookProject == "odb") {
+            if (in_array($event->bookProject, ["odb","fnd","bib","theo"])) {
                 // Peer Check events
                 $peerCheck = (array)json_decode($event->peerCheck, true);
                 foreach ($peerCheck as $chap => $data) {
@@ -746,10 +746,10 @@ class EventsModel extends Model
 
 
     /**
-     * Get SUN checker event/s
-     * @param int $checkerID SUN Checker member ID
+     * Get SUN/ODB/MILL checker event/s
+     * @param int $checkerID Checker member ID
      * @param null $eventID event ID
-     * @param null $memberID SUN translator member ID
+     * @param null $memberID translator member ID
      * @param null $chapter
      * @return array
      */
@@ -779,7 +779,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."languages AS t_lang ON ".PREFIX."projects.targetLang = t_lang.langID ".
             "LEFT JOIN ".PREFIX."languages AS s_lang ON ".PREFIX."projects.sourceLangID = s_lang.langID ".
             "LEFT JOIN ".PREFIX."abbr ON evnt.bookCode = ".PREFIX."abbr.code ".
-            "WHERE ".PREFIX."projects.bookProject IN ('sun','odb') ".
+            "WHERE ".PREFIX."projects.bookProject IN ('sun','odb','fnd','bib','theo') ".
             ($eventID ? "AND trs.eventID = :eventID " : " ").
             ($memberID ? "AND trs.memberID = :memberID " : " ").
             "ORDER BY tLang, ".PREFIX."abbr.abbrID";
@@ -797,7 +797,7 @@ class EventsModel extends Model
                 $filtered[] = $event;
             }
 
-            if ($event->bookProject == "odb") {
+            if (in_array($event->bookProject, ["odb","fnd","bib","theo"])) {
                 // Peer Check events
                 $peerCheck = (array)json_decode($event->peerCheck, true);
                 foreach ($peerCheck as $chap => $data) {
@@ -1026,7 +1026,7 @@ class EventsModel extends Model
                     $kwCheck = (array)json_decode($translator->kwCheck);
                     $crCheck = (array)json_decode($translator->crCheck);
 
-                    if(in_array($mode, ["sun","odb"]))
+                    if(in_array($mode, ["sun","odb","fnd","bib","theo"]))
                     {
                         $checkersArr = Arrays::append($checkersArr, array_values(array_map(function($elm) {
                             return $elm->memberID;
@@ -1755,10 +1755,10 @@ class EventsModel extends Model
     }
 
     /**
-     * Get notifications for Level 2 events
+     * Get notifications for ODB/Mill events
      * @return array
      */
-    public function getNotificationsOdb()
+    public function getNotificationsOdbAndMill()
     {
         $sql = "SELECT trs.*, ".
             PREFIX."members.userName, ".PREFIX."members.firstName, ".PREFIX."members.lastName, ".
@@ -1774,7 +1774,7 @@ class EventsModel extends Model
             "LEFT JOIN ".PREFIX."abbr ON ".PREFIX."events.bookCode = ".PREFIX."abbr.code ".
             "WHERE (trs.eventID IN(SELECT eventID FROM ".PREFIX."translators WHERE memberID = :memberID) ".
             "OR ".PREFIX."events.admins LIKE :adminID) ".
-            "AND trs.peerCheck != '' AND ".PREFIX."projects.bookProject = 'odb' ";
+            "AND trs.peerCheck != '' AND ".PREFIX."projects.bookProject IN ('odb','fnd','bib','theo') ";
 
         $prepare = [
             ":memberID" => Session::get("memberID"),
@@ -1797,7 +1797,7 @@ class EventsModel extends Model
                     $notif = clone $notification;
                     $notif->step = EventSteps::PEER_REVIEW;
                     $notif->currentChapter = $chapter;
-                    $notif->manageMode = "odb";
+                    $notif->manageMode = $notification->bookProject;
                     $notifs[] = $notif;
                 }
             }
@@ -1813,7 +1813,7 @@ class EventsModel extends Model
                     $notif = clone $notification;
                     $notif->step = EventSteps::CONTENT_REVIEW;
                     $notif->currentChapter = $chapter;
-                    $notif->manageMode = "odb";
+                    $notif->manageMode = $notification->bookProject;
                     $notifs[] = $notif;
                 }
             }

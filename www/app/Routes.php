@@ -34,6 +34,12 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/md", "TranslationsController@downloadMd")
+        ->where([
+            "lang" => "[a-zA-Z0-9-]+",
+            "bookProject" => "[a-z0-9]+",
+            "bookCode" => "[a-z0-9.]+"
+        ]);
     Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/{server}/export", "TranslationsController@export")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
@@ -45,7 +51,7 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "sourceBible" => "[a-z0-9]+",
-            "bookCode" => "[a-z0-9]+"
+            "bookCode" => "[a-z0-9.]+"
         ]);
 });
 
@@ -130,6 +136,24 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
+    Router::any("checker-fnd/{eventID}/{memberID}/{chapter}", "EventsController@checkerMill")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
+    Router::any("checker-bib/{eventID}/{memberID}/{chapter}", "EventsController@checkerMill")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
+    Router::any("checker-theo/{eventID}/{memberID}/{chapter}", "EventsController@checkerMill")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
@@ -145,7 +169,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ]);
     Router::any("checker-{mode}/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
-            "mode" => "sun|odb",
+            "mode" => "sun|odb|fnd|bib|theo",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+",

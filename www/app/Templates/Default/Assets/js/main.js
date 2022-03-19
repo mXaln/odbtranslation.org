@@ -323,8 +323,13 @@ $(document).ready(function() {
     }
 
     $(".peer_verse_ta, .blind_ta, .verse_ta").on("keyup paste", function() {
-        hasChangesOnPage = true;
-        $(".unsaved_alert").show();
+        const text = $(this).val();
+        if (text.trim() === "") {
+            hasChangesOnPage = false;
+        } else {
+            hasChangesOnPage = true;
+            $(".unsaved_alert").show();
+        }
     });
 
     $(".verse_ta:first").focus();
