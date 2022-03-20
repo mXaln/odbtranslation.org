@@ -278,11 +278,9 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/search_members", "AdminController@searchMembers");
     Router::any("rpc/get_target_languages", "AdminController@getTargetLanguagesByGwLanguage");
     Router::any("rpc/create_event", "AdminController@createEvent");
-    Router::any("rpc/get_source", "AdminController@getSource");
     Router::any("rpc/verify_member", "AdminController@verifyMember");
     Router::any("rpc/block_member", "AdminController@blockMember");
     Router::any("rpc/clear_cache", "AdminController@clearCache");
-    Router::any("rpc/update_all_cache", "AdminController@updateAllBooksCache");
     Router::any("rpc/update_languages", "AdminController@updateLanguages");
     Router::any("rpc/update_catalog", "AdminController@updateCatalog");
     Router::any("rpc/clear_all_cache", "AdminController@clearAllCache");

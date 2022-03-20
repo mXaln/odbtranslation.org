@@ -723,7 +723,7 @@ class EventsModel extends Model
             foreach ($crCheck as $chap => $data) {
                 if(!isset($chapter) || $chapter == $chap)
                 {
-                    $doneStatus = $event->sourceBible == "odb" ? 1 : 2;
+                    $doneStatus = in_array($event->sourceBible, ["odb","fnd","bib","theo"]) ? 1 : 2;
                     if($data["memberID"] == $checkerID && $data["done"] != $doneStatus)
                     {
                         $ev = clone $event;
@@ -1393,7 +1393,7 @@ class EventsModel extends Model
                 $peer3Check = (array)json_decode($participant->peer3Check);
 
                 // Resource Checkers
-                if (in_array($mode, ["sun","odb"])) {
+                if (in_array($mode, ["sun","odb","fnd","bib","theo"])) {
                     $contributorsIDs = Arrays::append($contributorsIDs, array_values(array_map(function ($elm) {
                         return $elm->memberID;
                     }, $peerCheck)));
@@ -2357,6 +2357,10 @@ class EventsModel extends Model
             {
                 return $this->calculateSunLevel1EventProgress($event, true);
             }
+            elseif(in_array($event[0]->bookProject, ["odb","fnd","bib","theo"])) // ODB, Mill
+            {
+                return $this->calculateOdbAndMillLevel1EventProgress($event, true);
+            }
         }
 
         return 0;
@@ -2364,14 +2368,13 @@ class EventsModel extends Model
 
     public function calculateUlbLevel1EventProgress($event, $progressOnly = false) {
         $data = [];
-        $data["overall_progress"] = 0;
         $data["chapters"] = [];
         for($i=1; $i <= $event[0]->chaptersNum; $i++)
         {
             $data["chapters"][$i] = [];
         }
 
-        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
+        $chapters = $this->getChapters($event[0]->eventID);
 
         foreach ($chapters as $chapter) {
             $tmp["trID"] = $chapter["trID"];
@@ -2465,7 +2468,6 @@ class EventsModel extends Model
                     {
                         $verbCheckState = StepsStates::IN_PROGRESS;
                         $consumeState = StepsStates::FINISHED;
-                        $currentChecker = $memberSteps[$chapter["memberID"]]["checkerID"];
                         $members[$currentChecker] = "";
                     }
                     elseif(array_key_exists($key, $verbCheck))
@@ -2522,7 +2524,7 @@ class EventsModel extends Model
                 $data["chapters"][$key]["consume"]["state"] = $consumeState;
                 $data["chapters"][$key]["multiDraft"]["state"] = $multiDraftState;
                 $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
-                $data["chapters"][$key]["verb"]["checkerID"] = isset($verbChecker) ? $verbChecker : ($currentChecker > 0 ? $currentChecker : "na");
+                $data["chapters"][$key]["verb"]["checkerID"] = $verbChecker ?? ($currentChecker > 0 ? $currentChecker : "na");
                 $data["chapters"][$key]["chunking"]["state"] = $chunkingState;
                 $data["chapters"][$key]["blindDraft"]["state"] = $blindDraftState;
 
@@ -2765,7 +2767,6 @@ class EventsModel extends Model
 
     public function calculateUlbLevel2EventProgress($event, $progressOnly = false) {
         $data = [];
-        $data["overall_progress"] = 0;
         $data["chapters"] = [];
         for($i=1; $i <= $event[0]->chaptersNum; $i++)
         {
@@ -2933,7 +2934,6 @@ class EventsModel extends Model
 
     public function calculateAnyLevel3EventProgress($event, $progressOnly = false) {
         $data = [];
-        $data["overall_progress"] = 0;
         $data["chapters"] = [];
         for($i=1; $i <= $event[0]->chaptersNum; $i++)
         {
@@ -3044,14 +3044,13 @@ class EventsModel extends Model
 
     public function calculateSunLevel1EventProgress($event, $progressOnly = false) {
         $data = [];
-        $data["overall_progress"] = 0;
         $data["chapters"] = [];
         for($i=1; $i <= $event[0]->chaptersNum; $i++)
         {
             $data["chapters"][$i] = [];
         }
 
-        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
+        $chapters = $this->getChapters($event[0]->eventID);
 
         foreach ($chapters as $chapter) {
             $tmp["trID"] = $chapter["trID"];
@@ -3310,14 +3309,13 @@ class EventsModel extends Model
 
     public function calculateOdbSunLevel1EventProgress($event, $progressOnly = false) {
         $data = [];
-        $data["overall_progress"] = 0;
         $data["chapters"] = [];
         for($i=1; $i <= $event[0]->chaptersNum; $i++)
         {
             $data["chapters"][$i] = [];
         }
 
-        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
+        $chapters = $this->getChapters($event[0]->eventID);
 
         foreach ($chapters as $chapter) {
             $tmp["trID"] = $chapter["trID"];
@@ -3542,275 +3540,15 @@ class EventsModel extends Model
         }
     }
 
-    public function calculateOdbLevel1EventProgress($event, $progressOnly = false) {
+    public function calculateOdbAndMillLevel1EventProgress($event, $progressOnly = false) {
         $data = [];
-        $data["overall_progress"] = 0;
         $data["chapters"] = [];
         for($i=1; $i <= $event[0]->chaptersNum; $i++)
         {
             $data["chapters"][$i] = [];
         }
 
-        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
-
-        foreach ($chapters as $chapter) {
-            $tmp["trID"] = $chapter["trID"];
-            $tmp["memberID"] = $chapter["memberID"];
-            $tmp["chunks"] = json_decode($chapter["chunks"], true);
-            $tmp["done"] = $chapter["done"];
-
-            $data["chapters"][$chapter["chapter"]] = $tmp;
-        }
-
-        $overallProgress = 0;
-        $memberSteps = [];
-        $members = [];
-
-        $translationModel = new TranslationsModel();
-        $chunks = $translationModel->getTranslationByEventID($event[0]->eventID);
-
-        foreach ($chunks as $chunk) {
-            if(!array_key_exists($chunk->memberID, $memberSteps))
-            {
-                $memberSteps[$chunk->memberID]["step"] = $chunk->step;
-                $memberSteps[$chunk->memberID]["verbCheck"] = $chunk->verbCheck;
-                $memberSteps[$chunk->memberID]["peerCheck"] = $chunk->peerCheck;
-                $memberSteps[$chunk->memberID]["crCheck"] = $chunk->crCheck;
-                $memberSteps[$chunk->memberID]["currentChapter"] = $chunk->currentChapter;
-                $members[$chunk->memberID] = "";
-            }
-
-            if($chunk->chapter == null)
-                continue;
-
-            $data["chapters"][$chunk->chapter]["chunksData"][] = $chunk;
-
-            if(!isset($data["chapters"][$chunk->chapter]["lastEdit"]))
-            {
-                $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
-            }
-            else
-            {
-                $prevDate = strtotime($data["chapters"][$chunk->chapter]["lastEdit"]);
-                if($prevDate < strtotime($chunk->dateUpdate))
-                    $data["chapters"][$chunk->chapter]["lastEdit"] = $chunk->dateUpdate;
-            }
-        }
-
-        foreach ($data["chapters"] as $key => $chapter) {
-            if(empty($chapter)) continue;
-
-            $currentStep = EventSteps::PRAY;
-            $consumeState = StepsStates::NOT_STARTED;
-            $verbCheckState = StepsStates::NOT_STARTED;
-            $draftState = StepsStates::NOT_STARTED;
-
-            $members[$chapter["memberID"]] = "";
-            $data["chapters"][$key]["progress"] = 0;
-
-            $currentChapter = $memberSteps[$chapter["memberID"]]["currentChapter"];
-            $verbCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["verbCheck"], true);
-            $peerCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["peerCheck"], true);
-            $crCheck = (array)json_decode($memberSteps[$chapter["memberID"]]["crCheck"], true);
-
-            // Set default values
-            $data["chapters"][$key]["consume"]["state"] = StepsStates::NOT_STARTED;
-            $data["chapters"][$key]["verb"]["state"] = StepsStates::NOT_STARTED;
-            $data["chapters"][$key]["verb"]["checkerID"] = "na";
-            $data["chapters"][$key]["draft"]["state"] = StepsStates::NOT_STARTED;
-            $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::NOT_STARTED;
-
-            $data["chapters"][$key]["peerChk"]["state"] = StepsStates::NOT_STARTED;
-            $data["chapters"][$key]["peerChk"]["checkerID"] = 'na';
-            $data["chapters"][$key]["crc"]["state"] = StepsStates::NOT_STARTED;
-            $data["chapters"][$key]["crc"]["checkerID"] = 'na';
-
-            if(isset($verbCheck[$key]))
-            {
-                $member = $verbCheck[$key];
-                if(is_numeric($member))
-                {
-                    $members[$member] = "";
-                }
-                else
-                {
-                    $uniqID = uniqid("chk");
-                    $members[$uniqID] = $member;
-                    $verbCheck[$key] = $uniqID;
-                    $verbChecker = $uniqID;
-                }
-
-                $data["chapters"][$key]["verb"]["checkerID"] = isset($verbChecker)
-                    ? $verbChecker
-                    : $member;
-            }
-
-            // When no chunks created or translation not started
-            if(empty($chapter["chunks"]) || !isset($chapter["chunksData"]))
-            {
-                if($currentChapter == $key)
-                {
-                    $currentStep = $memberSteps[$chapter["memberID"]]["step"];
-
-                    if($currentStep == EventSteps::CONSUME)
-                    {
-                        $consumeState = StepsStates::IN_PROGRESS;
-                    }
-                    elseif($currentStep == EventSteps::VERBALIZE)
-                    {
-                        $consumeState = StepsStates::FINISHED;
-                        $verbCheckState = StepsStates::IN_PROGRESS;
-                    }
-                    elseif($currentStep == EventSteps::BLIND_DRAFT)
-                    {
-                        $consumeState = StepsStates::FINISHED;
-                        $verbCheckState = StepsStates::FINISHED;
-                        $draftState = StepsStates::IN_PROGRESS;
-                    }
-                }
-
-                $data["chapters"][$key]["step"] = $currentStep;
-                $data["chapters"][$key]["consume"]["state"] = $consumeState;
-                $data["chapters"][$key]["verb"]["state"] = $verbCheckState;
-                $data["chapters"][$key]["draft"]["state"] = $draftState;
-
-                // Progress checks
-                if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 16.6;
-                if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 16.6;
-                if($data["chapters"][$key]["draft"]["state"] == StepsStates::FINISHED)
-                    $data["chapters"][$key]["progress"] += 16.6;
-
-                $overallProgress += $data["chapters"][$key]["progress"];
-
-                $data["chapters"][$key]["chunksData"] = [];
-                continue;
-            }
-
-            $currentStep = $memberSteps[$chapter["memberID"]]["step"];
-
-            $pr = !empty($peerCheck)
-                && array_key_exists($key, $peerCheck);
-            $cr = !empty($crCheck)
-                && array_key_exists($key, $crCheck)
-                && $crCheck[$key]["memberID"] > 0;
-
-            if($pr)
-            {
-                // Peer check
-                $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
-                $data["chapters"][$key]["verb"]["state"] = StepsStates::FINISHED;
-                $data["chapters"][$key]["draft"]["state"] = StepsStates::FINISHED;
-                $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::FINISHED;
-
-                if($peerCheck[$key]["memberID"] > 0)
-                {
-                    $members[$peerCheck[$key]["memberID"]] = "";
-                    $data["chapters"][$key]["peerChk"]["checkerID"] = $peerCheck[$key]["memberID"];
-
-                    if($peerCheck[$key]["done"] == 1)
-                    {
-                        // Verse-by-verse check
-                        $data["chapters"][$key]["peerChk"]["state"] = StepsStates::FINISHED;
-
-                        if($cr)
-                        {
-                            $members[$crCheck[$key]["memberID"]] = "";
-                            $data["chapters"][$key]["crc"]["checkerID"] = $crCheck[$key]["memberID"];
-
-                            if($crCheck[$key]["done"] == 1)
-                            {
-                                $data["chapters"][$key]["crc"]["state"] = StepsStates::FINISHED;
-                            }
-                            else
-                            {
-                                $data["chapters"][$key]["crc"]["state"] = StepsStates::IN_PROGRESS;
-                            }
-                        }
-                        else
-                        {
-                            $data["chapters"][$key]["crc"]["state"] = StepsStates::WAITING;
-                        }
-                    }
-                    else
-                    {
-                        $data["chapters"][$key]["peerChk"]["state"] = StepsStates::IN_PROGRESS;
-                    }
-                }
-                else
-                {
-                    $data["chapters"][$key]["peerChk"]["state"] = StepsStates::WAITING;
-                }
-            }
-            else
-            {
-                if($currentStep == EventSteps::CONSUME)
-                {
-                    $data["chapters"][$key]["consume"]["state"] = StepsStates::IN_PROGRESS;
-                }
-                elseif($currentStep == EventSteps::VERBALIZE)
-                {
-                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["verb"]["state"] = StepsStates::IN_PROGRESS;
-                }
-                elseif($currentStep == EventSteps::BLIND_DRAFT)
-                {
-                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["verb"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["draft"]["state"] = StepsStates::IN_PROGRESS;
-                }
-                elseif($currentStep == EventSteps::SELF_CHECK)
-                {
-                    $data["chapters"][$key]["consume"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["verb"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["draft"]["state"] = StepsStates::FINISHED;
-                    $data["chapters"][$key]["selfEdit"]["state"] = StepsStates::IN_PROGRESS;
-                }
-            }
-
-
-            // Progress checks
-            if($data["chapters"][$key]["consume"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 16.6;
-            if($data["chapters"][$key]["verb"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 16.6;
-            if($data["chapters"][$key]["draft"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 16.6;
-            if($data["chapters"][$key]["selfEdit"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 16.6;
-            if($data["chapters"][$key]["peerChk"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 16.6;
-            if($data["chapters"][$key]["crc"]["state"] == StepsStates::FINISHED)
-                $data["chapters"][$key]["progress"] += 17;
-
-            $overallProgress += $data["chapters"][$key]["progress"];
-        }
-
-        $data["overall_progress"] = $overallProgress / sizeof($data["chapters"]);
-        $data["members"] = $members;
-
-        if($progressOnly)
-        {
-            return $data["overall_progress"];
-        }
-        else {
-            return $data;
-        }
-    }
-
-    public function calculateMillLevel1EventProgress($event, $progressOnly = false) {
-        // TODO Refactor to the real ThirdMill project
-
-        $data = [];
-        $data["overall_progress"] = 0;
-        $data["chapters"] = [];
-        for($i=1; $i <= $event[0]->chaptersNum; $i++)
-        {
-            $data["chapters"][$i] = [];
-        }
-
-        $chapters = $this->getChapters($event[0]->eventID, null, null, "l1");
+        $chapters = $this->getChapters($event[0]->eventID);
 
         foreach ($chapters as $chapter) {
             $tmp["trID"] = $chapter["trID"];

@@ -8,6 +8,7 @@ use App\Models\MembersModel;
 use App\Models\NewsModel;
 use App\Models\SailDictionaryModel;
 use App\Models\TranslationsModel;
+use App\Repositories\Resources\IResourcesRepository;
 use Config\Config;
 use Database\QueryException;
 use File;
@@ -37,7 +38,9 @@ class AdminController extends Controller {
     private $_newsModel;
     protected $layout = "admin";
 
-    public function __construct()
+    protected $resourcesRepo = null;
+
+    public function __construct(IResourcesRepository $resourcesRepo)
     {
         parent::__construct();
 
@@ -53,6 +56,8 @@ class AdminController extends Controller {
         $this->_translationModel = new TranslationsModel();
         $this->_saildictModel = new SailDictionaryModel();
         $this->_newsModel = new NewsModel();
+
+        $this->resourcesRepo = $resourcesRepo;
     }
 
     public  function index() {
@@ -109,14 +114,8 @@ class AdminController extends Controller {
 
             $otDone = 0;
             $ntDone = 0;
-            $data["OTprogress"] = 0;
-            $data["NTprogress"] = 0;
-
             $odbDone = 0;
-            $data["ODBprogress"] = 0;
-
             $millDone = 0;
-            $data["MILLprogress"] = 0;
 
             $data["events"] = $this->_eventsModel->getEventsByProject($projectID, $category);
 
@@ -151,6 +150,8 @@ class AdminController extends Controller {
 
             $data["OTprogress"] = 100*$otDone/39;
             $data["NTprogress"] = 100*$ntDone/27;
+            $data["ODBprogress"] = 0;
+            $data["MILLprogress"] = 0;
 
             if($data["project"][0]->sourceBible == "odb")
             {
@@ -1189,101 +1190,26 @@ class AdminController extends Controller {
 
         $_POST = Gump::xss_clean($_POST);
 
-        $abbrID = isset($_POST["abbrID"]) ? $_POST["abbrID"] : null;
-        $bookCode = isset($_POST["bookCode"]) ? $_POST["bookCode"] : null;
-        $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
-        $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
+        $abbrID = $_POST["abbrID"] ?? null;
+        $bookCode = $_POST["bookCode"] ?? null;
+        $sourceLangID = $_POST["sourceLangID"] ?? null;
+        $sourceBible = $_POST["sourceBible"] ?? null;
 
         // Book source
-        $cache_keyword = $bookCode."_".$sourceLangID."_".$sourceBible."_usfm";
+        $cache_keyword = $sourceLangID."_".$sourceBible."_".$bookCode;
 
         if(Cache::has($cache_keyword))
             Cache::forget($cache_keyword);
 
-        $source = $this->_apiModel->getCachedSourceBookFromApi(
+        $source = $this->resourcesRepo->getScripture(
+            $sourceLangID,
             $sourceBible,
             $bookCode,
-            $sourceLangID,
-            $abbrID);
+            $abbrID
+        );
 
-        if($source)
+        if(!empty($source))
             $response["success"] = true;
-
-        echo json_encode($response);
-    }
-
-    public function updateAllBooksCache()
-    {
-        $response = ["success" => false];
-
-        if (!Session::get('loggedin'))
-        {
-            $response["error"] = "not_loggedin";
-            echo json_encode($response);
-            exit;
-        }
-
-        if(!Session::get('isSuperAdmin'))
-        {
-            $response["error"] = "not_allowed";
-            echo json_encode($response);
-            exit;
-        }
-
-        $_POST = Gump::xss_clean($_POST);
-
-        $sourceLangID = isset($_POST["sourceLangID"]) ? $_POST["sourceLangID"] : null;
-        $sourceBible = isset($_POST["sourceBible"]) ? $_POST["sourceBible"] : null;
-
-        $booksUpdated = 0;
-
-        if($sourceLangID && $sourceBible)
-        {
-            $books = $this->_eventsModel->getBooks();
-
-            $renDir = "../app/Templates/Default/Assets/source/".$sourceLangID."_".$sourceBible."_tmp";
-            $origDir = "../app/Templates/Default/Assets/source/".$sourceLangID."_".$sourceBible;
-
-            //File::deleteDirectory($renDir);
-            if(File::exists($origDir))
-                File::move($origDir, $renDir);
-
-            foreach ($books as $book)
-            {
-                $bookCode = $book->code;
-                $abbrID = $book->abbrID;
-
-                // Book source
-                $cache_keyword = $bookCode."_".$sourceLangID."_".$sourceBible."_usfm";
-
-                if(Cache::has($cache_keyword))
-                    Cache::forget($cache_keyword);
-
-                $source = $this->_apiModel->getCachedSourceBookFromApi(
-                    $sourceBible,
-                    $bookCode,
-                    $sourceLangID,
-                    $abbrID);
-
-                if($source)
-                {
-                    $response["success"] = true;
-                    $booksUpdated++;
-                }
-            }
-
-            if($booksUpdated > 0)
-            {
-                File::deleteDirectory($renDir);
-
-            }
-            else
-            {
-                File::move($renDir, $origDir);
-            }
-        }
-
-        $response["booksUpdated"] = $booksUpdated;
 
         echo json_encode($response);
     }
@@ -1473,7 +1399,7 @@ class AdminController extends Controller {
                     {
                         if($bookInfo[0]->category == "odb")
                         {
-                            $odb = $this->_apiModel->getOtherSource("odb", $bookInfo[0]->code, $project[0]->sourceLangID);
+                            $odb = $this->resourcesRepo->getJsonResource($project[0]->sourceLangID, "odb", $bookInfo[0]->code);
                             if(empty($odb))
                             {
                                 $error[] = __("no_source_error");
@@ -1483,7 +1409,10 @@ class AdminController extends Controller {
                         }
                         elseif(in_array($bookInfo[0]->category, ["fnd","bib","theo"]))
                         {
-                            $mill = $this->_apiModel->getMillSource($bookInfo[0]->category, $bookInfo[0]->code, $project[0]->sourceLangID);
+                            $mill = $this->resourcesRepo->getMillResource(
+                                $project[0]->sourceLangID,
+                                $bookInfo[0]->category,
+                                $bookInfo[0]->code);
 
                             if(empty($mill))
                             {
@@ -1495,18 +1424,17 @@ class AdminController extends Controller {
                         else
                         {
                             // Book source
-                            $cache_keyword = $bookCode."_".$project[0]->sourceLangID."_".$project[0]->sourceBible."_usfm";
+                            $cache_keyword = $project[0]->sourceLangID."_".$project[0]->sourceBible."_".$bookCode;
 
-                            if(!Cache::has($cache_keyword))
-                            {
-                                $usfm = $this->_apiModel->getCachedSourceBookFromApi(
+                            if(!Cache::has($cache_keyword)) {
+                                $usfm = $this->resourcesRepo->getScripture(
+                                    $project[0]->sourceLangID,
                                     $project[0]->sourceBible,
                                     $bookInfo[0]->code,
-                                    $project[0]->sourceLangID,
-                                    $bookInfo[0]->abbrID);
+                                    $bookInfo[0]->abbrID
+                                );
 
-                                if(!$usfm || empty($usfm))
-                                {
+                                if(empty($usfm)) {
                                     $error[] = __("no_source_error");
                                     echo json_encode(array("error" => Error::display($error)));
                                     return;
@@ -1647,55 +1575,6 @@ class AdminController extends Controller {
             echo json_encode(array("error" => Error::display($error)));
         }
     }
-
-
-    public function getSource()
-    {
-        $response = array();
-        $_POST = Gump::xss_clean($_POST);
-
-        $bookCode = isset($_POST["bookCode"]) && $_POST["bookCode"] != "" ? $_POST["bookCode"] : null;
-        $sourceLangID = isset($_POST["sourceLangID"]) && $_POST["sourceLangID"] != "" ? $_POST["sourceLangID"] : null;
-        $bookProject = isset($_POST["bookProject"]) && $_POST["bookProject"] != "" ? $_POST["bookProject"] : null;
-
-        if($bookCode && $sourceLangID && $bookProject)
-        {
-            $cache_keyword = $bookCode."_".$sourceLangID."_".$bookProject;
-
-            if(Cache::has($cache_keyword))
-            {
-                $source = Cache::get($cache_keyword);
-                $json = json_decode($source, true);
-            }
-            else
-            {
-                $source = $this->_apiModel->getSourceBookFromApi($bookCode, $sourceLangID, $bookProject);
-                $json = json_decode($source, true);
-
-                if(!empty($json))
-                    Cache::add($cache_keyword, $source, 60*24*7);
-            }
-
-            if(!empty($json))
-            {
-                $response["chaptersNum"] = sizeof($json["chapters"]);
-
-                $text = "";
-
-                foreach ($json["chapters"] as $chapter) {
-                    foreach ($chapter["frames"] as $frame) {
-                        $text .= $frame["text"];
-                    }
-                }
-
-                $text = preg_split("/<verse\D+(\d+)\D+>/", $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-                $response["versesNum"] = !empty($text) ? (sizeof($text)-1)/2 : 0;
-            }
-        }
-
-        echo json_encode($response);
-    }
-
 
     private function importScriptureToEvent($usfm, $projectID, $eventID, $bookCode, $level)
     {
@@ -2487,6 +2366,7 @@ class AdminController extends Controller {
                     if($mime == "application/zip")
                     {
                         $path = $this->_apiModel->processSourceZipFile($sourceZip);
+                        $this->resourcesRepo->forgetResource($lang, $slug);
 
                         if(in_array($slug, ["tn","tq","tw"]))
                         {
@@ -2495,6 +2375,10 @@ class AdminController extends Controller {
                         elseif (in_array($slug, ["odb"]))
                         {
                             $result["success"] = $this->_apiModel->processJsonSource($path, $lang, $slug);
+                        }
+                        elseif (in_array($slug, ["fnd","bib","theo"]))
+                        {
+                            $result["success"] = $this->_apiModel->processMillSource($path, $lang, $slug);
                         }
                         else
                         {

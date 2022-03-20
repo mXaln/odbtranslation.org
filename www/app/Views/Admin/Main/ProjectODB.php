@@ -132,10 +132,6 @@ if(!empty($data["project"])):
             <div class="event_menu">
                 <div class="glyphicon glyphicon-menu-hamburger"></div>
                 <ul>
-                    <li class="clearCache">
-                        <?php echo __("clear_cache"); ?>
-                        <span class="glyphicon glyphicon-question-sign" title="<?php echo __("clear_cache_info") ?>"></span>
-                    </li>
                     <li class="deleteEvent"><?php echo __("delete"); ?></li>
 
                     <hr>

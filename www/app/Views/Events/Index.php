@@ -471,7 +471,9 @@ $profile = Session::get("profile");
                                     : __("front")) ?>
                             </div>
                             <div>
-                                <?php echo __($event->step.($event->sourceBible == "odb" ? "_odb" : "")) ?>
+                                <?php echo __($event->step.
+                                    (in_array($event->sourceBible, ["odb","fnd","bib","theo"]) ?
+                                        ($event->sourceBible == "odb" ? "_odb" : "_mill") : "")) ?>
                             </div>
                         </div>
                     </div>
