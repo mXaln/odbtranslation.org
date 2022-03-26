@@ -20,6 +20,7 @@ $profile = Session::get("profile");
                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
                 <a href="/events/demo-sun-odb"><li><?php echo __("odb") . " (".__("vsail").")" ?></li></a>
                 <a href="/events/demo-odb"><li><?php echo __("odb") ?></li></a>
+                <a href="/events/demo-mill"><li><?php echo __("mill") ?></li></a>
             </ul>
         </div>
     </div>

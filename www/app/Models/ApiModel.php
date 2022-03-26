@@ -592,7 +592,7 @@ class ApiModel extends Model
                 File::makeDirectory($target, 0755, true);
             }
 
-            $dirRegex = "/^\d+\.\d+\.\d+\.(?:c|e|m|d|s)$/";
+            $dirRegex = "/^\d+\.\d+\.\d+\.(?:c|b|m|d|s)\d*$/";
             $fileRegex = "/^\d+\.md$/";
 
             $allDirs = File::directories($path, "<0");

@@ -170,6 +170,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                 <a href="/events/demo-sun"><li><?php echo __("vsail") ?></li></a>
                                 <a href="/events/demo-sun-odb"><li><?php echo __("odb") . " (".__("vsail").")" ?></li></a>
                                 <a href="/events/demo-odb"><li><?php echo __("odb") ?></li></a>
+                                <a href="/events/demo-mill"><li><?php echo __("mill") ?></li></a>
                             </ul>
                         </div>
                     </li>
@@ -228,7 +229,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
                                         $demoType = "demo-l2";
                                         $ltype = preg_replace("/_checker/", "", $type);
                                     }
-                                    elseif (isset($notification->manageMode) && in_array($notification->manageMode, ["sun","sun-odb","odb"]))
+                                    elseif (isset($notification->manageMode) && in_array($notification->manageMode, ["sun","sun-odb","odb","mill"]))
                                     {
                                         $demoType = "demo-" . $notification->manageMode;
                                         $ltype = preg_replace("/other_checker/", "pray_chk", $type);
