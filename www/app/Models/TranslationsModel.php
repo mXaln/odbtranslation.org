@@ -77,7 +77,7 @@ class TranslationsModel extends Model
         $builder = $this->db->table("translations")
             ->select("translations.targetLang", "languages.langName", "languages.angName",
                 "translations.bookProject", "projects.sourceBible", "translations.bookCode", "abbr.name AS bookName", "abbr.abbrID",
-                "translations.chapter", "translations.chunk", "translations.translatedVerses", "events.state",
+                "translations.chapter", "translations.chunk", "translations.firstvs", "translations.translatedVerses", "events.state",
                 "translations.eventID", "languages.direction", "projects.sourceLangID", "projects.sourceBible",
                 "projects.projectID", "projects.resLangID")
             ->leftJoin("languages", "translations.targetLang","=", "languages.langID")

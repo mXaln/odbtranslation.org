@@ -3601,20 +3601,24 @@ div[class^="member_usname mid"] {
 }
 
 .event_block {
-    /*width: 1140px;*/
     border-top: 2px solid #e9e9e9;
     padding: 0px;
     display: flex;
+    justify-content: space-between;
+}
+
+.event_details {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
 }
 
 .event_logo {
-    /*float: left;*/
     text-align: center;
     min-width: 170px;
     max-width: 170px;
     min-height: 190px;
     background-color: #fff;
-    /*flex: 1;*/
 }
 
 .event_logo.translation {
@@ -3657,17 +3661,12 @@ div[class^="member_usname mid"] {
 }
 
 .event_project {
-    width: 250px;
-    /*float: left;*/
     margin: 10px;
-    flex: 2;
 }
 
 .event_book {
     font-size: 22px;
     font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
@@ -3727,8 +3726,6 @@ div[class^="member_usname mid"] {
 }
 
 .event_time, .event_translator {
-    float: left;
-    width: 220px;
     margin-top: 10px;
     font-weight: bold;
     font-size: 16px;
@@ -3757,11 +3754,8 @@ div[class^="member_usname mid"] {
 }
 
 .event_current_pos {
-    /*float: left;*/
-    width: 280px;
     margin-top: 45px;
     font-weight: bold;
-    flex: 2;
 }
 
 .event_current_title {
@@ -3786,13 +3780,10 @@ div[class^="member_usname mid"] {
 }
 
 .event_action {
-    /*float: left;*/
-    width: 180px;
     margin-top: 5px;
     margin-right: 10px;
     text-align: center;
     font-weight: bold;
-    flex: 1;
 }
 
 .event_action.check1 {
@@ -3841,7 +3832,7 @@ div[class^="member_usname mid"] {
     padding-top: 7px;
     font-size: 12px;
     font-weight: bold;
-    margin: 10px 0 0 45px;
+    margin: 10px 0 0 0;
 }
 
 .event_manage_link a:hover, .event_progress_link a:hover {
@@ -5496,4 +5487,21 @@ button.add_verse_ta {
     width: 900px;
     margin: 0 auto;
 }
+
+.mill-heading {
+    display: flex;
+    margin: 10px 0;
+}
+
+.mill-heading h1, .mill-heading h2, .mill-heading h3,
+.mill-heading h4, .mill-heading h5, .mill-heading h6,
+.mill-heading p {
+    margin: 0;
+}
+
+.mill-heading img {
+    max-width: 400px;
+}
+
+
 

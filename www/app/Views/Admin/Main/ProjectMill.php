@@ -12,7 +12,7 @@ if(!empty($data["project"])):
                 . $data["project"][0]->tLang 
                 . ($data["project"][0]->tLang != $data["project"][0]->tAng 
                     && $data["project"][0]->tAng != "" ? " (" . $data["project"][0]->tAng . ")" : "")
-                . " - ".(__("odb"))." - ".__($data["project"][0]->bookProject) ?>
+                . " - ".(__($data["project"][0]->bookProject)) ?>
         </h1>
     </div>
 
@@ -28,12 +28,12 @@ if(!empty($data["project"])):
         </div>
 
         <div class="row" id="old_test">
-            <div class="project_progress progress <?php echo $data["ODBprogress"] <= 0 ? "zero" : ""?>"
+            <div class="project_progress progress <?php echo $data["MILLprogress"] <= 0 ? "zero" : ""?>"
                  style="left: 30px;">
                 <div class="progress-bar progress-bar-success" role="progressbar"
-                     aria-valuenow="<?php echo floor($data["ODBprogress"]) ?>"
+                     aria-valuenow="<?php echo floor($data["MILLprogress"]) ?>"
                      aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["OTprogress"])."%" ?>">
-                    <?php echo floor($data["ODBprogress"])."%" ?>
+                    <?php echo floor($data["MILLprogress"])."%" ?>
                 </div>
             </div>
             <div class="col-sm-12">
@@ -127,6 +127,7 @@ if(!empty($data["project"])):
 
         <div class="page-content row panel-body">
             <div class="bookName"></div>
+            <div class="book_info_content"></div>
             <div class="clear"></div>
 
             <div class="event_menu">

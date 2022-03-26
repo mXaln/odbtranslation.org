@@ -130,25 +130,33 @@ $(function () {
         $(".toolsTn").removeClass("hidden");
         $(".toolsTq").removeClass("hidden");
         $(".toolsTw").removeClass("hidden");
+        $("select[name=projectType] option").prop('disabled', false)
+        $("select[name=projectType]").trigger("chosen:updated");
 
         if(["bible","odb"].indexOf($(this).val()) > -1)
         {
             $("#sourceTools").val('').trigger("chosen:updated");
             $(".sourceTools").addClass("hidden");
             $(".projectType").removeClass("hidden");
+            $("select[name=projectType] option[value=mill]").prop('disabled', true)
             if(["odb"].indexOf($(this).val()) > -1)
             {
                 $(".sourceTranslation").addClass("hidden");
-                /*$(".projectType").addClass("hidden");
-                $(".toolsTn").addClass("hidden");
-                $(".toolsTq").addClass("hidden");
-                $(".toolsTw").addClass("hidden");*/
+                $("select[name=projectType] option[value=ulb]").prop('disabled', true)
             }
             else
             {
                 $(".sourceTranslation").removeClass("hidden");
             }
+        } else if(["fnd","bib","theo"].indexOf($(this).val()) > -1) {
+            $(".toolsTn").addClass("hidden");
+            $(".toolsTq").addClass("hidden");
+            $(".toolsTw").addClass("hidden");
+            $("select[name=projectType] option[value=odb]").prop('disabled', true)
+            $("select[name=projectType] option[value=ulb]").prop('disabled', true)
         }
+
+        $("select[name=projectType]").trigger("chosen:updated");
     });
     
 
@@ -386,7 +394,7 @@ $(function () {
                 if(data.success)
                 {
                     $("input[name=langInput]")
-                        .prop("checked", data.event.langInput == "1")
+                        .prop("checked", data.event.langInput === "1")
                         .prop("disabled", true);
 
                     setImportComponent(data.event);
@@ -2089,12 +2097,15 @@ function setEventMenuLinks(event, level) {
                 .attr("href", "/events/manage/"+event.eventID);
             break;
         case "odb":
+        case "fnd":
+        case "bib":
+        case "theo":
             $(".event_links_l1").hide();
             $(".event_links_l2").hide();
             $(".event_links_l3").show();
 
             $(".event_links_l3 .event_progress a")
-                .attr("href", "/events/information-odb/"+event.eventID);
+                .attr("href", "/events/information-"+event.bookProject+"/"+event.eventID);
             $(".event_links_l3 .event_manage a")
                 .attr("href", "/events/manage/"+event.eventID);
             break;
@@ -2168,14 +2179,20 @@ function setProjectForm(data) {
     $("#projectID").val(data.project.projectID);
 
     let mode;
+    let projectType = data.project.bookProject;
     if(["ulb","sun"].indexOf(data.project.bookProject) > -1) {
         if(data.project.sourceBible === "odb") {
-            mode = "odb";
+            mode = data.project.sourceBible;
         } else {
             mode = "bible";
         }
     } else {
         mode = data.project.bookProject;
+    }
+
+    if (["fnd","bib","theo"].indexOf(mode) > -1) {
+        $(".sourceTranslation").addClass("hidden")
+        projectType = "mill";
     }
 
     $("#projectMode")
@@ -2202,7 +2219,7 @@ function setProjectForm(data) {
         .trigger("chosen:updated");
 
     $("#projectType")
-        .val(data.project.bookProject)
+        .val(projectType)
         .trigger("chosen:updated")
         .prop("disabled", true);
     $("#toolsTn").val(data.project.tnLangID).trigger("chosen:updated");

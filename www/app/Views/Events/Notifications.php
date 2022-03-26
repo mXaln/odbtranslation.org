@@ -29,7 +29,7 @@ use \Helpers\Constants\EventSteps;
 
                             $step = isset($notification->translateDone) && $notification->translateDone ? EventSteps::FINISHED :$notification->step;
                             $link = "/events/checker".(isset($notification->manageMode)
-                                && in_array($notification->manageMode, ["sun"]) ? "-".$notification->manageMode : "")
+                                && in_array($notification->manageMode, ["sun","odb","fnd","bib","theo"]) ? "-".$notification->manageMode : "")
                                 ."/".$notification->eventID."/"
                                 .$notification->memberID."/"
                                 .$notification->step."/"

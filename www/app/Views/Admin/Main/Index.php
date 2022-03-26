@@ -182,6 +182,9 @@
                         <option value=""></option>
                         <option value="bible"><?php echo __("bible_mode") ?></option>
                         <option value="odb"><?php echo __("odb_mode") ?></option>
+                        <option value="fnd"><?php echo __("fnd_mode") ?></option>
+                        <option value="bib"><?php echo __("bib_mode") ?></option>
+                        <option value="theo"><?php echo __("theo_mode") ?></option>
                     </select>
                 </div>
             
@@ -236,6 +239,7 @@
                         <option value="ulb"><?php echo __("ulb") ?></option>
                         <option value="odb"><?php echo __("odb") ?></option>
                         <option value="sun"><?php echo __("sun") ?></option>
+                        <option value="mill"><?php echo __("mill") ?></option>
                     </select>
                 </div>
 
