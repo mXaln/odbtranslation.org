@@ -424,7 +424,7 @@ return array (
     "project_type" => "Type of project",
     "choose_gw_lang" => "Choose Gateway Language",
     "choose_target_lang" => "Choose Target Language",
-    "choose_source_trans" => "Choose Source Translation",
+    "choose_source_trans" => "Choose Source Text",
     "choose_source_tn" => "Choose Source Notes",
     "choose_source_tq" => "Choose Source Questions",
     "choose_source_tw" => "Choose Source Words",
