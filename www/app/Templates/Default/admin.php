@@ -104,7 +104,7 @@ Assets::js([
     template_url('js/main.js?109', 'Default'),
     template_url('js/facilitator.js?34', 'Default'),
     template_url('js/autosize.min.js?2', 'Default'),
-    template_url('js/admin.js?53', 'Default'),
+    template_url('js/admin.js?54', 'Default'),
     template_url('js/bootstrap.min.js', 'Default'),
     template_url('js/jquery-ui.min.js', 'Default'),
     template_url('js/offline.min.js'),

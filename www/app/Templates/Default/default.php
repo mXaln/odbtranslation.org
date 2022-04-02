@@ -106,7 +106,7 @@ Assets::js([
     template_url('js/jquery.actual.min.js'),
     template_url('js/main.js?109', 'Default'),
     (Session::get("isAdmin") || Session::get("isSuperAdmin") ?  template_url('js/facilitator.js?34') : ''),
-    (Session::get("isSuperAdmin") ? template_url('js/admin.js?53') : ''),
+    (Session::get("isSuperAdmin") ? template_url('js/admin.js?54') : ''),
     template_url('js/bootstrap.min.js'),
     template_url('js/autosize.min.js?2'),
     template_url('js/jquery-ui.min.js'),

@@ -154,6 +154,7 @@ $(function () {
             $(".toolsTw").addClass("hidden");
             $("select[name=projectType] option[value=odb]").prop('disabled', true)
             $("select[name=projectType] option[value=ulb]").prop('disabled', true)
+            $(".sourceTranslation").removeClass("hidden");
         }
 
         $("select[name=projectType]").trigger("chosen:updated");

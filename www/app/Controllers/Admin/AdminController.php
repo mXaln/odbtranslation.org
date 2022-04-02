@@ -911,7 +911,7 @@ class AdminController extends Controller {
 
             if($sourceTranslation == null)
             {
-                if(!in_array($projectMode, ["odb","fnd","bib","theo"]))
+                if(!in_array($projectMode, ["odb"]))
                     $error[] = __("choose_source_trans");
             }
 
@@ -920,7 +920,7 @@ class AdminController extends Controller {
                 $error[] = __("choose_project_type");
             }
 
-            if(in_array($projectMode, ["odb","fnd","bib","theo"]))
+            if($projectMode == "odb")
             {
                 $sourceTranslation = $projectMode . "|en";
             }
@@ -962,6 +962,10 @@ class AdminController extends Controller {
                     $error[] = __("project_exists");
                     echo json_encode(array("error" => Error::display($error)));
                     return;
+                }
+
+                if (in_array($projectMode, ["fnd","bib","theo"])) {
+                    $sourceTrPair[0] = $projectMode;
                 }
 
                 $postdata = array(
@@ -1013,11 +1017,11 @@ class AdminController extends Controller {
 
             if($sourceTranslation == null)
             {
-                if(!in_array($projectMode, ["odb","fnd","bib","theo"]))
+                if(!in_array($projectMode, ["odb"]))
                     $error[] = __("choose_source_trans");
             }
 
-            if(in_array($projectMode, ["odb","fnd","bib","theo"]))
+            if($projectMode == "odb")
             {
                 $sourceTranslation = $projectMode. "|en";
             }
@@ -1037,6 +1041,11 @@ class AdminController extends Controller {
                 }
 
                 $sourceTrPair = explode("|", $sourceTranslation);
+
+                if(in_array($projectMode, ["fnd","bib","theo"]))
+                {
+                    $sourceTrPair[0] = $project[0]->bookProject;
+                }
 
                 $postdata = array(
                     "sourceBible" => $sourceTrPair[0],
