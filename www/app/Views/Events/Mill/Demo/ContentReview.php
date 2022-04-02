@@ -559,7 +559,7 @@
         <div class="help_info_steps is_checker_page_help">
             <div class="help_name_steps"><span><?php echo __("step_num", ["step_number" => 6])?>:</span> <?php echo __("content-review_mill")?></div>
             <div class="help_descr_steps">
-                <ul><?php echo __("content-review_mill_desc")?></ul>
+                <ul><?php echo __("content-review_odb_desc")?></ul>
                 <div class="show_tutorial_popup"> >>> <?php echo __("show_more")?></div>
             </div>
         </div>
@@ -585,7 +585,7 @@
 
         <div class="tutorial_content is_checker_page_help">
             <h3><?php echo __("content-review_mill")?></h3>
-            <ul><?php echo __("content-review_mill_desc")?></ul>
+            <ul><?php echo __("content-review_odb_desc")?></ul>
         </div>
     </div>
 </div>
