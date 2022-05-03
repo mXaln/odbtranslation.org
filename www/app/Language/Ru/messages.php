@@ -517,6 +517,8 @@ return array (
     "filter_by_search" => "Искать вопрос",
     "faq_title" => "Часто задаваемые вопросы",
     "filter_by_category" => "Фильтровать по категории",
+    "open_printable" => "Открыть версию для печати",
+    "open_and_print" => "Открыть и распечатать",
 
     // Steps
     "pray" => "Подготовка: Молитва",

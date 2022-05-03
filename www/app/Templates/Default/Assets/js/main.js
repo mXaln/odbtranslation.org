@@ -2613,7 +2613,35 @@ $(document).ready(function() {
             $(".cloud_otp_code_group #cloud_otp_code").val("");
         }
     });
+
+    $(".print_book").click(function(e) {
+        e.preventDefault();
+        const action = $(this).data("action");
+        const content = $("#print_book_content").html();
+
+        switch (action) {
+            case "open":
+                openPrintable(content);
+                break;
+
+            case "print":
+                openAndPrint(content);
+                break;
+        }
+    });
 });
+
+function openAndPrint(content) {console.log(content);
+    const w = window.open();
+    w.document.write(content);
+    w.print();
+    w.close();
+}
+
+function openPrintable(content) {
+    const w = window.open();
+    w.document.write(content);
+}
 
 function exportToCloud(url) {
     const dialog = renderPopup(Language.sending, null, null, false);

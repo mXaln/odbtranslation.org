@@ -517,6 +517,8 @@ return array (
     "filter_by_search" => "Rechercher une question",
     "faq_title" => "Questions fréquemment posées",
     "filter_by_category" => "Filter by category",
+    "open_printable" => "Open printable version",
+    "open_and_print" => "Open and Print",
 
     // Steps
     "pray" => "Préparation: Prière",

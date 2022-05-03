@@ -5503,5 +5503,6 @@ button.add_verse_ta {
     max-width: 400px;
 }
 
-
-
+#bible_book_print {
+    display: none;
+}

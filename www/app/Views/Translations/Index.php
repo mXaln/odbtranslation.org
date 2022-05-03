@@ -126,6 +126,10 @@
                 <li class="export_cloud">
                     <a href="<?php echo $data['data']->bookCode ?>/dcs/export"><?php echo __("upload_door43") ?></a>
                 </li>
+                <?php if (in_array($data["data"]->bookProject, ["fnd","bib","theo"])): ?>
+                <li class="print_book" data-action="open"><?php echo __("open_printable") ?></li>
+                <li class="print_book" data-action="print"><?php echo __("open_and_print") ?></li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -139,6 +143,9 @@
         dir="<?php echo $data["data"]->direction ?>">
         <?php echo $data["book"] ?>
         </div>
+        <?php if (in_array($data["data"]->bookProject, ["fnd","bib","theo"])): ?>
+        <div id="print_book_content"><?php echo $data["book_print"] ?></div>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endif; ?>
 

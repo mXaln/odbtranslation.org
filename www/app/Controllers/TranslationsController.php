@@ -98,6 +98,7 @@ class TranslationsController extends Controller
             $data['project'] = ["bookProject" => $bookProject, "sourceBible" => $sourceBible];
             $data['bookInfo'] = $this->_model->getBookInfo($bookCode);
             $data['book'] = "";
+            $data['book_print'] = "";
 
             if(!empty($book))
             {
@@ -185,6 +186,7 @@ class TranslationsController extends Controller
                                 if (in_array($chunk->sourceBible, ["fnd","bib","theo"])) {
                                     $text = $parsedown->parse($text);
                                     $data["book"] .= '<div class="mill-heading"><strong><sup>'.$verse.'</sup></strong> '.$text.'</div> ';
+                                    $data['book_print'] .= $text;
                                 } else {
                                     $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text.' ';
                                 }
