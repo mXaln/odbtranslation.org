@@ -127,8 +127,7 @@
                     <a href="<?php echo $data['data']->bookCode ?>/dcs/export"><?php echo __("upload_door43") ?></a>
                 </li>
                 <?php if (in_array($data["data"]->bookProject, ["fnd","bib","theo"])): ?>
-                <li class="print_book" data-action="open"><?php echo __("open_printable") ?></li>
-                <li class="print_book" data-action="print"><?php echo __("open_and_print") ?></li>
+                <li class="print_book"><?php echo __("open_printable") ?></li>
                 <?php endif; ?>
             </ul>
         </div>

@@ -518,7 +518,6 @@ return array (
     "faq_title" => "Frequently asked questions",
     "filter_by_category" => "Filter by category",
     "open_printable" => "Open printable version",
-    "open_and_print" => "Open and Print",
 
     // Steps
     "pray" => "Pagpangandam: Mga Pag-ampo",

@@ -2616,29 +2616,12 @@ $(document).ready(function() {
 
     $(".print_book").click(function(e) {
         e.preventDefault();
-        const action = $(this).data("action");
         const content = $("#print_book_content").html();
-
-        switch (action) {
-            case "open":
-                openPrintable(content);
-                break;
-
-            case "print":
-                openAndPrint(content);
-                break;
-        }
+        openPrintableVersion(content);
     });
 });
 
-function openAndPrint(content) {console.log(content);
-    const w = window.open();
-    w.document.write(content);
-    w.print();
-    w.close();
-}
-
-function openPrintable(content) {
+function openPrintableVersion(content) {
     const w = window.open();
     w.document.write(content);
 }
