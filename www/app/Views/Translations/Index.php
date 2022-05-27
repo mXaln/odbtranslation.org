@@ -1,6 +1,6 @@
 <!-- Languages list -->
 <?php if(isset($data['languages']) && !empty($data['languages'])): ?>
-    <?php echo __("bible") ?>
+    <?php echo __("bible_project") ?>
     <br>
     <br>
     <?php foreach ($data['languages'] as $language): ?>
@@ -15,7 +15,7 @@
 <!-- Projects list -->
 <?php if(isset($data['bookProjects']) && !empty($data['bookProjects'])): ?>
     <a href="/translations">
-        <?php echo __("bible") ?>
+        <?php echo __("bible_project") ?>
     </a>
     →
     <?php echo $data['language'][0]->angName
@@ -35,7 +35,7 @@
 <!-- Books list -->
 <?php if(isset($data['books']) && !empty($data['books'])): ?>
     <a href="/translations">
-        <?php echo __("bible") ?>
+        <?php echo __("bible_project") ?>
     </a>
     →
     <a href="/translations/<?php echo $data['language'][0]->langID ?>">
@@ -75,7 +75,7 @@
 <!-- Book content -->
 <?php if(isset($data['book'])): ?>
     <a href="/translations">
-        <?php echo __("bible") ?>
+        <?php echo __("bible_project") ?>
     </a>
     →
     <a href="/translations/<?php echo $data['language'][0]->langID ?>">

@@ -37,7 +37,7 @@ if(!empty($data["project"])):
                 <div class="project_progress progress <?php echo $data["OTprogress"] <= 0 ? "zero" : ""?>">
                     <div class="progress-bar progress-bar-success" role="progressbar"
                          aria-valuenow="<?php echo floor($data["OTprogress"]) ?>"
-                         aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: <?php echo floor($data["OTprogress"])."%" ?>">
+                         aria-valuemin="0" aria-valuemax="100" style="min-width: 0; width: <?php echo floor($data["OTprogress"])."%" ?>">
                         <?php echo floor($data["OTprogress"])."%" ?>
                     </div>
                 </div>
@@ -104,7 +104,8 @@ if(!empty($data["project"])):
                                         <?php echo __("L2") ?>
                                     </button>
                                 <?php endif; ?>
-                                <?php if($event->state != "" && EventStates::enum($event->state) >= EventStates::enum(EventStates::COMPLETE)): ?>
+                                <?php if($event->state != ""
+                                    && EventStates::enum($event->state) >= EventStates::enum(EventStates::COMPLETE)): ?>
                                     <button class="btn btn-warning showContributors"
                                             data-eventid="<?php echo $event->eventID?>"
                                             data-level="3"
@@ -386,7 +387,7 @@ if(!empty($data["project"])):
         <div class="contributors_title"><?php echo __("event_contributors") ?></div>
         <div class="contributors_title proj">
             <?php echo __("contributors") ?>
-            <button class="btn btn-link contribs_download_csv">Download (.csv)</button>
+            <button class="btn btn-link contribs_download_tsv">Download (.tsv)</button>
         </div>
         <div class="contributors_content"></div>
     </div>

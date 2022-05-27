@@ -1268,13 +1268,17 @@ class EventsModel extends Model
         $membersArray = (array)$membersModel->getMembers($allMembers, true, true);
 
         foreach ($membersArray as $member) {
-            if(in_array($member->memberID, $adminsArr))
-            {
+            if(in_array($member->memberID, $adminsArr)) {
+                $role = "";
+                if($withRoles) {
+                    $role = $this->getMemberRole($member->church_role);
+                }
+
                 $tmp = [
                     "fname" => trim(mb_convert_case ($member->firstName, MB_CASE_TITLE, 'UTF-8')),
                     "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
                     "uname" => trim($member->userName),
-                    "role" => "",
+                    "role" => $role != "" ? $role : "",
                     "signup" => $member->created,
                     "email" => $member->email,
                     "tou" => "yes",
@@ -1282,26 +1286,10 @@ class EventsModel extends Model
                 ];
                 $admins[$member->memberID] = $tmp;
             }
-            if(in_array($member->memberID, $checkersArr))
-            {
+            if(in_array($member->memberID, $checkersArr)) {
                 $role = "";
-
-                if($withRoles)
-                {
-                    $church_role = (array)json_decode($member->church_role);
-
-                    if (in_array("Pastor", $church_role))
-                        $role = __('pastor');
-                    elseif (in_array("Seminary Professor", $church_role))
-                        $role = __('seminary_professor');
-                    elseif (in_array("Denominational Leader", $church_role))
-                        $role = __('denominational_leader');
-                    elseif (in_array("Bishop", $church_role))
-                        $role = __('bishop');
-                    elseif (in_array("Elder", $church_role))
-                        $role = __('elder');
-                    elseif (in_array("Teacher", $church_role))
-                        $role = __('teacher');
+                if($withRoles) {
+                    $role = $this->getMemberRole($member->church_role);
                 }
 
                 $tmp = [
@@ -1316,13 +1304,17 @@ class EventsModel extends Model
                 ];
                 $checkers[$member->memberID] = $tmp;
             }
-            if(in_array($member->memberID, $translatorsArr))
-            {
+            if(in_array($member->memberID, $translatorsArr)) {
+                $role = "";
+                if($withRoles) {
+                    $role = $this->getMemberRole($member->church_role);
+                }
+
                 $tmp = [
                     "fname" => trim(mb_convert_case ($member->firstName, MB_CASE_TITLE, 'UTF-8')),
                     "lname" => trim(mb_convert_case ($member->lastName, MB_CASE_TITLE, 'UTF-8')),
                     "uname" => trim($member->userName),
-                    "role" => "",
+                    "role" => $role != "" ? $role : "",
                     "signup" => $member->created,
                     "email" => $member->email,
                     "tou" => "yes",
@@ -3792,5 +3784,25 @@ class EventsModel extends Model
         else {
             return $data;
         }
+    }
+
+    private function getMemberRole($churchRole) {
+        $role = "";
+        $church_role = (array)json_decode($churchRole);
+
+        if (in_array("Pastor", $church_role))
+            $role = __('pastor');
+        elseif (in_array("Seminary Professor", $church_role))
+            $role = __('seminary_professor');
+        elseif (in_array("Denominational Leader", $church_role))
+            $role = __('denominational_leader');
+        elseif (in_array("Bishop", $church_role))
+            $role = __('bishop');
+        elseif (in_array("Elder", $church_role))
+            $role = __('elder');
+        elseif (in_array("Teacher", $church_role))
+            $role = __('teacher');
+
+        return $role;
     }
 }

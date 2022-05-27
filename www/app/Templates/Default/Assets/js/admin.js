@@ -1776,14 +1776,14 @@ $(function () {
         }
     });
 
-    $(".members_download_csv").on("click", function() {
-        const csv = exportTableToCSV($("#all_books_content")[0], "\t");
-        downloadCSV(csv, "report.csv");
+    $(".members_download_tsv").on("click", function() {
+        const tsv = exportTableToSV($("#all_books_content")[0], "\t");
+        downloadSV(tsv, "report.tsv");
     });
 
-    $(".contribs_download_csv").on("click", function() {
-        const csv = exportTableToCSV($(".contributors_content")[0], "\t");
-        downloadCSV(csv, "contributors.csv");
+    $(".contribs_download_tsv").on("click", function() {
+        const tsv = exportTableToSV($(".contributors_content")[0], "\t");
+        downloadSV(tsv, "contributors.tsv");
     });
 
     $(".add_custom_src").click(function () {

@@ -4179,7 +4179,7 @@ class EventsController extends Controller
                                         $chapters[$chapter["chapter"]] = $tmp;
                                     }
 
-                                    $chapters[$data["event"][0]->currentChapter]["done"] = true;
+                                    $chapters[$data["event"][0]->currentChapter]["checked"] = true;
 
                                     // Check if whole book is finished
                                     if($this->checkBookFinished($chapters, $data["event"][0]->chaptersNum, true))
