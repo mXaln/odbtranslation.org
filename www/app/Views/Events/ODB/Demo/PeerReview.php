@@ -17,10 +17,6 @@
             </div>
             <div><?php echo __("step_num", ["step_number" => 5]) . ": " . __("peer-review")?></div>
         </div>
-        <!--<div class="demo_video">
-            <span class="glyphicon glyphicon-play"></span>
-            <a href="#"><?php /*echo __("demo_video"); */?></a>
-        </div>-->
     </div>
 
     <div class="">
@@ -291,10 +287,7 @@
     $(document).ready(function () {
         $("#next_step").click(function (e) {
             e.preventDefault();
-
-            
             if(!hasChangesOnPage) window.location.href = '/events/demo-odb/content_review_checker';
-
             return false;
         });
     });

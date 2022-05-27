@@ -65,6 +65,8 @@ class TranslationsController extends Controller
     {
         $data['menu'] = 3;
 
+        $parsedown = new Parsedown();
+
         if($lang == null)
         {
             $data['title'] = __('choose_language');
@@ -96,6 +98,7 @@ class TranslationsController extends Controller
             $data['project'] = ["bookProject" => $bookProject, "sourceBible" => $sourceBible];
             $data['bookInfo'] = $this->_model->getBookInfo($bookCode);
             $data['book'] = "";
+            $data['book_print'] = "";
 
             if(!empty($book))
             {
@@ -179,7 +182,14 @@ class TranslationsController extends Controller
                                 $replacement = " <span data-toggle=\"tooltip\" data-placement=\"auto auto\" title=\"$2\" class=\"booknote mdi mdi-bookmark\"></span> ";
                                 $text = preg_replace("/\\\\f[+\s]+(.*)\\\\ft[+\s]+(.*)\\\\f\\*/Uui", $replacement, $text);
                                 $text = preg_replace("/\\\\[a-z0-9-]+\\s?\\\\?\\*?/", "", $text);
-                                $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text." ";
+
+                                if (in_array($chunk->sourceBible, ["fnd","bib","theo"])) {
+                                    $text = $parsedown->parse($text);
+                                    $data["book"] .= '<div class="mill-heading"><strong><sup>'.$verse.'</sup></strong> '.$text.'</div> ';
+                                    $data['book_print'] .= $text;
+                                } else {
+                                    $data['book'] .= '<strong><sup>'.$verse.'</sup></strong> '.$text.' ';
+                                }
                             }
                         }
                     }
@@ -307,6 +317,23 @@ class TranslationsController extends Controller
                 echo "There is no such book translation.";
             }
         }
+    }
+
+    public function downloadMd($lang, $bookProject, $sourceBible, $bookCode)
+    {
+        if($lang != null && $bookProject != null && $sourceBible != null && $bookCode != null)
+        {
+            $book = $this->_model->getTranslation($lang, $bookProject, $sourceBible, $bookCode);
+
+            if(!empty($book) && isset($book[0]))
+            {
+                $projectFiles = $this->getMdProjectFiles($book);
+                $filename = $book[0]->targetLang."_" . $bookProject . "_".$book[0]->bookCode . ".zip";
+                $this->_model->generateZip($filename, $projectFiles, true);
+            }
+        }
+
+        echo "An error occurred! Contact administrator.";
     }
 
     public function export($lang, $bookProject, $sourceBible, $bookCode, $server)
@@ -759,6 +786,90 @@ class TranslationsController extends Controller
         $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
         $projectFiles[] = ProjectFile::withContent("manifest.yaml", $yaml);
 
+        return $projectFiles;
+    }
+
+    private function getMdProjectFiles($book, $upload = false)
+    {
+        $projectFiles = [];
+
+        switch ($book[0]->state)
+        {
+            case EventStates::STARTED:
+                $chk_lvl = 0;
+                break;
+            case EventStates::TRANSLATING:
+                $chk_lvl = 1;
+                break;
+            case EventStates::TRANSLATED:
+            case EventStates::L3_CHECK:
+                $chk_lvl = 2;
+                break;
+            case EventStates::COMPLETE:
+                $chk_lvl = 3;
+                break;
+            default:
+                $chk_lvl = 0;
+        }
+
+        $manifest = $this->_model->generateManifest($book[0]);
+        $manifest->setCheckingLevel((string)$chk_lvl);
+
+        $root = !$upload ? $book[0]->targetLang."_".$book[0]->bookProject . "/" : "";
+        $format = "%02d";
+        $bookPath = $book[0]->bookCode;
+        $chapters = [];
+
+        foreach ($book as $chunk) {
+            $verses = json_decode($chunk->translatedVerses, true);
+
+            if(!empty($verses[EventMembers::L3_CHECKER]["verses"]))
+            {
+                $text = $verses[EventMembers::L3_CHECKER]["verses"][$chunk->firstvs];
+            }
+            elseif (!empty($verses[EventMembers::CHECKER]["verses"]))
+            {
+                $text = $verses[EventMembers::CHECKER]["verses"][$chunk->firstvs];
+            }
+            else
+            {
+                $text = $verses[EventMembers::TRANSLATOR]["verses"][$chunk->firstvs];
+            }
+
+            $chapters[$chunk->chapter][] = $text;
+
+            if(!$manifest->getProject($chunk->bookCode))
+            {
+                $contributors = $this->_eventModel->getEventContributors($chunk->eventID, $manifest->getCheckingLevel(), $chunk->bookProject, false);
+                foreach ($contributors as $cat => $list)
+                {
+                    if($cat == "admins") continue;
+                    foreach ($list as $contributor)
+                    {
+                        $manifest->addContributor($contributor["fname"] . " " . $contributor["lname"]);
+                    }
+                }
+
+                $manifest->addProject(new Project(
+                    $chunk->bookName . " " . __($book[0]->bookProject),
+                    "",
+                    $chunk->bookCode,
+                    (int)$chunk->abbrID,
+                    "./".$chunk->bookCode,
+                    []
+                ));
+            }
+        }
+
+        foreach ($chapters as $key => $chapter) {
+            $chapPath = sprintf($format, $key);
+            $filePath = $root . $bookPath . "/" . $chapPath . ".md";
+            $chapterText = join("\n\n", $chapter);
+            $projectFiles[] = ProjectFile::withContent($filePath, $chapterText);
+        }
+
+        $yaml = Spyc::YAMLDump($manifest->output(), 4, 0);
+        $projectFiles[] = ProjectFile::withContent($root . "manifest.yaml", $yaml);
         return $projectFiles;
     }
 }

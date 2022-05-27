@@ -15,7 +15,8 @@ return array (
     "events_title" => "Events",
     "contact_us_title" => "Contact Us",
     "about_title" => "About Us",
-    "bible" => "Bible",
+    "bible" => "Scripture",
+    "bible_project" => "Project",
     "members" => "Members",
     "on" => "On",
     "off" => "Off",
@@ -63,12 +64,11 @@ return array (
     "project_mode" => "Project Mode",
     "choose_project_mode" => "Choose Project Mode",
     "scripture" => "Scripture",
-    "bible_mode" => "Bible",
-    "notes_mode" => "Notes",
-    "questions_mode" => "Questions",
-    "words_mode" => "Words",
+    "bible_mode" => "Scripture",
     "odb_mode" => "Our Daily Bread",
-    "radio_mode" => "RADIO",
+    "fnd_mode" => "Foundations",
+    "bib_mode" => "Biblical Studies",
+    "theo_mode" => "Theological Studies",
     "project_exists" => "Project exists",
     "personal" => "Personal",
     "entry" => "Entry",
@@ -248,13 +248,17 @@ return array (
     "admin_events_title" => "Create and Edit Events",
     "admin_members_title" => "Members management",
     "gw_language" => "Gateway Language",
-    "book_project" => "Source Scripture",
+    "book_project" => "Source Text",
     "book_tn" => "Source Notes",
     "book_tq" => "Source Questions",
     "book_tw" => "Source Words",
     "udb" => "Unlocked Dynamic Bible",
     "ulb" => "Unlocked Literal Bible",
     "sun" => "Symbolic Universal Notation",
+    "mill" => "ThirdMill",
+    "fnd" => "Foundations",
+    "bib" => "Biblical Studies",
+    "theo" => "Theological Studies",
     "odb" => "Our Daily Bread",
     "rsb" => "Russian Synodal Bible",
     "avd" => "ﺎﻠﻜﺗﺎﺑ ﺎﻠﻤﻗﺪﺳ ﺏﺎﻠﻠﻏﺓ ﺎﻠﻋﺮﺒﻳﺓ، ﻑﺎﻧ ﺩﺎﻴﻛ",
@@ -421,7 +425,7 @@ return array (
     "project_type" => "Type of project",
     "choose_gw_lang" => "Choose Gateway Language",
     "choose_target_lang" => "Choose Target Language",
-    "choose_source_trans" => "Choose Source Scripture",
+    "choose_source_trans" => "Choose Source Text",
     "choose_source_tn" => "Choose Source Notes",
     "choose_source_tq" => "Choose Source Questions",
     "choose_source_tw" => "Choose Source Words",
@@ -491,6 +495,7 @@ return array (
     "sun_vbv_checker" => "Remove Verse-by-verse checker",
     "sun_odb_vbv_checker" => "Remove SUN checker",
     "odb_vbv_checker" => "Remove Comparative checker",
+    "mill_vbv_checker" => "Remove Comparative checker",
     "other_checker" => "Remove first checker",
     "other_peer_checker" => "Remove peer checker",
     "l2_snd_checker" => "Remove 2nd checker",
@@ -514,6 +519,7 @@ return array (
     "filter_by_search" => "Search for a question",
     "faq_title" => "Frequently asked questions",
     "filter_by_category" => "Filter by category",
+    "open_printable" => "Open printable version",
 
     // Steps
     "pray" => "Preparation: Prayer",
@@ -570,6 +576,11 @@ return array (
                             reflect on portions and then continue reading the next portion of the chapter.</li>
                         <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
 
+    "consume_mill_desc" => "<li><b>PURPOSE:</b> to intake source text to prepare for translation.</li>
+                        <li>Read the assigned material carefully.</li>
+                        <li>Try to understand the meaning and details for a general overview.</li>
+                        <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
+
     "consume_odb" => "Read",
     "consume_odb_sun_desc" => "<li><b>PURPOSE:</b> to get the big picture of the chapter</li>
                             <li>Read the assigned text in its entirety. Carefully absorb and consider what is being 
@@ -584,17 +595,17 @@ return array (
 
     "verbalize" => "Verbalize",
     "verbalize_desc" => "<li><b>PURPOSE:</b> to express verbally what you have consumed to engage short-term memory.</li>
-                            <li><b>LENGTH:</b> Take 2-3 minutes on this step (per person).</li>
-                            <li>Choose a partner to verbalize with. It does not have to be another translator in ODB Translation. 
+                            <li>Choose a partner to verbalize with and enter their name in the blank at the top. It does not have to be another translator. 
                                 <ol>
-                                    <li>If they are a translator in ODB Translation, start typing their name in the blank field, and choose 
-                                        from the names that pop up.  Then click \"Add Checker.\"</li>
+                                    <li>If they are a translator with a log-in with ODBT, start typing their name in 
+                                        the blank field, and choose from the names that pop up. Then click \"Add Checker.\"</li>
                                     <li>If they are not a translator in ODB Translation, type in their name and click \"Add Checker\".</li>
-                                    <li>You will see their name pop up in the side bar as \"Your checker\".</li>
+                                    <li>You will see their name pop up in the \"Help\" sidebar as \"Your checker\" and the blank will disappear.</li>
                                 </ol>
                             </li>
                             <li>Contact your partner on a conversation platform: Skype, Messenger, WhatsApp, phone, etc.</li>
-                            <li>Verbalize to your partner: \"This is what I read\", followed by \"the main points are:…\" in the target language.</li>
+                            <li>Verbalize to your partner: \"This is what I read\", followed 
+                                by \"the main points are:…\" in the language you are translating the material into.</li>
                             <li>This is not a discussion of the text, but to say aloud what you read.</li>
                             <li>Do this without looking back at the text, if possible.</li>
                             <li>Click \"Yes, I did\" and \"Next step\" to move to the next step.</li>",
@@ -628,6 +639,7 @@ return array (
     
     "blind-draft" => "Blind Draft",
     "blind-draft_odb" => "Draft",
+    "blind-draft_mill" => "Draft",
     "blind-draft-alt" => "Draft",
     "blind-draft_odb_previous" => "Draft - Previous chunk",
     "blind-draft_previous" => "Blind Draft - Previous chunk",
@@ -664,7 +676,7 @@ return array (
 
     "blind-draft_odb_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
                                 <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness in the target language.</li>
-                                <li>You will translate each section individually. Follow formatting for capitalization and punctuation for titles, names, and Scripture references.</li>
+                                <li>Translate each section individually. Follow formatting for capitalization and punctuation for titles, names, and Scripture references.</li>
                                     <ol>
                                         <li>Translate the “Title” in the blank, then click \"Yes, I did\" and \"Next step\".</li>
                                         <li>Type the author’s name or copy and paste, then click \"Yes, I did\" and \"Next step\".</li>
@@ -672,6 +684,13 @@ return array (
                                             clicking \"Yes, I did\" and \"Next step\" between each section.</li>
                                     </ol>
                                 </li>
+                                <li>Make sure the save icon is not flashing when you click \"Next step\". If it is, 
+                                    pause until it stops, then click \"Next step\" again to move on.</li>",
+
+    "blind-draft_mill_desc" => "<li><b>PURPOSE:</b> to translate the text as naturally as possible while keeping the meaning.</li>
+                                <li>As much as possible, translate phrase by phrase and not word-for-word, to preserve naturalness in the target language.</li>
+                                <li>Translate each section individually. Follow formatting for capitalization and 
+                                    punctuation for titles, names, and Scripture references. Click \"Yes, I did\" and \"Next step\".</li>
                                 <li>Make sure the save icon is not flashing when you click \"Next step\". If it is, 
                                     pause until it stops, then click \"Next step\" again to move on.</li>",
 
@@ -719,10 +738,12 @@ return array (
                                     and click Save. The peer-editor will see this note and will help to resolve the 
                                     question or problem.</li>
                                 <li>When all changes and notes have been made, click \"Yes, I did\" and \"Next step.\"</li>
-                                <li>WARNING: THIS IS THE LAST CHANCE TO MAKE CHANGES TO THE TRANSLATION. DO NOT MOVE TO NEXT STEP UNTIL THE SELF-EDIT IS COMPLETED!</li>",
+                                <li><b>Warning: This is the last chance to make changes to the translation for the translator. 
+                                    Do not move to the next step until all changes and notes in the self-edit have been made.</b></li>",
 
     "peer-review" => "Peer-Edit",
     "peer-review_odb" => "Peer-Edit",
+    "peer-review_mill" => "Peer-Edit",
     "peer-review_desc" => "<li><b>PURPOSE:</b> to work with another speaker of the target language to check the meaning of the source 
                                 text accuracy while maintaining the naturalness created by the blind draft.</li>
                             <li><b>LENGTH:</b> The checker should spend about 30 minutes checking. The discussion and correction section should also take about 30 minutes.</li>
@@ -800,11 +821,15 @@ return array (
                                         Do not simply close the page by clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
 
     "peer-review_odb_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
-                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
-                                <li>You will look for any missing portions of text or missing or added facts.</li>
-                                <li>You will check the accuracy of the translation in detail.</li>
-                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
-                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>Look for any missing portions of text or missing or added facts.</li>
+                                <li>Check the accuracy of the translation in detail.</li>
+                                <li>Look at translator's notes for each translated section by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>), if there is a note</li>
+                                <li>If you have additional thoughts or questions about the translation, 
+                                    click the note icon (<span class='mdi mdi-lead-pencil'></span>) next to each 
+                                    translated section, add the note, and click Save. The comparative checker will 
+                                    see this note and will help to resolve the question or problem.</li>
                                 <li>When all changes have been made click \"Yes, I did\" and \"Next step\" to complete the check.</li>",
 
     "keyword-check" => "Keyword Check",
@@ -891,6 +916,7 @@ return array (
     
     "content-review" => "Verse-by-Verse Check",
     "content-review_odb" => "Comparative Check",
+    "content-review_mill" => "Comparative Check",
     "content-review_sun_odb" => "SUN Check",
     "content-review_desc" => "<li><b>PURPOSE:</b> to ensure that the translation accurately communicates the same message as the source text.</li>
                                 <li><b>LENGTH:</b> The checker should spend about 30 minutes checking text. 
@@ -1001,11 +1027,11 @@ return array (
                                             clicking the \"x\", or the translator will not be able to continue to the next step.</li>",
 
     "content-review_odb_desc" => "<li><b>PURPOSE:</b> to check the text accuracy while maintaining naturalness.</li>
-                                <li>You will look for spelling, punctuation, and flow/naturalness errors.</li>
-                                <li>You will look for any missing portions of text or missing or added facts.</li>
-                                <li>You will check the accuracy of the translation in detail.</li>
-                                <li>Make sure to look at translators notes by clicking on the note icon with a number 
-                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>)</li>
+                                <li>Look for spelling, punctuation, and flow/naturalness errors.</li>
+                                <li>Look for any missing portions of text or missing or added facts.</li>
+                                <li>Check the accuracy of the translation in detail.</li>
+                                <li>Make sure to look at translators and peer-editor’s notes by clicking on the note icon with a number 
+                                    above it next to the text box (<span class='mdi mdi-lead-pencil'></span>), if there is a note</li>
                                 <li><b>This is the last checking step, so make sure all edits have been made before 
                                     clicking \"Yes, I did\" and \"Next step\" to complete the check.</b></li>",
 

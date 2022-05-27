@@ -1,6 +1,6 @@
 <!-- Languages list -->
 <?php if(isset($data['languages']) && !empty($data['languages'])): ?>
-    <?php echo __("bible") ?>
+    <?php echo __("bible_project") ?>
     <br>
     <br>
     <?php foreach ($data['languages'] as $language): ?>
@@ -15,7 +15,7 @@
 <!-- Projects list -->
 <?php if(isset($data['bookProjects']) && !empty($data['bookProjects'])): ?>
     <a href="/translations">
-        <?php echo __("bible") ?>
+        <?php echo __("bible_project") ?>
     </a>
     →
     <?php echo $data['language'][0]->angName
@@ -35,7 +35,7 @@
 <!-- Books list -->
 <?php if(isset($data['books']) && !empty($data['books'])): ?>
     <a href="/translations">
-        <?php echo __("bible") ?>
+        <?php echo __("bible_project") ?>
     </a>
     →
     <a href="/translations/<?php echo $data['language'][0]->langID ?>">
@@ -75,7 +75,7 @@
 <!-- Book content -->
 <?php if(isset($data['book'])): ?>
     <a href="/translations">
-        <?php echo __("bible") ?>
+        <?php echo __("bible_project") ?>
     </a>
     →
     <a href="/translations/<?php echo $data['language'][0]->langID ?>">
@@ -102,7 +102,13 @@
                         <?php echo __("download_json") ?>
                     </a>
                 </li>
-                <?php elseif(!in_array($data["mode"], ["tn","tq","tw"])): ?>
+                <?php elseif(in_array($data["data"]->sourceBible, ["fnd","bib","theo"])): ?>
+                <li>
+                    <a href="<?php echo $data['data']->bookCode ?>/md">
+                        <?php echo __("download_markdown") ?>
+                    </a>
+                </li>
+                <?php else: ?>
                 <li>
                     <a href="<?php echo $data['data']->bookCode ?>/usfm">
                         <?php echo __("download_usfm") ?>
@@ -120,6 +126,9 @@
                 <li class="export_cloud">
                     <a href="<?php echo $data['data']->bookCode ?>/dcs/export"><?php echo __("upload_door43") ?></a>
                 </li>
+                <?php if (in_array($data["data"]->bookProject, ["fnd","bib","theo"])): ?>
+                <li class="print_book"><?php echo __("open_printable") ?></li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -133,6 +142,9 @@
         dir="<?php echo $data["data"]->direction ?>">
         <?php echo $data["book"] ?>
         </div>
+        <?php if (in_array($data["data"]->bookProject, ["fnd","bib","theo"])): ?>
+        <div id="print_book_content"><?php echo $data["book_print"] ?></div>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endif; ?>
 

@@ -323,8 +323,13 @@ $(document).ready(function() {
     }
 
     $(".peer_verse_ta, .blind_ta, .verse_ta").on("keyup paste", function() {
-        hasChangesOnPage = true;
-        $(".unsaved_alert").show();
+        const text = $(this).val();
+        if (text.trim() === "") {
+            hasChangesOnPage = false;
+        } else {
+            hasChangesOnPage = true;
+            $(".unsaved_alert").show();
+        }
     });
 
     $(".verse_ta:first").focus();
@@ -2608,7 +2613,18 @@ $(document).ready(function() {
             $(".cloud_otp_code_group #cloud_otp_code").val("");
         }
     });
+
+    $(".print_book").click(function(e) {
+        e.preventDefault();
+        const content = $("#print_book_content").html();
+        openPrintableVersion(content);
+    });
 });
+
+function openPrintableVersion(content) {
+    const w = window.open();
+    w.document.write(content);
+}
 
 function exportToCloud(url) {
     const dialog = renderPopup(Language.sending, null, null, false);
@@ -2988,9 +3004,9 @@ function highlightKeyword(verseID, text, index, remove) {
     }
 }
 
-function downloadCSV(csv, filename) {
-    // CSV file
-    const csvFile = new Blob([csv], {type: "application/csv"});
+function downloadSV(sv, filename) {
+    // SV file
+    const svFile = new Blob([sv], {type: "application/text"});
 
     // Download link
     const downloadLink = document.createElement("a");
@@ -2999,7 +3015,7 @@ function downloadCSV(csv, filename) {
     downloadLink.download = filename;
 
     // Create a link to the file
-    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.href = window.URL.createObjectURL(svFile);
 
     // Hide download link
     downloadLink.style.display = "none";
@@ -3011,8 +3027,8 @@ function downloadCSV(csv, filename) {
     downloadLink.click();
 }
 
-function exportTableToCSV(parent, separator) {
-    const csv = [];
+function exportTableToSV(parent, separator) {
+    const sv = [];
     const rows = parent.querySelectorAll("table tr");
 
     for (let i = 0; i < rows.length; i++) {
@@ -3021,11 +3037,11 @@ function exportTableToCSV(parent, separator) {
         for (let j = 0; j < cols.length; j++)
             row.push(cols[j].innerText);
 
-        csv.push(row.join(separator));
+        sv.push(row.join(separator));
     }
 
-    // return CSV content
-    return csv.join("\n");
+    // return SV content
+    return sv.join("\n");
 }
 
 /**

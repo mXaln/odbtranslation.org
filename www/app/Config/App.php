@@ -107,6 +107,7 @@ Config::set('app', array(
         'View\ViewServiceProvider',
         'Template\TemplateServiceProvider',
         'Cron\CronServiceProvider',
+        'App\Providers\ResourcesServiceProvider',
     ),
 
     /**

@@ -34,6 +34,12 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "bookProject" => "[a-z0-9]+",
             "bookCode" => "[a-z0-9]+"
         ]);
+    Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/md", "TranslationsController@downloadMd")
+        ->where([
+            "lang" => "[a-zA-Z0-9-]+",
+            "bookProject" => "[a-z0-9]+",
+            "bookCode" => "[a-z0-9.]+"
+        ]);
     Router::any("{lang}/{bookProject}/{sourceBible?}/{bookCode}/{server}/export", "TranslationsController@export")
         ->where([
             "lang" => "[a-zA-Z0-9-]+",
@@ -45,7 +51,7 @@ Route::group(["prefix" => "translations", "namespace" => "App\Controllers"], fun
             "lang" => "[a-zA-Z0-9-]+",
             "bookProject" => "[a-z0-9]+",
             "sourceBible" => "[a-z0-9]+",
-            "bookCode" => "[a-z0-9]+"
+            "bookCode" => "[a-z0-9.]+"
         ]);
 });
 
@@ -60,6 +66,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("translator-odb-sun/{eventID}", "EventsController@translatorOdbSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("translator-odb/{eventID}", "EventsController@translatorOdb")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-fnd/{eventID}", "EventsController@translatorMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-bib/{eventID}", "EventsController@translatorMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("translator-theo/{eventID}", "EventsController@translatorMill")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("checker-l2/{eventID}", "EventsController@checkerL2")
         ->where(["eventID" => "[0-9]+"]);
@@ -82,6 +94,12 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("information-odb-sun/{eventID}", "EventsController@informationOdbSun")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("information-odb/{eventID}", "EventsController@informationOdb")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-fnd/{eventID}", "EventsController@informationMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-bib/{eventID}", "EventsController@informationMill")
+        ->where(["eventID" => "[0-9]+"]);
+    Router::any("information-theo/{eventID}", "EventsController@informationMill")
         ->where(["eventID" => "[0-9]+"]);
     Router::any("manage/{eventID}", "EventsController@manage")
         ->where(["eventID" => "[0-9]+"]);
@@ -118,6 +136,24 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+"
         ]);
+    Router::any("checker-fnd/{eventID}/{memberID}/{chapter}", "EventsController@checkerMill")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
+    Router::any("checker-bib/{eventID}/{memberID}/{chapter}", "EventsController@checkerMill")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
+    Router::any("checker-theo/{eventID}/{memberID}/{chapter}", "EventsController@checkerMill")
+        ->where([
+            "eventID" => "[0-9]+",
+            "memberID" => "[0-9]+",
+            "chapter" => "[0-9]+"
+        ]);
     Router::any("checker/{eventID}/{memberID}/{step}/apply", "EventsController@applyChecker")
         ->where([
             "eventID" => "[0-9]+",
@@ -133,7 +169,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
         ]);
     Router::any("checker-{mode}/{eventID}/{memberID}/{step}/{chapter}/apply", "EventsController@applyCheckerOther")
         ->where([
-            "mode" => "sun|odb",
+            "mode" => "sun|odb|fnd|bib|theo",
             "eventID" => "[0-9]+",
             "memberID" => "[0-9]+",
             "chapter" => "[0-9]+",
@@ -148,6 +184,7 @@ Route::group(["prefix" => "events", "namespace" => "App\Controllers"], function(
     Router::any("demo-sun/{page?}", "EventsController@demoSun");
     Router::any("demo-sun-odb/{page?}", "EventsController@demoSunOdb");
     Router::any("demo-odb/{page?}", "EventsController@demoOdb");
+    Router::any("demo-mill/{page?}", "EventsController@demoMill");
     Router::any("news", "EventsController@news");
     Router::any("faq", "EventsController@faqs");
     Router::any("rpc/apply_event", "EventsController@applyEvent");
@@ -242,11 +279,9 @@ Route::group(["prefix" => "admin", "namespace" => "App\Controllers\Admin"], func
     Router::any("rpc/search_members", "AdminController@searchMembers");
     Router::any("rpc/get_target_languages", "AdminController@getTargetLanguagesByGwLanguage");
     Router::any("rpc/create_event", "AdminController@createEvent");
-    Router::any("rpc/get_source", "AdminController@getSource");
     Router::any("rpc/verify_member", "AdminController@verifyMember");
     Router::any("rpc/block_member", "AdminController@blockMember");
     Router::any("rpc/clear_cache", "AdminController@clearCache");
-    Router::any("rpc/update_all_cache", "AdminController@updateAllBooksCache");
     Router::any("rpc/update_languages", "AdminController@updateLanguages");
     Router::any("rpc/update_catalog", "AdminController@updateCatalog");
     Router::any("rpc/clear_all_cache", "AdminController@clearAllCache");

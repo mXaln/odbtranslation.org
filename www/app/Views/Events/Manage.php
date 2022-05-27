@@ -72,7 +72,7 @@ if(!isset($error)):
                                 <div class="clear"></div>
                             </div>
                         </div>
-                        <?php if(in_array($data["event"][0]->bookProject, ["sun","odb"])): ?>
+                        <?php if(in_array($data["event"][0]->bookProject, ["sun","odb","fnd","bib","theo"])): ?>
                         <div class="manage_chapters_buttons" data-chapter="<?php echo $chapter ?>"
                              data-member="<?php echo !empty($chapData) ? $chapData["memberID"] : "" ?>">
                             <?php
@@ -148,14 +148,14 @@ if(!isset($error)):
                                     <?php
                                     $vbvTextKey = ($data["event"][0]->bookProject == "sun"
                                         ? "sun".($data["event"][0]->sourceBible == "odb" ? "_odb" : "")
-                                        : "odb")
+                                        : ($data["event"][0]->bookProject == "odb" ? "odb" : "mill"))
                                         ."_vbv_checker";
                                     ?>
                                     <button class="btn btn-danger remove_checker_alt" id="cr_checker"
                                             data-level="<?php echo $chapData["crCheck"][$chapter]["done"] ?>"
                                             data-name="<?php echo $crName ?>"
                                             title="<?php echo __($vbvTextKey) ?>">
-                                        <?php echo $data["event"][0]->sourceBible == "odb"
+                                        <?php echo in_array($data["event"][0]->sourceBible, ["odb","fnd","bib","theo"])
                                             ? ($data["event"][0]->bookProject == "sun" ? "SUN" : "CMP")
                                             : "V-B-V" ?>
                                     </button>
@@ -191,15 +191,6 @@ if(!isset($error)):
                             <a href="/members/profile/<?php echo $member["memberID"] ?>" target="_blank"><?php echo $member["firstName"] . " " . mb_substr($member["lastName"], 0, 1)."."; ?></a>
                             (<span><?php echo isset($member["assignedChapters"]) ? sizeof($member["assignedChapters"]) : 0 ?></span>)
                             <div class="glyphicon glyphicon-remove delete_user" title="<?php echo __("remove_from_event") ?>"></div>
-
-                            <?php if(in_array($data["event"][0]->bookProject, ["tn","tq","rad"])): ?>
-                            <label class="is_checker_label">
-                                <input
-                                    class="is_checker_input"
-                                    type="checkbox"
-                                    <?php echo $member["isChecker"] ? "checked" : "" ?>> <?php echo __("checking_tab_title") ?>
-                            </label>
-                            <?php endif; ?>
                         </div>
                         <div class="member_chapters" <?php echo isset($member["assignedChapters"]) ? "style='display:block'" : "" ?>>
                             <?php echo __("chapters").": <span><b>". (isset($member["assignedChapters"]) ? join("</b>, <b>", $member["assignedChapters"]) : "")."</b></span>" ?>
@@ -221,7 +212,7 @@ if(!isset($error)):
                                         // Skip None step
                                         if($step == EventSteps::NONE) continue;
 
-                                        if(in_array($mode, ["sun","odbsun","odbodb"])) {
+                                        if(in_array($mode, ["sun","odbsun","odbodb","fnd","bib","theo"])) {
                                             if (EventSteps::enum($step, $mode) > EventSteps::enum(EventSteps::SELF_CHECK, $mode))
                                                 continue;
                                         }
@@ -276,7 +267,7 @@ if(!isset($error)):
                                             </option>
                                         <?php endif; ?>
 
-                                        <?php if($mode == "odbodb" && $step == EventSteps::BLIND_DRAFT):
+                                        <?php if(in_array($mode, ["odbodb","fnd","bib","theo"]) && $step == EventSteps::BLIND_DRAFT):
                                             $ch_disabled = $member["currentChunk"] <= 0 ||
                                                 EventSteps::enum($member["step"], $mode) < EventSteps::enum($step, $mode) ||
                                                 (EventSteps::enum($member["step"], $mode) - EventSteps::enum($step, $mode)) > 1;
@@ -297,7 +288,7 @@ if(!isset($error)):
                                             <?php
                                             // Multistep is the step with sub steps
                                             // read-chunk, rearrange, symbol-draft,  etc...
-                                            if(in_array($mode, ["sun","odbodb"]))
+                                            if(in_array($mode, ["sun","odbodb","fnd","bib","theo"]))
                                                 $multiStep = 4;
                                             elseif($mode == "odbsun")
                                                 $multiStep = 3;

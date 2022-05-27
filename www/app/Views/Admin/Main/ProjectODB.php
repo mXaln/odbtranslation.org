@@ -132,10 +132,6 @@ if(!empty($data["project"])):
             <div class="event_menu">
                 <div class="glyphicon glyphicon-menu-hamburger"></div>
                 <ul>
-                    <li class="clearCache">
-                        <?php echo __("clear_cache"); ?>
-                        <span class="glyphicon glyphicon-question-sign" title="<?php echo __("clear_cache_info") ?>"></span>
-                    </li>
                     <li class="deleteEvent"><?php echo __("delete"); ?></li>
 
                     <hr>
@@ -197,7 +193,7 @@ if(!empty($data["project"])):
         <div class="contributors_title"><?php echo __("event_contributors") ?></div>
         <div class="contributors_title proj">
             <?php echo __("contributors") ?>
-            <button class="btn btn-link contribs_download_csv">Download (.scv)</button>
+            <button class="btn btn-link contribs_download_tsv">Download (.tsv)</button>
         </div>
         <div class="contributors_content"></div>
     </div>

@@ -21,6 +21,8 @@ class FileStore implements StoreInterface
      */
     protected $directory;
 
+    protected $subDirectory = "files";
+
     /**
      * Create a new file cache store instance.
      *
@@ -165,7 +167,7 @@ class FileStore implements StoreInterface
     }
 
     /**
-     * Remove an item from the cache.
+     * Remove an item/s from the cache.
      *
      * @param  string  $key
      * @return void
@@ -174,9 +176,11 @@ class FileStore implements StoreInterface
     {
         $file = $this->path($key);
 
-        if ($this->files->exists($file))
-        {
-            $this->files->delete($file);
+        foreach ($this->files->glob($file . "*") as $found) {
+            if ($this->files->exists($found))
+            {
+                $this->files->delete($found);
+            }
         }
     }
 
@@ -202,9 +206,11 @@ class FileStore implements StoreInterface
      */
     protected function path($key)
     {
-        $parts = array_slice(str_split($hash = md5($key), 2), 0, 2);
+        //$parts = array_slice(str_split($hash = md5($key), 2), 0, 2);
 
-        return $this->directory .DS .join(DS, $parts) .DS .$hash;
+        //return $this->directory .DS .join(DS, $parts) .DS .$hash;
+
+        return $this->directory .DS .$this->subDirectory .DS .$key;
     }
 
     /**

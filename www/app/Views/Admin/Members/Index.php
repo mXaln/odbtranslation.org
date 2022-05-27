@@ -183,7 +183,7 @@
 
 <div class="members_content" id="all_books_content">
     <div style="width: 100%; text-align: right; margin-bottom: 20px;">
-        <button class="btn btn-primary members_download_csv">Download Report (.csv)</button>
+        <button class="btn btn-primary members_download_tsv">Download Report (.tsv)</button>
     </div>
     <table class="table table-bordered table-hover" role="grid" >
         <tr>
