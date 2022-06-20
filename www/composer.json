@@ -37,7 +37,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
-        "vlucas/phpdotenv": "~5.2.2"
+        "vlucas/phpdotenv": "~4.2.2"
     },
     "autoload": {
         "psr-4": {
