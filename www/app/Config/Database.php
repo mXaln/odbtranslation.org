@@ -24,10 +24,10 @@ Config::set('database', array(
     'connections' => array(
         'mysql' => array(
             'driver'    => 'mysql',
-            'hostname'  => 'localhost',
-            'database'  => 'odbtranslation',
-            'username'  => 'root',
-            'password'  => 'P@ssw0rd-22',
+            'hostname'  => $_ENV["DB_HOST"],
+            'database'  => $_ENV["DB_NAME"],
+            'username'  => $_ENV["DB_USER"],
+            'password'  => $_ENV["DB_PASS"],
             'prefix'    => PREFIX,
             'charset'   => 'utf8',
             'collation' => 'utf8_general_ci',

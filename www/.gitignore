@@ -5,3 +5,6 @@ vendor/
 
 # The developers Playground
 works
+app/.env
+SUN.woff
+BackSUN.woff

@@ -1,7 +1,7 @@
 *
 */
 !.gitignore
-!catalog.json
-!langnames.json
+catalog.json
+langnames.json
 !words_db.csv
 !words_dict.csv

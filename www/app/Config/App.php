@@ -18,13 +18,13 @@ Config::set('app', array(
      * Server type
      * Local one will not use features that require internet connection
      */
-    'type' => 'local', // Possible values: local, remote.
+    'type' => $_ENV["APP_TYPE"],
     /**
      * Maintenance mode
      * And ip addresses that are excluded
      */
-    'isMaintenance' => false,
-    'ips' => [],
+    'isMaintenance' => $_ENV["APP_MAINTENANCE"] == "true",
+    'ips' => explode(",", $_ENV["APP_MAINTENANCE_IPS"]),
     /**
      * Debug Mode
      */
@@ -33,12 +33,12 @@ Config::set('app', array(
     /**
      * The Website URL.
      */
-    'url' => 'https://odbtranslation.srv/',
+    'url' => $_ENV["APP_URL"],
 
     /**
     * The Administrator's E-mail Address.
     */
-    'email' => 'admin@odbtranslation.srv',
+    'email' => $_ENV["APP_EMAIL"],
 
     /**
      * The Website Path.

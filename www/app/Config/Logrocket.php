@@ -3,5 +3,5 @@
 use Config\Config;
 
 Config::set('logrocket', array(
-    'project' => 'local/odb'
+    'project' => $_ENV["LOG_ROCKET"]
 ));

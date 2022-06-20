@@ -13,6 +13,6 @@ use Config\Config;
  */
 Config::set('recaptcha', array(
     'active'  => true,
-    'siteKey' => '',
-    'secret'  => '',
+    'siteKey' => $_ENV["RECAPTCHA_SITE_KEY"],
+    'secret'  => $_ENV["RECAPTCHA_SECRET"],
 ));
