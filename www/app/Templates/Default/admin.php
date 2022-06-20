@@ -85,7 +85,7 @@ if(!isset($data)) $data = ["menu" => 1];
         <?php endif; ?>
     <?php endif; ?>
 <?php
-echo isset($meta) ? $meta : ''; // Place to pass data / plugable hook zone
+echo $meta ?? ''; // Place to pass data / plugable hook zone
 
 Assets::css([
     template_url('css/bootstrap.min.css', 'Default'),
@@ -96,7 +96,7 @@ Assets::css([
     template_url('css/summernote.css', 'Default'),
 ]);
 
-echo isset($css) ? $css : ''; // Place to pass data / plugable hook zone
+echo $css ?? ''; // Place to pass data / plugable hook zone
 
 Assets::js([
     template_url('js/jquery.js', 'Default'),
@@ -112,12 +112,15 @@ Assets::js([
     ($languageFull != "en-US" ? template_url('js/i18n/summernote-'.$languageFull.'.js') : ""),
 ]);
 
-echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
+echo $js ?? ''; // Place to pass data / plugable hook zone
 ?>
+    <script>
+        const socketUrl = '<?php echo $_ENV["SOCKET_URL"] ?>';
+    </script>
 </head>
 <body class="header_bg">
 
-<?= isset($afterBody) ? $afterBody : ''; // Place to pass data / plugable hook zone ?>
+<?php echo $afterBody ?? ''; // Place to pass data / plugable hook zone ?>
 
 <div class="container">
 
@@ -221,7 +224,7 @@ echo isset($js) ? $js : ''; // Place to pass data / plugable hook zone
     </footer>
 
 <?php
-echo isset($footer) ? $footer : ''; // Place to pass data / plugable hook zone
+echo $footer ?? ''; // Place to pass data / plugable hook zone
 ?>
 </div>
 

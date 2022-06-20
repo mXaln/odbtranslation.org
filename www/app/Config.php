@@ -8,10 +8,13 @@
 
 use Config\Config;
 
+$dotenv = Dotenv\Dotenv::createMutable(__DIR__);
+$dotenv->safeLoad();
+
 /**
  * PREFER to be used in Database calls or storing Session data, default is 'nova_'
  */
-define('PREFIX', 'ot_');
+define('PREFIX', $_ENV["APP_PREFIX"]);
 
 /**
  * Setup the Config API Mode.

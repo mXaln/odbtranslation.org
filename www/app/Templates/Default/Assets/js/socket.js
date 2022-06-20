@@ -1,5 +1,4 @@
-let socket;
-const sctUrl = 'https://odbtranslation.srv:8001';
+let socket, sctUrl = socketUrl;
 
 $(document).ready(function () {
     socket = io.connect(sctUrl);
