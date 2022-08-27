@@ -2770,6 +2770,43 @@ class EventsController extends Controller
                                         $postdata["step"] = EventSteps::BLIND_DRAFT;
                                     }
 
+                                    if(empty($translationData)) {
+                                        $translationVerses = [
+                                            EventMembers::TRANSLATOR => [
+                                                ChunkSections::BLIND_DRAFT => trim($draft),
+                                                ChunkSections::VERSES => []
+                                            ],
+                                            EventMembers::L2_CHECKER => [
+                                                ChunkSections::VERSES => array()
+                                            ],
+                                            EventMembers::L3_CHECKER => [
+                                                ChunkSections::VERSES => array()
+                                            ],
+                                        ];
+
+                                        $encoded = json_encode($translationVerses);
+                                        $json_error = json_last_error();
+
+                                        if($json_error == JSON_ERROR_NONE) {
+                                            $trData = [
+                                                "projectID"         => $data["event"][0]->projectID,
+                                                "eventID"           => $data["event"][0]->eventID,
+                                                "trID"              => $data["event"][0]->trID,
+                                                "targetLang"        => $data["event"][0]->targetLang,
+                                                "bookProject"       => $data["event"][0]->bookProject,
+                                                "abbrID"            => $data["event"][0]->abbrID,
+                                                "bookCode"          => $data["event"][0]->bookCode,
+                                                "chapter"           => $data["event"][0]->currentChapter,
+                                                "chunk"             => $data["event"][0]->currentChunk,
+                                                "firstvs"           => $sourceText["chunk"][0],
+                                                "translatedVerses"  => $encoded,
+                                                "dateCreate"        => date('Y-m-d H:i:s')
+                                            ];
+
+                                            $this->_translationModel->createTranslation($trData);
+                                        }
+                                    }
+
                                     $this->_model->updateTranslator($postdata, ["trID" => $data["event"][0]->trID]);
                                     Url::redirect('events/translator-'.$data["event"][0]->bookProject.'/' . $data["event"][0]->eventID);
                                 }
