@@ -2,12 +2,10 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Domain\MarkdownUtils;
 use App\Models\ApiModel;
 use App\Models\CloudModel;
 use App\Models\TranslationsModel;
 use App\Models\EventsModel;
-use App\Repositories\Resources\IResourcesRepository;
 use Helpers\Constants\ChunkSections;
 use Helpers\Constants\EventMembers;
 use Helpers\Constants\EventStates;
@@ -30,9 +28,7 @@ class TranslationsController extends Controller
     private $_eventModel;
     private $_apiModel;
 
-    protected $resourcesRepo = null;
-
-    public function __construct(IResourcesRepository $resourcesRepo)
+    public function __construct()
     {
         parent::__construct();
 
@@ -45,8 +41,6 @@ class TranslationsController extends Controller
         $this->_model = new TranslationsModel();
         $this->_eventModel = new EventsModel();
         $this->_apiModel = new ApiModel();
-
-        $this->resourcesRepo = $resourcesRepo;
 
         if (!Session::get('loggedin'))
         {
@@ -112,7 +106,6 @@ class TranslationsController extends Controller
                 $data['title'] = $data['data']->bookName;
                 $data["mode"] = "bible";
                 $lastChapter = -1;
-                $source = [];
 
                 $odbBook = [];
 
@@ -124,11 +117,6 @@ class TranslationsController extends Controller
                     if($chunk->chapter != $lastChapter)
                     {
                         $lastChapter = $chunk->chapter;
-
-                        $source = $this->resourcesRepo->getMillResource(
-                            $chunk->sourceLangID,
-                            $chunk->sourceBible,
-                            $chunk->bookCode);
 
                         $chapters = $this->_eventModel->getChapters(
                             $chunk->eventID,
@@ -176,20 +164,6 @@ class TranslationsController extends Controller
                     }
                     else
                     {
-                        if (in_array($chunk->sourceBible, ["fnd","bib","theo"])) {
-                            $verseNumber = $chunk->chunk+1;
-                            $chunkText = $verses->{EventMembers::TRANSLATOR}->blind;
-                            $sourceChunkText = $source[$chunk->chapter][$verseNumber];
-                            $chunkText = MarkdownUtils::convertToMd($chunkText, $sourceChunkText);
-
-                            $verses->{EventMembers::TRANSLATOR}->verses = [
-                                $verseNumber => $chunkText
-                            ];
-                            $encoded = json_encode($verses, JSON_INVALID_UTF8_IGNORE);
-                            $trData = ["translatedVerses"  => $encoded];
-                            $this->_model->updateTranslation($trData, ["tID" => $chunk->tID]);
-                        }
-
                         foreach ($verses->{EventMembers::TRANSLATOR}->verses as $verse => $text) {
                             if($chunk->sourceBible == "odb")
                             {
