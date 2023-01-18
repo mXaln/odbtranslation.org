@@ -651,7 +651,7 @@ class EventsController extends Controller
                                             ],
                                         ];
 
-                                        $encoded = json_encode($translationVerses);
+                                        $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                         $json_error = json_last_error();
 
                                         if($json_error == JSON_ERROR_NONE) {
@@ -1084,7 +1084,7 @@ class EventsController extends Controller
                                             $tID = $translation[$key]["tID"];
                                             unset($translation[$key]["tID"]);
                                             
-                                            $encoded = json_encode($translation[$key]);
+                                            $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                             $json_error = json_last_error();
                                             
                                             if($json_error == JSON_ERROR_NONE)
@@ -1768,7 +1768,7 @@ class EventsController extends Controller
                                         ],
                                     ];
 
-                                    $encoded = json_encode($translationVerses);
+                                    $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                     $json_error = json_last_error();
 
                                     if($json_error == JSON_ERROR_NONE)
@@ -2278,7 +2278,7 @@ class EventsController extends Controller
                                         ],
                                     ];
 
-                                    $encoded = json_encode($translationVerses);
+                                    $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                     $json_error = json_last_error();
 
                                     if($json_error == JSON_ERROR_NONE)
@@ -2703,7 +2703,7 @@ class EventsController extends Controller
                                     ],
                                 ];
 
-                                $encoded = json_encode($translationVerses);
+                                $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                 $json_error = json_last_error();
 
                                 if($json_error == JSON_ERROR_NONE)
@@ -2785,7 +2785,7 @@ class EventsController extends Controller
                                             ],
                                         ];
 
-                                        $encoded = json_encode($translationVerses);
+                                        $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                         $json_error = json_last_error();
 
                                         if($json_error == JSON_ERROR_NONE) {
@@ -3376,7 +3376,7 @@ class EventsController extends Controller
                                             $tID = $translation[$key]["tID"];
                                             unset($translation[$key]["tID"]);
 
-                                            $encoded = json_encode($translation[$key]);
+                                            $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                             $json_error = json_last_error();
 
                                             if($json_error == JSON_ERROR_NONE)
@@ -3649,7 +3649,7 @@ class EventsController extends Controller
                                     $tID = $translation[$key]["tID"];
                                     unset($translation[$key]["tID"]);
 
-                                    $encoded = json_encode($translation[$key]);
+                                    $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                     $json_error = json_last_error();
 
                                     if($json_error == JSON_ERROR_NONE)
@@ -3920,7 +3920,7 @@ class EventsController extends Controller
                                     $tID = $translation[$key]["tID"];
                                     unset($translation[$key]["tID"]);
 
-                                    $encoded = json_encode($translation[$key]);
+                                    $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                     $json_error = json_last_error();
 
                                     if($json_error == JSON_ERROR_NONE)
@@ -4180,7 +4180,7 @@ class EventsController extends Controller
                                     $tID = $translation[$key]["tID"];
                                     unset($translation[$key]["tID"]);
 
-                                    $encoded = json_encode($translation[$key]);
+                                    $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                     $json_error = json_last_error();
 
                                     if($json_error == JSON_ERROR_NONE)
@@ -4471,7 +4471,7 @@ class EventsController extends Controller
                                         $tID = $tr["tID"];
                                         unset($tr["tID"]);
                                         $this->_translationModel->updateTranslation(
-                                            ["translatedVerses" => json_encode($tr)],
+                                            ["translatedVerses" => json_encode($tr, JSON_INVALID_UTF8_SUBSTITUTE)],
                                             ["tID" => $tID]
                                         );
                                     }
@@ -5174,7 +5174,7 @@ class EventsController extends Controller
                                             $tID = $tr["tID"];
                                             unset($tr["tID"]);
                                             $this->_translationModel->updateTranslation(
-                                                ["translatedVerses" => json_encode($tr)],
+                                                ["translatedVerses" => json_encode($tr, JSON_INVALID_UTF8_SUBSTITUTE)],
                                                 ["tID" => $tID]
                                             );
                                         }
@@ -8328,7 +8328,7 @@ class EventsController extends Controller
                                     ],
                                 );
 
-                                $encoded = json_encode($translationVerses);
+                                $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                 $json_error = json_last_error();
                                 if($json_error === JSON_ERROR_NONE)
                                 {
@@ -8375,7 +8375,7 @@ class EventsController extends Controller
                                     $translationVerses[$role][ChunkSections::BLIND_DRAFT] = trim($post[ChunkSections::DRAFT]);
                                 }
 
-                                $encoded = json_encode($translationVerses);
+                                $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                 $json_error = json_last_error();
                                 if($json_error === JSON_ERROR_NONE)
                                 {
@@ -8441,7 +8441,7 @@ class EventsController extends Controller
                                         ChunkSections::VERSES => array()
                                     ),
                                 );
-                                $encoded = json_encode($translationVerses);
+                                $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                 $chunks = json_decode($event[0]->chunks, true);
 
                                 foreach ($post["chunks"] as $key => $chunk) {
@@ -8543,7 +8543,7 @@ class EventsController extends Controller
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
 
-                                        $encoded = json_encode($translation[$key]);
+                                        $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                         $json_error = json_last_error();
                                         if($json_error === JSON_ERROR_NONE)
                                         {
@@ -8674,7 +8674,7 @@ class EventsController extends Controller
                                         $tID = $translation[$key]["tID"];
                                         unset($translation[$key]["tID"]);
 
-                                        $encoded = json_encode($translation[$key]);
+                                        $encoded = json_encode($translation[$key], JSON_INVALID_UTF8_SUBSTITUTE);
                                         $json_error = json_last_error();
                                         if($json_error === JSON_ERROR_NONE)
                                         {
@@ -8774,7 +8774,7 @@ class EventsController extends Controller
                                         $translationVerses[EventMembers::TRANSLATOR][ChunkSections::VERSES] = [];
                                         $translationVerses[EventMembers::TRANSLATOR][ChunkSections::VERSES][$verse] = $text;
 
-                                        $encoded = json_encode($translationVerses);
+                                        $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                         $json_error = json_last_error();
                                         if($json_error === JSON_ERROR_NONE)
                                         {
@@ -8803,7 +8803,7 @@ class EventsController extends Controller
                                     $translationVerses[EventMembers::TRANSLATOR][ChunkSections::VERSES] = [];
                                     $translationVerses[EventMembers::TRANSLATOR][ChunkSections::VERSES][$verse] = $text;
 
-                                    $encoded = json_encode($translationVerses);
+                                    $encoded = json_encode($translationVerses, JSON_INVALID_UTF8_SUBSTITUTE);
                                     $json_error = json_last_error();
 
                                     if($json_error === JSON_ERROR_NONE)
