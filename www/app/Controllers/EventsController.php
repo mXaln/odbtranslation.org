@@ -538,7 +538,7 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = __("error_ocured");
+                                        $error[] = __("error_occurred");
                                     }
                                 }
                                 else
@@ -1101,7 +1101,8 @@ class EventsController extends Controller
                                             }
                                             else 
                                             {
-                                                $error[] = __("error_ocured", array($tID));
+                                                $msg = Tools::getJsonErrorMessage($json_error) . ", tID: $tID";
+                                                $error[] = __("error_occurred", array($msg));
                                             }
                                         }
 
@@ -1350,7 +1351,7 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = __("error_ocured");
+                                        $error[] = __("error_occurred");
                                     }
                                 }
                                 else
@@ -3392,7 +3393,8 @@ class EventsController extends Controller
                                             }
                                             else
                                             {
-                                                $error[] = __("error_ocured", array($tID));
+                                                $msg = Tools::getJsonErrorMessage($json_error) . ", tID: $tID";
+                                                $error[] = __("error_occurred", array($msg));
                                             }
                                         }
 
@@ -3664,7 +3666,8 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = __("error_ocured", array($tID));
+                                        $msg = Tools::getJsonErrorMessage($json_error) . ", tID: $tID";
+                                        $error[] = __("error_occurred", array($msg));
                                     }
                                 }
 
@@ -3934,7 +3937,8 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = __("error_ocured", array($tID));
+                                        $msg = Tools::getJsonErrorMessage($json_error) . ", tID: $tID";
+                                        $error[] = __("error_occurred", array($msg));
                                     }
                                 }
 
@@ -4193,7 +4197,8 @@ class EventsController extends Controller
                                     }
                                     else
                                     {
-                                        $error[] = __("error_ocured", array($tID));
+                                        $msg = Tools::getJsonErrorMessage($json_error) . ", tID: $tID";
+                                        $error[] = __("error_occurred", array($msg));
                                     }
                                 }
 
@@ -8120,7 +8125,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $error[] = __("error_ocured", array($trID));
+                            $error[] = __("error_occurred", array($trID));
                         }
                     }
                     else
@@ -8146,7 +8151,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $error[] = __("error_ocured", array($l2ID));
+                            $error[] = __("error_occurred", array($l2ID));
                         }
                     }
                     else
@@ -8174,7 +8179,7 @@ class EventsController extends Controller
                         }
                         else
                         {
-                            $error[] = __("error_ocured", array($l3ID));
+                            $error[] = __("error_occurred", array($l3ID));
                         }
                     }
                     else
@@ -9546,17 +9551,17 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    $response["error"] = __("error_ocured", array("wrong parameters"));
+                    $response["error"] = __("error_occurred", array("wrong parameters"));
                 }
             }
             else
             {
-                $response["error"] = __("error_ocured", array("wrong parameters"));
+                $response["error"] = __("error_occurred", array("wrong parameters"));
             }
         }
         else
         {
-            $response["error"] = __("error_ocured", array("wrong parameters"));
+            $response["error"] = __("error_occurred", array("wrong parameters"));
         }
 
         echo json_encode($response);
@@ -9751,7 +9756,7 @@ class EventsController extends Controller
                         {
                             if($manageMode == "l2" || $manageMode == "l3")
                             {
-                                $response["error"] = __("error_ocured", ["This chapter hasn't been translated."]);
+                                $response["error"] = __("error_occurred", ["This chapter hasn't been translated."]);
                                 echo json_encode($response);
                                 exit;
                             }
@@ -9787,12 +9792,12 @@ class EventsController extends Controller
                             }
                             else
                             {
-                                $response["error"] = __("error_ocured", [$assignChapter]);
+                                $response["error"] = __("error_occurred", [$assignChapter]);
                             }
                         }
                         else
                         {
-                            $response["error"] = __("error_ocured", ["wrong parameters"]);
+                            $response["error"] = __("error_occurred", ["wrong parameters"]);
                         }
                     }
                     else
@@ -9871,12 +9876,12 @@ class EventsController extends Controller
                                         }
                                         else
                                         {
-                                            $response["error"] = __("error_ocured", array($removeChapter));
+                                            $response["error"] = __("error_occurred", array($removeChapter));
                                         }
                                     }
                                     else
                                     {
-                                        $response["error"] = __("error_ocured", array("wrong parameters"));
+                                        $response["error"] = __("error_occurred", array("wrong parameters"));
                                     }
                                 }
                                 else if($manageMode == "l2")
@@ -9920,12 +9925,12 @@ class EventsController extends Controller
                                         }
                                         else
                                         {
-                                            $response["error"] = __("error_ocured", array($removeChapter));
+                                            $response["error"] = __("error_occurred", array($removeChapter));
                                         }
                                     }
                                     else
                                     {
-                                        $response["error"] = __("error_ocured", array("wrong parameters"));
+                                        $response["error"] = __("error_occurred", array("wrong parameters"));
                                     }
                                 }
                                 else if($manageMode == "l3")
@@ -9969,12 +9974,12 @@ class EventsController extends Controller
                                         }
                                         else
                                         {
-                                            $response["error"] = __("error_ocured", array($removeChapter));
+                                            $response["error"] = __("error_occurred", array($removeChapter));
                                         }
                                     }
                                     else
                                     {
-                                        $response["error"] = __("error_ocured", array("wrong parameters"));
+                                        $response["error"] = __("error_occurred", array("wrong parameters"));
                                     }
                                 }
                             }
@@ -10047,17 +10052,17 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    $response["error"] = __("error_ocured", array("wrong parameters"));
+                    $response["error"] = __("error_occurred", array("wrong parameters"));
                 }
             }
             else
             {
-                $response["error"] = __("error_ocured", array("wrong parameters"));
+                $response["error"] = __("error_occurred", array("wrong parameters"));
             }
         }
         else
         {
-            $response["error"] = __("error_ocured", array("wrong parameters"));
+            $response["error"] = __("error_occurred", array("wrong parameters"));
         }
 
         echo json_encode($response);
@@ -10125,17 +10130,17 @@ class EventsController extends Controller
                 }
                 else
                 {
-                    $response["error"] = __("error_ocured", array("wrong parameters"));
+                    $response["error"] = __("error_occurred", array("wrong parameters"));
                 }
             }
             else
             {
-                $response["error"] = __("error_ocured", array("wrong parameters"));
+                $response["error"] = __("error_occurred", array("wrong parameters"));
             }
         }
         else
         {
-            $response["error"] = __("error_ocured", array("wrong parameters"));
+            $response["error"] = __("error_occurred", array("wrong parameters"));
         }
 
         echo json_encode($response);

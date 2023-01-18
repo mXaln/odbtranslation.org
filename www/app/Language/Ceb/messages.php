@@ -947,7 +947,7 @@ return array (
     "not_possible_to_save_error" => "Dili na nimo mahimong usabon ang imong gihubad kung human na kining gidawat sa tiggiya",
     "empty_verses_error" => "Wala pa nimo nahubad ang tanan nga bahin",
     "wrong_chunks_error" => "sayop nga pagbahin",
-    "error_ocured" => "Adunay sayop nga nahitabo. {0}",
+    "error_occurred" => "Adunay sayop nga nahitabo. {0}",
     "error_member_in_event" => "Nakasalmot naka niini nga trabaho",
     "no_l2_3_checkers_available_error" => "Wala nay bakante niini nga ang-ang {0} alang sa tigsusi",
     "no_translators_available_error" => "Wala nay bakante alang sa tighubad",

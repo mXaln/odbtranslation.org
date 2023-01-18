@@ -949,7 +949,7 @@ return array (
     "not_possible_to_save_error" => "Anda tidak dapat mengedit terjemahan Anda setelah pemeriksa menyetujuinya.",
     "empty_verses_error" => "Anda belum menerjemahkan semua penggalan.",
     "wrong_chunks_error" => "Pengaturan penggalan ada yang salah.",
-    "error_ocured" => "Whoops! Terjadi kesalahan. {0}",
+    "error_occurred" => "Whoops! Terjadi kesalahan. {0}",
     "error_member_in_event" => "Anda telah didaftarkan untuk kegiatan ini.",
     "no_l2_3_checkers_available_error" => "Tidak ada lagi tempat untuk pemeriksa level {0}.",
     "no_translators_available_error" => "Tidak ada lagi tempat untuk penerjemah.",

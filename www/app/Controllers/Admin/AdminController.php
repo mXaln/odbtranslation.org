@@ -757,7 +757,7 @@ class AdminController extends Controller {
                 echo $msg;
             else
             {
-                $error[] = __("error_ocured");
+                $error[] = __("error_occurred");
                 echo json_encode(array("error" => Error::display($error)));
             }
         }
@@ -991,7 +991,7 @@ class AdminController extends Controller {
                     echo json_encode(array("success" => __("successfully_created")));
                 else
                 {
-                    $error[] = __("error_ocured");
+                    $error[] = __("error_occurred");
                     echo json_encode(array("error" => Error::display($error)));
                 }
             }
@@ -1008,7 +1008,7 @@ class AdminController extends Controller {
 
             if(empty($project))
             {
-                $error[] = __("error_ocured");
+                $error[] = __("error_occurred");
                 echo json_encode(array("error" => Error::display($error)));
                 exit;
             }
@@ -2196,7 +2196,7 @@ class AdminController extends Controller {
         }
         else
         {
-            $result["error"] = __("error_ocured", "Empty input!");
+            $result["error"] = __("error_occurred", "Empty input!");
             echo json_encode($result);
             exit;
         }
@@ -2274,7 +2274,7 @@ class AdminController extends Controller {
         }
         else
         {
-            $result["error"] = __("error_ocured", "Empty input!");
+            $result["error"] = __("error_occurred", "Empty input!");
             echo json_encode($result);
             exit;
         }
@@ -2328,7 +2328,7 @@ class AdminController extends Controller {
         }
         else
         {
-            $result["error"] = __("error_ocured");
+            $result["error"] = __("error_occurred");
             echo json_encode($result);
             exit;
         }
@@ -2546,7 +2546,7 @@ class AdminController extends Controller {
             }
             else
             {
-                $result["error"] = __("error_ocured");
+                $result["error"] = __("error_occurred");
             }
         }
         else
@@ -2629,7 +2629,7 @@ class AdminController extends Controller {
                             }
                             else
                             {
-                                $result["error"] = __("error_ocured", ["insert failed"]);
+                                $result["error"] = __("error_occurred", ["insert failed"]);
                             }
                         } catch(QueryException $e) {
                             $result["success"] = true;
