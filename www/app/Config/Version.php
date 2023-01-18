@@ -6,5 +6,5 @@ Config::set('version', array(
     /**
      * Odb Translation release version
      */
-    'release' => 'v.1.4.2'
+    'release' => 'v.1.4.3'
 ));
