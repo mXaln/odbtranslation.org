@@ -6,7 +6,7 @@ use Config\Config;
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php echo __("error_ocured", [""]) ?></title>
+    <title><?php echo __("error_occurred", [""]) ?></title>
 
     <style>
         .button {
@@ -38,7 +38,7 @@ use Config\Config;
 </head>
 <body>
 <div style="display: flex; flex-direction: column; align-items: center;">
-    <h3 style="margin-top: 50px;"><?php echo __("error_ocured", [""]) ?></h3>
+    <h3 style="margin-top: 50px;"><?php echo __("error_occurred", [""]) ?></h3>
 
     <img style="margin-top: 50px;" width="200" src="<?php echo template_url("img/gear_broken.png") ?>" />
 
