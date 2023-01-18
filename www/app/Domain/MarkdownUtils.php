@@ -19,13 +19,13 @@ class MarkdownUtils
     }
 
     public static function extractTag($text) {
-        $found = preg_match("/^([#>-]+\s?)|(\d+.\s?)/", $text, $matches);
+        $found = preg_match("/^([#>-]+\s?)|^(\d+.\s?)/", $text, $matches);
         if (!$found) return null;
 
         return $matches[0];
     }
 
     public static function cleanTag($text) {
-        return preg_replace("/^([#>-]+\s?)|(\d+.\s?)/", "", $text);
+        return preg_replace("/^([#>-]+\s?)|^(\d+.\s?)/", "", $text);
     }
 }
